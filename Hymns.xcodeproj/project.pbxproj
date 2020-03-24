@@ -18,6 +18,8 @@
 		3B1B90222429CF57009FDCC5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B1B90202429CF57009FDCC5 /* LaunchScreen.storyboard */; };
 		3B1B902D2429CF57009FDCC5 /* HymnsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B902C2429CF57009FDCC5 /* HymnsTests.swift */; };
 		3B1B90382429CF57009FDCC5 /* HymnsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B90372429CF57009FDCC5 /* HymnsUITests.swift */; };
+		5CAF73DA242A7BF200A847E2 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAF73D9242A7BF200A847E2 /* SearchBarView.swift */; };
+		5CAF73DC242A7BFC00A847E2 /* HymnTestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAF73DB242A7BFC00A847E2 /* HymnTestData.swift */; };
 		F6BC927B5DEF2C1CDE03DD41 /* Pods_Hymns_HymnsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FF4CD81E97B4D54A08CBF7A /* Pods_Hymns_HymnsUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +59,8 @@
 		3B1B90332429CF57009FDCC5 /* HymnsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HymnsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B1B90372429CF57009FDCC5 /* HymnsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnsUITests.swift; sourceTree = "<group>"; };
 		3B1B90392429CF57009FDCC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5CAF73D9242A7BF200A847E2 /* SearchBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchBarView.swift; path = "../../Hymnal-iOS/Hymns-iOS/SearchBarView.swift"; sourceTree = "<group>"; };
+		5CAF73DB242A7BFC00A847E2 /* HymnTestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HymnTestData.swift; path = "../../Hymnal-iOS/Hymns-iOS/HymnTestData.swift"; sourceTree = "<group>"; };
 		75A109A0A4C2EADE7E1929AD /* Pods-Hymns.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns.debug.xcconfig"; path = "Target Support Files/Pods-Hymns/Pods-Hymns.debug.xcconfig"; sourceTree = "<group>"; };
 		9466945574ADDAA76B1261E1 /* Pods-Hymns-HymnsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns-HymnsUITests.debug.xcconfig"; path = "Target Support Files/Pods-Hymns-HymnsUITests/Pods-Hymns-HymnsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		95695C51EE642B34C3C8D8D8 /* Pods-Hymns.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns.release.xcconfig"; path = "Target Support Files/Pods-Hymns/Pods-Hymns.release.xcconfig"; sourceTree = "<group>"; };
@@ -121,6 +125,8 @@
 				3B1B90122429CF55009FDCC5 /* AppDelegate.swift */,
 				3B1B90142429CF55009FDCC5 /* SceneDelegate.swift */,
 				3B1B90192429CF55009FDCC5 /* ContentView.swift */,
+				5CAF73D9242A7BF200A847E2 /* SearchBarView.swift */,
+				5CAF73DB242A7BFC00A847E2 /* HymnTestData.swift */,
 				3B1B901B2429CF57009FDCC5 /* Assets.xcassets */,
 				3B1B90202429CF57009FDCC5 /* LaunchScreen.storyboard */,
 				3B1B90232429CF57009FDCC5 /* Info.plist */,
@@ -166,7 +172,6 @@
 				064A786F861AD7BB96BA087A /* Pods-HymnsTests.debug.xcconfig */,
 				0FECFFCB60EDC30390AB3325 /* Pods-HymnsTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -383,10 +388,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CAF73DA242A7BF200A847E2 /* SearchBarView.swift in Sources */,
 				3B1B90182429CF55009FDCC5 /* Hymns.xcdatamodeld in Sources */,
 				3B1B90132429CF55009FDCC5 /* AppDelegate.swift in Sources */,
 				3B1B901A2429CF55009FDCC5 /* ContentView.swift in Sources */,
 				3B1B90152429CF55009FDCC5 /* SceneDelegate.swift in Sources */,
+				5CAF73DC242A7BFC00A847E2 /* HymnTestData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
