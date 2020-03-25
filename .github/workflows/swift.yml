@@ -19,6 +19,8 @@ jobs:
       run: |
         swift package init --type library
         swift package generate-xcodeproj
+    - name: SwiftLint
+      run: ./Pods/SwiftLint/swiftlint
     - name: Build
       run: swift build -v
     - name: Run tests

@@ -6,6 +6,7 @@ target 'Hymns' do
   use_frameworks!
 
   # Pods for Hymns
+  pod 'SwiftLint'
 
   target 'HymnsTests' do
     inherit! :search_paths
