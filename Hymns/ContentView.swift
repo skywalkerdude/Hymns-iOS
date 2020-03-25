@@ -11,8 +11,8 @@ import SwiftUI
 struct ContentView: View {
     var hymns = hymnTestData
     @State private var searchText : String = ""
-    
-    
+
+
     var body: some View {
         NavigationView {
             VStack {
