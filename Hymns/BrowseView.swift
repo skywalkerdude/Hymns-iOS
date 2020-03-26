@@ -2,7 +2,11 @@ import SwiftUI
 
 struct BrowseView: View {
     var body: some View {
-        Text("TODO: Browser")
+        NavigationView {
+            VStack {
+                Text("TODO: Browse")
+            }.navigationBarTitle("Browse")
+        }
     }
 }
 

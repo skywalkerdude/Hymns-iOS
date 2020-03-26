@@ -2,7 +2,11 @@ import SwiftUI
 
 struct FavoritesView: View {
     var body: some View {
-        Text("TODO: Favorites")
+        NavigationView {
+            VStack {
+                Text("TODO: Favorites")
+            }.navigationBarTitle("Favorites")
+        }
     }
 }
 
