@@ -1,0 +1,45 @@
+disabled_rules: # rule identifiers to exclude from running
+  - force_cast
+  - line_length
+#  - function_body_length
+#  - trailing_newline
+#  - opening_brace
+#  - empty_count
+#  - comma
+#  - colon
+#  - type_name
+#  - variable_name_min_length
+#  - trailing_semicolon
+#  - force_try
+#  - nesting
+#  - variable_name
+#  - conditional_binding_cascade
+#  - variable_name_max_length
+#  - operator_whitespace
+#  - control_statement
+#  - legacy_constant
+#  - line_length
+#  - return_arrow_whitespace
+  - trailing_whitespace
+#  - closing_brace
+#  - statement_position
+#  - type_body_length
+#  - file_length
+#  - leading_whitespace
+#  - legacy_constructor
+  - todo
+# - valid_docs
+# - missing_docs
+
+# Change from an error to a warning by using the warning flag.
+type_name:
+  min_length: 4 # only warning
+  max_length: # warning and error
+    warning: 40
+    error: 50
+  excluded: # We need to exclude these two names from the linter because it does not like the _ being nonalphanumeric
+    - Hymns_iOS
+    - Hymns_iOSTests
+
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+- Pods
