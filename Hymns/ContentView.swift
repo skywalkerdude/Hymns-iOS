@@ -16,7 +16,7 @@ struct ContentView: View {
 
             FavoritesView().tabItem {
                 Image(systemName: "heart")
-            }.tag(2)
+                }.tag(2)
 
             SettingsView().tabItem {
                 Image(systemName: "gear")

@@ -1,18 +1,9 @@
-//
-//  SceneDelegate.swift
-//  Hymns
-//
-//  Created by Luke Lu on 3/23/20.
-//  Copyright © 2020 skywalkerdude. All rights reserved.
-//
-
 import UIKit
 import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -66,6 +57,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 
-
 }
-

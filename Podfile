@@ -7,6 +7,7 @@ target 'Hymns' do
 
   # Pods for Hymns
   pod 'SwiftLint'
+  pod 'SFSymbol'
 
   target 'HymnsTests' do
     inherit! :search_paths
