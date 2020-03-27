@@ -1,12 +1,17 @@
 import SwiftUI
 
-struct ContentView: View {
+struct HomeScreenView: View {
     @State var selected = 0
 
+    //Currently we have to use UIKIT to change the unselected tabicons from grey to black.
+    init() {
+         UITabBar.appearance().unselectedItemTintColor = UIColor.black
+     }
+    
     var body: some View {
         TabView(selection: $selected) {
             //systemName: basically means they are coming from SF Icons.
-            SearchView().tabItem {
+            HomeView().tabItem {
                 Image(systemName: "magnifyingglass")
             }.tag(0)
 
@@ -27,6 +32,10 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        HomeScreenView().environment(\.locale, .init(identifier: "es"))
     }
 }
+
+//de - German localization
+//en - English localization
+//es - Spanish localization
