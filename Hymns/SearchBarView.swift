@@ -1,11 +1,3 @@
-//
-//  SearchBarView.swift
-//  Hymns
-//
-//  Created by Johanna Findeisen on 3/25/20.
-//  Copyright © 2020 skywalkerdude. All rights reserved.
-//
-
 import SwiftUI
 
 struct SearchBar: UIViewRepresentable {
