@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct DetailHymnScreen: View {
+    @State var favorited: Bool = false
+    var currentSong: [DummyHymn] = [] //pass in data through preview
+    
     var body: some View {
         VStack {
             GeometryReader { geometry in
@@ -8,9 +11,13 @@ struct DetailHymnScreen: View {
                     HStack {
                         Image(systemName: "xmark")
                         Spacer()
-                        Text("Hello")
+                        if self.favorited == true {
+                            Text("It's TRUE")
+                        }
                         Spacer()
-                        Image(systemName: "heart")
+                        Button(action: {self.favorited.toggle()}) {
+                            Image(systemName: "heart")
+                        }
                     }.frame(width: geometry.size.width/1.1)
 
                     HStack {
@@ -23,16 +30,19 @@ struct DetailHymnScreen: View {
                         Spacer()
                         Text("Piano")
                         Spacer()
-                    }
-                }.aspectRatio(contentMode: .fit).background(Color.white.shadow(radius: 2))
+                    }.frame(width: geometry.size.width/1)
+                    
+                }.aspectRatio(contentMode: .fit).frame(height: 60).background(Color.white.shadow(radius: 2))
                     Spacer()
-            }//end geometry
+            }.frame(minHeight: 0, maxHeight: 60)  //end geometry
+            DetailHymnLyrics()
+            Spacer()
         }//end outer VStack
     }
 }
 
 struct DetailHymnScreen_Previews: PreviewProvider {
     static var previews: some View {
-        DetailHymnScreen()
+        DetailHymnScreen(currentSong: testData)
     }
 }

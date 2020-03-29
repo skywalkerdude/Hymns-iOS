@@ -23,13 +23,11 @@ struct DummyHymn: Identifiable {
     var favorited: Bool = false
 }
 
-#if DEBUB
-var testData = [
-    DummyHymn(songTitle: "JoyUnspeakable"),
+
+#if DEBUG
+let testData = [
+    DummyHymn(songTitle: "JoyUnspeakable", songLyrics: "It is Joy unspeakable and full of glory, full of glory."),
     DummyHymn(hymnNumber: "Hymn 123"),
     DummyHymn(hymnNumber: "Hymn 45"),
 ]
 #endif
-
-
-
