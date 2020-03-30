@@ -2,8 +2,7 @@ import SwiftUI
 
 var hymnTestData = ["Hymn 123", "Hymn 45", "God is Light", "Joy Unspeakable"]
 
-struct DummyHymn: Identifiable {
-    var id = UUID() //necessary to conform to identifiable protocol by showing each is an individual
+struct DummyHymn {
     var hymnType = ""
     var hymnNumber = ""
     //var queryParams if needed
@@ -23,11 +22,23 @@ struct DummyHymn: Identifiable {
     var favorited: Bool = false
 }
 
+struct DummyHymnView: Identifiable {
+    var id = UUID() //necessary to conform to identifiable protocol by showing each is an individual
+    var dummyHymn: DummyHymn
+    
+    var songTitle: String {
+        return dummyHymn.songTitle
+    }
+    
+    var hymnNumber: String {
+        return dummyHymn.hymnNumber
+    }
+}
 
-#if DEBUG
+//#if DEBUG
 let testData = [
-    DummyHymn(songTitle: "JoyUnspeakable", songLyrics: "It is Joy unspeakable and full of glory, full of glory."),
-    DummyHymn(hymnNumber: "Hymn 123"),
-    DummyHymn(hymnNumber: "Hymn 45"),
+    DummyHymnView(dummyHymn: DummyHymn(songTitle: "JoyUnspeakable", songLyrics: "It is Joy unspeakable and full of glory, full of glory.")),
+    DummyHymnView(dummyHymn: DummyHymn(songTitle: "Hymn 123")),
+    DummyHymnView(dummyHymn: DummyHymn(hymnNumber: "Hymn 45")),
 ]
-#endif
+//#endif

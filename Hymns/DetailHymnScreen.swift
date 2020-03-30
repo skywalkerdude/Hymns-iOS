@@ -2,7 +2,7 @@ import SwiftUI
 
 struct DetailHymnScreen: View {
     @State var favorited: Bool = false
-    var currentSong: [DummyHymn] = [] //pass in data through preview
+    //var currentSong: [DummyHymn] = [] //pass in data through preview
     
     var body: some View {
         VStack {
@@ -43,6 +43,6 @@ struct DetailHymnScreen: View {
 
 struct DetailHymnScreen_Previews: PreviewProvider {
     static var previews: some View {
-        DetailHymnScreen(currentSong: testData)
+        DetailHymnScreen()
     }
 }
