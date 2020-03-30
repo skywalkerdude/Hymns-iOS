@@ -1,7 +1,6 @@
 import SwiftUI
 
-var hymnTestData = ["Hymn 123", "Hymn 45", "God is Light", "Joy Unspeakable"]
-
+//model to represent one hymn object
 struct DummyHymn {
     var hymnType = ""
     var hymnNumber = ""
@@ -22,8 +21,9 @@ struct DummyHymn {
     var favorited: Bool = false
 }
 
+//the view model to interact with our hymn model
 struct DummyHymnView: Identifiable {
-    var id = UUID() //necessary to conform to identifiable protocol by showing each is an individual
+    var id = UUID()
     var dummyHymn: DummyHymn
     
     var songTitle: String {
@@ -33,12 +33,14 @@ struct DummyHymnView: Identifiable {
     var hymnNumber: String {
         return dummyHymn.hymnNumber
     }
+    
+    var favorited: Bool = false
 }
 
-//#if DEBUG
+#if DEBUG
 let testData = [
-    DummyHymnView(dummyHymn: DummyHymn(songTitle: "JoyUnspeakable", songLyrics: "It is Joy unspeakable and full of glory, full of glory.")),
+    DummyHymnView(dummyHymn: DummyHymn(songTitle: "JoyUnspeakable", songLyrics: "It is Joy unspeakable and full of glory, full of glory."), favorited: true),
     DummyHymnView(dummyHymn: DummyHymn(songTitle: "Hymn 123")),
-    DummyHymnView(dummyHymn: DummyHymn(hymnNumber: "Hymn 45")),
+    DummyHymnView(dummyHymn: DummyHymn( hymnNumber: "Hymn 45", songTitle: "Hymn 45"))
 ]
-//#endif
+#endif

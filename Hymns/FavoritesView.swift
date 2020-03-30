@@ -1,23 +1,15 @@
 import SwiftUI
 
 struct FavoritesView: View {
-    //var allHymns = DummyHymns()
-    /*
-     var filteredFavorites: [DummyHymn] {
-     switch favorited {
-     case true:
-     return Text("True")
-     case false:
-     return Text("False")
-     }
-     }
-     */
-    
-    
+    var allHymns: [DummyHymnView] = testData
+        
     var body: some View {
         NavigationView {
-            VStack {
-                Text("TODO: Favorites")
+            List(allHymns) { filtered in
+                if !filtered.favorited {
+                    Text(filtered.songTitle)
+                }
+            
             }.navigationBarTitle("Favorites")
         }
     }

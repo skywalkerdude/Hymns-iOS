@@ -1,8 +1,7 @@
 import SwiftUI
 
 struct HomeSearchView: View {
-    var allHymns: [DummyHymnView] = []
-    var hymnTestData2 = hymnTestData
+    var allHymns: [DummyHymnView] = testData
     
     @State private var searchText: String = ""
     
@@ -20,6 +19,6 @@ struct HomeSearchView: View {
 
 struct HomeSearchView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeSearchView(allHymns: testData)
+        HomeSearchView()
     }
 }

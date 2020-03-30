@@ -2,7 +2,6 @@ import SwiftUI
 
 struct DetailHymnScreen: View {
     @State var favorited: Bool = false
-    //var currentSong: [DummyHymn] = [] //pass in data through preview
     
     var body: some View {
         VStack {
@@ -15,11 +14,12 @@ struct DetailHymnScreen: View {
                             Text("It's TRUE")
                         }
                         Spacer()
-                        Button(action: {self.favorited.toggle()}) {
-                            Image(systemName: "heart")
+                        Button(action: {self.favorited.toggle()})
+                        {
+                        Image(systemName: "heart")
                         }
                     }.frame(width: geometry.size.width/1.1)
-
+                    
                     HStack {
                         Spacer()
                         Text("Lyrics")
@@ -33,7 +33,7 @@ struct DetailHymnScreen: View {
                     }.frame(width: geometry.size.width/1)
                     
                 }.aspectRatio(contentMode: .fit).frame(height: 60).background(Color.white.shadow(radius: 2))
-                    Spacer()
+                Spacer()
             }.frame(minHeight: 0, maxHeight: 60)  //end geometry
             DetailHymnLyrics()
             Spacer()

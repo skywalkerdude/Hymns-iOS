@@ -8,7 +8,6 @@ struct HomeScreenView: View {
             //systemName: basically means they are coming from SF Icons.
             HomeView().tabItem {
                 Image(systemName: "magnifyingglass")
-                Text("\(selected)")
             }.tag(0)
 
             BrowseView().tabItem {
