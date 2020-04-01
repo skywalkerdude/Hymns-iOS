@@ -1,31 +1,40 @@
-//
-//  HomeSearchView.swift
-//  Hymns
-//
-//  Created by Benjamin Findeisen on 3/27/20.
-//  Copyright © 2020 skywalkerdude. All rights reserved.
-//
-
 import SwiftUI
 
 struct HomeSearchView: View {
-    var hymns = hymnTestData
-    @State private var searchText: String = ""
-
+    @State var searchText: String = ""
+    var allHymns: [DummyHymnView] = testData
+    
     var body: some View {
-            VStack {
-                SearchBar(text: $searchText)
-                List {
-                    ForEach(hymns.filter { self.searchText.isEmpty ? true : $0.contains(self.searchText)}, id: \.self) { hymn in
-                        Text(hymn)
-                    }
+        VStack {
+            NavigateToSearch(searchText: searchText) //passes necessary param to extracted subview
+            
+            //This list does two things. It filters all the Hymns based on search function and it also provides the linking to their respective detailed views.
+            List {
+                ForEach(self.allHymns.filter { self.searchText.isEmpty ? true : $0.songTitle.contains(self.searchText)}) { hymn in
+                    NavigationLink(destination: DetailHymnScreen(hymn: hymn)) {
+                        Text(hymn.songTitle)}
                 }.navigationBarTitle(Text("Look up any hymn"))
             }
+        }
     }
 }
 
 struct HomeSearchView_Previews: PreviewProvider {
     static var previews: some View {
         HomeSearchView()
+    }
+}
+
+struct NavigateToSearch: View {
+    @State var isActive: Bool = false
+    @State var searchText: String
+    
+    var body: some View {
+        NavigationLink(destination: SearchBarSearchView(isActive: $isActive),
+                       isActive: $isActive) {
+                        Button(action: {
+                            self.isActive.toggle()
+                        }) {
+                            SearchBar(text: $searchText).disabled(true)}}
     }
 }
