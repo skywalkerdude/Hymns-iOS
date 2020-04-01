@@ -1,3 +1,20 @@
-PODFILE CHECKSUM: 8da85f51096caaeefab866c70c0be24b1b73d81c
+PODS:
+  - SFSymbol (0.2.0)
+  - SwiftLint (0.39.1)
+
+DEPENDENCIES:
+  - SFSymbol
+  - SwiftLint
+
+SPEC REPOS:
+  trunk:
+    - SFSymbol
+    - SwiftLint
+
+SPEC CHECKSUMS:
+  SFSymbol: 1ca569c1fbe7becf174c16cc1495de93e7d66686
+  SwiftLint: 55e96a4a4d537d4a3156859fc1c54bd24851a046
+
+PODFILE CHECKSUM: df2ee9ab578546b9d6e08fcc867c0290b893ae2e
 
 COCOAPODS: 1.9.1
