@@ -140,6 +140,8 @@
 		3B1B90112429CF55009FDCC5 /* Hymns */ = {
 			isa = PBXGroup;
 			children = (
+				3B59359824353D8500E6993C /* Display */,
+				3B59359724353C8D00E6993C /* Infrastructure */,
 				3B1B90122429CF55009FDCC5 /* AppDelegate.swift */,
 				3B1B90142429CF55009FDCC5 /* SceneDelegate.swift */,
 				3B1B90192429CF55009FDCC5 /* HomeScreenView.swift */,
@@ -186,6 +188,20 @@
 				3B1B90392429CF57009FDCC5 /* Info.plist */,
 			);
 			path = HymnsUITests;
+			sourceTree = "<group>";
+		};
+		3B59359724353C8D00E6993C /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		3B59359824353D8500E6993C /* Display */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Display;
 			sourceTree = "<group>";
 		};
 		8E21761C8B5F357ED0CB6D4E /* Pods */ = {
