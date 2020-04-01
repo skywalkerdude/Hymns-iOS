@@ -6,9 +6,15 @@ target 'Hymns' do
   use_frameworks!
 
   # Pods for Hymns
+  
+  # Tool to enforce Swift style and conventions.
+  # https://realm.github.io/SwiftLint
   pod 'SwiftLint'
-  pod 'SFSymbol'
-
+  
+  # Dependency Injection Framework
+  # https://github.com/hmlongco/Resolver
+  pod 'Resolver'
+  
   target 'HymnsTests' do
     inherit! :search_paths
     # Pods for testing
