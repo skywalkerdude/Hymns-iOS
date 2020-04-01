@@ -748,7 +748,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9466945574ADDAA76B1261E1 /* Pods-Hymns-HymnsUITests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VBX3S26MR4;
 				INFOPLIST_FILE = HymnsUITests/Info.plist;
@@ -769,7 +768,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0C01808E20DDA1BCF911970 /* Pods-Hymns-HymnsUITests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VBX3S26MR4;
 				INFOPLIST_FILE = HymnsUITests/Info.plist;
