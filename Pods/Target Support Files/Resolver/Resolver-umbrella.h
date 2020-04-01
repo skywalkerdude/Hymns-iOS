@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double SFSymbolVersionNumber;
-FOUNDATION_EXPORT const unsigned char SFSymbolVersionString[];
+FOUNDATION_EXPORT double ResolverVersionNumber;
+FOUNDATION_EXPORT const unsigned char ResolverVersionString[];
 

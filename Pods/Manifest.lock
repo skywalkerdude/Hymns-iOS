@@ -1,20 +1,20 @@
 PODS:
-  - SFSymbol (0.2.0)
+  - Resolver (1.1.2)
   - SwiftLint (0.39.1)
 
 DEPENDENCIES:
-  - SFSymbol
+  - Resolver
   - SwiftLint
 
 SPEC REPOS:
   trunk:
-    - SFSymbol
+    - Resolver
     - SwiftLint
 
 SPEC CHECKSUMS:
-  SFSymbol: 1ca569c1fbe7becf174c16cc1495de93e7d66686
+  Resolver: e04ca5a9a19906f2e5cdceb2b90edd3b5daed049
   SwiftLint: 55e96a4a4d537d4a3156859fc1c54bd24851a046
 
-PODFILE CHECKSUM: df2ee9ab578546b9d6e08fcc867c0290b893ae2e
+PODFILE CHECKSUM: 0b092436eb7d532f043c3a55ac56be454c5515c8
 
 COCOAPODS: 1.9.1

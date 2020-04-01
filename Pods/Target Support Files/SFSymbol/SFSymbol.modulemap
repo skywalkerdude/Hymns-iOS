@@ -1,6 +1,0 @@
-framework module SFSymbol {
-  umbrella header "SFSymbol-umbrella.h"
-
-  export *
-  module * { export * }
-}
