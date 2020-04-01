@@ -40,7 +40,9 @@ struct DummyHymnView: Identifiable {
 #if DEBUG
 let testData = [
     DummyHymnView(dummyHymn: DummyHymn(songTitle: "JoyUnspeakable", songLyrics: "It is Joy unspeakable and full of glory, full of glory."), favorited: true),
-    DummyHymnView(dummyHymn: DummyHymn(songTitle: "Hymn 123")),
+    DummyHymnView(dummyHymn: DummyHymn(songTitle: "Hymn 123")),    DummyHymnView(dummyHymn: DummyHymn(songTitle: "Hymn 480")),   DummyHymnView(dummyHymn: DummyHymn(songTitle: "Hymn 20")),   DummyHymnView(dummyHymn: DummyHymn(songTitle: "Hymn 123")),   DummyHymnView(dummyHymn: DummyHymn(songTitle: "Hymn 89")),   DummyHymnView(dummyHymn: DummyHymn(songTitle: "Hymn 16")),
+    DummyHymnView(dummyHymn: DummyHymn(songTitle: "What about my sinful past")),
+    DummyHymnView(dummyHymn: DummyHymn(songTitle: "Hymn 98")),
     DummyHymnView(dummyHymn: DummyHymn( hymnNumber: "Hymn 45", songTitle: "Hymn 45"))
 ]
 #endif
