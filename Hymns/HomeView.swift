@@ -9,7 +9,7 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView {
-            HomeSearchView()
+            HomeSearchView()            
         }
     }
 }

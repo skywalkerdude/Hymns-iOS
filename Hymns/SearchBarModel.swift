@@ -31,4 +31,17 @@ struct SearchBar: UIViewRepresentable {
     func updateUIView(_ uiView: UISearchBar, context: UIViewRepresentableContext<SearchBar>) {
         uiView.text = text
     }
+    
+}
+
+extension UISearchBar {
+    func enable() {
+        isUserInteractionEnabled = true
+        alpha = 1.0
+    }
+
+    func disable() {
+        isUserInteractionEnabled = false
+        alpha = 0.5
+    }
 }
