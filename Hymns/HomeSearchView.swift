@@ -7,9 +7,12 @@ struct HomeSearchView: View {
     var body: some View {
         VStack {
             NavigateToSearch(searchText: searchText) //passes necessary param to extracted subview
+            
+            //This list does two things. It filters all the Hymns based on search function and it also provides the linking to their respective detailed views.
             List {
                 ForEach(self.allHymns.filter { self.searchText.isEmpty ? true : $0.songTitle.contains(self.searchText)}) { hymn in
-                    Text(hymn.songTitle)
+                    NavigationLink(destination: DetailHymnScreen(hymn: hymn)) {
+                        Text(hymn.songTitle)}
                 }.navigationBarTitle(Text("Look up any hymn"))
             }
         }

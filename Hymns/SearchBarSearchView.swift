@@ -15,7 +15,8 @@ struct SearchBarSearchView: View {
             SearchBar(text: $searchText)
             List {
                 ForEach(self.allHymns.filter { self.searchText.isEmpty ? true : $0.songTitle.contains(self.searchText)}) { hymn in
-                    Text(hymn.songTitle)
+                      NavigationLink(destination: DetailHymnScreen(hymn: hymn)) {
+                        Text(hymn.songTitle)}
                 }
             }
         }.navigationBarTitle("", displayMode: .inline)

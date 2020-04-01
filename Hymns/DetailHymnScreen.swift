@@ -2,6 +2,7 @@ import SwiftUI
 
 struct DetailHymnScreen: View {
     @State var favorited: Bool = false
+    var hymn: DummyHymnView
     
     var body: some View {
         VStack {
@@ -35,14 +36,16 @@ struct DetailHymnScreen: View {
                 }.aspectRatio(contentMode: .fit).frame(height: 60).background(Color.white.shadow(radius: 2))
                 Spacer()
             }.frame(minHeight: 0, maxHeight: 60)  //end geometry
-            DetailHymnLyrics()
+            Spacer()
+            Text(self.hymn.songLyrics)
             Spacer()
         }//end outer VStack
     }
 }
 
 struct DetailHymnScreen_Previews: PreviewProvider {
+    
     static var previews: some View {
-        DetailHymnScreen()
+        DetailHymnScreen(hymn: testHymn)
     }
 }
