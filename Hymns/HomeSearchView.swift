@@ -1,4 +1,5 @@
 import SwiftUI
+import Resolver
 
 struct HomeSearchView: View {
     @State var searchText: String = ""
@@ -11,7 +12,7 @@ struct HomeSearchView: View {
             //This list does two things. It filters all the Hymns based on search function and it also provides the linking to their respective detailed views.
             List {
                 ForEach(self.allHymns.filter { self.searchText.isEmpty ? true : $0.songTitle.contains(self.searchText)}) { hymn in
-                    NavigationLink(destination: DetailHymnScreen(hymn: hymn)) {
+                    NavigationLink(destination: HymnLyricsView(viewModel: Resolver.resolve())) {
                         Text(hymn.songTitle)}
                 }.navigationBarTitle(Text("Look up any hymn"))
             }

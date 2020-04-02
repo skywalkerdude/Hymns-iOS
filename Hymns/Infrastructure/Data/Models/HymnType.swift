@@ -1,0 +1,88 @@
+import Foundation
+
+/**
+ * Represents the type of a hymn.
+ */
+enum HymnType {
+    case classic
+    case newTune
+    case newSong
+    case children
+    case scripture
+    case howardHigashi
+    case dutch
+    case german
+    case chinese
+    case chineseSupplement
+    case cebuano
+    case tagalog
+    case french
+    // Song types added from H4A
+    case spanish
+    case korean
+    case japanese
+}
+
+extension HymnType {
+    
+    var abbreviatedValue: String {
+        switch self {
+        case .classic:
+            return "h"
+        case .newTune:
+            return "nt"
+        case .newSong:
+            return "ns"
+        case .children:
+            return "c"
+        case .scripture:
+            return "sc"
+        case .howardHigashi:
+            return "lb"
+        case .dutch:
+            return "hd"
+        case .german:
+            return "de"
+        case .chinese:
+            return "ch"
+        case .chineseSupplement:
+            return "ts"
+        case .cebuano:
+            return "cb"
+        case .tagalog:
+            return "ht"
+        case .french:
+            return "hf"
+        case .spanish:
+            return "S"
+        case .korean:
+            return "K"
+        case .japanese:
+            return "J"
+        }
+    }
+    
+    /**
+     * The number of songs in the category from Hymnal.net.
+     *
+     * Note: Certain hymn types don't have a max number because they are not continuous (i.e. new tunes, different languages, etc).
+     */
+    var maxNumber: Int {
+        switch self {
+        case .classic:
+            return 1360
+        case .newSong:
+            return 722
+        case .children:
+            return 181
+        case .howardHigashi:
+            return 87
+        case .chinese:
+            return 1111
+        case .chineseSupplement:
+            return 1005
+        default:
+            return 0
+        }
+    }
+}
