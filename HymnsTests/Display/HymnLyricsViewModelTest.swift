@@ -4,7 +4,7 @@ import Mockingbird
 
 class HymnLyricsViewModelTest: XCTestCase {
     
-    static let cebuano123: HymnIdentifier = HymnIdentifier(hymnType: .cebuano, hymnNumber: "123")
+    static let classic1151: HymnIdentifier = HymnIdentifier(hymnType: .classic, hymnNumber: "1151")
     static let emptyHymn: Hymn = Hymn(title: "Empty Hymn", metaData: [MetaDatum](), lyrics: [Verse]())
     static let lyricsWithoutTransliteration: [Verse] = [Verse(verseType: .verse, verseContent: ["line 1", "line 2"], transliteration: nil)]
     static let filledHymn: Hymn = Hymn(title: "Filled Hymn", metaData: [MetaDatum](), lyrics: lyricsWithoutTransliteration)
@@ -16,42 +16,42 @@ class HymnLyricsViewModelTest: XCTestCase {
         hymnsRepository = mock(HymnsRepository.self)
     }
     
-    func init_repositoryReturnsNil() {
-        given(hymnsRepository.getHymn(hymnIdentifier: Self.cebuano123, any())) ~> { (hymnIdentifier, callback) in
+    func test_init_repositoryReturnsNil() {
+        given(hymnsRepository.getHymn(hymnIdentifier: Self.classic1151, any())) ~> { (hymnIdentifier, callback) in
             callback(nil)
         }
         
         target = HymnLyricsViewModel(hymnsRepository: hymnsRepository)
         
-        verify(hymnsRepository.getHymn(hymnIdentifier: Self.cebuano123, any())).wasCalled(exactly(1))
-        XCTAssertNil(target.$lyrics)
+     verify(hymnsRepository.getHymn(hymnIdentifier: Self.classic1151, any())).wasCalled(exactly(1))
+        XCTAssertNil(target.lyrics)
     }
     
-    func init_repositoryReturnsEmptyLyrics() {
-        given(hymnsRepository.getHymn(hymnIdentifier: Self.cebuano123, any())) ~> { (hymnIdentifier, callback) in
+    func test_init_repositoryReturnsEmptyLyrics() {
+        given(hymnsRepository.getHymn(hymnIdentifier: Self.classic1151, any())) ~> { (hymnIdentifier, callback) in
             callback(Self.emptyHymn)
         }
         
         target = HymnLyricsViewModel(hymnsRepository: hymnsRepository)
         
-        verify(hymnsRepository.getHymn(hymnIdentifier: Self.cebuano123, any())).wasCalled(exactly(1))
-        XCTAssertNil(target.$lyrics)
+        verify(hymnsRepository.getHymn(hymnIdentifier: Self.classic1151, any())).wasCalled(exactly(1))
+        XCTAssertNil(target.lyrics)
     }
     
-    func init_repositoryReturnsLyrics() {
-        given(hymnsRepository.getHymn(hymnIdentifier: Self.cebuano123, any())) ~> { (hymnIdentifier, callback) in
+    func test_init_repositoryReturnsLyrics() {
+        given(hymnsRepository.getHymn(hymnIdentifier: Self.classic1151, any())) ~> { (hymnIdentifier, callback) in
             callback(Self.filledHymn)
         }
         
         target = HymnLyricsViewModel(hymnsRepository: hymnsRepository)
         
-        verify(hymnsRepository.getHymn(hymnIdentifier: Self.cebuano123, any())).wasCalled(exactly(1))
+        verify(hymnsRepository.getHymn(hymnIdentifier: Self.classic1151, any())).wasCalled(exactly(1))
         XCTAssertNotNil(target.$lyrics)
         XCTAssertEqual(Self.lyricsWithoutTransliteration, target.lyrics)
     }
 
-    func testPerformance() {
-        given(hymnsRepository.getHymn(hymnIdentifier: Self.cebuano123, any())) ~> { (hymnIdentifier, callback) in
+    func testPerformance_init() {
+        given(hymnsRepository.getHymn(hymnIdentifier: Self.classic1151, any())) ~> { (hymnIdentifier, callback) in
             callback(Self.filledHymn)
         }
         
