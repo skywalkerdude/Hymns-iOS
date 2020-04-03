@@ -22,6 +22,10 @@ target 'Hymns' do
   target 'HymnsTests' do
     inherit! :search_paths
     # Pods for testing
+    
+    # Mocking framework
+    # https://github.com/birdrides/mockingbird
+    pod 'MockingbirdFramework'
   end
 
   target 'HymnsUITests' do

@@ -1,24 +1,28 @@
 PODS:
   - Alamofire (5.0.5)
+  - MockingbirdFramework (0.10.0)
   - Resolver (1.1.2)
   - SwiftLint (0.39.1)
 
 DEPENDENCIES:
   - Alamofire
+  - MockingbirdFramework
   - Resolver
   - SwiftLint
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - MockingbirdFramework
     - Resolver
     - SwiftLint
 
 SPEC CHECKSUMS:
   Alamofire: df2f8f826963b08b9a870791ad48e07a10090b2e
+  MockingbirdFramework: 618cd2d6dbd5264b77498ad24e3f4d6cb2da86b9
   Resolver: e04ca5a9a19906f2e5cdceb2b90edd3b5daed049
   SwiftLint: 55e96a4a4d537d4a3156859fc1c54bd24851a046
 
-PODFILE CHECKSUM: a23d3fc99a4294f1277060efac87fc5854fedc4c
+PODFILE CHECKSUM: d0c53365ab0b47f09b11dfca913dd851cf66c4d4
 
 COCOAPODS: 1.9.1
