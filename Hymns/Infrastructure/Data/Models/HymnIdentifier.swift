@@ -3,7 +3,7 @@ import Foundation
 /**
  * Uniquely identifies a hymn.
  */
-struct HymnIdentifier: Hashable {
+struct HymnIdentifier: Hashable, Equatable {
     let hymnType: HymnType
     let hymnNumber: String
     let queryParams: [String: String]?

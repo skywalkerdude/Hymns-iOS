@@ -16,7 +16,6 @@
 		3B1B901C2429CF57009FDCC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B1B901B2429CF57009FDCC5 /* Assets.xcassets */; };
 		3B1B901F2429CF57009FDCC5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B1B901E2429CF57009FDCC5 /* Preview Assets.xcassets */; };
 		3B1B90222429CF57009FDCC5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B1B90202429CF57009FDCC5 /* LaunchScreen.storyboard */; };
-		3B1B902D2429CF57009FDCC5 /* HymnsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B902C2429CF57009FDCC5 /* HymnsTests.swift */; };
 		3B1B90382429CF57009FDCC5 /* HymnsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B90372429CF57009FDCC5 /* HymnsUITests.swift */; };
 		3B59359B243544EF00E6993C /* HymnalApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B59359A243544EF00E6993C /* HymnalApiService.swift */; };
 		3B5935A0243566A400E6993C /* VerseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B59359F243566A400E6993C /* VerseType.swift */; };
@@ -78,7 +77,6 @@
 		3B1B90212429CF57009FDCC5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3B1B90232429CF57009FDCC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B1B90282429CF57009FDCC5 /* HymnsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HymnsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3B1B902C2429CF57009FDCC5 /* HymnsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnsTests.swift; sourceTree = "<group>"; };
 		3B1B902E2429CF57009FDCC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B1B90332429CF57009FDCC5 /* HymnsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HymnsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B1B90372429CF57009FDCC5 /* HymnsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnsUITests.swift; sourceTree = "<group>"; };
@@ -219,8 +217,6 @@
 			children = (
 				3B7555C62437C22300DA17F6 /* Display */,
 				3B5FD7222436B1F300B65132 /* Repository */,
-				3B1B902C2429CF57009FDCC5 /* HymnsTests.swift */,
-				3B7555C92437C3B000DA17F6 /* TestUtils */,
 				3B1B902E2429CF57009FDCC5 /* Info.plist */,
 			);
 			path = HymnsTests;
@@ -307,13 +303,6 @@
 				3B7555C72437C24F00DA17F6 /* HymnLyricsViewModelTest.swift */,
 			);
 			path = Display;
-			sourceTree = "<group>";
-		};
-		3B7555C92437C3B000DA17F6 /* TestUtils */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = TestUtils;
 			sourceTree = "<group>";
 		};
 		8E21761C8B5F357ED0CB6D4E /* Pods */ = {
@@ -695,7 +684,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B1B902D2429CF57009FDCC5 /* HymnsTests.swift in Sources */,
 				3B5FD7242436B20A00B65132 /* HymnsRepositoryImplTest.swift in Sources */,
 				3B7555C82437C24F00DA17F6 /* HymnLyricsViewModelTest.swift in Sources */,
 				EF9D228545974074AF495E83 /* HymnsMocks.generated.swift in Sources */,
