@@ -19,16 +19,16 @@ public struct HymnLyricsView: View {
         }
         
         return AnyView(
-            ForEach(lyrics) { verse in
-                ForEach(verse.verseContent) { line in}
-                Text(line)
+            ForEach(lyrics, id: \.self) { verse in
+                VStack {
+                    Spacer()
+                    ForEach(verse.verseContent, id: \.self) { line in Text(line)
+                    }
+                }
             }
         )
     }
 }
-
-
-
 
 struct HymnLyricsView_Previews: PreviewProvider {
     static var previews: some View {
