@@ -2,7 +2,17 @@ import Foundation
 import Alamofire
 import Resolver
 
-class HymnalApiService {
+/**
+ * Service to contact the Hymnal API.
+ */
+protocol HymnalApiService {
+    func getHymn(hymnType: HymnType, hymnNumber: String, queryParams: [String: String]?, _ callback: @escaping (Hymn?) -> Void)
+}
+
+/**
+ * Implementation of HymnalApiService that uses Alamofire.
+ */
+class HymnalApiServiceAlamofireImpl: HymnalApiService {
     
     private let baseAuthority = "http://hymnalnetapi.herokuapp.com"
     
@@ -23,7 +33,7 @@ class HymnalApiService {
 
 extension Resolver {
     public static func registerHymnalApiService() {
-        register {HymnalApiService(jsonDecoder: resolve())}.scope(application)
+        register {HymnalApiServiceAlamofireImpl(jsonDecoder: resolve()) as HymnalApiService}.scope(application)
         register {JSONDecoder()}.scope(application)
     }
 }

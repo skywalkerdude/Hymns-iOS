@@ -34,8 +34,8 @@ public final class HymnLyricsViewModelMock: Hymns.HymnLyricsViewModel, Mockingbi
   }
 
   public enum InitializerProxy {
-    public static func initialize(__file: StaticString = #file, __line: UInt = #line) -> HymnLyricsViewModelMock {
-      let mock: HymnLyricsViewModelMock = HymnLyricsViewModelMock()
+    public static func initialize(`hymnsRepository`: Hymns.HymnsRepository, __file: StaticString = #file, __line: UInt = #line) -> HymnLyricsViewModelMock {
+      let mock: HymnLyricsViewModelMock = HymnLyricsViewModelMock(hymnsRepository: `hymnsRepository`)
       mock.sourceLocation = SourceLocation(__file, __line)
       return mock
     }
@@ -72,12 +72,12 @@ public final class HymnLyricsViewModelMock: Hymns.HymnLyricsViewModel, Mockingbi
     return Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([Verse]?) -> Void, Void>(mock: self, invocation: invocation)
   }
 
-  // MARK: Mocked init()
+  // MARK: Mocked init(`hymnsRepository`: Hymns.HymnsRepository)
 
-  public required override init() {
-    super.init()
+  public required override init(`hymnsRepository`: Hymns.HymnsRepository) {
+    super.init(hymnsRepository: `hymnsRepository`)
     Mockingbird.checkVersion(for: self)
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init() ", arguments: [])
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`hymnsRepository`: Hymns.HymnsRepository) ", arguments: [Mockingbird.ArgumentMatcher(`hymnsRepository`)])
     mockingContext.didInvoke(invocation)
   }
 }
@@ -87,9 +87,9 @@ public func mock(file: StaticString = #file, line: UInt = #line, _ type: Hymns.H
   return HymnLyricsViewModelMock.InitializerProxy.self
 }
 
-// MARK: - Mocked HymnalApiService
+// MARK: - Mocked HymnalApiServiceAlamofireImpl
 
-public final class HymnalApiServiceMock: Hymns.HymnalApiService, Mockingbird.Mock {
+public final class HymnalApiServiceAlamofireImplMock: Hymns.HymnalApiServiceAlamofireImpl, Mockingbird.Mock {
   static let staticMock = Mockingbird.StaticMock()
   public let mockingContext = Mockingbird.MockingContext()
   public let stubbingContext = Mockingbird.StubbingContext()
@@ -98,13 +98,13 @@ public final class HymnalApiServiceMock: Hymns.HymnalApiService, Mockingbird.Moc
     get { return stubbingContext.sourceLocation }
     set {
       stubbingContext.sourceLocation = newValue
-      HymnalApiServiceMock.staticMock.stubbingContext.sourceLocation = newValue
+      HymnalApiServiceAlamofireImplMock.staticMock.stubbingContext.sourceLocation = newValue
     }
   }
 
   public enum InitializerProxy {
-    public static func initialize(`jsonDecoder`: JSONDecoder, __file: StaticString = #file, __line: UInt = #line) -> HymnalApiServiceMock {
-      let mock: HymnalApiServiceMock = HymnalApiServiceMock(jsonDecoder: `jsonDecoder`)
+    public static func initialize(`jsonDecoder`: JSONDecoder, __file: StaticString = #file, __line: UInt = #line) -> HymnalApiServiceAlamofireImplMock {
+      let mock: HymnalApiServiceAlamofireImplMock = HymnalApiServiceAlamofireImplMock(jsonDecoder: `jsonDecoder`)
       mock.sourceLocation = SourceLocation(__file, __line)
       return mock
     }
@@ -139,14 +139,14 @@ public final class HymnalApiServiceMock: Hymns.HymnalApiService, Mockingbird.Moc
   }
 }
 
-/// Create a source-attributed `Hymns.HymnalApiService` class mock metatype.
-public func mock(file: StaticString = #file, line: UInt = #line, _ type: Hymns.HymnalApiService.Type) -> HymnalApiServiceMock.InitializerProxy.Type {
-  return HymnalApiServiceMock.InitializerProxy.self
+/// Create a source-attributed `Hymns.HymnalApiServiceAlamofireImpl` class mock metatype.
+public func mock(file: StaticString = #file, line: UInt = #line, _ type: Hymns.HymnalApiServiceAlamofireImpl.Type) -> HymnalApiServiceAlamofireImplMock.InitializerProxy.Type {
+  return HymnalApiServiceAlamofireImplMock.InitializerProxy.self
 }
 
-// MARK: - Mocked HymnsRepository
+// MARK: - Mocked HymnalApiService
 
-public final class HymnsRepositoryMock: Hymns.HymnsRepository, Mockingbird.Mock {
+public final class HymnalApiServiceMock: Hymns.HymnalApiService, Mockingbird.Mock {
   static let staticMock = Mockingbird.StaticMock()
   public let mockingContext = Mockingbird.MockingContext()
   public let stubbingContext = Mockingbird.StubbingContext()
@@ -155,47 +155,61 @@ public final class HymnsRepositoryMock: Hymns.HymnsRepository, Mockingbird.Mock 
     get { return stubbingContext.sourceLocation }
     set {
       stubbingContext.sourceLocation = newValue
-      HymnsRepositoryMock.staticMock.stubbingContext.sourceLocation = newValue
+      HymnalApiServiceMock.staticMock.stubbingContext.sourceLocation = newValue
+    }
+  }
+
+  fileprivate init(sourceLocation: Mockingbird.SourceLocation) {
+    Mockingbird.checkVersion(for: self)
+    self.sourceLocation = sourceLocation
+  }
+
+  // MARK: Mocked `getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?, _ `callback`: @escaping (Hymn?) -> Void)
+
+  public func `getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?, _ `callback`: @escaping (Hymn?) -> Void) -> Void {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?, _ `callback`: @escaping (Hymn?) -> Void) -> Void", arguments: [Mockingbird.ArgumentMatcher(`hymnType`), Mockingbird.ArgumentMatcher(`hymnNumber`), Mockingbird.ArgumentMatcher(`queryParams`), Mockingbird.ArgumentMatcher(`callback`)])
+    mockingContext.didInvoke(invocation)
+    let implementation = stubbingContext.implementation(for: invocation, optional: true)
+    if let concreteImplementation = implementation as? (HymnType, String, [String: String]?, @escaping (Hymn?) -> Void) -> Void {
+      concreteImplementation(`hymnType`, `hymnNumber`, `queryParams`, `callback`)
+    } else {
+      (implementation as? () -> Void)?()
+    }
+  }
+
+  public func `getHymn`(`hymnType`: @escaping @autoclosure () -> HymnType, `hymnNumber`: @escaping @autoclosure () -> String, `queryParams`: @escaping @autoclosure () -> [String: String]?, _ `callback`: @escaping @autoclosure () -> (Hymn?) -> Void) -> Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnType, String, [String: String]?, @escaping (Hymn?) -> Void) -> Void, Void> {
+    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(`hymnType`), Mockingbird.resolve(`hymnNumber`), Mockingbird.resolve(`queryParams`), Mockingbird.resolve(`callback`)]
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?, _ `callback`: @escaping (Hymn?) -> Void) -> Void", arguments: arguments)
+    return Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnType, String, [String: String]?, @escaping (Hymn?) -> Void) -> Void, Void>(mock: self, invocation: invocation)
+  }
+}
+
+/// Create a source-attributed `Hymns.HymnalApiService` concrete protocol mock instance.
+public func mock(file: StaticString = #file, line: UInt = #line, _ type: Hymns.HymnalApiService.Protocol) -> HymnalApiServiceMock {
+  return HymnalApiServiceMock(sourceLocation: SourceLocation(file, line))
+}
+
+// MARK: - Mocked HymnsRepositoryImpl
+
+public final class HymnsRepositoryImplMock: Hymns.HymnsRepositoryImpl, Mockingbird.Mock {
+  static let staticMock = Mockingbird.StaticMock()
+  public let mockingContext = Mockingbird.MockingContext()
+  public let stubbingContext = Mockingbird.StubbingContext()
+  public let mockMetadata = Mockingbird.MockMetadata(["generator_version": "0.10.0", "module_name": "Hymns"])
+  public var sourceLocation: Mockingbird.SourceLocation? {
+    get { return stubbingContext.sourceLocation }
+    set {
+      stubbingContext.sourceLocation = newValue
+      HymnsRepositoryImplMock.staticMock.stubbingContext.sourceLocation = newValue
     }
   }
 
   public enum InitializerProxy {
-    public static func initialize(__file: StaticString = #file, __line: UInt = #line) -> HymnsRepositoryMock {
-      let mock: HymnsRepositoryMock = HymnsRepositoryMock()
+    public static func initialize(`hymnalApiService`: Hymns.HymnalApiService, __file: StaticString = #file, __line: UInt = #line) -> HymnsRepositoryImplMock {
+      let mock: HymnsRepositoryImplMock = HymnsRepositoryImplMock(hymnalApiService: `hymnalApiService`)
       mock.sourceLocation = SourceLocation(__file, __line)
       return mock
     }
-  }
-
-  // MARK: Mocked hymns
-
-  override public var `hymns`: [HymnIdentifier: Hymn] {
-    get {
-      let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "hymns.get", arguments: [])
-      mockingContext.didInvoke(invocation)
-      return (stubbingContext.implementation(for: invocation) as! () -> [HymnIdentifier: Hymn])()
-    }
-    set {
-      let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "hymns.set", arguments: [ArgumentMatcher(newValue)])
-      mockingContext.didInvoke(invocation)
-      let implementation = stubbingContext.implementation(for: invocation, optional: true)
-      if let concreteImplementation = implementation as? ([HymnIdentifier: Hymn]) -> Void {
-        concreteImplementation(newValue)
-      } else {
-        (implementation as? () -> Void)?()
-      }
-    }
-  }
-
-  public func getHymns() -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> [HymnIdentifier: Hymn], [HymnIdentifier: Hymn]> {
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "hymns.get", arguments: [])
-    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> [HymnIdentifier: Hymn], [HymnIdentifier: Hymn]>(mock: self, invocation: invocation)
-  }
-
-  public func setHymns(_ newValue: @escaping @autoclosure () -> [HymnIdentifier: Hymn]) -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([HymnIdentifier: Hymn]) -> Void, Void> {
-    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(newValue)]
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "hymns.set", arguments: arguments)
-    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([HymnIdentifier: Hymn]) -> Void, Void>(mock: self, invocation: invocation)
   }
 
   // MARK: Mocked `getHymn`(`hymnIdentifier`: HymnIdentifier, _ `callback`: @escaping (Hymn?) -> Void)
@@ -217,17 +231,62 @@ public final class HymnsRepositoryMock: Hymns.HymnsRepository, Mockingbird.Mock 
     return Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnIdentifier, @escaping (Hymn?) -> Void) -> Void, Void>(mock: self, invocation: invocation)
   }
 
-  // MARK: Mocked init()
+  // MARK: Mocked init(`hymnalApiService`: Hymns.HymnalApiService)
 
-  public required override init() {
-    super.init()
+  public required override init(`hymnalApiService`: Hymns.HymnalApiService) {
+    super.init(hymnalApiService: `hymnalApiService`)
     Mockingbird.checkVersion(for: self)
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init() ", arguments: [])
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`hymnalApiService`: Hymns.HymnalApiService) ", arguments: [Mockingbird.ArgumentMatcher(`hymnalApiService`)])
     mockingContext.didInvoke(invocation)
   }
 }
 
-/// Create a source-attributed `Hymns.HymnsRepository` class mock metatype.
-public func mock(file: StaticString = #file, line: UInt = #line, _ type: Hymns.HymnsRepository.Type) -> HymnsRepositoryMock.InitializerProxy.Type {
-  return HymnsRepositoryMock.InitializerProxy.self
+/// Create a source-attributed `Hymns.HymnsRepositoryImpl` class mock metatype.
+public func mock(file: StaticString = #file, line: UInt = #line, _ type: Hymns.HymnsRepositoryImpl.Type) -> HymnsRepositoryImplMock.InitializerProxy.Type {
+  return HymnsRepositoryImplMock.InitializerProxy.self
+}
+
+// MARK: - Mocked HymnsRepository
+
+public final class HymnsRepositoryMock: Hymns.HymnsRepository, Mockingbird.Mock {
+  static let staticMock = Mockingbird.StaticMock()
+  public let mockingContext = Mockingbird.MockingContext()
+  public let stubbingContext = Mockingbird.StubbingContext()
+  public let mockMetadata = Mockingbird.MockMetadata(["generator_version": "0.10.0", "module_name": "Hymns"])
+  public var sourceLocation: Mockingbird.SourceLocation? {
+    get { return stubbingContext.sourceLocation }
+    set {
+      stubbingContext.sourceLocation = newValue
+      HymnsRepositoryMock.staticMock.stubbingContext.sourceLocation = newValue
+    }
+  }
+
+  fileprivate init(sourceLocation: Mockingbird.SourceLocation) {
+    Mockingbird.checkVersion(for: self)
+    self.sourceLocation = sourceLocation
+  }
+
+  // MARK: Mocked `getHymn`(`hymnIdentifier`: HymnIdentifier, _ `callback`: @escaping (Hymn?) -> Void)
+
+  public func `getHymn`(`hymnIdentifier`: HymnIdentifier, _ `callback`: @escaping (Hymn?) -> Void) -> Void {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnIdentifier`: HymnIdentifier, _ `callback`: @escaping (Hymn?) -> Void) -> Void", arguments: [Mockingbird.ArgumentMatcher(`hymnIdentifier`), Mockingbird.ArgumentMatcher(`callback`)])
+    mockingContext.didInvoke(invocation)
+    let implementation = stubbingContext.implementation(for: invocation, optional: true)
+    if let concreteImplementation = implementation as? (HymnIdentifier, @escaping (Hymn?) -> Void) -> Void {
+      concreteImplementation(`hymnIdentifier`, `callback`)
+    } else {
+      (implementation as? () -> Void)?()
+    }
+  }
+
+  public func `getHymn`(`hymnIdentifier`: @escaping @autoclosure () -> HymnIdentifier, _ `callback`: @escaping @autoclosure () -> (Hymn?) -> Void) -> Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnIdentifier, @escaping (Hymn?) -> Void) -> Void, Void> {
+    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(`hymnIdentifier`), Mockingbird.resolve(`callback`)]
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnIdentifier`: HymnIdentifier, _ `callback`: @escaping (Hymn?) -> Void) -> Void", arguments: arguments)
+    return Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnIdentifier, @escaping (Hymn?) -> Void) -> Void, Void>(mock: self, invocation: invocation)
+  }
+}
+
+/// Create a source-attributed `Hymns.HymnsRepository` concrete protocol mock instance.
+public func mock(file: StaticString = #file, line: UInt = #line, _ type: Hymns.HymnsRepository.Protocol) -> HymnsRepositoryMock {
+  return HymnsRepositoryMock(sourceLocation: SourceLocation(file, line))
 }

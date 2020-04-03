@@ -1,17 +1,23 @@
 import Foundation
 import Resolver
 
-/*
+/**
  * Repository that stores all hymns that have been searched during this session in memory.
  */
-class HymnsRepository: ObservableObject {
+protocol HymnsRepository {
+    func getHymn(hymnIdentifier: HymnIdentifier, _ callback: @escaping (Hymn?) -> Void)
+}
+
+class HymnsRepositoryImpl: HymnsRepository {
     
-    @Injected private var hymnalApiService: HymnalApiService
+    private let hymnalApiService: HymnalApiService
     
-    var hymns: [HymnIdentifier: Hymn] = [HymnIdentifier: Hymn]()
+    private var hymns: [HymnIdentifier: Hymn] = [HymnIdentifier: Hymn]()
     
-    init() {}
-    
+    init(hymnalApiService: HymnalApiService) {
+        self.hymnalApiService = hymnalApiService
+    }
+        
     func getHymn(hymnIdentifier: HymnIdentifier, _ callback: @escaping (Hymn?) -> Void) {
         if let hymn = hymns[hymnIdentifier] {
             callback(hymn)
