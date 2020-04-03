@@ -15,11 +15,7 @@ class HymnsRepositoryImplTests: XCTestCase {
         target = HymnsRepositoryImpl(hymnalApiService: hymnalApiService)
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-    
-    func getHymn_getFromLocalStore() {
+    func test_getHymn_getFromLocalStore() {
         // Make one request to the API to store it in locally.
         given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())) ~> { (hymnType, hymnNumber, queryParams, callback) in
             callback(Self.hymn)
@@ -41,7 +37,7 @@ class HymnsRepositoryImplTests: XCTestCase {
         verify(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())).wasNeverCalled()
     }
     
-    func getHymn_getFromNetwork_resultsMissing() {
+    func test_getHymn_getFromNetwork_resultsMissing() {
         var callbackTriggered = false
         given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())) ~> { (hymnType, hymnNumber, queryParams, callback) in
             callback(nil)
@@ -56,7 +52,7 @@ class HymnsRepositoryImplTests: XCTestCase {
         verify(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())).wasCalled(exactly(1))
     }
     
-    func getHymn_getFromNetwork_resultsSuccessful() {
+    func test_getHymn_getFromNetwork_resultsSuccessful() {
         var callbackTriggered = false
         given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())) ~> { (hymnType, hymnNumber, queryParams, callback) in
             callback(Self.hymn)
@@ -72,7 +68,7 @@ class HymnsRepositoryImplTests: XCTestCase {
         verify(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())).wasCalled(exactly(1))
     }
     
-    func testPerformance() {
+    func testPerformance_getHymn() {
         given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())) ~> { (hymnType, hymnNumber, queryParams, callback) in
             callback(Self.hymn)
         }
