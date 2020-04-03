@@ -25,6 +25,8 @@ target 'Hymns' do
     
     # Mocking framework
     # https://github.com/birdrides/mockingbird
+# Uncomment the next line to define a global platform for your project
+    use_frameworks!
     pod 'MockingbirdFramework'
   end
 
