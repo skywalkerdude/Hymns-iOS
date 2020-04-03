@@ -11,20 +11,28 @@ public struct HymnLyricsView: View {
     
     public var body: some View {
         guard let lyrics = viewModel.lyrics else {
-            return Text("error!")
+            return AnyView(Text("error!"))
         }
         
         guard !lyrics.isEmpty else {
-            return Text("loading...")
+            return AnyView(Text("loading..."))
         }
-
-        return Text(lyrics[0].verseContent[0])
+        
+        return AnyView(
+            ForEach(lyrics, id: \.self) { verse in
+                VStack(alignment: .leading) {
+                    Spacer()
+                    ForEach(verse.verseContent, id: \.self) { line in Text(line)
+                    }
+                }
+            }
+        )
     }
 }
 
 struct HymnLyricsView_Previews: PreviewProvider {
     static var previews: some View {
-//        HymnLyricsView(viewModel: HymnLyricsViewModel())
+        //        HymnLyricsView(viewModel: HymnLyricsViewModel())
         Text("Fix me")
     }
 }
