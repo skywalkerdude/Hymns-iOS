@@ -4,8 +4,8 @@ import Mockingbird
 
 class HymnsRepositoryImplTests: XCTestCase {
     
-    let hymnIdentifier: HymnIdentifier = HymnIdentifier(hymnType: .cebuano, hymnNumber: "123")
-    let hymn: Hymn = Hymn(title: "song title", metaData: [MetaDatum](), lyrics: [Verse]())
+    static let cebuano123: HymnIdentifier = HymnIdentifier(hymnType: .cebuano, hymnNumber: "123")
+    static let hymn: Hymn = Hymn(title: "song title", metaData: [MetaDatum](), lyrics: [Verse]())
     
     var hymnalApiService: HymnalApiServiceMock!
     var target: HymnsRepository!
@@ -22,20 +22,20 @@ class HymnsRepositoryImplTests: XCTestCase {
     func getHymn_getFromLocalStore() {
         // Make one request to the API to store it in locally.
         given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())) ~> { (hymnType, hymnNumber, queryParams, callback) in
-            callback(self.hymn)
+            callback(Self.hymn)
         }
-        target.getHymn(hymnIdentifier: self.hymnIdentifier) { hymn in
-            XCTAssertEqual(self.hymn, hymn)
+        target.getHymn(hymnIdentifier: Self.cebuano123) { hymn in
+            XCTAssertEqual(Self.hymn, hymn)
         }
         // Clear all invocations on the mock.
         clearInvocations(on: hymnalApiService)
         
         // Verify you still get the same result but without calling the API.
         var callbackTriggered = false
-        target.getHymn(hymnIdentifier: self.hymnIdentifier) { hymn in
+        target.getHymn(hymnIdentifier: Self.cebuano123) { hymn in
             callbackTriggered = true
             XCTAssertNotNil(hymn)
-            XCTAssertEqual(self.hymn, hymn!)
+            XCTAssertEqual(Self.hymn, hymn!)
         }
         XCTAssert(callbackTriggered)
         verify(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())).wasNeverCalled()
@@ -47,7 +47,7 @@ class HymnsRepositoryImplTests: XCTestCase {
             callback(nil)
         }
         
-        target.getHymn(hymnIdentifier: self.hymnIdentifier) { hymn in
+        target.getHymn(hymnIdentifier: Self.cebuano123) { hymn in
             callbackTriggered = true
             XCTAssertNil(hymn)
         }
@@ -59,27 +59,27 @@ class HymnsRepositoryImplTests: XCTestCase {
     func getHymn_getFromNetwork_resultsSuccessful() {
         var callbackTriggered = false
         given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())) ~> { (hymnType, hymnNumber, queryParams, callback) in
-            callback(self.hymn)
+            callback(Self.hymn)
         }
         
-        target.getHymn(hymnIdentifier: self.hymnIdentifier) { hymn in
+        target.getHymn(hymnIdentifier: Self.cebuano123) { hymn in
             callbackTriggered = true
             XCTAssertNotNil(hymn)
-            XCTAssertEqual(self.hymn, hymn!)
+            XCTAssertEqual(Self.hymn, hymn!)
         }
         
         XCTAssert(callbackTriggered)
         verify(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())).wasCalled(exactly(1))
     }
     
-    func testPerformanceExample() {
+    func testPerformance() {
         given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())) ~> { (hymnType, hymnNumber, queryParams, callback) in
-            callback(self.hymn)
+            callback(Self.hymn)
         }
         
         self.measure {
-            target.getHymn(hymnIdentifier: self.hymnIdentifier) { hymn in
-                assert(self.hymn == hymn!)
+            target.getHymn(hymnIdentifier: Self.cebuano123) { hymn in
+                assert(Self.hymn == hymn!)
             }
         }
     }
