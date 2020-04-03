@@ -24,6 +24,7 @@ public struct HymnLyricsView: View {
 
 struct HymnLyricsView_Previews: PreviewProvider {
     static var previews: some View {
-        HymnLyricsView(viewModel: HymnLyricsViewModel())
+//        HymnLyricsView(viewModel: HymnLyricsViewModel())
+        Text("Fix me")
     }
 }

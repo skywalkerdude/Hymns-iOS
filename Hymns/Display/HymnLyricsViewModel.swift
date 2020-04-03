@@ -5,9 +5,7 @@ class HymnLyricsViewModel: ObservableObject {
     
     @Published var lyrics: [Verse]? = [Verse]()
     
-    @Injected private var hymnsRepository: HymnsRepository
-    
-    init() {
+    init(hymnsRepository: HymnsRepository) {
         hymnsRepository.getHymn(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "1151")) { hymn in
             guard let hymn = hymn, !hymn.lyrics.isEmpty else {
                 self.lyrics = nil
@@ -21,6 +19,6 @@ class HymnLyricsViewModel: ObservableObject {
 
 extension Resolver {
     public static func registerHymnLyricsViewModel() {
-        register {HymnLyricsViewModel()}.scope(graph)
+        register {HymnLyricsViewModel(hymnsRepository: resolve())}.scope(graph)
     }
 }
