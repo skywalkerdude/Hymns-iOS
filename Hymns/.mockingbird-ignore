@@ -1,0 +1,8 @@
+SceneDelegate.swift
+AppDelegate.swift
+
+# Don't need to generate mocks for injection files, since they are not tested.
+*+Injection.swift
+
+# Don't need to generate mocks for models. You should just create new ones.
+Infrastructure/Data/Models/**
