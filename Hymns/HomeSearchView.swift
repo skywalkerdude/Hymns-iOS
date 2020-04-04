@@ -15,7 +15,7 @@ struct HomeSearchView: View {
                     NavigationLink(destination: HymnLyricsView(viewModel: Resolver.resolve())) {
                         Text(hymn.songTitle)}
                 }.navigationBarTitle(Text("Look up any hymn"))
-            }
+            }.padding(.trailing, -32.0)
         }
     }
 }
