@@ -40,6 +40,9 @@
 		5CAF7433242B98DF00A847E2 /* DummyTestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAF7432242B98DF00A847E2 /* DummyTestData.swift */; };
 		5CAF7435242B991100A847E2 /* SearchBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAF7434242B991100A847E2 /* SearchBarModel.swift */; };
 		B51BA5C92430075300CA52F7 /* DetailHymnScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51BA5C82430075300CA52F7 /* DetailHymnScreen.swift */; };
+		B564AAB52438F4EE00DCFE82 /* classic1151.json in Resources */ = {isa = PBXBuildFile; fileRef = B564AAB42438F4EE00DCFE82 /* classic1151.json */; };
+		B564AAB72438F52D00DCFE82 /* classic1334.json in Resources */ = {isa = PBXBuildFile; fileRef = B564AAB62438F52D00DCFE82 /* classic1334.json */; };
+		B564AAB92438F57100DCFE82 /* PreviewHymns.swift in Sources */ = {isa = PBXBuildFile; fileRef = B564AAB82438F57100DCFE82 /* PreviewHymns.swift */; };
 		B57314812433885D000F8C07 /* SearchBarSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57314802433885D000F8C07 /* SearchBarSearchView.swift */; };
 		B5E61B31242E59C400EF497D /* HomeSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E61B30242E59C400EF497D /* HomeSearchView.swift */; };
 		B5E61B34242E613D00EF497D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5E61B36242E613D00EF497D /* Localizable.strings */; };
@@ -109,6 +112,9 @@
 		95695C51EE642B34C3C8D8D8 /* Pods-Hymns.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns.release.xcconfig"; path = "Target Support Files/Pods-Hymns/Pods-Hymns.release.xcconfig"; sourceTree = "<group>"; };
 		9FF4CD81E97B4D54A08CBF7A /* Pods_Hymns_HymnsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hymns_HymnsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B51BA5C82430075300CA52F7 /* DetailHymnScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailHymnScreen.swift; sourceTree = "<group>"; };
+		B564AAB42438F4EE00DCFE82 /* classic1151.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = classic1151.json; sourceTree = "<group>"; };
+		B564AAB62438F52D00DCFE82 /* classic1334.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = classic1334.json; sourceTree = "<group>"; };
+		B564AAB82438F57100DCFE82 /* PreviewHymns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewHymns.swift; sourceTree = "<group>"; };
 		B57314802433885D000F8C07 /* SearchBarSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarSearchView.swift; sourceTree = "<group>"; };
 		B5E61B30242E59C400EF497D /* HomeSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSearchView.swift; sourceTree = "<group>"; };
 		B5E61B35242E613D00EF497D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -181,6 +187,7 @@
 		3B1B90112429CF55009FDCC5 /* Hymns */ = {
 			isa = PBXGroup;
 			children = (
+				B564AAB22438F46E00DCFE82 /* PreviewContent */,
 				3B59359824353D8500E6993C /* Display */,
 				3BC1329524385A3F0082A274 /* Home */,
 				3B59359724353C8D00E6993C /* Infrastructure */,
@@ -329,6 +336,24 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		B564AAB22438F46E00DCFE82 /* PreviewContent */ = {
+			isa = PBXGroup;
+			children = (
+				B564AAB32438F49700DCFE82 /* PreviewHymns */,
+				B564AAB82438F57100DCFE82 /* PreviewHymns.swift */,
+			);
+			path = PreviewContent;
+			sourceTree = "<group>";
+		};
+		B564AAB32438F49700DCFE82 /* PreviewHymns */ = {
+			isa = PBXGroup;
+			children = (
+				B564AAB42438F4EE00DCFE82 /* classic1151.json */,
+				B564AAB62438F52D00DCFE82 /* classic1334.json */,
+			);
+			path = PreviewHymns;
+			sourceTree = "<group>";
+		};
 		F2101760ED5597D49945CF18 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -454,8 +479,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B564AAB72438F52D00DCFE82 /* classic1334.json in Resources */,
 				3B1B90222429CF57009FDCC5 /* LaunchScreen.storyboard in Resources */,
 				B5E61B34242E613D00EF497D /* Localizable.strings in Resources */,
+				B564AAB52438F4EE00DCFE82 /* classic1151.json in Resources */,
 				3B1B901F2429CF57009FDCC5 /* Preview Assets.xcassets in Resources */,
 				3B1B901C2429CF57009FDCC5 /* Assets.xcassets in Resources */,
 			);
@@ -668,6 +695,7 @@
 				3B5935A0243566A400E6993C /* VerseType.swift in Sources */,
 				B5E61B31242E59C400EF497D /* HomeSearchView.swift in Sources */,
 				3B1B90182429CF55009FDCC5 /* Hymns.xcdatamodeld in Sources */,
+				B564AAB92438F57100DCFE82 /* PreviewHymns.swift in Sources */,
 				3B5935A424357CA000E6993C /* HymnType.swift in Sources */,
 				5CA7849C242D14BA00B57903 /* SettingsView.swift in Sources */,
 				3BC1329924385C420082A274 /* HomeTab.swift in Sources */,

@@ -11,20 +11,46 @@ public struct HymnLyricsView: View {
     
     public var body: some View {
         guard let lyrics = viewModel.lyrics else {
-            return Text("error!")
+            return AnyView(Text("error!"))
         }
         
         guard !lyrics.isEmpty else {
-            return Text("loading...")
+            return AnyView(Text("loading..."))
         }
-
-        return Text(lyrics[0].verseContent[0])
+        
+        return AnyView(
+            ScrollView {
+                VStack(alignment: .leading) {
+                    Group {
+                        ForEach(lyrics, id: \.self) { verse in
+                            Group {
+                                ForEach(verse.verseContent, id: \.self) { line in
+                                    Text(line)
+                                }
+                                Spacer().frame(height: 30)
+                            }
+                        }
+                    }
+                }
+            }
+        )
     }
 }
 
 struct HymnLyricsView_Previews: PreviewProvider {
     static var previews: some View {
-//        HymnLyricsView(viewModel: HymnLyricsViewModel())
-        Text("Fix me")
+        
+        let classic1151 = HymnLyricsViewModel(hymnsRepository: Resolver.resolve())
+        classic1151.lyrics = PreviewHymns.classic1151.lyrics
+        let classic1151View = HymnLyricsView(viewModel: classic1151)
+        
+        let classic1334 = HymnLyricsViewModel(hymnsRepository: Resolver.resolve())
+        classic1334.lyrics = PreviewHymns.classic1334.lyrics
+        let classic1334View = HymnLyricsView(viewModel: classic1334)
+        
+        return Group {
+            classic1151View
+            classic1334View
+        }
     }
 }
