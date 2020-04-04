@@ -315,6 +315,15 @@
 			path = Display;
 			sourceTree = "<group>";
 		};
+        3BC1329524385A3F0082A274 /* Home */ = {
+            isa = PBXGroup;
+            children = (
+                3BC1329624385A580082A274 /* HomeContainerView.swift */,
+                3BC1329824385C420082A274 /* HomeTab.swift */,
+            );
+            path = Home;
+            sourceTree = "<group>";
+        };
 		3BC1328E24384FA40082A274 /* Preview Hymns */ = {
 			isa = PBXGroup;
 			children = (
@@ -322,13 +331,6 @@
 				3BC13293243852C00082A274 /* classic1334.json */,
 			);
 			path = "Preview Hymns";
-		3BC1329524385A3F0082A274 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				3BC1329624385A580082A274 /* HomeContainerView.swift */,
-				3BC1329824385C420082A274 /* HomeTab.swift */,
-			);
-			path = Home;
 			sourceTree = "<group>";
 		};
 		8E21761C8B5F357ED0CB6D4E /* Pods */ = {
