@@ -19,10 +19,17 @@ public struct HymnLyricsView: View {
         }
         
         return AnyView(
-            ForEach(lyrics, id: \.self) { verse in
+            ScrollView {
                 VStack(alignment: .leading) {
-                    Spacer()
-                    ForEach(verse.verseContent, id: \.self) { line in Text(line)
+                    Group {
+                        ForEach(lyrics, id: \.self) { verse in
+                            Group {
+                                ForEach(verse.verseContent, id: \.self) { line in
+                                    Text(line)
+                                }
+                                Spacer().frame(height: 30)
+                            }
+                        }
                     }
                 }
             }
