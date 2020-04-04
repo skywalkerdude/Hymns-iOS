@@ -6,3 +6,6 @@ AppDelegate.swift
 
 # Don't need to generate mocks for models. You should just create new ones.
 Infrastructure/Data/Models/**
+
+# Don't need to generate mocks for anything in Preview Content, since they are just for the live previews and won't be packaged in the app bundle, and therefore don't need to be tested.
+Preview\ Content/**
