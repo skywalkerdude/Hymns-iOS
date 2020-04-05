@@ -10,7 +10,7 @@
 
 @testable import Hymns
 @testable import Mockingbird
-import Alamofire
+import Combine
 import Foundation
 import Resolver
 import Swift
@@ -87,9 +87,9 @@ public func mock(file: StaticString = #file, line: UInt = #line, _ type: Hymns.H
   return HymnLyricsViewModelMock.InitializerProxy.self
 }
 
-// MARK: - Mocked HymnalApiServiceAlamofireImpl
+// MARK: - Mocked HymnalApiServiceImpl
 
-public final class HymnalApiServiceAlamofireImplMock: Hymns.HymnalApiServiceAlamofireImpl, Mockingbird.Mock {
+public final class HymnalApiServiceImplMock: Hymns.HymnalApiServiceImpl, Mockingbird.Mock {
   static let staticMock = Mockingbird.StaticMock()
   public let mockingContext = Mockingbird.MockingContext()
   public let stubbingContext = Mockingbird.StubbingContext()
@@ -98,50 +98,50 @@ public final class HymnalApiServiceAlamofireImplMock: Hymns.HymnalApiServiceAlam
     get { return stubbingContext.sourceLocation }
     set {
       stubbingContext.sourceLocation = newValue
-      HymnalApiServiceAlamofireImplMock.staticMock.stubbingContext.sourceLocation = newValue
+      HymnalApiServiceImplMock.staticMock.stubbingContext.sourceLocation = newValue
     }
   }
 
   public enum InitializerProxy {
-    public static func initialize(`jsonDecoder`: JSONDecoder, __file: StaticString = #file, __line: UInt = #line) -> HymnalApiServiceAlamofireImplMock {
-      let mock: HymnalApiServiceAlamofireImplMock = HymnalApiServiceAlamofireImplMock(jsonDecoder: `jsonDecoder`)
+    public static func initialize(`decoder`: JSONDecoder, `session`: URLSession, __file: StaticString = #file, __line: UInt = #line) -> HymnalApiServiceImplMock {
+      let mock: HymnalApiServiceImplMock = HymnalApiServiceImplMock(decoder: `decoder`, session: `session`)
       mock.sourceLocation = SourceLocation(__file, __line)
       return mock
     }
   }
 
-  // MARK: Mocked `getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?, _ `callback`: @escaping (Hymn?) -> Void)
+  // MARK: Mocked `getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?)
 
-  public override func `getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?, _ `callback`: @escaping (Hymn?) -> Void) -> Void {
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?, _ `callback`: @escaping (Hymn?) -> Void) -> Void", arguments: [Mockingbird.ArgumentMatcher(`hymnType`), Mockingbird.ArgumentMatcher(`hymnNumber`), Mockingbird.ArgumentMatcher(`queryParams`), Mockingbird.ArgumentMatcher(`callback`)])
+  public override func `getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?) -> AnyPublisher<Hymn, Hymns.ErrorType> {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?) -> AnyPublisher<Hymn, Hymns.ErrorType>", arguments: [Mockingbird.ArgumentMatcher(`hymnType`), Mockingbird.ArgumentMatcher(`hymnNumber`), Mockingbird.ArgumentMatcher(`queryParams`)])
     mockingContext.didInvoke(invocation)
-    let implementation = stubbingContext.implementation(for: invocation, optional: true)
-    if let concreteImplementation = implementation as? (HymnType, String, [String: String]?, @escaping (Hymn?) -> Void) -> Void {
-      concreteImplementation(`hymnType`, `hymnNumber`, `queryParams`, `callback`)
+    let implementation = stubbingContext.implementation(for: invocation, optional: false)
+    if let concreteImplementation = implementation as? (HymnType, String, [String: String]?) -> AnyPublisher<Hymn, Hymns.ErrorType> {
+      return concreteImplementation(`hymnType`, `hymnNumber`, `queryParams`)
     } else {
-      (implementation as? () -> Void)?()
+      return (implementation as! () -> AnyPublisher<Hymn, Hymns.ErrorType>)()
     }
   }
 
-  public func `getHymn`(`hymnType`: @escaping @autoclosure () -> HymnType, `hymnNumber`: @escaping @autoclosure () -> String, `queryParams`: @escaping @autoclosure () -> [String: String]?, _ `callback`: @escaping @autoclosure () -> (Hymn?) -> Void) -> Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnType, String, [String: String]?, @escaping (Hymn?) -> Void) -> Void, Void> {
-    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(`hymnType`), Mockingbird.resolve(`hymnNumber`), Mockingbird.resolve(`queryParams`), Mockingbird.resolve(`callback`)]
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?, _ `callback`: @escaping (Hymn?) -> Void) -> Void", arguments: arguments)
-    return Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnType, String, [String: String]?, @escaping (Hymn?) -> Void) -> Void, Void>(mock: self, invocation: invocation)
+  public func `getHymn`(`hymnType`: @escaping @autoclosure () -> HymnType, `hymnNumber`: @escaping @autoclosure () -> String, `queryParams`: @escaping @autoclosure () -> [String: String]?) -> Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnType, String, [String: String]?) -> AnyPublisher<Hymn, Hymns.ErrorType>, AnyPublisher<Hymn, Hymns.ErrorType>> {
+    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(`hymnType`), Mockingbird.resolve(`hymnNumber`), Mockingbird.resolve(`queryParams`)]
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?) -> AnyPublisher<Hymn, Hymns.ErrorType>", arguments: arguments)
+    return Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnType, String, [String: String]?) -> AnyPublisher<Hymn, Hymns.ErrorType>, AnyPublisher<Hymn, Hymns.ErrorType>>(mock: self, invocation: invocation)
   }
 
-  // MARK: Mocked init(`jsonDecoder`: JSONDecoder)
+  // MARK: Mocked init(`decoder`: JSONDecoder, `session`: URLSession)
 
-  public required override init(`jsonDecoder`: JSONDecoder) {
-    super.init(jsonDecoder: `jsonDecoder`)
+  public required override init(`decoder`: JSONDecoder, `session`: URLSession) {
+    super.init(decoder: `decoder`, session: `session`)
     Mockingbird.checkVersion(for: self)
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`jsonDecoder`: JSONDecoder) ", arguments: [Mockingbird.ArgumentMatcher(`jsonDecoder`)])
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`decoder`: JSONDecoder, `session`: URLSession) ", arguments: [Mockingbird.ArgumentMatcher(`decoder`), Mockingbird.ArgumentMatcher(`session`)])
     mockingContext.didInvoke(invocation)
   }
 }
 
-/// Create a source-attributed `Hymns.HymnalApiServiceAlamofireImpl` class mock metatype.
-public func mock(file: StaticString = #file, line: UInt = #line, _ type: Hymns.HymnalApiServiceAlamofireImpl.Type) -> HymnalApiServiceAlamofireImplMock.InitializerProxy.Type {
-  return HymnalApiServiceAlamofireImplMock.InitializerProxy.self
+/// Create a source-attributed `Hymns.HymnalApiServiceImpl` class mock metatype.
+public func mock(file: StaticString = #file, line: UInt = #line, _ type: Hymns.HymnalApiServiceImpl.Type) -> HymnalApiServiceImplMock.InitializerProxy.Type {
+  return HymnalApiServiceImplMock.InitializerProxy.self
 }
 
 // MARK: - Mocked HymnalApiService
@@ -164,23 +164,23 @@ public final class HymnalApiServiceMock: Hymns.HymnalApiService, Mockingbird.Moc
     self.sourceLocation = sourceLocation
   }
 
-  // MARK: Mocked `getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?, _ `callback`: @escaping (Hymn?) -> Void)
+  // MARK: Mocked `getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?)
 
-  public func `getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?, _ `callback`: @escaping (Hymn?) -> Void) -> Void {
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?, _ `callback`: @escaping (Hymn?) -> Void) -> Void", arguments: [Mockingbird.ArgumentMatcher(`hymnType`), Mockingbird.ArgumentMatcher(`hymnNumber`), Mockingbird.ArgumentMatcher(`queryParams`), Mockingbird.ArgumentMatcher(`callback`)])
+  public func `getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?) -> AnyPublisher<Hymn, Hymns.ErrorType> {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?) -> AnyPublisher<Hymn, Hymns.ErrorType>", arguments: [Mockingbird.ArgumentMatcher(`hymnType`), Mockingbird.ArgumentMatcher(`hymnNumber`), Mockingbird.ArgumentMatcher(`queryParams`)])
     mockingContext.didInvoke(invocation)
-    let implementation = stubbingContext.implementation(for: invocation, optional: true)
-    if let concreteImplementation = implementation as? (HymnType, String, [String: String]?, @escaping (Hymn?) -> Void) -> Void {
-      concreteImplementation(`hymnType`, `hymnNumber`, `queryParams`, `callback`)
+    let implementation = stubbingContext.implementation(for: invocation, optional: false)
+    if let concreteImplementation = implementation as? (HymnType, String, [String: String]?) -> AnyPublisher<Hymn, Hymns.ErrorType> {
+      return concreteImplementation(`hymnType`, `hymnNumber`, `queryParams`)
     } else {
-      (implementation as? () -> Void)?()
+      return (implementation as! () -> AnyPublisher<Hymn, Hymns.ErrorType>)()
     }
   }
 
-  public func `getHymn`(`hymnType`: @escaping @autoclosure () -> HymnType, `hymnNumber`: @escaping @autoclosure () -> String, `queryParams`: @escaping @autoclosure () -> [String: String]?, _ `callback`: @escaping @autoclosure () -> (Hymn?) -> Void) -> Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnType, String, [String: String]?, @escaping (Hymn?) -> Void) -> Void, Void> {
-    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(`hymnType`), Mockingbird.resolve(`hymnNumber`), Mockingbird.resolve(`queryParams`), Mockingbird.resolve(`callback`)]
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?, _ `callback`: @escaping (Hymn?) -> Void) -> Void", arguments: arguments)
-    return Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnType, String, [String: String]?, @escaping (Hymn?) -> Void) -> Void, Void>(mock: self, invocation: invocation)
+  public func `getHymn`(`hymnType`: @escaping @autoclosure () -> HymnType, `hymnNumber`: @escaping @autoclosure () -> String, `queryParams`: @escaping @autoclosure () -> [String: String]?) -> Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnType, String, [String: String]?) -> AnyPublisher<Hymn, Hymns.ErrorType>, AnyPublisher<Hymn, Hymns.ErrorType>> {
+    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(`hymnType`), Mockingbird.resolve(`hymnNumber`), Mockingbird.resolve(`queryParams`)]
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?) -> AnyPublisher<Hymn, Hymns.ErrorType>", arguments: arguments)
+    return Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnType, String, [String: String]?) -> AnyPublisher<Hymn, Hymns.ErrorType>, AnyPublisher<Hymn, Hymns.ErrorType>>(mock: self, invocation: invocation)
   }
 }
 
@@ -212,23 +212,23 @@ public final class HymnsRepositoryImplMock: Hymns.HymnsRepositoryImpl, Mockingbi
     }
   }
 
-  // MARK: Mocked `getHymn`(`hymnIdentifier`: HymnIdentifier, _ `callback`: @escaping (Hymn?) -> Void)
+  // MARK: Mocked `getHymn`(`hymnIdentifier`: HymnIdentifier)
 
-  public override func `getHymn`(`hymnIdentifier`: HymnIdentifier, _ `callback`: @escaping (Hymn?) -> Void) -> Void {
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnIdentifier`: HymnIdentifier, _ `callback`: @escaping (Hymn?) -> Void) -> Void", arguments: [Mockingbird.ArgumentMatcher(`hymnIdentifier`), Mockingbird.ArgumentMatcher(`callback`)])
+  public override func `getHymn`(`hymnIdentifier`: HymnIdentifier) -> AnyPublisher<Hymn?, Never> {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnIdentifier`: HymnIdentifier) -> AnyPublisher<Hymn?, Never>", arguments: [Mockingbird.ArgumentMatcher(`hymnIdentifier`)])
     mockingContext.didInvoke(invocation)
-    let implementation = stubbingContext.implementation(for: invocation, optional: true)
-    if let concreteImplementation = implementation as? (HymnIdentifier, @escaping (Hymn?) -> Void) -> Void {
-      concreteImplementation(`hymnIdentifier`, `callback`)
+    let implementation = stubbingContext.implementation(for: invocation, optional: false)
+    if let concreteImplementation = implementation as? (HymnIdentifier) -> AnyPublisher<Hymn?, Never> {
+      return concreteImplementation(`hymnIdentifier`)
     } else {
-      (implementation as? () -> Void)?()
+      return (implementation as! () -> AnyPublisher<Hymn?, Never>)()
     }
   }
 
-  public func `getHymn`(`hymnIdentifier`: @escaping @autoclosure () -> HymnIdentifier, _ `callback`: @escaping @autoclosure () -> (Hymn?) -> Void) -> Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnIdentifier, @escaping (Hymn?) -> Void) -> Void, Void> {
-    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(`hymnIdentifier`), Mockingbird.resolve(`callback`)]
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnIdentifier`: HymnIdentifier, _ `callback`: @escaping (Hymn?) -> Void) -> Void", arguments: arguments)
-    return Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnIdentifier, @escaping (Hymn?) -> Void) -> Void, Void>(mock: self, invocation: invocation)
+  public func `getHymn`(`hymnIdentifier`: @escaping @autoclosure () -> HymnIdentifier) -> Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnIdentifier) -> AnyPublisher<Hymn?, Never>, AnyPublisher<Hymn?, Never>> {
+    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(`hymnIdentifier`)]
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnIdentifier`: HymnIdentifier) -> AnyPublisher<Hymn?, Never>", arguments: arguments)
+    return Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnIdentifier) -> AnyPublisher<Hymn?, Never>, AnyPublisher<Hymn?, Never>>(mock: self, invocation: invocation)
   }
 
   // MARK: Mocked init(`hymnalApiService`: Hymns.HymnalApiService)
@@ -266,23 +266,23 @@ public final class HymnsRepositoryMock: Hymns.HymnsRepository, Mockingbird.Mock 
     self.sourceLocation = sourceLocation
   }
 
-  // MARK: Mocked `getHymn`(`hymnIdentifier`: HymnIdentifier, _ `callback`: @escaping (Hymn?) -> Void)
+  // MARK: Mocked `getHymn`(`hymnIdentifier`: HymnIdentifier)
 
-  public func `getHymn`(`hymnIdentifier`: HymnIdentifier, _ `callback`: @escaping (Hymn?) -> Void) -> Void {
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnIdentifier`: HymnIdentifier, _ `callback`: @escaping (Hymn?) -> Void) -> Void", arguments: [Mockingbird.ArgumentMatcher(`hymnIdentifier`), Mockingbird.ArgumentMatcher(`callback`)])
+  public func `getHymn`(`hymnIdentifier`: HymnIdentifier) -> AnyPublisher<Hymn?, Never> {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnIdentifier`: HymnIdentifier) -> AnyPublisher<Hymn?, Never>", arguments: [Mockingbird.ArgumentMatcher(`hymnIdentifier`)])
     mockingContext.didInvoke(invocation)
-    let implementation = stubbingContext.implementation(for: invocation, optional: true)
-    if let concreteImplementation = implementation as? (HymnIdentifier, @escaping (Hymn?) -> Void) -> Void {
-      concreteImplementation(`hymnIdentifier`, `callback`)
+    let implementation = stubbingContext.implementation(for: invocation, optional: false)
+    if let concreteImplementation = implementation as? (HymnIdentifier) -> AnyPublisher<Hymn?, Never> {
+      return concreteImplementation(`hymnIdentifier`)
     } else {
-      (implementation as? () -> Void)?()
+      return (implementation as! () -> AnyPublisher<Hymn?, Never>)()
     }
   }
 
-  public func `getHymn`(`hymnIdentifier`: @escaping @autoclosure () -> HymnIdentifier, _ `callback`: @escaping @autoclosure () -> (Hymn?) -> Void) -> Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnIdentifier, @escaping (Hymn?) -> Void) -> Void, Void> {
-    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(`hymnIdentifier`), Mockingbird.resolve(`callback`)]
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnIdentifier`: HymnIdentifier, _ `callback`: @escaping (Hymn?) -> Void) -> Void", arguments: arguments)
-    return Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnIdentifier, @escaping (Hymn?) -> Void) -> Void, Void>(mock: self, invocation: invocation)
+  public func `getHymn`(`hymnIdentifier`: @escaping @autoclosure () -> HymnIdentifier) -> Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnIdentifier) -> AnyPublisher<Hymn?, Never>, AnyPublisher<Hymn?, Never>> {
+    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(`hymnIdentifier`)]
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnIdentifier`: HymnIdentifier) -> AnyPublisher<Hymn?, Never>", arguments: arguments)
+    return Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnIdentifier) -> AnyPublisher<Hymn?, Never>, AnyPublisher<Hymn?, Never>>(mock: self, invocation: invocation)
   }
 }
 

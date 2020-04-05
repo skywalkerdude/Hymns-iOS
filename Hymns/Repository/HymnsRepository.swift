@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 import Resolver
 
@@ -5,7 +6,7 @@ import Resolver
  * Repository that stores all hymns that have been searched during this session in memory.
  */
 protocol HymnsRepository {
-    func getHymn(hymnIdentifier: HymnIdentifier, _ callback: @escaping (Hymn?) -> Void)
+    func getHymn(hymnIdentifier: HymnIdentifier)  -> AnyPublisher<Hymn?, Never>
 }
 
 class HymnsRepositoryImpl: HymnsRepository {
@@ -17,21 +18,17 @@ class HymnsRepositoryImpl: HymnsRepository {
     init(hymnalApiService: HymnalApiService) {
         self.hymnalApiService = hymnalApiService
     }
-        
-    func getHymn(hymnIdentifier: HymnIdentifier, _ callback: @escaping (Hymn?) -> Void) {
+
+    func getHymn(hymnIdentifier: HymnIdentifier)  -> AnyPublisher<Hymn?, Never> {
         if let hymn = hymns[hymnIdentifier] {
-            callback(hymn)
-            return
+            return Just(hymn).eraseToAnyPublisher()
         }
-        
-        hymnalApiService.getHymn(hymnType: hymnIdentifier.hymnType, hymnNumber: hymnIdentifier.hymnNumber, queryParams: hymnIdentifier.queryParams) { hymn in
-            guard let hymn = hymn else {
-                callback(nil)
-                return
-            }
-            
-            self.hymns[hymnIdentifier] = hymn
-            callback(hymn)
-        }
+        return hymnalApiService.getHymn(hymnType: hymnIdentifier.hymnType, hymnNumber: hymnIdentifier.hymnNumber, queryParams: hymnIdentifier.queryParams)
+            .map({ [weak self] (hymn) -> Hymn? in
+                self?.hymns[hymnIdentifier] = hymn
+                return hymn
+            })
+            .replaceError(with: nil)
+            .eraseToAnyPublisher()
     }
 }

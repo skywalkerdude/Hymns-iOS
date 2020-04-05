@@ -1,5 +1,6 @@
-import XCTest
+import Combine
 import Mockingbird
+import XCTest
 @testable import Hymns
 
 class HymnsRepositoryImplTests: XCTestCase {
@@ -15,68 +16,132 @@ class HymnsRepositoryImplTests: XCTestCase {
         target = HymnsRepositoryImpl(hymnalApiService: hymnalApiService)
     }
     
-    func test_getHymn_getFromLocalStore() {
+    func test_getHymn_resultsCached() {
         // Make one request to the API to store it in locally.
-        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())) ~> { (hymnType, hymnNumber, queryParams, callback) in
-            callback(Self.hymn)
+        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> { Just<Hymn>(Self.hymn)
+            .mapError({ (_) -> ErrorType in
+                .network(description: "This will never get called")
+            })
+            .eraseToAnyPublisher()
         }
-        target.getHymn(hymnIdentifier: Self.cebuano123) { hymn in
-            XCTAssertEqual(Self.hymn, hymn)
-        }
+        var set = Set<AnyCancellable>()
+        target.getHymn(hymnIdentifier: Self.cebuano123)
+            .sink(receiveValue: { _ in })
+            .store(in: &set)
+
         // Clear all invocations on the mock.
         clearInvocations(on: hymnalApiService)
-        
+
         // Verify you still get the same result but without calling the API.
-        var callbackTriggered = false
-        target.getHymn(hymnIdentifier: Self.cebuano123) { hymn in
-            callbackTriggered = true
-            XCTAssertNotNil(hymn)
-            XCTAssertEqual(Self.hymn, hymn!)
-        }
-        XCTAssert(callbackTriggered)
-        verify(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())).wasNeverCalled()
+        var sinkTriggered = false
+        target.getHymn(hymnIdentifier: Self.cebuano123)
+            .sink(receiveValue: { hymn in
+                sinkTriggered = true
+                XCTAssertEqual(Self.hymn, hymn!)
+            }).store(in: &set)
+
+        XCTAssert(sinkTriggered)
+        verify(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)).wasNeverCalled()
     }
-    
-    func test_getHymn_getFromNetwork_resultsMissing() {
-        var callbackTriggered = false
-        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())) ~> { (hymnType, hymnNumber, queryParams, callback) in
-            callback(nil)
+
+    func test_getHymn_getFromNetwork_networkError() {
+        var sinkTriggered = false
+        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> {
+            Just<Hymn>(Self.hymn)
+                .tryMap({ (_) -> Hymn in
+                    throw URLError(.badServerResponse)
+                })
+                .mapError({ (_) -> ErrorType in
+                    ErrorType.network(description: "forced network error")
+                }).eraseToAnyPublisher()
         }
-        
-        target.getHymn(hymnIdentifier: Self.cebuano123) { hymn in
-            callbackTriggered = true
-            XCTAssertNil(hymn)
-        }
-        
-        XCTAssert(callbackTriggered)
-        verify(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())).wasCalled(exactly(1))
+
+        var set = Set<AnyCancellable>()
+        target.getHymn(hymnIdentifier: Self.cebuano123)
+            .sink(receiveValue: { hymn in
+                sinkTriggered = true
+                XCTAssertNil(hymn)
+            }).store(in: &set)
+
+        verify(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)).wasCalled(exactly(1))
+
+        XCTAssert(sinkTriggered)
     }
-    
+
     func test_getHymn_getFromNetwork_resultsSuccessful() {
-        var callbackTriggered = false
-        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())) ~> { (hymnType, hymnNumber, queryParams, callback) in
-            callback(Self.hymn)
+        var sinkTriggered = false
+        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> { Just<Hymn>(Self.hymn)
+            .mapError({ (_) -> ErrorType in
+                .network(description: "This will never get called")
+            })
+            .eraseToAnyPublisher()
         }
-        
-        target.getHymn(hymnIdentifier: Self.cebuano123) { hymn in
-            callbackTriggered = true
-            XCTAssertNotNil(hymn)
-            XCTAssertEqual(Self.hymn, hymn!)
-        }
-        
-        XCTAssert(callbackTriggered)
-        verify(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())).wasCalled(exactly(1))
+
+        var set = Set<AnyCancellable>()
+        target.getHymn(hymnIdentifier: Self.cebuano123)
+            .sink(receiveValue: { hymn in
+                sinkTriggered = true
+                XCTAssertEqual(Self.hymn, hymn!)
+            }).store(in: &set)
+
+        verify(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)).wasCalled(exactly(1))
+
+        XCTAssert(sinkTriggered)
     }
-    
-    func testPerformance_getHymn() {
-        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil, any())) ~> { (hymnType, hymnNumber, queryParams, callback) in
-            callback(Self.hymn)
+
+    func testPerformance_getHymn_resultsCached() {
+        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> { Just<Hymn>(Self.hymn)
+            .mapError({ (_) -> ErrorType in
+                .network(description: "This will never get called")
+            })
+            .eraseToAnyPublisher()
         }
-        
+        var set = Set<AnyCancellable>()
+        target.getHymn(hymnIdentifier: Self.cebuano123)
+            .sink(receiveValue: { _ in })
+            .store(in: &set)
+
         self.measure {
-            target.getHymn(hymnIdentifier: Self.cebuano123) { hymn in
-                assert(Self.hymn == hymn!)
-            }
+            target.getHymn(hymnIdentifier: Self.cebuano123)
+                .sink(receiveValue: { hymn in
+                    XCTAssertEqual(Self.hymn, hymn!)
+                }).store(in: &set)
+        }
+    }
+
+    func testPerformance_getHymn_resultsSuccessful() {
+        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> { Just<Hymn>(Self.hymn)
+            .mapError({ (_) -> ErrorType in
+                .network(description: "This will never get called")
+            })
+            .eraseToAnyPublisher()
+        }
+
+        self.measure {
+            var set = Set<AnyCancellable>()
+            target.getHymn(hymnIdentifier: Self.cebuano123)
+                .sink(receiveValue: { hymn in
+                    XCTAssertEqual(Self.hymn, hymn!)
+                }).store(in: &set)
+        }
+    }
+
+    func testPerformance_getHymn_networkError() {
+        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> {
+            Just<Hymn>(Self.hymn)
+                .tryMap({ (_) -> Hymn in
+                    throw URLError(.badServerResponse)
+                })
+                .mapError({ (_) -> ErrorType in
+                    ErrorType.network(description: "forced network error")
+                }).eraseToAnyPublisher()
+        }
+
+        self.measure {
+            var set = Set<AnyCancellable>()
+            target.getHymn(hymnIdentifier: Self.cebuano123)
+                .sink(receiveValue: { _ in })
+                .store(in: &set)
         }
     }
 }
