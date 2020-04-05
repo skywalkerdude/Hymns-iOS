@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2CC42F8D89EBB53E375BEAFC /* Pods_Hymns.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2922BBF04AE546DD8D572B7F /* Pods_Hymns.framework */; };
 		374F61734FCA4CAC4DB35F71 /* Pods_HymnsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E224832811EC335FDE23F9FE /* Pods_HymnsTests.framework */; };
+		3B0B39AF243931B3003C5161 /* ErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0B39AE243931B3003C5161 /* ErrorType.swift */; };
 		3B1B90132429CF55009FDCC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B90122429CF55009FDCC5 /* AppDelegate.swift */; };
 		3B1B90152429CF55009FDCC5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B90142429CF55009FDCC5 /* SceneDelegate.swift */; };
 		3B1B90182429CF55009FDCC5 /* Hymns.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B90162429CF55009FDCC5 /* Hymns.xcdatamodeld */; };
@@ -71,6 +72,7 @@
 		064A786F861AD7BB96BA087A /* Pods-HymnsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HymnsTests.debug.xcconfig"; path = "Target Support Files/Pods-HymnsTests/Pods-HymnsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		0FECFFCB60EDC30390AB3325 /* Pods-HymnsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HymnsTests.release.xcconfig"; path = "Target Support Files/Pods-HymnsTests/Pods-HymnsTests.release.xcconfig"; sourceTree = "<group>"; };
 		2922BBF04AE546DD8D572B7F /* Pods_Hymns.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hymns.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B0B39AE243931B3003C5161 /* ErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorType.swift; sourceTree = "<group>"; };
 		3B1B900F2429CF55009FDCC5 /* Hymns.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hymns.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B1B90122429CF55009FDCC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3B1B90142429CF55009FDCC5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 			children = (
 				3B59359E2435662300E6993C /* Models */,
 				3B59359A243544EF00E6993C /* HymnalApiService.swift */,
+				3B0B39AE243931B3003C5161 /* ErrorType.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -315,15 +318,6 @@
 			path = Display;
 			sourceTree = "<group>";
 		};
-        3BC1329524385A3F0082A274 /* Home */ = {
-            isa = PBXGroup;
-            children = (
-                3BC1329624385A580082A274 /* HomeContainerView.swift */,
-                3BC1329824385C420082A274 /* HomeTab.swift */,
-            );
-            path = Home;
-            sourceTree = "<group>";
-        };
 		3BC1328E24384FA40082A274 /* Preview Hymns */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,6 +325,15 @@
 				3BC13293243852C00082A274 /* classic1334.json */,
 			);
 			path = "Preview Hymns";
+			sourceTree = "<group>";
+		};
+		3BC1329524385A3F0082A274 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				3BC1329624385A580082A274 /* HomeContainerView.swift */,
+				3BC1329824385C420082A274 /* HomeTab.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		8E21761C8B5F357ED0CB6D4E /* Pods */ = {
@@ -505,13 +508,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Hymns/Pods-Hymns-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Hymns/Pods-Hymns-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -541,13 +540,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Hymns-HymnsUITests/Pods-Hymns-HymnsUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Hymns-HymnsUITests/Pods-Hymns-HymnsUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -639,13 +634,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-HymnsTests/Pods-HymnsTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-HymnsTests/Pods-HymnsTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -702,6 +693,7 @@
 				3BC1328D243826280082A274 /* PreviewHymns.swift in Sources */,
 				3B5935B124358D1B00E6993C /* Hymn.swift in Sources */,
 				3B5935BB2435B7A400E6993C /* AppDelegate+Injection.swift in Sources */,
+				3B0B39AF243931B3003C5161 /* ErrorType.swift in Sources */,
 				3B5935A22435685400E6993C /* Verse.swift in Sources */,
 				B57314812433885D000F8C07 /* SearchBarSearchView.swift in Sources */,
 				5CAF7435242B991100A847E2 /* SearchBarModel.swift in Sources */,

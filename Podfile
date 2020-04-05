@@ -15,10 +15,6 @@ target 'Hymns' do
   # https://github.com/hmlongco/Resolver
   pod 'Resolver'
   
-  # HTTP Networking
-  # https://github.com/Alamofire/Alamofire
-  pod 'Alamofire'
-  
   target 'HymnsTests' do
     inherit! :search_paths
     # Pods for testing
