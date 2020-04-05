@@ -18,7 +18,7 @@ struct SearchBarSearchView: View {
                       NavigationLink(destination: DetailHymnScreen(hymn: hymn)) {
                         Text(hymn.songTitle)}
                 }
-            }.padding(.trailing, -32.0)
+            }.padding(.trailing, -32.0) //This clever guy hides nav arrows
         }.navigationBarTitle("", displayMode: .inline)
             .navigationBarHidden(true) //hides the default nav bar to input the custom "x" instead
         }
