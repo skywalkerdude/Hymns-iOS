@@ -22,7 +22,7 @@ struct HomeView: View {
     }
 }
 
-struct SearchView_Previews: PreviewProvider {
+struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
     }
@@ -33,11 +33,15 @@ struct NavigateToSearch: View {
     @State var searchText: String
 
     var body: some View {
-        NavigationLink(destination: SearchBarSearchView(isActive: $isActive),
-                       isActive: $isActive) {
-                        Button(action: {
-                            self.isActive.toggle()
-                        }) {
-                            SearchBar(text: $searchText).disabled(true)}}
+        NavigationLink(
+            destination: SearchBarSearchView(isActive: $isActive),
+            isActive: $isActive,
+            label: {
+                Button(action: {
+                    self.isActive.toggle()
+                }, label: {
+                    SearchBar(text: $searchText).disabled(true)
+                })
+        })
     }
 }
