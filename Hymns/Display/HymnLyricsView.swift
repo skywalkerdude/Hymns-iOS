@@ -25,7 +25,7 @@ public struct HymnLyricsView: View {
                         ForEach(lyrics, id: \.self) { verse in
                             Group {
                                 ForEach(verse.verseContent, id: \.self) { line in
-                                    Text(line)
+                                    Text(line).customFont(name: "Montserrat-Regular", style: .body, weight: .regular)
                                 }
                                 Spacer().frame(height: 30)
                             }

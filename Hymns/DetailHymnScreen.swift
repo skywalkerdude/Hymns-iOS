@@ -37,7 +37,7 @@ struct DetailHymnScreen: View {
                 Spacer()
             }.frame(minHeight: 0, maxHeight: 60)  //end geometry
             Spacer()
-            Text(self.hymn.songLyrics)
+            Text(self.hymn.songLyrics).customBody()
             Spacer()
         }//end outer VStack
     }

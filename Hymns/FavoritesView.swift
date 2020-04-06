@@ -7,7 +7,7 @@ struct FavoritesView: View {
         NavigationView {
             List(allHymns) { filtered in
                 if !filtered.favorited {
-                    Text(filtered.songTitle)
+                    Text(filtered.songTitle).customBody()
                 }
             
             }.navigationBarTitle("Favorites")

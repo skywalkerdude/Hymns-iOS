@@ -4,7 +4,7 @@ struct BrowseView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text("TODO: Browse")
+                Text("TODO: Browse").customBody()
             }.navigationBarTitle("Browse")
         }
     }

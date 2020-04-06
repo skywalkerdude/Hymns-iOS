@@ -4,7 +4,7 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             VStack {
-            Text("TODO: Settings")
+                Text("TODO: Settings").customBody()
             }.navigationBarTitle("Settings")
         }
     }

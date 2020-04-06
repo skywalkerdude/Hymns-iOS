@@ -12,11 +12,11 @@ struct SearchBarSearchView: View {
                 Button(action: { self.isActive.toggle()}) {
                     Image(systemName: "xmark")}.buttonStyle(PlainButtonStyle())
                 }.padding([.horizontal])
-            SearchBar(text: $searchText)
+            SearchBar(text: $searchText).shadow(radius: 3)
             List {
                 ForEach(self.allHymns.filter { self.searchText.isEmpty ? true : $0.songTitle.contains(self.searchText)}) { hymn in
                       NavigationLink(destination: DetailHymnScreen(hymn: hymn)) {
-                        Text(hymn.songTitle)}
+                        Text(hymn.songTitle).customBody()}
                 }
             }.padding(.trailing, -32.0)
         }.navigationBarTitle("", displayMode: .inline)

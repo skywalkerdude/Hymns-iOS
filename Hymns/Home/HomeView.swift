@@ -14,7 +14,7 @@ struct HomeView: View {
                 List {
                     ForEach(self.allHymns.filter { self.searchText.isEmpty ? true : $0.songTitle.contains(self.searchText)}) { hymn in
                         NavigationLink(destination: HymnLyricsView(viewModel: Resolver.resolve())) {
-                            Text(hymn.songTitle)}
+                            Text(hymn.songTitle).customBody()}
                     }.navigationBarTitle(Text("Look up any hymn"))
                 }.padding(.trailing, -32.0)
             }
