@@ -21,6 +21,9 @@ struct HomeContainerView: View {
             SettingsView().tabItem {
                 HomeTab.settings.getImage(selectedTab == HomeTab.settings)
             }.accessibility(label: HomeTab.settings.label).tag(HomeTab.settings)
+        }.onAppear {
+            // Make the unselected tabs black insetad of grey.
+            UITabBar.appearance().unselectedItemTintColor = .black
         }
     }
 }
