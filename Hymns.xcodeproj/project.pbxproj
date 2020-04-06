@@ -16,6 +16,7 @@
 		3B1B901F2429CF57009FDCC5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B1B901E2429CF57009FDCC5 /* Preview Assets.xcassets */; };
 		3B1B90222429CF57009FDCC5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B1B90202429CF57009FDCC5 /* LaunchScreen.storyboard */; };
 		3B1B90382429CF57009FDCC5 /* HymnsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B90372429CF57009FDCC5 /* HymnsUITests.swift */; };
+		3B45B8FB243BA29C00D38BEF /* VerseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B45B8FA243BA29C00D38BEF /* VerseView.swift */; };
 		3B59359B243544EF00E6993C /* HymnalApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B59359A243544EF00E6993C /* HymnalApiService.swift */; };
 		3B5935A0243566A400E6993C /* VerseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B59359F243566A400E6993C /* VerseType.swift */; };
 		3B5935A22435685400E6993C /* Verse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5935A12435685400E6993C /* Verse.swift */; };
@@ -84,6 +85,7 @@
 		3B1B90332429CF57009FDCC5 /* HymnsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HymnsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B1B90372429CF57009FDCC5 /* HymnsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnsUITests.swift; sourceTree = "<group>"; };
 		3B1B90392429CF57009FDCC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3B45B8FA243BA29C00D38BEF /* VerseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseView.swift; sourceTree = "<group>"; };
 		3B59359A243544EF00E6993C /* HymnalApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnalApiService.swift; sourceTree = "<group>"; };
 		3B59359F243566A400E6993C /* VerseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseType.swift; sourceTree = "<group>"; };
 		3B5935A12435685400E6993C /* Verse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Verse.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 			children = (
 				3B5935B72435A4E400E6993C /* HymnLyricsViewModel.swift */,
 				3B5935B52435A07000E6993C /* HymnLyricsView.swift */,
+				3B45B8FA243BA29C00D38BEF /* VerseView.swift */,
 			);
 			path = Display;
 			sourceTree = "<group>";
@@ -689,6 +692,7 @@
 				3B1B90182429CF55009FDCC5 /* Hymns.xcdatamodeld in Sources */,
 				3B5935A424357CA000E6993C /* HymnType.swift in Sources */,
 				5CA7849C242D14BA00B57903 /* SettingsView.swift in Sources */,
+				3B45B8FB243BA29C00D38BEF /* VerseView.swift in Sources */,
 				3BC1329924385C420082A274 /* HomeTab.swift in Sources */,
 				3B5935B62435A07000E6993C /* HymnLyricsView.swift in Sources */,
 				3B5935C22435CAC800E6993C /* HymnIdentifier.swift in Sources */,
