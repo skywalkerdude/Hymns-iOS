@@ -18,6 +18,75 @@ import SwiftUI
 
 private var genericTypesStaticMocks = Mockingbird.Synchronized<[String: Mockingbird.StaticMock]>([:])
 
+// MARK: - Mocked HomeViewModel
+
+public final class HomeViewModelMock: Hymns.HomeViewModel, Mockingbird.Mock {
+  static let staticMock = Mockingbird.StaticMock()
+  public let mockingContext = Mockingbird.MockingContext()
+  public let stubbingContext = Mockingbird.StubbingContext()
+  public let mockMetadata = Mockingbird.MockMetadata(["generator_version": "0.10.0", "module_name": "Hymns"])
+  public var sourceLocation: Mockingbird.SourceLocation? {
+    get { return stubbingContext.sourceLocation }
+    set {
+      stubbingContext.sourceLocation = newValue
+      HomeViewModelMock.staticMock.stubbingContext.sourceLocation = newValue
+    }
+  }
+
+  public enum InitializerProxy {
+    public static func initialize(`recentSongs`: [Hymns.SongResultViewModel<Hymns.HymnLyricsView>], __file: StaticString = #file, __line: UInt = #line) -> HomeViewModelMock {
+      let mock: HomeViewModelMock = HomeViewModelMock(recentSongs: `recentSongs`)
+      mock.sourceLocation = SourceLocation(__file, __line)
+      return mock
+    }
+  }
+
+  // MARK: Mocked recentSongs
+
+  override public var `recentSongs`: [Hymns.SongResultViewModel<Hymns.HymnLyricsView>] {
+    get {
+      let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "recentSongs.get", arguments: [])
+      mockingContext.didInvoke(invocation)
+      return (stubbingContext.implementation(for: invocation) as! () -> [Hymns.SongResultViewModel<Hymns.HymnLyricsView>])()
+    }
+    set {
+      let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "recentSongs.set", arguments: [ArgumentMatcher(newValue)])
+      mockingContext.didInvoke(invocation)
+      let implementation = stubbingContext.implementation(for: invocation, optional: true)
+      if let concreteImplementation = implementation as? ([Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) -> Void {
+        concreteImplementation(newValue)
+      } else {
+        (implementation as? () -> Void)?()
+      }
+    }
+  }
+
+  public func getRecentSongs() -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> [Hymns.SongResultViewModel<Hymns.HymnLyricsView>], [Hymns.SongResultViewModel<Hymns.HymnLyricsView>]> {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "recentSongs.get", arguments: [])
+    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> [Hymns.SongResultViewModel<Hymns.HymnLyricsView>], [Hymns.SongResultViewModel<Hymns.HymnLyricsView>]>(mock: self, invocation: invocation)
+  }
+
+  public func setRecentSongs(_ newValue: @escaping @autoclosure () -> [Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) -> Void, Void> {
+    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(newValue)]
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "recentSongs.set", arguments: arguments)
+    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) -> Void, Void>(mock: self, invocation: invocation)
+  }
+
+  // MARK: Mocked init(`recentSongs`: [Hymns.SongResultViewModel<Hymns.HymnLyricsView>])
+
+  public required override init(`recentSongs`: [Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) {
+    super.init(recentSongs: `recentSongs`)
+    Mockingbird.checkVersion(for: self)
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`recentSongs`: [Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) ", arguments: [Mockingbird.ArgumentMatcher(`recentSongs`)])
+    mockingContext.didInvoke(invocation)
+  }
+}
+
+/// Create a source-attributed `Hymns.HomeViewModel` class mock metatype.
+public func mock(file: StaticString = #file, line: UInt = #line, _ type: Hymns.HomeViewModel.Type) -> HomeViewModelMock.InitializerProxy.Type {
+  return HomeViewModelMock.InitializerProxy.self
+}
+
 // MARK: - Mocked HymnLyricsViewModel
 
 public final class HymnLyricsViewModelMock: Hymns.HymnLyricsViewModel, Mockingbird.Mock {
@@ -34,8 +103,8 @@ public final class HymnLyricsViewModelMock: Hymns.HymnLyricsViewModel, Mockingbi
   }
 
   public enum InitializerProxy {
-    public static func initialize(`hymnsRepository`: Hymns.HymnsRepository, __file: StaticString = #file, __line: UInt = #line) -> HymnLyricsViewModelMock {
-      let mock: HymnLyricsViewModelMock = HymnLyricsViewModelMock(hymnsRepository: `hymnsRepository`)
+    public static func initialize(`identifier`: HymnIdentifier, `hymnsRepository`: Hymns.HymnsRepository, `callbackQueue`: DispatchQueue, __file: StaticString = #file, __line: UInt = #line) -> HymnLyricsViewModelMock {
+      let mock: HymnLyricsViewModelMock = HymnLyricsViewModelMock(identifier: `identifier`, hymnsRepository: `hymnsRepository`, callbackQueue: `callbackQueue`)
       mock.sourceLocation = SourceLocation(__file, __line)
       return mock
     }
@@ -72,12 +141,12 @@ public final class HymnLyricsViewModelMock: Hymns.HymnLyricsViewModel, Mockingbi
     return Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([Verse]?) -> Void, Void>(mock: self, invocation: invocation)
   }
 
-  // MARK: Mocked init(`hymnsRepository`: Hymns.HymnsRepository)
+  // MARK: Mocked init(`identifier`: HymnIdentifier, `hymnsRepository`: Hymns.HymnsRepository, `callbackQueue`: DispatchQueue)
 
-  public required override init(`hymnsRepository`: Hymns.HymnsRepository) {
-    super.init(hymnsRepository: `hymnsRepository`)
+  public required override init(`identifier`: HymnIdentifier, `hymnsRepository`: Hymns.HymnsRepository, `callbackQueue`: DispatchQueue) {
+    super.init(identifier: `identifier`, hymnsRepository: `hymnsRepository`, callbackQueue: `callbackQueue`)
     Mockingbird.checkVersion(for: self)
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`hymnsRepository`: Hymns.HymnsRepository) ", arguments: [Mockingbird.ArgumentMatcher(`hymnsRepository`)])
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`identifier`: HymnIdentifier, `hymnsRepository`: Hymns.HymnsRepository, `callbackQueue`: DispatchQueue) ", arguments: [Mockingbird.ArgumentMatcher(`identifier`), Mockingbird.ArgumentMatcher(`hymnsRepository`), Mockingbird.ArgumentMatcher(`callbackQueue`)])
     mockingContext.didInvoke(invocation)
   }
 }
@@ -289,4 +358,49 @@ public final class HymnsRepositoryMock: Hymns.HymnsRepository, Mockingbird.Mock 
 /// Create a source-attributed `Hymns.HymnsRepository` concrete protocol mock instance.
 public func mock(file: StaticString = #file, line: UInt = #line, _ type: Hymns.HymnsRepository.Protocol) -> HymnsRepositoryMock {
   return HymnsRepositoryMock(sourceLocation: SourceLocation(file, line))
+}
+
+// MARK: - Mocked SongResultViewModel
+
+public final class SongResultViewModelMock<DestinationView>: Hymns.SongResultViewModel<DestinationView>, Mockingbird.Mock where DestinationView: View {
+  static var staticMock: Mockingbird.StaticMock {
+    let runtimeGenericTypeNames = ["\(DestinationView.self)"].joined(separator: ",")
+    let staticMockIdentifier = "SongResultViewModelMock<DestinationView>," + runtimeGenericTypeNames
+    if let staticMock = genericTypesStaticMocks.value[staticMockIdentifier] { return staticMock }
+    let staticMock = Mockingbird.StaticMock()
+    genericTypesStaticMocks.update { $0[staticMockIdentifier] = staticMock }
+    return staticMock
+  }
+  public let mockingContext = Mockingbird.MockingContext()
+  public let stubbingContext = Mockingbird.StubbingContext()
+  public let mockMetadata = Mockingbird.MockMetadata(["generator_version": "0.10.0", "module_name": "Hymns"])
+  public var sourceLocation: Mockingbird.SourceLocation? {
+    get { return stubbingContext.sourceLocation }
+    set {
+      stubbingContext.sourceLocation = newValue
+      SongResultViewModelMock.staticMock.stubbingContext.sourceLocation = newValue
+    }
+  }
+
+  public enum InitializerProxy {
+    public static func initialize(`title`: String, `destinationView`: DestinationView, __file: StaticString = #file, __line: UInt = #line) -> SongResultViewModelMock<DestinationView> {
+      let mock: SongResultViewModelMock<DestinationView> = SongResultViewModelMock<DestinationView>(title: `title`, destinationView: `destinationView`)
+      mock.sourceLocation = SourceLocation(__file, __line)
+      return mock
+    }
+  }
+
+  // MARK: Mocked init(`title`: String, `destinationView`: DestinationView)
+
+  public required override init(`title`: String, `destinationView`: DestinationView) {
+    super.init(title: `title`, destinationView: `destinationView`)
+    Mockingbird.checkVersion(for: self)
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`title`: String, `destinationView`: DestinationView) ", arguments: [Mockingbird.ArgumentMatcher(`title`), Mockingbird.ArgumentMatcher(`destinationView`)])
+    mockingContext.didInvoke(invocation)
+  }
+}
+
+/// Create a source-attributed `Hymns.SongResultViewModel<DestinationView><DestinationView>` class mock metatype.
+public func mock<DestinationView>(file: StaticString = #file, line: UInt = #line, _ type: SongResultViewModelMock<DestinationView>.Type) -> SongResultViewModelMock<DestinationView>.InitializerProxy.Type {
+  return SongResultViewModelMock<DestinationView>.InitializerProxy.self
 }
