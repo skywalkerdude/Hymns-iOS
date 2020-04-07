@@ -1,4 +1,5 @@
 import SwiftUI
+import Resolver
 
 struct HomeContainerView: View {
     
@@ -6,7 +7,7 @@ struct HomeContainerView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            HomeView().tabItem {
+            HomeView(viewModel: Resolver.resolve()).tabItem {
                 HomeTab.home.getImage(selectedTab == HomeTab.home)
             }.accessibility(label: HomeTab.home.label).tag(HomeTab.home)
 
