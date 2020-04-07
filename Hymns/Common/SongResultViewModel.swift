@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-class SongResultViewModel<DestinationView>: ObservableObject, Identifiable where DestinationView: View {
+class SongResultViewModel<DestinationView>: Identifiable where DestinationView: View {
 
     let title: String
     let destinationView: DestinationView
