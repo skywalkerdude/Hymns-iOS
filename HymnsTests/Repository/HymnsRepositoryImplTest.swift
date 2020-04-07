@@ -18,11 +18,12 @@ class HymnsRepositoryImplTests: XCTestCase {
     
     func test_getHymn_resultsCached() {
         // Make one request to the API to store it in locally.
-        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> { Just<Hymn>(Self.hymn)
-            .mapError({ (_) -> ErrorType in
-                .network(description: "This will never get called")
-            })
-            .eraseToAnyPublisher()
+        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> {
+            Just<Hymn>(Self.hymn)
+                .mapError({ (_) -> ErrorType in
+                    .network(description: "This will never get called")
+                })
+                .eraseToAnyPublisher()
         }
         var set = Set<AnyCancellable>()
         target.getHymn(hymnIdentifier: Self.cebuano123)

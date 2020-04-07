@@ -10,6 +10,7 @@ class HymnLyricsViewModelTest: XCTestCase {
     static let lyricsWithoutTransliteration: [Verse] = [Verse(verseType: .verse, verseContent: ["line 1", "line 2"], transliteration: nil)]
     static let filledHymn: Hymn = Hymn(title: "Filled Hymn", metaData: [MetaDatum](), lyrics: lyricsWithoutTransliteration)
 
+    // https://www.vadimbulavin.com/unit-testing-async-code-in-swift/
     var testQueue: DispatchQueue = DispatchQueue(label: "text_queue")
     var hymnsRepository: HymnsRepositoryMock!
     var target: HymnLyricsViewModel!
