@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		2CC42F8D89EBB53E375BEAFC /* Pods_Hymns.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2922BBF04AE546DD8D572B7F /* Pods_Hymns.framework */; };
 		374F61734FCA4CAC4DB35F71 /* Pods_HymnsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E224832811EC335FDE23F9FE /* Pods_HymnsTests.framework */; };
+		3B09F901243D3BDC00252C15 /* HymnalApiServiceImplTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B09F900243D3BDC00252C15 /* HymnalApiServiceImplTest.swift */; };
+		3B09F904243D4D9300252C15 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B09F903243D4D9300252C15 /* URLProtocolMock.swift */; };
+		3B09F909243D806500252C15 /* TestHymns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B09F908243D806500252C15 /* TestHymns.swift */; };
+		3B09F90B243D807E00252C15 /* children24.json in Resources */ = {isa = PBXBuildFile; fileRef = 3B09F90A243D807E00252C15 /* children24.json */; };
+		3B09F90D243D8F1B00252C15 /* TestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B09F90C243D8F1B00252C15 /* TestConstants.swift */; };
 		3B0B39AF243931B3003C5161 /* ErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0B39AE243931B3003C5161 /* ErrorType.swift */; };
 		3B1B90132429CF55009FDCC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B90122429CF55009FDCC5 /* AppDelegate.swift */; };
 		3B1B90152429CF55009FDCC5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B90142429CF55009FDCC5 /* SceneDelegate.swift */; };
@@ -76,6 +81,11 @@
 		064A786F861AD7BB96BA087A /* Pods-HymnsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HymnsTests.debug.xcconfig"; path = "Target Support Files/Pods-HymnsTests/Pods-HymnsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		0FECFFCB60EDC30390AB3325 /* Pods-HymnsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HymnsTests.release.xcconfig"; path = "Target Support Files/Pods-HymnsTests/Pods-HymnsTests.release.xcconfig"; sourceTree = "<group>"; };
 		2922BBF04AE546DD8D572B7F /* Pods_Hymns.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hymns.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B09F900243D3BDC00252C15 /* HymnalApiServiceImplTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnalApiServiceImplTest.swift; sourceTree = "<group>"; };
+		3B09F903243D4D9300252C15 /* URLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
+		3B09F908243D806500252C15 /* TestHymns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHymns.swift; sourceTree = "<group>"; };
+		3B09F90A243D807E00252C15 /* children24.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = children24.json; sourceTree = "<group>"; };
+		3B09F90C243D8F1B00252C15 /* TestConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestConstants.swift; sourceTree = "<group>"; };
 		3B0B39AE243931B3003C5161 /* ErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorType.swift; sourceTree = "<group>"; };
 		3B1B900F2429CF55009FDCC5 /* Hymns.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hymns.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B1B90122429CF55009FDCC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -171,6 +181,41 @@
 			name = "Generated Mocks";
 			sourceTree = "<group>";
 		};
+		3B09F895243C527F00252C15 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				3B09F896243C528F00252C15 /* Data */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		3B09F896243C528F00252C15 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				3B09F900243D3BDC00252C15 /* HymnalApiServiceImplTest.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		3B09F902243D4D8000252C15 /* Test Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				3B09F903243D4D9300252C15 /* URLProtocolMock.swift */,
+				3B09F908243D806500252C15 /* TestHymns.swift */,
+				3B09F905243D803000252C15 /* Test Data */,
+				3B09F90C243D8F1B00252C15 /* TestConstants.swift */,
+			);
+			path = "Test Utilities";
+			sourceTree = "<group>";
+		};
+		3B09F905243D803000252C15 /* Test Data */ = {
+			isa = PBXGroup;
+			children = (
+				3B09F90A243D807E00252C15 /* children24.json */,
+			);
+			path = "Test Data";
+			sourceTree = "<group>";
+		};
 		3B1B90062429CF55009FDCC5 = {
 			isa = PBXGroup;
 			children = (
@@ -235,8 +280,10 @@
 		3B1B902B2429CF57009FDCC5 /* HymnsTests */ = {
 			isa = PBXGroup;
 			children = (
+				3B09F902243D4D8000252C15 /* Test Utilities */,
 				3B7555C62437C22300DA17F6 /* Display */,
 				3B5FD7222436B1F300B65132 /* Repository */,
+				3B09F895243C527F00252C15 /* Infrastructure */,
 				3B1B902E2429CF57009FDCC5 /* Info.plist */,
 			);
 			path = HymnsTests;
@@ -507,6 +554,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B09F90B243D807E00252C15 /* children24.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -732,9 +780,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B09F904243D4D9300252C15 /* URLProtocolMock.swift in Sources */,
+				3B09F90D243D8F1B00252C15 /* TestConstants.swift in Sources */,
 				3B5FD7242436B20A00B65132 /* HymnsRepositoryImplTest.swift in Sources */,
 				3B7555C82437C24F00DA17F6 /* HymnLyricsViewModelTest.swift in Sources */,
 				EF9D228545974074AF495E83 /* HymnsMocks.generated.swift in Sources */,
+				3B09F901243D3BDC00252C15 /* HymnalApiServiceImplTest.swift in Sources */,
+				3B09F909243D806500252C15 /* TestHymns.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

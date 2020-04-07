@@ -24,9 +24,13 @@ class HymnalApiServiceImpl: HymnalApiService {
 
     func getHymn(hymnType: HymnType, hymnNumber: String, queryParams: [String: String]?) -> AnyPublisher<Hymn, ErrorType> {
         guard let url = HymnalApi.getHymnUrl(hymnType: hymnType, hymnNumber: hymnNumber, queryParams: queryParams) else {
-            let error = ErrorType.network(description: "Couldn't create URL")
+            let hymnIdentifier = queryParams != nil
+                ? HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber, queryParams: queryParams!)
+                : HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber)
+            let error = ErrorType.network(description: "Couldn't create sarch URL for \(hymnIdentifier)")
             return Fail(error: error).eraseToAnyPublisher()
         }
+
         return session.dataTaskPublisher(for: URLRequest(url: url))
             .mapError { error in
                 .network(description: error.localizedDescription)
@@ -62,7 +66,7 @@ private extension HymnalApi {
 }
 
 extension Resolver {
-    public static func registerHymnalApiService() {
+    static func registerHymnalApiService() {
         register {HymnalApiServiceImpl(decoder: resolve(), session: resolve()) as HymnalApiService}.scope(application)
         register(JSONDecoder.self, factory: {
             let decoder = JSONDecoder()
