@@ -4,7 +4,6 @@ import Foundation
 // https://medium.com/better-programming/swift-unit-test-a-datataskpublisher-with-urlprotocol-2fbda186758e
 // https://www.hackingwithswift.com/articles/153/how-to-test-ios-networking-code-the-easy-way
 // https://nshipster.com/nsurlprotocol/
-
 @objc class URLProtocolMock: URLProtocol {
     // This dictionary maps URLs to test data
     static var testURLs = [URL?: Data]()
@@ -45,6 +44,7 @@ import Foundation
         if let error = URLProtocolMock.error {
             self.client?.urlProtocol(self, didFailWithError: error)
         }
+        
         // mark that we've finished
         self.client?.urlProtocolDidFinishLoading(self)
     }

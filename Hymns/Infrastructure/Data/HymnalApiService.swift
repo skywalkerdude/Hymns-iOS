@@ -16,7 +16,7 @@ class HymnalApiServiceImpl: HymnalApiService {
 
     private let decoder: JSONDecoder
     private let session: URLSession
-    
+
     init(decoder: JSONDecoder, session: URLSession) {
         self.decoder = decoder
         self.session = session

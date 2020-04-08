@@ -4,18 +4,18 @@ import XCTest
 @testable import Hymns
 
 class HymnsRepositoryImplTests: XCTestCase {
-    
+
     static let cebuano123: HymnIdentifier = HymnIdentifier(hymnType: .cebuano, hymnNumber: "123")
     static let hymn: Hymn = Hymn(title: "song title", metaData: [MetaDatum](), lyrics: [Verse]())
-    
+
     var hymnalApiService: HymnalApiServiceMock!
     var target: HymnsRepository!
-    
+
     override func setUp() {
         hymnalApiService = mock(HymnalApiService.self)
         target = HymnsRepositoryImpl(hymnalApiService: hymnalApiService)
     }
-    
+
     func test_getHymn_resultsCached() {
         // Make one request to the API to store it in locally.
         given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> {
