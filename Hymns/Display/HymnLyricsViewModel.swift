@@ -7,7 +7,7 @@ class HymnLyricsViewModel: ObservableObject {
     @Published var lyrics: [Verse]? = [Verse]()
 
     private var disposables = Set<AnyCancellable>()
-      
+
     init(identifier: HymnIdentifier, hymnsRepository: HymnsRepository, callbackQueue: DispatchQueue) {
         hymnsRepository
             .getHymn(hymnIdentifier: identifier)

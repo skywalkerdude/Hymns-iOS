@@ -47,7 +47,7 @@ struct HymnLyricsView_Previews: PreviewProvider {
         let classic1334 = HymnLyricsViewModel(identifier: PreviewHymnIdentifiers.hymn1334, hymnsRepository: Resolver.resolve(), callbackQueue: Resolver.resolve(name: "main"))
         classic1334.lyrics = classic1334_preview.lyrics
         let classic1334View = HymnLyricsView(viewModel: classic1334)
-  
+
         return Group {
             classic1151View
             classic1334View
