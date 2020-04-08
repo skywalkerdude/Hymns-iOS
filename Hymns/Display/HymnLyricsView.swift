@@ -2,22 +2,22 @@ import SwiftUI
 import Resolver
 
 public struct HymnLyricsView: View {
-    
+
     @ObservedObject private var viewModel: HymnLyricsViewModel
-    
+
     init(viewModel: HymnLyricsViewModel) {
         self.viewModel = viewModel
     }
-    
+
     public var body: some View {
         guard let lyrics = viewModel.lyrics else {
             return AnyView(Text("error!"))
         }
-        
+
         guard !lyrics.isEmpty else {
             return AnyView(Text("loading..."))
         }
-        
+
         return AnyView(
             ScrollView {
                 VStack(alignment: .leading) {
@@ -39,11 +39,11 @@ public struct HymnLyricsView: View {
 
 struct HymnLyricsView_Previews: PreviewProvider {
     static var previews: some View {
-        
+
         let classic1151 = HymnLyricsViewModel(identifier: PreviewHymnIdentifiers.hymn1151, hymnsRepository: Resolver.resolve(), callbackQueue: Resolver.resolve(name: "main"))
         classic1151.lyrics = classic1151_preview.lyrics
         let classic1151View = HymnLyricsView(viewModel: classic1151)
-        
+
         let classic1334 = HymnLyricsViewModel(identifier: PreviewHymnIdentifiers.hymn1334, hymnsRepository: Resolver.resolve(), callbackQueue: Resolver.resolve(name: "main"))
         classic1334.lyrics = classic1334_preview.lyrics
         let classic1334View = HymnLyricsView(viewModel: classic1334)

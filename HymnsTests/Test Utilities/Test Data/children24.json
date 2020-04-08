@@ -1,0 +1,165 @@
+{
+    "lyrics": [
+        {
+            "verse_content": [
+                "He didn’t stay home;",
+                "He went and visited people.",
+                "He didn’t stay home;",
+                "Jesus taught disciples.",
+                "Fed the following crowd outdoors;",
+                "Made them glad forevermore;",
+                "Serving’s what His life was for;",
+                "He didn’t stay home. SO!!!!!"
+            ],
+            "verse_type": "verse"
+        },
+        {
+            "verse_content": [
+                "Don’t stay home! (go, go!)",
+                "Go and visit people!",
+                "Don’t stay home! (go, go!)",
+                "Go and teach disciples. (GO!)",
+                "Fix some food, go out the door;",
+                "Make them glad forevermore;",
+                "Serving is what life is for,",
+                "So DON’T STAY HOME!!"
+            ],
+            "verse_type": "verse"
+        },
+        {
+            "verse_content": [
+                "\n",
+                "© 2012 Bible StorySongs, Inc. Used by permission.",
+                "Visit BibleStorySongs.com to order CD’s & Sheet Music.",
+                "\n"
+            ],
+            "verse_type": "other"
+        }
+    ],
+    "meta_data": [
+        {
+            "data": [
+                {
+                    "path": "/en/search/all/category/Preaching+of+the+Gospel",
+                    "value": "Preaching of the Gospel"
+                }
+            ],
+            "name": "Category"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/search/all/category/Preaching+of+the+Gospel%E2%80%94Go+Ye%21",
+                    "value": "Go Ye!"
+                }
+            ],
+            "name": "Subcategory"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/search/all/author/P.+K.?t=c&n=24",
+                    "value": "P. K."
+                },
+                {
+                    "path": "/en/search/all/author/C.+R.+W.?t=c&n=24",
+                    "value": "C. R. W."
+                }
+            ],
+            "name": "Lyrics"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/search/all/composer/Traditional?t=c&n=24",
+                    "value": "Traditional (1908)"
+                }
+            ],
+            "name": "Music"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/search/all/key/E+Major",
+                    "value": "E Major"
+                }
+            ],
+            "name": "Key"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/search/all/time/4%2F4",
+                    "value": "4/4"
+                }
+            ],
+            "name": "Time"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/search/all/hymncode/5332153322172",
+                    "value": "5332153322172"
+                }
+            ],
+            "name": "Hymn Code"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/hymn/ns/629",
+                    "value": "If we neglect the gospel\nGo"
+                }
+            ],
+            "name": "See Also"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/hymn/c/24/f=ppdf",
+                    "value": "Piano"
+                },
+                {
+                    "path": "/en/hymn/c/24/f=pdf",
+                    "value": "Guitar"
+                },
+                {
+                    "path": "/en/hymn/c/24/f=gtpdf",
+                    "value": "Text"
+                }
+            ],
+            "name": "Lead Sheet"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/hymn/c/24/f=mp3",
+                    "value": "mp3"
+                },
+                {
+                    "path": "/en/hymn/c/24/f=mid",
+                    "value": "MIDI"
+                },
+                {
+                    "path": "/en/hymn/c/24/f=tune",
+                    "value": "Tune (MIDI)"
+                }
+            ],
+            "name": "Music"
+        },
+        {
+            "data": [
+                {
+                    "path": "https://www.hymnal.net/Hymns/Children/svg/child0024_p.svg",
+                    "value": "Piano"
+                },
+                {
+                    "path": "https://www.hymnal.net/Hymns/Children/svg/child0024_g.svg",
+                    "value": "Guitar"
+                }
+            ],
+            "name": "svg"
+        }
+    ],
+    "title": "Hymn: He Didn’t Stay Home"
+}
