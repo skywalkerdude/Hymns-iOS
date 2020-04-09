@@ -8,7 +8,7 @@ class HymnLyricsViewModel: ObservableObject {
 
     private var disposables = Set<AnyCancellable>()
 
-    init(identifier: HymnIdentifier, hymnsRepository: HymnsRepository, callbackQueue: DispatchQueue) {
+    init(hymnToDisplay identifier: HymnIdentifier, hymnsRepository: HymnsRepository, mainQueue: DispatchQueue) {
         hymnsRepository
             .getHymn(hymnIdentifier: identifier)
             .map({ (hymn) -> [Verse]? in
@@ -17,11 +17,11 @@ class HymnLyricsViewModel: ObservableObject {
                 }
                 return hymn.lyrics
             })
-            .receive(on: callbackQueue)
+            .receive(on: mainQueue)
             .sink(
-                receiveCompletion: { [weak self] value in
+                receiveCompletion: { [weak self] state in
                     guard let self = self else { return }
-                    switch value {
+                    switch state {
                     case .failure:
                         self.lyrics = nil
                     case .finished:
