@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "0D0342D3-F5B1-4ED2-8653-1B1FD7C66B79",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Hymns.xcodeproj",
+        "identifier" : "3B1B90272429CF57009FDCC5",
+        "name" : "HymnsTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Hymns.xcodeproj",
+        "identifier" : "3B1B90322429CF57009FDCC5",
+        "name" : "HymnsUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
