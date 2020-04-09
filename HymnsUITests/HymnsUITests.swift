@@ -9,29 +9,44 @@
 import XCTest
 
 class HymnsUITests: XCTestCase {
-
+    var app: XCUIApplication!
+    
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
 
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-
+                
+        app = XCUIApplication()
+        
         // In UI tests it’s important to set the initial state - such as interface orientation
         //- required for your tests before they run.
         //The setUp method is a good place to do this.
+        
+        // We send a command line argument to our app,
+        // to enable it to reset its state. Useful to remove flakiness
+        app.launchArguments.append("--uitesting")
     }
 
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-    func testExample() {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
+    
+    func test_navigateBetweenTabs() {
         app.launch()
+        let tabBarsQuery = app.tabBars
+        let tab1 = tabBarsQuery.children(matching: .button).element(boundBy: 0) //Home
+        let tab2 = tabBarsQuery.children(matching: .button).element(boundBy: 1) //Browse
+        let tab3 = tabBarsQuery.children(matching: .button).element(boundBy: 2) //Favorites
+        let tab4 = tabBarsQuery.children(matching: .button).element(boundBy: 3) //Settings
 
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        //TODO: Assertions after each tap
+        tab1.tap()
+        tab4.tap() //Settings
+        tab3.tap()
+        tab2.tap()
+        tab1.tap()
+        tab2.tap()
     }
 
     func testLaunchPerformance() {
