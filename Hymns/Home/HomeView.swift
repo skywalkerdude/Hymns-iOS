@@ -15,8 +15,7 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             VStack {
-                NavigateToSearch(searchText: searchText) //passes necessary param to extracted subview
-
+                searchBar
                 List {
                     ForEach(self.viewModel.recentSongs) { recentSong in
                         NavigationLink(destination: recentSong.destinationView) {
@@ -39,20 +38,10 @@ struct HomeView_Previews: PreviewProvider {
     }
 }
 
-struct NavigateToSearch: View {
-    @State var isActive: Bool = false
-    @State var searchText: String
-
-    var body: some View {
-        NavigationLink(
-            destination: SearchBarSearchView(isActive: $isActive),
-            isActive: $isActive,
-            label: {
-                Button(action: {
-                    self.isActive.toggle()
-                }, label: {
-                    SearchBar(text: $searchText).disabled(true)
-                })
-        })
+private extension HomeView {
+    var searchBar: some View {
+        NavigationLink(destination: viewModel.createSearchView()) {
+            SearchBar(text: $searchText).disabled(true)
+        }
     }
 }

@@ -103,8 +103,8 @@ public final class HymnLyricsViewModelMock: Hymns.HymnLyricsViewModel, Mockingbi
   }
 
   public enum InitializerProxy {
-    public static func initialize(`identifier`: HymnIdentifier, `hymnsRepository`: Hymns.HymnsRepository, `callbackQueue`: DispatchQueue, __file: StaticString = #file, __line: UInt = #line) -> HymnLyricsViewModelMock {
-      let mock: HymnLyricsViewModelMock = HymnLyricsViewModelMock(identifier: `identifier`, hymnsRepository: `hymnsRepository`, callbackQueue: `callbackQueue`)
+    public static func initialize(`hymnToDisplay` `identifier`: HymnIdentifier, `hymnsRepository`: Hymns.HymnsRepository, `mainQueue`: DispatchQueue, __file: StaticString = #file, __line: UInt = #line) -> HymnLyricsViewModelMock {
+      let mock: HymnLyricsViewModelMock = HymnLyricsViewModelMock(hymnToDisplay: `identifier`, hymnsRepository: `hymnsRepository`, mainQueue: `mainQueue`)
       mock.sourceLocation = SourceLocation(__file, __line)
       return mock
     }
@@ -141,12 +141,12 @@ public final class HymnLyricsViewModelMock: Hymns.HymnLyricsViewModel, Mockingbi
     return Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([Verse]?) -> Void, Void>(mock: self, invocation: invocation)
   }
 
-  // MARK: Mocked init(`identifier`: HymnIdentifier, `hymnsRepository`: Hymns.HymnsRepository, `callbackQueue`: DispatchQueue)
+  // MARK: Mocked init(`hymnToDisplay` `identifier`: HymnIdentifier, `hymnsRepository`: Hymns.HymnsRepository, `mainQueue`: DispatchQueue)
 
-  public required override init(`identifier`: HymnIdentifier, `hymnsRepository`: Hymns.HymnsRepository, `callbackQueue`: DispatchQueue) {
-    super.init(identifier: `identifier`, hymnsRepository: `hymnsRepository`, callbackQueue: `callbackQueue`)
+  public required override init(`hymnToDisplay` `identifier`: HymnIdentifier, `hymnsRepository`: Hymns.HymnsRepository, `mainQueue`: DispatchQueue) {
+    super.init(hymnToDisplay: `identifier`, hymnsRepository: `hymnsRepository`, mainQueue: `mainQueue`)
     Mockingbird.checkVersion(for: self)
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`identifier`: HymnIdentifier, `hymnsRepository`: Hymns.HymnsRepository, `callbackQueue`: DispatchQueue) ", arguments: [Mockingbird.ArgumentMatcher(`identifier`), Mockingbird.ArgumentMatcher(`hymnsRepository`), Mockingbird.ArgumentMatcher(`callbackQueue`)])
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`hymnToDisplay` `identifier`: HymnIdentifier, `hymnsRepository`: Hymns.HymnsRepository, `mainQueue`: DispatchQueue) ", arguments: [Mockingbird.ArgumentMatcher(`identifier`), Mockingbird.ArgumentMatcher(`hymnsRepository`), Mockingbird.ArgumentMatcher(`mainQueue`)])
     mockingContext.didInvoke(invocation)
   }
 }
@@ -206,6 +206,25 @@ public final class HymnalApiServiceImplMock: Hymns.HymnalApiServiceImpl, Mocking
     let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`decoder`: JSONDecoder, `session`: URLSession) ", arguments: [Mockingbird.ArgumentMatcher(`decoder`), Mockingbird.ArgumentMatcher(`session`)])
     mockingContext.didInvoke(invocation)
   }
+
+  // MARK: Mocked `search`(`for` `searchInput`: String, `onPage` `pageNumber`: Int?)
+
+  public override func `search`(`for` `searchInput`: String, `onPage` `pageNumber`: Int?) -> AnyPublisher<SongResultsPage, Hymns.ErrorType> {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`search`(`for` `searchInput`: String, `onPage` `pageNumber`: Int?) -> AnyPublisher<SongResultsPage, Hymns.ErrorType>", arguments: [Mockingbird.ArgumentMatcher(`searchInput`), Mockingbird.ArgumentMatcher(`pageNumber`)])
+    mockingContext.didInvoke(invocation)
+    let implementation = stubbingContext.implementation(for: invocation, optional: false)
+    if let concreteImplementation = implementation as? (String, Int?) -> AnyPublisher<SongResultsPage, Hymns.ErrorType> {
+      return concreteImplementation(`searchInput`, `pageNumber`)
+    } else {
+      return (implementation as! () -> AnyPublisher<SongResultsPage, Hymns.ErrorType>)()
+    }
+  }
+
+  public func `search`(`for` `searchInput`: @escaping @autoclosure () -> String, `onPage` `pageNumber`: @escaping @autoclosure () -> Int?) -> Mockingbird.Mockable<Mockingbird.MethodDeclaration, (String, Int?) -> AnyPublisher<SongResultsPage, Hymns.ErrorType>, AnyPublisher<SongResultsPage, Hymns.ErrorType>> {
+    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(`searchInput`), Mockingbird.resolve(`pageNumber`)]
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`search`(`for` `searchInput`: String, `onPage` `pageNumber`: Int?) -> AnyPublisher<SongResultsPage, Hymns.ErrorType>", arguments: arguments)
+    return Mockingbird.Mockable<Mockingbird.MethodDeclaration, (String, Int?) -> AnyPublisher<SongResultsPage, Hymns.ErrorType>, AnyPublisher<SongResultsPage, Hymns.ErrorType>>(mock: self, invocation: invocation)
+  }
 }
 
 /// Create a source-attributed `Hymns.HymnalApiServiceImpl` class mock metatype.
@@ -250,6 +269,25 @@ public final class HymnalApiServiceMock: Hymns.HymnalApiService, Mockingbird.Moc
     let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(`hymnType`), Mockingbird.resolve(`hymnNumber`), Mockingbird.resolve(`queryParams`)]
     let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`getHymn`(`hymnType`: HymnType, `hymnNumber`: String, `queryParams`: [String: String]?) -> AnyPublisher<Hymn, Hymns.ErrorType>", arguments: arguments)
     return Mockingbird.Mockable<Mockingbird.MethodDeclaration, (HymnType, String, [String: String]?) -> AnyPublisher<Hymn, Hymns.ErrorType>, AnyPublisher<Hymn, Hymns.ErrorType>>(mock: self, invocation: invocation)
+  }
+
+  // MARK: Mocked `search`(`for` `searchInput`: String, `onPage` `pageNumber`: Int?)
+
+  public func `search`(`for` `searchInput`: String, `onPage` `pageNumber`: Int?) -> AnyPublisher<SongResultsPage, Hymns.ErrorType> {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`search`(`for` `searchInput`: String, `onPage` `pageNumber`: Int?) -> AnyPublisher<SongResultsPage, Hymns.ErrorType>", arguments: [Mockingbird.ArgumentMatcher(`searchInput`), Mockingbird.ArgumentMatcher(`pageNumber`)])
+    mockingContext.didInvoke(invocation)
+    let implementation = stubbingContext.implementation(for: invocation, optional: false)
+    if let concreteImplementation = implementation as? (String, Int?) -> AnyPublisher<SongResultsPage, Hymns.ErrorType> {
+      return concreteImplementation(`searchInput`, `pageNumber`)
+    } else {
+      return (implementation as! () -> AnyPublisher<SongResultsPage, Hymns.ErrorType>)()
+    }
+  }
+
+  public func `search`(`for` `searchInput`: @escaping @autoclosure () -> String, `onPage` `pageNumber`: @escaping @autoclosure () -> Int?) -> Mockingbird.Mockable<Mockingbird.MethodDeclaration, (String, Int?) -> AnyPublisher<SongResultsPage, Hymns.ErrorType>, AnyPublisher<SongResultsPage, Hymns.ErrorType>> {
+    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(`searchInput`), Mockingbird.resolve(`pageNumber`)]
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`search`(`for` `searchInput`: String, `onPage` `pageNumber`: Int?) -> AnyPublisher<SongResultsPage, Hymns.ErrorType>", arguments: arguments)
+    return Mockingbird.Mockable<Mockingbird.MethodDeclaration, (String, Int?) -> AnyPublisher<SongResultsPage, Hymns.ErrorType>, AnyPublisher<SongResultsPage, Hymns.ErrorType>>(mock: self, invocation: invocation)
   }
 }
 
@@ -360,6 +398,106 @@ public func mock(file: StaticString = #file, line: UInt = #line, _ type: Hymns.H
   return HymnsRepositoryMock(sourceLocation: SourceLocation(file, line))
 }
 
+// MARK: - Mocked SearchViewModel
+
+public final class SearchViewModelMock: Hymns.SearchViewModel, Mockingbird.Mock {
+  static let staticMock = Mockingbird.StaticMock()
+  public let mockingContext = Mockingbird.MockingContext()
+  public let stubbingContext = Mockingbird.StubbingContext()
+  public let mockMetadata = Mockingbird.MockMetadata(["generator_version": "0.10.0", "module_name": "Hymns"])
+  public var sourceLocation: Mockingbird.SourceLocation? {
+    get { return stubbingContext.sourceLocation }
+    set {
+      stubbingContext.sourceLocation = newValue
+      SearchViewModelMock.staticMock.stubbingContext.sourceLocation = newValue
+    }
+  }
+
+  public enum InitializerProxy {
+    public static func initialize(`backgroundQueue`: DispatchQueue, `mainQueue`: DispatchQueue, `repository`: Hymns.SongResultsRepository, __file: StaticString = #file, __line: UInt = #line) -> SearchViewModelMock {
+      let mock: SearchViewModelMock = SearchViewModelMock(backgroundQueue: `backgroundQueue`, mainQueue: `mainQueue`, repository: `repository`)
+      mock.sourceLocation = SourceLocation(__file, __line)
+      return mock
+    }
+  }
+
+  // MARK: Mocked searchInput
+
+  override public var `searchInput`: String {
+    get {
+      let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "searchInput.get", arguments: [])
+      mockingContext.didInvoke(invocation)
+      return (stubbingContext.implementation(for: invocation) as! () -> String)()
+    }
+    set {
+      let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "searchInput.set", arguments: [ArgumentMatcher(newValue)])
+      mockingContext.didInvoke(invocation)
+      let implementation = stubbingContext.implementation(for: invocation, optional: true)
+      if let concreteImplementation = implementation as? (String) -> Void {
+        concreteImplementation(newValue)
+      } else {
+        (implementation as? () -> Void)?()
+      }
+    }
+  }
+
+  public func getSearchInput() -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> String, String> {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "searchInput.get", arguments: [])
+    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> String, String>(mock: self, invocation: invocation)
+  }
+
+  public func setSearchInput(_ newValue: @escaping @autoclosure () -> String) -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, (String) -> Void, Void> {
+    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(newValue)]
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "searchInput.set", arguments: arguments)
+    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, (String) -> Void, Void>(mock: self, invocation: invocation)
+  }
+
+  // MARK: Mocked songResults
+
+  override public var `songResults`: [Hymns.SongResultViewModel<Hymns.HymnLyricsView>] {
+    get {
+      let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "songResults.get", arguments: [])
+      mockingContext.didInvoke(invocation)
+      return (stubbingContext.implementation(for: invocation) as! () -> [Hymns.SongResultViewModel<Hymns.HymnLyricsView>])()
+    }
+    set {
+      let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "songResults.set", arguments: [ArgumentMatcher(newValue)])
+      mockingContext.didInvoke(invocation)
+      let implementation = stubbingContext.implementation(for: invocation, optional: true)
+      if let concreteImplementation = implementation as? ([Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) -> Void {
+        concreteImplementation(newValue)
+      } else {
+        (implementation as? () -> Void)?()
+      }
+    }
+  }
+
+  public func getSongResults() -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> [Hymns.SongResultViewModel<Hymns.HymnLyricsView>], [Hymns.SongResultViewModel<Hymns.HymnLyricsView>]> {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "songResults.get", arguments: [])
+    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> [Hymns.SongResultViewModel<Hymns.HymnLyricsView>], [Hymns.SongResultViewModel<Hymns.HymnLyricsView>]>(mock: self, invocation: invocation)
+  }
+
+  public func setSongResults(_ newValue: @escaping @autoclosure () -> [Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) -> Void, Void> {
+    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(newValue)]
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "songResults.set", arguments: arguments)
+    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) -> Void, Void>(mock: self, invocation: invocation)
+  }
+
+  // MARK: Mocked init(`backgroundQueue`: DispatchQueue, `mainQueue`: DispatchQueue, `repository`: Hymns.SongResultsRepository)
+
+  public required override init(`backgroundQueue`: DispatchQueue, `mainQueue`: DispatchQueue, `repository`: Hymns.SongResultsRepository) {
+    super.init(backgroundQueue: `backgroundQueue`, mainQueue: `mainQueue`, repository: `repository`)
+    Mockingbird.checkVersion(for: self)
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`backgroundQueue`: DispatchQueue, `mainQueue`: DispatchQueue, `repository`: Hymns.SongResultsRepository) ", arguments: [Mockingbird.ArgumentMatcher(`backgroundQueue`), Mockingbird.ArgumentMatcher(`mainQueue`), Mockingbird.ArgumentMatcher(`repository`)])
+    mockingContext.didInvoke(invocation)
+  }
+}
+
+/// Create a source-attributed `Hymns.SearchViewModel` class mock metatype.
+public func mock(file: StaticString = #file, line: UInt = #line, _ type: Hymns.SearchViewModel.Type) -> SearchViewModelMock.InitializerProxy.Type {
+  return SearchViewModelMock.InitializerProxy.self
+}
+
 // MARK: - Mocked SongResultViewModel
 
 public final class SongResultViewModelMock<DestinationView>: Hymns.SongResultViewModel<DestinationView>, Mockingbird.Mock where DestinationView: View {
@@ -403,4 +541,106 @@ public final class SongResultViewModelMock<DestinationView>: Hymns.SongResultVie
 /// Create a source-attributed `Hymns.SongResultViewModel<DestinationView><DestinationView>` class mock metatype.
 public func mock<DestinationView>(file: StaticString = #file, line: UInt = #line, _ type: SongResultViewModelMock<DestinationView>.Type) -> SongResultViewModelMock<DestinationView>.InitializerProxy.Type {
   return SongResultViewModelMock<DestinationView>.InitializerProxy.self
+}
+
+// MARK: - Mocked SongResultsRepositoryImpl
+
+public final class SongResultsRepositoryImplMock: Hymns.SongResultsRepositoryImpl, Mockingbird.Mock {
+  static let staticMock = Mockingbird.StaticMock()
+  public let mockingContext = Mockingbird.MockingContext()
+  public let stubbingContext = Mockingbird.StubbingContext()
+  public let mockMetadata = Mockingbird.MockMetadata(["generator_version": "0.10.0", "module_name": "Hymns"])
+  public var sourceLocation: Mockingbird.SourceLocation? {
+    get { return stubbingContext.sourceLocation }
+    set {
+      stubbingContext.sourceLocation = newValue
+      SongResultsRepositoryImplMock.staticMock.stubbingContext.sourceLocation = newValue
+    }
+  }
+
+  public enum InitializerProxy {
+    public static func initialize(`hymnalApiService`: Hymns.HymnalApiService, __file: StaticString = #file, __line: UInt = #line) -> SongResultsRepositoryImplMock {
+      let mock: SongResultsRepositoryImplMock = SongResultsRepositoryImplMock(hymnalApiService: `hymnalApiService`)
+      mock.sourceLocation = SourceLocation(__file, __line)
+      return mock
+    }
+  }
+
+  // MARK: Mocked init(`hymnalApiService`: Hymns.HymnalApiService)
+
+  public required override init(`hymnalApiService`: Hymns.HymnalApiService) {
+    super.init(hymnalApiService: `hymnalApiService`)
+    Mockingbird.checkVersion(for: self)
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`hymnalApiService`: Hymns.HymnalApiService) ", arguments: [Mockingbird.ArgumentMatcher(`hymnalApiService`)])
+    mockingContext.didInvoke(invocation)
+  }
+
+  // MARK: Mocked `search`(`searchInput`: String, `pageNumber`: Int?)
+
+  public override func `search`(`searchInput`: String, `pageNumber`: Int?) -> AnyPublisher<SongResultsPage?, Never> {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`search`(`searchInput`: String, `pageNumber`: Int?) -> AnyPublisher<SongResultsPage?, Never>", arguments: [Mockingbird.ArgumentMatcher(`searchInput`), Mockingbird.ArgumentMatcher(`pageNumber`)])
+    mockingContext.didInvoke(invocation)
+    let implementation = stubbingContext.implementation(for: invocation, optional: false)
+    if let concreteImplementation = implementation as? (String, Int?) -> AnyPublisher<SongResultsPage?, Never> {
+      return concreteImplementation(`searchInput`, `pageNumber`)
+    } else {
+      return (implementation as! () -> AnyPublisher<SongResultsPage?, Never>)()
+    }
+  }
+
+  public func `search`(`searchInput`: @escaping @autoclosure () -> String, `pageNumber`: @escaping @autoclosure () -> Int?) -> Mockingbird.Mockable<Mockingbird.MethodDeclaration, (String, Int?) -> AnyPublisher<SongResultsPage?, Never>, AnyPublisher<SongResultsPage?, Never>> {
+    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(`searchInput`), Mockingbird.resolve(`pageNumber`)]
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`search`(`searchInput`: String, `pageNumber`: Int?) -> AnyPublisher<SongResultsPage?, Never>", arguments: arguments)
+    return Mockingbird.Mockable<Mockingbird.MethodDeclaration, (String, Int?) -> AnyPublisher<SongResultsPage?, Never>, AnyPublisher<SongResultsPage?, Never>>(mock: self, invocation: invocation)
+  }
+}
+
+/// Create a source-attributed `Hymns.SongResultsRepositoryImpl` class mock metatype.
+public func mock(file: StaticString = #file, line: UInt = #line, _ type: Hymns.SongResultsRepositoryImpl.Type) -> SongResultsRepositoryImplMock.InitializerProxy.Type {
+  return SongResultsRepositoryImplMock.InitializerProxy.self
+}
+
+// MARK: - Mocked SongResultsRepository
+
+public final class SongResultsRepositoryMock: Hymns.SongResultsRepository, Mockingbird.Mock {
+  static let staticMock = Mockingbird.StaticMock()
+  public let mockingContext = Mockingbird.MockingContext()
+  public let stubbingContext = Mockingbird.StubbingContext()
+  public let mockMetadata = Mockingbird.MockMetadata(["generator_version": "0.10.0", "module_name": "Hymns"])
+  public var sourceLocation: Mockingbird.SourceLocation? {
+    get { return stubbingContext.sourceLocation }
+    set {
+      stubbingContext.sourceLocation = newValue
+      SongResultsRepositoryMock.staticMock.stubbingContext.sourceLocation = newValue
+    }
+  }
+
+  fileprivate init(sourceLocation: Mockingbird.SourceLocation) {
+    Mockingbird.checkVersion(for: self)
+    self.sourceLocation = sourceLocation
+  }
+
+  // MARK: Mocked `search`(`searchInput`: String, `pageNumber`: Int?)
+
+  public func `search`(`searchInput`: String, `pageNumber`: Int?) -> AnyPublisher<SongResultsPage?, Never> {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`search`(`searchInput`: String, `pageNumber`: Int?) -> AnyPublisher<SongResultsPage?, Never>", arguments: [Mockingbird.ArgumentMatcher(`searchInput`), Mockingbird.ArgumentMatcher(`pageNumber`)])
+    mockingContext.didInvoke(invocation)
+    let implementation = stubbingContext.implementation(for: invocation, optional: false)
+    if let concreteImplementation = implementation as? (String, Int?) -> AnyPublisher<SongResultsPage?, Never> {
+      return concreteImplementation(`searchInput`, `pageNumber`)
+    } else {
+      return (implementation as! () -> AnyPublisher<SongResultsPage?, Never>)()
+    }
+  }
+
+  public func `search`(`searchInput`: @escaping @autoclosure () -> String, `pageNumber`: @escaping @autoclosure () -> Int?) -> Mockingbird.Mockable<Mockingbird.MethodDeclaration, (String, Int?) -> AnyPublisher<SongResultsPage?, Never>, AnyPublisher<SongResultsPage?, Never>> {
+    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(`searchInput`), Mockingbird.resolve(`pageNumber`)]
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`search`(`searchInput`: String, `pageNumber`: Int?) -> AnyPublisher<SongResultsPage?, Never>", arguments: arguments)
+    return Mockingbird.Mockable<Mockingbird.MethodDeclaration, (String, Int?) -> AnyPublisher<SongResultsPage?, Never>, AnyPublisher<SongResultsPage?, Never>>(mock: self, invocation: invocation)
+  }
+}
+
+/// Create a source-attributed `Hymns.SongResultsRepository` concrete protocol mock instance.
+public func mock(file: StaticString = #file, line: UInt = #line, _ type: Hymns.SongResultsRepository.Protocol) -> SongResultsRepositoryMock {
+  return SongResultsRepositoryMock(sourceLocation: SourceLocation(file, line))
 }

@@ -3,7 +3,7 @@ import SwiftUI
 struct DetailHymnScreen: View {
     @State var favorited: Bool = false
     var hymn: DummyHymnView
-    
+
     var body: some View {
         VStack {
             GeometryReader { geometry in
@@ -20,7 +20,7 @@ struct DetailHymnScreen: View {
                         Image(systemName: "heart")
                         }
                     }.frame(width: geometry.size.width/1.1)
-                    
+
                     HStack {
                         Spacer()
                         Text("Lyrics")
@@ -32,7 +32,7 @@ struct DetailHymnScreen: View {
                         Text("Piano")
                         Spacer()
                     }.frame(width: geometry.size.width/1)
-                    
+
                 }.aspectRatio(contentMode: .fit).frame(height: 60).background(Color.white.shadow(radius: 2))
                 Spacer()
             }.frame(minHeight: 0, maxHeight: 60)  //end geometry
@@ -44,7 +44,7 @@ struct DetailHymnScreen: View {
 }
 
 struct DetailHymnScreen_Previews: PreviewProvider {
-    
+
     static var previews: some View {
         DetailHymnScreen(hymn: testHymn)
     }

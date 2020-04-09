@@ -2,9 +2,9 @@ import SwiftUI
 import Resolver
 
 struct HomeContainerView: View {
-    
+
     @State var selectedTab: HomeTab = .home
-    
+
     var body: some View {
         TabView(selection: $selectedTab) {
             HomeView(viewModel: Resolver.resolve()).tabItem {
@@ -14,7 +14,7 @@ struct HomeContainerView: View {
             BrowseView().tabItem {
                 HomeTab.browse.getImage(selectedTab == HomeTab.browse)
             }.accessibility(label: HomeTab.browse.label).tag(HomeTab.browse)
-            
+
             FavoritesView().tabItem {
                 HomeTab.favorites.getImage(selectedTab == HomeTab.favorites)
             }.accessibility(label: HomeTab.favorites.label).tag(HomeTab.favorites)
@@ -37,7 +37,6 @@ struct HomeContainerView_Previews: PreviewProvider {
             HomeContainerView(selectedTab: .browse)
             HomeContainerView(selectedTab: .favorites)
             HomeContainerView(selectedTab: .settings)
-            
             //previws localization
             HomeContainerView().environment(\.locale, .init(identifier: "de"))
             HomeContainerView().environment(\.locale, .init(identifier: "es"))

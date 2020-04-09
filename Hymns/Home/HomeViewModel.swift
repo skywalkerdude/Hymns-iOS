@@ -11,6 +11,12 @@ class HomeViewModel: ObservableObject {
     }
 }
 
+extension HomeViewModel {
+    func createSearchView() -> SearchView {
+        SearchView(viewModel: Resolver.resolve())
+    }
+}
+
 extension Resolver {
     public static func registerHomeViewModel() {
         register {HomeViewModel(recentSongs: [SongResultViewModel<HymnLyricsView>]())}.scope(graph)

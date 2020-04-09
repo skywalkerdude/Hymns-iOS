@@ -9,7 +9,7 @@ enum HomeTab {
 }
 
 extension HomeTab {
-    
+
     func getImage(_ isSelected: Bool) -> Image {
         switch self {
         case .home:
@@ -22,7 +22,7 @@ extension HomeTab {
             return Image(systemName: "gear")
         }
     }
-    
+
     var label: Text {
         switch self {
         case .home:

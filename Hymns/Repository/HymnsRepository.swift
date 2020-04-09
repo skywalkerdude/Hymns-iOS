@@ -10,11 +10,11 @@ protocol HymnsRepository {
 }
 
 class HymnsRepositoryImpl: HymnsRepository {
-    
+
     private let hymnalApiService: HymnalApiService
-    
+
     private var hymns: [HymnIdentifier: Hymn] = [HymnIdentifier: Hymn]()
-    
+
     init(hymnalApiService: HymnalApiService) {
         self.hymnalApiService = hymnalApiService
     }

@@ -21,10 +21,15 @@ enum HymnType {
     case spanish
     case korean
     case japanese
+
+    static var allCases: [HymnType] {
+        return [classic, newTune, newSong, children, scripture, howardHigashi,
+                dutch, german, chinese, chineseSupplement, cebuano, tagalog,
+                french, spanish, korean, japanese]
+    }
 }
 
 extension HymnType {
-    
     var abbreviatedValue: String {
         switch self {
         case .classic:
@@ -61,7 +66,7 @@ extension HymnType {
             return "J"
         }
     }
-    
+
     /**
      * The number of songs in the category from Hymnal.net.
      *
@@ -84,5 +89,19 @@ extension HymnType {
         default:
             return 0
         }
+    }
+
+    /**
+     * Maps a HymnType's abbreciated value to the corresponding enum.
+     *
+     * - Parameters:
+     *     - abbreviatedValue: abbreviated value of the enum
+     * - Returns: HymnType corresponding to value
+     */
+    static func fromAbbreviatedValue(abbreviatedValue: String) -> HymnType? {
+        for hymnType in HymnType.allCases where abbreviatedValue == hymnType.abbreviatedValue {
+            return hymnType
+        }
+        return nil
     }
 }
