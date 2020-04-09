@@ -7,4 +7,13 @@
 */
 
 "Look up any hymn" = "Suche alle Lieder";
-"Settings" = "Einstellungen";
+"Search by numbers or words" = "Suche nach Zahlen oder Wörtern";
+"error!" = "Fehler!";
+"loading..." = "Wird geladen...";
+"Search" = "Suche";
+"Favorites" = "Günstlinge";
+"Browse" = "Durchsuche";
+"Settings" = "Einstellung";
+"Lyrics" = "Liedtext";
+"Guitar" = "Gitarre";
+"Piano" = "Klavier";
