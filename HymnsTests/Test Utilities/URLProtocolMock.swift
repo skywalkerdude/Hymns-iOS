@@ -44,7 +44,7 @@ import Foundation
         if let error = URLProtocolMock.error {
             self.client?.urlProtocol(self, didFailWithError: error)
         }
-        
+
         // mark that we've finished
         self.client?.urlProtocolDidFinishLoading(self)
     }
