@@ -87,5 +87,6 @@ class HymnsRepositoryImplTests: XCTestCase {
         verify(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)).wasCalled(exactly(1))
         wait(for: [valueReceived], timeout: testTimeout)
         cancellable.cancel()
+        XCTFail()
     }
 }
