@@ -846,6 +846,7 @@
 				3B5935A22435685400E6993C /* Verse.swift in Sources */,
 				3B45B904243BEC8400D38BEF /* SongResultView.swift in Sources */,
 				3B50B96E243E44DD00EABDE4 /* SearchView.swift in Sources */,
+				B57314812433885D000F8C07 /* SearchBarSearchView.swift in Sources */,
 				5CAF7435242B991100A847E2 /* SearchBar.swift in Sources */,
 				3B5935A8243584F700E6993C /* MetaDatum.swift in Sources */,
 				3B1B90152429CF55009FDCC5 /* SceneDelegate.swift in Sources */,
