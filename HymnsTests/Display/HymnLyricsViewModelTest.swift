@@ -18,11 +18,7 @@ class HymnLyricsViewModelTest: XCTestCase {
     override func setUp() {
         hymnsRepository = mock(HymnsRepository.self)
     }
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> add search functionality
     func test_init_repositoryCallFailed() {
         given(hymnsRepository.getHymn(hymnIdentifier: Self.classic1151)) ~> {Just(nil).assertNoFailure().eraseToAnyPublisher()}
 
