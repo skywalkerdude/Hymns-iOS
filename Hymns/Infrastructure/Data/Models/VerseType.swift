@@ -7,6 +7,6 @@ enum VerseType: String, Codable {
     case verse
     case chorus
     case other
-    
+
     static let all = [verse, chorus, other]
 }

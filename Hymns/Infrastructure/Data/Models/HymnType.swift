@@ -30,7 +30,6 @@ enum HymnType {
 }
 
 extension HymnType {
-    
     var abbreviatedValue: String {
         switch self {
         case .classic:
@@ -67,7 +66,7 @@ extension HymnType {
             return "J"
         }
     }
-    
+
     /**
      * The number of songs in the category from Hymnal.net.
      *

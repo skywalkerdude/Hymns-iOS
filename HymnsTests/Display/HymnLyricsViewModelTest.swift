@@ -14,11 +14,11 @@ class HymnLyricsViewModelTest: XCTestCase {
     var testQueue: DispatchQueue = DispatchQueue(label: "test_queue")
     var hymnsRepository: HymnsRepositoryMock!
     var target: HymnLyricsViewModel!
-    
+
     override func setUp() {
         hymnsRepository = mock(HymnsRepository.self)
     }
-    
+
     func test_init_repositoryCallFailed() {
         given(hymnsRepository.getHymn(hymnIdentifier: Self.classic1151)) ~> {Just(nil).assertNoFailure().eraseToAnyPublisher()}
 
