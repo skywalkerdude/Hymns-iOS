@@ -3,13 +3,7 @@ import Resolver
 import XCTest
 @testable import Hymns
 
-class HymnalApiServiceImplTest: XCTestCase {
-
-    static  let children24 = URL(string: "http://hymnalnetapi.herokuapp.com/v2/hymn/c/24")!
-    static let validResponse = HTTPURLResponse(url: children24,
-                                               statusCode: 200,
-                                               httpVersion: nil,
-                                               headerFields: nil)
+class HymnalApiService_GetHymnTest: XCTestCase {
 
     var protocolMock: URLProtocolMock!
     var target: HymnalApiServiceImpl!
@@ -27,7 +21,7 @@ class HymnalApiServiceImplTest: XCTestCase {
         URLProtocolMock.testURLs = [URL?: Data]()
     }
 
-    func testGetHymn_networkError() {
+    func test_networkError() {
 
         // Stub mock to return a network error.
         URLProtocolMock.error = ErrorType.network(description: "network error!")
@@ -59,11 +53,11 @@ class HymnalApiServiceImplTest: XCTestCase {
         cancellable.cancel()
     }
 
-    func testGetHymn_decodeError() {
+    func test_decodeError() {
 
         // Stub mock to return a valid network response but an invalid json.
-        URLProtocolMock.testURLs = [HymnalApiServiceImplTest.children24: Data("".utf8)]
-        URLProtocolMock.response = Self.validResponse
+        URLProtocolMock.testURLs = [Self.children24: Data("".utf8)]
+        URLProtocolMock.response = createValidResponse(for: Self.children24)
 
         let failureExpectation = expectation(description: "Invalid.failure")
         let finishedExpectation = expectation(description: "Invalid.finished")
@@ -92,11 +86,11 @@ class HymnalApiServiceImplTest: XCTestCase {
         cancellable.cancel()
     }
 
-    func testGetGetHymn_validResponse() {
+    func test_validResponse() {
 
         // Stub mock to return a valid network response but an invalid json.
-        URLProtocolMock.testURLs = [HymnalApiServiceImplTest.children24: Data(children24_json.utf8)]
-        URLProtocolMock.response = Self.validResponse
+        URLProtocolMock.testURLs = [Self.children24: Data(children_24_json.utf8)]
+        URLProtocolMock.response = createValidResponse(for: Self.children24)
 
         let failureExpectation = expectation(description: "Invalid.failure")
         failureExpectation.isInverted = true
@@ -116,17 +110,46 @@ class HymnalApiServiceImplTest: XCTestCase {
                 },
                     receiveValue: { hymn in
                         receiveExpectation.fulfill()
-                        XCTAssertEqual(children24_hymn, hymn)
+                        XCTAssertEqual(children_24_hymn, hymn)
                         return
                 })
         wait(for: [failureExpectation, finishedExpectation, receiveExpectation], timeout: testTimeout)
         cancellable.cancel()
     }
 
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func test_validResponse_withQueryParams() {
+
+        // Stub mock to return a valid network response but an invalid json.
+        URLProtocolMock.testURLs = [Self.children24QueryParams: Data(children_24_json.utf8)]
+        URLProtocolMock.response = createValidResponse(for: Self.children24)
+
+        let failureExpectation = expectation(description: "Invalid.failure")
+        failureExpectation.isInverted = true
+        let finishedExpectation = expectation(description: "Invalid.finished")
+        let receiveExpectation = expectation(description: "Invalid.receiveValue")
+
+        let cancellable
+            = target.getHymn(hymnType: .children, hymnNumber: "24", queryParams: ["key1": "value1"])
+                .sink(
+                    receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
+                        switch completion {
+                        case .failure:
+                            failureExpectation.fulfill()
+                        case .finished:
+                            finishedExpectation.fulfill()
+                        }
+                },
+                    receiveValue: { hymn in
+                        receiveExpectation.fulfill()
+                        XCTAssertEqual(children_24_hymn, hymn)
+                        return
+                })
+        wait(for: [failureExpectation, finishedExpectation, receiveExpectation], timeout: testTimeout)
+        cancellable.cancel()
     }
+}
+
+extension HymnalApiService_GetHymnTest {
+    static let children24 = URL(string: "http://hymnalnetapi.herokuapp.com/v2/hymn/c/24")!
+    static let children24QueryParams = URL(string: "http://hymnalnetapi.herokuapp.com/v2/hymn/c/24?key1=value1")!
 }
