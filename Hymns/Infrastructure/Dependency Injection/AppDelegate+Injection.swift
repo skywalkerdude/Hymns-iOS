@@ -5,8 +5,9 @@ import Resolver
  */
 extension Resolver {
     public static func registerAllServices() {
+        register(name: "main") { DispatchQueue.main }
         registerHymnalApiService()
         registerRepositories()
-        registerHymnLyricsViewModel()
+        registerHomeViewModel()
     }
 }
