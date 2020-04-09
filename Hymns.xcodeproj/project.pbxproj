@@ -67,7 +67,6 @@
 		5CAF7433242B98DF00A847E2 /* DummyTestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAF7432242B98DF00A847E2 /* DummyTestData.swift */; };
 		5CAF7435242B991100A847E2 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAF7434242B991100A847E2 /* SearchBar.swift */; };
 		B51BA5C92430075300CA52F7 /* DetailHymnScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51BA5C82430075300CA52F7 /* DetailHymnScreen.swift */; };
-		B57314812433885D000F8C07 /* SearchBarSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57314802433885D000F8C07 /* SearchBarSearchView.swift */; };
 		B5E61B34242E613D00EF497D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5E61B36242E613D00EF497D /* Localizable.strings */; };
 		EF9D228545974074AF495E83 /* HymnsMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD96F2BF8386A9E600A9B55C /* HymnsMocks.generated.swift */; };
 		F6BC927B5DEF2C1CDE03DD41 /* Pods_Hymns_HymnsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FF4CD81E97B4D54A08CBF7A /* Pods_Hymns_HymnsUITests.framework */; };
@@ -162,7 +161,6 @@
 		95695C51EE642B34C3C8D8D8 /* Pods-Hymns.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns.release.xcconfig"; path = "Target Support Files/Pods-Hymns/Pods-Hymns.release.xcconfig"; sourceTree = "<group>"; };
 		9FF4CD81E97B4D54A08CBF7A /* Pods_Hymns_HymnsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hymns_HymnsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B51BA5C82430075300CA52F7 /* DetailHymnScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailHymnScreen.swift; sourceTree = "<group>"; };
-		B57314802433885D000F8C07 /* SearchBarSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarSearchView.swift; sourceTree = "<group>"; };
 		B5E61B35242E613D00EF497D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B5E61B37242E62F600EF497D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B5E61B38242E630000EF497D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -283,7 +281,6 @@
 				3B1B90122429CF55009FDCC5 /* AppDelegate.swift */,
 				3B1B90142429CF55009FDCC5 /* SceneDelegate.swift */,
 				5CAF7432242B98DF00A847E2 /* DummyTestData.swift */,
-				B57314802433885D000F8C07 /* SearchBarSearchView.swift */,
 				B51BA5C82430075300CA52F7 /* DetailHymnScreen.swift */,
 				5CA7849B242D14BA00B57903 /* SettingsView.swift */,
 				5CA7849D242D14C800B57903 /* FavoritesView.swift */,
@@ -846,7 +843,6 @@
 				3B5935A22435685400E6993C /* Verse.swift in Sources */,
 				3B45B904243BEC8400D38BEF /* SongResultView.swift in Sources */,
 				3B50B96E243E44DD00EABDE4 /* SearchView.swift in Sources */,
-				B57314812433885D000F8C07 /* SearchBarSearchView.swift in Sources */,
 				5CAF7435242B991100A847E2 /* SearchBar.swift in Sources */,
 				3B5935A8243584F700E6993C /* MetaDatum.swift in Sources */,
 				3B1B90152429CF55009FDCC5 /* SceneDelegate.swift in Sources */,
