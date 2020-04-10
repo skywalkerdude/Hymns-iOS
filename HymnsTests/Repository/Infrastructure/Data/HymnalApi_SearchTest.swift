@@ -9,6 +9,7 @@ class HymnalApiService_SearchTest: XCTestCase {
     var target: HymnalApiServiceImpl!
 
     override func setUp() {
+        super.setUp()
         let config = URLSessionConfiguration.ephemeral
         config.protocolClasses = [URLProtocolMock.self]
         let session = URLSession(configuration: config)
@@ -16,6 +17,7 @@ class HymnalApiService_SearchTest: XCTestCase {
     }
 
     override func tearDown() {
+        super.tearDown()
         URLProtocolMock.response = nil
         URLProtocolMock.error = nil
         URLProtocolMock.testURLs = [URL?: Data]()

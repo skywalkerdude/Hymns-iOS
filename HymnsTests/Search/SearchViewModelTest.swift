@@ -16,6 +16,7 @@ class SearchViewModelTest: XCTestCase {
     var target: SearchViewModel!
 
     override func setUp() {
+        super.setUp()
         songResultsRepository = mock(SongResultsRepository.self)
     }
 
