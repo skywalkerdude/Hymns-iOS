@@ -8,10 +8,6 @@ struct HomeView: View {
 
     var allHymns: [DummyHymnView] = testData
 
-    init(viewModel: HomeViewModel) {
-        self.viewModel = viewModel
-    }
-
     var body: some View {
         NavigationView {
             VStack {
@@ -25,6 +21,10 @@ struct HomeView: View {
                 }.padding(.trailing, -32.0) // Removes the carat on the right
             }
         }
+    }
+
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
     }
 }
 

@@ -16,6 +16,7 @@ class HymnLyricsViewModelTest: XCTestCase {
     var target: HymnLyricsViewModel!
 
     override func setUp() {
+        super.setUp()
         hymnsRepository = mock(HymnsRepository.self)
     }
 
