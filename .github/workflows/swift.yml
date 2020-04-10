@@ -13,8 +13,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Dependencies
-      run: pod install
     - name: Generate XCode Proj 
       run: |
         swift package init --type library

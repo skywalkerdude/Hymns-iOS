@@ -19,7 +19,7 @@
 		3B1B901F2429CF57009FDCC5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B1B901E2429CF57009FDCC5 /* Preview Assets.xcassets */; };
 		3B1B90222429CF57009FDCC5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B1B90202429CF57009FDCC5 /* LaunchScreen.storyboard */; };
 		3B1B90382429CF57009FDCC5 /* HymnsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B90372429CF57009FDCC5 /* HymnsUITests.swift */; };
-		3B2AAF4C2440488A005C171F /* Resolver in Frameworks */ = {isa = PBXBuildFile; productRef = 3B2AAF4B2440488A005C171F /* Resolver */; };
+		3B2AAF4C2440488A005C171F /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 3B2AAF4B2440488A005C171F /* SwiftPackageProductDependency */; };
 		3B45B8FF243BE87300D38BEF /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B45B8FE243BE87300D38BEF /* HomeViewModel.swift */; };
 		3B45B902243BEC1C00D38BEF /* SongResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B45B901243BEC1C00D38BEF /* SongResultViewModel.swift */; };
 		3B45B904243BEC8400D38BEF /* SongResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B45B903243BEC8400D38BEF /* SongResultView.swift */; };
@@ -51,7 +51,7 @@
 		3B5935C42435D6BE00E6993C /* Repository+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5935C32435D6BE00E6993C /* Repository+Injection.swift */; };
 		3B5FD7242436B20A00B65132 /* HymnsRepositoryImplTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FD7232436B20A00B65132 /* HymnsRepositoryImplTest.swift */; };
 		3B7555C82437C24F00DA17F6 /* HymnLyricsViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7555C72437C24F00DA17F6 /* HymnLyricsViewModelTest.swift */; };
-		3B85C740244051AB006B153C /* Mockingbird in Frameworks */ = {isa = PBXBuildFile; productRef = 3B85C73F244051AB006B153C /* Mockingbird */; };
+		3B85C740244051AB006B153C /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 3B85C73F244051AB006B153C /* SwiftPackageProductDependency */; };
 		3BC1328D243826280082A274 /* PreviewHymns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC1328C243826270082A274 /* PreviewHymns.swift */; };
 		3BC13292243850B90082A274 /* classic1151.json in Resources */ = {isa = PBXBuildFile; fileRef = 3BC13291243850B90082A274 /* classic1151.json */; };
 		3BC13294243852C00082A274 /* classic1334.json in Resources */ = {isa = PBXBuildFile; fileRef = 3BC13293243852C00082A274 /* classic1334.json */; };
@@ -165,7 +165,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B2AAF4C2440488A005C171F /* Resolver in Frameworks */,
+				3B2AAF4C2440488A005C171F /* BuildFile in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,7 +173,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B85C740244051AB006B153C /* Mockingbird in Frameworks */,
+				3B85C740244051AB006B153C /* BuildFile in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,7 +488,7 @@
 			);
 			name = Hymns;
 			packageProductDependencies = (
-				3B2AAF4B2440488A005C171F /* Resolver */,
+				3B2AAF4B2440488A005C171F /* SwiftPackageProductDependency */,
 			);
 			productName = Hymns;
 			productReference = 3B1B900F2429CF55009FDCC5 /* Hymns.app */;
@@ -511,7 +511,7 @@
 			);
 			name = HymnsTests;
 			packageProductDependencies = (
-				3B85C73F244051AB006B153C /* Mockingbird */,
+				3B85C73F244051AB006B153C /* SwiftPackageProductDependency */,
 			);
 			productName = HymnsTests;
 			productReference = 3B1B90282429CF57009FDCC5 /* HymnsTests.xctest */;
@@ -570,8 +570,8 @@
 			);
 			mainGroup = 3B1B90062429CF55009FDCC5;
 			packageReferences = (
-				3B2AAF4A2440488A005C171F /* XCRemoteSwiftPackageReference "Resolver" */,
-				3B85C73E244051AB006B153C /* XCRemoteSwiftPackageReference "mockingbird" */,
+				3B2AAF4A2440488A005C171F /* RemoteSwiftPackageReference */,
+				3B85C73E244051AB006B153C /* RemoteSwiftPackageReference */,
 			);
 			productRefGroup = 3B1B90102429CF55009FDCC5 /* Products */;
 			projectDirPath = "";
@@ -1073,7 +1073,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3B2AAF4A2440488A005C171F /* XCRemoteSwiftPackageReference "Resolver" */ = {
+		3B2AAF4A2440488A005C171F /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hmlongco/Resolver";
 			requirement = {
@@ -1081,7 +1081,7 @@
 				minimumVersion = 1.1.2;
 			};
 		};
-		3B85C73E244051AB006B153C /* XCRemoteSwiftPackageReference "mockingbird" */ = {
+		3B85C73E244051AB006B153C /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/birdrides/mockingbird/";
 			requirement = {
@@ -1092,14 +1092,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3B2AAF4B2440488A005C171F /* Resolver */ = {
+		3B2AAF4B2440488A005C171F /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3B2AAF4A2440488A005C171F /* XCRemoteSwiftPackageReference "Resolver" */;
+			package = 3B2AAF4A2440488A005C171F /* RemoteSwiftPackageReference */;
 			productName = Resolver;
 		};
-		3B85C73F244051AB006B153C /* Mockingbird */ = {
+		3B85C73F244051AB006B153C /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3B85C73E244051AB006B153C /* XCRemoteSwiftPackageReference "mockingbird" */;
+			package = 3B85C73E244051AB006B153C /* RemoteSwiftPackageReference */;
 			productName = Mockingbird;
 		};
 /* End XCSwiftPackageProductDependency section */
