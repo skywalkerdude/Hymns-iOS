@@ -15,6 +15,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Install swiftlint
+      run: brew install swiftlint
     - name: Static Analysis
       run: xcodebuild clean analyze -project Hymns.xcodeproj -scheme Hymns -destination "platform=iOS Simulator,name=iPhone 11 Pro" -configuration Debug -allowProvisioningUpdates
     # While we can actually do both the build and test step in one with "xcodebuild test", it is slower and ends up with a very hard to read 3000 line report.
