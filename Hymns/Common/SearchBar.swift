@@ -3,7 +3,7 @@ import SwiftUI
 struct SearchBar: UIViewRepresentable {
 
     @Binding var text: String
-    var isFirstResponder: Bool = false //when true will make a search bar first responder
+    var selectedOnAppear: Bool = false //when true will make a search bar first responder
 
     class Coordinator: NSObject, UISearchBarDelegate {
 
@@ -18,8 +18,6 @@ struct SearchBar: UIViewRepresentable {
             text = searchText
         }
     }
-
-    @Binding var text: String
 
     func makeCoordinator() -> SearchBar.Coordinator {
         return Coordinator(text: $text)
@@ -49,7 +47,7 @@ struct SearchBar: UIViewRepresentable {
 
     func updateUIView(_ uiView: UISearchBar, context: UIViewRepresentableContext<SearchBar>) {
         uiView.text = text
-        if isFirstResponder && !context.coordinator.didBecomeFirstResponder {
+        if selectedOnAppear && !context.coordinator.didBecomeFirstResponder {
              uiView.becomeFirstResponder()
              context.coordinator.didBecomeFirstResponder = true
          }
