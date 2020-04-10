@@ -9,7 +9,6 @@ struct SearchView: View {
     }
 
     var body: some View {
-        NavigationView {
             VStack {
                 SearchBar(text: $viewModel.searchInput)
                 List {
@@ -19,8 +18,7 @@ struct SearchView: View {
                         }
                     }
                 }.padding(.trailing, -32.0) // Removes the carat on the right
-            }.navigationBarTitle("", displayMode: .inline)
-        }.navigationBarHidden(true) //hides the default nav bar to input the custom "x" instead
+                }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
     }
 }
 
@@ -29,3 +27,20 @@ struct SearchView_Previews: PreviewProvider {
         SearchView(viewModel: SearchViewModel(backgroundQueue: Resolver.resolve(name: "background"), mainQueue: Resolver.resolve(name: "main"), repository: Resolver.resolve()))
     }
 }
+
+//ViewModifiers.swift
+/*
+struct HiddenNavigationBar: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+        .navigationBarTitle("", displayMode: .inline)
+        .navigationBarHidden(true)
+    }
+}
+
+extension SearchView {
+    func hiddenNavigationBarStyle() -> some View {
+        ModifiedContent(content: self, modifier: HiddenNavigationBar())
+    }
+}
+*/

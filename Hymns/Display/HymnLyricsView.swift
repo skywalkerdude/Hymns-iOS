@@ -19,20 +19,23 @@ public struct HymnLyricsView: View {
         }
 
         return AnyView(
-            ScrollView {
-                VStack(alignment: .leading) {
-                    Group {
-                        ForEach(lyrics, id: \.self) { verse in
-                            Group {
-                                ForEach(verse.verseContent, id: \.self) { line in
-                                    Text(line)
+            VStack {
+                DetailHymnScreen()
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        Group {
+                            ForEach(lyrics, id: \.self) { verse in
+                                Group {
+                                    ForEach(verse.verseContent, id: \.self) { line in
+                                        Text(line)
+                                    }
+                                    Spacer().frame(height: 30)
                                 }
-                                Spacer().frame(height: 30)
                             }
                         }
                     }
-                }
-            }
+                }//end scroll
+            }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
         )
     }
 }
