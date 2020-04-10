@@ -2,15 +2,15 @@ import Resolver
 import SwiftUI
 
 struct HomeView: View {
-    
+
     @State var searchText: String = ""
     @ObservedObject private var viewModel: HomeViewModel
     var allHymns: [DummyHymnView] = testData
-    
+
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 10) {
