@@ -51,6 +51,5 @@ import Foundation
 
     // this method is required but doesn't need to do anything
     override func stopLoading() {
-
     }
 }

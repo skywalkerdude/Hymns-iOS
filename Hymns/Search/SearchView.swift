@@ -2,11 +2,8 @@ import Resolver
 import SwiftUI
 
 struct SearchView: View {
-    @ObservedObject private var viewModel: SearchViewModel
 
-    init(viewModel: SearchViewModel) {
-        self.viewModel = viewModel
-    }
+    @ObservedObject private var viewModel: SearchViewModel
 
     var body: some View {
             VStack {
@@ -19,6 +16,10 @@ struct SearchView: View {
                     }
                 }.padding(.trailing, -32.0) // Removes the carat on the right
                 }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
+    }
+
+    init(viewModel: SearchViewModel) {
+        self.viewModel = viewModel
     }
 }
 

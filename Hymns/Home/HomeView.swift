@@ -7,10 +7,6 @@ struct HomeView: View {
     @ObservedObject private var viewModel: HomeViewModel
     var allHymns: [DummyHymnView] = testData
 
-    init(viewModel: HomeViewModel) {
-        self.viewModel = viewModel
-    }
-
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 10) {
@@ -27,6 +23,10 @@ struct HomeView: View {
                 }.padding(.trailing, -32.0)
             }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
         }
+    }
+
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
     }
 }
 
