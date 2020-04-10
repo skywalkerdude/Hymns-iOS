@@ -138,6 +138,7 @@
 		3B5935C32435D6BE00E6993C /* Repository+Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Repository+Injection.swift"; sourceTree = "<group>"; };
 		3B5FD7232436B20A00B65132 /* HymnsRepositoryImplTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnsRepositoryImplTest.swift; sourceTree = "<group>"; };
 		3B7555C72437C24F00DA17F6 /* HymnLyricsViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnLyricsViewModelTest.swift; sourceTree = "<group>"; };
+		3BB9CAB12441359100D6F24F /* CL_Iphone.mobileprovision */ = {isa = PBXFileReference; lastKnownFileType = file; path = CL_Iphone.mobileprovision; sourceTree = "<group>"; };
 		3BC1328C243826270082A274 /* PreviewHymns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewHymns.swift; sourceTree = "<group>"; };
 		3BC13291243850B90082A274 /* classic1151.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = classic1151.json; sourceTree = "<group>"; };
 		3BC13293243852C00082A274 /* classic1334.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = classic1334.json; sourceTree = "<group>"; };
@@ -238,6 +239,7 @@
 		3B1B90062429CF55009FDCC5 = {
 			isa = PBXGroup;
 			children = (
+				3BB9CAB12441359100D6F24F /* CL_Iphone.mobileprovision */,
 				3B1B90112429CF55009FDCC5 /* Hymns */,
 				3B1B902B2429CF57009FDCC5 /* HymnsTests */,
 				3B1B90362429CF57009FDCC5 /* HymnsUITests */,
