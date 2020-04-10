@@ -12,6 +12,7 @@ class HymnsRepositoryImplTests: XCTestCase {
     var target: HymnsRepository!
 
     override func setUp() {
+        super.setUp()
         hymnalApiService = mock(HymnalApiService.self)
         target = HymnsRepositoryImpl(hymnalApiService: hymnalApiService)
     }

@@ -11,6 +11,7 @@ class SongRepositoryImplTest: XCTestCase {
     var target: SongResultsRepositoryImpl!
 
     override func setUp() {
+        super.setUp()
         hymnalApiService = mock(HymnalApiService.self)
         target = SongResultsRepositoryImpl(hymnalApiService: hymnalApiService)
     }
@@ -57,5 +58,4 @@ class SongRepositoryImplTest: XCTestCase {
         wait(for: [valueReceived], timeout: testTimeout)
         cancellable.cancel()
     }
-
 }
