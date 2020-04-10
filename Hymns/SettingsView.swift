@@ -3,10 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     var body: some View {
         VStack {
-            HStack {
-                Text("Settings").customTitle()
-                Spacer()
-            }
+            CustomTitle(title: "Settings")
             Spacer()
             Text("TODO: Settings")
             Spacer()

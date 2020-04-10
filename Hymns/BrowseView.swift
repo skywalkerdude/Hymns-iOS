@@ -3,10 +3,7 @@ import SwiftUI
 struct BrowseView: View {
     var body: some View {
         VStack {
-            HStack {
-                Text("Browse").customTitle()
-                Spacer()
-            }
+            CustomTitle(title: "Browse")
             Spacer()
             Text("TODO: Browse")
             Spacer()

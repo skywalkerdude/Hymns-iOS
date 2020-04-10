@@ -5,10 +5,7 @@ struct FavoritesView: View {
 
     var body: some View {
         VStack {
-            HStack {
-                Text("Favorites").customTitle()
-                Spacer()
-            }
+            CustomTitle(title: "Favorites")
             List(allHymns) { filtered in
                 if !filtered.favorited {
                     Text(filtered.songTitle)

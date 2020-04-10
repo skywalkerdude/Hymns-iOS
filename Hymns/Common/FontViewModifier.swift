@@ -1,7 +1,7 @@
 import SwiftUI
 
 //The custom title view modifier is meant to be set up to replace navigationbartitle texts. By doing this we gain alot more ability to customize the title text at the top of the screen. In addition, we also avoid being forced into using navigation bar titles  which comes with other issues as well.
-struct CustomTitle: ViewModifier {
+struct CustomTitleLayout: ViewModifier {
     let font = Font.title.weight(.semibold)
     func body(content: Content) -> some View {
         content
@@ -11,7 +11,7 @@ struct CustomTitle: ViewModifier {
 }
 
 extension View {
-    func customTitle() -> some View {
-        return self.modifier(CustomTitle())
+    func customTitleLayout() -> some View {
+        return self.modifier(CustomTitleLayout())
     }
 }

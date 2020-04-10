@@ -15,7 +15,7 @@ struct HomeView: View {
         NavigationView {
             VStack(alignment: .leading, spacing: 10) {
                 VStack {
-                    Text("Look up any hymn").customTitle()
+                    Text("Look up any hymn").customTitleLayout()
                 }
                 searchBar
                 List {
