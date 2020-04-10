@@ -2,7 +2,7 @@ import SwiftUI
 
 struct FavoritesView: View {
     var allHymns: [DummyHymnView] = testData
-    
+
     var body: some View {
         VStack {
             HStack {
