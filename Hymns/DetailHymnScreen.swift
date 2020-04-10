@@ -14,13 +14,11 @@ struct DetailHymnScreen: View {
                          }
                         Spacer()
                         if self.favorited == true {
-                            Text("Favorited")
                         }
                         //TODO: Favorited needs to actually do something when clicked other than just say "favorited"
                         Spacer()
-                        Button(action: {self.favorited.toggle()})
-                        {
-                        Image(systemName: "heart")
+                        Button(action: {self.favorited.toggle()}) {
+                            self.favorited ? Image(systemName: "heart.fill") : Image(systemName: "heart")
                         }
                     }.frame(width: geometry.size.width/1.1)
                     HStack {
