@@ -1,4 +1,5 @@
 import SwiftUI
+import Resolver
 
 struct DetailHymnScreen: View {
     @State var favorited: Bool = false
@@ -8,7 +9,9 @@ struct DetailHymnScreen: View {
             GeometryReader { geometry in
                 VStack {
                     HStack {
-                        Image(systemName: "xmark")
+                        NavigationLink(destination: HomeView(viewModel: Resolver.resolve())) {
+                            Image(systemName: "xmark")
+                         }
                         Spacer()
                         if self.favorited == true {
                             Text("Favorited")
