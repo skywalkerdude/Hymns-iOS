@@ -51,6 +51,7 @@
 		3B5935C42435D6BE00E6993C /* Repository+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5935C32435D6BE00E6993C /* Repository+Injection.swift */; };
 		3B5FD7242436B20A00B65132 /* HymnsRepositoryImplTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FD7232436B20A00B65132 /* HymnsRepositoryImplTest.swift */; };
 		3B7555C82437C24F00DA17F6 /* HymnLyricsViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7555C72437C24F00DA17F6 /* HymnLyricsViewModelTest.swift */; };
+		3B85C740244051AB006B153C /* Mockingbird in Frameworks */ = {isa = PBXBuildFile; productRef = 3B85C73F244051AB006B153C /* Mockingbird */; };
 		3BC1328D243826280082A274 /* PreviewHymns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC1328C243826270082A274 /* PreviewHymns.swift */; };
 		3BC13292243850B90082A274 /* classic1151.json in Resources */ = {isa = PBXBuildFile; fileRef = 3BC13291243850B90082A274 /* classic1151.json */; };
 		3BC13294243852C00082A274 /* classic1334.json in Resources */ = {isa = PBXBuildFile; fileRef = 3BC13293243852C00082A274 /* classic1334.json */; };
@@ -172,6 +173,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B85C740244051AB006B153C /* Mockingbird in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,6 +479,7 @@
 				3B1B900B2429CF55009FDCC5 /* Sources */,
 				3B1B900C2429CF55009FDCC5 /* Frameworks */,
 				3B1B900D2429CF55009FDCC5 /* Resources */,
+				3B85C73D244050E8006B153C /* ShellScript */,
 				5CAF7436242BA08A00A847E2 /* ShellScript */,
 			);
 			buildRules = (
@@ -507,6 +510,9 @@
 				3B1B902A2429CF57009FDCC5 /* PBXTargetDependency */,
 			);
 			name = HymnsTests;
+			packageProductDependencies = (
+				3B85C73F244051AB006B153C /* Mockingbird */,
+			);
 			productName = HymnsTests;
 			productReference = 3B1B90282429CF57009FDCC5 /* HymnsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -565,6 +571,7 @@
 			mainGroup = 3B1B90062429CF55009FDCC5;
 			packageReferences = (
 				3B2AAF4A2440488A005C171F /* XCRemoteSwiftPackageReference "Resolver" */,
+				3B85C73E244051AB006B153C /* XCRemoteSwiftPackageReference "mockingbird" */,
 			);
 			productRefGroup = 3B1B90102429CF55009FDCC5 /* Products */;
 			projectDirPath = "";
@@ -626,6 +633,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "echo $RANDOM > '/tmp/Mockingbird-6B5D07A6-FF57-4CCD-8248-A22177A601E6'\n";
+		};
+		3B85C73D244050E8006B153C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		5CAF7436242BA08A00A847E2 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1057,6 +1081,14 @@
 				minimumVersion = 1.1.2;
 			};
 		};
+		3B85C73E244051AB006B153C /* XCRemoteSwiftPackageReference "mockingbird" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/birdrides/mockingbird/";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.11.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1064,6 +1096,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3B2AAF4A2440488A005C171F /* XCRemoteSwiftPackageReference "Resolver" */;
 			productName = Resolver;
+		};
+		3B85C73F244051AB006B153C /* Mockingbird */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B85C73E244051AB006B153C /* XCRemoteSwiftPackageReference "mockingbird" */;
+			productName = Mockingbird;
 		};
 /* End XCSwiftPackageProductDependency section */
 
