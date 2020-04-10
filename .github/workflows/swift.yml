@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name Stasdfds
+    - name: Static Analysis
       run: xcodebuild build-for-testing -workspace Hymns.xcodeproj/project.xcworkspace -scheme Hymns -destination "platform=iOS Simulator,name=iPhone 11 Pro"
     # While we can actually do both the build and test step in one with "xcodebuild test", it is slower and ends up with a very hard to read 3000 line report.
     # So it is faster to break it up into two steps. Build and test. Also, useful if we choose to have more than one kind of test.
