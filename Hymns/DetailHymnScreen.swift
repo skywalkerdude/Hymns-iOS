@@ -32,7 +32,6 @@ struct DetailHymnScreen: View {
                         Text("Piano")
                         Spacer()
                     }.frame(width: geometry.size.width/1)
-
                 }.aspectRatio(contentMode: .fit).frame(height: 60).background(Color.white.shadow(radius: 2))
                 Spacer()
             }.frame(minHeight: 0, maxHeight: 60)  //end geometry

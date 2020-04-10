@@ -19,6 +19,8 @@ struct SearchBar: UIViewRepresentable {
         }
     }
 
+    @Binding var text: String
+
     func makeCoordinator() -> SearchBar.Coordinator {
         return Coordinator(text: $text)
     }

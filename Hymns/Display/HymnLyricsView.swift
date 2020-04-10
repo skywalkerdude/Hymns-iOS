@@ -5,10 +5,6 @@ public struct HymnLyricsView: View {
 
     @ObservedObject private var viewModel: HymnLyricsViewModel
 
-    init(viewModel: HymnLyricsViewModel) {
-        self.viewModel = viewModel
-    }
-
     public var body: some View {
         guard let lyrics = viewModel.lyrics else {
             return AnyView(Text("error!"))
@@ -34,6 +30,10 @@ public struct HymnLyricsView: View {
                 }
             }
         )
+    }
+
+    init(viewModel: HymnLyricsViewModel) {
+        self.viewModel = viewModel
     }
 }
 
