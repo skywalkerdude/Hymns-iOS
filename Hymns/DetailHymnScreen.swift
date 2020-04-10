@@ -17,7 +17,7 @@ struct DetailHymnScreen: View {
                         Spacer()
                         Button(action: {self.favorited.toggle()})
                         {
-                            Image(systemName: "heart")
+                        Image(systemName: "heart")
                         }
                     }.frame(width: geometry.size.width/1.1)
                     HStack {

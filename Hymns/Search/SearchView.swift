@@ -27,20 +27,3 @@ struct SearchView_Previews: PreviewProvider {
         SearchView(viewModel: SearchViewModel(backgroundQueue: Resolver.resolve(name: "background"), mainQueue: Resolver.resolve(name: "main"), repository: Resolver.resolve()))
     }
 }
-
-//ViewModifiers.swift
-/*
-struct HiddenNavigationBar: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-        .navigationBarTitle("", displayMode: .inline)
-        .navigationBarHidden(true)
-    }
-}
-
-extension SearchView {
-    func hiddenNavigationBarStyle() -> some View {
-        ModifiedContent(content: self, modifier: HiddenNavigationBar())
-    }
-}
-*/
