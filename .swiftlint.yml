@@ -38,6 +38,10 @@ opt_in_rules: # some rules are only opt-in
   # Find all the available rules by running:
   # swiftlint rules
 
+included: # paths to include during linting. `--path` is ignored if present.
+  - Hymns
+  - HymnsTests
+
 # Change from an error to a warning by using the warning flag.
 type_name:
   min_length: 4 # only warning
