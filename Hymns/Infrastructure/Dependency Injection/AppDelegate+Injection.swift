@@ -1,5 +1,5 @@
 import Resolver
-
+import Foundation
 /**
  * Registers dependencies to be injected in the app
  */

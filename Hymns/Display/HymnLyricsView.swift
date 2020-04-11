@@ -8,7 +8,7 @@ public struct HymnLyricsView: View {
     init(viewModel: HymnLyricsViewModel) {
         self.viewModel = viewModel
     }
-
+    
     public var body: some View {
         guard let lyrics = viewModel.lyrics else {
             return AnyView(Text("error!"))
@@ -17,13 +17,24 @@ public struct HymnLyricsView: View {
         guard !lyrics.isEmpty else {
             return AnyView(Text("loading..."))
         }
+        var verseIndex: Int = 0
 
+        func isVerse(verseType: VerseType) -> Int {
+            if verseType != VerseType(rawValue: "chorus") {
+                verseIndex += 1
+                return verseIndex
+            }
+            return 0
+        }
         return AnyView(
-            VStack(alignment: .leading, spacing: 5.5) {
+            VStack(alignment: .leading) {
                 ForEach(lyrics, id: \.self) { verse in
                     Group {
-                        ForEach(verse.verseContent, id: \.self) { line in
-                            Text(line).font(.custom("SF Pro Text", size: 17))
+                        if verse.verseType == VerseType(rawValue: "chorus") {
+                            VerseView(verseLines: verse.verseContent)
+                                .frame(width: 400, height: 150, alignment: .center)
+                        } else {
+                            VerseView(verseNumber: "\(isVerse(verseType: verse.verseType))", verseLines: verse.verseContent)
                         }
                         Spacer().frame(height: 15)
                     }
