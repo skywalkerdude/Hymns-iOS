@@ -26,7 +26,6 @@ target 'Hymns' do
     # Nimble
     # https://github.com/Quick/Nimble
     pod 'Nimble'
-    pod 'Quick'
   end
 
   target 'HymnsUITests' do
