@@ -19,7 +19,7 @@
 		3B1B901F2429CF57009FDCC5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B1B901E2429CF57009FDCC5 /* Preview Assets.xcassets */; };
 		3B1B90222429CF57009FDCC5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B1B90202429CF57009FDCC5 /* LaunchScreen.storyboard */; };
 		3B1B90382429CF57009FDCC5 /* HymnsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B90372429CF57009FDCC5 /* HymnsUITests.swift */; };
-		3B2AAF4C2440488A005C171F /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 3B2AAF4B2440488A005C171F /* SwiftPackageProductDependency */; };
+		3B2AAF4C2440488A005C171F /* Resolver in Frameworks */ = {isa = PBXBuildFile; productRef = 3B2AAF4B2440488A005C171F /* Resolver */; };
 		3B45B8FF243BE87300D38BEF /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B45B8FE243BE87300D38BEF /* HomeViewModel.swift */; };
 		3B45B902243BEC1C00D38BEF /* SongResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B45B901243BEC1C00D38BEF /* SongResultViewModel.swift */; };
 		3B45B904243BEC8400D38BEF /* SongResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B45B903243BEC8400D38BEF /* SongResultView.swift */; };
@@ -51,7 +51,7 @@
 		3B5935C42435D6BE00E6993C /* Repository+Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5935C32435D6BE00E6993C /* Repository+Injection.swift */; };
 		3B5FD7242436B20A00B65132 /* HymnsRepositoryImplTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FD7232436B20A00B65132 /* HymnsRepositoryImplTest.swift */; };
 		3B7555C82437C24F00DA17F6 /* HymnLyricsViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7555C72437C24F00DA17F6 /* HymnLyricsViewModelTest.swift */; };
-		3B85C740244051AB006B153C /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 3B85C73F244051AB006B153C /* SwiftPackageProductDependency */; };
+		3B85C740244051AB006B153C /* Mockingbird in Frameworks */ = {isa = PBXBuildFile; productRef = 3B85C73F244051AB006B153C /* Mockingbird */; };
 		3BC1328D243826280082A274 /* PreviewHymns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC1328C243826270082A274 /* PreviewHymns.swift */; };
 		3BC13292243850B90082A274 /* classic1151.json in Resources */ = {isa = PBXBuildFile; fileRef = 3BC13291243850B90082A274 /* classic1151.json */; };
 		3BC13294243852C00082A274 /* classic1334.json in Resources */ = {isa = PBXBuildFile; fileRef = 3BC13293243852C00082A274 /* classic1334.json */; };
@@ -165,7 +165,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B2AAF4C2440488A005C171F /* BuildFile in Frameworks */,
+				3B2AAF4C2440488A005C171F /* Resolver in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,7 +173,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B85C740244051AB006B153C /* BuildFile in Frameworks */,
+				3B85C740244051AB006B153C /* Mockingbird in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,7 +480,6 @@
 				3B1B900C2429CF55009FDCC5 /* Frameworks */,
 				3B1B900D2429CF55009FDCC5 /* Resources */,
 				3B85C73D244050E8006B153C /* ShellScript */,
-				5CAF7436242BA08A00A847E2 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -488,7 +487,7 @@
 			);
 			name = Hymns;
 			packageProductDependencies = (
-				3B2AAF4B2440488A005C171F /* SwiftPackageProductDependency */,
+				3B2AAF4B2440488A005C171F /* Resolver */,
 			);
 			productName = Hymns;
 			productReference = 3B1B900F2429CF55009FDCC5 /* Hymns.app */;
@@ -511,7 +510,7 @@
 			);
 			name = HymnsTests;
 			packageProductDependencies = (
-				3B85C73F244051AB006B153C /* SwiftPackageProductDependency */,
+				3B85C73F244051AB006B153C /* Mockingbird */,
 			);
 			productName = HymnsTests;
 			productReference = 3B1B90282429CF57009FDCC5 /* HymnsTests.xctest */;
@@ -570,8 +569,8 @@
 			);
 			mainGroup = 3B1B90062429CF55009FDCC5;
 			packageReferences = (
-				3B2AAF4A2440488A005C171F /* RemoteSwiftPackageReference */,
-				3B85C73E244051AB006B153C /* RemoteSwiftPackageReference */,
+				3B2AAF4A2440488A005C171F /* XCRemoteSwiftPackageReference "Resolver" */,
+				3B85C73E244051AB006B153C /* XCRemoteSwiftPackageReference "mockingbird" */,
 			);
 			productRefGroup = 3B1B90102429CF55009FDCC5 /* Products */;
 			projectDirPath = "";
@@ -650,23 +649,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-		5CAF7436242BA08A00A847E2 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse echo \"warning: SwiftLint not installed, brew install SwiftLint\"\nfi\n";
 		};
 		5E43F543CF316F97414F0E04 /* Generate Mockingbird Mocks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -915,6 +897,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Hymns/Preview Content\"";
 				DEVELOPMENT_TEAM = VBX3S26MR4;
@@ -926,6 +909,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lukelu.Hymns;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -935,6 +919,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Hymns/Preview Content\"";
 				DEVELOPMENT_TEAM = VBX3S26MR4;
@@ -946,6 +931,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lukelu.Hymns;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1073,7 +1059,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3B2AAF4A2440488A005C171F /* RemoteSwiftPackageReference */ = {
+		3B2AAF4A2440488A005C171F /* XCRemoteSwiftPackageReference "Resolver" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hmlongco/Resolver";
 			requirement = {
@@ -1081,7 +1067,7 @@
 				minimumVersion = 1.1.2;
 			};
 		};
-		3B85C73E244051AB006B153C /* RemoteSwiftPackageReference */ = {
+		3B85C73E244051AB006B153C /* XCRemoteSwiftPackageReference "mockingbird" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/birdrides/mockingbird/";
 			requirement = {
@@ -1092,14 +1078,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3B2AAF4B2440488A005C171F /* SwiftPackageProductDependency */ = {
+		3B2AAF4B2440488A005C171F /* Resolver */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3B2AAF4A2440488A005C171F /* RemoteSwiftPackageReference */;
+			package = 3B2AAF4A2440488A005C171F /* XCRemoteSwiftPackageReference "Resolver" */;
 			productName = Resolver;
 		};
-		3B85C73F244051AB006B153C /* SwiftPackageProductDependency */ = {
+		3B85C73F244051AB006B153C /* Mockingbird */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3B85C73E244051AB006B153C /* RemoteSwiftPackageReference */;
+			package = 3B85C73E244051AB006B153C /* XCRemoteSwiftPackageReference "mockingbird" */;
 			productName = Mockingbird;
 		};
 /* End XCSwiftPackageProductDependency section */
