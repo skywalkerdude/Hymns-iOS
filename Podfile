@@ -23,7 +23,9 @@ target 'Hymns' do
     # https://github.com/birdrides/mockingbird
     pod 'MockingbirdFramework'
 
-    # Nimble
+    # Quick & Nimble
+    # https://github.com/Quick/Quick
+    pod 'Quick'
     # https://github.com/Quick/Nimble
     pod 'Nimble'
   end
