@@ -16,7 +16,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Dependencies
       run: |
-        pod deintegrate
+        pod cache clean --all
         pod install
     - name: SwiftLint
       run: ./Pods/SwiftLint/swiftlint
