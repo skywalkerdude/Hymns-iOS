@@ -17,6 +17,7 @@ target 'Hymns' do
   
   target 'HymnsTests' do
     inherit! :search_paths
+    use_frameworks!
     
     # Mocking framework
     # https://github.com/birdrides/mockingbird
@@ -25,6 +26,7 @@ target 'Hymns' do
     # Nimble
     # https://github.com/Quick/Nimble
     pod 'Nimble'
+    pod 'Quick'
   end
 
   target 'HymnsUITests' do
