@@ -1,6 +1,6 @@
 import Resolver
 import SwiftUI
-
+ 
 struct HomeView: View {
 
     @State var searchText: String = ""
