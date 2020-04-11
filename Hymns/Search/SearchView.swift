@@ -7,7 +7,7 @@ struct SearchView: View {
 
     var body: some View {
             VStack {
-                SearchBar(text: $viewModel.searchInput)
+                SearchBar(text: $viewModel.searchInput, selectedOnAppear: true)
                 List {
                     ForEach(self.viewModel.songResults) { songResult in
                         NavigationLink(destination: songResult.destinationView) {
