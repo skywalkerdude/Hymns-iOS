@@ -17,7 +17,6 @@ target 'Hymns' do
   
   target 'HymnsTests' do
     inherit! :search_paths
-    use_frameworks!
     
     # Mocking framework
     # https://github.com/birdrides/mockingbird
