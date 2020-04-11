@@ -19,8 +19,8 @@ struct SearchView: View {
                         }
                     }
                 }.padding(.trailing, -32.0) // Removes the carat on the right
-            }.navigationBarTitle("", displayMode: .inline)
-        }.navigationBarHidden(true) //hides the default nav bar to input the custom "x" instead
+            }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
+        }
     }
 }
 

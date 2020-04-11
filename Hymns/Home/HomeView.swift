@@ -5,26 +5,26 @@ struct HomeView: View {
 
     @State var searchText: String = ""
     @ObservedObject private var viewModel: HomeViewModel
-
     var allHymns: [DummyHymnView] = testData
-
-    init(viewModel: HomeViewModel) {
-        self.viewModel = viewModel
-    }
 
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(alignment: .leading, spacing: 10) {
+                Text("Look up any hymn").customTitleLayout()
                 searchBar
                 List {
                     ForEach(self.viewModel.recentSongs) { recentSong in
                         NavigationLink(destination: recentSong.destinationView) {
                             SongResultView(viewModel: recentSong)
                         }
-                    }.navigationBarTitle(Text("Look up any hymn"))
-                }.padding(.trailing, -32.0) // Removes the carat on the right
-            }
+                    }
+                }.padding(.trailing, -32.0)
+            }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
         }
+    }
+
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
     }
 }
 
