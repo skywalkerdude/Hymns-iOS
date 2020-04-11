@@ -3,10 +3,12 @@ import SwiftUI
 struct SearchBar: UIViewRepresentable {
 
     @Binding var text: String
+    var selectedOnAppear: Bool = false //when true will make a search bar first responder
 
     class Coordinator: NSObject, UISearchBarDelegate {
 
         @Binding var text: String
+        var didBecomeFirstResponder = false 
 
         init(text: Binding<String>) {
             _text = text
@@ -45,6 +47,10 @@ struct SearchBar: UIViewRepresentable {
 
     func updateUIView(_ uiView: UISearchBar, context: UIViewRepresentableContext<SearchBar>) {
         uiView.text = text
+        if selectedOnAppear && !context.coordinator.didBecomeFirstResponder {
+             uiView.becomeFirstResponder()
+             context.coordinator.didBecomeFirstResponder = true
+         }
     }
 }
 
