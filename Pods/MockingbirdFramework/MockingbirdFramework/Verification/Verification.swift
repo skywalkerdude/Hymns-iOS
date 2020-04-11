@@ -30,16 +30,23 @@ public struct Verification<I, R> {
     self.sourceLocation = sourceLocation
   }
 
-  /// Verify that the mock received the invocation some number of times.
+  /// Verify that the mock received the invocation some number of times using a count matcher.
   ///
   /// - Parameter countMathcer: A count matcher defining the number of invocations to verify.
-  public func wasCalled(_ countMatcher: CountMatcher = once) {
+  public func wasCalled(_ countMatcher: CountMatcher) {
     verify(using: countMatcher, for: sourceLocation)
+  }
+  
+  /// Verify that the mock received the invocation an exact number of times.
+  ///
+  /// - Parameter times: The exact number of invocations expected.
+  public func wasCalled(_ times: UInt = once) {
+    verify(using: exactly(times), for: sourceLocation)
   }
 
   /// Verify that the mock never received the invocation.
   public func wasNeverCalled() {
-    verify(using: never, for: sourceLocation)
+    verify(using: exactly(never), for: sourceLocation)
   }
   
   /// Disambiguate methods overloaded by return type.
@@ -53,94 +60,134 @@ public struct Verification<I, R> {
   func verify(using countMatcher: CountMatcher, for sourceLocation: SourceLocation) {
     let expectation = Expectation(countMatcher: countMatcher,
                                   sourceLocation: sourceLocation,
-                                  asyncGroup: DispatchQueue.currentAsyncGroup)
-    expect(mockingContext, handled: invocation, using: expectation)
-  }
-}
-
-/// Packages a call matcher and its call site. Used by verification methods in attributed scopes.
-struct Expectation {
-  static let asyncGroupKey = DispatchSpecificKey<AsyncExpectationGroup>()
-  
-  let countMatcher: CountMatcher
-  let sourceLocation: SourceLocation
-  let asyncGroup: AsyncExpectationGroup?
-  
-  func copy(withAsyncGroup: Bool = false) -> Expectation {
-    return Expectation(countMatcher: countMatcher,
-                       sourceLocation: sourceLocation,
-                       asyncGroup: withAsyncGroup ? asyncGroup : nil)
+                                  group: DispatchQueue.currentExpectationGroup)
+    do {
+      try expect(mockingContext, handled: invocation, using: expectation)
+    } catch {
+      MKBFail(String(describing: error),
+              file: expectation.sourceLocation.file,
+              line: expectation.sourceLocation.line)
+    }
   }
 }
 
 /// A deferred expectation that can be fulfilled when an invocation arrives later.
-struct AsyncExpectation {
+struct CapturedExpectation {
   let mockingContext: MockingContext
   let invocation: Invocation
   let expectation: Expectation
 }
 
-/// Stores all expectations invoked by verification methods within an `eventually` scope.
-class AsyncExpectationGroup {
-  private(set) var expectations = [AsyncExpectation]()
-  func addExpectation(_ expectation: AsyncExpectation) {
-    expectations.append(expectation)
+/// Stores all expectations invoked by verification methods within a scoped context.
+class ExpectationGroup {
+  private(set) weak var parent: ExpectationGroup?
+  private let verificationBlock: (ExpectationGroup) throws -> Void
+  
+  init(_ verificationBlock: @escaping (ExpectationGroup) throws -> Void) {
+    self.parent = DispatchQueue.currentExpectationGroup
+    self.verificationBlock = verificationBlock
+  }
+  
+  struct Failure: Error {
+    let error: TestFailure
+    let sourceLocation: SourceLocation
+  }
+
+  func verify(context: ExpectationGroup? = nil) throws {
+    if let parent = parent, context == nil {
+      parent.addSubgroup(self)
+    } else {
+      try verificationBlock(self)
+    }
+  }
+  
+  private(set) var expectations = [CapturedExpectation]()
+  func addExpectation(mockingContext: MockingContext,
+                      invocation: Invocation,
+                      expectation: Expectation) {
+    expectations.append(CapturedExpectation(mockingContext: mockingContext,
+                                            invocation: invocation,
+                                            expectation: expectation))
+  }
+  
+  private(set) var subgroups = [ExpectationGroup]()
+  func addSubgroup(_ subgroup: ExpectationGroup) {
+    subgroups.append(subgroup)
   }
 }
 
 extension DispatchQueue {
-  class var currentAsyncGroup: AsyncExpectationGroup? {
-    return DispatchQueue.getSpecific(key: Expectation.asyncGroupKey)
+  class var currentExpectationGroup: ExpectationGroup? {
+    return DispatchQueue.getSpecific(key: Expectation.expectationGroupKey)
   }
 }
 
-/// Internal helper for `eventually` async verification scopes.
-///   1. Creates an attributed `DispatchQueue` scope which collects all verifications.
-///   2. Observes invocations on each mock and fulfills the test expectation if there is a match.
-func createTestExpectation(with scope: () -> Void, description: String?) -> XCTestExpectation {
-  let asyncGroup = AsyncExpectationGroup()
-  let queue = DispatchQueue(label: "co.bird.mockingbird.async-verification-scope")
-  queue.setSpecific(key: Expectation.asyncGroupKey, value: asyncGroup)
-  queue.sync { scope() }
+/// Packages a call matcher and its call site. Used by verification methods in attributed scopes.
+struct Expectation {
+  static let expectationGroupKey = DispatchSpecificKey<ExpectationGroup>()
   
-  let testExpectation = XCTestExpectation(description: description ?? "Async verification group")
-  testExpectation.expectedFulfillmentCount = asyncGroup.expectations.count
-  asyncGroup.expectations.forEach({ asyncExpectation in
-    let observer = InvocationObserver({ (invocation, mockingContext) -> Bool in
-      let allInvocations = mockingContext.invocations(for: asyncExpectation.invocation.selectorName)
-        .filter({ $0 == asyncExpectation.invocation })
-      let actualCallCount = UInt(allInvocations.count)
-      guard asyncExpectation.expectation.countMatcher.matches(actualCallCount) else { return false }
-      testExpectation.fulfill()
-      return true
+  let countMatcher: CountMatcher
+  let sourceLocation: SourceLocation
+  let group: ExpectationGroup?
+  
+  init(countMatcher: CountMatcher,
+       sourceLocation: SourceLocation,
+       group: ExpectationGroup?) {
+    self.countMatcher = countMatcher
+    self.sourceLocation = sourceLocation
+    self.group = group
+  }
+  
+  init(from other: Expectation, withGroup: Bool = false) {
+    self.init(countMatcher: other.countMatcher,
+              sourceLocation: other.sourceLocation,
+              group: withGroup ? other.group : nil)
+  }
+}
+
+func findInvocations(in mockingContext: MockingContext,
+                     with selectorName: String,
+                     before nextInvocation: Invocation?,
+                     after baseInvocation: Invocation?) -> [Invocation] {
+  return mockingContext
+    .invocations(with: selectorName)
+    .filter({ invocation in
+      var isBeforeNextInvocation: Bool {
+        guard let nextInvocation = nextInvocation else { return true }
+        return invocation < nextInvocation
+      }
+      var isAfterBaseInvocation: Bool {
+        guard let baseInvocation = baseInvocation else { return true }
+        return invocation > baseInvocation
+      }
+      return isBeforeNextInvocation && isAfterBaseInvocation
     })
-    asyncExpectation.mockingContext.addObserver(observer,
-                                                for: asyncExpectation.invocation.selectorName)
-  })
-  return testExpectation
 }
 
 /// Used by generated mocks to verify invocations with a call matcher.
+@discardableResult
 func expect(_ mockingContext: MockingContext,
             handled invocation: Invocation,
-            using expectation: Expectation) {
-  if let asyncGroup = expectation.asyncGroup {
-    let asyncExpectation = AsyncExpectation(mockingContext: mockingContext,
-                                            invocation: invocation,
-                                            expectation: expectation.copy())
-    asyncGroup.addExpectation(asyncExpectation)
-    return
+            using expectation: Expectation,
+            before nextInvocation: Invocation? = nil,
+            after baseInvocation: Invocation? = nil) throws -> [Invocation] {
+  if let group = expectation.group {
+    group.addExpectation(mockingContext: mockingContext,
+                         invocation: invocation,
+                         expectation: Expectation(from: expectation))
+    return []
   }
   
-  let allInvocations =
-    mockingContext.invocations(for: invocation.selectorName).filter({ $0 == invocation })
-  let actualCallCount = UInt(allInvocations.count)
-  guard !expectation.countMatcher.matches(actualCallCount) else { return }
-  let description = expectation.countMatcher.describe(invocation: invocation,
-                                                      count: actualCallCount)
-  let failure = TestFailure.incorrectInvocationCount(invocation: invocation,
-                                                     description: description)
-  XCTFail(String(describing: failure),
-          file: expectation.sourceLocation.file,
-          line: expectation.sourceLocation.line)
+  let allInvocations = findInvocations(in: mockingContext,
+                                       with: invocation.selectorName,
+                                       before: nextInvocation,
+                                       after: baseInvocation)
+  let allMatchingInvocations = allInvocations.filter({ $0 == invocation })
+  
+  let actualCallCount = UInt(allMatchingInvocations.count)
+  guard !expectation.countMatcher.matches(actualCallCount) else { return allInvocations }
+  throw TestFailure.incorrectInvocationCount(invocationCount: actualCallCount,
+                                             invocation: invocation,
+                                             countMatcher: expectation.countMatcher,
+                                             allInvocations: allInvocations)
 }
