@@ -19,19 +19,16 @@ public struct HymnLyricsView: View {
         }
 
         return AnyView(
-            ScrollView {
-                VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 5.5) {
+                ForEach(lyrics, id: \.self) { verse in
                     Group {
-                        ForEach(lyrics, id: \.self) { verse in
-                            Group {
-                                ForEach(verse.verseContent, id: \.self) { line in
-                                    Text(line)
-                                }
-                                Spacer().frame(height: 30)
-                            }
+                        ForEach(verse.verseContent, id: \.self) { line in
+                            Text(line).font(.custom("SF Pro Text", size: 17))
                         }
+                        Spacer().frame(height: 15)
                     }
                 }
+                Spacer()
             }
         )
     }
