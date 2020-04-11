@@ -5,10 +5,6 @@ public struct HymnLyricsView: View {
 
     @ObservedObject private var viewModel: HymnLyricsViewModel
 
-    init(viewModel: HymnLyricsViewModel) {
-        self.viewModel = viewModel
-    }
-
     public var body: some View {
         guard let lyrics = viewModel.lyrics else {
             return AnyView(Text("error!"))
@@ -19,21 +15,28 @@ public struct HymnLyricsView: View {
         }
 
         return AnyView(
-            ScrollView {
-                VStack(alignment: .leading) {
-                    Group {
-                        ForEach(lyrics, id: \.self) { verse in
-                            Group {
-                                ForEach(verse.verseContent, id: \.self) { line in
-                                    Text(line)
+            VStack {
+                DetailHymnScreen()
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        Group {
+                            ForEach(lyrics, id: \.self) { verse in
+                                Group {
+                                    ForEach(verse.verseContent, id: \.self) { line in
+                                        Text(line)
+                                    }
+                                    Spacer().frame(height: 30)
                                 }
-                                Spacer().frame(height: 30)
                             }
                         }
                     }
-                }
-            }
+                }//end scroll
+            }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
         )
+    }
+
+    init(viewModel: HymnLyricsViewModel) {
+        self.viewModel = viewModel
     }
 }
 

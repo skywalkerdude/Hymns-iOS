@@ -8,7 +8,7 @@ struct SearchBar: UIViewRepresentable {
     class Coordinator: NSObject, UISearchBarDelegate {
 
         @Binding var text: String
-        var didBecomeFirstResponder = false 
+        var didBecomeFirstResponder = false
 
         init(text: Binding<String>) {
             _text = text

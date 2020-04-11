@@ -2,10 +2,11 @@ import SwiftUI
 
 struct SettingsView: View {
     var body: some View {
-        NavigationView {
-            VStack {
+        VStack {
+            CustomTitle(title: "Settings")
+            Spacer()
             Text("TODO: Settings")
-            }.navigationBarTitle("Settings")
+            Spacer()
         }
     }
 }

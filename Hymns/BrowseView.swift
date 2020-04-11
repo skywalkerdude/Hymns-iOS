@@ -2,10 +2,11 @@ import SwiftUI
 
 struct BrowseView: View {
     var body: some View {
-        NavigationView {
-            VStack {
-                Text("TODO: Browse")
-            }.navigationBarTitle("Browse")
+        VStack {
+            CustomTitle(title: "Browse")
+            Spacer()
+            Text("TODO: Browse")
+            Spacer()
         }
     }
 }
