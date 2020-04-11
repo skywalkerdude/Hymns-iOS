@@ -22,7 +22,6 @@ jobs:
     # So it is faster to break it up into two steps. Build and test. Also, useful if we choose to have more than one kind of test.
     - name: Build for Testing
       run: |
-        pod deintegrate
         pod install
         xcodebuild build-for-testing -workspace Hymns.xcworkspace -scheme Hymns -destination "platform=iOS Simulator,name=iPhone 11 Pro"
     # Very important to know that -testPlan is a flag that uses an xCode test plan of choice. Only necessary if we are going to use testplans.
