@@ -32,7 +32,6 @@ public struct HymnLyricsView: View {
                     Group {
                         if verse.verseType == VerseType(rawValue: "chorus") {
                             VerseView(verseLines: verse.verseContent)
-                                .frame(width: 400, height: 150, alignment: .center)
                         } else {
                             VerseView(verseNumber: "\(isVerse(verseType: verse.verseType))", verseLines: verse.verseContent)
                         }
