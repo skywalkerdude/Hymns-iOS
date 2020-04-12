@@ -34,7 +34,7 @@ public final class HomeViewModelMock: Hymns.HomeViewModel, Mockingbird.Mock {
   }
 
   public enum InitializerProxy {
-    public static func initialize(`recentSongs`: [Hymns.SongResultViewModel<Hymns.HymnLyricsView>], __file: StaticString = #file, __line: UInt = #line) -> HomeViewModelMock {
+    public static func initialize(`recentSongs`: [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>], __file: StaticString = #file, __line: UInt = #line) -> HomeViewModelMock {
       let mock: HomeViewModelMock = HomeViewModelMock(recentSongs: `recentSongs`)
       mock.sourceLocation = SourceLocation(__file, __line)
       return mock
@@ -43,17 +43,17 @@ public final class HomeViewModelMock: Hymns.HomeViewModel, Mockingbird.Mock {
 
   // MARK: Mocked recentSongs
 
-  override public var `recentSongs`: [Hymns.SongResultViewModel<Hymns.HymnLyricsView>] {
+  override public var `recentSongs`: [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>] {
     get {
       let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "recentSongs.get", arguments: [])
       mockingContext.didInvoke(invocation)
-      return (stubbingContext.implementation(for: invocation) as! () -> [Hymns.SongResultViewModel<Hymns.HymnLyricsView>])()
+      return (stubbingContext.implementation(for: invocation) as! () -> [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>])()
     }
     set {
       let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "recentSongs.set", arguments: [ArgumentMatcher(newValue)])
       mockingContext.didInvoke(invocation)
       let implementation = stubbingContext.implementation(for: invocation, optional: true)
-      if let concreteImplementation = implementation as? ([Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) -> Void {
+      if let concreteImplementation = implementation as? ([Hymns.SongResultViewModel<Hymns.DetailHymnScreen>]) -> Void {
         concreteImplementation(newValue)
       } else {
         (implementation as? () -> Void)?()
@@ -61,23 +61,23 @@ public final class HomeViewModelMock: Hymns.HomeViewModel, Mockingbird.Mock {
     }
   }
 
-  public func getRecentSongs() -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> [Hymns.SongResultViewModel<Hymns.HymnLyricsView>], [Hymns.SongResultViewModel<Hymns.HymnLyricsView>]> {
+  public func getRecentSongs() -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>], [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>]> {
     let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "recentSongs.get", arguments: [])
-    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> [Hymns.SongResultViewModel<Hymns.HymnLyricsView>], [Hymns.SongResultViewModel<Hymns.HymnLyricsView>]>(mock: self, invocation: invocation)
+    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>], [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>]>(mock: self, invocation: invocation)
   }
 
-  public func setRecentSongs(_ newValue: @escaping @autoclosure () -> [Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) -> Void, Void> {
+  public func setRecentSongs(_ newValue: @escaping @autoclosure () -> [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>]) -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([Hymns.SongResultViewModel<Hymns.DetailHymnScreen>]) -> Void, Void> {
     let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(newValue)]
     let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "recentSongs.set", arguments: arguments)
-    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) -> Void, Void>(mock: self, invocation: invocation)
+    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([Hymns.SongResultViewModel<Hymns.DetailHymnScreen>]) -> Void, Void>(mock: self, invocation: invocation)
   }
 
-  // MARK: Mocked init(`recentSongs`: [Hymns.SongResultViewModel<Hymns.HymnLyricsView>])
+  // MARK: Mocked init(`recentSongs`: [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>])
 
-  public required override init(`recentSongs`: [Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) {
+  public required override init(`recentSongs`: [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>]) {
     super.init(recentSongs: `recentSongs`)
     Mockingbird.checkVersion(for: self)
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`recentSongs`: [Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) ", arguments: [Mockingbird.ArgumentMatcher(`recentSongs`)])
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`recentSongs`: [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>]) ", arguments: [Mockingbird.ArgumentMatcher(`recentSongs`)])
     mockingContext.didInvoke(invocation)
   }
 }
@@ -454,17 +454,17 @@ public final class SearchViewModelMock: Hymns.SearchViewModel, Mockingbird.Mock 
 
   // MARK: Mocked songResults
 
-  override public var `songResults`: [Hymns.SongResultViewModel<Hymns.HymnLyricsView>] {
+  override public var `songResults`: [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>] {
     get {
       let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "songResults.get", arguments: [])
       mockingContext.didInvoke(invocation)
-      return (stubbingContext.implementation(for: invocation) as! () -> [Hymns.SongResultViewModel<Hymns.HymnLyricsView>])()
+      return (stubbingContext.implementation(for: invocation) as! () -> [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>])()
     }
     set {
       let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "songResults.set", arguments: [ArgumentMatcher(newValue)])
       mockingContext.didInvoke(invocation)
       let implementation = stubbingContext.implementation(for: invocation, optional: true)
-      if let concreteImplementation = implementation as? ([Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) -> Void {
+      if let concreteImplementation = implementation as? ([Hymns.SongResultViewModel<Hymns.DetailHymnScreen>]) -> Void {
         concreteImplementation(newValue)
       } else {
         (implementation as? () -> Void)?()
@@ -472,15 +472,15 @@ public final class SearchViewModelMock: Hymns.SearchViewModel, Mockingbird.Mock 
     }
   }
 
-  public func getSongResults() -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> [Hymns.SongResultViewModel<Hymns.HymnLyricsView>], [Hymns.SongResultViewModel<Hymns.HymnLyricsView>]> {
+  public func getSongResults() -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>], [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>]> {
     let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "songResults.get", arguments: [])
-    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> [Hymns.SongResultViewModel<Hymns.HymnLyricsView>], [Hymns.SongResultViewModel<Hymns.HymnLyricsView>]>(mock: self, invocation: invocation)
+    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>], [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>]>(mock: self, invocation: invocation)
   }
 
-  public func setSongResults(_ newValue: @escaping @autoclosure () -> [Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) -> Void, Void> {
+  public func setSongResults(_ newValue: @escaping @autoclosure () -> [Hymns.SongResultViewModel<Hymns.DetailHymnScreen>]) -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([Hymns.SongResultViewModel<Hymns.DetailHymnScreen>]) -> Void, Void> {
     let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(newValue)]
     let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "songResults.set", arguments: arguments)
-    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([Hymns.SongResultViewModel<Hymns.HymnLyricsView>]) -> Void, Void>(mock: self, invocation: invocation)
+    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([Hymns.SongResultViewModel<Hymns.DetailHymnScreen>]) -> Void, Void>(mock: self, invocation: invocation)
   }
 
   // MARK: Mocked init(`backgroundQueue`: DispatchQueue, `mainQueue`: DispatchQueue, `repository`: Hymns.SongResultsRepository)
