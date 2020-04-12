@@ -3,7 +3,8 @@ import Resolver
 
 public struct HymnLyricsView: View {
 
-    @ObservedObject private var viewModel: HymnLyricsViewModel
+    //Pass in from DetailHymnScreen
+    private var viewModel: HymnLyricsViewModel
 
     public var body: some View {
         guard let lyrics = viewModel.lyrics else {
@@ -16,7 +17,6 @@ public struct HymnLyricsView: View {
 
         return AnyView(
             VStack {
-                DetailHymnScreen()
                 ScrollView {
                     VStack(alignment: .leading) {
                         Group {
@@ -30,7 +30,7 @@ public struct HymnLyricsView: View {
                             }
                         }
                     }
-                }//end scroll
+                }
             }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
         )
     }

@@ -4,7 +4,7 @@ import Resolver
 
 class HymnLyricsViewModel: ObservableObject {
 
-    @Published var lyrics: [Verse]? = [Verse]()
+    var lyrics: [Verse]? = [Verse]()
 
     private var disposables = Set<AnyCancellable>()
 
