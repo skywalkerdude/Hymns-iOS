@@ -41,6 +41,7 @@ type_name:
     - Hymns_iOS
     - Hymns_iOSTests
     - HymnalApiService_GetHymnTest
+    - HymnalApiService_GetHymnSpec
     - HymnalApiService_SearchTest
 
 large_tuple:
