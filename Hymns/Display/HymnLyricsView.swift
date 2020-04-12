@@ -17,7 +17,6 @@ public struct HymnLyricsView: View {
 
         return AnyView(
             VStack {
-               // DetailHymnScreen()
                 ScrollView {
                     VStack(alignment: .leading) {
                         Group {
@@ -31,7 +30,7 @@ public struct HymnLyricsView: View {
                             }
                         }
                     }
-                }//end scroll
+                }
             }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
         )
     }

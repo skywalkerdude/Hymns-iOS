@@ -40,7 +40,7 @@ class SearchViewModel: ObservableObject {
                     }
                     let identifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber)
                     let viewModel = HymnLyricsViewModel(hymnToDisplay: identifier, hymnsRepository: Resolver.resolve(), mainQueue: self.mainQueue)
-                    return SongResultViewModel(title: songResult.name, destinationView: DetailHymnScreen(viewModel: viewModel))
+                    return SongResultViewModel(title: songResult.name, destinationView: DetailHymnScreen(viewModel: DetailHymnScreenViewModel(hymnLyricsVM: viewModel)))
                 }
             }).receive(on: mainQueue)
             .sink(
