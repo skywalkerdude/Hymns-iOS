@@ -4,7 +4,7 @@ import Resolver
 
 class SearchViewModel: ObservableObject {
 
-    @Published var songResults: [SongResultViewModel<DetailHymnScreen>] = [SongResultViewModel<DetailHymnScreen>]()
+    @Published var songResults: [SongResultViewModel] = [SongResultViewModel]()
     @Published var searchInput = ""
 
     private let mainQueue: DispatchQueue
@@ -29,18 +29,17 @@ class SearchViewModel: ObservableObject {
     private func performSearch(searchInput: String) {
         repository
             .search(searchInput: searchInput, pageNumber: 1)
-            .map({ (songResultsPage) -> [SongResultViewModel<DetailHymnScreen>] in
+            .map({ (songResultsPage) -> [SongResultViewModel] in
                 guard let songResultsPage = songResultsPage else {
-                    return [SongResultViewModel<DetailHymnScreen>]()
+                    return [SongResultViewModel]()
                 }
-                return songResultsPage.results.compactMap { (songResult) -> SongResultViewModel<DetailHymnScreen>? in
+                return songResultsPage.results.compactMap { (songResult) -> SongResultViewModel? in
                     guard let hymnType = RegexUtil.getHymnType(path: songResult.path), let hymnNumber = RegexUtil.getHymnNumber(path: songResult.path) else {
                         // TODO log non fatal
                         return nil
                     }
                     let identifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber)
-                    let viewModel = HymnLyricsViewModel(hymnToDisplay: identifier, hymnsRepository: Resolver.resolve(), mainQueue: self.mainQueue)
-                    return SongResultViewModel(title: songResult.name, destinationView: DetailHymnScreen(viewModel: DetailHymnScreenViewModel(hymnLyricsVM: viewModel)))
+                    return SongResultViewModel(title: songResult.name, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
                 }
             }).receive(on: mainQueue)
             .sink(
@@ -48,7 +47,7 @@ class SearchViewModel: ObservableObject {
                     guard let self = self else { return }
                     switch state {
                     case .failure:
-                        self.songResults = [SongResultViewModel<DetailHymnScreen>]()
+                        self.songResults = [SongResultViewModel]()
                     case .finished:
                         break
                     }

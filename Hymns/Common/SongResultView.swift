@@ -1,10 +1,10 @@
 import SwiftUI
 
-struct SongResultView<DestinationView>: View where DestinationView: View {
+struct SongResultView: View {
 
-    private let viewModel: SongResultViewModel<DestinationView>
+    private let viewModel: SongResultViewModel
 
-    init(viewModel: SongResultViewModel<DestinationView>) {
+    init(viewModel: SongResultViewModel) {
         self.viewModel = viewModel
     }
 
@@ -15,8 +15,7 @@ struct SongResultView<DestinationView>: View where DestinationView: View {
 
 struct SongResultView_Previews: PreviewProvider {
     static var previews: some View {
-        SongResultView(viewModel: SongResultViewModel(title: "Hymn 480",
-                                                      destinationView: Text("Destination")))
+        SongResultView(viewModel: SongResultViewModel(title: "Hymn 480", destinationView: Text("Destination").eraseToAnyView()))
             .previewLayout(.fixed(width: 200, height: 50))
     }
 }
