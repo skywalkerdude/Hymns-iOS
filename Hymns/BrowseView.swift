@@ -7,7 +7,7 @@ struct BrowseView: View {
             Spacer()
             Text("TODO: Browse")
             Spacer()
-        }
+        }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
     }
 }
 
