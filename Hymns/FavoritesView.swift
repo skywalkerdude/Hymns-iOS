@@ -11,7 +11,7 @@ struct FavoritesView: View {
                     Text(filtered.songTitle)
                 }
             }
-        }
+        }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
     }
 }
 

@@ -9,7 +9,6 @@ struct SearchView: View {
     }
 
     var body: some View {
-        NavigationView {
             VStack {
                 SearchBar(text: $viewModel.searchInput, selectedOnAppear: true)
                 List {
@@ -20,7 +19,6 @@ struct SearchView: View {
                     }
                 }.padding(.trailing, -32.0) // Removes the carat on the right
             }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
-        }
     }
 }
 

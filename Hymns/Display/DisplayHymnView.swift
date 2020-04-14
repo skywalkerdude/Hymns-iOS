@@ -3,15 +3,15 @@ import Resolver
 
 struct DisplayHymnView: View {
 
-    var viewModel: DisplayHymnViewModel
+    @ObservedObject private var viewModel: DisplayHymnViewModel
 
     var body: some View {
         VStack {
             GeometryReader { geometry in
                 VStack {
                     HStack {
-                        NavigationLink(destination: HomeView(viewModel: Resolver.resolve())) {
-                            Image(systemName: "xmark")
+                        NavigationLink(destination: HomeContainerView()) {
+                            Image(systemName: "xmark").accentColor(Color.black)
                         }
                         Spacer()
                         if self.viewModel.favorited == true {
@@ -19,7 +19,7 @@ struct DisplayHymnView: View {
                         //TODO: Favorited needs to actually do something when clicked other than just say "favorited"
                         Spacer()
                         Button(action: {self.viewModel.toggleFavorited()}) {
-                            self.viewModel.favorited ? Image(systemName: "heart.fill") : Image(systemName: "heart")
+                            self.viewModel.favorited ? Image(systemName: "heart.fill").accentColor(Color.blue) : Image(systemName: "heart").accentColor(Color.black)
                         }
                     }.frame(width: geometry.size.width/1.1)
                     HStack {

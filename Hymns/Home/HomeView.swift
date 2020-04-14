@@ -12,7 +12,6 @@ struct HomeView: View {
     }
 
     var body: some View {
-        NavigationView {
             VStack(alignment: .leading, spacing: 10) {
                 Text("Look up any hymn").customTitleLayout()
                 searchBar
@@ -26,7 +25,6 @@ struct HomeView: View {
                     selectedViewModel.destinationView
                 }
             }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
-        }
     }
 }
 
