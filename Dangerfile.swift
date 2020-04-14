@@ -3,7 +3,7 @@ import Danger
 
 let danger = Danger()
 
-// FAILS with https://github.com/danger/swift/issues/339 SwiftLint.lint(configFile: ".swiftlint.yml", swiftlintPath: "Pods/SwiftLint/swiftlint")
+SwiftLint.lint(configFile: ".swiftlint.yml", swiftlintPath: "Pods/SwiftLint/swiftlint")
 // This works though, for some reason SwiftLint.lint(.modifiedAndCreatedFiles(directory:"HymnsTests"), configFile: ".swiftlint.yml", swiftlintPath: "Pods/SwiftLint/swiftlint")
 
 // Ensure no copyright header
