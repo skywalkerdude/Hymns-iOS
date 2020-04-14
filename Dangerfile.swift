@@ -3,7 +3,7 @@ import Danger
 
 let danger = Danger()
 
-let file = File(name: "Hymns/Display/HymnLyricsView.swift")
+let file: File = "Hymns/Display/HymnLyricsView.swift"
 SwiftLint.lint(.files([file]), configFile: ".swiftlint.yml", swiftlintPath: "Pods/SwiftLint/swiftlint")
 // This works though, for some reason SwiftLint.lint(.modifiedAndCreatedFiles(directory:"HymnsTests"), configFile: ".swiftlint.yml", swiftlintPath: "Pods/SwiftLint/swiftlint")
 
