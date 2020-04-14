@@ -11,14 +11,14 @@ struct DetailHymnScreen: View {
                     HStack {
                         NavigationLink(destination: HomeView(viewModel: Resolver.resolve())) {
                             Image(systemName: "xmark")
-                        }
+                        }.accentColor(Color.black)
                         Spacer()
                         if self.viewModel.favorited == true {
                         }
                         //TODO: Favorited needs to actually do something when clicked other than just say "favorited"
                         Spacer()
                         Button(action: {self.viewModel.toggleFavorited()}) {
-                            self.viewModel.favorited ? Image(systemName: "heart.fill") : Image(systemName: "heart")
+                            self.viewModel.favorited ? Image(systemName: "heart.fill").accentColor(Color.blue) : Image(systemName: "heart").accentColor(Color.black)
                         }
                     }.frame(width: geometry.size.width/1.1)
                     HStack {
@@ -37,7 +37,8 @@ struct DetailHymnScreen: View {
                 Spacer()
             }.frame(minHeight: 0, maxHeight: 60)
             HymnLyricsView(viewModel: self.viewModel.hymnLyricsVM)
-            Spacer() //This spacer is to keep the container at the top in "loading" cases
+            Spacer()//This spacer is to keep the container at the top in "loading" cases
+            DetailedHymnToolBarView()//.background(Color.white.shadow(radius: 2))
         }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
     }
 
@@ -45,6 +46,7 @@ struct DetailHymnScreen: View {
         self.viewModel = viewModel
     }
 }
+
 
 struct DetailHymnScreen_Previews: PreviewProvider {
 
