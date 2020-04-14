@@ -1,3 +1,5 @@
+// swiftlint:disable all
+
 import SwiftUI
 
 //model to represent one hymn object
