@@ -38,7 +38,7 @@ struct DetailHymnScreen: View {
             }.frame(minHeight: 0, maxHeight: 60)
             HymnLyricsView(viewModel: self.viewModel.hymnLyricsVM)
             Spacer()//This spacer is to keep the container at the top in "loading" cases
-            DetailedHymnToolBarView()//.background(Color.white.shadow(radius: 2))
+            DetailedHymnToolbarView()
         }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
     }
 
@@ -46,7 +46,6 @@ struct DetailHymnScreen: View {
         self.viewModel = viewModel
     }
 }
-
 
 struct DetailHymnScreen_Previews: PreviewProvider {
 

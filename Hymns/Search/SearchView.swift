@@ -3,11 +3,11 @@ import SwiftUI
 
 struct SearchView: View {
     @ObservedObject private var viewModel: SearchViewModel
-    
+
     init(viewModel: SearchViewModel) {
         self.viewModel = viewModel
     }
-    
+
     var body: some View {
         VStack {
             SearchBar(text: $viewModel.searchInput, selectedOnAppear: true)
