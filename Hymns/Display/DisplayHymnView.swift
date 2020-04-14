@@ -1,8 +1,9 @@
 import SwiftUI
 import Resolver
 
-struct DetailHymnScreen: View {
-    @ObservedObject private var viewModel: DetailHymnScreenViewModel
+struct DisplayHymnView: View {
+
+    var viewModel: DisplayHymnViewModel
 
     var body: some View {
         VStack {
@@ -36,12 +37,12 @@ struct DetailHymnScreen: View {
                 Spacer()
                 Spacer()
             }.frame(minHeight: 0, maxHeight: 60)
-            HymnLyricsView(viewModel: self.viewModel.hymnLyricsVM)
+            HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel)
             Spacer() //This spacer is to keep the container at the top in "loading" cases
         }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
     }
 
-    init(viewModel: DetailHymnScreenViewModel) {
+    init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
     }
 }
@@ -50,13 +51,8 @@ struct DetailHymnScreen_Previews: PreviewProvider {
 
     static var previews: some View {
 
-        let classic1151 = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151, hymnsRepository: Resolver.resolve(), mainQueue: Resolver.resolve(name: "main"))
-        classic1151.lyrics = classic1151_preview.lyrics
-        let classic1151View = DetailHymnScreen(viewModel: DetailHymnScreenViewModel(hymnLyricsVM: classic1151))
-
-        let classic1334 = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334, hymnsRepository: Resolver.resolve(), mainQueue: Resolver.resolve(name: "main"))
-        classic1334.lyrics = classic1334_preview.lyrics
-        let classic1334View = DetailHymnScreen(viewModel: DetailHymnScreenViewModel(hymnLyricsVM: classic1334))
+        let classic1151View = DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
+        let classic1334View = DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334))
 
         return Group {
             classic1151View

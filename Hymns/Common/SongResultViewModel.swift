@@ -1,12 +1,12 @@
 import Foundation
 import SwiftUI
 
-class SongResultViewModel<DestinationView>: Identifiable where DestinationView: View {
+class SongResultViewModel: Identifiable {
 
     let title: String
-    let destinationView: DestinationView
+    let destinationView: AnyView
 
-    init (title: String, destinationView: DestinationView) {
+    init (title: String, destinationView: AnyView) {
         self.title = title
         self.destinationView = destinationView
     }

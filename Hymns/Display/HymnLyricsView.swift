@@ -3,8 +3,11 @@ import Resolver
 
 public struct HymnLyricsView: View {
 
-    //Pass in from DetailHymnScreen
     private var viewModel: HymnLyricsViewModel
+
+    init(viewModel: HymnLyricsViewModel) {
+        self.viewModel = viewModel
+    }
 
     public var body: some View {
         guard let lyrics = viewModel.lyrics else {
@@ -33,10 +36,6 @@ public struct HymnLyricsView: View {
                 }
             }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
         )
-    }
-
-    init(viewModel: HymnLyricsViewModel) {
-        self.viewModel = viewModel
     }
 }
 

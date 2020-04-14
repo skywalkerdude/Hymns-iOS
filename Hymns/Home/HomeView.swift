@@ -4,8 +4,12 @@ import SwiftUI
 struct HomeView: View {
 
     @State var searchText: String = ""
+    @State var selectedViewModel: SongResultViewModel?
     @ObservedObject private var viewModel: HomeViewModel
-    var allHymns: [DummyHymnView] = testData
+
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
+    }
 
     var body: some View {
         NavigationView {
@@ -14,17 +18,15 @@ struct HomeView: View {
                 searchBar
                 List {
                     ForEach(self.viewModel.recentSongs) { recentSong in
-                        NavigationLink(destination: recentSong.destinationView) {
-                            SongResultView(viewModel: recentSong)
+                        SongResultView(viewModel: recentSong).onTapGesture {
+                            self.selectedViewModel = recentSong
                         }
                     }
-                }.padding(.trailing, -32.0)
+                }.sheet(item: self.$selectedViewModel) { (selectedViewModel) -> AnyView in
+                    selectedViewModel.destinationView
+                }
             }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
         }
-    }
-
-    init(viewModel: HomeViewModel) {
-        self.viewModel = viewModel
     }
 }
 
