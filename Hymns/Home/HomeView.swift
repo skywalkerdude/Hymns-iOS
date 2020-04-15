@@ -1,10 +1,8 @@
-import Resolver
 import SwiftUI
 
 struct HomeView: View {
 
     @State var searchText: String = ""
-    @State var selectedViewModel: SongResultViewModel?
     @ObservedObject private var viewModel: HomeViewModel
 
     init(viewModel: HomeViewModel) {
@@ -17,12 +15,10 @@ struct HomeView: View {
                 searchBar
                 List {
                     ForEach(self.viewModel.recentSongs) { recentSong in
-                        SongResultView(viewModel: recentSong).onTapGesture {
-                            self.selectedViewModel = recentSong
+                        NavigationLink(destination: recentSong.destinationView) {
+                            SongResultView(viewModel: recentSong)
                         }
                     }
-                }.sheet(item: self.$selectedViewModel) { (selectedViewModel) -> AnyView in
-                    selectedViewModel.destinationView
                 }
             }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
     }
