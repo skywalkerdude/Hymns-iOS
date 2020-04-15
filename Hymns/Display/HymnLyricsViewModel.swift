@@ -8,7 +8,9 @@ class HymnLyricsViewModel: ObservableObject {
 
     private var disposables = Set<AnyCancellable>()
 
-    init(hymnToDisplay identifier: HymnIdentifier, hymnsRepository: HymnsRepository, mainQueue: DispatchQueue) {
+    init(hymnToDisplay identifier: HymnIdentifier,
+         hymnsRepository: HymnsRepository = Resolver.resolve(),
+         mainQueue: DispatchQueue = Resolver.resolve(name: "main")) {
         hymnsRepository
             .getHymn(hymnIdentifier: identifier)
             .map({ (hymn) -> [Verse]? in

@@ -12,7 +12,9 @@ class SearchViewModel: ObservableObject {
 
     private var disposables = Set<AnyCancellable>()
 
-    init(backgroundQueue: DispatchQueue, mainQueue: DispatchQueue, repository: SongResultsRepository) {
+    init(backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
+         mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
+         repository: SongResultsRepository = Resolver.resolve()) {
         self.mainQueue = mainQueue
         self.repository = repository
 
@@ -60,6 +62,6 @@ class SearchViewModel: ObservableObject {
 
 extension Resolver {
     public static func registerSearchViewModel() {
-        register {SearchViewModel(backgroundQueue: resolve(name: "background"), mainQueue: resolve(name: "main"), repository: resolve())}.scope(graph)
+        register {SearchViewModel()}.scope(graph)
     }
 }

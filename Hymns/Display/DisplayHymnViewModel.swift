@@ -11,7 +11,7 @@ class DisplayHymnViewModel: ObservableObject {
     var hymnLyricsViewModel: HymnLyricsViewModel
 
     init(hymnToDisplay hymnIdentifier: HymnIdentifier) {
-        hymnLyricsViewModel = HymnLyricsViewModel(hymnToDisplay: hymnIdentifier, hymnsRepository: Resolver.resolve(), mainQueue: Resolver.resolve(name: "main"))
+        hymnLyricsViewModel = HymnLyricsViewModel(hymnToDisplay: hymnIdentifier)
     }
 
     func toggleFavorited() {
