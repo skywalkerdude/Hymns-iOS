@@ -25,7 +25,9 @@ jobs:
     - name: Clean Mockingbird Mocks
       run: echo $RANDOM > '/tmp/Mockingbird-6B5D07A6-FF57-4CCD-8248-A22177A601E6'
     - name: Generate Mockingbird Mocks
-      run: mockingbird generate --targets 'Hymns'  --outputs '/Users/lukelu/xCode/Hymns/MockingbirdMocks/HymnsMocks.generated.swift' --disable-swiftlint
+      run: |
+        cd ../..
+        mockingbird generate --targets 'Hymns'  --outputs '/Users/lukelu/xCode/Hymns/MockingbirdMocks/HymnsMocks.generated.swift' --disable-swiftlint
     # While we can actually do both the build and test step in one with "xcodebuild test", it is slower and ends up with a very hard to read 3000 line report.
     # So it is faster to break it up into two steps. Build and test. Also, useful if we choose to have more than one kind of test.
     - name: Build for Testing
