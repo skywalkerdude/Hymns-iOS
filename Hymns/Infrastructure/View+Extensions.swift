@@ -9,4 +9,13 @@ extension View {
     func eraseToAnyView() -> AnyView {
         return AnyView(self)
     }
+
+    /**
+     * Syntactic sugar to hide the navigation bar
+     */
+    func hideNavigationBar() -> some View {
+        self
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarHidden(true)
+    }
 }

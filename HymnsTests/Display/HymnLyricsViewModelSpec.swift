@@ -16,14 +16,15 @@ class HymnLyricsViewModelSpec: QuickSpec {
             var target: HymnLyricsViewModel!
             beforeEach {
                 hymnsRepository = mock(HymnsRepository.self)
+                target = HymnLyricsViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, mainQueue: testQueue)
             }
             context("with nil repository result") {
                 beforeEach {
                     given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> {Just(nil).assertNoFailure().eraseToAnyPublisher()}
                 }
-                describe("calling init") {
+                describe("fetching lyrics") {
                     beforeEach {
-                        target = HymnLyricsViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, mainQueue: testQueue)
+                        target.fetchLyrics()
                         testQueue.sync {}
                     }
                     it("lyrics should be nil") {
@@ -40,9 +41,9 @@ class HymnLyricsViewModelSpec: QuickSpec {
                     let emptyHymn = Hymn(title: "Empty Hymn", metaData: [MetaDatum](), lyrics: [Verse]())
                     given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> {Just(emptyHymn).assertNoFailure().eraseToAnyPublisher()}
                 }
-                describe("calling init") {
+                describe("fetching lyrics") {
                     beforeEach {
-                        target = HymnLyricsViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, mainQueue: testQueue)
+                        target.fetchLyrics()
                         testQueue.sync {}
                     }
                     it("lyrics should be empty") {
@@ -59,9 +60,9 @@ class HymnLyricsViewModelSpec: QuickSpec {
                     let validHymn = Hymn(title: "Filled Hymn", metaData: [MetaDatum](), lyrics: lyricsWithoutTransliteration)
                     given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> {Just(validHymn).assertNoFailure().eraseToAnyPublisher()}
                 }
-                describe("calling init") {
+                describe("fetching lyrics") {
                     beforeEach {
-                        target = HymnLyricsViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, mainQueue: testQueue)
+                        target.fetchLyrics()
                         testQueue.sync {}
                     }
                     it("lyrics should be empty") {

@@ -10,17 +10,17 @@ struct HomeView: View {
     }
 
     var body: some View {
-            VStack(alignment: .leading, spacing: 10) {
-                Text("Look up any hymn").customTitleLayout()
-                searchBar
-                List {
-                    ForEach(self.viewModel.recentSongs) { recentSong in
-                        NavigationLink(destination: recentSong.destinationView) {
-                            SongResultView(viewModel: recentSong)
-                        }
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Look up any hymn").customTitleLayout()
+            searchBar
+            List {
+                ForEach(self.viewModel.recentSongs) { recentSong in
+                    NavigationLink(destination: recentSong.destinationView) {
+                        SongResultView(viewModel: recentSong)
                     }
                 }
-            }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
+            }
+        }
     }
 }
 

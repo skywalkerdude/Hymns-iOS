@@ -3,47 +3,35 @@ import Resolver
 
 struct DisplayHymnView: View {
 
+    @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var viewModel: DisplayHymnViewModel
-
-    var body: some View {
-        VStack {
-            GeometryReader { geometry in
-                VStack {
-                    HStack {
-                        NavigationLink(destination: HomeContainerView()) {
-                            Image(systemName: "xmark").accentColor(Color.black)
-                        }
-                        Spacer()
-                        if self.viewModel.favorited == true {
-                        }
-                        //TODO: Favorited needs to actually do something when clicked other than just say "favorited"
-                        Spacer()
-                        Button(action: {self.viewModel.toggleFavorited()}) {
-                            self.viewModel.favorited ? Image(systemName: "heart.fill").accentColor(Color.blue) : Image(systemName: "heart").accentColor(Color.black)
-                        }
-                    }.frame(width: geometry.size.width/1.1)
-                    HStack {
-                        Spacer()
-                        Text("Lyrics")
-                        Spacer()
-                        Text("Chords")
-                        Spacer()
-                        Text("Guitar")
-                        Spacer()
-                        Text("Piano")
-                        Spacer()
-                    }.frame(width: geometry.size.width/1)
-                }.aspectRatio(contentMode: .fit).frame(height: 60).background(Color.white.shadow(radius: 2))
-                Spacer()
-                Spacer()
-            }.frame(minHeight: 0, maxHeight: 60)
-            HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel)
-            Spacer() //This spacer is to keep the container at the top in "loading" cases
-        }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
-    }
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
+    }
+
+    var body: some View {
+        VStack {
+            HStack {
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Image(systemName: "chevron.left").accentColor(Color.black)
+                }).padding()
+                Spacer()
+                Text(viewModel.title)
+                    .fontWeight(.semibold)
+                Spacer()
+                Image(systemName: "heart").padding()
+            }
+            Spacer()
+            HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel)
+            Spacer()
+        }
+        .hideNavigationBar()
+        .onAppear {
+            self.viewModel.fetchHymn()
+        }
     }
 }
 

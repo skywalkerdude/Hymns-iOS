@@ -2,23 +2,23 @@ import SwiftUI
 
 public struct HymnLyricsView: View {
 
-    private var viewModel: HymnLyricsViewModel
+    @ObservedObject private var viewModel: HymnLyricsViewModel
 
     init(viewModel: HymnLyricsViewModel) {
         self.viewModel = viewModel
     }
 
     public var body: some View {
-        guard let lyrics = viewModel.lyrics else {
-            return AnyView(Text("error!"))
-        }
+        Group { () -> AnyView in
+            guard let lyrics = viewModel.lyrics else {
+                return Text("error!").eraseToAnyView()
+            }
 
-        guard !lyrics.isEmpty else {
-            return AnyView(Text("loading..."))
-        }
+            guard !lyrics.isEmpty else {
+                return Text("loading...").eraseToAnyView()
+            }
 
-        return AnyView(
-            VStack {
+            return VStack {
                 ScrollView {
                     VStack(alignment: .leading) {
                         Group {
@@ -33,8 +33,10 @@ public struct HymnLyricsView: View {
                         }
                     }
                 }
-            }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
-        )
+            }.eraseToAnyView()
+        }.onAppear {
+            self.viewModel.fetchLyrics()
+        }
     }
 }
 
