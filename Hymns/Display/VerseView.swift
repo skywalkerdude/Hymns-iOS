@@ -25,6 +25,7 @@ struct VerseLineView: View {
 struct VerseLineView_Previews: PreviewProvider {
     static var previews: some View {
         VerseLineView(verseNumber: "1", verseText: "Drink! A river pure and clear that's flowing from the throne")
+        .previewLayout(.fixed(width: 350, height: 50))
     }
 }
 

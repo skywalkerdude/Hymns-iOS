@@ -7,7 +7,7 @@ class HomeViewModel: ObservableObject {
 
     init(recentSongs: [SongResultViewModel]) {
         // TODO fetch recent songs instead of passing it in
-        self.recentSongs = recentSongs
+        self.recentSongs = [PreviewSongResults.cupOfChrist, PreviewSongResults.hymn1151]
     }
 }
 

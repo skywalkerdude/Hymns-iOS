@@ -34,8 +34,8 @@ public final class DisplayHymnViewModelMock: Hymns.DisplayHymnViewModel, Mocking
   }
 
   public enum InitializerProxy {
-    public static func initialize(`hymnToDisplay` `hymnIdentifier`: HymnIdentifier, __file: StaticString = #file, __line: UInt = #line) -> DisplayHymnViewModelMock {
-      let mock: DisplayHymnViewModelMock = DisplayHymnViewModelMock(hymnToDisplay: `hymnIdentifier`)
+    public static func initialize(`hymnToDisplay` `identifier`: HymnIdentifier, `hymnsRepository` `repository`: Hymns.HymnsRepository, `mainQueue`: DispatchQueue, __file: StaticString = #file, __line: UInt = #line) -> DisplayHymnViewModelMock {
+      let mock: DisplayHymnViewModelMock = DisplayHymnViewModelMock(hymnToDisplay: `identifier`, hymnsRepository: `repository`, mainQueue: `mainQueue`)
       mock.sourceLocation = SourceLocation(__file, __line)
       return mock
     }
@@ -103,12 +103,61 @@ public final class DisplayHymnViewModelMock: Hymns.DisplayHymnViewModel, Mocking
     return Mockingbird.Mockable<Mockingbird.VariableDeclaration, (Hymns.HymnLyricsViewModel) -> Void, Void>(mock: self, invocation: invocation)
   }
 
-  // MARK: Mocked init(`hymnToDisplay` `hymnIdentifier`: HymnIdentifier)
+  // MARK: Mocked title
 
-  public required override init(`hymnToDisplay` `hymnIdentifier`: HymnIdentifier) {
-    super.init(hymnToDisplay: `hymnIdentifier`)
+  override public var `title`: Hymns.DisplayHymnViewModel.Title {
+    get {
+      let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "title.get", arguments: [])
+      mockingContext.didInvoke(invocation)
+      return (stubbingContext.implementation(for: invocation) as! () -> Hymns.DisplayHymnViewModel.Title)()
+    }
+    set {
+      let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "title.set", arguments: [ArgumentMatcher(newValue)])
+      mockingContext.didInvoke(invocation)
+      let implementation = stubbingContext.implementation(for: invocation, optional: true)
+      if let concreteImplementation = implementation as? (Hymns.DisplayHymnViewModel.Title) -> Void {
+        concreteImplementation(newValue)
+      } else {
+        (implementation as? () -> Void)?()
+      }
+    }
+  }
+
+  public func getTitle() -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> Hymns.DisplayHymnViewModel.Title, Hymns.DisplayHymnViewModel.Title> {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "title.get", arguments: [])
+    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, () -> Hymns.DisplayHymnViewModel.Title, Hymns.DisplayHymnViewModel.Title>(mock: self, invocation: invocation)
+  }
+
+  public func setTitle(_ newValue: @escaping @autoclosure () -> Hymns.DisplayHymnViewModel.Title) -> Mockingbird.Mockable<Mockingbird.VariableDeclaration, (Hymns.DisplayHymnViewModel.Title) -> Void, Void> {
+    let arguments: [Mockingbird.ArgumentMatcher] = [Mockingbird.resolve(newValue)]
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "title.set", arguments: arguments)
+    return Mockingbird.Mockable<Mockingbird.VariableDeclaration, (Hymns.DisplayHymnViewModel.Title) -> Void, Void>(mock: self, invocation: invocation)
+  }
+
+  // MARK: Mocked `fetchHymn`()
+
+  public override func `fetchHymn`() -> Void {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`fetchHymn`() -> Void", arguments: [])
+    mockingContext.didInvoke(invocation)
+    let implementation = stubbingContext.implementation(for: invocation, optional: true)
+    if let concreteImplementation = implementation as? () -> Void {
+      concreteImplementation()
+    } else {
+      (implementation as? () -> Void)?()
+    }
+  }
+
+  public func `fetchHymn`() -> Mockingbird.Mockable<Mockingbird.MethodDeclaration, () -> Void, Void> {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`fetchHymn`() -> Void", arguments: [])
+    return Mockingbird.Mockable<Mockingbird.MethodDeclaration, () -> Void, Void>(mock: self, invocation: invocation)
+  }
+
+  // MARK: Mocked init(`hymnToDisplay` `identifier`: HymnIdentifier, `hymnsRepository` `repository`: Hymns.HymnsRepository, `mainQueue`: DispatchQueue)
+
+  public required override init(`hymnToDisplay` `identifier`: HymnIdentifier, `hymnsRepository` `repository`: Hymns.HymnsRepository, `mainQueue`: DispatchQueue) {
+    super.init(hymnToDisplay: `identifier`, hymnsRepository: `repository`, mainQueue: `mainQueue`)
     Mockingbird.checkVersion(for: self)
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`hymnToDisplay` `hymnIdentifier`: HymnIdentifier) ", arguments: [Mockingbird.ArgumentMatcher(`hymnIdentifier`)])
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`hymnToDisplay` `identifier`: HymnIdentifier, `hymnsRepository` `repository`: Hymns.HymnsRepository, `mainQueue`: DispatchQueue) ", arguments: [Mockingbird.ArgumentMatcher(`identifier`), Mockingbird.ArgumentMatcher(`repository`), Mockingbird.ArgumentMatcher(`mainQueue`)])
     mockingContext.didInvoke(invocation)
   }
 
@@ -221,8 +270,8 @@ public final class HymnLyricsViewModelMock: Hymns.HymnLyricsViewModel, Mockingbi
   }
 
   public enum InitializerProxy {
-    public static func initialize(`hymnToDisplay` `identifier`: HymnIdentifier, `hymnsRepository`: Hymns.HymnsRepository, `mainQueue`: DispatchQueue, __file: StaticString = #file, __line: UInt = #line) -> HymnLyricsViewModelMock {
-      let mock: HymnLyricsViewModelMock = HymnLyricsViewModelMock(hymnToDisplay: `identifier`, hymnsRepository: `hymnsRepository`, mainQueue: `mainQueue`)
+    public static func initialize(`hymnToDisplay` `identifier`: HymnIdentifier, `hymnsRepository` `repository`: Hymns.HymnsRepository, `mainQueue`: DispatchQueue, __file: StaticString = #file, __line: UInt = #line) -> HymnLyricsViewModelMock {
+      let mock: HymnLyricsViewModelMock = HymnLyricsViewModelMock(hymnToDisplay: `identifier`, hymnsRepository: `repository`, mainQueue: `mainQueue`)
       mock.sourceLocation = SourceLocation(__file, __line)
       return mock
     }
@@ -259,12 +308,30 @@ public final class HymnLyricsViewModelMock: Hymns.HymnLyricsViewModel, Mockingbi
     return Mockingbird.Mockable<Mockingbird.VariableDeclaration, ([Verse]?) -> Void, Void>(mock: self, invocation: invocation)
   }
 
-  // MARK: Mocked init(`hymnToDisplay` `identifier`: HymnIdentifier, `hymnsRepository`: Hymns.HymnsRepository, `mainQueue`: DispatchQueue)
+  // MARK: Mocked `fetchLyrics`()
 
-  public required override init(`hymnToDisplay` `identifier`: HymnIdentifier, `hymnsRepository`: Hymns.HymnsRepository, `mainQueue`: DispatchQueue) {
-    super.init(hymnToDisplay: `identifier`, hymnsRepository: `hymnsRepository`, mainQueue: `mainQueue`)
+  public override func `fetchLyrics`() -> Void {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`fetchLyrics`() -> Void", arguments: [])
+    mockingContext.didInvoke(invocation)
+    let implementation = stubbingContext.implementation(for: invocation, optional: true)
+    if let concreteImplementation = implementation as? () -> Void {
+      concreteImplementation()
+    } else {
+      (implementation as? () -> Void)?()
+    }
+  }
+
+  public func `fetchLyrics`() -> Mockingbird.Mockable<Mockingbird.MethodDeclaration, () -> Void, Void> {
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "`fetchLyrics`() -> Void", arguments: [])
+    return Mockingbird.Mockable<Mockingbird.MethodDeclaration, () -> Void, Void>(mock: self, invocation: invocation)
+  }
+
+  // MARK: Mocked init(`hymnToDisplay` `identifier`: HymnIdentifier, `hymnsRepository` `repository`: Hymns.HymnsRepository, `mainQueue`: DispatchQueue)
+
+  public required override init(`hymnToDisplay` `identifier`: HymnIdentifier, `hymnsRepository` `repository`: Hymns.HymnsRepository, `mainQueue`: DispatchQueue) {
+    super.init(hymnToDisplay: `identifier`, hymnsRepository: `repository`, mainQueue: `mainQueue`)
     Mockingbird.checkVersion(for: self)
-    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`hymnToDisplay` `identifier`: HymnIdentifier, `hymnsRepository`: Hymns.HymnsRepository, `mainQueue`: DispatchQueue) ", arguments: [Mockingbird.ArgumentMatcher(`identifier`), Mockingbird.ArgumentMatcher(`hymnsRepository`), Mockingbird.ArgumentMatcher(`mainQueue`)])
+    let invocation: Mockingbird.Invocation = Mockingbird.Invocation(selectorName: "init(`hymnToDisplay` `identifier`: HymnIdentifier, `hymnsRepository` `repository`: Hymns.HymnsRepository, `mainQueue`: DispatchQueue) ", arguments: [Mockingbird.ArgumentMatcher(`identifier`), Mockingbird.ArgumentMatcher(`repository`), Mockingbird.ArgumentMatcher(`mainQueue`)])
     mockingContext.didInvoke(invocation)
   }
 }

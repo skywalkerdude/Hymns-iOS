@@ -4,14 +4,24 @@ import Resolver
 
 class HymnLyricsViewModel: ObservableObject {
 
-    var lyrics: [Verse]? = [Verse]()
+    @Published var lyrics: [Verse]? = [Verse]()
+
+    private let identifier: HymnIdentifier
+    private let mainQueue: DispatchQueue
+    private let repository: HymnsRepository
 
     private var disposables = Set<AnyCancellable>()
 
     init(hymnToDisplay identifier: HymnIdentifier,
-         hymnsRepository: HymnsRepository = Resolver.resolve(),
+         hymnsRepository repository: HymnsRepository = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main")) {
-        hymnsRepository
+        self.identifier = identifier
+        self.mainQueue = mainQueue
+        self.repository = repository
+    }
+
+    func fetchLyrics() {
+        repository
             .getHymn(hymnIdentifier: identifier)
             .map({ (hymn) -> [Verse]? in
                 guard let hymn = hymn, !hymn.lyrics.isEmpty else {

@@ -7,7 +7,7 @@ struct SettingsView: View {
             Spacer()
             Text("TODO: Settings")
             Spacer()
-        }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
+        }
     }
 }
 

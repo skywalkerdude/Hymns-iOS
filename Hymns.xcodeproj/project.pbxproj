@@ -60,6 +60,7 @@
 		3BC53646243EDB8100DA728F /* TestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC53645243EDB8100DA728F /* TestConstants.swift */; };
 		3BD345E32442EC5200F5DF2E /* HymnalApiService_GetHymnSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD345E22442EC5200F5DF2E /* HymnalApiService_GetHymnSpec.swift */; };
 		3BF699AF24417921005AFF6A /* VerseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF699AE24417921005AFF6A /* VerseView.swift */; };
+		3BFF25AE24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF25AD24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift */; };
 		5CA7849C242D14BA00B57903 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7849B242D14BA00B57903 /* SettingsView.swift */; };
 		5CA7849E242D14C800B57903 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7849D242D14C800B57903 /* FavoritesView.swift */; };
 		5CA784A0242D1A3200B57903 /* BrowseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7849F242D1A3200B57903 /* BrowseView.swift */; };
@@ -159,6 +160,7 @@
 		3BC53645243EDB8100DA728F /* TestConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestConstants.swift; sourceTree = "<group>"; };
 		3BD345E22442EC5200F5DF2E /* HymnalApiService_GetHymnSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnalApiService_GetHymnSpec.swift; sourceTree = "<group>"; };
 		3BF699AE24417921005AFF6A /* VerseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseView.swift; sourceTree = "<group>"; };
+		3BFF25AD24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnViewModelSpec.swift; sourceTree = "<group>"; };
 		556DC77F546E5154FCC439CA /* Pods-HymnsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HymnsTests.release.xcconfig"; path = "Target Support Files/Pods-HymnsTests/Pods-HymnsTests.release.xcconfig"; sourceTree = "<group>"; };
 		5CA7849B242D14BA00B57903 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5CA7849D242D14C800B57903 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
@@ -456,6 +458,7 @@
 		3B7555C62437C22300DA17F6 /* Display */ = {
 			isa = PBXGroup;
 			children = (
+				3BFF25AD24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift */,
 				3B7555C72437C24F00DA17F6 /* HymnLyricsViewModelSpec.swift */,
 			);
 			path = Display;
@@ -881,6 +884,7 @@
 				3BC53641243EB13E00DA728F /* SongRepositoryImplTest.swift in Sources */,
 				3B09F904243D4D9300252C15 /* URLProtocolMock.swift in Sources */,
 				3B5FD7242436B20A00B65132 /* HymnsRepositoryImplTest.swift in Sources */,
+				3BFF25AE24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift in Sources */,
 				3BD345E32442EC5200F5DF2E /* HymnalApiService_GetHymnSpec.swift in Sources */,
 				3B575694243E9F17007013FE /* XCTestCaseExtension.swift in Sources */,
 				3BC53644243EC63900DA728F /* SearchViewModelTest.swift in Sources */,
