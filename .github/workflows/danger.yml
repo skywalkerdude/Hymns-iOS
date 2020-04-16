@@ -1,8 +1,11 @@
 name: Danger
 on:
+  push:
+    paths:
+      - '**/*.swift'
   pull_request:
-    branches: [ master ]
-
+    paths:
+      - '**/*.swift'
 jobs:
   build:
     runs-on: ubuntu-latest
