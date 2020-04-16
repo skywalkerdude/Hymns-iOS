@@ -89,3 +89,6 @@ fastlane/test_output
 
 iOSInjectionProject/
 
+# Mockingbird generated code
+**/MockingbirdCache/Hymns.lock
+**/*.generated.swift
