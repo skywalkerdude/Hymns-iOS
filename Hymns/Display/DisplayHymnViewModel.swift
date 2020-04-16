@@ -1,6 +1,6 @@
-import Combine
-import Foundation
-import Resolver
+//import Combine
+//import Foundation
+//import Resolver
 import SwiftUI
 
 //This view model will expose 4 other view models to be passed through detailhymnscreen to their respective views. HymnLyricsViewModel, GuitarViewModel, PianoViewModel, and ChordsView Model
