@@ -1,6 +1,3 @@
-import Combine
-import Foundation
-import Resolver
 import SwiftUI
 
 //This view model will expose 4 other view models to be passed through detailhymnscreen to their respective views. HymnLyricsViewModel, GuitarViewModel, PianoViewModel, and ChordsView Model
@@ -38,7 +35,6 @@ class DisplayHymnViewModel: ObservableObject {
                 if self.identifier.hymnType == .classic {
                     return "Hymn \(self.identifier.hymnNumber)"
                 }
-
                 let title = hymn.title.replacingOccurrences(of: "Hymn: ", with: "")
                 return title
             })
