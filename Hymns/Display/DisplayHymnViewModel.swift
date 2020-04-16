@@ -1,6 +1,3 @@
-import Combine
-import Foundation
-import Resolver
 import SwiftUI
 
 //This view model will expose 4 other view models to be passed through detailhymnscreen to their respective views. HymnLyricsViewModel, GuitarViewModel, PianoViewModel, and ChordsView Model
@@ -11,7 +8,7 @@ class DisplayHymnViewModel: ObservableObject {
     var hymnLyricsViewModel: HymnLyricsViewModel
 
     init(hymnToDisplay hymnIdentifier: HymnIdentifier) {
-        hymnLyricsViewModel = HymnLyricsViewModel(hymnToDisplay: hymnIdentifier, hymnsRepository: Resolver.resolve(), mainQueue: Resolver.resolve(name: "main"))
+        hymnLyricsViewModel = HymnLyricsViewModel(hymnToDisplay: hymnIdentifier)
     }
 
     func toggleFavorited() {
