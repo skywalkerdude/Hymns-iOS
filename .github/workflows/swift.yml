@@ -13,7 +13,7 @@ jobs:
 
     runs-on: macos-latest
 
-    # https://medium.com/xcblog/xcodebuild-deploy-ios-app-from-command-line-c6defff0d8b8.
+    # https://medium.com/xcblog/xcodebuild-deploy-ios-app-from-command-line-c6defff0d8b8
     steps:
     - uses: actions/checkout@v2
     - name: Dependencies
