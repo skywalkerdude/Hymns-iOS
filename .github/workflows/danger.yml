@@ -1,11 +1,12 @@
 name: Danger
+
 on:
-  push:
-    paths:
-      - '**/*.swift'
   pull_request:
     paths:
+      - '.github/workflows/swiftlint.yml'
+      - '.swiftlint.yml'
       - '**/*.swift'
+
 jobs:
   build:
     runs-on: ubuntu-latest
