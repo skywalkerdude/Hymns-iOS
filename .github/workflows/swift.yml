@@ -18,6 +18,10 @@ jobs:
       run: |
         pod deintegrate
         pod install
+    - name: Install Mockingbird CLI
+      run: |
+        cd Pods/MockingbirdFramework
+        make install-prebuilt
     - name: Clean Mockingbird Mocks
       run: echo $RANDOM > '/tmp/Mockingbird-6B5D07A6-FF57-4CCD-8248-A22177A601E6'
     - name: Generate Mockingbird Mocks
