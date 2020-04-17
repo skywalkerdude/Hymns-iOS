@@ -46,6 +46,13 @@ type_name:
     - HymnalApiService_GetHymnSpec
     - HymnalApiService_SearchTest
 
+# https://stackoverflow.com/questions/39665790/swiftlint-exclude-file-for-specific-rule
+identifier_name:
+  min_length: # only min_length
+    error: 2 # only error
+  excluded: # excluded via string array
+    - id
+
 large_tuple:
    - 3 # warn user when using 3 values in tuple
    - 4 # give error if there are 4

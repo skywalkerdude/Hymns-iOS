@@ -1,11 +1,18 @@
+import Resolver
 import SwiftUI
 
 struct SettingsView: View {
+
+    private let viewModel: SettingsViewModel
+
+    init(viewModel: SettingsViewModel = Resolver.resolve()) {
+        self.viewModel = viewModel
+    }
+
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             CustomTitle(title: "Settings")
-            Spacer()
-            Text("TODO: Settings")
+            viewModel.privacyPolicy
             Spacer()
         }
     }
