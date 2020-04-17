@@ -1,5 +1,4 @@
 import SwiftUI
-import Resolver
 
 struct FavoritesView: View {
     @EnvironmentObject private var store: Store
@@ -9,7 +8,6 @@ struct FavoritesView: View {
     var body: some View {
         VStack {
             CustomTitle(title: "Favorites")
-//MARK
             List {
                 ForEach(store.itemEntities) { (itemEntity: FavoritedHymn) in
                     if itemEntity.isInvalidated {
@@ -25,7 +23,6 @@ struct FavoritesView: View {
                     }
                 }
             }
-            //MARK
         }
     }
 }

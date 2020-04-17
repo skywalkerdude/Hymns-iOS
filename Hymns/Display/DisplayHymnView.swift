@@ -5,7 +5,6 @@ struct DisplayHymnView: View {
 
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var viewModel: DisplayHymnViewModel
-    @State var favorito: Bool = false
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
