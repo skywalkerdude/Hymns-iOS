@@ -7,13 +7,14 @@ import SwiftUI
 class DisplayHymnViewModel: ObservableObject {
 
     typealias Title = String
-
-    @Published var favorited: Bool = false
     @Published var title: Title = ""
     var hymnLyricsViewModel: HymnLyricsViewModel
     private let identifier: HymnIdentifier
     private let repository: HymnsRepository
     private let mainQueue: DispatchQueue
+    @Published var favoritedStatus = false
+    @Published var hymnType = ""
+    @Published var hymnNumber = ""
 
     private var disposables = Set<AnyCancellable>()
 
@@ -21,12 +22,15 @@ class DisplayHymnViewModel: ObservableObject {
          hymnsRepository repository: HymnsRepository = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main")) {
         self.identifier = identifier
+        self.hymnType = identifier.hymnType.abbreviatedValue
+        self.hymnNumber = identifier.hymnNumber
         self.repository = repository
         self.mainQueue = mainQueue
         hymnLyricsViewModel = HymnLyricsViewModel(hymnToDisplay: identifier)
     }
 
     func fetchHymn() {
+        favoritedStatus = FavoritedHymn.checkIfFavorite(self.hymnType, self.hymnNumber)
         repository
             .getHymn(hymnIdentifier: identifier)
             .map({ (hymn) -> Title? in
@@ -47,7 +51,15 @@ class DisplayHymnViewModel: ObservableObject {
             }).store(in: &disposables)
     }
 
+    func updateFavorite() {
+        if self.favoritedStatus {
+            FavoritedHymn.saveFavorite(hymnType: self.hymnType, hymnNumber: self.hymnNumber)
+        } else {
+            FavoritedHymn.removeFavorite(hymnType: self.hymnType, hymnNumber: self.hymnNumber)
+        }
+    }
+
     func toggleFavorited() {
-        self.favorited.toggle()
+        self.favoritedStatus.toggle()
     }
 }

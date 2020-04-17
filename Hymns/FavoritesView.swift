@@ -1,16 +1,31 @@
 import SwiftUI
+import Resolver
 
 struct FavoritesView: View {
+    @EnvironmentObject private var store: Store
+
     var allHymns: [DummyHymnView] = testData
 
     var body: some View {
         VStack {
             CustomTitle(title: "Favorites")
-            List(allHymns) { filtered in
-                if !filtered.favorited {
-                    Text(filtered.songTitle)
+//MARK
+            List {
+                ForEach(store.itemEntities) { (itemEntity: FavoritedHymn) in
+                    if itemEntity.isInvalidated {
+                        EmptyView()
+                    } else {
+
+                        NavigationLink(destination: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: HymnIdentifier(hymnType: HymnType.fromAbbreviatedValue(abbreviatedValue: itemEntity.hymnType)!, hymnNumber: itemEntity.hymnNumber)))
+                       ) {
+                        HStack {
+                            Text("Hymn \(itemEntity.hymnNumber)")
+                        }
+                        }
+                    }
                 }
             }
+            //MARK
         }
     }
 }

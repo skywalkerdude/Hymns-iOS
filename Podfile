@@ -11,6 +11,9 @@ target 'Hymns' do
   # https://realm.github.io/SwiftLint
   pod 'SwiftLint'
   
+  #Realm Database for use with favorites
+  pod 'RealmSwift'
+  
   # Dependency Injection Framework
   # https://github.com/hmlongco/Resolver
   pod 'Resolver'

@@ -5,6 +5,7 @@ struct DisplayHymnView: View {
 
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var viewModel: DisplayHymnViewModel
+    @State var favorito: Bool = false
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
@@ -22,7 +23,11 @@ struct DisplayHymnView: View {
                 Text(viewModel.title)
                     .fontWeight(.semibold)
                 Spacer()
-                Image(systemName: "heart").padding()
+                Button(action: {self.viewModel.toggleFavorited()
+                    self.viewModel.updateFavorite()
+                }) {
+                    self.viewModel.favoritedStatus ? Image(systemName: "heart.fill").accentColor(Color.blue) : Image(systemName: "heart").accentColor(Color.black)
+                }
             }
             Spacer()
             HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel)
