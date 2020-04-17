@@ -14,10 +14,23 @@ class SettingsViewModelSpec: QuickSpec {
                 application = mock(Application.self)
                 target = SettingsViewModel(application: application)
             }
-            describe("privacy policy") {
+
+            describe("settings array") {
+                var settings: [AnySettingViewModel]!
+                beforeEach {
+                    settings = target.settings
+                }
+
+                let settingsSize = 1 // Change this value as we add more settings.
+                it("should contain exactly \(settingsSize) item") {
+                    expect(settings).to(haveCount(settingsSize))
+                }
+            }
+
+            context("privacy policy") {
                 var privacyPolicyViewModel: SimpleSettingViewModel!
                 beforeEach {
-                    privacyPolicyViewModel = target.privacyPolicy.viewModel
+                    privacyPolicyViewModel = target.privacyPolicy
                 }
 
                 let privacyPolicy = "Privacy Policy"
