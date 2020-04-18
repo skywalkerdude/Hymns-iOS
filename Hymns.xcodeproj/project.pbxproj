@@ -75,6 +75,7 @@
 		5CAF7435242B991100A847E2 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAF7434242B991100A847E2 /* SearchBar.swift */; };
 		7443AA6FE7CD7C9215F0A1ED /* Pods_HymnsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D298089C74A6C0A50D1131B /* Pods_HymnsTests.framework */; };
 		B51BA5C92430075300CA52F7 /* DisplayHymnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51BA5C82430075300CA52F7 /* DisplayHymnView.swift */; };
+		B529E078244A9F54009285A5 /* PrivacyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B529E077244A9F54009285A5 /* PrivacyPolicy.swift */; };
 		B56305B7244223A5003BC132 /* CustomTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56305B6244223A5003BC132 /* CustomTitleView.swift */; };
 		B56305B9244223D7003BC132 /* FontViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56305B8244223D7003BC132 /* FontViewModifier.swift */; };
 		B595A4A824438CC2005F7A14 /* DisplayHymnViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B595A4A724438CC2005F7A14 /* DisplayHymnViewModel.swift */; };
@@ -183,6 +184,7 @@
 		9C7E219FD959EFE135E9DBDC /* Pods_Hymns_HymnsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hymns_HymnsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC41EF23BF55F648A1FA112D /* Pods-Hymns.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns.debug.xcconfig"; path = "Target Support Files/Pods-Hymns/Pods-Hymns.debug.xcconfig"; sourceTree = "<group>"; };
 		B51BA5C82430075300CA52F7 /* DisplayHymnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnView.swift; sourceTree = "<group>"; };
+		B529E077244A9F54009285A5 /* PrivacyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicy.swift; sourceTree = "<group>"; };
 		B560B615243F978D00FD5867 /* MasterTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MasterTestPlan.xctestplan; sourceTree = SOURCE_ROOT; };
 		B56305B6244223A5003BC132 /* CustomTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTitleView.swift; sourceTree = "<group>"; };
 		B56305B8244223D7003BC132 /* FontViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontViewModifier.swift; sourceTree = "<group>"; };
@@ -485,6 +487,7 @@
 				3B87B82524493F7F00AEC7E9 /* SimpleSettingView.swift */,
 				3B87B82724493F9200AEC7E9 /* SimpleSettingViewModel.swift */,
 				5CA7849B242D14BA00B57903 /* SettingsView.swift */,
+				B529E077244A9F54009285A5 /* PrivacyPolicy.swift */,
 				3B87B8292449497A00AEC7E9 /* SettingsViewModel.swift */,
 				3BB09206244A18F800EAE411 /* BaseSettingViewModel.swift */,
 			);
@@ -895,6 +898,7 @@
 				3B45B8FF243BE87300D38BEF /* HomeViewModel.swift in Sources */,
 				5CAF7433242B98DF00A847E2 /* DummyTestData.swift in Sources */,
 				3B45B908243BF74700D38BEF /* PreviewHymnIdentifiers.swift in Sources */,
+				B529E078244A9F54009285A5 /* PrivacyPolicy.swift in Sources */,
 				3B50B968243E44B100EABDE4 /* SongResultsPage.swift in Sources */,
 				3B87B82624493F7F00AEC7E9 /* SimpleSettingView.swift in Sources */,
 				3BC1328D243826280082A274 /* PreviewHymns.swift in Sources */,
