@@ -27,7 +27,7 @@ struct HomeView: View {
 
 private extension HomeView {
     var searchBar: some View {
-        NavigationLink(destination: viewModel.createSearchView()) {
+        NavigationLink(destination: SearchView()) {
             SearchBar(text: $searchText).disabled(true)
         }
     }
