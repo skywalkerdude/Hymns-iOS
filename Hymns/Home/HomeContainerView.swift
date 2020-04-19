@@ -7,34 +7,13 @@ struct HomeContainerView: View {
 
     var body: some View {
         NavigationView {
-            TabView(selection: $selectedTab) {
-                HomeView(viewModel: Resolver.resolve())
-                    .tabItem {HomeTab.home.getImage(selectedTab == HomeTab.home)}
-                    .accessibility(label: HomeTab.home.label)
-                    .tag(HomeTab.home)
-                    .hideNavigationBar()
-
-                BrowseView()
-                    .tabItem { HomeTab.browse.getImage(selectedTab == HomeTab.browse)}
-                    .accessibility(label: HomeTab.browse.label)
-                    .tag(HomeTab.browse)
-                    .hideNavigationBar()
-
-                FavoritesView()
-                    .tabItem {HomeTab.favorites.getImage(selectedTab == HomeTab.favorites)}
-                    .accessibility(label: HomeTab.favorites.label)
-                    .tag(HomeTab.favorites)
-                    .hideNavigationBar()
-
-                SettingsView()
-                    .tabItem {HomeTab.settings.getImage(selectedTab == HomeTab.settings)}
-                    .accessibility(label: HomeTab.settings.label)
-                    .tag(HomeTab.settings)
-                    .hideNavigationBar()
-            }.onAppear {
-                // Make the unselected tabs black insetad of grey.
-                UITabBar.appearance().unselectedItemTintColor = .black
-            }.edgesIgnoringSafeArea(.top)
+            IndicatorTabView(currentTab: $selectedTab, tabItems: [
+                .home,
+                .browse,
+                .favorites,
+                .settings
+                ]).hideNavigationBar()
+            .edgesIgnoringSafeArea(.top)
         }
     }
 }
@@ -42,14 +21,24 @@ struct HomeContainerView: View {
 struct HomeContainerView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            //preview all tabs
-            HomeContainerView(selectedTab: .home)
-            HomeContainerView(selectedTab: .browse)
-            HomeContainerView(selectedTab: .favorites)
-            HomeContainerView(selectedTab: .settings)
-            //previws localization
-            HomeContainerView().environment(\.locale, .init(identifier: "de"))
-            HomeContainerView().environment(\.locale, .init(identifier: "es"))
+            // preview all tabs
+            HomeContainerView(selectedTab: .home).previewDisplayName("Home tab")
+            HomeContainerView(selectedTab: .browse).previewDisplayName("Browse tab")
+            HomeContainerView(selectedTab: .favorites).previewDisplayName("Favorites tab")
+            HomeContainerView(selectedTab: .settings).previewDisplayName("Settings tab")
+            // preview localization
+            HomeContainerView().environment(\.locale, .init(identifier: "de")).previewDisplayName("German")
+            HomeContainerView().environment(\.locale, .init(identifier: "es")).previewDisplayName("Spanish")
+            // preview different sizes
+            HomeContainerView()
+                .previewDevice(PreviewDevice(rawValue: "iPhone SE"))
+                .previewDisplayName("iPhone SE")
+            HomeContainerView()
+                .previewDevice(PreviewDevice(rawValue: "iPhone XS Max"))
+                .previewDisplayName("iPhone XS Max")
+            HomeContainerView()
+                .previewDevice(PreviewDevice(rawValue: "iPad Air 2"))
+                .previewDisplayName("iPad Air 2")
         }
     }
 }
