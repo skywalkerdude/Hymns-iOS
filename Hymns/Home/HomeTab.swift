@@ -9,7 +9,7 @@ enum HomeTab {
 }
 
 extension HomeTab: TabItem {
-    
+
     var id: HomeTab { self }
 
     var content: some View {

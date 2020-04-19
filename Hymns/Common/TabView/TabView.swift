@@ -18,7 +18,7 @@ public struct IndicatorTabView<TabType: TabItem>: View {
                     .overlay(currentTab.content)
 
                 Rectangle()
-                    .shadow(radius: 3)
+                    .shadow(radius: 0, y: -0.2)
                     .frame(height: 50)
                     .foregroundColor(.white)
                     .overlay(TabBar(currentTab: $currentTab, tabItems: tabItems))
