@@ -10,8 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Danger
-        uses: danger/swift@3.0.0
-        with:
-            args: --failOnErrors --no-publish-check
+        uses: f-meloni/danger-swift-swiftlint-action@0.2.8
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
