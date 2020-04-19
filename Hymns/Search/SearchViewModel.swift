@@ -4,7 +4,7 @@ import Resolver
 
 class SearchViewModel: ObservableObject {
 
-    @Published var songResults: [SongResultViewModel<HymnLyricsView>] = [SongResultViewModel<HymnLyricsView>]()
+    @Published var songResults: [SongResultViewModel] = [SongResultViewModel]()
     @Published var searchInput = ""
 
     private let mainQueue: DispatchQueue
@@ -12,7 +12,9 @@ class SearchViewModel: ObservableObject {
 
     private var disposables = Set<AnyCancellable>()
 
-    init(backgroundQueue: DispatchQueue, mainQueue: DispatchQueue, repository: SongResultsRepository) {
+    init(backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
+         mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
+         repository: SongResultsRepository = Resolver.resolve()) {
         self.mainQueue = mainQueue
         self.repository = repository
 
@@ -29,18 +31,17 @@ class SearchViewModel: ObservableObject {
     private func performSearch(searchInput: String) {
         repository
             .search(searchInput: searchInput, pageNumber: 1)
-            .map({ (songResultsPage) -> [SongResultViewModel<HymnLyricsView>] in
+            .map({ (songResultsPage) -> [SongResultViewModel] in
                 guard let songResultsPage = songResultsPage else {
-                    return [SongResultViewModel<HymnLyricsView>]()
+                    return [SongResultViewModel]()
                 }
-                return songResultsPage.results.compactMap { (songResult) -> SongResultViewModel<HymnLyricsView>? in
+                return songResultsPage.results.compactMap { (songResult) -> SongResultViewModel? in
                     guard let hymnType = RegexUtil.getHymnType(path: songResult.path), let hymnNumber = RegexUtil.getHymnNumber(path: songResult.path) else {
                         // TODO log non fatal
                         return nil
                     }
                     let identifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber)
-                    let viewModel = HymnLyricsViewModel(hymnToDisplay: identifier, hymnsRepository: Resolver.resolve(), mainQueue: self.mainQueue)
-                    return SongResultViewModel(title: songResult.name, destinationView: HymnLyricsView(viewModel: viewModel))
+                    return SongResultViewModel(title: songResult.name, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
                 }
             }).receive(on: mainQueue)
             .sink(
@@ -48,7 +49,7 @@ class SearchViewModel: ObservableObject {
                     guard let self = self else { return }
                     switch state {
                     case .failure:
-                        self.songResults = [SongResultViewModel<HymnLyricsView>]()
+                        self.songResults = [SongResultViewModel]()
                     case .finished:
                         break
                     }
@@ -61,6 +62,6 @@ class SearchViewModel: ObservableObject {
 
 extension Resolver {
     public static func registerSearchViewModel() {
-        register {SearchViewModel(backgroundQueue: resolve(name: "background"), mainQueue: resolve(name: "main"), repository: resolve())}.scope(graph)
+        register {SearchViewModel()}.scope(graph)
     }
 }

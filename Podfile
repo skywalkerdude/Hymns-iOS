@@ -17,17 +17,19 @@ target 'Hymns' do
   
   target 'HymnsTests' do
     inherit! :search_paths
-    # Pods for testing
     
     # Mocking framework
     # https://github.com/birdrides/mockingbird
-# Uncomment the next line to define a global platform for your project
-    use_frameworks!
     pod 'MockingbirdFramework'
+
+    # Quick & Nimble
+    # https://github.com/Quick/Quick
+    pod 'Quick'
+    # https://github.com/Quick/Nimble
+    pod 'Nimble'
   end
 
   target 'HymnsUITests' do
     # Pods for testing
   end
-
 end

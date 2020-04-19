@@ -1,5 +1,4 @@
 import SwiftUI
-import Resolver
 
 public struct HymnLyricsView: View {
 
@@ -9,13 +8,14 @@ public struct HymnLyricsView: View {
         self.viewModel = viewModel
     }
     public var body: some View {
-        guard let lyrics = viewModel.lyrics else {
-            return AnyView(Text("error!"))
-        }
+        Group { () -> AnyView in
+            guard let lyrics = viewModel.lyrics else {
+                return Text("error!").eraseToAnyView()
+            }
 
-        guard !lyrics.isEmpty else {
-            return AnyView(Text("loading..."))
-        }
+            guard !lyrics.isEmpty else {
+                return Text("loading...").eraseToAnyView()
+            }
 
         return AnyView(
             VStack(alignment: .leading) {
@@ -29,9 +29,10 @@ public struct HymnLyricsView: View {
                         Spacer().frame(height: 15)
                     }
                 }
-                Spacer()
-            }
-        )
+            }.eraseToAnyView()
+        }.onAppear {
+            self.viewModel.fetchLyrics()
+        }
     }
 }
 

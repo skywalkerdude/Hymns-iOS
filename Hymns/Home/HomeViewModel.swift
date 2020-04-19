@@ -3,11 +3,11 @@ import Resolver
 
 class HomeViewModel: ObservableObject {
 
-    @Published var recentSongs: [SongResultViewModel<HymnLyricsView>] = [SongResultViewModel<HymnLyricsView>]()
+    @Published var recentSongs: [SongResultViewModel] = [SongResultViewModel]()
 
-    init(recentSongs: [SongResultViewModel<HymnLyricsView>]) {
+    init(recentSongs: [SongResultViewModel]) {
         // TODO fetch recent songs instead of passing it in
-        self.recentSongs = recentSongs
+        self.recentSongs = [PreviewSongResults.cupOfChrist, PreviewSongResults.hymn1151]
     }
 }
 
@@ -19,6 +19,6 @@ extension HomeViewModel {
 
 extension Resolver {
     public static func registerHomeViewModel() {
-        register {HomeViewModel(recentSongs: [SongResultViewModel<HymnLyricsView>]())}.scope(graph)
+        register {HomeViewModel(recentSongs: [SongResultViewModel]())}.scope(graph)
     }
 }

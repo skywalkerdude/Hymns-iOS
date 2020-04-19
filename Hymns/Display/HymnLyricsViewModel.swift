@@ -6,10 +6,22 @@ class HymnLyricsViewModel: ObservableObject {
 
     @Published var lyrics: [VerseViewModel]? = [VerseViewModel]()
 
+    private let identifier: HymnIdentifier
+    private let mainQueue: DispatchQueue
+    private let repository: HymnsRepository
+
     private var disposables = Set<AnyCancellable>()
 
-    init(hymnToDisplay identifier: HymnIdentifier, hymnsRepository: HymnsRepository, mainQueue: DispatchQueue) {
-        hymnsRepository
+    init(hymnToDisplay identifier: HymnIdentifier,
+         hymnsRepository repository: HymnsRepository = Resolver.resolve(),
+         mainQueue: DispatchQueue = Resolver.resolve(name: "main")) {
+        self.identifier = identifier
+        self.mainQueue = mainQueue
+        self.repository = repository
+    }
+
+    func fetchLyrics() {
+        repository
             .getHymn(hymnIdentifier: identifier)
             .map({ (hymn) -> [VerseViewModel]? in
                 guard let hymn = hymn, !hymn.lyrics.isEmpty else {

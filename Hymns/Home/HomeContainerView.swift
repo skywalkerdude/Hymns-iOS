@@ -6,25 +6,35 @@ struct HomeContainerView: View {
     @State var selectedTab: HomeTab = .home
 
     var body: some View {
-        TabView(selection: $selectedTab) {
-            HomeView(viewModel: Resolver.resolve()).tabItem {
-                HomeTab.home.getImage(selectedTab == HomeTab.home)
-            }.accessibility(label: HomeTab.home.label).tag(HomeTab.home)
+        NavigationView {
+            TabView(selection: $selectedTab) {
+                HomeView(viewModel: Resolver.resolve())
+                    .tabItem {HomeTab.home.getImage(selectedTab == HomeTab.home)}
+                    .accessibility(label: HomeTab.home.label)
+                    .tag(HomeTab.home)
+                    .hideNavigationBar()
 
-            BrowseView().tabItem {
-                HomeTab.browse.getImage(selectedTab == HomeTab.browse)
-            }.accessibility(label: HomeTab.browse.label).tag(HomeTab.browse)
+                BrowseView()
+                    .tabItem { HomeTab.browse.getImage(selectedTab == HomeTab.browse)}
+                    .accessibility(label: HomeTab.browse.label)
+                    .tag(HomeTab.browse)
+                    .hideNavigationBar()
 
-            FavoritesView().tabItem {
-                HomeTab.favorites.getImage(selectedTab == HomeTab.favorites)
-            }.accessibility(label: HomeTab.favorites.label).tag(HomeTab.favorites)
+                FavoritesView()
+                    .tabItem {HomeTab.favorites.getImage(selectedTab == HomeTab.favorites)}
+                    .accessibility(label: HomeTab.favorites.label)
+                    .tag(HomeTab.favorites)
+                    .hideNavigationBar()
 
-            SettingsView().tabItem {
-                HomeTab.settings.getImage(selectedTab == HomeTab.settings)
-            }.accessibility(label: HomeTab.settings.label).tag(HomeTab.settings)
-        }.onAppear {
-            // Make the unselected tabs black insetad of grey.
-            UITabBar.appearance().unselectedItemTintColor = .black
+                SettingsView()
+                    .tabItem {HomeTab.settings.getImage(selectedTab == HomeTab.settings)}
+                    .accessibility(label: HomeTab.settings.label)
+                    .tag(HomeTab.settings)
+                    .hideNavigationBar()
+            }.onAppear {
+                // Make the unselected tabs black insetad of grey.
+                UITabBar.appearance().unselectedItemTintColor = .black
+            }.edgesIgnoringSafeArea(.top)
         }
     }
 }
