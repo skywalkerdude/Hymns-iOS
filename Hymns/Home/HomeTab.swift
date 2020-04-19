@@ -8,9 +8,38 @@ enum HomeTab {
     case settings
 }
 
-extension HomeTab {
+extension HomeTab: TabItem {
+    var id: HomeTab { self }
 
-    var label: Text {
+    var content: some View {
+        switch self {
+        case .home:
+            return HomeView().eraseToAnyView()
+        case .browse:
+            return BrowseView().eraseToAnyView()
+        case .favorites:
+            return FavoritesView().eraseToAnyView()
+        case .settings:
+            return SettingsView().eraseToAnyView()
+        }
+    }
+
+    var label: some View {
+        let image: Image
+        switch self {
+        case .home:
+            image = Image(systemName: "magnifyingglass")
+        case .browse:
+            image = Image(systemName: "book")
+        case .favorites:
+            image = Image(systemName: "heart")
+        case .settings:
+            image = Image(systemName: "gear")
+        }
+        return image
+    }
+
+    var a11yLabel: Text {
         switch self {
         case .home:
             return Text("Search tab")
