@@ -13,6 +13,5 @@ jobs:
         uses: danger/swift@3.0.0
         with:
             args: --failOnErrors --no-publish-check
-
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
