@@ -9,7 +9,7 @@ struct FavoritesView: View {
         VStack {
             CustomTitle(title: "Favorites")
             List {
-                ForEach(store.itemEntities) { (itemEntity: FavoritedHymn) in
+                ForEach(store.itemEntities) { (itemEntity: FavoritedEntity) in
                     if itemEntity.isInvalidated {
                         EmptyView()
                     } else {

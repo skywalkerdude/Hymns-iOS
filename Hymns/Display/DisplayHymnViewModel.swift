@@ -13,8 +13,8 @@ class DisplayHymnViewModel: ObservableObject {
     private let repository: HymnsRepository
     private let mainQueue: DispatchQueue
     @Published var favoritedStatus = false
-    @Published var hymnType = ""
-    @Published var hymnNumber = ""
+    var hymnType = ""
+    var hymnNumber = ""
 
     private var disposables = Set<AnyCancellable>()
 
@@ -29,37 +29,57 @@ class DisplayHymnViewModel: ObservableObject {
         hymnLyricsViewModel = HymnLyricsViewModel(hymnToDisplay: identifier)
     }
 
-    func fetchHymn() {
-        favoritedStatus = FavoritedHymn.checkIfFavorite(self.hymnType, self.hymnNumber)
-        repository
-            .getHymn(hymnIdentifier: identifier)
-            .map({ (hymn) -> Title? in
-                guard let hymn = hymn else {
-                    return nil
-                }
-
-                if self.identifier.hymnType == .classic {
-                    return "Hymn \(self.identifier.hymnNumber)"
-                }
-                let title = hymn.title.replacingOccurrences(of: "Hymn: ", with: "")
-                return title
-            })
-            .receive(on: mainQueue)
-            .sink(
-                receiveValue: { [weak self] title in
-                    self?.title = title ?? ""
-            }).store(in: &disposables)
+    func checkFavoritedStatus() {
+        print("second")
+        favoritedStatus = FavoritedEntity.checkIfFavorite(self.hymnType, self.hymnNumber)
     }
 
-    func updateFavorite() {
-        if self.favoritedStatus {
-            FavoritedHymn.saveFavorite(hymnType: self.hymnType, hymnNumber: self.hymnNumber)
+    func fetchHymn() {
+        favoritedStatus = FavoritedEntity.checkIfFavorite(self.hymnType, self.hymnNumber)
+
+        if favoritedStatus == true {
+            self.title = FavoritedEntity.retrieveTitle(hymnType: self.hymnType, hymnNumber: self.hymnNumber)
+            print(self.title)
+            print("skipping call")
+            return
         } else {
-            FavoritedHymn.removeFavorite(hymnType: self.hymnType, hymnNumber: self.hymnNumber)
+            print("1st ish")
+            print(self.title)
+            repository
+                .getHymn(hymnIdentifier: identifier)
+                .map({ (hymn) -> Title? in
+                    guard let hymn = hymn else {
+                        return nil
+                    }
+
+                    if self.identifier.hymnType == .classic {
+                        return "Hymn \(self.identifier.hymnNumber)"
+                    }
+                    let title = hymn.title.replacingOccurrences(of: "Hymn: ", with: "")
+                    return title
+                })
+                .receive(on: mainQueue)
+                .sink(
+                    receiveValue: { [weak self] title in
+                        self?.title = title ?? ""
+                }).store(in: &disposables)
         }
     }
 
+//    func updateFavorite() {
+//        if self.favoritedStatus {
+//            FavoritedEntity.saveFavorite(hymnType: self.hymnType, hymnNumber: self.hymnNumber, hymnTitle: self.title)
+//        } else {
+//            FavoritedEntity.removeFavorite(hymnType: self.hymnType, hymnNumber: self.hymnNumber)
+//        }
+//    }
+
     func toggleFavorited() {
         self.favoritedStatus.toggle()
+        if self.favoritedStatus {
+            FavoritedEntity.saveFavorite(hymnType: self.hymnType, hymnNumber: self.hymnNumber, hymnTitle: self.title)
+        } else {
+            FavoritedEntity.removeFavorite(hymnType: self.hymnType, hymnNumber: self.hymnNumber)
+        }
     }
 }

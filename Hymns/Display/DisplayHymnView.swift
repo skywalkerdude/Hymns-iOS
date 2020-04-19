@@ -23,7 +23,6 @@ struct DisplayHymnView: View {
                     .fontWeight(.semibold)
                 Spacer()
                 Button(action: {self.viewModel.toggleFavorited()
-                    self.viewModel.updateFavorite()
                 }) {
                     self.viewModel.favoritedStatus ? Image(systemName: "heart.fill").accentColor(Color.blue) : Image(systemName: "heart").accentColor(Color.black)
                 }
