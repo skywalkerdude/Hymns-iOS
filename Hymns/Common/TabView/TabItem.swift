@@ -3,10 +3,12 @@ import SwiftUI
 
 public protocol TabItem: Identifiable, Equatable {
 
-    associatedtype Label: View
+    associatedtype SelectedLabel: View
+    associatedtype UnselectedLabel: View
     associatedtype Content: View
 
-    var label: Label { get }
+    var selectedLabel: SelectedLabel { get }
+    var unselectedLabel: UnselectedLabel { get }
     var a11yLabel: Text { get }
     var content: Content { get }
 }
