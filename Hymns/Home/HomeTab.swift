@@ -9,6 +9,7 @@ enum HomeTab {
 }
 
 extension HomeTab: TabItem {
+    
     var id: HomeTab { self }
 
     var content: some View {
@@ -24,19 +25,12 @@ extension HomeTab: TabItem {
         }
     }
 
-    var label: some View {
-        let image: Image
-        switch self {
-        case .home:
-            image = Image(systemName: "magnifyingglass")
-        case .browse:
-            image = Image(systemName: "book")
-        case .favorites:
-            image = Image(systemName: "heart")
-        case .settings:
-            image = Image(systemName: "gear")
-        }
-        return image
+    var selectedLabel: some View {
+        return getImage(true)
+    }
+
+    var unselectedLabel: some View {
+        return getImage(false)
     }
 
     var a11yLabel: Text {

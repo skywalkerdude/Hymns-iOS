@@ -20,7 +20,13 @@ struct TabBar<TabItemType: TabItem>: View {
                         }
                 },
                     label: {
-                        tabItem.label.accessibility(label: tabItem.a11yLabel).padding()
+                        Group {
+                            if self.isSelected(tabItem) {
+                                tabItem.selectedLabel
+                            } else {
+                                tabItem.unselectedLabel
+                            }
+                        }.accessibility(label: tabItem.a11yLabel).padding()
                 })
                     .accentColor(self.isSelected(tabItem) ? .accentColor : .primary)
                     .anchorPreference(
