@@ -17,33 +17,35 @@ public struct HymnLyricsView: View {
                 return Text("loading...").eraseToAnyView()
             }
 
-        return AnyView(
-            VStack(alignment: .leading) {
-                ForEach(lyrics, id: \.self) { verseViewModel in
-                    Group {
-                        if verseViewModel.verse.verseType == VerseType(rawValue: "chorus") {
-                            VerseView(verseLines: verseViewModel.verse.verseContent)
-                        } else {
-                            VerseView(verseNumber: verseViewModel.verseNumber ?? "", verseLines: verseViewModel.verse.verseContent)
+        return VStack {
+            ScrollView {
+                VStack(alignment: .leading) {
+                    ForEach(lyrics, id: \.self) { verseViewModel in
+                        Group {
+                            if verseViewModel.verse.verseType == VerseType(rawValue: "chorus") {
+                                VerseView(verseLines: verseViewModel.verse.verseContent)
+                            } else {
+                                VerseView(verseNumber: verseViewModel.verseNumber ?? "", verseLines: verseViewModel.verse.verseContent)
+                            }
+                            Spacer().frame(height: 15)
                         }
-                        Spacer().frame(height: 15)
                     }
                 }
-            }.eraseToAnyView()
-        }.onAppear {
-            self.viewModel.fetchLyrics()
-        }
+            }
+        }.eraseToAnyView()
+    }.onAppear {
+        self.viewModel.fetchLyrics()
     }
 }
 
 struct HymnLyricsView_Previews: PreviewProvider {
     static var previews: some View {
 
-        let classic1151 = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151, hymnsRepository: Resolver.resolve(), mainQueue: Resolver.resolve(name: "main"))
+        let classic1151 = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
         classic1151.lyrics = classic1151.convertToViewModels(verses: classic1151_preview.lyrics)
         let classic1151View = HymnLyricsView(viewModel: classic1151)
 
-        let classic1334 = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334, hymnsRepository: Resolver.resolve(), mainQueue: Resolver.resolve(name: "main"))
+        let classic1334 = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334)
         classic1334.lyrics = classic1334.convertToViewModels(verses: classic1334_preview.lyrics)
         let classic1334View = HymnLyricsView(viewModel: classic1334)
 
@@ -52,4 +54,5 @@ struct HymnLyricsView_Previews: PreviewProvider {
             classic1334View
         }
     }
+}
 }
