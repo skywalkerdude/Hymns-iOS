@@ -3,8 +3,8 @@ import Danger
 
 let danger = Danger()
 
-let files = danger.git.modifiedFiles.filter { $0.hasPrefix("Hymns") }
-SwiftLint.lint(.files(files), configFile: ".swiftlint.yml")
+// let files = danger.git.modifiedFiles.filter { $0.hasPrefix("Hymns") }
+SwiftLint.lint(configFile: ".swiftlint.yml")
 // This works though, for some reason SwiftLint.lint(.modifiedAndCreatedFiles(directory:"HymnsTests"), configFile: ".swiftlint.yml", swiftlintPath: "Pods/SwiftLint/swiftlint")
 
 // Ensure no copyright header
