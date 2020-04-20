@@ -25,22 +25,12 @@ class DisplayHymnViewModel: ObservableObject {
         hymnLyricsViewModel = HymnLyricsViewModel(hymnToDisplay: identifier)
     }
 
-    func checkFavoritedStatus() {
-        print("second")
-        favoritedStatus = FavoritedEntity.checkIfFavorite(identifier: self.identifier)
-    }
-
     func fetchHymn() {
-        favoritedStatus = FavoritedEntity.checkIfFavorite(identifier: self.identifier)
-
+        favoritedStatus = RealmHelper.checkIfFavorite(identifier: self.identifier)
         if favoritedStatus == true {
-            self.title = FavoritedEntity.retrieveTitle(identifier: self.identifier)
-            print(self.title)
-            print("skipping call")
+            self.title = RealmHelper.retrieveTitle(identifier: self.identifier)
             return
         } else {
-            print("1st ish")
-            print(self.title)
             repository
                 .getHymn(hymnIdentifier: identifier)
                 .map({ (hymn) -> Title? in
@@ -65,9 +55,9 @@ class DisplayHymnViewModel: ObservableObject {
     func toggleFavorited() {
         self.favoritedStatus.toggle()
         if self.favoritedStatus {
-            FavoritedEntity.saveFavorite(identifier: self.identifier, hymnTitle: self.title)
+            RealmHelper.saveFavorite(identifier: self.identifier, hymnTitle: self.title)
         } else {
-            FavoritedEntity.removeFavorite(identifier: self.identifier)
+            RealmHelper.removeFavorite(identifier: self.identifier)
         }
     }
 }

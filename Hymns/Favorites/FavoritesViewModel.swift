@@ -8,7 +8,7 @@ import Combine
 
 class FavoritesViewModel: ObservableObject {
     var objectWillChange = ObservableObjectPublisher()
-    private(set) var itemEntities: Results<FavoritedEntity> = FavoritedEntity.all()
+    private(set) var itemEntities: Results<FavoritedEntity> = RealmHelper.all()
     private var notificationTokens: [NotificationToken] = []
 
     init() {
