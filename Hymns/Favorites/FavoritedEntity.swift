@@ -35,8 +35,10 @@ class FavoritedEntity: Object, Identifiable {
         realm.objects(FavoritedEntity.self)
     }
 
-    static func checkIfFavorite(_ hymnType: String, _ hymnNumber: String) -> Bool {
-
+    static func checkIfFavorite(identifier hymnIdentifier: HymnIdentifier) -> Bool {
+        
+        let hymnType = hymnIdentifier.hymnType.abbreviatedValue
+        let hymnNumber = hymnIdentifier.hymnNumber
         let myPrimaryKey = ("\(hymnType)\(hymnNumber)")
         let specificPerson = realm.object(ofType: FavoritedEntity.self, forPrimaryKey: myPrimaryKey)
         guard let favoritedHymn = specificPerson else {
@@ -45,9 +47,11 @@ class FavoritedEntity: Object, Identifiable {
             return true
     }
 
-    static func removeFavorite(hymnType: String, hymnNumber: String) {
+    static func removeFavorite(identifier hymnIdentifier: HymnIdentifier) {
         do {
             let realm = try Realm()
+            let hymnType = hymnIdentifier.hymnType.abbreviatedValue
+            let hymnNumber = hymnIdentifier.hymnNumber
             let myPrimaryKey = ("\(hymnType)\(hymnNumber)")
             let specificHymn = realm.object(ofType: FavoritedEntity.self, forPrimaryKey: myPrimaryKey)
 
@@ -62,8 +66,10 @@ class FavoritedEntity: Object, Identifiable {
         }
     }
 
-    static func retrieveTitle(hymnType: String, hymnNumber: String) -> String {
+    static func retrieveTitle(identifier hymnIdentifier: HymnIdentifier) -> String {
         let realm = try! Realm()
+        let hymnType = hymnIdentifier.hymnType.abbreviatedValue
+           let hymnNumber = hymnIdentifier.hymnNumber
         let myPrimaryKey = ("\(hymnType)\(hymnNumber)")
         let specificHymn = realm.object(ofType: FavoritedEntity.self, forPrimaryKey: myPrimaryKey)
         guard let favoritedHymn = specificHymn else {
@@ -72,10 +78,12 @@ class FavoritedEntity: Object, Identifiable {
         return favoritedHymn.title
     }
 
-    static func saveFavorite(hymnType: String, hymnNumber: String, hymnTitle: String) {
+    static func saveFavorite(identifier hymnIdentifier: HymnIdentifier, hymnTitle: String) {
         do {
             let realm = try Realm()
             let hymn = FavoritedEntity()
+            let hymnType = hymnIdentifier.hymnType.abbreviatedValue
+               let hymnNumber = hymnIdentifier.hymnNumber
             hymn.hymnType = hymnType
             hymn.hymnNumber = hymnNumber
             hymn.favorited = true

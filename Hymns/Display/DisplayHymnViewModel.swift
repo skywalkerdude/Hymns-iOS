@@ -13,8 +13,6 @@ class DisplayHymnViewModel: ObservableObject {
     private let repository: HymnsRepository
     private let mainQueue: DispatchQueue
     @Published var favoritedStatus = false
-    var hymnType = ""
-    var hymnNumber = ""
 
     private var disposables = Set<AnyCancellable>()
 
@@ -22,8 +20,6 @@ class DisplayHymnViewModel: ObservableObject {
          hymnsRepository repository: HymnsRepository = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main")) {
         self.identifier = identifier
-        self.hymnType = identifier.hymnType.abbreviatedValue
-        self.hymnNumber = identifier.hymnNumber
         self.repository = repository
         self.mainQueue = mainQueue
         hymnLyricsViewModel = HymnLyricsViewModel(hymnToDisplay: identifier)
@@ -31,14 +27,14 @@ class DisplayHymnViewModel: ObservableObject {
 
     func checkFavoritedStatus() {
         print("second")
-        favoritedStatus = FavoritedEntity.checkIfFavorite(self.hymnType, self.hymnNumber)
+        favoritedStatus = FavoritedEntity.checkIfFavorite(identifier: self.identifier)
     }
 
     func fetchHymn() {
-        favoritedStatus = FavoritedEntity.checkIfFavorite(self.hymnType, self.hymnNumber)
+        favoritedStatus = FavoritedEntity.checkIfFavorite(identifier: self.identifier)
 
         if favoritedStatus == true {
-            self.title = FavoritedEntity.retrieveTitle(hymnType: self.hymnType, hymnNumber: self.hymnNumber)
+            self.title = FavoritedEntity.retrieveTitle(identifier: self.identifier)
             print(self.title)
             print("skipping call")
             return
@@ -66,20 +62,12 @@ class DisplayHymnViewModel: ObservableObject {
         }
     }
 
-//    func updateFavorite() {
-//        if self.favoritedStatus {
-//            FavoritedEntity.saveFavorite(hymnType: self.hymnType, hymnNumber: self.hymnNumber, hymnTitle: self.title)
-//        } else {
-//            FavoritedEntity.removeFavorite(hymnType: self.hymnType, hymnNumber: self.hymnNumber)
-//        }
-//    }
-
     func toggleFavorited() {
         self.favoritedStatus.toggle()
         if self.favoritedStatus {
-            FavoritedEntity.saveFavorite(hymnType: self.hymnType, hymnNumber: self.hymnNumber, hymnTitle: self.title)
+            FavoritedEntity.saveFavorite(identifier: self.identifier, hymnTitle: self.title)
         } else {
-            FavoritedEntity.removeFavorite(hymnType: self.hymnType, hymnNumber: self.hymnNumber)
+            FavoritedEntity.removeFavorite(identifier: self.identifier)
         }
     }
 }

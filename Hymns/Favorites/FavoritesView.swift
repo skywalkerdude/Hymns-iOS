@@ -1,15 +1,14 @@
 import SwiftUI
 
 struct FavoritesView: View {
-    @EnvironmentObject private var store: Store
-
+    @ObservedObject private var viewModel = FavoritesViewModel()
     var allHymns: [DummyHymnView] = testData
 
     var body: some View {
         VStack {
             CustomTitle(title: "Favorites")
             List {
-                ForEach(store.itemEntities) { (itemEntity: FavoritedEntity) in
+                ForEach(viewModel.itemEntities) { (itemEntity: FavoritedEntity) in
                     if itemEntity.isInvalidated {
                         EmptyView()
                     } else {
