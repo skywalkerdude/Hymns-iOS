@@ -12,8 +12,7 @@ struct HomeContainerView: View {
                 .browse,
                 .favorites,
                 .settings
-                ]).hideNavigationBar()
-            .edgesIgnoringSafeArea(.top)
+            ]).hideNavigationBar()
         }
     }
 }

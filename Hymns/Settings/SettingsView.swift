@@ -10,7 +10,7 @@ struct SettingsView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Settings").customTitleLayout().padding(.top)
+            CustomTitle(title: "Settings")
             List {
                 ForEach(viewModel.settings) { setting in
                     setting.view
