@@ -3,12 +3,14 @@ import SwiftUI
 
 struct HomeView: View {
 
-    @State private var searchText: String = ""
-    @State private var searchActive: Bool = false
+    @Binding var searchActive: Bool
+    @Binding var searchInput: String
     @ObservedObject private var viewModel: HomeViewModel
 
     init(viewModel: HomeViewModel = Resolver.resolve()) {
         self.viewModel = viewModel
+        self.searchActive = viewModel.$searchActive
+        self.searchInput = viewModel.$searchInput
     }
 
     var body: some View {
