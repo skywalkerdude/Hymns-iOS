@@ -15,7 +15,7 @@ struct SearchBar: View {
             HStack {
                 Image(systemName: "magnifyingglass")
                 TextField(placeholderText, text: $searchText, onEditingChanged: { _ in
-                    withAnimation(.easeInOut(duration: 0.3)) {
+                    withAnimation(.easeInOut(duration: 0.2)) {
                         self.searchActive = true
                     }
                 }, onCommit: {
@@ -40,7 +40,7 @@ struct SearchBar: View {
                 }
                 .foregroundColor(Color(.systemBlue))
                 .transition(AnyTransition.move(edge: .trailing))
-                .animation(.easeInOut(duration: 0.3))
+                .animation(.easeInOut(duration: 0.2))
             }
         }
     }
