@@ -11,23 +11,21 @@ struct SearchView: View {
     }
 
     var body: some View {
-            VStack {
-                HStack {
-                    SearchBar(text: $viewModel.searchInput, selectedOnAppear: true)
-                    Button(action: {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        Text("Cancel").accentColor(.accentColor)
-                    }).padding(.trailing)
-                }
-                List {
-                    ForEach(self.viewModel.songResults) { songResult in
-                        NavigationLink(destination: songResult.destinationView) {
-                            SongResultView(viewModel: songResult)
-                        }
-                    }
-                }.padding(.trailing, -32.0) // Removes the carat on the right
-            }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
+        Text("TODO delee searchview and implement in home vieiw instead")
+//            VStack {
+//                HStack {
+//                    SearchBar(text: $viewModel.searchInput, selectedOnAppear: true)
+//                }
+//                List {
+//                    ForEach(self.viewModel.songResults) { songResult in
+//                        NavigationLink(destination: songResult.destinationView) {
+//                            SongResultView(viewModel: songResult)
+//                        }
+//                    }
+//                }
+//                // Removes the carat on the right
+//                .padding(.trailing, CGFloat.init(integerLiteral: -32))
+//            }.navigationBarTitle("", displayMode: .inline).navigationBarHidden(true)
     }
 }
 

@@ -18,4 +18,21 @@ extension View {
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarHidden(true)
     }
+
+    func resignKeyboardOnDragGesture() -> some View {
+        return modifier(ResignKeyboardOnDragGesture())
+    }
+}
+
+/**
+ * Dismiss the keyboard when you drag down.
+ * https://stackoverflow.com/questions/56490963/how-to-display-a-search-bar-with-swiftui
+ */
+struct ResignKeyboardOnDragGesture: ViewModifier {
+    var gesture = DragGesture().onChanged { _ in
+        UIApplication.shared.endEditing(true)
+    }
+    func body(content: Content) -> some View {
+        content.gesture(gesture)
+    }
 }
