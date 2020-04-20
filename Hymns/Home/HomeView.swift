@@ -12,7 +12,7 @@ struct HomeView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Look up any hymn").customTitleLayout().padding(.top)
+            CustomTitle(title: "Look up any hymn")
             searchBar
             List {
                 ForEach(self.viewModel.recentSongs) { recentSong in
