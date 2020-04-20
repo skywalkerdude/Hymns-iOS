@@ -3,7 +3,8 @@ import SwiftUI
 
 struct HomeView: View {
 
-    @State var searchText: String = ""
+    @State private var searchText: String = ""
+    @State private var searchActive: Bool = false
     @ObservedObject private var viewModel: HomeViewModel
 
     init(viewModel: HomeViewModel = Resolver.resolve()) {
@@ -11,24 +12,26 @@ struct HomeView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            CustomTitle(title: "Look up any hymn")
-            searchBar
+        VStack(alignment: .leading) {
+            if !searchActive {
+                CustomTitle(title: "Look up any hymn")
+            }
+
+            SearchBar(
+                searchText: $searchText,
+                searchActive: $searchActive,
+                placeholderText: "Search by numbers or words")
+                .padding(.horizontal)
+
+            (searchActive ? Text("Recent searches") : Text("Recent hymns")).font(.caption).padding(.top).padding(.leading)
+
             List {
                 ForEach(self.viewModel.recentSongs) { recentSong in
                     NavigationLink(destination: recentSong.destinationView) {
                         SongResultView(viewModel: recentSong)
                     }
                 }
-            }
-        }
-    }
-}
-
-private extension HomeView {
-    var searchBar: some View {
-        NavigationLink(destination: SearchView()) {
-            SearchBar(text: $searchText).disabled(true)
+            }.resignKeyboardOnDragGesture()
         }
     }
 }

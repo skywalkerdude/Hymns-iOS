@@ -38,6 +38,8 @@ struct HomeContainerView_Previews: PreviewProvider {
             HomeContainerView()
                 .previewDevice(PreviewDevice(rawValue: "iPad Air 2"))
                 .previewDisplayName("iPad Air 2")
+            // preview dark mode
+            HomeContainerView().environment(\.colorScheme, .dark).previewDisplayName("Dark mode")
         }
     }
 }
