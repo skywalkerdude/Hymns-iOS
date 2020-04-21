@@ -1,11 +1,3 @@
-//
-//  HymnsUITests.swift
-//  HymnsUITests
-//
-//  Created by Luke Lu on 3/23/20.
-//  Copyright © 2020 skywalkerdude. All rights reserved.
-//
-
 import XCTest
 
 class HymnsUITests: XCTestCase {

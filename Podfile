@@ -7,6 +7,7 @@ target 'Hymns' do
 
   # Pods for Hymns
 
+  #Realm database for use with favorites
   pod 'RealmSwift'
   
   # Tool to enforce Swift style and conventions.
