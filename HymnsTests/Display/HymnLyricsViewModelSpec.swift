@@ -35,7 +35,6 @@ class HymnLyricsViewModelSpec: QuickSpec {
                     }
                 }
             }
-
             context("with empty repository result") {
                 beforeEach {
                     let emptyHymn = Hymn(title: "Empty Hymn", metaData: [MetaDatum](), lyrics: [Verse]())

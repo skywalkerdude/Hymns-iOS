@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-class SongResultViewModel: Identifiable {
+class SongResultViewModel: Identifiable, Equatable {
 
     let title: String
     let destinationView: AnyView
@@ -9,5 +9,11 @@ class SongResultViewModel: Identifiable {
     init (title: String, destinationView: AnyView) {
         self.title = title
         self.destinationView = destinationView
+    }
+}
+
+extension SongResultViewModel {
+    static func == (lhs: SongResultViewModel, rhs: SongResultViewModel) -> Bool {
+        lhs.title == rhs.title
     }
 }

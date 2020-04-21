@@ -28,7 +28,7 @@ class SongRepositoryImplTest: XCTestCase {
         }
 
         let valueReceived = expectation(description: "value received")
-        let cancellable = target.search(searchInput: "Dan Sady", pageNumber: 2)
+        let cancellable = target.search(searchParameter: "Dan Sady", pageNumber: 2)
             .sink(receiveValue: { resultsPage in
                 valueReceived.fulfill()
                 XCTAssertNil(resultsPage)
@@ -48,7 +48,7 @@ class SongRepositoryImplTest: XCTestCase {
         }
 
         let valueReceived = expectation(description: "value received")
-        let cancellable = target.search(searchInput: "Dan Sady", pageNumber: 2)
+        let cancellable = target.search(searchParameter: "Dan Sady", pageNumber: 2)
             .sink(receiveValue: { resultsPage in
                 valueReceived.fulfill()
                 XCTAssertEqual(Self.resultsPage, resultsPage!)

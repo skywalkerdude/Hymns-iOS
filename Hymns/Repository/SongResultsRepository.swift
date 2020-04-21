@@ -6,7 +6,7 @@ import Resolver
  * Repository to fetch a list of songs results, both from local storage and from the network.
  */
 protocol SongResultsRepository {
-    func search(searchInput: String, pageNumber: Int?)  -> AnyPublisher<SongResultsPage?, Never>
+    func search(searchParameter: String, pageNumber: Int?)  -> AnyPublisher<SongResultsPage?, Never>
 }
 
 class SongResultsRepositoryImpl: SongResultsRepository {
@@ -17,8 +17,8 @@ class SongResultsRepositoryImpl: SongResultsRepository {
         self.hymnalApiService = hymnalApiService
     }
 
-    func search(searchInput: String, pageNumber: Int?) -> AnyPublisher<SongResultsPage?, Never> {
-        return hymnalApiService.search(for: searchInput, onPage: pageNumber)
+    func search(searchParameter: String, pageNumber: Int?) -> AnyPublisher<SongResultsPage?, Never> {
+        return hymnalApiService.search(for: searchParameter, onPage: pageNumber)
             .map({(songResultsPage) -> SongResultsPage? in
                 return songResultsPage
             })

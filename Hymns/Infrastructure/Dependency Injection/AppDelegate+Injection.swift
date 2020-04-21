@@ -11,7 +11,6 @@ extension Resolver: ResolverRegistering {
         registerHymnalApiService()
         registerRepositories()
         registerHomeViewModel()
-        registerSearchViewModel()
         registerSettingsViewModel()
     }
 }
