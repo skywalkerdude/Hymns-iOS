@@ -27,9 +27,8 @@ class DisplayHymnViewModel: ObservableObject {
 
     func fetchFavoritedStatus() {
                 favoritedStatus = RealmHelper.checkIfFavorite(identifier: self.identifier)
-        
     }
-    
+
     func fetchHymn() {
             repository
                 .getHymn(hymnIdentifier: identifier)
