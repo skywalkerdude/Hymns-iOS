@@ -16,13 +16,16 @@ struct DisplayHymnView: View {
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
-                    Image(systemName: "chevron.left").accentColor(Color.black)
+                    Image(systemName: "chevron.left").accentColor(.primary)
                 }).padding()
                 Spacer()
                 Text(viewModel.title)
                     .fontWeight(.semibold)
                 Spacer()
-                Image(systemName: "heart").padding()
+                Button(action: {self.viewModel.toggleFavorited()
+                }, label: {
+                    self.viewModel.favoritedStatus ? Image(systemName: "heart.fill").accentColor(.accentColor) : Image(systemName: "heart").accentColor(.primary)
+                })
             }
             Spacer()
             HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel)
