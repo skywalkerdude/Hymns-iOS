@@ -7,6 +7,9 @@ target 'Hymns' do
 
   # Pods for Hymns
   
+  #Needed for Realm database 
+  pod 'RealmSwift'
+  
   # Tool to enforce Swift style and conventions.
   # https://realm.github.io/SwiftLint
   pod 'SwiftLint'
