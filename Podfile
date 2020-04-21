@@ -6,6 +6,8 @@ target 'Hymns' do
   use_frameworks!
 
   # Pods for Hymns
+
+  pod 'RealmSwift'
   
   # Tool to enforce Swift style and conventions.
   # https://realm.github.io/SwiftLint
