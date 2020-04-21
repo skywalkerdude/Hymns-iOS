@@ -4,10 +4,10 @@ import Resolver
 
 class HomeViewModel: ObservableObject {
 
-    @Published var recentSongs: [SongResultViewModel] = [SongResultViewModel]()
     @Published var searchActive: Bool = false
-    @Published var searchInput = ""
-    @Published var searchResults: [SongResultViewModel] = [SongResultViewModel]()
+    @Published var searchParameter = ""
+    @Published var songResults: [SongResultViewModel] = [SongResultViewModel]()
+    @Published var label: String?
 
     private let mainQueue: DispatchQueue
     private let repository: SongResultsRepository
@@ -18,23 +18,40 @@ class HomeViewModel: ObservableObject {
          repository: SongResultsRepository = Resolver.resolve()) {
         self.mainQueue = mainQueue
         self.repository = repository
+        self.label = nil
 
-        // TODO fetch recent songs instead of hardcoding
-        self.recentSongs = [PreviewSongResults.cupOfChrist, PreviewSongResults.hymn1151]
-
-        // TODO fetch recent searches if searchInput is ""
-        $searchInput
-            // As soon as we create the observation, $searchInput will emit an empty string, do we skip it to avoid an unintended network call.
-            .dropFirst(1)
-            // Debounce works by waiting half a second (0.5) until the user stops typing and finally sending a value
+        Publishers.CombineLatest($searchActive, $searchParameter)
+            // Debounce works by waiting a bit until the user stops typing and before sending a value
             .debounce(for: .seconds(0.5), scheduler: backgroundQueue)
-            .sink(receiveValue: performSearch(searchInput:))
-            .store(in: &disposables)
+            .receive(on: mainQueue)
+            .sink { (searchActive, searchParameter) in
+                if !searchActive {
+                    self.fetchRecentSongs()
+                    return
+                }
+                if searchParameter.isEmpty {
+                    self.fetchRecentSearches()
+                    return
+                }
+                self.performSearch(searchParameter: searchParameter)
+        }.store(in: &disposables)
     }
 
-    private func performSearch(searchInput: String) {
+    private func fetchRecentSongs() {
+        songResults = [PreviewSongResults.cupOfChrist, PreviewSongResults.hymn1151]
+        label = "Recent hymns"
+    }
+
+    private func fetchRecentSearches() {
+        songResults = [PreviewSongResults.joyUnspeakable, PreviewSongResults.sinfulPast]
+        label = "Recent searches"
+    }
+
+    private func performSearch(searchParameter: String) {
+        songResults = [SongResultViewModel]()
+        label = nil
         repository
-            .search(searchInput: searchInput, pageNumber: 1)
+            .search(searchParameter: searchParameter, pageNumber: 1)
             .map({ (songResultsPage) -> [SongResultViewModel] in
                 guard let songResultsPage = songResultsPage else {
                     return [SongResultViewModel]()
@@ -53,13 +70,13 @@ class HomeViewModel: ObservableObject {
                     guard let self = self else { return }
                     switch state {
                     case .failure:
-                        self.searchResults = [SongResultViewModel]()
+                        self.songResults = [SongResultViewModel]()
                     case .finished:
                         break
                     }
                 },
                 receiveValue: { [weak self] songResults in
-                    self?.searchResults = songResults
+                    self?.songResults = songResults
             }).store(in: &disposables)
     }
 }
