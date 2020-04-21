@@ -297,6 +297,14 @@
             path = "Test Data";
             sourceTree = "<group>";
         };
+        3B14B872244E9C560027D7AA /* Home */ = {
+            isa = PBXGroup;
+            children = (
+                3B14B873244E9C760027D7AA /* HomeViewModelSpec.swift */,
+            );
+            path = Home;
+            sourceTree = "<group>";
+        };
         3B1B90062429CF55009FDCC5 = {
             isa = PBXGroup;
             children = (
@@ -363,6 +371,7 @@
                 B560B615243F978D00FD5867 /* MasterTestPlan.xctestplan */,
                 3B09F902243D4D8000252C15 /* Test Utilities */,
                 3B7555C62437C22300DA17F6 /* Display */,
+                3B14B872244E9C560027D7AA /* Home */,
                 3B09F895243C527F00252C15 /* Infrastructure */,
                 3B5FD7222436B1F300B65132 /* Repository */,
                 3B87B82D2449885100AEC7E9 /* Settings */,
