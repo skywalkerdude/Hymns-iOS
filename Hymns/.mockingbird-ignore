@@ -13,3 +13,8 @@ Preview\ Content/**
 # Don't need to generate mocks for static utility cases
 **/RegexUtil.swift
 
+# Don't need to generate mocks for type-erasure code
+Settings/BaseSettingViewModel.swift
+
+# Don't generate mocks for custom TabView
+Common/TabView/*

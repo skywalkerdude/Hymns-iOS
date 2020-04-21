@@ -22,7 +22,7 @@ class HymnsUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func test_navigateBetweenTabs() {
+    func ignore_test_navigateBetweenTabs() {
         app.launch()
         let tabBarsQuery = app.tabBars
         let tab1 = tabBarsQuery.children(matching: .button).element(boundBy: 0) //Home

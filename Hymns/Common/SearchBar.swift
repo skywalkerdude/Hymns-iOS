@@ -1,67 +1,78 @@
 import SwiftUI
 
-struct SearchBar: UIViewRepresentable {
+/**
+ * Custom search bar that will animate in a `Cancel` button when activated/selected.
+ * https://stackoverflow.com/questions/56490963/how-to-display-a-search-bar-with-swiftui
+ */
+struct SearchBar: View {
 
-    @Binding var text: String
-    var selectedOnAppear: Bool = false //when true will make a search bar first responder
+    @Binding var searchText: String
+    @Binding var searchActive: Bool
+    let placeholderText: String
 
-    class Coordinator: NSObject, UISearchBarDelegate {
+    var body: some View {
+        HStack {
+            HStack {
+                Image(systemName: "magnifyingglass")
+                TextField(placeholderText, text: $searchText, onEditingChanged: { _ in
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        self.searchActive = true
+                    }
+                }, onCommit: {
+                    print("onCommit")
+                }).foregroundColor(.primary)
 
-        @Binding var text: String
-        var didBecomeFirstResponder = false
+                Button(action: {self.searchText = ""}, label: {Image(systemName: "xmark.circle.fill").opacity(self.searchText.isEmpty ? 0.0 : 1.0)})
+            }
+            .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))
+            .foregroundColor(.secondary)
+            .background(Color(.secondarySystemBackground))
+            .cornerRadius(CGFloat(integerLiteral: 10))
 
-        init(text: Binding<String>) {
-            _text = text
+            if searchActive {
+                Button("Cancel") {
+                    // this must be placed before the other commands here
+                    UIApplication.shared.endEditing(true)
+                    self.searchText = ""
+                    withAnimation {
+                        self.searchActive = false
+                    }
+                }
+                .foregroundColor(Color(.systemBlue))
+                .transition(AnyTransition.move(edge: .trailing))
+                .animation(.easeInOut(duration: 0.2))
+            }
         }
-
-        func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-            text = searchText
-        }
-    }
-
-    func makeCoordinator() -> SearchBar.Coordinator {
-        return Coordinator(text: $text)
-    }
-
-    func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
-        let searchBar = UISearchBar(frame: .zero)
-        searchBar.delegate = context.coordinator
-        searchBar.searchBarStyle = .minimal
-        searchBar.placeholder = "Search by numbers or words"
-        searchBar.searchTextField.backgroundColor = .white //essential for shadows to not be made inside on the text
-
-        //SearchBar Border Properties
-        searchBar.searchTextField.layer.borderWidth = 0.1
-        searchBar.searchTextField.layer.borderColor = UIColor.darkGray.withAlphaComponent(0.9).cgColor
-        searchBar.searchTextField.layer.cornerRadius = 13
-        searchBar.searchTextField.layer.masksToBounds = false //Must be false for shadow to work
-
-        //SearchBar Shadow properties
-        searchBar.searchTextField.layer.shadowColor = UIColor.black.cgColor
-        searchBar.searchTextField.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
-        searchBar.searchTextField.layer.shadowOpacity = 0.5
-        searchBar.searchTextField.layer.shadowRadius = 1.0
-
-        return searchBar
-    }
-
-    func updateUIView(_ uiView: UISearchBar, context: UIViewRepresentableContext<SearchBar>) {
-        uiView.text = text
-        if selectedOnAppear && !context.coordinator.didBecomeFirstResponder {
-             uiView.becomeFirstResponder()
-             context.coordinator.didBecomeFirstResponder = true
-         }
     }
 }
 
-extension UISearchBar {
-    func enable() {
-        isUserInteractionEnabled = true
-        alpha = 1.0
-    }
-
-    func disable() {
-        isUserInteractionEnabled = false
-        alpha = 0.5
+struct SearchBox_Previews: PreviewProvider {
+    static var previews: some View {
+        let placeholderText = "Search by numbers or words"
+        var emptySearchText = ""
+        let emptySearchTextBinding = Binding<String>(
+            get: {emptySearchText},
+            set: {emptySearchText = $0})
+        var searchInactive = false
+        let searchInactiveBinding = Binding<Bool>(
+            get: {searchInactive},
+            set: {searchInactive = $0})
+        let searchInactiveBar = SearchBar(searchText: emptySearchTextBinding, searchActive: searchInactiveBinding, placeholderText: placeholderText)
+        var searchActive = true
+        let searchActiveBinding = Binding<Bool>(
+            get: {searchActive},
+            set: {searchActive = $0})
+        let searchActiveBar = SearchBar(searchText: emptySearchTextBinding, searchActive: searchActiveBinding, placeholderText: placeholderText)
+        var searchText = "Who let the dogs out?"
+        let searchTextBinding = Binding<String>(
+            get: {searchText},
+            set: {searchText = $0})
+        let searchTextBar = SearchBar(searchText: searchTextBinding, searchActive: searchActiveBinding, placeholderText: placeholderText)
+        return
+            Group {
+                searchInactiveBar
+                searchActiveBar
+                searchTextBar
+            }.previewLayout(.sizeThatFits)
     }
 }
