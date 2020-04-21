@@ -15,7 +15,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Dependencies
-      run: pod install
+      run: |
+        pod deintegrate
+        pod install
     - name: Generate Mockingbird Mocks
       run: Pods/MockingbirdFramework/mockingbird generate --targets 'Hymns'  --outputs 'MockingbirdMocks/HymnsMocks.generated.swift' --disable-swiftlint
     # While we can actually do both the build and test step in one with "xcodebuild test", it is slower and ends up with a very hard to read 3000 line report.
