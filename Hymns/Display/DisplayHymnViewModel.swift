@@ -27,10 +27,6 @@ class DisplayHymnViewModel: ObservableObject {
 
     func fetchHymn() {
         favoritedStatus = RealmHelper.checkIfFavorite(identifier: self.identifier)
-        if favoritedStatus == true {
-            self.title = RealmHelper.retrieveTitle(identifier: self.identifier)
-            return
-        } else {
             repository
                 .getHymn(hymnIdentifier: identifier)
                 .map({ (hymn) -> Title? in
@@ -49,7 +45,6 @@ class DisplayHymnViewModel: ObservableObject {
                     receiveValue: { [weak self] title in
                         self?.title = title ?? ""
                 }).store(in: &disposables)
-        }
     }
 
     func toggleFavorited() {

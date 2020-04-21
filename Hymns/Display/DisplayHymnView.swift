@@ -16,7 +16,7 @@ struct DisplayHymnView: View {
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
-                    Image(systemName: "chevron.left").accentColor(Color.black)
+                    Image(systemName: "chevron.left").accentColor(Color.defaultPrimary)
                 }).padding()
                 Spacer()
                 Text(viewModel.title)
@@ -24,7 +24,7 @@ struct DisplayHymnView: View {
                 Spacer()
                 Button(action: {self.viewModel.toggleFavorited()
                 }, label: {
-                    self.viewModel.favoritedStatus ? Image(systemName: "heart.fill").accentColor(Color.blue) : Image(systemName: "heart").accentColor(Color.black)
+                    self.viewModel.favoritedStatus ? Image(systemName: "heart.fill").accentColor(Color.defaultAccent) : Image(systemName: "heart").accentColor(Color.defaultPrimary)
                 })
             }
             Spacer()

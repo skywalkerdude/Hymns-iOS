@@ -2,7 +2,6 @@ import SwiftUI
 
 struct FavoritesView: View {
     @ObservedObject private var viewModel = FavoritesViewModel()
-    var allHymns: [DummyHymnView] = testData
 
     var body: some View {
         VStack {

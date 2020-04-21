@@ -1,7 +1,7 @@
 import SwiftUI
 import RealmSwift
 
-//Realm model of a favorited hymn
+/** Realm model of a favorited hymn */
 class FavoritedEntity: Object, Identifiable {
     @objc dynamic var hymnType: String = ""
     @objc dynamic var hymnNumber: String = ""
