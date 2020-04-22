@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import RealmSwift
 import Resolver
 
 class HomeViewModel: ObservableObject {
@@ -9,24 +10,40 @@ class HomeViewModel: ObservableObject {
     @Published var songResults: [SongResultViewModel] = [SongResultViewModel]()
     @Published var label: String?
 
+    private var disposables = Set<AnyCancellable>()
+    private let historyStore: HistoryStore
     private let mainQueue: DispatchQueue
     private let repository: SongResultsRepository
-    private var disposables = Set<AnyCancellable>()
 
     init(backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
+         historyStore: HistoryStore = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
          repository: SongResultsRepository = Resolver.resolve()) {
+        self.historyStore = historyStore
         self.mainQueue = mainQueue
         self.repository = repository
-        self.label = nil
 
-        Publishers.CombineLatest($searchActive, $searchParameter)
+        $searchActive
+            .receive(on: mainQueue)
+            .sink { searchActive in
+                if !searchActive {
+                    self.fetchRecentSongs()
+                    return
+                }
+                if self.searchParameter.isEmpty {
+                    self.fetchRecentSearches()
+                    return
+                }
+                self.label = nil
+        }.store(in: &disposables)
+
+        $searchParameter
+            .dropFirst()
             // Debounce works by waiting a bit until the user stops typing and before sending a value
             .debounce(for: .seconds(0.5), scheduler: backgroundQueue)
             .receive(on: mainQueue)
-            .sink { (searchActive, searchParameter) in
-                if !searchActive {
-                    self.fetchRecentSongs()
+            .sink { searchParameter in
+                if !self.searchActive {
                     return
                 }
                 if searchParameter.isEmpty {
@@ -38,8 +55,11 @@ class HomeViewModel: ObservableObject {
     }
 
     private func fetchRecentSongs() {
-        songResults = [PreviewSongResults.cupOfChrist, PreviewSongResults.hymn1151]
         label = "Recent hymns"
+        songResults = historyStore.recentSongs().map({ (recentSong) -> SongResultViewModel in
+            let identifier = HymnIdentifier(recentSong.hymnIdentifierEntity)
+            return SongResultViewModel(title: recentSong.songTitle, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
+        })
     }
 
     private func fetchRecentSearches() {
