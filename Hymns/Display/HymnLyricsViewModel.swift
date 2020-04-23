@@ -44,15 +44,16 @@ class HymnLyricsViewModel: ObservableObject {
                     self?.lyrics = lyrics
             }).store(in: &disposables)
     }
+
     func convertToViewModels(verses: [Verse]) -> [VerseViewModel] {
         var verseViewModels = [VerseViewModel]()
         var verseNumber = 0
         for verse in verses {
-            if verse.verseType == VerseType(rawValue: "chorus") {
-                verseViewModels.append(VerseViewModel(verse: verse))
+            if verse.verseType == .chorus || verse.verseType == .other {
+                verseViewModels.append(VerseViewModel(verseLines: verse.verseContent, transliteration: verse.transliteration))
             } else {
                 verseNumber += 1
-                verseViewModels.append(VerseViewModel(verseNumber: "\(verseNumber)", verse: verse))
+                verseViewModels.append(VerseViewModel(verseNumber: "\(verseNumber)", verseLines: verse.verseContent, transliteration: verse.transliteration))
             }
         }
         return verseViewModels

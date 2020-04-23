@@ -22,11 +22,7 @@ public struct HymnLyricsView: View {
                 VStack(alignment: .leading) {
                     ForEach(lyrics, id: \.self) { verseViewModel in
                         Group {
-                            if verseViewModel.verse.verseType == VerseType(rawValue: "chorus") {
-                                VerseView(verseLines: verseViewModel.verse.verseContent)
-                            } else {
-                                VerseView(verseNumber: verseViewModel.verseNumber ?? "", verseLines: verseViewModel.verse.verseContent)
-                            }
+                            VerseView(viewModel: verseViewModel)
                             Spacer().frame(height: 15)
                         }
                     }
