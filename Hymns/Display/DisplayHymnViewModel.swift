@@ -45,6 +45,7 @@ class DisplayHymnViewModel: ObservableObject {
     }
 
     func fetchHymn() {
+        fetchFavoriteStatus()
         repository
             .getHymn(hymnIdentifier: identifier)
             .map({ (hymn) -> Title? in
