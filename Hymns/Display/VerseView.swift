@@ -1,56 +1,39 @@
 import SwiftUI
 
 struct VerseLineView: View {
-    private let verseNumber: String?
-    private let verseText: String
 
-    init(verseNumber: String, verseText: String) {
-        self.verseNumber = verseNumber
-        self.verseText = verseText
-    }
-
-    init(verseText: String) {
-        self.verseNumber = nil
-        self.verseText = verseText
-    }
+    let viewModel: VerseLineViewModel
 
     var body: some View {
         HStack {
-            Text(verseNumber ?? "").frame(width: 10)
-            Text(verseText)
+            Text(viewModel.verseNumber ?? "").frame(width: 10)
+            Text(viewModel.verseText)
         }
     }
 }
 
 struct VerseLineView_Previews: PreviewProvider {
     static var previews: some View {
-        VerseLineView(verseNumber: "1", verseText: "Drink! A river pure and clear that's flowing from the throne")
-        .previewLayout(.fixed(width: 350, height: 50))
+        Group {
+            VStack(alignment: .leading) {
+                VerseLineView(viewModel: VerseLineViewModel(verseNumber: "1", verseText: "Drink! A river pure and clear that's flowing from the throne"))
+                VerseLineView(viewModel: VerseLineViewModel(verseText: "Eat! The tree of life with fruits abundant, richly grown"))
+            }.previewDisplayName("regular verse")
+            VStack(alignment: .leading) {
+                VerseLineView(viewModel: VerseLineViewModel(verseNumber: "1", verseText: "Drink! A river pure and clear that's flowing from the throne", transliteration: "h\\u0113 \\uff01 c\\u00f3ng b\\u01ceo zu\\u00f2 l\\u00edu ch\\u016b"))
+                VerseLineView(viewModel: VerseLineViewModel(verseText: "Eat! The tree of life with fruits abundant, richly grown", transliteration: "ch\\u00fan j\\u00ecng sh\\u0113ng m\\u00ecng h\\u00e9 de sh\\u01d4i \\uff01"))
+            }.previewDisplayName("verse with transliteration")
+        }.previewLayout(.fixed(width: 450, height: 50))
     }
 }
 
 struct VerseView: View {
-    private let verseNumber: String?
-    private let verseLines: [String]
-
-    init(verseNumber: String, verseLines: [String]) {
-        self.verseNumber = verseNumber
-        self.verseLines = verseLines
-    }
-
-    init(verseLines: [String]) {
-        self.verseNumber = nil
-        self.verseLines = verseLines
-    }
+    let viewModel: VerseViewModel
 
     var body: some View {
         VStack(alignment: .leading) {
-            ForEach(0..<verseLines.count) { index in
-                if self.verseNumber != nil && index == 0 {
-                    VerseLineView(verseNumber: self.verseNumber!, verseText: self.verseLines[index])
-                } else {
-                    VerseLineView(verseText: self.verseLines[index])
-                }
+            ForEach(viewModel.verseLines, id: \.self) { verseLine in
+                VerseLineView(viewModel: verseLine)
             }
         }
     }
@@ -59,8 +42,8 @@ struct VerseView: View {
 struct VerseView_Previews: PreviewProvider {
     static var previews: some View {
         VStack(alignment: .leading) {
-            VerseView(verseNumber: "1", verseLines: ["Drink! A river pure and clear that's flowing from the throne", "Eat! The tree of life with fruits abundant, richly grown", "Look! No need of lamp nor sun nor moon to keep it bright, for", "  Here this is no night!"])
-            VerseView(verseLines: ["Do come, oh, do come,", "Says Spirit and the Bride:", "Do come, oh, do come,", "Let him that heareth, cry.", "Do come, oh, do come,", "Let him who thirsts and will", "  Take freely the water of life!"])
+            VerseView(viewModel: VerseViewModel(verseNumber: "1", verseLines: ["Drink! A river pure and clear that's flowing from the throne", "Eat! The tree of life with fruits abundant, richly grown", "Look! No need of lamp nor sun nor moon to keep it bright, for", "  Here this is no night!"]))
+            VerseView(viewModel: VerseViewModel(verseLines: ["Do come, oh, do come,", "Says Spirit and the Bride:", "Do come, oh, do come,", "Let him that heareth, cry.", "Do come, oh, do come,", "Let him who thirsts and will", "  Take freely the water of life!"]))
         }
     }
 }

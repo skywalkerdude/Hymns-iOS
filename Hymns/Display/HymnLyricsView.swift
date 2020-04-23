@@ -7,7 +7,6 @@ public struct HymnLyricsView: View {
     init(viewModel: HymnLyricsViewModel) {
         self.viewModel = viewModel
     }
-
     public var body: some View {
         Group { () -> AnyView in
             guard let lyrics = viewModel.lyrics else {
@@ -18,25 +17,20 @@ public struct HymnLyricsView: View {
                 return Text("loading...").eraseToAnyView()
             }
 
-            return VStack {
-                ScrollView {
-                    VStack(alignment: .leading) {
+        return VStack {
+            ScrollView {
+                VStack(alignment: .leading) {
+                    ForEach(lyrics, id: \.self) { verseViewModel in
                         Group {
-                            ForEach(lyrics, id: \.self) { verse in
-                                Group {
-                                    ForEach(verse.verseContent, id: \.self) { line in
-                                        Text(line)
-                                    }
-                                    Spacer().frame(height: 30)
-                                }
-                            }
+                            VerseView(viewModel: verseViewModel)
+                            Spacer().frame(height: 15)
                         }
                     }
                 }
-            }.eraseToAnyView()
-        }.onAppear {
-            self.viewModel.fetchLyrics()
-        }
+            }
+        }.eraseToAnyView()
+    }.onAppear {
+        self.viewModel.fetchLyrics()
     }
 }
 
@@ -44,11 +38,11 @@ struct HymnLyricsView_Previews: PreviewProvider {
     static var previews: some View {
 
         let classic1151 = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
-        classic1151.lyrics = classic1151_preview.lyrics
+        classic1151.lyrics = classic1151.convertToViewModels(verses: classic1151_preview.lyrics)
         let classic1151View = HymnLyricsView(viewModel: classic1151)
 
         let classic1334 = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334)
-        classic1334.lyrics = classic1334_preview.lyrics
+        classic1334.lyrics = classic1334.convertToViewModels(verses: classic1334_preview.lyrics)
         let classic1334View = HymnLyricsView(viewModel: classic1334)
 
         return Group {
@@ -56,4 +50,5 @@ struct HymnLyricsView_Previews: PreviewProvider {
             classic1334View
         }
     }
+}
 }

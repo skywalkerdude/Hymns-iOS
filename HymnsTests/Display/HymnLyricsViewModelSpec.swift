@@ -54,7 +54,12 @@ class HymnLyricsViewModelSpec: QuickSpec {
                 }
             }
             context("with valid repository result") {
-                let lyricsWithoutTransliteration: [Verse] = [Verse(verseType: .verse, verseContent: ["line 1", "line 2"], transliteration: nil)]
+                let lyricsWithoutTransliteration: [Verse] = [
+                    Verse(verseType: .verse, verseContent: ["line 1", "line 2"], transliteration: nil),
+                    Verse(verseType: .chorus, verseContent: ["chorus 1", "chorus 2"], transliteration: nil),
+                    Verse(verseType: .other, verseContent: ["other 1", "other 2"], transliteration: nil),
+                    Verse(verseType: .verse, verseContent: ["line 3", "line 4"], transliteration: nil)
+                ]
                 beforeEach {
                     let validHymn = Hymn(title: "Filled Hymn", metaData: [MetaDatum](), lyrics: lyricsWithoutTransliteration)
                     given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> {Just(validHymn).assertNoFailure().eraseToAnyPublisher()}
@@ -64,8 +69,13 @@ class HymnLyricsViewModelSpec: QuickSpec {
                         target.fetchLyrics()
                         testQueue.sync {}
                     }
-                    it("lyrics should be empty") {
-                        expect(target.lyrics).to(equal(lyricsWithoutTransliteration))
+                    it("lyrics should be filled with lyrics") {
+                        expect(target.lyrics).to(equal([
+                            VerseViewModel(verseNumber: "1", verseLines: ["line 1", "line 2"]),
+                            VerseViewModel(verseLines: ["chorus 1", "chorus 2"]),
+                            VerseViewModel(verseLines: ["other 1", "other 2"]),
+                            VerseViewModel(verseNumber: "2", verseLines: ["line 3", "line 4"])
+                        ]))
                     }
                     it("should call hymnsRepository.getHymn") {
                         verify(hymnsRepository.getHymn(hymnIdentifier: classic1151)).wasCalled(exactly(1))
