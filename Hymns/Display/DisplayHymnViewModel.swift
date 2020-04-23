@@ -1,4 +1,5 @@
 import Combine
+import RealmSwift
 import Resolver
 import SwiftUI
 
@@ -12,24 +13,31 @@ class DisplayHymnViewModel: ObservableObject {
     private let identifier: HymnIdentifier
     private let repository: HymnsRepository
     private let mainQueue: DispatchQueue
+    private let favoritesStore: FavoritesStore
     private let historyStore: HistoryStore
-    @Published var favoritedStatus = false
+    @Published var isFavorited = false
 
+    private var favoritesObserver: NotificationToken?
     private var disposables = Set<AnyCancellable>()
 
     init(hymnToDisplay identifier: HymnIdentifier,
          hymnsRepository repository: HymnsRepository = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
+         favoritesStore: FavoritesStore = Resolver.resolve(),
          historyStore: HistoryStore = Resolver.resolve()) {
         self.identifier = identifier
         self.repository = repository
         self.mainQueue = mainQueue
+        self.favoritesStore = favoritesStore
         self.historyStore = historyStore
         hymnLyricsViewModel = HymnLyricsViewModel(hymnToDisplay: identifier)
+        favoritesObserver = favoritesStore.observeFavoriteStatus(on: FavoriteEntity.createPrimaryKey(hymnIdentifier: identifier)) { isFavorited in
+            self.isFavorited = isFavorited
+        }
     }
 
-    func fetchFavoritedStatus() {
-        favoritedStatus = RealmHelper.checkIfFavorite(identifier: self.identifier)
+    deinit {
+        favoritesObserver = nil
     }
 
     func fetchHymn() {
@@ -57,11 +65,10 @@ class DisplayHymnViewModel: ObservableObject {
     }
 
     func toggleFavorited() {
-        self.favoritedStatus.toggle()
-        if self.favoritedStatus {
-            RealmHelper.saveFavorite(identifier: self.identifier, hymnTitle: self.title)
+        if self.isFavorited {
+            favoritesStore.deleteFavorite(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: self.identifier))
         } else {
-            RealmHelper.removeFavorite(identifier: self.identifier)
+            favoritesStore.storeFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.title))
         }
     }
 }

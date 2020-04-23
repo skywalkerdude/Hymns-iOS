@@ -24,7 +24,7 @@ struct DisplayHymnView: View {
                 Spacer()
                 Button(action: {self.viewModel.toggleFavorited()
                 }, label: {
-                    self.viewModel.favoritedStatus ? Image(systemName: "heart.fill").accentColor(.accentColor) : Image(systemName: "heart").accentColor(.primary)
+                    self.viewModel.isFavorited ? Image(systemName: "heart.fill").accentColor(.accentColor) : Image(systemName: "heart").accentColor(.primary)
                 })
             }
             Spacer()
@@ -33,7 +33,6 @@ struct DisplayHymnView: View {
         }
         .hideNavigationBar()
         .onAppear {
-            self.viewModel.fetchFavoritedStatus()
             self.viewModel.fetchHymn()
         }
     }
