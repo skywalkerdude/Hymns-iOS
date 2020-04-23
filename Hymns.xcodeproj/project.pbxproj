@@ -73,6 +73,7 @@
 		3BE9EE9A244AC22C0098699E /* PrivacyPolicySettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE9EE99244AC22C0098699E /* PrivacyPolicySettingViewModel.swift */; };
 		3BF699AF24417921005AFF6A /* VerseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF699AE24417921005AFF6A /* VerseView.swift */; };
 		3BFF25AE24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF25AD24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift */; };
+		5C45E09924512E9000872369 /* VerseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C45E09824512E9000872369 /* VerseViewModel.swift */; };
 		5CA7849C242D14BA00B57903 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7849B242D14BA00B57903 /* SettingsView.swift */; };
 		5CA7849E242D14C800B57903 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7849D242D14C800B57903 /* FavoritesView.swift */; };
 		5CA784A0242D1A3200B57903 /* BrowseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7849F242D1A3200B57903 /* BrowseView.swift */; };
@@ -185,6 +186,7 @@
 		3BF699AE24417921005AFF6A /* VerseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseView.swift; sourceTree = "<group>"; };
 		3BFF25AD24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnViewModelSpec.swift; sourceTree = "<group>"; };
 		4B3E20055B7A9F073AA06CE2 /* Pods_HymnsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HymnsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C45E09824512E9000872369 /* VerseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerseViewModel.swift; sourceTree = "<group>"; };
 		5CA7849B242D14BA00B57903 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5CA7849D242D14C800B57903 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		5CA7849F242D1A3200B57903 /* BrowseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseView.swift; sourceTree = "<group>"; };
@@ -238,350 +240,351 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-        1C187AD4C2CB9E2415FD0B0A /* Generated Mocks */ = {
-            isa = PBXGroup;
-            children = (
-                DD96F2BF8386A9E600A9B55C /* HymnsMocks.generated.swift */,
-            );
-            name = "Generated Mocks";
-            sourceTree = "<group>";
-        };
-        1E107D8C0C297228A62815CA /* Frameworks */ = {
-            isa = PBXGroup;
-            children = (
-                69197F4694A9653188E9B952 /* Pods_Hymns.framework */,
-                1062D4E75F730237FCA9285A /* Pods_Hymns_HymnsUITests.framework */,
-                4B3E20055B7A9F073AA06CE2 /* Pods_HymnsTests.framework */,
-            );
-            name = Frameworks;
-            sourceTree = "<group>";
-        };
-        3B09F895243C527F00252C15 /* Infrastructure */ = {
-            isa = PBXGroup;
-            children = (
-                3B09F896243C528F00252C15 /* Data */,
-            );
-            name = Infrastructure;
-            path = Repository/Infrastructure;
-            sourceTree = "<group>";
-        };
-        3B09F896243C528F00252C15 /* Data */ = {
-            isa = PBXGroup;
-            children = (
-                3BD345E22442EC5200F5DF2E /* HymnalApiService_GetHymnSpec.swift */,
-                3B09F900243D3BDC00252C15 /* HymnalApi_SearchTest.swift */,
-            );
-            path = Data;
-            sourceTree = "<group>";
-        };
-        3B09F902243D4D8000252C15 /* Test Utilities */ = {
-            isa = PBXGroup;
-            children = (
-                3B09F905243D803000252C15 /* Test Data */,
-                3BC53645243EDB8100DA728F /* TestConstants.swift */,
-                3B09F908243D806500252C15 /* TestHymns.swift */,
-                3B09F903243D4D9300252C15 /* URLProtocolMock.swift */,
-                3B575693243E9F17007013FE /* XCTestCaseExtension.swift */,
-            );
-            path = "Test Utilities";
-            sourceTree = "<group>";
-        };
-        3B09F905243D803000252C15 /* Test Data */ = {
-            isa = PBXGroup;
-            children = (
-                3B09F90A243D807E00252C15 /* children_24.json */,
-                3B57568D243E96B1007013FE /* search_drink.json */,
-                3B57568F243E9DAB007013FE /* search_drink_page_3.json */,
-                3B575691243E9DE0007013FE /* search_drink_page_10.json */,
-            );
-            path = "Test Data";
-            sourceTree = "<group>";
-        };
-        3B14B872244E9C560027D7AA /* Home */ = {
-            isa = PBXGroup;
-            children = (
-                3B14B873244E9C760027D7AA /* HomeViewModelSpec.swift */,
-            );
-            path = Home;
-            sourceTree = "<group>";
-        };
-        3B1B90062429CF55009FDCC5 = {
-            isa = PBXGroup;
-            children = (
-                3B1B90112429CF55009FDCC5 /* Hymns */,
-                3B1B902B2429CF57009FDCC5 /* HymnsTests */,
-                3B1B90362429CF57009FDCC5 /* HymnsUITests */,
-                3B1B90102429CF55009FDCC5 /* Products */,
-                8E21761C8B5F357ED0CB6D4E /* Pods */,
-                1C187AD4C2CB9E2415FD0B0A /* Generated Mocks */,
-                1E107D8C0C297228A62815CA /* Frameworks */,
-            );
-            sourceTree = "<group>";
-        };
-        3B1B90102429CF55009FDCC5 /* Products */ = {
-            isa = PBXGroup;
-            children = (
-                3B1B900F2429CF55009FDCC5 /* Hymns.app */,
-                3B1B90282429CF57009FDCC5 /* HymnsTests.xctest */,
-                3B1B90332429CF57009FDCC5 /* HymnsUITests.xctest */,
-            );
-            name = Products;
-            sourceTree = "<group>";
-        };
-        3B1B90112429CF55009FDCC5 /* Hymns */ = {
-            isa = PBXGroup;
-            children = (
-                B5809DF8244F60D300EF0C63 /* Favorites */,
-                3B45B900243BE8BB00D38BEF /* Common */,
-                3B59359824353D8500E6993C /* Display */,
-                3BC1329524385A3F0082A274 /* Home */,
-                3B59359724353C8D00E6993C /* Infrastructure */,
-                3B5935BE2435C5E700E6993C /* Repository */,
-                3B87B82424493F5300AEC7E9 /* Settings */,
-                3B50B970243E450500EABDE4 /* Utility */,
-                3B1B90122429CF55009FDCC5 /* AppDelegate.swift */,
-                3B1B90142429CF55009FDCC5 /* SceneDelegate.swift */,
-                5CAF7432242B98DF00A847E2 /* DummyTestData.swift */,
-                5CA7849F242D1A3200B57903 /* BrowseView.swift */,
-                B5E61B36242E613D00EF497D /* Localizable.strings */,
-                3B1B901B2429CF57009FDCC5 /* Assets.xcassets */,
-                3B1B90202429CF57009FDCC5 /* LaunchScreen.storyboard */,
-                3B1B90232429CF57009FDCC5 /* Info.plist */,
-                3B1B90162429CF55009FDCC5 /* Hymns.xcdatamodeld */,
-                3B1B901D2429CF57009FDCC5 /* Preview Content */,
-            );
-            path = Hymns;
-            sourceTree = "<group>";
-        };
-        3B1B901D2429CF57009FDCC5 /* Preview Content */ = {
-            isa = PBXGroup;
-            children = (
-                3B1B901E2429CF57009FDCC5 /* Preview Assets.xcassets */,
-                3BC1328C243826270082A274 /* PreviewHymns.swift */,
-                3BC1328E24384FA40082A274 /* Preview Hymns */,
-                3B45B905243BF1C900D38BEF /* PreviewSongResults.swift */,
-                3B45B907243BF74700D38BEF /* PreviewHymnIdentifiers.swift */,
-            );
-            path = "Preview Content";
-            sourceTree = "<group>";
-        };
-        3B1B902B2429CF57009FDCC5 /* HymnsTests */ = {
-            isa = PBXGroup;
-            children = (
-                B560B615243F978D00FD5867 /* MasterTestPlan.xctestplan */,
-                3B09F902243D4D8000252C15 /* Test Utilities */,
-                3B7555C62437C22300DA17F6 /* Display */,
-                3B14B872244E9C560027D7AA /* Home */,
-                3B09F895243C527F00252C15 /* Infrastructure */,
-                3B5FD7222436B1F300B65132 /* Repository */,
-                3B87B82D2449885100AEC7E9 /* Settings */,
-                3B575697243EA4B9007013FE /* Utility */,
-                3B1B902E2429CF57009FDCC5 /* Info.plist */,
-            );
-            path = HymnsTests;
-            sourceTree = "<group>";
-        };
-        3B1B90362429CF57009FDCC5 /* HymnsUITests */ = {
-            isa = PBXGroup;
-            children = (
-                3B1B90372429CF57009FDCC5 /* HymnsUITests.swift */,
-                3B1B90392429CF57009FDCC5 /* Info.plist */,
-            );
-            path = HymnsUITests;
-            sourceTree = "<group>";
-        };
-        3B45B900243BE8BB00D38BEF /* Common */ = {
-            isa = PBXGroup;
-            children = (
-                3BB1DCAA244D03AE0011169D /* TabView */,
-                3B45B901243BEC1C00D38BEF /* SongResultViewModel.swift */,
-                3B45B903243BEC8400D38BEF /* SongResultView.swift */,
-                B56305B6244223A5003BC132 /* CustomTitleView.swift */,
-                B56305B8244223D7003BC132 /* FontViewModifier.swift */,
-                3BE9EE93244AAA850098699E /* WebView.swift */,
-                3BB1DCB4244D55770011169D /* SearchBar.swift */,
-            );
-            path = Common;
-            sourceTree = "<group>";
-        };
-        3B50B970243E450500EABDE4 /* Utility */ = {
-            isa = PBXGroup;
-            children = (
-                3B50B971243E450500EABDE4 /* RegexUtil.swift */,
-            );
-            path = Utility;
-            sourceTree = "<group>";
-        };
-        3B575697243EA4B9007013FE /* Utility */ = {
-            isa = PBXGroup;
-            children = (
-                3B575698243EA4DB007013FE /* RegexUtilSpec.swift */,
-            );
-            path = Utility;
-            sourceTree = "<group>";
-        };
-        3B59359724353C8D00E6993C /* Infrastructure */ = {
-            isa = PBXGroup;
-            children = (
-                3B5935B92435B75100E6993C /* Dependency Injection */,
-                3B59359D24355EA500E6993C /* Data */,
-                3B3A2A0F244D7C65001BF689 /* Application+Extensions.swift */,
-                3B67A50A244653F1004B9F4A /* View+Extensions.swift */,
-                3B87B83224498C6A00AEC7E9 /* Application.swift */,
-            );
-            path = Infrastructure;
-            sourceTree = "<group>";
-        };
-        3B59359824353D8500E6993C /* Display */ = {
-            isa = PBXGroup;
-            children = (
-                B595A4A724438CC2005F7A14 /* DisplayHymnViewModel.swift */,
-                B51BA5C82430075300CA52F7 /* DisplayHymnView.swift */,
-                B595A4A924438D8E005F7A14 /* HymnLyricsViewModel.swift */,
-                3B5935B52435A07000E6993C /* HymnLyricsView.swift */,
-                3BF699AE24417921005AFF6A /* VerseView.swift */,
-            );
-            path = Display;
-            sourceTree = "<group>";
-        };
-        3B59359D24355EA500E6993C /* Data */ = {
-            isa = PBXGroup;
-            children = (
-                3B59359E2435662300E6993C /* Models */,
-                3B59359A243544EF00E6993C /* HymnalApiService.swift */,
-                3B0B39AE243931B3003C5161 /* ErrorType.swift */,
-            );
-            path = Data;
-            sourceTree = "<group>";
-        };
-        3B59359E2435662300E6993C /* Models */ = {
-            isa = PBXGroup;
-            children = (
-                3B59359F243566A400E6993C /* VerseType.swift */,
-                3B5935A7243584F700E6993C /* MetaDatum.swift */,
-                3B5935C12435CAC800E6993C /* HymnIdentifier.swift */,
-                3B5935A12435685400E6993C /* Verse.swift */,
-                3B5935A324357CA000E6993C /* HymnType.swift */,
-                3B5935A52435848F00E6993C /* Datum.swift */,
-                3B50B967243E44B100EABDE4 /* SongResultsPage.swift */,
-                3B5935B024358D1B00E6993C /* Hymn.swift */,
-            );
-            path = Models;
-            sourceTree = "<group>";
-        };
-        3B5935B92435B75100E6993C /* Dependency Injection */ = {
-            isa = PBXGroup;
-            children = (
-                3B5935BA2435B7A400E6993C /* AppDelegate+Injection.swift */,
-            );
-            path = "Dependency Injection";
-            sourceTree = "<group>";
-        };
-        3B5935BE2435C5E700E6993C /* Repository */ = {
-            isa = PBXGroup;
-            children = (
-                3B50B969243E44C900EABDE4 /* SongResultsRepository.swift */,
-                3B5935BF2435C6A300E6993C /* HymnsRepository.swift */,
-                3B5935C32435D6BE00E6993C /* Repository+Injection.swift */,
-            );
-            path = Repository;
-            sourceTree = "<group>";
-        };
-        3B5FD7222436B1F300B65132 /* Repository */ = {
-            isa = PBXGroup;
-            children = (
-                3B5FD7232436B20A00B65132 /* HymnsRepositoryImplTest.swift */,
-                3BC53640243EB13E00DA728F /* SongRepositoryImplTest.swift */,
-            );
-            path = Repository;
-            sourceTree = "<group>";
-        };
-        3B7555C62437C22300DA17F6 /* Display */ = {
-            isa = PBXGroup;
-            children = (
-                3BFF25AD24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift */,
-                3B7555C72437C24F00DA17F6 /* HymnLyricsViewModelSpec.swift */,
-            );
-            path = Display;
-            sourceTree = "<group>";
-        };
-        3B87B82424493F5300AEC7E9 /* Settings */ = {
-            isa = PBXGroup;
-            children = (
-                3B87B82524493F7F00AEC7E9 /* SimpleSettingView.swift */,
-                3B87B82724493F9200AEC7E9 /* SimpleSettingViewModel.swift */,
-                3BE9EE97244AB8650098699E /* PrivacyPolicySettingView.swift */,
-                3BE9EE99244AC22C0098699E /* PrivacyPolicySettingViewModel.swift */,
-                5CA7849B242D14BA00B57903 /* SettingsView.swift */,
-                3B87B8292449497A00AEC7E9 /* SettingsViewModel.swift */,
-                3BB09206244A18F800EAE411 /* BaseSettingViewModel.swift */,
-            );
-            path = Settings;
-            sourceTree = "<group>";
-        };
-        3B87B82D2449885100AEC7E9 /* Settings */ = {
-            isa = PBXGroup;
-            children = (
-                3B87B830244988B100AEC7E9 /* SettingsViewModelSpec.swift */,
-            );
-            path = Settings;
-            sourceTree = "<group>";
-        };
-        3BB1DCAA244D03AE0011169D /* TabView */ = {
-            isa = PBXGroup;
-            children = (
-                3BB1DCAC244D03DD0011169D /* TabBar.swift */,
-                3BB1DCAB244D03DD0011169D /* TabItem.swift */,
-                3BB1DCAD244D03DE0011169D /* TabView.swift */,
-            );
-            name = TabView;
-            path = ../TabView;
-            sourceTree = "<group>";
-        };
-        3BC1328E24384FA40082A274 /* Preview Hymns */ = {
-            isa = PBXGroup;
-            children = (
-                3BC13291243850B90082A274 /* classic1151.json */,
-                3BC13293243852C00082A274 /* classic1334.json */,
-            );
-            path = "Preview Hymns";
-            sourceTree = "<group>";
-        };
-        3BC1329524385A3F0082A274 /* Home */ = {
-            isa = PBXGroup;
-            children = (
-                5CA784A3242D1CF800B57903 /* HomeView.swift */,
-                3B45B8FE243BE87300D38BEF /* HomeViewModel.swift */,
-                3BC1329624385A580082A274 /* HomeContainerView.swift */,
-                3BC1329824385C420082A274 /* HomeTab.swift */,
-            );
-            path = Home;
-            sourceTree = "<group>";
-        };
-        8E21761C8B5F357ED0CB6D4E /* Pods */ = {
-            isa = PBXGroup;
-            children = (
-                2325B8CF1EB55E12ACF08F17 /* Pods-Hymns.debug.xcconfig */,
-                F4259EC3CCF82576629BD685 /* Pods-Hymns.release.xcconfig */,
-                FCB71AAF34BDF7B07E0D55FE /* Pods-Hymns-HymnsUITests.debug.xcconfig */,
-                1AEDBBF841BF566DAAD5EE62 /* Pods-Hymns-HymnsUITests.release.xcconfig */,
-                F186240520EF56E17DB026E8 /* Pods-HymnsTests.debug.xcconfig */,
-                65140CCFE840335E8C47235C /* Pods-HymnsTests.release.xcconfig */,
-            );
-            path = Pods;
-            sourceTree = "<group>";
-        };
-        B5809DF8244F60D300EF0C63 /* Favorites */ = {
-            isa = PBXGroup;
-            children = (
-                5CA7849D242D14C800B57903 /* FavoritesView.swift */,
-                B5809DF9244F60FD00EF0C63 /* FavoritedEntity.swift */,
-                B5809DFB244F614000EF0C63 /* FavoritesViewModel.swift */,
-                B5809DFD244F617300EF0C63 /* RealmHelper.swift */,
-            );
-            path = Favorites;
-            sourceTree = "<group>";
-        };
+		1C187AD4C2CB9E2415FD0B0A /* Generated Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				DD96F2BF8386A9E600A9B55C /* HymnsMocks.generated.swift */,
+			);
+			name = "Generated Mocks";
+			sourceTree = "<group>";
+		};
+		1E107D8C0C297228A62815CA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				69197F4694A9653188E9B952 /* Pods_Hymns.framework */,
+				1062D4E75F730237FCA9285A /* Pods_Hymns_HymnsUITests.framework */,
+				4B3E20055B7A9F073AA06CE2 /* Pods_HymnsTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3B09F895243C527F00252C15 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				3B09F896243C528F00252C15 /* Data */,
+			);
+			name = Infrastructure;
+			path = Repository/Infrastructure;
+			sourceTree = "<group>";
+		};
+		3B09F896243C528F00252C15 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				3BD345E22442EC5200F5DF2E /* HymnalApiService_GetHymnSpec.swift */,
+				3B09F900243D3BDC00252C15 /* HymnalApi_SearchTest.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		3B09F902243D4D8000252C15 /* Test Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				3B09F905243D803000252C15 /* Test Data */,
+				3BC53645243EDB8100DA728F /* TestConstants.swift */,
+				3B09F908243D806500252C15 /* TestHymns.swift */,
+				3B09F903243D4D9300252C15 /* URLProtocolMock.swift */,
+				3B575693243E9F17007013FE /* XCTestCaseExtension.swift */,
+			);
+			path = "Test Utilities";
+			sourceTree = "<group>";
+		};
+		3B09F905243D803000252C15 /* Test Data */ = {
+			isa = PBXGroup;
+			children = (
+				3B09F90A243D807E00252C15 /* children_24.json */,
+				3B57568D243E96B1007013FE /* search_drink.json */,
+				3B57568F243E9DAB007013FE /* search_drink_page_3.json */,
+				3B575691243E9DE0007013FE /* search_drink_page_10.json */,
+			);
+			path = "Test Data";
+			sourceTree = "<group>";
+		};
+		3B14B872244E9C560027D7AA /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				3B14B873244E9C760027D7AA /* HomeViewModelSpec.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		3B1B90062429CF55009FDCC5 = {
+			isa = PBXGroup;
+			children = (
+				3B1B90112429CF55009FDCC5 /* Hymns */,
+				3B1B902B2429CF57009FDCC5 /* HymnsTests */,
+				3B1B90362429CF57009FDCC5 /* HymnsUITests */,
+				3B1B90102429CF55009FDCC5 /* Products */,
+				8E21761C8B5F357ED0CB6D4E /* Pods */,
+				1C187AD4C2CB9E2415FD0B0A /* Generated Mocks */,
+				1E107D8C0C297228A62815CA /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		3B1B90102429CF55009FDCC5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3B1B900F2429CF55009FDCC5 /* Hymns.app */,
+				3B1B90282429CF57009FDCC5 /* HymnsTests.xctest */,
+				3B1B90332429CF57009FDCC5 /* HymnsUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3B1B90112429CF55009FDCC5 /* Hymns */ = {
+			isa = PBXGroup;
+			children = (
+				B5809DF8244F60D300EF0C63 /* Favorites */,
+				3B45B900243BE8BB00D38BEF /* Common */,
+				3B59359824353D8500E6993C /* Display */,
+				3BC1329524385A3F0082A274 /* Home */,
+				3B59359724353C8D00E6993C /* Infrastructure */,
+				3B5935BE2435C5E700E6993C /* Repository */,
+				3B87B82424493F5300AEC7E9 /* Settings */,
+				3B50B970243E450500EABDE4 /* Utility */,
+				3B1B90122429CF55009FDCC5 /* AppDelegate.swift */,
+				3B1B90142429CF55009FDCC5 /* SceneDelegate.swift */,
+				5CAF7432242B98DF00A847E2 /* DummyTestData.swift */,
+				5CA7849F242D1A3200B57903 /* BrowseView.swift */,
+				B5E61B36242E613D00EF497D /* Localizable.strings */,
+				3B1B901B2429CF57009FDCC5 /* Assets.xcassets */,
+				3B1B90202429CF57009FDCC5 /* LaunchScreen.storyboard */,
+				3B1B90232429CF57009FDCC5 /* Info.plist */,
+				3B1B90162429CF55009FDCC5 /* Hymns.xcdatamodeld */,
+				3B1B901D2429CF57009FDCC5 /* Preview Content */,
+			);
+			path = Hymns;
+			sourceTree = "<group>";
+		};
+		3B1B901D2429CF57009FDCC5 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				3B1B901E2429CF57009FDCC5 /* Preview Assets.xcassets */,
+				3BC1328C243826270082A274 /* PreviewHymns.swift */,
+				3BC1328E24384FA40082A274 /* Preview Hymns */,
+				3B45B905243BF1C900D38BEF /* PreviewSongResults.swift */,
+				3B45B907243BF74700D38BEF /* PreviewHymnIdentifiers.swift */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		3B1B902B2429CF57009FDCC5 /* HymnsTests */ = {
+			isa = PBXGroup;
+			children = (
+				B560B615243F978D00FD5867 /* MasterTestPlan.xctestplan */,
+				3B09F902243D4D8000252C15 /* Test Utilities */,
+				3B7555C62437C22300DA17F6 /* Display */,
+				3B14B872244E9C560027D7AA /* Home */,
+				3B09F895243C527F00252C15 /* Infrastructure */,
+				3B5FD7222436B1F300B65132 /* Repository */,
+				3B87B82D2449885100AEC7E9 /* Settings */,
+				3B575697243EA4B9007013FE /* Utility */,
+				3B1B902E2429CF57009FDCC5 /* Info.plist */,
+			);
+			path = HymnsTests;
+			sourceTree = "<group>";
+		};
+		3B1B90362429CF57009FDCC5 /* HymnsUITests */ = {
+			isa = PBXGroup;
+			children = (
+				3B1B90372429CF57009FDCC5 /* HymnsUITests.swift */,
+				3B1B90392429CF57009FDCC5 /* Info.plist */,
+			);
+			path = HymnsUITests;
+			sourceTree = "<group>";
+		};
+		3B45B900243BE8BB00D38BEF /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				3BB1DCAA244D03AE0011169D /* TabView */,
+				3B45B901243BEC1C00D38BEF /* SongResultViewModel.swift */,
+				3B45B903243BEC8400D38BEF /* SongResultView.swift */,
+				B56305B6244223A5003BC132 /* CustomTitleView.swift */,
+				B56305B8244223D7003BC132 /* FontViewModifier.swift */,
+				3BE9EE93244AAA850098699E /* WebView.swift */,
+				3BB1DCB4244D55770011169D /* SearchBar.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		3B50B970243E450500EABDE4 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				3B50B971243E450500EABDE4 /* RegexUtil.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		3B575697243EA4B9007013FE /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				3B575698243EA4DB007013FE /* RegexUtilSpec.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		3B59359724353C8D00E6993C /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				3B5935B92435B75100E6993C /* Dependency Injection */,
+				3B59359D24355EA500E6993C /* Data */,
+				3B3A2A0F244D7C65001BF689 /* Application+Extensions.swift */,
+				3B67A50A244653F1004B9F4A /* View+Extensions.swift */,
+				3B87B83224498C6A00AEC7E9 /* Application.swift */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		3B59359824353D8500E6993C /* Display */ = {
+			isa = PBXGroup;
+			children = (
+				5C45E09824512E9000872369 /* VerseViewModel.swift */,
+				B595A4A724438CC2005F7A14 /* DisplayHymnViewModel.swift */,
+				B51BA5C82430075300CA52F7 /* DisplayHymnView.swift */,
+				B595A4A924438D8E005F7A14 /* HymnLyricsViewModel.swift */,
+				3B5935B52435A07000E6993C /* HymnLyricsView.swift */,
+				3BF699AE24417921005AFF6A /* VerseView.swift */,
+			);
+			path = Display;
+			sourceTree = "<group>";
+		};
+		3B59359D24355EA500E6993C /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				3B59359E2435662300E6993C /* Models */,
+				3B59359A243544EF00E6993C /* HymnalApiService.swift */,
+				3B0B39AE243931B3003C5161 /* ErrorType.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		3B59359E2435662300E6993C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3B59359F243566A400E6993C /* VerseType.swift */,
+				3B5935A7243584F700E6993C /* MetaDatum.swift */,
+				3B5935C12435CAC800E6993C /* HymnIdentifier.swift */,
+				3B5935A12435685400E6993C /* Verse.swift */,
+				3B5935A324357CA000E6993C /* HymnType.swift */,
+				3B5935A52435848F00E6993C /* Datum.swift */,
+				3B50B967243E44B100EABDE4 /* SongResultsPage.swift */,
+				3B5935B024358D1B00E6993C /* Hymn.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		3B5935B92435B75100E6993C /* Dependency Injection */ = {
+			isa = PBXGroup;
+			children = (
+				3B5935BA2435B7A400E6993C /* AppDelegate+Injection.swift */,
+			);
+			path = "Dependency Injection";
+			sourceTree = "<group>";
+		};
+		3B5935BE2435C5E700E6993C /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				3B50B969243E44C900EABDE4 /* SongResultsRepository.swift */,
+				3B5935BF2435C6A300E6993C /* HymnsRepository.swift */,
+				3B5935C32435D6BE00E6993C /* Repository+Injection.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		3B5FD7222436B1F300B65132 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				3B5FD7232436B20A00B65132 /* HymnsRepositoryImplTest.swift */,
+				3BC53640243EB13E00DA728F /* SongRepositoryImplTest.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		3B7555C62437C22300DA17F6 /* Display */ = {
+			isa = PBXGroup;
+			children = (
+				3BFF25AD24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift */,
+				3B7555C72437C24F00DA17F6 /* HymnLyricsViewModelSpec.swift */,
+			);
+			path = Display;
+			sourceTree = "<group>";
+		};
+		3B87B82424493F5300AEC7E9 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				3B87B82524493F7F00AEC7E9 /* SimpleSettingView.swift */,
+				3B87B82724493F9200AEC7E9 /* SimpleSettingViewModel.swift */,
+				3BE9EE97244AB8650098699E /* PrivacyPolicySettingView.swift */,
+				3BE9EE99244AC22C0098699E /* PrivacyPolicySettingViewModel.swift */,
+				5CA7849B242D14BA00B57903 /* SettingsView.swift */,
+				3B87B8292449497A00AEC7E9 /* SettingsViewModel.swift */,
+				3BB09206244A18F800EAE411 /* BaseSettingViewModel.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		3B87B82D2449885100AEC7E9 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				3B87B830244988B100AEC7E9 /* SettingsViewModelSpec.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		3BB1DCAA244D03AE0011169D /* TabView */ = {
+			isa = PBXGroup;
+			children = (
+				3BB1DCAC244D03DD0011169D /* TabBar.swift */,
+				3BB1DCAB244D03DD0011169D /* TabItem.swift */,
+				3BB1DCAD244D03DE0011169D /* TabView.swift */,
+			);
+			name = TabView;
+			path = ../TabView;
+			sourceTree = "<group>";
+		};
+		3BC1328E24384FA40082A274 /* Preview Hymns */ = {
+			isa = PBXGroup;
+			children = (
+				3BC13291243850B90082A274 /* classic1151.json */,
+				3BC13293243852C00082A274 /* classic1334.json */,
+			);
+			path = "Preview Hymns";
+			sourceTree = "<group>";
+		};
+		3BC1329524385A3F0082A274 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				5CA784A3242D1CF800B57903 /* HomeView.swift */,
+				3B45B8FE243BE87300D38BEF /* HomeViewModel.swift */,
+				3BC1329624385A580082A274 /* HomeContainerView.swift */,
+				3BC1329824385C420082A274 /* HomeTab.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		8E21761C8B5F357ED0CB6D4E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2325B8CF1EB55E12ACF08F17 /* Pods-Hymns.debug.xcconfig */,
+				F4259EC3CCF82576629BD685 /* Pods-Hymns.release.xcconfig */,
+				FCB71AAF34BDF7B07E0D55FE /* Pods-Hymns-HymnsUITests.debug.xcconfig */,
+				1AEDBBF841BF566DAAD5EE62 /* Pods-Hymns-HymnsUITests.release.xcconfig */,
+				F186240520EF56E17DB026E8 /* Pods-HymnsTests.debug.xcconfig */,
+				65140CCFE840335E8C47235C /* Pods-HymnsTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		B5809DF8244F60D300EF0C63 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				5CA7849D242D14C800B57903 /* FavoritesView.swift */,
+				B5809DF9244F60FD00EF0C63 /* FavoritedEntity.swift */,
+				B5809DFB244F614000EF0C63 /* FavoritesViewModel.swift */,
+				B5809DFD244F617300EF0C63 /* RealmHelper.swift */,
+			);
+			path = Favorites;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -931,6 +934,7 @@
 				5CAF7433242B98DF00A847E2 /* DummyTestData.swift in Sources */,
 				3BE9EE94244AAA850098699E /* WebView.swift in Sources */,
 				3B45B908243BF74700D38BEF /* PreviewHymnIdentifiers.swift in Sources */,
+				5C45E09924512E9000872369 /* VerseViewModel.swift in Sources */,
 				3B50B968243E44B100EABDE4 /* SongResultsPage.swift in Sources */,
 				3BB1DCAE244D03DE0011169D /* TabItem.swift in Sources */,
 				3B87B82624493F7F00AEC7E9 /* SimpleSettingView.swift in Sources */,

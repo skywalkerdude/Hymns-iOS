@@ -4,7 +4,7 @@ import Resolver
 
 class HymnLyricsViewModel: ObservableObject {
 
-    @Published var lyrics: [Verse]? = [Verse]()
+    @Published var lyrics: [VerseViewModel]? = [VerseViewModel]()
 
     private let identifier: HymnIdentifier
     private let mainQueue: DispatchQueue
@@ -23,11 +23,11 @@ class HymnLyricsViewModel: ObservableObject {
     func fetchLyrics() {
         repository
             .getHymn(hymnIdentifier: identifier)
-            .map({ (hymn) -> [Verse]? in
+            .map({ (hymn) -> [VerseViewModel]? in
                 guard let hymn = hymn, !hymn.lyrics.isEmpty else {
                     return nil
                 }
-                return hymn.lyrics
+                return self.convertToViewModels(verses: hymn.lyrics)
             })
             .receive(on: mainQueue)
             .sink(
@@ -43,5 +43,18 @@ class HymnLyricsViewModel: ObservableObject {
                 receiveValue: { [weak self] lyrics in
                     self?.lyrics = lyrics
             }).store(in: &disposables)
+    }
+    func convertToViewModels(verses: [Verse]) -> [VerseViewModel] {
+        var verseViewModels = [VerseViewModel]()
+        var verseNumber = 0
+        for verse in verses {
+            if verse.verseType == VerseType(rawValue: "chorus") {
+                verseViewModels.append(VerseViewModel(verse: verse))
+            } else {
+                verseNumber += 1
+                verseViewModels.append(VerseViewModel(verseNumber: "\(verseNumber)", verse: verse))
+            }
+        }
+        return verseViewModels
     }
 }
