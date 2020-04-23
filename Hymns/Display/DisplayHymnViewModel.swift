@@ -31,13 +31,17 @@ class DisplayHymnViewModel: ObservableObject {
         self.favoritesStore = favoritesStore
         self.historyStore = historyStore
         hymnLyricsViewModel = HymnLyricsViewModel(hymnToDisplay: identifier)
-        favoritesObserver = favoritesStore.observeFavoriteStatus(on: FavoriteEntity.createPrimaryKey(hymnIdentifier: identifier)) { isFavorited in
-            self.isFavorited = isFavorited
-        }
     }
 
     deinit {
         favoritesObserver = nil
+    }
+
+    func fetchFavoriteStatus() {
+        self.isFavorited = favoritesStore.isFavorite(hymnIdentifier: identifier)
+        favoritesObserver = favoritesStore.observeFavoriteStatus(hymnIdentifier: identifier) { isFavorited in
+            self.isFavorited = isFavorited
+        }
     }
 
     func fetchHymn() {

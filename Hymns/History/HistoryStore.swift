@@ -3,7 +3,7 @@ import RealmSwift
 import Resolver
 
 protocol HistoryStore {
-    func recentSongs() -> [RecentSong]
+    func recentSongs(onChanged: @escaping ([RecentSong]) -> Void) -> NotificationToken
     func storeRecentSong(hymnToStore hymnIdentifier: HymnIdentifier, songTitle: String)
 }
 
@@ -23,7 +23,7 @@ class HistoryStoreRealmImpl: HistoryStore {
     /**
      * Gets a list of `RecentSong`s. but if the list is greater than `numberToStore`, then it will delete the excess `RecentSong`s from the database.
      */
-    func recentSongs() -> [RecentSong] {
+    func recentSongs(onChanged: @escaping ([RecentSong]) -> Void) -> NotificationToken {
         let results: Results<RecentSongEntity> = realm.objects(RecentSongEntity.self).sorted(byKeyPath: "created", ascending: false)
         if results.count > numberToStore {
             let entitiesToDelete = results.suffix(results.count - numberToStore)
@@ -35,8 +35,22 @@ class HistoryStoreRealmImpl: HistoryStore {
                 // TODO log in firebase
             }
         }
-        return Array(results).map { (entity) -> RecentSong in
-            entity.recentSong
+
+        return results.observe { change in
+            switch change {
+            case .update(let entities, _, _, _):
+                // single fallthrough statement makes sense here
+                // swiftlint:disable:next no_fallthrough_only
+                fallthrough
+            case .initial(let entities):
+                let recentSongs: [RecentSong] = entities.map { (entity) -> RecentSong in
+                    entity.recentSong
+                }
+                onChanged(recentSongs)
+            case .error(let error):
+                // TODO handle error
+                print(error)
+            }
         }
     }
 

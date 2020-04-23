@@ -10,6 +10,8 @@ class HomeViewModel: ObservableObject {
     @Published var songResults: [SongResultViewModel] = [SongResultViewModel]()
     @Published var label: String?
 
+    private var recentSongsNotification: NotificationToken?
+
     private var disposables = Set<AnyCancellable>()
     private let historyStore: HistoryStore
     private let mainQueue: DispatchQueue
@@ -54,12 +56,18 @@ class HomeViewModel: ObservableObject {
         }.store(in: &disposables)
     }
 
+    deinit {
+        recentSongsNotification?.invalidate()
+    }
+
     private func fetchRecentSongs() {
         label = "Recent hymns"
-        songResults = historyStore.recentSongs().map({ (recentSong) -> SongResultViewModel in
-            let identifier = HymnIdentifier(recentSong.hymnIdentifierEntity)
-            return SongResultViewModel(title: recentSong.songTitle, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
-        })
+        recentSongsNotification = historyStore.recentSongs { recentSongs in
+            self.songResults = recentSongs.map { recentSong in
+                let identifier = HymnIdentifier(recentSong.hymnIdentifierEntity)
+                return SongResultViewModel(title: recentSong.songTitle, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
+            }
+        }
     }
 
     private func fetchRecentSearches() {

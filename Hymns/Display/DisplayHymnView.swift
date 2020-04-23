@@ -33,6 +33,7 @@ struct DisplayHymnView: View {
         }
         .hideNavigationBar()
         .onAppear {
+            self.viewModel.fetchFavoriteStatus()
             self.viewModel.fetchHymn()
         }
     }

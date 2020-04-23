@@ -12,13 +12,11 @@ struct FavoritesView: View {
     var body: some View {
         VStack {
             CustomTitle(title: "Favorites")
-            self.viewModel.favorites.map { favorites in
-                List(favorites) { favorite in
-                    NavigationLink(destination: favorite.destinationView) {
-                        SongResultView(viewModel: favorite)
-                    }
-                }.resignKeyboardOnDragGesture()
-            }
+            List(self.viewModel.favorites) { favorite in
+                NavigationLink(destination: favorite.destinationView) {
+                    SongResultView(viewModel: favorite)
+                }
+            }.resignKeyboardOnDragGesture()
         }.onAppear {
             self.viewModel.fetchFavorites()
         }
