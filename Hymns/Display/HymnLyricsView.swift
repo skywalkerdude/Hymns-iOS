@@ -3,6 +3,7 @@ import SwiftUI
 public struct HymnLyricsView: View {
 
     @ObservedObject private var viewModel: HymnLyricsViewModel
+    @State private var shouldAnimate = true
 
     init(viewModel: HymnLyricsViewModel) {
         self.viewModel = viewModel
@@ -14,7 +15,7 @@ public struct HymnLyricsView: View {
             }
 
             guard !lyrics.isEmpty else {
-                return Text("loading...").eraseToAnyView()
+                return ActivityIndicator(shouldAnimate: self.$shouldAnimate).eraseToAnyView()
             }
 
         return VStack {
