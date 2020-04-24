@@ -3,7 +3,7 @@ import Foundation
 /**
  * Represents the type of a hymn.
  */
-enum HymnType {
+@objc enum HymnType: Int {
     case classic
     case newTune
     case newSong

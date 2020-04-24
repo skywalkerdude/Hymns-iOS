@@ -2,7 +2,6 @@ import Combine
 import Mockingbird
 import Nimble
 import Quick
-import SwiftUI
 @testable import Hymns
 
 class HomeViewModelSpec: QuickSpec {
@@ -11,11 +10,20 @@ class HomeViewModelSpec: QuickSpec {
         describe("HymnLyricsViewModel") {
             // https://www.vadimbulavin.com/unit-testing-async-code-in-swift/
             let testQueue = DispatchQueue(label: "test_queue")
+            var historyStore: HistoryStoreMock!
             var songResultsRepository: SongResultsRepositoryMock!
             var target: HomeViewModel!
+
+            let recentSongs = [RecentSong(hymnIdentifier: classic1151, songTitle: "Hymn 1151"),
+                               RecentSong(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014")]
             beforeEach {
+                historyStore = mock(HistoryStore.self)
+                given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
+                    onChanged(recentSongs)
+                    return mock(Notification.self)
+                }
                 songResultsRepository = mock(SongResultsRepository.self)
-                target = HomeViewModel(backgroundQueue: testQueue, mainQueue: testQueue, repository: songResultsRepository)
+                target = HomeViewModel(backgroundQueue: testQueue, historyStore: historyStore, mainQueue: testQueue, repository: songResultsRepository)
             }
             context("default state") {
                 beforeEach {
@@ -26,8 +34,13 @@ class HomeViewModelSpec: QuickSpec {
                     expect(target.label).toEventuallyNot(beNil())
                     expect(target.label).to(equal(recentHymns))
                 }
+                it("should fetch the recent songs from the history store") {
+                    verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
+                }
                 it("should display recent songs") {
-                    expect(target.songResults).to(equal([PreviewSongResults.cupOfChrist, PreviewSongResults.hymn1151]))
+                    expect(target.songResults).toEventually(haveCount(2))
+                    expect(target.songResults[0].title).to(equal(recentSongs[0].songTitle))
+                    expect(target.songResults[1].title).to(equal(recentSongs[1].songTitle))
                 }
             }
             context("search active") {
@@ -50,8 +63,7 @@ class HomeViewModelSpec: QuickSpec {
                 context("with search parameter: \(searchParameter)") {
                     context("with network error") {
                         beforeEach {
-                            given(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)) ~> { _, _ in
-                                Just(nil).eraseToAnyPublisher()
+                            given(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)) ~> {                                Just(nil).eraseToAnyPublisher()
                             }
                             testQueue.sync {
                                 target.searchParameter = searchParameter

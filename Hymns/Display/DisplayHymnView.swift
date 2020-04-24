@@ -22,10 +22,13 @@ struct DisplayHymnView: View {
                 Text(viewModel.title)
                     .fontWeight(.semibold)
                 Spacer()
-                Button(action: {self.viewModel.toggleFavorited()
-                }, label: {
-                    self.viewModel.favoritedStatus ? Image(systemName: "heart.fill").accentColor(.accentColor) : Image(systemName: "heart").accentColor(.primary)
-                })
+                viewModel.isFavorited.map { isFavorited in
+                    Button(action: {
+                        self.viewModel.toggleFavorited()
+                    }, label: {
+                        isFavorited ? Image(systemName: "heart.fill").accentColor(.accentColor) : Image(systemName: "heart").accentColor(.primary)
+                    })
+                }
             }
             Spacer()
             HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel)
@@ -33,7 +36,6 @@ struct DisplayHymnView: View {
         }
         .hideNavigationBar()
         .onAppear {
-            self.viewModel.fetchFavoritedStatus()
             self.viewModel.fetchHymn()
         }
     }

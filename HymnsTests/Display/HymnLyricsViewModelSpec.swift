@@ -7,8 +7,6 @@ import Nimble
 class HymnLyricsViewModelSpec: QuickSpec {
 
     override func spec() {
-        let classic1151 = HymnIdentifier(hymnType: .classic, hymnNumber: "1151")
-
         describe("HymnLyricsViewModel") {
             // https://www.vadimbulavin.com/unit-testing-async-code-in-swift/
             let testQueue = DispatchQueue(label: "test_queue")

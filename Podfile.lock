@@ -1,12 +1,12 @@
 PODS:
-  - MockingbirdFramework (0.11.0)
+  - MockingbirdFramework (0.11.1)
   - Nimble (8.0.7)
   - Quick (2.2.0)
-  - Realm (4.4.0):
-    - Realm/Headers (= 4.4.0)
-  - Realm/Headers (4.4.0)
-  - RealmSwift (4.4.0):
-    - Realm (= 4.4.0)
+  - Realm (4.4.1):
+    - Realm/Headers (= 4.4.1)
+  - Realm/Headers (4.4.1)
+  - RealmSwift (4.4.1):
+    - Realm (= 4.4.1)
   - Resolver (1.1.2)
   - SwiftLint (0.39.2)
 
@@ -29,11 +29,11 @@ SPEC REPOS:
     - SwiftLint
 
 SPEC CHECKSUMS:
-  MockingbirdFramework: 6028fb83ec400cad6c2ae18cb977bf83d13deef1
+  MockingbirdFramework: 2e8c38ee9496706e16f9c59e5d68851bb3083787
   Nimble: a73af6ecd4c9106f434f3d55fc54570be3739e0b
   Quick: 7fb19e13be07b5dfb3b90d4f9824c855a11af40e
-  Realm: e125f464884cda953ebefe70c671b75b03b81b9b
-  RealmSwift: 33656a42bd300959a081fc13347376bc478071af
+  Realm: 4eb04d7487bd43c0581256f40b424eafb711deff
+  RealmSwift: 3eb8924ff7100df5928c7602f71d0fec51e7c9c5
   Resolver: e04ca5a9a19906f2e5cdceb2b90edd3b5daed049
   SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
 

@@ -6,6 +6,10 @@ import Resolver
 
 class TestHymns{}
 
+let cebuano123 = HymnIdentifier(hymnType: .cebuano, hymnNumber: "123")
+let classic1151 = HymnIdentifier(hymnType: .classic, hymnNumber: "1151")
+let newSong145 = HymnIdentifier(hymnType: .newSong, hymnNumber: "145")
+
 let decoder: JSONDecoder = Resolver.resolve()
 let children_24_json = getJsonString(for: "children_24")
 let children_24_hymn = getHymnFromJson(for: "children_24")

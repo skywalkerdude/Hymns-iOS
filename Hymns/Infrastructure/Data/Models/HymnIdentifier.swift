@@ -1,4 +1,5 @@
 import Foundation
+import RealmSwift
 
 /**
  * Uniquely identifies a hymn.
@@ -17,5 +18,43 @@ extension HymnIdentifier {
         self.hymnType = hymnType
         self.hymnNumber = hymnNumber
         self.queryParams = nil
+    }
+
+    init(_ entity: HymnIdentifierEntity) {
+        self.hymnType = entity.hymnType
+        self.hymnNumber = entity.hymnNumber
+        self.queryParams = entity.queryParams?.dictionary as? [String: String]
+    }
+}
+
+class HymnIdentifierEntity: Object {
+    // https://stackoverflow.com/questions/29123245/using-enum-as-property-of-realm-model
+    @objc dynamic private var hymnTypeRaw = HymnType.classic.rawValue
+    var hymnType: HymnType {
+        get {
+            return HymnType(rawValue: hymnTypeRaw)!
+        }
+        set {
+            hymnTypeRaw = newValue.rawValue
+        }
+    }
+    @objc dynamic var hymnNumber: String = ""
+    @objc dynamic var queryParams: String?
+
+    required init() {
+        super.init()
+    }
+
+    init(_ hymnIdentifier: HymnIdentifier) {
+        super.init()
+        self.hymnType = hymnIdentifier.hymnType
+        self.hymnNumber = hymnIdentifier.hymnNumber
+        if let queryParams = hymnIdentifier.queryParams {
+            self.queryParams = queryParams.jsonString
+        }
+    }
+
+    override func isEqual(_ object: Any?) -> Bool {
+        return hymnType == (object as? HymnIdentifierEntity)?.hymnType && hymnNumber == (object as? HymnIdentifierEntity)?.hymnNumber && queryParams == (object as? HymnIdentifierEntity)?.queryParams
     }
 }
