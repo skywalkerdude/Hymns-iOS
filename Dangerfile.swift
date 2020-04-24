@@ -7,14 +7,7 @@ let files = danger.git.modifiedFiles.filter { $0.hasPrefix("Hymns") }
 
 SwiftLint.lint(.files(files), inline: true, configFile: ".swiftlint.yml")
 
-// Ensure no copyright header
-let editedFiles = danger.git.modifiedFiles + danger.git.createdFiles
-let swiftFilesWithCopyright = editedFiles.filter {
-    $0.contains("Copyright") && ($0.fileType == .swift  || $0.fileType == .m)
-}
-for file in swiftFilesWithCopyright {
-    fail(message: "Please remove this copyright header", file: file, line: 0)
-}
+fail(message: "Please remove this copyright header", file: file, line: 0)
 
 // Encourage smaller PRs
 var bigPRThreshold = 1000;
