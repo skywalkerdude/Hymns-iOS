@@ -9,8 +9,6 @@ jobs:
     name: "Run Danger"
     steps:
       - uses: actions/checkout@v2
-      - name: Run coverage
-        run: xcodebuild test -workspace Hymns.xcworkspace -scheme Hymns -destination "platform=iOS Simulator,name=iPhone 11 Pro" -derivedDataPath Build/ -enableCodeCoverage YES
       - name: Danger
         uses: f-meloni/danger-swift-swiftlint-action@0.2.8
         with:
