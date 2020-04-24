@@ -16,7 +16,7 @@ jobs:
       - name: Run coverage
         run: xcodebuild test -workspace Hymns.xcworkspace -scheme Hymns -destination "platform=iOS Simulator,name=iPhone 11 Pro" -derivedDataPath Build/ -enableCodeCoverage YES
       - name: Danger
-        uses: f-meloni/danger-swift-swiftlint-action@0.2.8
+        uses: danger/swift@3.0.0
         with:
             args: --failOnErrors --no-publish-check
         env:
