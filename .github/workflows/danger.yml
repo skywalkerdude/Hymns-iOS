@@ -9,6 +9,10 @@ jobs:
     name: "Run Danger"
     steps:
       - uses: actions/checkout@v2
+      - name: Dependencies
+      run: |
+        gem install xcpretty
+        gem install xcpretty-json-formatter
       - name: Danger
         uses: f-meloni/danger-swift-swiftlint-action@0.2.8
         with:
