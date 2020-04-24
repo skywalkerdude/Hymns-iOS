@@ -4,9 +4,11 @@ import Danger
 let danger = Danger()
 
 // Ensure no copyright header
-let changedFiles = danger.git.modifiedFiles + danger.git.createdFiles
+let changedFiles = (danger.git.modifiedFiles + danger.git.createdFiles).filter {
+    $0 != "Dangerfile.swift"
+}
 let swiftFilesWithCopyright = changedFiles.filter {
-    $0.fileType == .swift && danger.utils.readFile($0).contains("//  Created by")
+    return $0.fileType == .swift && danger.utils.readFile($0).contains("//  Created by")
 }
 if swiftFilesWithCopyright.count > 0 {
     let files = swiftFilesWithCopyright.joined(separator: ", ")
