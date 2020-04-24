@@ -3,7 +3,7 @@ import RealmSwift
 import Resolver
 
 protocol HistoryStore {
-    func recentSongs(onChanged: @escaping ([RecentSong]) -> Void) -> NotificationToken
+    func recentSongs(onChanged: @escaping ([RecentSong]) -> Void) -> Notification
     func storeRecentSong(hymnToStore hymnIdentifier: HymnIdentifier, songTitle: String)
 }
 
@@ -23,10 +23,10 @@ class HistoryStoreRealmImpl: HistoryStore {
     /**
      * Gets a list of `RecentSong`s. but if the list is greater than `numberToStore`, then it will delete the excess `RecentSong`s from the database.
      */
-    func recentSongs(onChanged: @escaping ([RecentSong]) -> Void) -> NotificationToken {
+    func recentSongs(onChanged: @escaping ([RecentSong]) -> Void) -> Notification {
         let results: Results<RecentSongEntity> = realm.objects(RecentSongEntity.self).sorted(byKeyPath: "created", ascending: false)
         if results.count > numberToStore {
-            let entitiesToDelete = results.suffix(results.count - numberToStore)
+            let entitiesToDelete = Array(results).suffix(results.count - numberToStore)
             do {
                 try realm.write {
                     realm.delete(entitiesToDelete)
@@ -51,7 +51,7 @@ class HistoryStoreRealmImpl: HistoryStore {
                 // TODO handle error
                 print(error)
             }
-        }
+        }.toNotification()
     }
 
     func storeRecentSong(hymnToStore hymnIdentifier: HymnIdentifier, songTitle: String) {

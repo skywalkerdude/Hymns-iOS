@@ -11,7 +11,7 @@ protocol FavoritesStore {
 
     func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool
 
-    func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> NotificationToken
+    func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
 }
 
 class FavoritesStoreRealmImpl: FavoritesStore {
@@ -55,11 +55,11 @@ class FavoritesStoreRealmImpl: FavoritesStore {
         return realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier)) != nil
     }
 
-    func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> NotificationToken {
+    func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification {
         return realm.observe { (_, _) in
             let favorite = self.isFavorite(hymnIdentifier: hymnIdentifier)
             action(favorite)
-        }
+        }.toNotification()
     }
 }
 

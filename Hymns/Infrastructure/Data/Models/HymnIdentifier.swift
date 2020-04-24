@@ -53,4 +53,8 @@ class HymnIdentifierEntity: Object {
             self.queryParams = queryParams.jsonString
         }
     }
+
+    override func isEqual(_ object: Any?) -> Bool {
+        return hymnType == (object as? HymnIdentifierEntity)?.hymnType && hymnNumber == (object as? HymnIdentifierEntity)?.hymnNumber && queryParams == (object as? HymnIdentifierEntity)?.queryParams
+    }
 }

@@ -5,7 +5,6 @@ import XCTest
 
 class HymnsRepositoryImplTests: XCTestCase {
 
-    static let cebuano123: HymnIdentifier = HymnIdentifier(hymnType: .cebuano, hymnNumber: "123")
     static let hymn: Hymn = Hymn(title: "song title", metaData: [MetaDatum](), lyrics: [Verse]())
 
     var hymnalApiService: HymnalApiServiceMock!
@@ -27,7 +26,7 @@ class HymnsRepositoryImplTests: XCTestCase {
                 .eraseToAnyPublisher()
         }
         var set = Set<AnyCancellable>()
-        target.getHymn(hymnIdentifier: Self.cebuano123)
+        target.getHymn(hymnIdentifier: cebuano123)
             .sink(receiveValue: { _ in })
             .store(in: &set)
 
@@ -36,7 +35,7 @@ class HymnsRepositoryImplTests: XCTestCase {
 
         // Verify you still get the same result but without calling the API.
         let valueReceived = expectation(description: "value received")
-        let cancellable = target.getHymn(hymnIdentifier: Self.cebuano123)
+        let cancellable = target.getHymn(hymnIdentifier: cebuano123)
             .sink(receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertEqual(Self.hymn, hymn!)
@@ -59,7 +58,7 @@ class HymnsRepositoryImplTests: XCTestCase {
         }
 
         let valueReceived = expectation(description: "value received")
-        let cancellable = target.getHymn(hymnIdentifier: Self.cebuano123)
+        let cancellable = target.getHymn(hymnIdentifier: cebuano123)
             .sink(receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertNil(hymn)
@@ -79,7 +78,7 @@ class HymnsRepositoryImplTests: XCTestCase {
         }
 
         let valueReceived = expectation(description: "value received")
-        let cancellable = target.getHymn(hymnIdentifier: Self.cebuano123)
+        let cancellable = target.getHymn(hymnIdentifier: cebuano123)
             .sink(receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertEqual(Self.hymn, hymn!)

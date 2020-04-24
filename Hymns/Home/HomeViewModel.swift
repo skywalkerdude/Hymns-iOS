@@ -1,6 +1,5 @@
 import Combine
 import Foundation
-import RealmSwift
 import Resolver
 
 class HomeViewModel: ObservableObject {
@@ -10,7 +9,7 @@ class HomeViewModel: ObservableObject {
     @Published var songResults: [SongResultViewModel] = [SongResultViewModel]()
     @Published var label: String?
 
-    private var recentSongsNotification: NotificationToken?
+    private var recentSongsNotification: Notification?
 
     private var disposables = Set<AnyCancellable>()
     private let historyStore: HistoryStore

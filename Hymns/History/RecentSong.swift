@@ -20,6 +20,10 @@ class RecentSong: Object {
     override static func primaryKey() -> String? {
         return "primaryKey"
     }
+
+    override func isEqual(_ object: Any?) -> Bool {
+        return primaryKey == (object as? RecentSong)?.primaryKey && hymnIdentifierEntity == (object as? RecentSong)?.hymnIdentifierEntity && songTitle == (object as? RecentSong)?.songTitle
+    }
 }
 
 class RecentSongEntity: Object {

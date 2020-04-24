@@ -16,7 +16,7 @@ class DisplayHymnViewModel: ObservableObject {
     private let historyStore: HistoryStore
     @Published var isFavorited: Bool?
 
-    private var favoritesObserver: NotificationToken?
+    private var favoritesObserver: Notification?
     private var disposables = Set<AnyCancellable>()
 
     init(hymnToDisplay identifier: HymnIdentifier,
