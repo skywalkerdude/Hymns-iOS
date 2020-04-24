@@ -1,12 +1,5 @@
 import Foundation
 
-//
-//  sfdsdf.swift
-//  Hymns
-//
-//  Created by Luke Lu on 4/23/20.
-//  Copyright © 2020 skywalkerdude. All rights reserved.
-//
 struct VerseLineViewModel: Hashable {
     let verseNumber: String?
     let verseText: String
