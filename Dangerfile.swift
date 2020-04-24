@@ -4,6 +4,6 @@ import DangerSwiftCoverage // package: https://github.com/f-meloni/danger-swift-
 
 let danger = Danger()
 
-let files = danger.git.modifiedFiles.filter { $0.hasPrefix("Hymns") }
-SwiftLint.lint(.files(files), inline: true, configFile: ".swiftlint.yml")
-
+Coverage.xcodeBuildCoverage(.derivedDataFolder("Build"),
+                            minimumCoverage: 50,
+                            excludedTargets: ["DangerSwiftCoverageTests.xctest"])
