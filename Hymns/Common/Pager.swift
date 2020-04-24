@@ -3,15 +3,15 @@ import SwiftUI
 struct PagerView<Content: View>: View {
     @Binding var currentIndex: Int
     let content: Content
-    
+
     init(currentIndex: Binding<Int>, @ViewBuilder content: () -> Content) {
         self._currentIndex = currentIndex
         self.content = content()
     }
-    
+
     @GestureState private var translation: CGFloat = 0
     @State var newIndex: CGFloat = 0
-    
+
     var body: some View {
         GeometryReader { geometry in
             HStack(spacing: 0) {
@@ -30,26 +30,22 @@ struct PagerView<Content: View>: View {
                     if self.currentIndex >= 0 {
                         self.currentIndex = Int(self.newIndex)
                         print("current index")
-                        
+
                         print(String(self.currentIndex))
                         print("new index")
-                        
+
                         print(self.newIndex)
-                    }
-                    else {
+                    } else {
                         self.currentIndex = Int(self.newIndex)
                         print("current index")
                         print(String(self.currentIndex))
                         print("new index")
                         print(self.newIndex)
-                        
                     }
                 }
             )
         }
     }
-    
-    
 }
 
 func fetchNum(stringHymnNumber: String, index: Int) -> String {
@@ -60,12 +56,11 @@ func fetchNum(stringHymnNumber: String, index: Int) -> String {
 }
 struct Pager: View {
     @ObservedObject var viewModel: DisplayHymnViewModel
-    
-    
+
     @State private var currentPage = 0
     let classic1151View = DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
     let classic1334View = DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334))
-    
+
     var body: some View {
         PagerView(currentIndex: $currentPage) {
             DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: HymnIdentifier(hymnType: .classic, hymnNumber: fetchNum(stringHymnNumber: self.viewModel.identifier.hymnNumber, index: self.currentPage))))
@@ -73,7 +68,6 @@ struct Pager: View {
             DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: HymnIdentifier(hymnType: .classic, hymnNumber: fetchNum(stringHymnNumber: self.viewModel.identifier.hymnNumber, index: self.currentPage))))
             DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: HymnIdentifier(hymnType: .classic, hymnNumber: fetchNum(stringHymnNumber: self.viewModel.identifier.hymnNumber, index: self.currentPage))))
             DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: HymnIdentifier(hymnType: .classic, hymnNumber: fetchNum(stringHymnNumber: self.viewModel.identifier.hymnNumber, index: self.currentPage))))
-            
         }.onAppear {
             print("\(self.viewModel.identifier.hymnNumber)")
         }
