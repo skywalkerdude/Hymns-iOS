@@ -14,7 +14,7 @@ jobs:
           pod deintegrate
           pod install
       - name: Run coverage
-        run: xcodebuild test -scheme Hymns -derivedDataPath Build/ -enableCodeCoverage YES
+        run: xcodebuild test -workspace Hymns.xcworkspace -scheme Hymns -destination "platform=iOS Simulator,name=iPhone 11 Pro" -derivedDataPath Build/ -enableCodeCoverage YES
       - name: Danger
         uses: f-meloni/danger-swift-swiftlint-action@0.2.8
         with:
