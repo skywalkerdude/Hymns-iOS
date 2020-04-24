@@ -9,7 +9,7 @@ class DisplayHymnViewModel: ObservableObject {
     typealias Title = String
     @Published var title: Title = ""
     var hymnLyricsViewModel: HymnLyricsViewModel
-    private let identifier: HymnIdentifier
+    let identifier: HymnIdentifier
     private let repository: HymnsRepository
     private let mainQueue: DispatchQueue
     @Published var favoritedStatus = false
