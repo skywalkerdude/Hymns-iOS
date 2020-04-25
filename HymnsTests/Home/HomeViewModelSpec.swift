@@ -25,11 +25,11 @@ class HomeViewModelSpec: QuickSpec {
                 songResultsRepository = mock(SongResultsRepository.self)
                 target = HomeViewModel(backgroundQueue: testQueue, historyStore: historyStore, mainQueue: testQueue, repository: songResultsRepository)
             }
+            let recentHymns = "Recent hymns"
             context("default state") {
                 beforeEach {
-                    sleep(1) // all time for the debouncer to trigger.
+                    sleep(1) // allow time for the debouncer to trigger.
                 }
-                let recentHymns = "Recent hymns"
                 it("\"\(recentHymns)\" label should be showing") {
                     expect(target.label).toEventuallyNot(beNil())
                     expect(target.label).to(equal(recentHymns))
@@ -50,13 +50,17 @@ class HomeViewModelSpec: QuickSpec {
                     }
                 }
                 context("empty search parameter") {
-                    let recentSearches = "Recent searches"
-                    it("\"\(recentSearches)\" label should be showing") {
+                    it("\"\(recentHymns)\" label should be showing") {
                         expect(target.label).toEventuallyNot(beNil())
-                        expect(target.label).toEventually(equal(recentSearches))
+                        expect(target.label).toEventually(equal(recentHymns))
                     }
-                    it("should display recent searches") {
-                        expect(target.songResults).toEventually(equal([PreviewSongResults.joyUnspeakable, PreviewSongResults.sinfulPast]))
+                    it("should fetch the recent songs from the history store") {
+                        verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
+                    }
+                    it("should display recent songs") {
+                        expect(target.songResults).toEventually(haveCount(2))
+                        expect(target.songResults[0].title).to(equal(recentSongs[0].songTitle))
+                        expect(target.songResults[1].title).to(equal(recentSongs[1].songTitle))
                     }
                 }
                 let searchParameter = "Wakanda Forever"
@@ -68,7 +72,7 @@ class HomeViewModelSpec: QuickSpec {
                             testQueue.sync {
                                 target.searchParameter = searchParameter
                             }
-                            sleep(1) // all time for the debouncer to trigger.
+                            sleep(1) // allow time for the debouncer to trigger.
                         }
                         it("no label should be showing") {
                             expect(target.label).to(beNil())
@@ -93,7 +97,7 @@ class HomeViewModelSpec: QuickSpec {
                             testQueue.sync {
                                 target.searchParameter = searchParameter
                             }
-                            sleep(1) // all time for the debouncer to trigger.
+                            sleep(1) // allow time for the debouncer to trigger.
                         }
                         it("no label should be showing") {
                             expect(target.label).to(beNil())
@@ -105,6 +109,46 @@ class HomeViewModelSpec: QuickSpec {
                         }
                         it("should call songResultsRepository.search") {
                             verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)).wasCalled(exactly(1))
+                        }
+                        context("search parameter cleared") {
+                            beforeEach {
+                                testQueue.sync {
+                                    target.searchParameter = ""
+                                }
+                                sleep(1) // allow time for the debouncer to trigger.
+                            }
+                            it("\"\(recentHymns)\" label should be showing") {
+                                expect(target.label).toEventuallyNot(beNil())
+                                expect(target.label).toEventually(equal(recentHymns))
+                            }
+                            it("should fetch the recent songs from the history store again") {
+                                verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(2))
+                            }
+                            it("should display recent songs") {
+                                expect(target.songResults).toEventually(haveCount(2))
+                                expect(target.songResults[0].title).to(equal(recentSongs[0].songTitle))
+                                expect(target.songResults[1].title).to(equal(recentSongs[1].songTitle))
+                            }
+                        }
+                        context("deactiveate search") {
+                            beforeEach {
+                                testQueue.sync {
+                                    target.searchActive = false
+                                }
+                                sleep(1) // allow time for the debouncer to trigger.
+                            }
+                            it("\"\(recentHymns)\" label should be showing") {
+                                expect(target.label).toEventuallyNot(beNil())
+                                expect(target.label).toEventually(equal(recentHymns))
+                            }
+                            it("should fetch the recent songs from the history store again") {
+                                verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(2))
+                            }
+                            it("should display recent songs") {
+                                expect(target.songResults).toEventually(haveCount(2))
+                                expect(target.songResults[0].title).to(equal(recentSongs[0].songTitle))
+                                expect(target.songResults[1].title).to(equal(recentSongs[1].songTitle))
+                            }
                         }
                     }
                 }

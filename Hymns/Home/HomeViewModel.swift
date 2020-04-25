@@ -31,11 +31,6 @@ class HomeViewModel: ObservableObject {
                     self.fetchRecentSongs()
                     return
                 }
-                if self.searchParameter.isEmpty {
-                    self.fetchRecentSearches()
-                    return
-                }
-                self.label = nil
         }.store(in: &disposables)
 
         $searchParameter
@@ -44,11 +39,8 @@ class HomeViewModel: ObservableObject {
             .debounce(for: .seconds(0.5), scheduler: backgroundQueue)
             .receive(on: mainQueue)
             .sink { searchParameter in
-                if !self.searchActive {
-                    return
-                }
-                if searchParameter.isEmpty {
-                    self.fetchRecentSearches()
+                if self.searchParameter.isEmpty {
+                    self.fetchRecentSongs()
                     return
                 }
                 self.performSearch(searchParameter: searchParameter)
@@ -67,11 +59,6 @@ class HomeViewModel: ObservableObject {
                 return SongResultViewModel(title: recentSong.songTitle, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
             }
         }
-    }
-
-    private func fetchRecentSearches() {
-        songResults = [PreviewSongResults.joyUnspeakable, PreviewSongResults.sinfulPast]
-        label = "Recent searches"
     }
 
     private func performSearch(searchParameter: String) {
