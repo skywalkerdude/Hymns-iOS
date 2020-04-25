@@ -14,7 +14,7 @@ public struct HymnLyricsView: View {
             }
 
             guard !lyrics.isEmpty else {
-                return Text("loading...").eraseToAnyView()
+                return ActivityIndicator().eraseToAnyView()
             }
 
         return VStack {
