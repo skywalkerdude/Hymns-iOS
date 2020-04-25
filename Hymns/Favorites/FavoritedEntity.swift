@@ -1,15 +1,34 @@
 import SwiftUI
 import RealmSwift
 
-/** Realm model of a favorited hymn */
-class FavoritedEntity: Object, Identifiable {
-    @objc dynamic var hymnType: String = ""
-    @objc dynamic var hymnNumber: String = ""
-    @objc dynamic var compoundKey = ""
-    @objc dynamic var favorited = false
-    @objc dynamic var title: String = ""
+class FavoriteEntity: Object, Identifiable {
+    @objc dynamic var primaryKey: String!
+    @objc dynamic var hymnIdentifierEntity: HymnIdentifierEntity!
+    @objc dynamic var songTitle: String!
 
-    override class func primaryKey() -> String? {
-        return "compoundKey"
+    required init() {
+        super.init()
+    }
+
+    init(hymnIdentifier: HymnIdentifier, songTitle: String) {
+        super.init()
+        self.primaryKey = Self.createPrimaryKey(hymnIdentifier: hymnIdentifier)
+        self.hymnIdentifierEntity = HymnIdentifierEntity(hymnIdentifier)
+        self.songTitle = songTitle
+    }
+
+    init(hymnIdentifier: HymnIdentifier) {
+        super.init()
+        self.primaryKey = Self.createPrimaryKey(hymnIdentifier: hymnIdentifier)
+        self.hymnIdentifierEntity = HymnIdentifierEntity(hymnIdentifier)
+        self.songTitle = ""
+    }
+
+    override static func primaryKey() -> String? {
+        return "primaryKey"
+    }
+
+    static func createPrimaryKey(hymnIdentifier: HymnIdentifier) -> String {
+        return "\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())"
     }
 }

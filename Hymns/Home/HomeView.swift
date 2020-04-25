@@ -25,11 +25,9 @@ struct HomeView: View {
                 Text($0).font(.caption).padding(.top).padding(.leading)
             }
 
-            List {
-                ForEach(self.viewModel.songResults) { songResult in
-                    NavigationLink(destination: songResult.destinationView) {
-                        SongResultView(viewModel: songResult)
-                    }
+            List(self.viewModel.songResults) { songResult in
+                NavigationLink(destination: songResult.destinationView) {
+                    SongResultView(viewModel: songResult)
                 }
             }.resignKeyboardOnDragGesture()
         }

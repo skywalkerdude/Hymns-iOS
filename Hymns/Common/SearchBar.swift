@@ -16,13 +16,17 @@ struct SearchBar: View {
                 Image(systemName: "magnifyingglass")
                 TextField(placeholderText, text: $searchText, onEditingChanged: { _ in
                     withAnimation(.easeInOut(duration: 0.2)) {
-                        self.searchActive = true
+                        if !self.searchActive {
+                            self.searchActive = true
+                        }
                     }
-                }, onCommit: {
-                    print("onCommit")
                 }).foregroundColor(.primary)
 
-                Button(action: {self.searchText = ""}, label: {Image(systemName: "xmark.circle.fill").opacity(self.searchText.isEmpty ? 0.0 : 1.0)})
+                Button(action: {
+                    if !self.searchText.isEmpty {
+                        self.searchText = ""
+                    }
+                }, label: {Image(systemName: "xmark.circle.fill").opacity(self.searchText.isEmpty ? 0.0 : 1.0)})
             }
             .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))
             .foregroundColor(.secondary)
@@ -33,7 +37,9 @@ struct SearchBar: View {
                 Button("Cancel") {
                     // this must be placed before the other commands here
                     UIApplication.shared.endEditing(true)
-                    self.searchText = ""
+                    if !self.searchText.isEmpty {
+                        self.searchText = ""
+                    }
                     withAnimation {
                         self.searchActive = false
                     }

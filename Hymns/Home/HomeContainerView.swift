@@ -7,12 +7,30 @@ struct HomeContainerView: View {
 
     var body: some View {
         NavigationView {
-            IndicatorTabView(currentTab: $selectedTab, tabItems: [
-                .home,
-                .browse,
-                .favorites,
-                .settings
-            ]).hideNavigationBar()
+            TabView(selection: $selectedTab) {
+                HomeView(viewModel: Resolver.resolve())
+                    .tabItem {HomeTab.home.getImage(selectedTab == HomeTab.home)}
+                    .tag(HomeTab.home)
+                    .hideNavigationBar()
+
+                BrowseView()
+                    .tabItem { HomeTab.browse.getImage(selectedTab == HomeTab.browse)}
+                    .tag(HomeTab.browse)
+                    .hideNavigationBar()
+
+                FavoritesView()
+                    .tabItem {HomeTab.favorites.getImage(selectedTab == HomeTab.favorites)}
+                    .tag(HomeTab.favorites)
+                    .hideNavigationBar()
+
+                SettingsView()
+                    .tabItem {HomeTab.settings.getImage(selectedTab == HomeTab.settings)}
+                    .tag(HomeTab.settings)
+                    .hideNavigationBar()
+            }.onAppear {
+                // Make the unselected tabs black insetad of grey.
+                UITabBar.appearance().unselectedItemTintColor = .black
+            }.edgesIgnoringSafeArea(.top)
         }
     }
 }

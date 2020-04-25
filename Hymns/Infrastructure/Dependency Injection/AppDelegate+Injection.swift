@@ -8,9 +8,12 @@ extension Resolver: ResolverRegistering {
         registerApplication()
         register(name: "main") { DispatchQueue.main }
         register(name: "background") { DispatchQueue(label: "background") }
+        registerHistoryStore()
+        registerFavoritesStore()
         registerHymnalApiService()
         registerRepositories()
         registerHomeViewModel()
+        registerFavoritesViewModel()
         registerSettingsViewModel()
     }
 }
