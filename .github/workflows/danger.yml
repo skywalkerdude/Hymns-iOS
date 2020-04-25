@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Danger
-        uses: f-meloni/danger-swift-swiftlint-action@0.2.8
+        uses: docker://frmeloni/danger-swift-with-swiftlint:1.1.0
         with:
             args: --failOnErrors --no-publish-check
         env:
