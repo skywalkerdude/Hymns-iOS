@@ -3,7 +3,6 @@ import SwiftUI
 public struct HymnLyricsView: View {
 
     @ObservedObject private var viewModel: HymnLyricsViewModel
-    @State private var shouldAnimate = true
 
     init(viewModel: HymnLyricsViewModel) {
         self.viewModel = viewModel
