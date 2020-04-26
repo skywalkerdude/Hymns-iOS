@@ -25,11 +25,23 @@ struct HomeView: View {
                 Text($0).font(.caption).padding(.top).padding(.leading)
             }
 
-            List(self.viewModel.songResults) { songResult in
-                NavigationLink(destination: songResult.destinationView) {
-                    SongResultView(viewModel: songResult)
+            if self.viewModel.isLoading {
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        ActivityIndicator()
+                        Spacer()
+                    }
+                    Spacer()
                 }
-            }.resignKeyboardOnDragGesture()
+            } else {
+                List(self.viewModel.songResults) { songResult in
+                    NavigationLink(destination: songResult.destinationView) {
+                        SongResultView(viewModel: songResult)
+                    }
+                }.resignKeyboardOnDragGesture()
+            }
         }
     }
 }
@@ -45,10 +57,10 @@ struct HomeView_Previews: PreviewProvider {
         let searchActiveViewModel = HomeViewModel()
         searchActiveViewModel.searchActive = true
 
-        let recentSearchesViewModel = HomeViewModel()
-        recentSearchesViewModel.searchActive = true
-        recentSearchesViewModel.label = "Recent searches"
-        recentSearchesViewModel.songResults = [PreviewSongResults.joyUnspeakable, PreviewSongResults.sinfulPast]
+        let loadingViewModel = HomeViewModel()
+        loadingViewModel.searchActive = true
+        loadingViewModel.searchParameter = "She loves me not"
+        loadingViewModel.isLoading = true
 
         let searchResults = HomeViewModel()
         searchResults.searchActive = true
@@ -63,8 +75,8 @@ struct HomeView_Previews: PreviewProvider {
                     .previewDisplayName("Recent songs")
                 HomeView(viewModel: searchActiveViewModel)
                     .previewDisplayName("Active search without recent searches")
-                HomeView(viewModel: recentSearchesViewModel)
-                    .previewDisplayName("Active search with recent searches")
+                HomeView(viewModel: loadingViewModel)
+                    .previewDisplayName("Active search loading")
                 HomeView(viewModel: searchResults)
                     .previewDisplayName("Search results")
                 HomeView(viewModel: defaultViewModel)
