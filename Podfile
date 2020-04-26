@@ -24,8 +24,8 @@ target 'Hymns' do
   # https://firebase.google.com/docs/ios/setup#available-pods
 
   # Crash reporting
-  pod 'Fabric'
-  pod 'Crashlytics'
+  pod 'Firebase/Crashlytics'
+
   
   target 'HymnsTests' do
     inherit! :search_paths
