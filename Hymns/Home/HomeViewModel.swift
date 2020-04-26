@@ -8,6 +8,7 @@ class HomeViewModel: ObservableObject {
     @Published var searchParameter = ""
     @Published var songResults: [SongResultViewModel] = [SongResultViewModel]()
     @Published var label: String?
+    @Published var isLoading: Bool = false
 
     private var recentSongsNotification: Notification?
 
@@ -34,16 +35,24 @@ class HomeViewModel: ObservableObject {
         }.store(in: &disposables)
 
         $searchParameter
+            // Ignore the first call with an empty string since it's take care of already by $searchActive
             .dropFirst()
             // Debounce works by waiting a bit until the user stops typing and before sending a value
             .debounce(for: .seconds(0.5), scheduler: backgroundQueue)
             .receive(on: mainQueue)
             .sink { searchParameter in
+                if !self.searchActive {
+                    return
+                }
                 if self.searchParameter.isEmpty {
                     self.fetchRecentSongs()
                     return
                 }
-                self.performSearch(searchParameter: searchParameter)
+                if searchParameter.trim().isPositiveInteger {
+                    self.fetchByNumber(hymnNumber: searchParameter.trim())
+                    return
+                }
+                self.performSearch(searchParameter: searchParameter.trim())
         }.store(in: &disposables)
     }
 
@@ -53,7 +62,9 @@ class HomeViewModel: ObservableObject {
 
     private func fetchRecentSongs() {
         label = "Recent hymns"
+        isLoading = true
         recentSongsNotification = historyStore.recentSongs { recentSongs in
+            self.isLoading = false
             self.songResults = recentSongs.map { recentSong in
                 let identifier = HymnIdentifier(recentSong.hymnIdentifierEntity)
                 return SongResultViewModel(title: recentSong.songTitle, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
@@ -61,9 +72,19 @@ class HomeViewModel: ObservableObject {
         }
     }
 
+    private func fetchByNumber(hymnNumber: String) {
+        label = nil
+        let matchingNumbers = HymnNumberUtil.matchHymnNumbers(hymnNumber: hymnNumber)
+        self.songResults = matchingNumbers.map({ number -> SongResultViewModel in
+            let identifier = HymnIdentifier(hymnType: .classic, hymnNumber: number)
+            return SongResultViewModel(title: "Hymn \(number)", destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
+        })
+    }
+
     private func performSearch(searchParameter: String) {
         songResults = [SongResultViewModel]()
         label = nil
+        isLoading = true
         repository
             .search(searchParameter: searchParameter, pageNumber: 1)
             .map({ (songResultsPage) -> [SongResultViewModel] in
@@ -90,6 +111,7 @@ class HomeViewModel: ObservableObject {
                     }
                 },
                 receiveValue: { [weak self] songResults in
+                    self?.isLoading = false
                     self?.songResults = songResults
             }).store(in: &disposables)
     }

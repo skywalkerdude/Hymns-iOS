@@ -76,9 +76,9 @@ struct SearchBox_Previews: PreviewProvider {
         let searchTextBar = SearchBar(searchText: searchTextBinding, searchActive: searchActiveBinding, placeholderText: placeholderText)
         return
             Group {
-                searchInactiveBar
-                searchActiveBar
-                searchTextBar
+                searchInactiveBar.previewDisplayName("inactive")
+                searchActiveBar.previewDisplayName("active")
+                searchTextBar.previewDisplayName("with search text")
             }.previewLayout(.sizeThatFits)
     }
 }
