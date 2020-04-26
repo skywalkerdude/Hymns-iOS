@@ -40,7 +40,6 @@ class HomeViewModel: ObservableObject {
             .debounce(for: .seconds(0.5), scheduler: backgroundQueue)
             .receive(on: mainQueue)
             .sink { searchParameter in
-                self.isLoading = true
                 if self.searchParameter.isEmpty {
                     self.fetchRecentSongs()
                     return
@@ -55,6 +54,7 @@ class HomeViewModel: ObservableObject {
 
     private func fetchRecentSongs() {
         label = "Recent hymns"
+        isLoading = true
         recentSongsNotification = historyStore.recentSongs { recentSongs in
             self.isLoading = false
             self.songResults = recentSongs.map { recentSong in
@@ -67,6 +67,7 @@ class HomeViewModel: ObservableObject {
     private func performSearch(searchParameter: String) {
         songResults = [SongResultViewModel]()
         label = nil
+        isLoading = true
         repository
             .search(searchParameter: searchParameter, pageNumber: 1)
             .map({ (songResultsPage) -> [SongResultViewModel] in

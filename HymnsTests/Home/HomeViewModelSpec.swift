@@ -19,6 +19,7 @@ class HomeViewModelSpec: QuickSpec {
             beforeEach {
                 historyStore = mock(HistoryStore.self)
                 given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
+                    expect(target.isLoading).to(beTrue())
                     onChanged(recentSongs)
                     return mock(Notification.self)
                 }
@@ -33,6 +34,9 @@ class HomeViewModelSpec: QuickSpec {
                 it("\"\(recentHymns)\" label should be showing") {
                     expect(target.label).toEventuallyNot(beNil())
                     expect(target.label).to(equal(recentHymns))
+                }
+                it("should not still be loading") {
+                    expect(target.isLoading).to(beFalse())
                 }
                 it("should fetch the recent songs from the history store") {
                     verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
@@ -54,6 +58,9 @@ class HomeViewModelSpec: QuickSpec {
                         expect(target.label).toEventuallyNot(beNil())
                         expect(target.label).toEventually(equal(recentHymns))
                     }
+                    it("should not still be loading") {
+                        expect(target.isLoading).to(beFalse())
+                    }
                     it("should fetch the recent songs from the history store") {
                         verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
                     }
@@ -67,7 +74,9 @@ class HomeViewModelSpec: QuickSpec {
                 context("with search parameter: \(searchParameter)") {
                     context("with network error") {
                         beforeEach {
-                            given(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)) ~> {                                Just(nil).eraseToAnyPublisher()
+                            given(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)) ~> {
+                                expect(target.isLoading).to(beTrue())
+                                return Just(nil).eraseToAnyPublisher()
                             }
                             testQueue.sync {
                                 target.searchParameter = searchParameter
@@ -76,6 +85,9 @@ class HomeViewModelSpec: QuickSpec {
                         }
                         it("no label should be showing") {
                             expect(target.label).to(beNil())
+                        }
+                        it("should not still be loading") {
+                            expect(target.isLoading).to(beFalse())
                         }
                         it("song results should be empty") {
                             expect(target.songResults).to(beEmpty())
@@ -92,6 +104,7 @@ class HomeViewModelSpec: QuickSpec {
                         let songResultsPage = SongResultsPage(results: [classic594, noHymnType, newTune7, noHymnNumber], hasMorePages: true)
                         beforeEach {
                             given(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)) ~> { searchInput, pageNumber in
+                                expect(target.isLoading).to(beTrue())
                                 return Just(songResultsPage).eraseToAnyPublisher()
                             }
                             testQueue.sync {
@@ -101,6 +114,9 @@ class HomeViewModelSpec: QuickSpec {
                         }
                         it("no label should be showing") {
                             expect(target.label).to(beNil())
+                        }
+                        it("should not still be loading") {
+                            expect(target.isLoading).to(beFalse())
                         }
                         it("should have two results") {
                             expect(target.songResults).toEventually(haveCount(2))
@@ -121,6 +137,9 @@ class HomeViewModelSpec: QuickSpec {
                                 expect(target.label).toEventuallyNot(beNil())
                                 expect(target.label).toEventually(equal(recentHymns))
                             }
+                            it("should not still be loading") {
+                                expect(target.isLoading).to(beFalse())
+                            }
                             it("should fetch the recent songs from the history store again") {
                                 verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(2))
                             }
@@ -140,6 +159,9 @@ class HomeViewModelSpec: QuickSpec {
                             it("\"\(recentHymns)\" label should be showing") {
                                 expect(target.label).toEventuallyNot(beNil())
                                 expect(target.label).toEventually(equal(recentHymns))
+                            }
+                            it("should not still be loading") {
+                                expect(target.isLoading).to(beFalse())
                             }
                             it("should fetch the recent songs from the history store again") {
                                 verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(2))
