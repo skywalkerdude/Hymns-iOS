@@ -31,7 +31,7 @@ class HomeViewModelSpec: QuickSpec {
                 beforeEach {
                     sleep(1) // allow time for the debouncer to trigger.
                 }
-                it("\"\(recentHymns)\" label should be showing") {
+                xit("\"\(recentHymns)\" label should be showing") {
                     expect(target.label).toEventuallyNot(beNil())
                     expect(target.label).to(equal(recentHymns))
                 }
