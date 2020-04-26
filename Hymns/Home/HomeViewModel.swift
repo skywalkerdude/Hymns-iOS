@@ -35,11 +35,15 @@ class HomeViewModel: ObservableObject {
         }.store(in: &disposables)
 
         $searchParameter
+            // Ignore the first call with an empty string since it's take care of already by $searchActive
             .dropFirst()
             // Debounce works by waiting a bit until the user stops typing and before sending a value
             .debounce(for: .seconds(0.5), scheduler: backgroundQueue)
             .receive(on: mainQueue)
             .sink { searchParameter in
+                if !self.searchActive {
+                    return
+                }
                 if self.searchParameter.isEmpty {
                     self.fetchRecentSongs()
                     return
