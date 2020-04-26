@@ -30,7 +30,7 @@ struct HomeView: View {
                     Spacer()
                     HStack {
                         Spacer()
-                        ActivityIndicator().eraseToAnyView()
+                        ActivityIndicator()
                         Spacer()
                     }
                     Spacer()
