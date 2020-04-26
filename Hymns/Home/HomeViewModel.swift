@@ -67,7 +67,8 @@ class HomeViewModel: ObservableObject {
             self.isLoading = false
             self.songResults = recentSongs.map { recentSong in
                 let identifier = HymnIdentifier(recentSong.hymnIdentifierEntity)
-                return SongResultViewModel(title: recentSong.songTitle, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
+                return SongResultViewModel(title: recentSong.songTitle,
+                                           destinationView: DisplayHymnContainerView(viewModel: DisplayHymnContainerViewModel(hymnToDisplay: identifier)).eraseToAnyView())
             }
         }
     }
@@ -97,7 +98,8 @@ class HomeViewModel: ObservableObject {
                         return nil
                     }
                     let identifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber)
-                    return SongResultViewModel(title: songResult.name, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
+                    return SongResultViewModel(title: songResult.name,
+                                               destinationView: DisplayHymnContainerView(viewModel: DisplayHymnContainerViewModel(hymnToDisplay: identifier)).eraseToAnyView())
                 }
             }).receive(on: mainQueue)
             .sink(
