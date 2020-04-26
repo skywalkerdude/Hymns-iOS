@@ -83,10 +83,6 @@
             argument = "-FIRDebugEnabled"
             isEnabled = "YES">
          </CommandLineArgument>
-         <CommandLineArgument
-            argument = ""
-            isEnabled = "YES">
-         </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
