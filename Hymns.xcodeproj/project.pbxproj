@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3B057FE5245525F300ACC848 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B057FE4245525F300ACC848 /* GoogleService-Info.plist */; };
 		3B09F901243D3BDC00252C15 /* HymnalApi_SearchTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B09F900243D3BDC00252C15 /* HymnalApi_SearchTest.swift */; };
 		3B09F904243D4D9300252C15 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B09F903243D4D9300252C15 /* URLProtocolMock.swift */; };
 		3B09F909243D806500252C15 /* TestHymns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B09F908243D806500252C15 /* TestHymns.swift */; };
@@ -121,7 +120,6 @@
 
 /* Begin PBXFileReference section */
 		118C49B5C98A88EDF53200A0 /* Pods-Hymns-HymnsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns-HymnsUITests.release.xcconfig"; path = "Target Support Files/Pods-Hymns-HymnsUITests/Pods-Hymns-HymnsUITests.release.xcconfig"; sourceTree = "<group>"; };
-		3B057FE4245525F300ACC848 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3B09F900243D3BDC00252C15 /* HymnalApi_SearchTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnalApi_SearchTest.swift; sourceTree = "<group>"; };
 		3B09F903243D4D9300252C15 /* URLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
 		3B09F908243D806500252C15 /* TestHymns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHymns.swift; sourceTree = "<group>"; };
@@ -359,7 +357,6 @@
 				3B1B901B2429CF57009FDCC5 /* Assets.xcassets */,
 				3B1B90202429CF57009FDCC5 /* LaunchScreen.storyboard */,
 				3B1B90232429CF57009FDCC5 /* Info.plist */,
-				3B057FE4245525F300ACC848 /* GoogleService-Info.plist */,
 				3B1B90162429CF55009FDCC5 /* Hymns.xcdatamodeld */,
 				3B1B901D2429CF57009FDCC5 /* Preview Content */,
 			);
@@ -638,6 +635,7 @@
 				D49DD760C7396DF0E66D174F /* [CP] Check Pods Manifest.lock */,
 				3B1B900B2429CF55009FDCC5 /* Sources */,
 				3B1B900C2429CF55009FDCC5 /* Frameworks */,
+				3B057FE724553E9000ACC848 /* Setup Firebase Environment GoogleService-Info.plist */,
 				3B1B900D2429CF55009FDCC5 /* Resources */,
 				5CAF7436242BA08A00A847E2 /* Run Swiftlint */,
 				C5F211AE0DEBC28D4D96F983 /* [CP] Embed Pods Frameworks */,
@@ -750,7 +748,6 @@
 				3BC13292243850B90082A274 /* classic1151.json in Resources */,
 				3B1B901F2429CF57009FDCC5 /* Preview Assets.xcassets in Resources */,
 				3B1B901C2429CF57009FDCC5 /* Assets.xcassets in Resources */,
-				3B057FE5245525F300ACC848 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -826,6 +823,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\"\n";
+		};
+		3B057FE724553E9000ACC848 /* Setup Firebase Environment GoogleService-Info.plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Setup Firebase Environment GoogleService-Info.plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# https://medium.com/rocket-fuel/using-multiple-firebase-environments-in-ios-12b204cfa6c0\n\n# Name of the resource we're selectively copying\nGOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\n\n# Get references to debug and release versions of the GoogleService-Info.plist\n# NOTE: These should only live on the file system and should NOT be part of the target (since we'll be adding them to the target manually)\nGOOGLESERVICE_INFO_DEV=${PROJECT_DIR}/${TARGET_NAME}/Firebase/Debug/${GOOGLESERVICE_INFO_PLIST}\nGOOGLESERVICE_INFO_PROD=${PROJECT_DIR}/${TARGET_NAME}/Firebase/Release/${GOOGLESERVICE_INFO_PLIST}\n\n# Make sure the dev version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_DEV}\"\nif [ ! -f $GOOGLESERVICE_INFO_DEV ]\nthen\n    echo \"No Development GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Make sure the prod version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_PROD}\"\nif [ ! -f $GOOGLESERVICE_INFO_PROD ]\nthen\n    echo \"No Production GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\n    exit 1\nfi\n\n# Get a reference to the destination location for the GoogleService-Info.plist\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho \"Will copy ${GOOGLESERVICE_INFO_PLIST} to final destination: ${PLIST_DESTINATION}\"\n\n# Copy over the prod GoogleService-Info.plist for Release builds\nif [ \"${CONFIGURATION}\" == \"Release\" ]\nthen\n    echo \"Using ${GOOGLESERVICE_INFO_PROD}\"\n    cp \"${GOOGLESERVICE_INFO_PROD}\" \"${PLIST_DESTINATION}\"\nelse\n    echo \"Using ${GOOGLESERVICE_INFO_DEV}\"\n    cp \"${GOOGLESERVICE_INFO_DEV}\" \"${PLIST_DESTINATION}\"\nfi\n";
 		};
 		586FD366667FD229BFF8B43F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
