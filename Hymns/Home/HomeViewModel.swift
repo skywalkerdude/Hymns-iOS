@@ -48,7 +48,11 @@ class HomeViewModel: ObservableObject {
                     self.fetchRecentSongs()
                     return
                 }
-                self.performSearch(searchParameter: searchParameter)
+                if searchParameter.trim().isPositiveInteger {
+                    self.fetchByNumber(hymnNumber: searchParameter.trim())
+                    return
+                }
+                self.performSearch(searchParameter: searchParameter.trim())
         }.store(in: &disposables)
     }
 
@@ -66,6 +70,15 @@ class HomeViewModel: ObservableObject {
                 return SongResultViewModel(title: recentSong.songTitle, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
             }
         }
+    }
+
+    private func fetchByNumber(hymnNumber: String) {
+        label = nil
+        let matchingNumbers = HymnNumberUtil.matchHymnNumbers(hymnNumber: hymnNumber)
+        self.songResults = matchingNumbers.map({ number -> SongResultViewModel in
+            let identifier = HymnIdentifier(hymnType: .classic, hymnNumber: number)
+            return SongResultViewModel(title: "Hymn \(number)", destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
+        })
     }
 
     private func performSearch(searchParameter: String) {

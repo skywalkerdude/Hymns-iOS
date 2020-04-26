@@ -53,7 +53,7 @@ class HomeViewModelSpec: QuickSpec {
                         target.searchActive = true
                     }
                 }
-                context("empty search parameter") {
+                context("with empty search parameter") {
                     it("\"\(recentHymns)\" label should be showing") {
                         expect(target.label).toEventuallyNot(beNil())
                         expect(target.label).toEventually(equal(recentHymns))
@@ -70,6 +70,25 @@ class HomeViewModelSpec: QuickSpec {
                         expect(target.songResults[1].title).to(equal(recentSongs[1].songTitle))
                     }
                 }
+                context("with numeric search paramter") {
+                    beforeEach {
+                        testQueue.sync {
+                            target.searchParameter = "198 "
+                        }
+                        sleep(1) // allow time for the debouncer to trigger.
+                    }
+                    it("no label should be showing") {
+                        expect(target.label).to(beNil())
+                    }
+                    it("song results should contain matching numbers") {
+                        expect(target.songResults).to(haveCount(2))
+                        expect(target.songResults[0].title).to(equal("Hymn 198"))
+                        expect(target.songResults[1].title).to(equal("Hymn 1198"))
+                    }
+                    it("should not call songResultsRepository.search") {
+                        verify(songResultsRepository.search(searchParameter: any(), pageNumber: any())).wasNeverCalled()
+                    }
+                }
                 let searchParameter = "Wakanda Forever"
                 context("with search parameter: \(searchParameter)") {
                     context("with network error") {
@@ -79,7 +98,7 @@ class HomeViewModelSpec: QuickSpec {
                                 return Just(nil).eraseToAnyPublisher()
                             }
                             testQueue.sync {
-                                target.searchParameter = searchParameter
+                                target.searchParameter = searchParameter + " \n  "
                             }
                             sleep(1) // allow time for the debouncer to trigger.
                         }
