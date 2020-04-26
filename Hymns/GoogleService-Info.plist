@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>713071978184-b6gbh2njrr64on8l53eifgetp1bk51m1.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.713071978184-b6gbh2njrr64on8l53eifgetp1bk51m1</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>713071978184-llk47ur8ulguvek7bhpgro8eshlgc564.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDVvqEaJSyoOMz9o9-ATmHGhOR58tzcn2s</string>
+	<key>GCM_SENDER_ID</key>
+	<string>713071978184</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.lukelu.Hymns</string>
+	<key>PROJECT_ID</key>
+	<string>release-a8614</string>
+	<key>STORAGE_BUCKET</key>
+	<string>release-a8614.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:713071978184:ios:f4b9a14c2c57c62bea27fd</string>
+	<key>DATABASE_URL</key>
+	<string>https://release-a8614.firebaseio.com</string>
+</dict>
+</plist>

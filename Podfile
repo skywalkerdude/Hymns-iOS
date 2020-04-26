@@ -17,6 +17,15 @@ target 'Hymns' do
   # Dependency Injection Framework
   # https://github.com/hmlongco/Resolver
   pod 'Resolver'
+
+  # add the Firebase pod for Google Analytics
+  pod 'Firebase/Analytics'
+  # add pods for any other desired Firebase products
+  # https://firebase.google.com/docs/ios/setup#available-pods
+
+  # Crash reporting
+  pod 'Fabric'
+  pod 'Crashlytics'
   
   target 'HymnsTests' do
     inherit! :search_paths
