@@ -8,6 +8,7 @@ class HomeViewModel: ObservableObject {
     @Published var searchParameter = ""
     @Published var songResults: [SongResultViewModel] = [SongResultViewModel]()
     @Published var label: String?
+    @Published var isLoading: Bool = false
 
     private var recentSongsNotification: Notification?
 
@@ -39,6 +40,7 @@ class HomeViewModel: ObservableObject {
             .debounce(for: .seconds(0.5), scheduler: backgroundQueue)
             .receive(on: mainQueue)
             .sink { searchParameter in
+                self.isLoading = true
                 if self.searchParameter.isEmpty {
                     self.fetchRecentSongs()
                     return
@@ -54,6 +56,7 @@ class HomeViewModel: ObservableObject {
     private func fetchRecentSongs() {
         label = "Recent hymns"
         recentSongsNotification = historyStore.recentSongs { recentSongs in
+            self.isLoading = false
             self.songResults = recentSongs.map { recentSong in
                 let identifier = HymnIdentifier(recentSong.hymnIdentifierEntity)
                 return SongResultViewModel(title: recentSong.songTitle, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
@@ -90,6 +93,7 @@ class HomeViewModel: ObservableObject {
                     }
                 },
                 receiveValue: { [weak self] songResults in
+                    self?.isLoading = false
                     self?.songResults = songResults
             }).store(in: &disposables)
     }
