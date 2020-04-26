@@ -1,6 +1,5 @@
 import Firebase
 import CoreData
-import UIKit
 import FirebaseCrashlytics
 
 @UIApplicationMain
