@@ -96,6 +96,10 @@
 		B595A4A824438CC2005F7A14 /* DisplayHymnViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B595A4A724438CC2005F7A14 /* DisplayHymnViewModel.swift */; };
 		B595A4AA24438D8E005F7A14 /* HymnLyricsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B595A4A924438D8E005F7A14 /* HymnLyricsViewModel.swift */; };
 		B5A00F5F245277E300F7E3E1 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A00F5E245277E300F7E3E1 /* ActivityIndicator.swift */; };
+		B5C1F58B2457179100282F46 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C1F58A2457179100282F46 /* PageView.swift */; };
+		B5C1F58D2457179E00282F46 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C1F58C2457179E00282F46 /* PageViewController.swift */; };
+		B5C1F58F2457180400282F46 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C1F58E2457180400282F46 /* PageControl.swift */; };
+		B5C1F591245723C000282F46 /* DisplayHymnContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C1F590245723C000282F46 /* DisplayHymnContainerViewModel.swift */; };
 		B5E61B34242E613D00EF497D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5E61B36242E613D00EF497D /* Localizable.strings */; };
 		EF9D228545974074AF495E83 /* HymnsMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD96F2BF8386A9E600A9B55C /* HymnsMocks.generated.swift */; };
 		F05DB56A3CEF5DDB6BA3540B /* Pods_Hymns.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B54E4A810FCEA028C322EF /* Pods_Hymns.framework */; };
@@ -216,6 +220,10 @@
 		B595A4A724438CC2005F7A14 /* DisplayHymnViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnViewModel.swift; sourceTree = "<group>"; };
 		B595A4A924438D8E005F7A14 /* HymnLyricsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnLyricsViewModel.swift; sourceTree = "<group>"; };
 		B5A00F5E245277E300F7E3E1 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		B5C1F58A2457179100282F46 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
+		B5C1F58C2457179E00282F46 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		B5C1F58E2457180400282F46 /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
+		B5C1F590245723C000282F46 /* DisplayHymnContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnContainerViewModel.swift; sourceTree = "<group>"; };
 		B5E61B35242E613D00EF497D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B5E61B37242E62F600EF497D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B5E61B38242E630000EF497D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -421,6 +429,7 @@
 		3B45B900243BE8BB00D38BEF /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				B5C1F5892457177A00282F46 /* UIKitPaging */,
 				3BB1DCAA244D03AE0011169D /* TabView */,
 				3B45B901243BEC1C00D38BEF /* SongResultViewModel.swift */,
 				3B45B903243BEC8400D38BEF /* SongResultView.swift */,
@@ -623,6 +632,17 @@
 				3BFBF66C2450D19200C2FC5D /* FavoriteStore.swift */,
 			);
 			path = Favorites;
+			sourceTree = "<group>";
+		};
+		B5C1F5892457177A00282F46 /* UIKitPaging */ = {
+			isa = PBXGroup;
+			children = (
+				B5C1F58A2457179100282F46 /* PageView.swift */,
+				B5C1F58C2457179E00282F46 /* PageViewController.swift */,
+				B5C1F58E2457180400282F46 /* PageControl.swift */,
+				B5C1F590245723C000282F46 /* DisplayHymnContainerViewModel.swift */,
+			);
+			path = UIKitPaging;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -984,6 +1004,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5CA784A4242D1CF800B57903 /* HomeView.swift in Sources */,
+				B5C1F591245723C000282F46 /* DisplayHymnContainerViewModel.swift in Sources */,
 				3BB1DCB0244D03DE0011169D /* TabView.swift in Sources */,
 				B595A4AA24438D8E005F7A14 /* HymnLyricsViewModel.swift in Sources */,
 				3BC1329724385A580082A274 /* HomeContainerView.swift in Sources */,
@@ -1017,6 +1038,7 @@
 				3BE9EE94244AAA850098699E /* WebView.swift in Sources */,
 				3B45B908243BF74700D38BEF /* PreviewHymnIdentifiers.swift in Sources */,
 				5C45E09924512E9000872369 /* VerseViewModel.swift in Sources */,
+				B5C1F58B2457179100282F46 /* PageView.swift in Sources */,
 				3B50B968243E44B100EABDE4 /* SongResultsPage.swift in Sources */,
 				3BB1DCAE244D03DE0011169D /* TabItem.swift in Sources */,
 				3B87B82624493F7F00AEC7E9 /* SimpleSettingView.swift in Sources */,
@@ -1029,6 +1051,7 @@
 				3B5935BB2435B7A400E6993C /* AppDelegate+Injection.swift in Sources */,
 				3BFBF66D2450D19200C2FC5D /* FavoriteStore.swift in Sources */,
 				3B0B39AF243931B3003C5161 /* ErrorType.swift in Sources */,
+				B5C1F58D2457179E00282F46 /* PageViewController.swift in Sources */,
 				3B5935A22435685400E6993C /* Verse.swift in Sources */,
 				3B87B82A2449497A00AEC7E9 /* SettingsViewModel.swift in Sources */,
 				3BB787782454CBDD003CBEED /* HymnNumberUtil.swift in Sources */,
@@ -1036,6 +1059,7 @@
 				B5809DFA244F60FD00EF0C63 /* FavoritedEntity.swift in Sources */,
 				3B5935A8243584F700E6993C /* MetaDatum.swift in Sources */,
 				3BB1DCB5244D55770011169D /* SearchBar.swift in Sources */,
+				B5C1F58F2457180400282F46 /* PageControl.swift in Sources */,
 				3B1B90152429CF55009FDCC5 /* SceneDelegate.swift in Sources */,
 				B5809DFC244F614000EF0C63 /* FavoritesViewModel.swift in Sources */,
 				3BB09207244A18F800EAE411 /* BaseSettingViewModel.swift in Sources */,

@@ -97,7 +97,7 @@ class HomeViewModel: ObservableObject {
                         return nil
                     }
                     let identifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber)
-                    return SongResultViewModel(title: songResult.name, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
+                    return SongResultViewModel(title: songResult.name, destinationView: PageView(PageViewModel(hymnToDisplay: identifier).arrayHymns).eraseToAnyView())
                 }
             }).receive(on: mainQueue)
             .sink(

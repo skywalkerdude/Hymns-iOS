@@ -5,7 +5,7 @@ import SwiftUI
 
 //This view model will expose 4 other view models to be passed through detailhymnscreen to their respective views. HymnLyricsViewModel, GuitarViewModel, PianoViewModel, and ChordsView Model
 //ex. HymnLyricsViewModel -> DetailHymnScreenViewModel -> DetailHymnScreen -> HymnLyricsView
-class DisplayHymnViewModel: ObservableObject {
+class DisplayHymnViewModel: ObservableObject, Identifiable {
 
     @Published var title: String = ""
     var hymnLyricsViewModel: HymnLyricsViewModel
@@ -15,6 +15,8 @@ class DisplayHymnViewModel: ObservableObject {
     private let favoritesStore: FavoritesStore
     private let historyStore: HistoryStore
     @Published var isFavorited: Bool?
+    @Published var isLoaded: Bool = false
+
 
     private var favoritesObserver: Notification?
     private var disposables = Set<AnyCancellable>()
@@ -63,9 +65,20 @@ class DisplayHymnViewModel: ObservableObject {
 
     func fetchFavoriteStatus() {
         self.isFavorited = favoritesStore.isFavorite(hymnIdentifier: identifier)
-        favoritesObserver = favoritesStore.observeFavoriteStatus(hymnIdentifier: identifier) { isFavorited in
-            self.isFavorited = isFavorited
-        }
+        $isLoaded
+            .receive(on: mainQueue)
+            .sink { isLoaded in
+                if isLoaded {
+                    if self.favoritesObserver == nil {
+                        self.favoritesObserver = self.favoritesStore.observeFavoriteStatus(hymnIdentifier: self.identifier) { isFavorited in
+                            self.isFavorited = isFavorited
+                        }
+                    }
+                } else {
+                    self.favoritesObserver?.invalidate()
+                    self.favoritesObserver = nil
+                }
+        }.store(in: &disposables)
     }
 
     func toggleFavorited() {
