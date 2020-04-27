@@ -30,7 +30,7 @@ struct HomeContainerView: View {
             }.onAppear {
                 // Make the unselected tabs black insetad of grey.
                 UITabBar.appearance().unselectedItemTintColor = .black
-            }.edgesIgnoringSafeArea(.top)
+            }
         }
     }
 }
