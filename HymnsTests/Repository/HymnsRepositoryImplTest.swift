@@ -18,7 +18,7 @@ class HymnsRepositoryImplTests: XCTestCase {
 
     func test_getHymn_resultsCached() {
         // Make one request to the API to store it in locally.
-        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> {
+        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> { _, _, _ in
             Just<Hymn>(Self.hymn)
                 .mapError({ (_) -> ErrorType in
                     .network(description: "This will never get called")
@@ -47,7 +47,7 @@ class HymnsRepositoryImplTests: XCTestCase {
     }
 
     func test_getHymn_getFromNetwork_networkError() {
-        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> {
+        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> { _, _, _ in
             Just<Hymn>(Self.hymn)
                 .tryMap({ (_) -> Hymn in
                     throw URLError(.badServerResponse)
@@ -70,8 +70,8 @@ class HymnsRepositoryImplTests: XCTestCase {
     }
 
     func test_getHymn_getFromNetwork_resultsSuccessful() {
-        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> { Just<Hymn>(Self.hymn)
-            .mapError({ (_) -> ErrorType in
+        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> {  _, _, _ in
+            Just<Hymn>(Self.hymn).mapError({ (_) -> ErrorType in
                 .network(description: "This will never get called")
             })
             .eraseToAnyPublisher()

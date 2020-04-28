@@ -93,7 +93,7 @@ class HomeViewModelSpec: QuickSpec {
                 context("with search parameter: \(searchParameter)") {
                     context("with network error") {
                         beforeEach {
-                            given(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)) ~> {
+                            given(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)) ~> { _, _ in
                                 expect(target.isLoading).to(beTrue())
                                 return Just(nil).eraseToAnyPublisher()
                             }
