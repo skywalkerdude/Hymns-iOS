@@ -17,7 +17,7 @@ class SongRepositoryImplTest: XCTestCase {
     }
 
     func test_search_networkError() {
-        given(hymnalApiService.search(for: "Dan Sady", onPage: 2)) ~> {
+        given(hymnalApiService.search(for: "Dan Sady", onPage: 2)) ~> { (_, _) in
             Just<SongResultsPage>(Self.resultsPage)
                 .tryMap({ (_) -> SongResultsPage in
                     throw URLError(.badServerResponse)
@@ -40,7 +40,7 @@ class SongRepositoryImplTest: XCTestCase {
     }
 
     func test_search_fromNtwork_resultsSuccessful() {
-        given(hymnalApiService.search(for: "Dan Sady", onPage: 2)) ~> {
+        given(hymnalApiService.search(for: "Dan Sady", onPage: 2)) ~> { (_, _) in
             Just<SongResultsPage>(Self.resultsPage)
                 .mapError({ (_) -> ErrorType in
                     .network(description: "This will never get called")

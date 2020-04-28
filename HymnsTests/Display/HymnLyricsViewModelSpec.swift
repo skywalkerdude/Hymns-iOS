@@ -18,7 +18,9 @@ class HymnLyricsViewModelSpec: QuickSpec {
             }
             context("with nil repository result") {
                 beforeEach {
-                    given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> {Just(nil).assertNoFailure().eraseToAnyPublisher()}
+                    given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> {_ in
+                        Just(nil).assertNoFailure().eraseToAnyPublisher()
+                    }
                 }
                 describe("fetching lyrics") {
                     beforeEach {
@@ -36,7 +38,7 @@ class HymnLyricsViewModelSpec: QuickSpec {
             context("with empty repository result") {
                 beforeEach {
                     let emptyHymn = Hymn(title: "Empty Hymn", metaData: [MetaDatum](), lyrics: [Verse]())
-                    given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> {Just(emptyHymn).assertNoFailure().eraseToAnyPublisher()}
+                    given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> {_ in Just(emptyHymn).assertNoFailure().eraseToAnyPublisher()}
                 }
                 describe("fetching lyrics") {
                     beforeEach {
@@ -60,7 +62,7 @@ class HymnLyricsViewModelSpec: QuickSpec {
                 ]
                 beforeEach {
                     let validHymn = Hymn(title: "Filled Hymn", metaData: [MetaDatum](), lyrics: lyricsWithoutTransliteration)
-                    given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> {Just(validHymn).assertNoFailure().eraseToAnyPublisher()}
+                    given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> { _ in Just(validHymn).assertNoFailure().eraseToAnyPublisher()}
                 }
                 describe("fetching lyrics") {
                     beforeEach {

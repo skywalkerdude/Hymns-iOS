@@ -24,7 +24,9 @@ class DisplayHymnViewModelSpec: QuickSpec {
                     beforeEach {
                         target = DisplayHymnViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository,
                                                       mainQueue: testQueue, favoritesStore: favoritesStore, historyStore: historyStore)
-                        given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> {Just(nil).assertNoFailure().eraseToAnyPublisher()}
+                        given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> { _ in
+                            Just(nil).assertNoFailure().eraseToAnyPublisher()
+                        }
                     }
                     describe("performing fetch") {
                         beforeEach {
@@ -48,7 +50,9 @@ class DisplayHymnViewModelSpec: QuickSpec {
                             target = DisplayHymnViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository,
                                                           mainQueue: testQueue, favoritesStore: favoritesStore, historyStore: historyStore)
                             let hymn = Hymn(title: "title", metaData: [MetaDatum](), lyrics: [Verse]())
-                            given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> {Just(hymn).assertNoFailure().eraseToAnyPublisher()}
+                            given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> { _ in
+                                Just(hymn).assertNoFailure().eraseToAnyPublisher()
+                            }
                         }
                         context("is favorited") {
                             beforeEach {
@@ -94,7 +98,9 @@ class DisplayHymnViewModelSpec: QuickSpec {
                         context("title contains 'Hymn: '") {
                             beforeEach {
                                 let hymnWithHymnColonTitle = Hymn(title: "Hymn: In my spirit, I can see You as You are", metaData: [MetaDatum](), lyrics: [Verse]())
-                                given(hymnsRepository.getHymn(hymnIdentifier: newSong145)) ~> {Just(hymnWithHymnColonTitle).assertNoFailure().eraseToAnyPublisher()}
+                                given(hymnsRepository.getHymn(hymnIdentifier: newSong145)) ~> { _ in
+                                    Just(hymnWithHymnColonTitle).assertNoFailure().eraseToAnyPublisher()
+                                }
                             }
                             context("is not favorited") {
                                 beforeEach {
@@ -133,7 +139,9 @@ class DisplayHymnViewModelSpec: QuickSpec {
                         context("title does not contains 'Hymn: '") {
                             beforeEach {
                                 let hymnWithOutHymnColonTitle = Hymn(title: "In my spirit, I can see You as You are", metaData: [MetaDatum](), lyrics: [Verse]())
-                                given(hymnsRepository.getHymn(hymnIdentifier: newSong145)) ~> {Just(hymnWithOutHymnColonTitle).assertNoFailure().eraseToAnyPublisher()}
+                                given(hymnsRepository.getHymn(hymnIdentifier: newSong145)) ~> { _ in
+                                    Just(hymnWithOutHymnColonTitle).assertNoFailure().eraseToAnyPublisher()
+                                }
                             }
                             context("favorite status updated from true to false") {
                                 beforeEach {

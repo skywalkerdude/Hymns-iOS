@@ -73,7 +73,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.6.0):
     - GoogleUtilities/Logger
-  - MockingbirdFramework (0.11.1)
+  - MockingbirdFramework (0.11.0)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
     - nanopb/encode (= 0.3.9011)
@@ -93,7 +93,7 @@ PODS:
 DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/Crashlytics
-  - MockingbirdFramework
+  - MockingbirdFramework (from `https://github.com/birdrides/mockingbird.git`)
   - Nimble
   - Quick
   - RealmSwift
@@ -114,7 +114,6 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
     - GoogleUtilities
-    - MockingbirdFramework
     - nanopb
     - Nimble
     - PromisesObjC
@@ -123,6 +122,15 @@ SPEC REPOS:
     - RealmSwift
     - Resolver
     - SwiftLint
+
+EXTERNAL SOURCES:
+  MockingbirdFramework:
+    :git: https://github.com/birdrides/mockingbird.git
+
+CHECKOUT OPTIONS:
+  MockingbirdFramework:
+    :commit: d082ce0dd76d21274fef2aeb978f714e0655a452
+    :git: https://github.com/birdrides/mockingbird.git
 
 SPEC CHECKSUMS:
   Firebase: 585ae467b3edda6a5444e788fda6888f024d8d6f
@@ -137,7 +145,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 061fe7d9b476710e3cd8ea51e8e07d8b67c2b420
   GoogleDataTransportCCTSupport: 0f39025e8cf51f168711bd3fb773938d7e62ddb5
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
-  MockingbirdFramework: 2e8c38ee9496706e16f9c59e5d68851bb3083787
+  MockingbirdFramework: 6028fb83ec400cad6c2ae18cb977bf83d13deef1
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   Nimble: a73af6ecd4c9106f434f3d55fc54570be3739e0b
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
@@ -147,6 +155,6 @@ SPEC CHECKSUMS:
   Resolver: e04ca5a9a19906f2e5cdceb2b90edd3b5daed049
   SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
 
-PODFILE CHECKSUM: 2bcf6bdc358bf266cf58147b0ef51f752639dc9b
+PODFILE CHECKSUM: 2dac5034c9b54f1dddcb05b8a33a1391d2550f93
 
 COCOAPODS: 1.9.1
