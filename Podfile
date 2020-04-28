@@ -32,7 +32,7 @@ target 'Hymns' do
     
     # Mocking framework
     # https://github.com/birdrides/mockingbird
-    pod 'MockingbirdFramework'
+    pod 'MockingbirdFramework', :git => 'https://github.com/birdrides/mockingbird.git'
 
     # Quick & Nimble
     # https://github.com/Quick/Quick
