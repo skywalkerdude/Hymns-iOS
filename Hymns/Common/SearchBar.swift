@@ -28,7 +28,6 @@ struct SearchBar: View {
                 if !self.searchActive {
                     self.searchActive = true
                 }
-                print("Show details for Enterprise")
             }
             .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))
             .foregroundColor(.secondary)
