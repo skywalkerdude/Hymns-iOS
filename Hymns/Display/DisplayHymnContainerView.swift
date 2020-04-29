@@ -14,7 +14,8 @@ struct DisplayHymnContainerView: View {
                 if hymn.isLoaded {
                     DisplayHymnView(viewModel: hymn)
                 } else {
-                    Text("placeholder")
+                    // TODO replace with View Extension in https://github.com/HymnalDreamTeam/Hymns-iOS/pull/99
+                    ActivityIndicator().frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, minHeight: 0, idealHeight: .infinity, maxHeight: .infinity, alignment: .center)
                 }
             }
         }

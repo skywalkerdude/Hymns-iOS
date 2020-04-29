@@ -2,6 +2,12 @@ import SwiftUI
 
 // https://www.hackingwithswift.com/quick-start/swiftui/how-to-create-views-in-a-loop-using-foreach
 struct PagerView<Content: View>: View {
+
+    /**
+     * Offset required for a page change to occur.
+     */
+    private let pageChangeOffset: CGFloat = 0.3
+
     let pageCount: Int
     @Binding var currentIndex: Int
     let content: Content
@@ -25,15 +31,33 @@ struct PagerView<Content: View>: View {
             .animation(.interactiveSpring())
             .gesture(
                 DragGesture().updating(self.$translation) { value, state, _ in
-                    print("updating value: \(value), state: \(state)")
                     state = value.translation.width
                 }.onEnded { value in
                     let offset = value.translation.width / geometry.size.width
-                    let newIndex = (CGFloat(self.currentIndex) - offset).rounded()
-                    print("onEnded currentIndex: \(self.currentIndex), offset: \(offset), newIndex: \(newIndex)")
+                    let thresholdHit = abs(offset) > self.pageChangeOffset
+                    if !thresholdHit {
+                        return
+                    }
+                    let newIndex = self.currentIndex + (offset > 0 ? -1 : 1)
                     self.currentIndex = min(max(Int(newIndex), 0), self.pageCount - 1)
                 }
             )
+        }
+    }
+}
+
+struct PagerView_Previews: PreviewProvider {
+    static var previews: some View {
+        var page = 0
+        let currentPageBinding = Binding<Int>(
+            get: {page},
+            set: {page = $0})
+        return PagerView(pageCount: 300, currentIndex: currentPageBinding) {
+            ForEach(1..<100) { _ in
+                Color.blue
+                Color.red
+                Color.green
+            }
         }
     }
 }
