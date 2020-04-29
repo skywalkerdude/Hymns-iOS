@@ -9,15 +9,7 @@ struct DisplayHymnContainerView: View {
     }
 
     var body: some View {
-        PagerView(pageCount: viewModel.hymns.count, currentIndex: $viewModel.currentIndex) {
-            ForEach(viewModel.hymns) { hymn in
-                if hymn.isLoaded {
-                    DisplayHymnView(viewModel: hymn)
-                } else {
-                    Text("placeholder")
-                }
-            }
-        }
+        PagerView(currentPage: $viewModel.currentIndex, viewModel.hymns)
     }
 }
 

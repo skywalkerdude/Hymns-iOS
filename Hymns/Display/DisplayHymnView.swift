@@ -4,7 +4,7 @@ import Resolver
 struct DisplayHymnView: View {
 
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject private var viewModel: DisplayHymnViewModel
+    @ObservedObject private(set) var viewModel: DisplayHymnViewModel
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel

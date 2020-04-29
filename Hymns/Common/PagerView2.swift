@@ -1,7 +1,7 @@
 import SwiftUI
 
 // https://www.hackingwithswift.com/quick-start/swiftui/how-to-create-views-in-a-loop-using-foreach
-struct PagerView<Content: View>: View {
+struct PagerView2<Content: View>: View {
     let pageCount: Int
     @Binding var currentIndex: Int
     let content: Content

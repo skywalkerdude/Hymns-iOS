@@ -4,7 +4,7 @@ import Resolver
 
 class DisplayHymnContainerViewModel: ObservableObject {
 
-    @Published var hymns: [DisplayHymnViewModel]
+    private(set) var hymns: [DisplayHymnView]
     @Published var currentIndex: Int
 
     private var disposables = Set<AnyCancellable>()
@@ -16,16 +16,17 @@ class DisplayHymnContainerViewModel: ObservableObject {
 
         if !hymnIdentifier.isContinuous {
             currentIndex = 0
-            hymns = [DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)]
+            hymns = [DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier))]
             return
         }
 
         currentIndex = (Int(hymnIdentifier.hymnNumber) ?? 1) - 1
-        hymns = [DisplayHymnViewModel]()
+        hymns = [DisplayHymnView]()
         for hymnNumber in 1...hymnIdentifier.hymnType.maxNumber {
             hymns.append(
-                DisplayHymnViewModel(hymnToDisplay:
-                    HymnIdentifier(hymnType: hymnIdentifier.hymnType, hymnNumber: "\(hymnNumber)", queryParams: hymnIdentifier.queryParams)))
+                DisplayHymnView(viewModel:
+                    DisplayHymnViewModel(hymnToDisplay:
+                        HymnIdentifier(hymnType: hymnIdentifier.hymnType, hymnNumber: "\(hymnNumber)", queryParams: hymnIdentifier.queryParams))))
         }
 
         $currentIndex
@@ -33,9 +34,9 @@ class DisplayHymnContainerViewModel: ObservableObject {
             .sink { currentIndex in
                 for index in self.hymns.indices {
                     if index >= currentIndex - 1 && index <= currentIndex + 1 {
-                        self.hymns[index].isLoaded = true
+                        self.hymns[index].viewModel.isLoaded = true
                     } else {
-                        self.hymns[index].isLoaded = false
+                        self.hymns[index].viewModel.isLoaded = false
                     }
                 }
         }.store(in: &disposables)
