@@ -5,9 +5,9 @@ struct VerseLineView: View {
     let viewModel: VerseLineViewModel
 
     var body: some View {
-        HStack {
+        HStack(alignment: .top) {
             Text(viewModel.verseNumber ?? "").frame(width: 10)
-            Text(viewModel.verseText)
+            Text(viewModel.verseText).font(.callout).lineSpacing(5).padding(.bottom, 5)
         }
     }
 }

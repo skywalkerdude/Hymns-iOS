@@ -1,6 +1,7 @@
 import Foundation
 
 struct PreviewHymnIdentifiers {
+    static let hymn40 = HymnIdentifier(hymnType: .classic, hymnNumber: "40")
     static let hymn1151 = HymnIdentifier(hymnType: .classic, hymnNumber: "1151")
     static let joyUnspeakable = HymnIdentifier(hymnType: .classic, hymnNumber: "1153")
     static let cupOfChrist = HymnIdentifier(hymnType: .newSong, hymnNumber: "605")
