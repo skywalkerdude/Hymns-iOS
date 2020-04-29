@@ -75,7 +75,7 @@ extension HymnType {
     var maxNumber: Int {
         switch self {
         case .classic:
-            return 1360
+            return 10
         case .newSong:
             return 722
         case .children:

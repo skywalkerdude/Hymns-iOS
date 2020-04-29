@@ -25,10 +25,12 @@ struct PagerView<Content: View>: View {
             .animation(.interactiveSpring())
             .gesture(
                 DragGesture().updating(self.$translation) { value, state, _ in
+                    print("updating value: \(value), state: \(state)")
                     state = value.translation.width
                 }.onEnded { value in
                     let offset = value.translation.width / geometry.size.width
                     let newIndex = (CGFloat(self.currentIndex) - offset).rounded()
+                    print("onEnded currentIndex: \(self.currentIndex), offset: \(offset), newIndex: \(newIndex)")
                     self.currentIndex = min(max(Int(newIndex), 0), self.pageCount - 1)
                 }
             )
