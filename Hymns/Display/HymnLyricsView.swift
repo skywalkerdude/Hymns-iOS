@@ -7,6 +7,7 @@ public struct HymnLyricsView: View {
     init(viewModel: HymnLyricsViewModel) {
         self.viewModel = viewModel
     }
+
     public var body: some View {
         Group { () -> AnyView in
             guard let lyrics = viewModel.lyrics else {
@@ -14,7 +15,10 @@ public struct HymnLyricsView: View {
             }
 
             guard !lyrics.isEmpty else {
-                return ActivityIndicator().eraseToAnyView()
+                return VStack {
+                    Spacer()
+                    ActivityIndicator()
+                }.eraseToAnyView()
             }
 
         return VStack {

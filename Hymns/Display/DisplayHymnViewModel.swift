@@ -77,4 +77,17 @@ class DisplayHymnViewModel: ObservableObject {
             }
         }
     }
+    
+    //Custom Navigation Settings for DisplayHymnView
+    func displayHymnCustomNavigation() {
+        //Navigation Stuff
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
+        UINavigationBar.appearance().standardAppearance = appearance //Necessary to have an opaque background that isn't gray
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance //Produces desired scroll effect to title
+        UINavigationBar.appearance().compactAppearance = appearance //Used for compacting nav bar in landscape mode
+    }
+    
 }

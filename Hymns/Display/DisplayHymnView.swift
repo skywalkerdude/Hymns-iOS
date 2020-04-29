@@ -8,20 +8,15 @@ struct DisplayHymnView: View {
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
+        viewModel.displayHymnCustomNavigation()
     }
 
     var body: some View {
         VStack {
-            HStack {
-                Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
-                }, label: {
-                    Image(systemName: "chevron.left").accentColor(.primary)
-                }).padding()
-                Spacer()
-                Text(viewModel.title)
-                    .fontWeight(.bold)
-                Spacer()
+            HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel)
+            Spacer()
+        }.navigationBarTitle(Text(viewModel.title).fontWeight(.bold))
+            .navigationBarItems(trailing: HStack {
                 viewModel.isFavorited.map { isFavorited in
                     Button(action: {
                         self.viewModel.toggleFavorited()
@@ -29,24 +24,19 @@ struct DisplayHymnView: View {
                         isFavorited ? Image(systemName: "heart.fill").accentColor(.accentColor) : Image(systemName: "heart").accentColor(.primary)
                     })
                 }
-            }
-            Spacer()
-            HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel)
-            Spacer()
-        }
-        .hideNavigationBar()
-        .onAppear {
-            self.viewModel.fetchHymn()
+            })
+            .onAppear {
+                self.viewModel.fetchHymn()
         }
     }
 }
 
 struct DetailHymnScreen_Previews: PreviewProvider {
-
+    
     static var previews: some View {
-
+        
         let loading = DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
-
+        
         let classic1151ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
         let classic1151Lyrics = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
         classic1151Lyrics.lyrics
@@ -58,7 +48,7 @@ struct DetailHymnScreen_Previews: PreviewProvider {
         ]
         classic1151ViewModel.hymnLyricsViewModel = classic1151Lyrics
         let classic1151 = DisplayHymnView(viewModel: classic1151ViewModel)
-
+        
         let classic1334ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334)
         let classic1334Lyrics = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334)
         classic1334Lyrics.lyrics
