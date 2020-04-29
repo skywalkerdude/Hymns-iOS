@@ -19,11 +19,13 @@ struct SearchBar: View {
                     }
                 }).foregroundColor(.primary)
 
-                Button(action: {
-                    if !self.searchText.isEmpty {
+                if !self.searchText.isEmpty {
+                    Button(action: {
                         self.searchText = ""
-                    }
-                }, label: {Image(systemName: "xmark.circle.fill").opacity(self.searchText.isEmpty ? 0.0 : 1.0)})
+                    }, label: {
+                        Image(systemName: "xmark.circle.fill")
+                    })
+                }
             }.onTapGesture {
                 if !self.searchActive {
                     self.searchActive = true
