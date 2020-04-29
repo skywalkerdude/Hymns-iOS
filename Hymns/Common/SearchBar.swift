@@ -16,9 +16,6 @@ struct SearchBar: View {
                 Image(systemName: "magnifyingglass")
                 TextField(placeholderText, text: $searchText, onEditingChanged: { _ in
                     withAnimation(.easeInOut(duration: 0.2)) {
-                        if !self.searchActive {
-                            self.searchActive = true
-                        }
                     }
                 }).foregroundColor(.primary)
 
@@ -27,6 +24,10 @@ struct SearchBar: View {
                         self.searchText = ""
                     }
                 }, label: {Image(systemName: "xmark.circle.fill").opacity(self.searchText.isEmpty ? 0.0 : 1.0)})
+            }.onTapGesture {
+                if !self.searchActive {
+                    self.searchActive = true
+                }
             }
             .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))
             .foregroundColor(.secondary)
