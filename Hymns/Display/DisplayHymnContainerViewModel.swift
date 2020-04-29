@@ -4,7 +4,7 @@ import Resolver
 
 class DisplayHymnContainerViewModel: ObservableObject {
 
-    private(set) var hymns: [DisplayHymnView]
+    @Published var hymns: [DisplayHymnView]
     @Published var currentIndex: Int
 
     private var disposables = Set<AnyCancellable>()
