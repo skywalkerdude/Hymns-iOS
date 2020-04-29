@@ -47,6 +47,18 @@ struct DetailHymnScreen_Previews: PreviewProvider {
 
         let loading = DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
 
+        let classic40ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn40)
+        let classic40Lyrics = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn40)
+        classic40Lyrics.lyrics
+            = [VerseViewModel(verseNumber: "1", verseLines: classic40_preview.lyrics[0].verseContent),
+               VerseViewModel(verseLines: classic40_preview.lyrics[1].verseContent),
+               VerseViewModel(verseNumber: "2", verseLines: classic40_preview.lyrics[2].verseContent),
+               VerseViewModel(verseNumber: "3", verseLines: classic40_preview.lyrics[3].verseContent),
+               VerseViewModel(verseNumber: "4", verseLines: classic40_preview.lyrics[4].verseContent)
+        ]
+        classic40ViewModel.hymnLyricsViewModel = classic40Lyrics
+        let classic40 = DisplayHymnView(viewModel: classic40ViewModel)
+
         let classic1151ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
         let classic1151Lyrics = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
         classic1151Lyrics.lyrics
@@ -68,6 +80,7 @@ struct DetailHymnScreen_Previews: PreviewProvider {
         let classic1334 = DisplayHymnView(viewModel: classic1334ViewModel)
         return Group {
             loading.previewDisplayName("loading")
+            classic40.previewDevice("classic 40")
             classic1151.previewDisplayName("classic 1151")
             classic1334.previewDisplayName("classic 1334")
         }
