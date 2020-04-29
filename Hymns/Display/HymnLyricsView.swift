@@ -10,11 +10,11 @@ public struct HymnLyricsView: View {
     public var body: some View {
         Group { () -> AnyView in
             guard let lyrics = viewModel.lyrics else {
-                return Text("error!").eraseToAnyView()
+                return Text("error!").maxSize().eraseToAnyView()
             }
 
             guard !lyrics.isEmpty else {
-                return ActivityIndicator().eraseToAnyView()
+                return ActivityIndicator().maxSize().eraseToAnyView()
             }
 
             return VStack {
@@ -28,7 +28,7 @@ public struct HymnLyricsView: View {
                         }
                     }
                 }
-            }.eraseToAnyView()
+            }.maxSize(alignment: .leading).eraseToAnyView()
         }.onAppear {
             self.viewModel.fetchLyrics()
         }
@@ -37,6 +37,13 @@ public struct HymnLyricsView: View {
 
 struct HymnLyricsView_Previews: PreviewProvider {
     static var previews: some View {
+
+        let loadingViewModel = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn40)
+        let loading = HymnLyricsView(viewModel: loadingViewModel)
+
+        let errorViewModel = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn40)
+        errorViewModel.lyrics = nil
+        let error = HymnLyricsView(viewModel: errorViewModel)
 
         let classic40ViewModel = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn40)
         classic40ViewModel.lyrics = classic40ViewModel.convertToViewModels(verses: classic40_preview.lyrics)
@@ -51,9 +58,11 @@ struct HymnLyricsView_Previews: PreviewProvider {
         let classic1334 = HymnLyricsView(viewModel: classic1334ViewModel)
 
         return Group {
-            classic40
-            classic1151
-            classic1334
+            loading.previewDisplayName("loading")
+            error.previewDisplayName("error")
+            classic40.previewDisplayName("classic40")
+            classic1151.previewDisplayName("classic1151")
+            classic1334.previewDisplayName("classic1334")
         }
     }
 }

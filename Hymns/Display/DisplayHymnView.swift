@@ -30,9 +30,7 @@ struct DisplayHymnView: View {
                     })
                 }
             }
-            Spacer()
             HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel)
-            Spacer()
         }
         .hideNavigationBar()
         .onAppear {
@@ -48,6 +46,8 @@ struct DetailHymnScreen_Previews: PreviewProvider {
         let loading = DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
 
         let classic40ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn40)
+        classic40ViewModel.title = "Hymn 40"
+        classic40ViewModel.isFavorited = true
         let classic40Lyrics = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn40)
         classic40Lyrics.lyrics
             = [VerseViewModel(verseNumber: "1", verseLines: classic40_preview.lyrics[0].verseContent),
@@ -60,6 +60,8 @@ struct DetailHymnScreen_Previews: PreviewProvider {
         let classic40 = DisplayHymnView(viewModel: classic40ViewModel)
 
         let classic1151ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+        classic1151ViewModel.title = "Hymn 1151"
+        classic1151ViewModel.isFavorited = false
         let classic1151Lyrics = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
         classic1151Lyrics.lyrics
             = [VerseViewModel(verseNumber: "1", verseLines: classic1151_preview.lyrics[0].verseContent),
@@ -72,6 +74,8 @@ struct DetailHymnScreen_Previews: PreviewProvider {
         let classic1151 = DisplayHymnView(viewModel: classic1151ViewModel)
 
         let classic1334ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334)
+        classic1334ViewModel.title = "Hymn 1334"
+        classic1334ViewModel.isFavorited = true
         let classic1334Lyrics = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334)
         classic1334Lyrics.lyrics
             = [VerseViewModel(verseNumber: "1", verseLines: classic1334_preview.lyrics[0].verseContent)
