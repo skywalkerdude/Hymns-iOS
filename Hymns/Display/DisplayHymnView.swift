@@ -20,7 +20,7 @@ struct DisplayHymnView: View {
                 }).padding()
                 Spacer()
                 Text(viewModel.title)
-                    .fontWeight(.semibold)
+                    .fontWeight(.bold)
                 Spacer()
                 viewModel.isFavorited.map { isFavorited in
                     Button(action: {
