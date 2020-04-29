@@ -22,7 +22,7 @@ struct HomeView: View {
                 .padding(.horizontal)
 
             viewModel.label.map {
-                Text($0).font(.caption).padding(.top).padding(.leading)
+                Text($0).fontWeight(.semibold).padding(.top).padding(.leading)
             }
 
             if self.viewModel.isLoading {
