@@ -27,6 +27,16 @@ extension HymnIdentifier {
     }
 }
 
+extension HymnIdentifier {
+
+    /**
+     * - Returns: whether or not the particular hymn is part of a continuous sequence of hymns
+     */
+    var isContinuous: Bool {
+        return hymnType.maxNumber > 0 && hymnNumber.isPositiveInteger && Int(hymnNumber).map { $0 <= hymnType.maxNumber} ?? false
+    }
+}
+
 class HymnIdentifierEntity: Object {
     // https://stackoverflow.com/questions/29123245/using-enum-as-property-of-realm-model
     @objc dynamic private var hymnTypeRaw = HymnType.classic.rawValue
