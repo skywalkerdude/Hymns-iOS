@@ -39,6 +39,7 @@ struct DisplayHymnView: View {
     }
 }
 
+#if DEBUG
 struct DetailHymnScreen_Previews: PreviewProvider {
 
     static var previews: some View {
@@ -90,3 +91,4 @@ struct DetailHymnScreen_Previews: PreviewProvider {
         }
     }
 }
+#endif
