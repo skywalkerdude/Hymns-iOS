@@ -33,6 +33,7 @@ struct DisplayHymnView: View {
             HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel)
         }
         .hideNavigationBar()
+        .padding(.horizontal)
         .onAppear {
             self.viewModel.fetchHymn()
         }
