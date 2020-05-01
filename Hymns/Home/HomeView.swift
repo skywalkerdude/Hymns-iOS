@@ -12,7 +12,7 @@ struct HomeView: View {
     var body: some View {
         VStack(alignment: .leading) {
             if !viewModel.searchActive {
-                CustomTitle(title: "Look up any hymn").transition(AnyTransition.move(edge: .top))
+                CustomTitle(title: "Look up any hymn").transition(AnyTransition.move(edge: .top).combined(with: .opacity))
             }
 
             SearchBar(
