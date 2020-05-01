@@ -6,6 +6,9 @@ struct DisplayHymnView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var viewModel: DisplayHymnViewModel
 
+    @State var posDeltaY: CGFloat = 0  // Scroll Y Position
+    @State var posOriginY: CGFloat = 0 // Original Y Position
+
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
     }
@@ -19,7 +22,7 @@ struct DisplayHymnView: View {
                     Image(systemName: "chevron.left").accentColor(.primary)
                 }).padding()
                 Spacer()
-                Text(viewModel.title).fontWeight(.bold)
+                Text(viewModel.title).opacity(self.posDeltaY >= (self.posOriginY) ? 0 : 1) //Title to use scrolled in on a hymn
                 Spacer()
                 viewModel.isFavorited.map { isFavorited in
                     Button(action: {
@@ -29,7 +32,8 @@ struct DisplayHymnView: View {
                     })
                 }
             }
-            HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel)
+            Text(viewModel.title).font(self.posDeltaY < (self.posOriginY) ? .system(size: 0) : .largeTitle).opacity(self.posDeltaY < (self.posOriginY) ? 0 : 1) //Title to use at the top of the hymn scrollview
+            HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel, posDeltaY: $posDeltaY, posOriginY: $posOriginY)
         }
         .hideNavigationBar()
         .padding(.horizontal)
