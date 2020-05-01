@@ -11,8 +11,10 @@ struct BrowseView: View {
     }
 }
 
+#if DEBUG
 struct BrowseView_Previews: PreviewProvider {
     static var previews: some View {
         BrowseView()
     }
 }
+#endif

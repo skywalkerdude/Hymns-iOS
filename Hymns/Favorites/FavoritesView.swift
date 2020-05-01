@@ -13,9 +13,7 @@ struct FavoritesView: View {
         VStack {
             CustomTitle(title: "Favorites")
             if self.viewModel.favorites.isEmpty {
-                Spacer()
-                Text("Tap the ♡ on any hymn to add as a favorite")
-                Spacer()
+                Text("Tap the ♡ on any hymn to add as a favorite").maxSize()
             } else {
                 List(self.viewModel.favorites) { favorite in
                     NavigationLink(destination: favorite.destinationView) {
@@ -29,8 +27,10 @@ struct FavoritesView: View {
     }
 }
 
+#if DEBUG
 struct FavoritesView_Previews: PreviewProvider {
     static var previews: some View {
         FavoritesView()
     }
 }
+#endif

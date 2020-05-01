@@ -13,6 +13,7 @@ struct SongResultView: View {
     }
 }
 
+#if DEBUG
 struct SongResultView_Previews: PreviewProvider {
     static var previews: some View {
         SongResultView(
@@ -21,3 +22,4 @@ struct SongResultView_Previews: PreviewProvider {
             .previewLayout(.fixed(width: 200, height: 50))
     }
 }
+#endif

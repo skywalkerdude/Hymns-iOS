@@ -71,6 +71,7 @@ private func indicator(width: CGFloat, offset: CGSize) -> some View {
         .offset(offset)
 }
 
+#if DEBUG
 struct TabBar_Previews: PreviewProvider {
 
     static var previews: some View {
@@ -89,3 +90,4 @@ struct TabBar_Previews: PreviewProvider {
         }.previewLayout(.fixed(width: 350, height: 50))
     }
 }
+#endif

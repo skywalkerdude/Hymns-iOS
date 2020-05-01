@@ -55,6 +55,7 @@ struct SearchBar: View {
     }
 }
 
+#if DEBUG
 struct SearchBox_Previews: PreviewProvider {
     static var previews: some View {
         let placeholderText = "Search by numbers or words"
@@ -85,3 +86,4 @@ struct SearchBox_Previews: PreviewProvider {
             }.previewLayout(.sizeThatFits)
     }
 }
+#endif
