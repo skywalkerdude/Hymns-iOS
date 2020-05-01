@@ -19,8 +19,7 @@ struct DisplayHymnView: View {
                     Image(systemName: "chevron.left").accentColor(.primary)
                 }).padding()
                 Spacer()
-                Text(viewModel.title)
-                    .fontWeight(.bold)
+                Text(viewModel.title).fontWeight(.bold)
                 Spacer()
                 viewModel.isFavorited.map { isFavorited in
                     Button(action: {
@@ -33,6 +32,7 @@ struct DisplayHymnView: View {
             HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel)
         }
         .hideNavigationBar()
+        .padding(.horizontal)
         .onAppear {
             self.viewModel.fetchHymn()
         }
@@ -40,7 +40,7 @@ struct DisplayHymnView: View {
 }
 
 #if DEBUG
-struct DetailHymnScreen_Previews: PreviewProvider {
+struct DisplayHymnView_Previews: PreviewProvider {
 
     static var previews: some View {
 

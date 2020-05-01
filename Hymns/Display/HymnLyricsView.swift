@@ -18,7 +18,7 @@ public struct HymnLyricsView: View {
             }
 
             return VStack {
-                ScrollView {
+                ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading) {
                         ForEach(lyrics, id: \.self) { verseViewModel in
                             Group {

@@ -24,7 +24,7 @@ extension View {
     }
 
     func maxSize(alignment: Alignment = .center) -> some View {
-        return self.frame(minWidth: 0, idealWidth: .infinity, maxWidth: .infinity, minHeight: 0, idealHeight: .infinity, maxHeight: .infinity, alignment: alignment)
+        return self.frame(minWidth: .zero, idealWidth: .infinity, maxWidth: .infinity, minHeight: .zero, idealHeight: .infinity, maxHeight: .infinity, alignment: alignment)
     }
 }
 
