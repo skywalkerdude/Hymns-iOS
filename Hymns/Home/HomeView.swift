@@ -12,7 +12,7 @@ struct HomeView: View {
     var body: some View {
         VStack(alignment: .leading) {
             if !viewModel.searchActive {
-                CustomTitle(title: "Look up any hymn")
+                CustomTitle(title: "Look up any hymn").transition(AnyTransition.move(edge: .top).combined(with: .opacity))
             }
 
             SearchBar(
@@ -20,21 +20,14 @@ struct HomeView: View {
                 searchActive: $viewModel.searchActive,
                 placeholderText: "Search by numbers or words")
                 .padding(.horizontal)
+                .padding(.top, viewModel.searchActive ? nil : .zero)
 
             viewModel.label.map {
                 Text($0).fontWeight(.semibold).padding(.top).padding(.leading)
             }
 
             if self.viewModel.isLoading {
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        ActivityIndicator()
-                        Spacer()
-                    }
-                    Spacer()
-                }
+                ActivityIndicator().maxSize()
             } else {
                 List(self.viewModel.songResults) { songResult in
                     NavigationLink(destination: songResult.destinationView) {
