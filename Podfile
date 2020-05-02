@@ -7,7 +7,7 @@ target 'Hymns' do
 
   # Pods for Hymns
   
-  #Needed for Realm database 
+  # Needed for Realm database 
   pod 'RealmSwift'
   
   # Tool to enforce Swift style and conventions.
@@ -25,6 +25,9 @@ target 'Hymns' do
 
   # Crash reporting
   pod 'Firebase/Crashlytics'
+
+  # Sqlite db wrapper
+  pod 'FMDB/FTS'
 
   
   target 'HymnsTests' do
