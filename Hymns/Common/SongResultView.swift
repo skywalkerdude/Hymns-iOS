@@ -7,7 +7,7 @@ struct SongResultView: View {
     init(viewModel: SongResultViewModel) {
         self.viewModel = viewModel
     }
-    // sdf
+
     var body: some View {
         Text(viewModel.title)
     }
