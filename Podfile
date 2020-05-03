@@ -26,7 +26,8 @@ target 'Hymns' do
   # Crash reporting
   pod 'Firebase/Crashlytics'
 
-  pod 'FMDB/FTS'
+  # SQLite wrapper
+  pod 'GRDB.swift'
 
   target 'HymnsTests' do
     inherit! :search_paths
