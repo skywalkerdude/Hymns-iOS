@@ -26,7 +26,7 @@ target 'Hymns' do
   # Crash reporting
   pod 'Firebase/Crashlytics'
 
-  pod 'FMDB'
+  pod 'FMDB/FTS'
 
   target 'HymnsTests' do
     inherit! :search_paths

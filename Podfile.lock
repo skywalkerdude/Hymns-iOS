@@ -44,8 +44,8 @@ PODS:
     - GoogleUtilities/Environment (~> 6.6)
     - GoogleUtilities/UserDefaults (~> 6.6)
     - PromisesObjC (~> 1.2)
-  - FMDB (2.7.5):
-    - FMDB/standard (= 2.7.5)
+  - FMDB/FTS (2.7.5):
+    - FMDB/standard
   - FMDB/standard (2.7.5)
   - GoogleAppMeasurement (6.4.2):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
@@ -96,7 +96,7 @@ PODS:
 DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/Crashlytics
-  - FMDB
+  - FMDB/FTS
   - MockingbirdFramework (from `https://github.com/birdrides/mockingbird.git`)
   - Nimble
   - Quick
@@ -161,6 +161,6 @@ SPEC CHECKSUMS:
   Resolver: e04ca5a9a19906f2e5cdceb2b90edd3b5daed049
   SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
 
-PODFILE CHECKSUM: 5db2501750e6df300ff12525af620f4627f87090
+PODFILE CHECKSUM: 4910a559be7b6c1f5bda82c8c99348006e56915e
 
 COCOAPODS: 1.9.1
