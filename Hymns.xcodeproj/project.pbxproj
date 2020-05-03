@@ -58,6 +58,7 @@
 		3B87B82824493F9200AEC7E9 /* SimpleSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B87B82724493F9200AEC7E9 /* SimpleSettingViewModel.swift */; };
 		3B87B82A2449497A00AEC7E9 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B87B8292449497A00AEC7E9 /* SettingsViewModel.swift */; };
 		3B87B831244988B100AEC7E9 /* SettingsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B87B830244988B100AEC7E9 /* SettingsViewModelSpec.swift */; };
+		3B909696245F658D000229A2 /* hymnaldb-v12 in Resources */ = {isa = PBXBuildFile; fileRef = 3B909695245F658C000229A2 /* hymnaldb-v12 */; };
 		3B9AE08E245902920027C571 /* classic40.json in Resources */ = {isa = PBXBuildFile; fileRef = 3B9AE08D245902920027C571 /* classic40.json */; };
 		3BA32C7E245256A0000ABD9F /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA32C7D245256A0000ABD9F /* Notification.swift */; };
 		3BB09207244A18F800EAE411 /* BaseSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB09206244A18F800EAE411 /* BaseSettingViewModel.swift */; };
@@ -179,6 +180,7 @@
 		3B87B82724493F9200AEC7E9 /* SimpleSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSettingViewModel.swift; sourceTree = "<group>"; };
 		3B87B8292449497A00AEC7E9 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		3B87B830244988B100AEC7E9 /* SettingsViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelSpec.swift; sourceTree = "<group>"; };
+		3B909695245F658C000229A2 /* hymnaldb-v12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "hymnaldb-v12"; sourceTree = "<group>"; };
 		3B9AE08D245902920027C571 /* classic40.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = classic40.json; sourceTree = "<group>"; };
 		3BA32C7D245256A0000ABD9F /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		3BB09206244A18F800EAE411 /* BaseSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSettingViewModel.swift; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 				B5E61B36242E613D00EF497D /* Localizable.strings */,
 				3B1B901B2429CF57009FDCC5 /* Assets.xcassets */,
 				3B1B90202429CF57009FDCC5 /* LaunchScreen.storyboard */,
+				3B909695245F658C000229A2 /* hymnaldb-v12 */,
 				3B1B90232429CF57009FDCC5 /* Info.plist */,
 				3B1B90162429CF55009FDCC5 /* Hymns.xcdatamodeld */,
 				3B1B901D2429CF57009FDCC5 /* Preview Content */,
@@ -752,6 +755,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BC13294243852C00082A274 /* classic1334.json in Resources */,
+				3B909696245F658D000229A2 /* hymnaldb-v12 in Resources */,
 				3B9AE08E245902920027C571 /* classic40.json in Resources */,
 				3B1B90222429CF57009FDCC5 /* LaunchScreen.storyboard in Resources */,
 				B5E61B34242E613D00EF497D /* Localizable.strings in Resources */,
