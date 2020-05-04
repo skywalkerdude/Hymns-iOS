@@ -30,8 +30,8 @@ struct SearchBar: View {
                 }
             }
             .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))
-            .foregroundColor(.secondary)
-            .background(Color(.secondarySystemBackground))
+            .foregroundColor(Color("darkModeSearchSymbol"))
+            .background(Color("darkModeSearchBackgrouund"))
             .cornerRadius(CGFloat(integerLiteral: 10))
 
             if searchActive {
