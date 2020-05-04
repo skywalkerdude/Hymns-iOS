@@ -14,7 +14,7 @@ struct SearchBar: View {
         HStack {
             HStack {
                 Image(systemName: "magnifyingglass")
-                TextField(placeholderText, text: $searchText).foregroundColor(.primary)
+                TextField(placeholderText, text: $searchText)
                 if !self.searchText.isEmpty {
                     Button(action: {
                         self.searchText = ""
