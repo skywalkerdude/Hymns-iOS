@@ -46,7 +46,7 @@ struct SearchBar: View {
                     }
                 }
                 .foregroundColor(Color(.systemBlue))
-                .transition(.customSearchTransition)
+                .transition(.asymmetric(insertion: .opacity, removal: .move(edge: .trailing)))
                 .animation(.easeOut(duration: 0.2))
             }
         }
