@@ -9,22 +9,22 @@ struct HomeContainerView: View {
         NavigationView {
             TabView(selection: $selectedTab) {
                 HomeView(viewModel: Resolver.resolve())
-                    .tabItem {HomeTab.home.getImage(selectedTab == HomeTab.home)}
+                    .tabItem {HomeTab.home.getImage(selectedTab == HomeTab.home).imageScale(.large)}
                     .tag(HomeTab.home)
                     .hideNavigationBar()
 
                 BrowseView()
-                    .tabItem { HomeTab.browse.getImage(selectedTab == HomeTab.browse)}
+                    .tabItem { HomeTab.browse.getImage(selectedTab == HomeTab.browse).imageScale(.large)}
                     .tag(HomeTab.browse)
                     .hideNavigationBar()
 
                 FavoritesView()
-                    .tabItem {HomeTab.favorites.getImage(selectedTab == HomeTab.favorites)}
+                    .tabItem {HomeTab.favorites.getImage(selectedTab == HomeTab.favorites).imageScale(.large)}
                     .tag(HomeTab.favorites)
                     .hideNavigationBar()
 
                 SettingsView()
-                    .tabItem {HomeTab.settings.getImage(selectedTab == HomeTab.settings)}
+                    .tabItem {HomeTab.settings.getImage(selectedTab == HomeTab.settings).imageScale(.large)}
                     .tag(HomeTab.settings)
                     .hideNavigationBar()
             }.onAppear {
