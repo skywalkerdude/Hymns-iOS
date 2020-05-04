@@ -4,9 +4,12 @@ import Resolver
 
 class HymnLyricsViewModel: ObservableObject {
 
+    typealias JSON = String
+
     @Published var lyrics: [VerseViewModel]? = [VerseViewModel]()
 
     private let identifier: HymnIdentifier
+    private let jsonDecoder: JSONDecoder
     private let mainQueue: DispatchQueue
     private let repository: HymnsRepository
 
@@ -14,16 +17,18 @@ class HymnLyricsViewModel: ObservableObject {
 
     init(hymnToDisplay identifier: HymnIdentifier,
          hymnsRepository repository: HymnsRepository = Resolver.resolve(),
+         jsonDecoder: JSONDecoder = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main")) {
         self.identifier = identifier
+        self.jsonDecoder = jsonDecoder
         self.mainQueue = mainQueue
         self.repository = repository
     }
 
     func fetchLyrics() {
         repository
-            .getHymn(hymnIdentifier: identifier)
-            .map({ (hymn) -> [VerseViewModel]? in
+            .getHymn(identifier)
+            .map({ hymn -> [VerseViewModel]? in
                 guard let hymn = hymn, !hymn.lyrics.isEmpty else {
                     return nil
                 }

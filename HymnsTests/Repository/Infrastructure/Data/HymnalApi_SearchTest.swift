@@ -26,7 +26,7 @@ class HymnalApiService_SearchTest: XCTestCase {
     func test_networkError() {
 
         // Stub mock to return a network error.
-        URLProtocolMock.error = ErrorType.network(description: "network error!")
+        URLProtocolMock.error = ErrorType.data(description: "network error!")
 
         let failureExpectation = expectation(description: "Invalid.failure")
         let finishedExpectation = expectation(description: "Invalid.finished")

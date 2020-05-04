@@ -24,7 +24,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                     beforeEach {
                         target = DisplayHymnViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository,
                                                       mainQueue: testQueue, favoritesStore: favoritesStore, historyStore: historyStore)
-                        given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> { _ in
+                        given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                             Just(nil).assertNoFailure().eraseToAnyPublisher()
                         }
                     }
@@ -40,7 +40,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                             verify(historyStore.storeRecentSong(hymnToStore: any(), songTitle: any())).wasNeverCalled()
                         }
                         it("should call hymnsRepository.getHymn") {
-                            verify(hymnsRepository.getHymn(hymnIdentifier: classic1151)).wasCalled(exactly(1))
+                            verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
                         }
                     }
                 }
@@ -49,8 +49,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                         beforeEach {
                             target = DisplayHymnViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository,
                                                           mainQueue: testQueue, favoritesStore: favoritesStore, historyStore: historyStore)
-                            let hymn = Hymn(title: "title", metaData: [MetaDatum](), lyrics: [Verse]())
-                            given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> { _ in
+                            let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: [Verse]())
+                            given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                                 Just(hymn).assertNoFailure().eraseToAnyPublisher()
                             }
                         }
@@ -75,7 +75,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                     verify(historyStore.storeRecentSong(hymnToStore: classic1151, songTitle: expectedTitle)).wasCalled(exactly(1))
                                 }
                                 it("should call hymnsRepository.getHymn") {
-                                    verify(hymnsRepository.getHymn(hymnIdentifier: classic1151)).wasCalled(exactly(1))
+                                    verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
                                 }
                                 it("should be favorited") {
                                     expect(target.isFavorited).to(beTrue())
@@ -97,8 +97,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                         let expectedTitle = "In my spirit, I can see You as You are"
                         context("title contains 'Hymn: '") {
                             beforeEach {
-                                let hymnWithHymnColonTitle = Hymn(title: "Hymn: In my spirit, I can see You as You are", metaData: [MetaDatum](), lyrics: [Verse]())
-                                given(hymnsRepository.getHymn(hymnIdentifier: newSong145)) ~> { _ in
+                                let hymnWithHymnColonTitle = UiHymn(hymnIdentifier: newSong145, title: "Hymn: In my spirit, I can see You as You are", lyrics: [Verse]())
+                                given(hymnsRepository.getHymn(newSong145)) ~> { _ in
                                     Just(hymnWithHymnColonTitle).assertNoFailure().eraseToAnyPublisher()
                                 }
                             }
@@ -122,7 +122,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                         verify(historyStore.storeRecentSong(hymnToStore: newSong145, songTitle: expectedTitle)).wasCalled(exactly(1))
                                     }
                                     it("should call hymnsRepository.getHymn") {
-                                        verify(hymnsRepository.getHymn(hymnIdentifier: newSong145)).wasCalled(exactly(1))
+                                        verify(hymnsRepository.getHymn(newSong145)).wasCalled(exactly(1))
                                     }
                                     it("should not be favorited") {
                                         expect(target.isFavorited).to(beFalse())
@@ -138,8 +138,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                         }
                         context("title does not contains 'Hymn: '") {
                             beforeEach {
-                                let hymnWithOutHymnColonTitle = Hymn(title: "In my spirit, I can see You as You are", metaData: [MetaDatum](), lyrics: [Verse]())
-                                given(hymnsRepository.getHymn(hymnIdentifier: newSong145)) ~> { _ in
+                                let hymnWithOutHymnColonTitle = UiHymn(hymnIdentifier: newSong145, title: "In my spirit, I can see You as You are", lyrics: [Verse]())
+                                given(hymnsRepository.getHymn(newSong145)) ~> { _ in
                                     Just(hymnWithOutHymnColonTitle).assertNoFailure().eraseToAnyPublisher()
                                 }
                             }
@@ -163,7 +163,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                         verify(historyStore.storeRecentSong(hymnToStore: newSong145, songTitle: expectedTitle)).wasCalled(exactly(1))
                                     }
                                     it("should call hymnsRepository.getHymn") {
-                                        verify(hymnsRepository.getHymn(hymnIdentifier: newSong145)).wasCalled(exactly(1))
+                                        verify(hymnsRepository.getHymn(newSong145)).wasCalled(exactly(1))
                                     }
                                     it("should not be favorited") {
                                         expect(target.isFavorited).to(beFalse())

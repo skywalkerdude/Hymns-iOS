@@ -8,6 +8,12 @@ struct HymnIdentifier: Hashable, Equatable {
     let hymnType: HymnType
     let hymnNumber: String
     let queryParams: [String: String]?
+    var queryParamString: String {
+        guard let queryParams = queryParams else {
+            return ""
+        }
+        return queryParams.jsonString ?? ""
+    }
 }
 
 extension HymnIdentifier {

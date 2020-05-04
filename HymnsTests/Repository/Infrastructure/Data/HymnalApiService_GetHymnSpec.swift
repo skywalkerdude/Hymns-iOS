@@ -24,7 +24,7 @@ class HymnalApiService_GetHymnSpec: QuickSpec {
             context("with network error") {
                 beforeEach {
                     // Stub mock to return a network error.
-                    URLProtocolMock.error = ErrorType.network(description: "network error!")
+                    URLProtocolMock.error = ErrorType.data(description: "network error!")
                 }
                 it("only the failure completion callback should be triggered") {
                     let failureExpectation = self.expectation(description: "Invalid.failure")
@@ -34,7 +34,7 @@ class HymnalApiService_GetHymnSpec: QuickSpec {
                     receiveExpectation.isInverted = true
 
                     let cancellable
-                        = target.getHymn(hymnType: .children, hymnNumber: "24", queryParams: nil)
+                        = target.getHymn(children24)
                             .sink(
                                 receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
                                     switch completion {
@@ -57,8 +57,8 @@ class HymnalApiService_GetHymnSpec: QuickSpec {
             context("with decode error") {
                 beforeEach {
                     // Stub mock to return a valid network response but an invalid json.
-                    URLProtocolMock.response = self.createValidResponse(for: Self.children24)
-                    URLProtocolMock.testURLs = [Self.children24: Data("".utf8)]
+                    URLProtocolMock.response = self.createValidResponse(for: Self.children24URL)
+                    URLProtocolMock.testURLs = [Self.children24URL: Data("".utf8)]
                 }
                 it("only the failure completion callback should be triggered") {
                     let failureExpectation = self.expectation(description: "Invalid.failure")
@@ -68,7 +68,7 @@ class HymnalApiService_GetHymnSpec: QuickSpec {
                     receiveExpectation.isInverted = true
 
                     let cancellable
-                        = target.getHymn(hymnType: .children, hymnNumber: "24", queryParams: nil)
+                        = target.getHymn(children24)
                             .sink(
                                 receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
                                     switch completion {
@@ -91,8 +91,8 @@ class HymnalApiService_GetHymnSpec: QuickSpec {
             context("with a valid response") {
                 beforeEach {
                     // Stub mock to return a valid network response but an invalid json.
-                    URLProtocolMock.response = self.createValidResponse(for: Self.children24)
-                    URLProtocolMock.testURLs = [Self.children24: Data(children_24_json.utf8)]
+                    URLProtocolMock.response = self.createValidResponse(for: Self.children24URL)
+                    URLProtocolMock.testURLs = [Self.children24URL: Data(children_24_json.utf8)]
                 }
                 it("the finished completion and receive value callbacks should be triggered") {
                     let failureExpectation = self.expectation(description: "Invalid.failure")
@@ -101,7 +101,7 @@ class HymnalApiService_GetHymnSpec: QuickSpec {
                     let receiveExpectation = self.expectation(description: "Invalid.receiveValue")
 
                     let cancellable
-                        = target.getHymn(hymnType: .children, hymnNumber: "24", queryParams: nil)
+                        = target.getHymn(children24)
                             .sink(
                                 receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
                                     switch completion {
@@ -123,8 +123,8 @@ class HymnalApiService_GetHymnSpec: QuickSpec {
             context("with a valid response and the request contains query paramters") {
                 beforeEach {
                     // Stub mock to return a valid network response but an invalid json.
-                    URLProtocolMock.response = self.createValidResponse(for: Self.children24)
-                    URLProtocolMock.testURLs = [Self.children24QueryParams: Data(children_24_json.utf8)]
+                    URLProtocolMock.response = self.createValidResponse(for: Self.children24URL)
+                    URLProtocolMock.testURLs = [Self.children24QueryParamsURL: Data(children_24_json.utf8)]
                 }
                 it("the finished completion and receive value callbacks should be triggered") {
                     let failureExpectation = self.expectation(description: "Invalid.failure")
@@ -132,8 +132,9 @@ class HymnalApiService_GetHymnSpec: QuickSpec {
                     let finishedExpectation = self.expectation(description: "Invalid.finished")
                     let receiveExpectation = self.expectation(description: "Invalid.receiveValue")
 
+                    let identifier = HymnIdentifier(hymnType: .children, hymnNumber: "24", queryParams: ["key1": "value1"])
                     let cancellable
-                        = target.getHymn(hymnType: .children, hymnNumber: "24", queryParams: ["key1": "value1"])
+                        = target.getHymn(identifier)
                             .sink(
                                 receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
                                     switch completion {
@@ -157,6 +158,6 @@ class HymnalApiService_GetHymnSpec: QuickSpec {
 }
 
 extension HymnalApiService_GetHymnSpec {
-    static let children24 = URL(string: "http://hymnalnetapi.herokuapp.com/v2/hymn/c/24")!
-    static let children24QueryParams = URL(string: "http://hymnalnetapi.herokuapp.com/v2/hymn/c/24?key1=value1")!
+    static let children24URL = URL(string: "http://hymnalnetapi.herokuapp.com/v2/hymn/c/24")!
+    static let children24QueryParamsURL = URL(string: "http://hymnalnetapi.herokuapp.com/v2/hymn/c/24?key1=value1")!
 }

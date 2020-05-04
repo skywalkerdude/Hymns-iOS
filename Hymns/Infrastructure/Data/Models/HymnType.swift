@@ -98,7 +98,7 @@ extension HymnType {
      *     - abbreviatedValue: abbreviated value of the enum
      * - Returns: HymnType corresponding to value
      */
-    static func fromAbbreviatedValue(abbreviatedValue: String) -> HymnType? {
+    static func fromAbbreviatedValue(_ abbreviatedValue: String) -> HymnType? {
         for hymnType in HymnType.allCases where abbreviatedValue == hymnType.abbreviatedValue {
             return hymnType
         }
