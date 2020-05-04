@@ -12,6 +12,7 @@ struct VerseLineView: View {
     }
 }
 
+#if DEBUG
 struct VerseLineView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -26,6 +27,7 @@ struct VerseLineView_Previews: PreviewProvider {
         }.previewLayout(.fixed(width: 450, height: 50))
     }
 }
+#endif
 
 struct VerseView: View {
     let viewModel: VerseViewModel
@@ -39,6 +41,7 @@ struct VerseView: View {
     }
 }
 
+#if DEBUG
 struct VerseView_Previews: PreviewProvider {
     static var previews: some View {
         VStack(alignment: .leading) {
@@ -47,3 +50,4 @@ struct VerseView_Previews: PreviewProvider {
         }
     }
 }
+#endif

@@ -14,11 +14,7 @@ struct SearchBar: View {
         HStack {
             HStack {
                 Image(systemName: "magnifyingglass")
-                TextField(placeholderText, text: $searchText, onEditingChanged: { _ in
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                    }
-                }).foregroundColor(.primary)
-
+                TextField(placeholderText, text: $searchText).foregroundColor(.primary)
                 if !self.searchText.isEmpty {
                     Button(action: {
                         self.searchText = ""
@@ -28,7 +24,9 @@ struct SearchBar: View {
                 }
             }.onTapGesture {
                 if !self.searchActive {
-                    self.searchActive = true
+                    withAnimation {
+                        self.searchActive = true
+                    }
                 }
             }
             .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))
@@ -55,6 +53,7 @@ struct SearchBar: View {
     }
 }
 
+#if DEBUG
 struct SearchBox_Previews: PreviewProvider {
     static var previews: some View {
         let placeholderText = "Search by numbers or words"
@@ -85,3 +84,4 @@ struct SearchBox_Previews: PreviewProvider {
             }.previewLayout(.sizeThatFits)
     }
 }
+#endif

@@ -35,6 +35,7 @@ struct HomeContainerView: View {
     }
 }
 
+#if DEBUG
 struct HomeContainerView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -61,3 +62,4 @@ struct HomeContainerView_Previews: PreviewProvider {
         }
     }
 }
+#endif

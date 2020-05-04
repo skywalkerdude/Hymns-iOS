@@ -15,6 +15,7 @@ struct PrivacyPolicySettingView: View {
     }
 }
 
+#if DEBUG
 struct PrivacyPolicySettingView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -40,3 +41,4 @@ struct PrivacyPolicySettingView_Previews: PreviewProvider {
         }
     }
 }
+#endif

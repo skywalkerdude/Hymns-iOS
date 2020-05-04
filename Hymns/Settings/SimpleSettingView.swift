@@ -27,6 +27,7 @@ extension SimpleSettingView {
     }
 }
 
+#if DEBUG
 struct SimpleSettingView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -55,3 +56,4 @@ struct SimpleSettingView_Previews: PreviewProvider {
         }
     }
 }
+#endif

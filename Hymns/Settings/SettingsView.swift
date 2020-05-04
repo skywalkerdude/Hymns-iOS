@@ -20,6 +20,7 @@ struct SettingsView: View {
     }
 }
 
+#if DEBUG
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -37,3 +38,4 @@ struct SettingsView_Previews: PreviewProvider {
         }
     }
 }
+#endif
