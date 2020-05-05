@@ -38,17 +38,15 @@ class DisplayHymnViewModel: ObservableObject {
 
     func fetchHymn() {
         repository
-            .getHymn(hymnIdentifier: identifier)
-            .map({ (hymn) -> String? in
-                guard let hymn = hymn else {
-                    return nil
-                }
-
+            .getHymn(identifier)
+            .map({ hymn -> String? in
                 if self.identifier.hymnType == .classic {
                     return "Hymn \(self.identifier.hymnNumber)"
                 }
-                let title = hymn.title.replacingOccurrences(of: "Hymn: ", with: "")
-                return title
+                guard let hymn = hymn else {
+                    return nil
+                }
+                return hymn.title.replacingOccurrences(of: "Hymn: ", with: "")
             })
             .receive(on: mainQueue)
             .sink(

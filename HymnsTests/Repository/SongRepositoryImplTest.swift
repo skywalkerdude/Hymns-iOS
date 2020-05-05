@@ -23,7 +23,7 @@ class SongRepositoryImplTest: XCTestCase {
                     throw URLError(.badServerResponse)
                 })
                 .mapError({ (_) -> ErrorType in
-                    ErrorType.network(description: "forced network error")
+                    ErrorType.data(description: "forced network error")
                 }).eraseToAnyPublisher()
         }
 
@@ -43,7 +43,7 @@ class SongRepositoryImplTest: XCTestCase {
         given(hymnalApiService.search(for: "Dan Sady", onPage: 2)) ~> { (_, _) in
             Just<SongResultsPage>(Self.resultsPage)
                 .mapError({ (_) -> ErrorType in
-                    .network(description: "This will never get called")
+                    .data(description: "This will never get called")
                 }).eraseToAnyPublisher()
         }
 
