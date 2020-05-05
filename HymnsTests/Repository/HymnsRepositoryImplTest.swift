@@ -205,6 +205,7 @@ class HymnsRepositoryImplTests: XCTestCase {
 
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
+            .receive(on: testQueue)
             .sink(receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertNil(hymn)

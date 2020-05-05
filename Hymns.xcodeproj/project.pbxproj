@@ -60,7 +60,6 @@
 		3B877E7E245FCE68004C10DD /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B877E7D245FCE68004C10DD /* Converter.swift */; };
 		3B877E80245FE0FE004C10DD /* SystemUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B877E7F245FE0FE004C10DD /* SystemUtil.swift */; };
 		3B877E82245FF4B4004C10DD /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B877E81245FF4B4004C10DD /* Data+Extensions.swift */; };
-		3B877E862460D948004C10DD /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B877E852460D948004C10DD /* File.swift */; };
 		3B877E882460E1AF004C10DD /* UiHymn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B877E872460E1AF004C10DD /* UiHymn.swift */; };
 		3B87B82624493F7F00AEC7E9 /* SimpleSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B87B82524493F7F00AEC7E9 /* SimpleSettingView.swift */; };
 		3B87B82824493F9200AEC7E9 /* SimpleSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B87B82724493F9200AEC7E9 /* SimpleSettingViewModel.swift */; };
@@ -196,7 +195,6 @@
 		3B877E7D245FCE68004C10DD /* Converter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
 		3B877E7F245FE0FE004C10DD /* SystemUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemUtil.swift; sourceTree = "<group>"; };
 		3B877E81245FF4B4004C10DD /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
-		3B877E852460D948004C10DD /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		3B877E872460E1AF004C10DD /* UiHymn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UiHymn.swift; sourceTree = "<group>"; };
 		3B87B82524493F7F00AEC7E9 /* SimpleSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSettingView.swift; sourceTree = "<group>"; };
 		3B87B82724493F9200AEC7E9 /* SimpleSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleSettingViewModel.swift; sourceTree = "<group>"; };
@@ -529,7 +527,6 @@
 				3B5935A324357CA000E6993C /* HymnType.swift */,
 				3B5935A52435848F00E6993C /* Datum.swift */,
 				3B50B967243E44B100EABDE4 /* SongResultsPage.swift */,
-				3B877E852460D948004C10DD /* File.swift */,
 				3B5935B024358D1B00E6993C /* Hymn.swift */,
 				3B877E872460E1AF004C10DD /* UiHymn.swift */,
 				3B90969A245F7F14000229A2 /* HymnEntity.swift */,
@@ -1090,7 +1087,6 @@
 				3B25C0E824503B6900C435E1 /* RecentSong.swift in Sources */,
 				5CA7849E242D14C800B57903 /* FavoritesView.swift in Sources */,
 				3BA32C7E245256A0000ABD9F /* Notification.swift in Sources */,
-				3B877E862460D948004C10DD /* File.swift in Sources */,
 				3B45B906243BF1C900D38BEF /* PreviewSongResults.swift in Sources */,
 				3BF699AF24417921005AFF6A /* VerseView.swift in Sources */,
 				3B877E7A245FBD31004C10DD /* NetworkBoundResource.swift in Sources */,
