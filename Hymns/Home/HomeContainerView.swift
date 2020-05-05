@@ -28,8 +28,7 @@ struct HomeContainerView: View {
                     .tag(HomeTab.settings)
                     .hideNavigationBar()
             }.onAppear {
-                // Make the unselected tabs black insetad of grey.
-                UITabBar.appearance().unselectedItemTintColor = .black
+                UITabBar.appearance().unselectedItemTintColor = .label
             }
         }
     }

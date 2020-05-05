@@ -23,7 +23,7 @@ struct HomeView: View {
                 .padding(.top, viewModel.searchActive ? nil : .zero)
 
             viewModel.label.map {
-                Text($0).fontWeight(.semibold).padding(.top).padding(.leading)
+                Text($0).fontWeight(.semibold).padding(.top).padding(.leading).foregroundColor(Color("darkModeSubtitle"))
             }
 
             if self.viewModel.isLoading {
