@@ -1,3 +1,4 @@
+import FirebaseCrashlytics
 import Combine
 import Foundation
 import GRDB
@@ -28,7 +29,7 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
                 try entity.insert(database)
             }
         } catch {
-            // TODO firebase log
+            Crashlytics.crashlytics().record(error: error)
         }
     }
 

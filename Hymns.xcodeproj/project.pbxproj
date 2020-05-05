@@ -8,11 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		03C66649256D0D00BEC1C71C /* Pods_HymnsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE949CC867DF48B54BFDF4CE /* Pods_HymnsTests.framework */; };
-		3B09F901243D3BDC00252C15 /* HymnalApi_SearchTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B09F900243D3BDC00252C15 /* HymnalApi_SearchTest.swift */; };
+		3B09F901243D3BDC00252C15 /* HymnalApiService_SearchTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B09F900243D3BDC00252C15 /* HymnalApiService_SearchTest.swift */; };
 		3B09F904243D4D9300252C15 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B09F903243D4D9300252C15 /* URLProtocolMock.swift */; };
 		3B09F909243D806500252C15 /* TestHymns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B09F908243D806500252C15 /* TestHymns.swift */; };
 		3B09F90B243D807E00252C15 /* children_24.json in Resources */ = {isa = PBXBuildFile; fileRef = 3B09F90A243D807E00252C15 /* children_24.json */; };
 		3B0B39AF243931B3003C5161 /* ErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0B39AE243931B3003C5161 /* ErrorType.swift */; };
+		3B11E29C2461F93100F27E73 /* HymnDataStoreGrdbImplSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B11E29B2461F93100F27E73 /* HymnDataStoreGrdbImplSpec.swift */; };
 		3B14B874244E9C760027D7AA /* HomeViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B14B873244E9C760027D7AA /* HomeViewModelSpec.swift */; };
 		3B1B90132429CF55009FDCC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B90122429CF55009FDCC5 /* AppDelegate.swift */; };
 		3B1B90152429CF55009FDCC5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B90142429CF55009FDCC5 /* SceneDelegate.swift */; };
@@ -137,11 +138,12 @@
 		28484A97107348DEF63E897F /* Pods_Hymns.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hymns.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F2D533ECC098E83D4EF235B /* Pods-Hymns-HymnsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns-HymnsUITests.debug.xcconfig"; path = "Target Support Files/Pods-Hymns-HymnsUITests/Pods-Hymns-HymnsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		32563EB88DC124DFC9D2A474 /* Pods-Hymns-HymnsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns-HymnsUITests.release.xcconfig"; path = "Target Support Files/Pods-Hymns-HymnsUITests/Pods-Hymns-HymnsUITests.release.xcconfig"; sourceTree = "<group>"; };
-		3B09F900243D3BDC00252C15 /* HymnalApi_SearchTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnalApi_SearchTest.swift; sourceTree = "<group>"; };
+		3B09F900243D3BDC00252C15 /* HymnalApiService_SearchTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnalApiService_SearchTest.swift; sourceTree = "<group>"; };
 		3B09F903243D4D9300252C15 /* URLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
 		3B09F908243D806500252C15 /* TestHymns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHymns.swift; sourceTree = "<group>"; };
 		3B09F90A243D807E00252C15 /* children_24.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = children_24.json; sourceTree = "<group>"; };
 		3B0B39AE243931B3003C5161 /* ErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorType.swift; sourceTree = "<group>"; };
+		3B11E29B2461F93100F27E73 /* HymnDataStoreGrdbImplSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnDataStoreGrdbImplSpec.swift; sourceTree = "<group>"; };
 		3B14B873244E9C760027D7AA /* HomeViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelSpec.swift; sourceTree = "<group>"; };
 		3B1B900F2429CF55009FDCC5 /* Hymns.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hymns.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B1B90122429CF55009FDCC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -301,7 +303,8 @@
 			isa = PBXGroup;
 			children = (
 				3BD345E22442EC5200F5DF2E /* HymnalApiService_GetHymnSpec.swift */,
-				3B09F900243D3BDC00252C15 /* HymnalApi_SearchTest.swift */,
+				3B09F900243D3BDC00252C15 /* HymnalApiService_SearchTest.swift */,
+				3B11E29B2461F93100F27E73 /* HymnDataStoreGrdbImplSpec.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1103,6 +1106,7 @@
 				3B09F904243D4D9300252C15 /* URLProtocolMock.swift in Sources */,
 				3BB7877A24550686003CBEED /* StringExtensionsSpec.swift in Sources */,
 				3B5FD7242436B20A00B65132 /* HymnsRepositoryImplTest.swift in Sources */,
+				3B11E29C2461F93100F27E73 /* HymnDataStoreGrdbImplSpec.swift in Sources */,
 				3BFF25AE24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift in Sources */,
 				3B14B874244E9C760027D7AA /* HomeViewModelSpec.swift in Sources */,
 				3BD345E32442EC5200F5DF2E /* HymnalApiService_GetHymnSpec.swift in Sources */,
@@ -1111,7 +1115,7 @@
 				3B87B831244988B100AEC7E9 /* SettingsViewModelSpec.swift in Sources */,
 				3BC53646243EDB8100DA728F /* TestConstants.swift in Sources */,
 				EF9D228545974074AF495E83 /* HymnsMocks.generated.swift in Sources */,
-				3B09F901243D3BDC00252C15 /* HymnalApi_SearchTest.swift in Sources */,
+				3B09F901243D3BDC00252C15 /* HymnalApiService_SearchTest.swift in Sources */,
 				3B09F909243D806500252C15 /* TestHymns.swift in Sources */,
 				3B575699243EA4DB007013FE /* RegexUtilSpec.swift in Sources */,
 			);
