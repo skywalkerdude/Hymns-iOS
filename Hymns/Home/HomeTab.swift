@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 
 enum HomeTab {
+    case none
     case home
     case browse
     case favorites
@@ -14,6 +15,8 @@ extension HomeTab: TabItem {
 
     var content: some View {
         switch self {
+        case .none:
+            return HomeView().eraseToAnyView()
         case .home:
             return HomeView().eraseToAnyView()
         case .browse:
@@ -35,6 +38,8 @@ extension HomeTab: TabItem {
 
     var a11yLabel: Text {
         switch self {
+        case .none:
+            return Text("")
         case .home:
             return Text("Search tab")
         case .browse:
@@ -48,6 +53,8 @@ extension HomeTab: TabItem {
 
     func getImage(_ isSelected: Bool) -> Image {
         switch self {
+        case .none:
+            return Image(systemName: "magnifyingglass")
         case .home:
             return Image(systemName: "magnifyingglass")
         case .browse:

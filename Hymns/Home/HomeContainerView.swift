@@ -3,7 +3,7 @@ import Resolver
 
 struct HomeContainerView: View {
 
-    @State var selectedTab: HomeTab = .home
+    @State var selectedTab: HomeTab = .none
 
     var body: some View {
         NavigationView {
@@ -28,6 +28,7 @@ struct HomeContainerView: View {
                     .tag(HomeTab.settings)
                     .hideNavigationBar()
             }.onAppear {
+                self.selectedTab = .home
                 UITabBar.appearance().unselectedItemTintColor = .label
             }
         }
