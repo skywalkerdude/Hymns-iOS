@@ -13,8 +13,8 @@ struct SearchBar: View {
     var body: some View {
         HStack {
             HStack {
-                Image(systemName: "magnifyingglass")
-                TextField(placeholderText, text: $searchText).foregroundColor(.primary)
+                Image(systemName: "magnifyingglass").padding(.leading, 6)
+                TextField(placeholderText, text: $searchText)
                 if !self.searchText.isEmpty {
                     Button(action: {
                         self.searchText = ""
@@ -30,8 +30,8 @@ struct SearchBar: View {
                 }
             }
             .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))
-            .foregroundColor(.secondary)
-            .background(Color(.secondarySystemBackground))
+            .foregroundColor(Color("darkModeSearchSymbol"))
+            .background(Color("darkModeSearchBackgrouund"))
             .cornerRadius(CGFloat(integerLiteral: 10))
 
             if searchActive {
@@ -46,8 +46,8 @@ struct SearchBar: View {
                     }
                 }
                 .foregroundColor(Color(.systemBlue))
-                .transition(AnyTransition.move(edge: .trailing))
-                .animation(.easeInOut(duration: 0.2))
+                .transition(.asymmetric(insertion: .opacity, removal: .move(edge: .trailing)))
+                .animation(.easeOut(duration: 0.2))
             }
         }
     }
