@@ -14,7 +14,7 @@ class HymnsRepositoryImpl: HymnsRepository {
     private let converter: Converter
     private let dataStore: HymnDataStore
     private let decoder: JSONDecoder
-    private let mainQueue: DispatchQueue
+    private let queue: DispatchQueue
     private let service: HymnalApiService
     private let systemUtil: SystemUtil
 
@@ -24,13 +24,13 @@ class HymnsRepositoryImpl: HymnsRepository {
     init(converter: Converter = Resolver.resolve(),
          dataStore: HymnDataStore = Resolver.resolve(),
          decoder: JSONDecoder = Resolver.resolve(),
-         mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
+         queue: DispatchQueue = Resolver.resolve(name: "background"),
          service: HymnalApiService = Resolver.resolve(),
          systemUtil: SystemUtil = Resolver.resolve()) {
         self.converter = converter
         self.dataStore = dataStore
         self.decoder = decoder
-        self.mainQueue = mainQueue
+        self.queue = queue
         self.service = service
         self.systemUtil = systemUtil
     }
@@ -40,33 +40,21 @@ class HymnsRepositoryImpl: HymnsRepository {
             return Just(hymn).eraseToAnyPublisher()
         }
 
-        let publisher = PassthroughSubject<UiHymn?, Never>()
-        HymnNetworkBoundResource(
+        return HymnNetworkBoundResource(
             converter: converter, dataStore: dataStore, decoder: decoder, disposables: disposables,
             hymnIdentifier: hymnIdentifier, service: service, systemUtil: systemUtil)
             .execute(disposables: &disposables)
-            .receive(on: mainQueue)
-            .sink(receiveCompletion: { state in
-                switch state {
-                case .failure:
-                    // TODO Firebase non-fatal
-                    publisher.send(nil)
-                case .finished:
-                    break
-                }
-            }, receiveValue: { [weak self] resource in
-                if let hymn = resource.data {
-                    self?.hymns[hymnIdentifier] = hymn
-                    publisher.send(hymn)
-                    return
+            .receive(on: queue)
+            .map { [weak self] resource -> UiHymn? in
+                guard let hymn = resource.data else {
+                    return nil
                 }
 
-                if resource.status == .success {
-                    publisher.send(nil)
-                }
-            })
-            .store(in: &disposables)
-        return publisher.eraseToAnyPublisher()
+                self?.hymns[hymnIdentifier] = hymn
+                return hymn
+        }
+        .replaceError(with: nil)
+        .eraseToAnyPublisher()
     }
 
     fileprivate struct HymnNetworkBoundResource: NetworkBoundResource {

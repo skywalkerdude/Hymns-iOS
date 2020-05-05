@@ -25,7 +25,7 @@ class HymnsRepositoryImplTests: XCTestCase {
         dataStore = mock(HymnDataStore.self)
         service = mock(HymnalApiService.self)
         systemUtil = mock(SystemUtil.self)
-        target = HymnsRepositoryImpl(converter: converter, dataStore: dataStore, mainQueue: testQueue,
+        target = HymnsRepositoryImpl(converter: converter, dataStore: dataStore, queue: testQueue,
                                      service: service, systemUtil: systemUtil)
     }
 

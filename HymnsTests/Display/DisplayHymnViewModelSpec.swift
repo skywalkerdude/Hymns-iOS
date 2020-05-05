@@ -8,7 +8,6 @@ class DisplayHymnViewModelSpec: QuickSpec {
 
     override func spec() {
         describe("DisplayHymnViewModel") {
-            // https://www.vadimbulavin.com/unit-testing-async-code-in-swift/
             let testQueue = DispatchQueue(label: "test_queue")
             var hymnsRepository: HymnsRepositoryMock!
             var favoritesStore: FavoritesStoreMock!
@@ -23,7 +22,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                 context("with nil repository result") {
                     beforeEach {
                         target = DisplayHymnViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository,
-                                                      mainQueue: testQueue, favoritesStore: favoritesStore, historyStore: historyStore)
+                                                      favoritesStore: favoritesStore, historyStore: historyStore)
                         given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                             Just(nil).assertNoFailure().eraseToAnyPublisher()
                         }
@@ -31,7 +30,6 @@ class DisplayHymnViewModelSpec: QuickSpec {
                     describe("performing fetch") {
                         beforeEach {
                             target.fetchHymn()
-                            testQueue.sync {}
                         }
                         it("title should be empty") {
                             expect(target.title).to(beEmpty())
