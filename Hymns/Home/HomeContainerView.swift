@@ -11,6 +11,7 @@ struct HomeContainerView: View {
                 HomeView(viewModel: Resolver.resolve())
                     .tabItem {HomeTab.home.getImage(selectedTab == HomeTab.home).imageScale(.large)}
                     .tag(HomeTab.home)
+                    .hideNavigationBar()
 
                 BrowseView()
                     .tabItem { HomeTab.browse.getImage(selectedTab == HomeTab.browse).imageScale(.large)}
