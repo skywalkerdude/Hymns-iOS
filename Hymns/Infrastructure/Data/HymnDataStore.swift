@@ -4,7 +4,7 @@ import GRDB
 import Resolver
 
 /**
- * Service to contact the Hymnal API.
+ * Service to contact the local Hymn database.
  */
 protocol HymnDataStore {
     func saveHymn(_ entity: HymnEntity)
@@ -12,7 +12,7 @@ protocol HymnDataStore {
 }
 
 /**
- * Implementation of HymnalApiService that uses Alamofire.
+ * Implementation of `HymnDataStore` that uses `GRDB`.
  */
 class HymnDataStoreGrdbImpl: HymnDataStore {
 

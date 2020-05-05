@@ -4,8 +4,6 @@ import Resolver
 
 class HymnLyricsViewModel: ObservableObject {
 
-    typealias JSON = String
-
     @Published var lyrics: [VerseViewModel]? = [VerseViewModel]()
 
     private let identifier: HymnIdentifier
