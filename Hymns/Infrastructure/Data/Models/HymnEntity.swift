@@ -5,7 +5,7 @@ import GRDB
  * Structure of a Hymn object returned from the databse.
  */
 struct HymnEntity: Equatable {
-    static let databaseTableName = "NAME"
+    static let databaseTableName = "SONG_DATA"
     // Prefer Int64 for auto-incremented database ids
     let id: Int64?
     let hymnType: String
@@ -50,6 +50,28 @@ struct HymnEntity: Equatable {
         case pdfSheetJson = "SONG_META_DATA_PDF_SHEET_MUSIC"
         case languagesJson = "SONG_META_DATA_LANGUAGES"
         case relevantJson = "SONG_META_DATA_RELEVANT"
+    }
+
+    static func == (lhs: HymnEntity, rhs: HymnEntity) -> Bool {
+        return lhs.hymnType == rhs.hymnType
+            && lhs.hymnNumber == rhs.hymnNumber
+            && lhs.queryParams == rhs.queryParams
+            && lhs.title == rhs.title
+            && lhs.lyricsJson == rhs.lyricsJson
+            && lhs.category == rhs.category
+            && lhs.subcategory == rhs.subcategory
+            && lhs.author == rhs.author
+            && lhs.composer == rhs.composer
+            && lhs.key == rhs.key
+            && lhs.time == rhs.time
+            && lhs.meter == rhs.meter
+            && lhs.scriptures == rhs.scriptures
+            && lhs.hymnCode == rhs.hymnCode
+            && lhs.musicJson == rhs.musicJson
+            && lhs.svgSheetJson == rhs.svgSheetJson
+            && lhs.pdfSheetJson == rhs.pdfSheetJson
+            && lhs.languagesJson == rhs.languagesJson
+            && lhs.relevantJson == rhs.relevantJson
     }
 }
 

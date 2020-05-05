@@ -63,4 +63,8 @@ class HymnIdentifierEntity: Object {
     override func isEqual(_ object: Any?) -> Bool {
         return hymnType == (object as? HymnIdentifierEntity)?.hymnType && hymnNumber == (object as? HymnIdentifierEntity)?.hymnNumber && queryParams == (object as? HymnIdentifierEntity)?.queryParams
     }
+
+    override var hash: Int {
+        return hymnType.abbreviatedValue.hash + hymnNumber.hash + (queryParams?.hash ?? 0)
+    }
 }

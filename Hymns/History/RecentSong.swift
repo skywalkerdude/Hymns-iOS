@@ -24,6 +24,10 @@ class RecentSong: Object {
     override func isEqual(_ object: Any?) -> Bool {
         return primaryKey == (object as? RecentSong)?.primaryKey && hymnIdentifierEntity == (object as? RecentSong)?.hymnIdentifierEntity && songTitle == (object as? RecentSong)?.songTitle
     }
+
+    override var hash: Int {
+        primaryKey.hash + hymnIdentifierEntity.hash + songTitle.hash
+    }
 }
 
 class RecentSongEntity: Object {

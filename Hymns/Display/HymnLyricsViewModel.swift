@@ -7,7 +7,6 @@ class HymnLyricsViewModel: ObservableObject {
     @Published var lyrics: [VerseViewModel]? = [VerseViewModel]()
 
     private let identifier: HymnIdentifier
-    private let jsonDecoder: JSONDecoder
     private let mainQueue: DispatchQueue
     private let repository: HymnsRepository
 
@@ -15,10 +14,8 @@ class HymnLyricsViewModel: ObservableObject {
 
     init(hymnToDisplay identifier: HymnIdentifier,
          hymnsRepository repository: HymnsRepository = Resolver.resolve(),
-         jsonDecoder: JSONDecoder = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main")) {
         self.identifier = identifier
-        self.jsonDecoder = jsonDecoder
         self.mainQueue = mainQueue
         self.repository = repository
     }
