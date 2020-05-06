@@ -9,8 +9,8 @@ class HymnsRepositoryImplTests: XCTestCase {
                                     id: 0,
                                     title: "song title",
                                     lyricsJson: "[{\"verse_type\":\"verse\",\"verse_content\":[\"line 1\",\"line 2\"]}]")
-    let networkResult = Hymn(title: "song title", metaData: [MetaDatum](), lyrics: [Verse(verseType: .verse, verseContent: ["line 1", "line 2"], transliteration: nil)])
-    let expected = UiHymn(hymnIdentifier: cebuano123, title: "song title", lyrics: [Verse(verseType: .verse, verseContent: ["line 1", "line 2"], transliteration: nil)])
+    let networkResult = Hymn(title: "song title", metaData: [MetaDatum](), lyrics: [Verse(verseType: .verse, verseContent: ["line 1", "line 2"])])
+    let expected = UiHymn(hymnIdentifier: cebuano123, title: "song title", lyrics: [Verse(verseType: .verse, verseContent: ["line 1", "line 2"])])
     let testQueue = DispatchQueue(label: "test_queue")
 
     var converter: ConverterMock!
@@ -93,6 +93,7 @@ class HymnsRepositoryImplTests: XCTestCase {
             }).eraseToAnyPublisher()
         }
         given(systemUtil.isNetworkAvailable()) ~> false
+        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: nil)) ~> nil
 
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
@@ -191,7 +192,7 @@ class HymnsRepositoryImplTests: XCTestCase {
         cancellable.cancel()
     }
 
-    func test_getHymn_databaseTypeConversionError_noNetwork() {
+    func test_getHymn_databaseHit_conversionError_noNetwork() {
         given(dataStore.getHymn(cebuano123)) ~> { _ in
             Just(self.databaseResult).mapError({ (_) -> ErrorType in
                 .data(description: "This will never get called")

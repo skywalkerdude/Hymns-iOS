@@ -82,12 +82,16 @@ class ConverterImpl: Converter {
             throw TypeConversionError(triggeringError: ErrorType.parsing(description: "lyrics json was empty"))
         }
 
-        guard let title = hymnEntity.title else {
+        guard let title = hymnEntity.title, !title.isEmpty else {
             throw TypeConversionError(triggeringError: ErrorType.parsing(description: "title was empty"))
         }
 
-        let verses = try jsonDecoder.decode([Verse].self, from: data)
-        return UiHymn(hymnIdentifier: hymnIdentifier, title: title, lyrics: verses)
+        do {
+            let verses = try jsonDecoder.decode([Verse].self, from: data)
+            return UiHymn(hymnIdentifier: hymnIdentifier, title: title, lyrics: verses)
+        } catch {
+            throw TypeConversionError(triggeringError: error)
+        }
     }
 }
 
