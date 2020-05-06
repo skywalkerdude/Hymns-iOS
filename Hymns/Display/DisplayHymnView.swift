@@ -12,7 +12,7 @@ struct DisplayHymnView: View {
 
     var body: some View {
         VStack(spacing: 15) {
-            HStack() {
+            HStack {
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
