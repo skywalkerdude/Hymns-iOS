@@ -12,19 +12,19 @@ struct DisplayHymnToolbarView: View {
         VStack {
             HStack {
                 Spacer()
-                Text("LYRICS").foregroundColor(self.toolbarTab == "lyrics" ? .blue : .gray).onTapGesture {
+                Text("LYRICS").foregroundColor(self.toolbarTab == "lyrics" ? .accentColor : .primary).onTapGesture {
                     self.toolbarTab = "lyrics"
                 }
                 Spacer()
-                Text("CHORDS").foregroundColor(self.toolbarTab == "chords" ? .blue : .gray).onTapGesture {
+                Text("CHORDS").foregroundColor(self.toolbarTab == "chords" ? .accentColor : .primary).onTapGesture {
                     self.toolbarTab = "chords"
                 }
                 Spacer()
-                Text("GUITAR").foregroundColor(self.toolbarTab == "guitar" ? .blue : .gray).onTapGesture {
+                Text("GUITAR").foregroundColor(self.toolbarTab == "guitar" ? .accentColor : .primary).onTapGesture {
                     self.toolbarTab = "guitar"
                 }
                 Spacer()
-                Text("PIANO").foregroundColor(self.toolbarTab == "piano" ? .blue : .gray).onTapGesture {
+                Text("PIANO").foregroundColor(self.toolbarTab == "piano" ? .accentColor : .primary).onTapGesture {
                     self.toolbarTab = "piano"
                 }
                 Spacer()
