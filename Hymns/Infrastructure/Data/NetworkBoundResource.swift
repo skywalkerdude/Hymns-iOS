@@ -86,7 +86,7 @@ extension NetworkBoundResource {
                             publisher.send(Resource.loading(data: nil))
                             self.fetchFromNetwork(disposables: &callbackDisposables, publisher: publisher)
                         } else {
-                            publisher.send(completion: .failure(.parsing(description: error.localizedDescription)))
+                            publisher.send(completion: .failure(ErrorType.parsing(description: "error occured while converting the database response")))
                         }
                     }
             })

@@ -39,9 +39,8 @@ type_name:
   max_length: # warning and error
     warning: 30
     error: 35
-  excluded: # We need to exclude these two names from the linter because it does not like the _ being nonalphanumeric
-    - Hymns_iOS
-    - Hymns_iOSTests
+  excluded:
+    # We need to exclude these names from the linter because it does not like the _ being nonalphanumeric
     - HymnalApiService_GetHymnTest
     - HymnalApiService_GetHymnSpec
     - HymnalApiService_SearchTest

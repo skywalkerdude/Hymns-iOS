@@ -1,5 +1,4 @@
 import Foundation
-import GRDB
 
 /**
  * Structure of a Hymn object returned from the network.
