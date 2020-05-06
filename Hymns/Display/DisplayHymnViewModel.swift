@@ -9,7 +9,7 @@ class DisplayHymnViewModel: ObservableObject {
 
     @Published var title: String = ""
     var hymnLyricsViewModel: HymnLyricsViewModel
-    private let identifier: HymnIdentifier
+    let identifier: HymnIdentifier
     private let repository: HymnsRepository
     private let mainQueue: DispatchQueue
     private let favoritesStore: FavoritesStore

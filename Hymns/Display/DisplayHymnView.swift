@@ -1,5 +1,6 @@
 import SwiftUI
 import Resolver
+import WebKit
 
 struct DisplayHymnView: View {
 
@@ -29,7 +30,7 @@ struct DisplayHymnView: View {
                     })
                 }
             }
-            HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel)
+            DisplayHymnToolbarView(viewModel: self.viewModel)
         }
         .hideNavigationBar()
         .padding(.horizontal)
