@@ -18,7 +18,7 @@ class HymnLyricsViewModelSpec: QuickSpec {
             }
             context("with nil repository result") {
                 beforeEach {
-                    given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> {_ in
+                    given(hymnsRepository.getHymn(classic1151)) ~> {_ in
                         Just(nil).assertNoFailure().eraseToAnyPublisher()
                     }
                 }
@@ -31,14 +31,14 @@ class HymnLyricsViewModelSpec: QuickSpec {
                         expect(target.lyrics).to(beNil())
                     }
                     it("should call hymnsRepository.getHymn") {
-                        verify(hymnsRepository.getHymn(hymnIdentifier: classic1151)).wasCalled(exactly(1))
+                        verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
                     }
                 }
             }
             context("with empty repository result") {
                 beforeEach {
-                    let emptyHymn = Hymn(title: "Empty Hymn", metaData: [MetaDatum](), lyrics: [Verse]())
-                    given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> {_ in Just(emptyHymn).assertNoFailure().eraseToAnyPublisher()}
+                    let emptyHymn = UiHymn(hymnIdentifier: classic1151, title: "Empty Hymn", lyrics: [Verse]())
+                    given(hymnsRepository.getHymn(classic1151)) ~> {_ in Just(emptyHymn).assertNoFailure().eraseToAnyPublisher()}
                 }
                 describe("fetching lyrics") {
                     beforeEach {
@@ -49,7 +49,7 @@ class HymnLyricsViewModelSpec: QuickSpec {
                         expect(target.lyrics).to(beNil())
                     }
                     it("should call hymnsRepository.getHymn") {
-                        verify(hymnsRepository.getHymn(hymnIdentifier: classic1151)).wasCalled(exactly(1))
+                        verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
                     }
                 }
             }
@@ -61,8 +61,8 @@ class HymnLyricsViewModelSpec: QuickSpec {
                     Verse(verseType: .verse, verseContent: ["line 3", "line 4"], transliteration: nil)
                 ]
                 beforeEach {
-                    let validHymn = Hymn(title: "Filled Hymn", metaData: [MetaDatum](), lyrics: lyricsWithoutTransliteration)
-                    given(hymnsRepository.getHymn(hymnIdentifier: classic1151)) ~> { _ in Just(validHymn).assertNoFailure().eraseToAnyPublisher()}
+                    let validHymn = UiHymn(hymnIdentifier: classic1151, title: "Filled Hymn", lyrics: lyricsWithoutTransliteration)
+                    given(hymnsRepository.getHymn(classic1151)) ~> { _ in Just(validHymn).assertNoFailure().eraseToAnyPublisher()}
                 }
                 describe("fetching lyrics") {
                     beforeEach {
@@ -78,7 +78,7 @@ class HymnLyricsViewModelSpec: QuickSpec {
                         ]))
                     }
                     it("should call hymnsRepository.getHymn") {
-                        verify(hymnsRepository.getHymn(hymnIdentifier: classic1151)).wasCalled(exactly(1))
+                        verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
                     }
                 }
             }

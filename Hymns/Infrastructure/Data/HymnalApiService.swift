@@ -6,14 +6,11 @@ import Resolver
  * Service to contact the Hymnal API.
  */
 protocol HymnalApiService {
-    func getHymn(hymnType: HymnType, hymnNumber: String, queryParams: [String: String]?) -> AnyPublisher<Hymn, ErrorType>
+    func getHymn(_ hymnIdentifier: HymnIdentifier) -> AnyPublisher<Hymn, ErrorType>
 
     func search(for searchInput: String, onPage pageNumber: Int?) -> AnyPublisher<SongResultsPage, ErrorType>
 }
 
-/**
- * Implementation of HymnalApiService that uses Alamofire.
- */
 class HymnalApiServiceImpl: HymnalApiService {
 
     private let decoder: JSONDecoder
@@ -24,18 +21,22 @@ class HymnalApiServiceImpl: HymnalApiService {
         self.session = session
     }
 
-    func getHymn(hymnType: HymnType, hymnNumber: String, queryParams: [String: String]?) -> AnyPublisher<Hymn, ErrorType> {
+    func getHymn(_ hymnIdentifier: HymnIdentifier) -> AnyPublisher<Hymn, ErrorType> {
+        let hymnType = hymnIdentifier.hymnType
+        let hymnNumber = hymnIdentifier.hymnNumber
+        let queryParams = hymnIdentifier.queryParams
+
         guard let url = HymnalApi.getHymnUrl(hymnType: hymnType, hymnNumber: hymnNumber, queryParams: queryParams) else {
             let hymnIdentifier = queryParams != nil
                 ? HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber, queryParams: queryParams!)
                 : HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber)
-            let error = ErrorType.network(description: "Couldn't create sarch URL for \(hymnIdentifier)")
+            let error = ErrorType.data(description: "Couldn't create sarch URL for \(hymnIdentifier)")
             return Fail(error: error).eraseToAnyPublisher()
         }
 
         return session.dataTaskPublisher(for: URLRequest(url: url))
             .mapError { error in
-                .network(description: error.localizedDescription)
+                .data(description: error.localizedDescription)
             }
             .flatMap(maxPublishers: .max(1)) { pair in
                 Just(pair.data)
@@ -48,13 +49,13 @@ class HymnalApiServiceImpl: HymnalApiService {
 
     func search(for searchInput: String, onPage pageNumber: Int?) -> AnyPublisher<SongResultsPage, ErrorType> {
         guard let url = HymnalApi.searchUrl(for: searchInput, onPage: pageNumber) else {
-            let error = ErrorType.network(description: "Couldn't create sarch URL for \(searchInput) on page \(String(describing: pageNumber))")
+            let error = ErrorType.data(description: "Couldn't create sarch URL for \(searchInput) on page \(String(describing: pageNumber))")
             return Fail(error: error).eraseToAnyPublisher()
         }
 
         return session.dataTaskPublisher(for: URLRequest(url: url))
             .mapError { error in
-                .network(description: error.localizedDescription)
+                .data(description: error.localizedDescription)
             }
             .flatMap(maxPublishers: .max(1)) { pair in
                 Just(pair.data)
@@ -101,11 +102,6 @@ private extension HymnalApi {
 extension Resolver {
     static func registerHymnalApiService() {
         register {HymnalApiServiceImpl(decoder: resolve(), session: resolve()) as HymnalApiService}.scope(application)
-        register(JSONDecoder.self, factory: {
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            return decoder
-        })
         register {URLSession.shared}.scope(application)
     }
 }

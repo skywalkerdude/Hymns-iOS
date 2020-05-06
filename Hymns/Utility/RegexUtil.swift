@@ -29,7 +29,7 @@ public class RegexUtil {
 
         if let match = regex.firstMatch(in: pathWithoutQueryParams, options: [], range: NSRange(location: 0, length: pathWithoutQueryParams.utf16.count)) {
             if let hymnTypeRange = Range(match.range(at: 1), in: pathWithoutQueryParams) {
-                return HymnType.fromAbbreviatedValue(abbreviatedValue: String(pathWithoutQueryParams[hymnTypeRange]))
+                return HymnType.fromAbbreviatedValue(String(pathWithoutQueryParams[hymnTypeRange]))
             }
         }
         return nil

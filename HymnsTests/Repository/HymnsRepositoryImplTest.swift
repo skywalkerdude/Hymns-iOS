@@ -5,86 +5,245 @@ import XCTest
 
 class HymnsRepositoryImplTests: XCTestCase {
 
-    static let hymn: Hymn = Hymn(title: "song title", metaData: [MetaDatum](), lyrics: [Verse]())
+    let databaseResult = HymnEntity(hymnIdentifier: cebuano123,
+                                    id: 0,
+                                    title: "song title",
+                                    lyricsJson: "[{\"verse_type\":\"verse\",\"verse_content\":[\"line 1\",\"line 2\"]}]")
+    let networkResult = Hymn(title: "song title", metaData: [MetaDatum](), lyrics: [Verse(verseType: .verse, verseContent: ["line 1", "line 2"], transliteration: nil)])
+    let expected = UiHymn(hymnIdentifier: cebuano123, title: "song title", lyrics: [Verse(verseType: .verse, verseContent: ["line 1", "line 2"], transliteration: nil)])
+    let testQueue = DispatchQueue(label: "test_queue")
 
-    var hymnalApiService: HymnalApiServiceMock!
+    var converter: ConverterMock!
+    var dataStore: HymnDataStoreMock!
+    var service: HymnalApiServiceMock!
+    var systemUtil: SystemUtilMock!
     var target: HymnsRepository!
 
     override func setUp() {
         super.setUp()
-        hymnalApiService = mock(HymnalApiService.self)
-        target = HymnsRepositoryImpl(hymnalApiService: hymnalApiService)
+        converter = mock(Converter.self)
+        dataStore = mock(HymnDataStore.self)
+        service = mock(HymnalApiService.self)
+        systemUtil = mock(SystemUtil.self)
+        target = HymnsRepositoryImpl(converter: converter, dataStore: dataStore, queue: testQueue,
+                                     service: service, systemUtil: systemUtil)
     }
 
     func test_getHymn_resultsCached() {
-        // Make one request to the API to store it in locally.
-        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> { _, _, _ in
-            Just<Hymn>(Self.hymn)
-                .mapError({ (_) -> ErrorType in
-                    .network(description: "This will never get called")
-                })
-                .eraseToAnyPublisher()
+        // Make one request to the db to store it the memcache.
+        given(dataStore.getHymn(cebuano123)) ~> { _ in
+            Just(self.databaseResult).mapError({ (_) -> ErrorType in
+                .data(description: "This will never get called")
+            }).eraseToAnyPublisher()
         }
+        given(systemUtil.isNetworkAvailable()) ~> false
+        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
+
         var set = Set<AnyCancellable>()
-        target.getHymn(hymnIdentifier: cebuano123)
+        target.getHymn(cebuano123)
             .sink(receiveValue: { _ in })
             .store(in: &set)
 
         // Clear all invocations on the mock.
-        clearInvocations(on: hymnalApiService)
+        clearInvocations(on: dataStore)
+        clearInvocations(on: service)
 
         // Verify you still get the same result but without calling the API.
         let valueReceived = expectation(description: "value received")
-        let cancellable = target.getHymn(hymnIdentifier: cebuano123)
+        let cancellable = target.getHymn(cebuano123)
             .sink(receiveValue: { hymn in
                 valueReceived.fulfill()
-                XCTAssertEqual(Self.hymn, hymn!)
+                XCTAssertEqual(self.expected, hymn!)
             })
 
-        verify(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)).wasNeverCalled()
+        verify(dataStore.getHymn(any())).wasNeverCalled()
+        verify(service.getHymn(any())).wasNeverCalled()
+        verify(dataStore.saveHymn(any())).wasNeverCalled()
         wait(for: [valueReceived], timeout: testTimeout)
         cancellable.cancel()
     }
 
-    func test_getHymn_getFromNetwork_networkError() {
-        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> { _, _, _ in
-            Just<Hymn>(Self.hymn)
-                .tryMap({ (_) -> Hymn in
-                    throw URLError(.badServerResponse)
-                })
-                .mapError({ (_) -> ErrorType in
-                    ErrorType.network(description: "forced network error")
-                }).eraseToAnyPublisher()
+    func test_getHymn_databaseHit_noNetwork() {
+        given(dataStore.getHymn(cebuano123)) ~> { _ in
+            Just(self.databaseResult).mapError({ (_) -> ErrorType in
+                .data(description: "This will never get called")
+            }).eraseToAnyPublisher()
         }
+        given(systemUtil.isNetworkAvailable()) ~> false
+        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
 
         let valueReceived = expectation(description: "value received")
-        let cancellable = target.getHymn(hymnIdentifier: cebuano123)
+        let cancellable = target.getHymn(cebuano123)
+            .sink(receiveValue: { hymn in
+                valueReceived.fulfill()
+                XCTAssertEqual(self.expected, hymn!)
+            })
+
+        verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
+        verify(service.getHymn(any())).wasNeverCalled()
+        verify(dataStore.saveHymn(any())).wasNeverCalled()
+        wait(for: [valueReceived], timeout: testTimeout)
+        cancellable.cancel()
+    }
+
+    func test_getHymn_databaseMiss_noNetwork() {
+        given(dataStore.getHymn(cebuano123)) ~> { _ in
+            Just(nil).mapError({ (_) -> ErrorType in
+                .data(description: "This will never get called")
+            }).eraseToAnyPublisher()
+        }
+        given(systemUtil.isNetworkAvailable()) ~> false
+
+        let valueReceived = expectation(description: "value received")
+        let cancellable = target.getHymn(cebuano123)
             .sink(receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertNil(hymn)
             })
 
-        verify(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)).wasCalled(exactly(1))
+        verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
+        verify(service.getHymn(any())).wasNeverCalled()
+        verify(dataStore.saveHymn(any())).wasNeverCalled()
         wait(for: [valueReceived], timeout: testTimeout)
         cancellable.cancel()
     }
 
-    func test_getHymn_getFromNetwork_resultsSuccessful() {
-        given(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)) ~> {  _, _, _ in
-            Just<Hymn>(Self.hymn).mapError({ (_) -> ErrorType in
-                .network(description: "This will never get called")
+    func test_getHymn_databaseHit_networkAvailable() {
+        given(dataStore.getHymn(cebuano123)) ~> { _ in
+            Just(self.databaseResult).mapError({ (_) -> ErrorType in
+                .data(description: "This will never get called")
+            }).eraseToAnyPublisher()
+        }
+        given(systemUtil.isNetworkAvailable()) ~> true
+        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
+
+        let valueReceived = expectation(description: "value received")
+        let cancellable = target.getHymn(cebuano123)
+            .sink(receiveValue: { hymn in
+                valueReceived.fulfill()
+                XCTAssertEqual(self.expected, hymn!)
             })
-            .eraseToAnyPublisher()
+
+        verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
+        verify(service.getHymn(any())).wasNeverCalled()
+        verify(dataStore.saveHymn(any())).wasNeverCalled()
+        wait(for: [valueReceived], timeout: testTimeout)
+        cancellable.cancel()
+    }
+
+    func test_getHymn_databaseMiss_networkAvailable_networkError() {
+        given(dataStore.getHymn(cebuano123)) ~> { _ in
+            Just(nil).mapError({ (_) -> ErrorType in
+                .data(description: "This will never get called")
+            }).eraseToAnyPublisher()
+        }
+        given(systemUtil.isNetworkAvailable()) ~> true
+        given(service.getHymn(cebuano123)) ~> { _ in
+            Just(self.networkResult)
+                .tryMap({ (_) -> Hymn in
+                    throw URLError(.badServerResponse)
+                })
+                .mapError({ (_) -> ErrorType in
+                    ErrorType.data(description: "forced network error")
+                }).eraseToAnyPublisher()
         }
 
         let valueReceived = expectation(description: "value received")
-        let cancellable = target.getHymn(hymnIdentifier: cebuano123)
+        let cancellable = target.getHymn(cebuano123)
             .sink(receiveValue: { hymn in
                 valueReceived.fulfill()
-                XCTAssertEqual(Self.hymn, hymn!)
+                XCTAssertNil(hymn)
             })
 
-        verify(hymnalApiService.getHymn(hymnType: .cebuano, hymnNumber: "123", queryParams: nil)).wasCalled(exactly(1))
+        verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
+        verify(service.getHymn(cebuano123)).wasCalled(exactly(1))
+        verify(dataStore.saveHymn(any())).wasNeverCalled()
+        wait(for: [valueReceived], timeout: testTimeout)
+        cancellable.cancel()
+    }
+
+    func test_getHymn_databaseMiss_networkAvailable_resultsSuccessful() {
+        given(dataStore.getHymn(cebuano123)) ~> { _ in
+            Just(nil).mapError({ (_) -> ErrorType in
+                .data(description: "This will never get called")
+            }).eraseToAnyPublisher()
+        }
+        given(systemUtil.isNetworkAvailable()) ~> true
+        given(service.getHymn(cebuano123)) ~> {  _ in
+            Just(self.networkResult).mapError({ (_) -> ErrorType in
+                .data(description: "This will never get called")
+            }).eraseToAnyPublisher()
+        }
+        given(converter.toHymnEntity(hymnIdentifier: cebuano123, hymn: self.networkResult)) ~> self.databaseResult
+        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
+
+        let valueReceived = expectation(description: "value received")
+        let cancellable = target.getHymn(cebuano123)
+            .sink(receiveValue: { hymn in
+                valueReceived.fulfill()
+                XCTAssertEqual(self.expected, hymn!)
+            })
+
+        verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
+        verify(service.getHymn(cebuano123)).wasCalled(exactly(1))
+        verify(dataStore.saveHymn(self.databaseResult)).wasCalled(exactly(1))
+        wait(for: [valueReceived], timeout: testTimeout)
+        cancellable.cancel()
+    }
+
+    func test_getHymn_databaseTypeConversionError_noNetwork() {
+        given(dataStore.getHymn(cebuano123)) ~> { _ in
+            Just(self.databaseResult).mapError({ (_) -> ErrorType in
+                .data(description: "This will never get called")
+            }).eraseToAnyPublisher()
+        }
+
+        given(systemUtil.isNetworkAvailable()) ~> false
+        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> { _, _ in
+            throw TypeConversionError.init(triggeringError: ErrorType.parsing(description: "failed to convert!"))
+        }
+
+        let valueReceived = expectation(description: "value received")
+        let cancellable = target.getHymn(cebuano123)
+            .receive(on: testQueue)
+            .sink(receiveValue: { hymn in
+                valueReceived.fulfill()
+                XCTAssertNil(hymn)
+            })
+
+        verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
+        verify(service.getHymn(any())).wasNeverCalled()
+        verify(dataStore.saveHymn(any())).wasNeverCalled()
+        wait(for: [valueReceived], timeout: testTimeout)
+        cancellable.cancel()
+    }
+
+    func test_getHymn_databaseMiss_networkConversionError() {
+        given(dataStore.getHymn(cebuano123)) ~> { _ in
+            Just(nil).mapError({ (_) -> ErrorType in
+                .data(description: "This will never get called")
+            }).eraseToAnyPublisher()
+        }
+        given(systemUtil.isNetworkAvailable()) ~> true
+        given(service.getHymn(cebuano123)) ~> {  _ in
+            Just(self.networkResult).mapError({ (_) -> ErrorType in
+                .data(description: "This will never get called")
+            }).eraseToAnyPublisher()
+        }
+        given(converter.toHymnEntity(hymnIdentifier: cebuano123, hymn: self.networkResult)) ~> {_, _ in
+            throw TypeConversionError.init(triggeringError: ErrorType.parsing(description: "failed to convert!"))
+        }
+
+        let valueReceived = expectation(description: "value received")
+        let cancellable = target.getHymn(cebuano123)
+            .sink(receiveValue: { hymn in
+                valueReceived.fulfill()
+                XCTAssertNil(hymn)
+            })
+
+        verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
+        verify(service.getHymn(cebuano123)).wasCalled(exactly(1))
+        verify(dataStore.saveHymn(any())).wasNeverCalled()
         wait(for: [valueReceived], timeout: testTimeout)
         cancellable.cancel()
     }

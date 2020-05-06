@@ -7,6 +7,7 @@ import Resolver
 class TestHymns{}
 
 let cebuano123 = HymnIdentifier(hymnType: .cebuano, hymnNumber: "123")
+let children24 = HymnIdentifier(hymnType: .children, hymnNumber: "24")
 let classic1151 = HymnIdentifier(hymnType: .classic, hymnNumber: "1151")
 let newSong145 = HymnIdentifier(hymnType: .newSong, hymnNumber: "145")
 
