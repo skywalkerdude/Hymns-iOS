@@ -29,8 +29,9 @@ struct DisplayHymnToolbarView: View {
                 }
                 Spacer()
             }
+            Divider().edgesIgnoringSafeArea(.horizontal)
             if self.toolbarTab == "lyrics" {
-                HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel)
+                HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel).padding(.horizontal)
             } else if self.toolbarTab == "chords" {
                 // Text("\(self.viewModel.identifier.hymnNumber)")
                 // print("\(self.viewModel.identifier.hymnNumber)")

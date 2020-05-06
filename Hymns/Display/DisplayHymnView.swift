@@ -1,6 +1,5 @@
 import SwiftUI
 import Resolver
-import WebKit
 
 struct DisplayHymnView: View {
 
@@ -12,13 +11,13 @@ struct DisplayHymnView: View {
     }
 
     var body: some View {
-        VStack {
-            HStack {
+        VStack(spacing: 15) {
+            HStack() {
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
                     Image(systemName: "chevron.left").accentColor(.primary)
-                }).padding()
+                })
                 Spacer()
                 Text(viewModel.title).fontWeight(.bold)
                 Spacer()
@@ -29,11 +28,10 @@ struct DisplayHymnView: View {
                         isFavorited ? Image(systemName: "heart.fill").accentColor(.accentColor) : Image(systemName: "heart").accentColor(.primary)
                     })
                 }
-            }
+            }.padding(.horizontal)
             DisplayHymnToolbarView(viewModel: self.viewModel)
         }
         .hideNavigationBar()
-        .padding(.horizontal)
         .onAppear {
             self.viewModel.fetchHymn()
         }
