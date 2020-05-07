@@ -33,13 +33,11 @@ struct DisplayHymnToolbarView: View {
             if self.toolbarTab == "lyrics" {
                 HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel).padding(.horizontal)
             } else if self.toolbarTab == "chords" {
-                // Text("\(self.viewModel.identifier.hymnNumber)")
-                // print("\(self.viewModel.identifier.hymnNumber)")
-                WebView(request: URLRequest(url: URL(string: "https://www.hymnal.net/en/hymn/\(self.viewModel.identifier.hymnType.abbreviatedValue)/\(self.viewModel.identifier.hymnNumber)/f=gtpdf")!))
+                WebView(request: URLRequest(url: URL(string: "https://www.hymnal.net/\(self.viewModel.musicPath)/f=gtpdf")!))
             } else if self.toolbarTab == "guitar" {
-                WebView(request: URLRequest(url: URL(string: "https://www.hymnal.net/en/hymn/\(self.viewModel.identifier.hymnType.abbreviatedValue)/\(self.viewModel.identifier.hymnNumber)/f=pdf")!))
+                WebView(request: URLRequest(url: URL(string: "https://www.hymnal.net/\(self.viewModel.musicPath)/f=pdf")!))
             } else {
-                WebView(request: URLRequest(url: URL(string: "https://www.hymnal.net/en/hymn/\(self.viewModel.identifier.hymnType.abbreviatedValue)/\(self.viewModel.identifier.hymnNumber)/f=ppdf")!))
+                WebView(request: URLRequest(url: URL(string: "https://www.hymnal.net/\(self.viewModel.musicPath)/f=ppdf")!))
             }
         }
     }

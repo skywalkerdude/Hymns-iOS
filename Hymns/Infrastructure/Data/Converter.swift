@@ -86,9 +86,13 @@ class ConverterImpl: Converter {
             throw TypeConversionError(triggeringError: ErrorType.parsing(description: "title was empty"))
         }
 
+        guard let pdfSheetJson = hymnEntity.pdfSheetJson, !pdfSheetJson.isEmpty else {
+            throw TypeConversionError(triggeringError: ErrorType.parsing(description: "pdfSheetJson was empty"))
+        }
+
         do {
             let verses = try jsonDecoder.decode([Verse].self, from: data)
-            return UiHymn(hymnIdentifier: hymnIdentifier, title: title, lyrics: verses)
+            return UiHymn(hymnIdentifier: hymnIdentifier, title: title, lyrics: verses, pdfSheetJson: pdfSheetJson)
         } catch {
             throw TypeConversionError(triggeringError: error)
         }

@@ -14,6 +14,7 @@ class DisplayHymnViewModel: ObservableObject {
     private let mainQueue: DispatchQueue
     private let favoritesStore: FavoritesStore
     private let historyStore: HistoryStore
+    @Published var musicPath: String = ""
     @Published var isFavorited: Bool?
 
     private var favoritesObserver: Notification?
@@ -57,6 +58,27 @@ class DisplayHymnViewModel: ObservableObject {
                     self.fetchFavoriteStatus()
                     self.title = title
                     self.historyStore.storeRecentSong(hymnToStore: self.identifier, songTitle: title)
+            }).store(in: &disposables)
+    }
+
+    func fetchHymnChords() {
+        repository
+            .getHymn(identifier)
+            .map({ hymn -> String? in
+                guard let hymn = hymn else {
+                    return nil
+                }
+
+                let trimFront = hymn.pdfSheetJson.components(separatedBy: "path\":\"")
+                let trimmedPath = trimFront[1].components(separatedBy: "f=ppdf")
+                return trimmedPath[0]
+            })
+            .receive(on: mainQueue)
+            .sink(
+                receiveValue: { [weak self] pdfSheetJson in
+                    guard let self = self else { return }
+                    guard let pdfSheetJson = pdfSheetJson else { return }
+                    self.musicPath = pdfSheetJson
             }).store(in: &disposables)
     }
 
