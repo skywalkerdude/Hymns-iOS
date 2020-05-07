@@ -58,6 +58,7 @@ extension NetworkBoundResource {
         prework()
         let publisher = CurrentValueSubject<Resource<UIResultType>, ErrorType>(Resource.loading(data: nil))
         var callbackDisposables = Set<AnyCancellable>()
+
         loadFromDatabase()
             .sink(
                 receiveCompletion: { state in

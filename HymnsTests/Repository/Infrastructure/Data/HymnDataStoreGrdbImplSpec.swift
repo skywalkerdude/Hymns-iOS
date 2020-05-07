@@ -7,8 +7,6 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
 
     override func spec() {
         describe("using an in-memory database queue") {
-            // https://www.vadimbulavin.com/unit-testing-async-code-in-swift/
-            let testQueue = DispatchQueue(label: "test_queue")
             var inMemoryDBQueue: DatabaseQueue!
             var target: HymnDataStoreGrdbImpl!
             beforeEach {
@@ -62,7 +60,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                         table.column(HymnEntity.CodingKeys.relevantJson.rawValue, .text)
                     }
                 }
-                target = HymnDataStoreGrdbImpl(backgroundQueue: testQueue, databaseQueue: inMemoryDBQueue)
+                target = HymnDataStoreGrdbImpl(databaseQueue: inMemoryDBQueue)
             }
 
             describe("save a few songs") {
