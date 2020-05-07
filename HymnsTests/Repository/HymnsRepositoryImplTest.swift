@@ -12,6 +12,7 @@ class HymnsRepositoryImplTests: XCTestCase {
     let networkResult = Hymn(title: "song title", metaData: [MetaDatum](), lyrics: [Verse(verseType: .verse, verseContent: ["line 1", "line 2"])])
     let expected = UiHymn(hymnIdentifier: cebuano123, title: "song title", lyrics: [Verse(verseType: .verse, verseContent: ["line 1", "line 2"])])
 
+    var backgroundQueue = DispatchQueue.init(label: "background test queue")
     var converter: ConverterMock!
     var dataStore: HymnDataStoreMock!
     var service: HymnalApiServiceMock!
@@ -39,6 +40,7 @@ class HymnsRepositoryImplTests: XCTestCase {
 
         var set = Set<AnyCancellable>()
         target.getHymn(cebuano123)
+            .print(self.description)
             .sink(receiveValue: { _ in })
             .store(in: &set)
 
@@ -49,6 +51,7 @@ class HymnsRepositoryImplTests: XCTestCase {
         // Verify you still get the same result but without calling the API.
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
+            .print(self.description)
             .sink(receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertEqual(self.expected, hymn!)
@@ -65,13 +68,15 @@ class HymnsRepositoryImplTests: XCTestCase {
         given(dataStore.getHymn(cebuano123)) ~> { _ in
             Just(self.databaseResult).mapError({ (_) -> ErrorType in
                 .data(description: "This will never get called")
-            }).eraseToAnyPublisher()
+            }).subscribe(on: self.backgroundQueue).eraseToAnyPublisher()
+            // Test asynchronous data store call as well to make sure the loading values are being dropped
         }
         given(systemUtil.isNetworkAvailable()) ~> false
         given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
 
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
+            .print(self.description)
             .sink(receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertEqual(self.expected, hymn!)
@@ -95,6 +100,7 @@ class HymnsRepositoryImplTests: XCTestCase {
 
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
+            .print(self.description)
             .sink(receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertNil(hymn)
@@ -118,6 +124,7 @@ class HymnsRepositoryImplTests: XCTestCase {
 
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
+            .print(self.description)
             .sink(receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertEqual(self.expected, hymn!)
@@ -149,6 +156,7 @@ class HymnsRepositoryImplTests: XCTestCase {
 
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
+            .print(self.description)
             .sink(receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertNil(hymn)
@@ -163,13 +171,13 @@ class HymnsRepositoryImplTests: XCTestCase {
 
     func test_getHymn_databaseMiss_networkAvailable_resultsSuccessful() {
         given(dataStore.getHymn(cebuano123)) ~> { _ in
-            Just(nil).mapError({ (_) -> ErrorType in
+            return Just(nil).mapError({ (_) -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()
         }
         given(systemUtil.isNetworkAvailable()) ~> true
         given(service.getHymn(cebuano123)) ~> {  _ in
-            Just(self.networkResult).mapError({ (_) -> ErrorType in
+            return Just(self.networkResult).mapError({ (_) -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()
         }
@@ -178,6 +186,7 @@ class HymnsRepositoryImplTests: XCTestCase {
 
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
+            .print(self.description)
             .sink(receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertEqual(self.expected, hymn!)
@@ -190,7 +199,7 @@ class HymnsRepositoryImplTests: XCTestCase {
         cancellable.cancel()
     }
 
-    func test_getHymn_databaseHit_conversionError_noNetwork() {
+    func test_getHymn_databaseHit_databaseConversionError_noNetwork() {
         given(dataStore.getHymn(cebuano123)) ~> { _ in
             Just(self.databaseResult).mapError({ (_) -> ErrorType in
                 .data(description: "This will never get called")
@@ -204,6 +213,7 @@ class HymnsRepositoryImplTests: XCTestCase {
 
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
+            .print(self.description)
             .sink(receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertNil(hymn)
@@ -234,6 +244,7 @@ class HymnsRepositoryImplTests: XCTestCase {
 
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
+            .print(self.description)
             .sink(receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertNil(hymn)
