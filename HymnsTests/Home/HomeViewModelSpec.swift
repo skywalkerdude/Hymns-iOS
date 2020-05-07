@@ -29,7 +29,7 @@ class HomeViewModelSpec: QuickSpec {
             let recentHymns = "Recent hymns"
             context("default state") {
                 beforeEach {
-                    sleep(1) // allow time for the debouncer to trigger.
+                    testQueue.sync {}
                 }
                 it("\"\(recentHymns)\" label should be showing") {
                     expect(target.label).toEventuallyNot(beNil())
