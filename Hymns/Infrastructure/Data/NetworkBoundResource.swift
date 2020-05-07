@@ -21,6 +21,7 @@ protocol NetworkBoundResource {
      */
     associatedtype UIResultType
 
+    // dummy comment to delete later
     func saveToDatabase(convertedNetworkResult: DatabaseResultType)
 
     func shouldFetch(uiResult: UIResultType?) -> Bool
