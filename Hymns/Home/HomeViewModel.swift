@@ -26,6 +26,7 @@ class HomeViewModel: ObservableObject {
         self.repository = repository
 
         $searchActive
+            .receive(on: mainQueue)
             .sink { searchActive in
                 if !searchActive {
                     self.fetchRecentSongs()
