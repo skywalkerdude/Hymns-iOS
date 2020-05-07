@@ -10,7 +10,7 @@ struct PrivacyPolicySettingView: View {
         })
         .padding().foregroundColor(.black)
         .sheet(isPresented: self.$showPrivacyPolicy) {
-            WebView(request: URLRequest(url: URL(string: "https://app.termly.io/document/privacy-policy/4b9dd46b-aca9-40ae-ac97-58b47e4b4cac")!))
+            WebView(url: URL(string: "https://app.termly.io/document/privacy-policy/4b9dd46b-aca9-40ae-ac97-58b47e4b4cac")!)
         }
     }
 }
