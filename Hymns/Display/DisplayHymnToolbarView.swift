@@ -3,11 +3,11 @@ import SwiftUI
 struct DisplayHymnToolbarView: View {
     @State var toolbarTab = "lyrics"
     @ObservedObject private var viewModel: DisplayHymnViewModel
-
+    
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
     }
-
+    
     var body: some View {
         VStack {
             HStack {
@@ -45,11 +45,11 @@ struct DisplayHymnToolbarView: View {
             if self.toolbarTab == "lyrics" {
                 HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel).padding(.horizontal)
             } else if self.toolbarTab == "chords" && self.viewModel.chordsUrl != nil {
-                WebView(url: self.viewModel.chordsUrl!)
+                WebView(request: URLRequest(url: self.viewModel.chordsUrl!))
             } else if self.toolbarTab == "guitar" && self.viewModel.guitarUrl != nil {
-                WebView(url: self.viewModel.guitarUrl!)
+                WebView(request: URLRequest(url: self.viewModel.guitarUrl!))
             } else if self.toolbarTab == "piano" && self.viewModel.pianoUrl != nil {
-                WebView(url: self.viewModel.pianoUrl!)
+                WebView(request: URLRequest(url: self.viewModel.pianoUrl!))
             }
         }
     }
