@@ -55,7 +55,7 @@ extension NetworkBoundResource {
 
     func execute(disposables: inout Set<AnyCancellable>) -> AnyPublisher<Resource<UIResultType>, ErrorType> {
         prework()
-        let publisher = PassthroughSubject<Resource<UIResultType>, ErrorType>()
+        let publisher = CurrentValueSubject<Resource<UIResultType>, ErrorType>(Resource.loading(data: nil))
         var callbackDisposables = Set<AnyCancellable>()
         loadFromDatabase()
             .sink(
@@ -74,8 +74,7 @@ extension NetworkBoundResource {
             },
                 receiveValue: { dbResult in
                     do {
-                        var uiResult = try self.convertType(databaseResult: dbResult)
-                        uiResult = nil
+                        let uiResult = try self.convertType(databaseResult: dbResult)
                         if self.shouldFetch(uiResult: uiResult) {
                             publisher.send(Resource.loading(data: uiResult))
                             self.fetchFromNetwork(disposables: &callbackDisposables, publisher: publisher)
@@ -97,7 +96,7 @@ extension NetworkBoundResource {
 
     private func fetchFromNetwork(
         disposables: inout Set<AnyCancellable>,
-        publisher: PassthroughSubject<Resource<UIResultType>, ErrorType>) {
+        publisher: CurrentValueSubject<Resource<UIResultType>, ErrorType>) {
 
         createNetworkCall()
             .sink(
