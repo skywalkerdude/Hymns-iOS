@@ -26,7 +26,6 @@ class HomeViewModel: ObservableObject {
         self.repository = repository
 
         $searchActive
-            .receive(on: mainQueue)
             .sink { searchActive in
                 if !searchActive {
                     self.fetchRecentSongs()
@@ -38,8 +37,7 @@ class HomeViewModel: ObservableObject {
             // Ignore the first call with an empty string since it's take care of already by $searchActive
             .dropFirst()
             // Debounce works by waiting a bit until the user stops typing and before sending a value
-            .debounce(for: .seconds(0.5), scheduler: backgroundQueue)
-            .receive(on: mainQueue)
+            .debounce(for: .seconds(0.5), scheduler: mainQueue)
             .sink { searchParameter in
                 if !self.searchActive {
                     return
