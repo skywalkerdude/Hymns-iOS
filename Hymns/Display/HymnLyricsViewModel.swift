@@ -23,23 +23,14 @@ class HymnLyricsViewModel: ObservableObject {
     func fetchLyrics() {
         repository
             .getHymn(identifier)
-            .map({ hymn -> [VerseViewModel]? in
-                guard let hymn = hymn, !hymn.lyrics.isEmpty else {
+            .map({ [weak self] hymn -> [VerseViewModel]? in
+                guard let self = self, let hymn = hymn, !hymn.lyrics.isEmpty else {
                     return nil
                 }
                 return self.convertToViewModels(verses: hymn.lyrics)
             })
             .receive(on: mainQueue)
             .sink(
-                receiveCompletion: { [weak self] state in
-                    guard let self = self else { return }
-                    switch state {
-                    case .failure:
-                        self.lyrics = nil
-                    case .finished:
-                        break
-                    }
-                },
                 receiveValue: { [weak self] lyrics in
                     self?.lyrics = lyrics
             }).store(in: &disposables)

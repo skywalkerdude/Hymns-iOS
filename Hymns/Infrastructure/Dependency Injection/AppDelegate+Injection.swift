@@ -7,7 +7,7 @@ extension Resolver: ResolverRegistering {
     public static func registerAllServices() {
         registerApplication()
         register(name: "main") { DispatchQueue.main }
-        register(name: "background") { DispatchQueue(label: "background") }
+        register(name: "background") { DispatchQueue.global() }
         register(JSONDecoder.self, factory: {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase

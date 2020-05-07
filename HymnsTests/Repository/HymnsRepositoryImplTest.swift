@@ -11,7 +11,6 @@ class HymnsRepositoryImplTests: XCTestCase {
                                     lyricsJson: "[{\"verse_type\":\"verse\",\"verse_content\":[\"line 1\",\"line 2\"]}]")
     let networkResult = Hymn(title: "song title", metaData: [MetaDatum](), lyrics: [Verse(verseType: .verse, verseContent: ["line 1", "line 2"])])
     let expected = UiHymn(hymnIdentifier: cebuano123, title: "song title", lyrics: [Verse(verseType: .verse, verseContent: ["line 1", "line 2"])])
-    let testQueue = DispatchQueue(label: "test_queue")
 
     var converter: ConverterMock!
     var dataStore: HymnDataStoreMock!
@@ -25,8 +24,7 @@ class HymnsRepositoryImplTests: XCTestCase {
         dataStore = mock(HymnDataStore.self)
         service = mock(HymnalApiService.self)
         systemUtil = mock(SystemUtil.self)
-        target = HymnsRepositoryImpl(converter: converter, dataStore: dataStore, queue: testQueue,
-                                     service: service, systemUtil: systemUtil)
+        target = HymnsRepositoryImpl(converter: converter, dataStore: dataStore, service: service, systemUtil: systemUtil)
     }
 
     func test_getHymn_resultsCached() {
@@ -206,7 +204,6 @@ class HymnsRepositoryImplTests: XCTestCase {
 
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
-            .receive(on: testQueue)
             .sink(receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertNil(hymn)

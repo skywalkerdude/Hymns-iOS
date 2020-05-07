@@ -14,7 +14,6 @@ class HymnsRepositoryImpl: HymnsRepository {
     private let converter: Converter
     private let dataStore: HymnDataStore
     private let decoder: JSONDecoder
-    private let queue: DispatchQueue
     private let service: HymnalApiService
     private let systemUtil: SystemUtil
 
@@ -24,13 +23,11 @@ class HymnsRepositoryImpl: HymnsRepository {
     init(converter: Converter = Resolver.resolve(),
          dataStore: HymnDataStore = Resolver.resolve(),
          decoder: JSONDecoder = Resolver.resolve(),
-         queue: DispatchQueue = Resolver.resolve(name: "background"),
          service: HymnalApiService = Resolver.resolve(),
          systemUtil: SystemUtil = Resolver.resolve()) {
         self.converter = converter
         self.dataStore = dataStore
         self.decoder = decoder
-        self.queue = queue
         self.service = service
         self.systemUtil = systemUtil
     }
@@ -44,8 +41,12 @@ class HymnsRepositoryImpl: HymnsRepository {
             converter: converter, dataStore: dataStore, decoder: decoder, disposables: disposables,
             hymnIdentifier: hymnIdentifier, service: service, systemUtil: systemUtil)
             .execute(disposables: &disposables)
-            .receive(on: queue)
+            // Don't pass through any values while hymn is still loading.
+            .drop(while: { resource -> Bool in
+                resource.status == .loading
+            })
             .map { [weak self] resource -> UiHymn? in
+
                 guard let hymn = resource.data else {
                     return nil
                 }

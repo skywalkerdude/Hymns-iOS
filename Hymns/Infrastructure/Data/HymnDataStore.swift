@@ -17,19 +17,23 @@ protocol HymnDataStore {
  */
 class HymnDataStoreGrdbImpl: HymnDataStore {
 
+    private let backgroundQueue: DispatchQueue
     private let databaseQueue: DatabaseQueue
 
-    init(databaseQueue: DatabaseQueue) {
+    init(backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"), databaseQueue: DatabaseQueue) {
+        self.backgroundQueue = backgroundQueue
         self.databaseQueue = databaseQueue
     }
 
     func saveHymn(_ entity: HymnEntity) {
-        do {
-            try databaseQueue.inDatabase { database in
-                try entity.insert(database)
+        backgroundQueue.async {
+            do {
+                try self.databaseQueue.inDatabase { database in
+                    try entity.insert(database)
+                }
+            } catch {
+                Crashlytics.crashlytics().record(error: error)
             }
-        } catch {
-            Crashlytics.crashlytics().record(error: error)
         }
     }
 
@@ -38,16 +42,18 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
         let hymnNumber = hymnIdentifier.hymnNumber
         let queryParams = hymnIdentifier.queryParamString
 
-        let passThrough = CurrentValueSubject<HymnEntity?, ErrorType>(nil)
-        do {
-            let hymnEntity = try databaseQueue.inDatabase { database in
-                try HymnEntity.fetchOne(database,
-                                        sql: "SELECT * FROM SONG_DATA WHERE HYMN_TYPE = ? AND HYMN_NUMBER = ? AND QUERY_PARAMS = ?",
-                                        arguments: [hymnType, hymnNumber, queryParams])
+        let passThrough = PassthroughSubject<HymnEntity?, ErrorType>()
+        backgroundQueue.async {
+            do {
+                let hymnEntity = try self.databaseQueue.inDatabase { database in
+                    try HymnEntity.fetchOne(database,
+                                            sql: "SELECT * FROM SONG_DATA WHERE HYMN_TYPE = ? AND HYMN_NUMBER = ? AND QUERY_PARAMS = ?",
+                                            arguments: [hymnType, hymnNumber, queryParams])
+                }
+                passThrough.send(hymnEntity)
+            } catch {
+                passThrough.send(completion: .failure(.data(description: error.localizedDescription)))
             }
-            passThrough.send(hymnEntity)
-        } catch {
-            passThrough.send(completion: .failure(.data(description: error.localizedDescription)))
         }
         return passThrough.eraseToAnyPublisher()
     }

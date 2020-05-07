@@ -39,7 +39,8 @@ class DisplayHymnViewModel: ObservableObject {
     func fetchHymn() {
         repository
             .getHymn(identifier)
-            .map({ hymn -> String? in
+            .map({ [weak self] hymn -> String? in
+                guard let self = self else { return nil }
                 if self.identifier.hymnType == .classic {
                     return "Hymn \(self.identifier.hymnNumber)"
                 }
@@ -65,7 +66,6 @@ class DisplayHymnViewModel: ObservableObject {
             self.isFavorited = isFavorited
         }
     }
-
     func toggleFavorited() {
         isFavorited.map { isFavorited in
             if isFavorited {
