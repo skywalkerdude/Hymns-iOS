@@ -49,6 +49,7 @@ class DisplayHymnViewModel: ObservableObject {
                 }
                 return hymn.title.replacingOccurrences(of: "Hymn: ", with: "")
             })
+            .subscribe(on: mainQueue)
             .receive(on: mainQueue)
             .sink(
                 receiveValue: { [weak self] title in

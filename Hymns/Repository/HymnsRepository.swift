@@ -46,11 +46,11 @@ class HymnsRepositoryImpl: HymnsRepository {
                 resource.status == .loading
             })
             .map { [weak self] resource -> UiHymn? in
-                guard let hymn = resource.data else {
+                guard let self = self, let hymn = resource.data else {
                     return nil
                 }
 
-                self?.hymns[hymnIdentifier] = hymn
+                self.hymns[hymnIdentifier] = hymn
                 return hymn
         }
         .replaceError(with: nil)
