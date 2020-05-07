@@ -50,7 +50,7 @@ class HymnsRepositoryImpl: HymnsRepository {
                     return nil
                 }
 
-                self?.hymns[hymnIdentifier] = hymn
+//                self?.hymns[hymnIdentifier] = hymn // Unrelated threading issue. Will fix on another PR
                 return hymn
         }
         .replaceError(with: nil)

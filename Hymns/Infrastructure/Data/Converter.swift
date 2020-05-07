@@ -78,7 +78,7 @@ class ConverterImpl: Converter {
             return nil
         }
 
-        guard let lyrics = hymnEntity.lyricsJson, !lyrics.isEmpty, let data = lyrics.data(using: .utf8) else {
+        guard let lyrics = hymnEntity.lyricsJson, !lyrics.isEmpty, let lyricsData = lyrics.data(using: .utf8) else {
             throw TypeConversionError(triggeringError: ErrorType.parsing(description: "lyrics json was empty"))
         }
 
@@ -86,13 +86,16 @@ class ConverterImpl: Converter {
             throw TypeConversionError(triggeringError: ErrorType.parsing(description: "title was empty"))
         }
 
-        guard let pdfSheetJson = hymnEntity.pdfSheetJson, !pdfSheetJson.isEmpty else {
-            throw TypeConversionError(triggeringError: ErrorType.parsing(description: "pdfSheetJson was empty"))
+        let pdfSheet: MetaDatum?
+        if let pdfData = hymnEntity.pdfSheetJson?.data(using: .utf8) {
+            pdfSheet = try? jsonDecoder.decode(MetaDatum.self, from: pdfData)
+        } else {
+            pdfSheet = nil
         }
 
         do {
-            let verses = try jsonDecoder.decode([Verse].self, from: data)
-            return UiHymn(hymnIdentifier: hymnIdentifier, title: title, lyrics: verses, pdfSheetJson: pdfSheetJson)
+            let verses = try jsonDecoder.decode([Verse].self, from: lyricsData)
+            return UiHymn(hymnIdentifier: hymnIdentifier, title: title, lyrics: verses, pdfSheet: pdfSheet)
         } catch {
             throw TypeConversionError(triggeringError: error)
         }
