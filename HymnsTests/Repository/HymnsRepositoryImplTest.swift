@@ -28,8 +28,7 @@ class HymnsRepositoryImplTests: XCTestCase {
         target = HymnsRepositoryImpl(converter: converter, dataStore: dataStore, mainQueue: backgroundQueue, service: service, systemUtil: systemUtil)
     }
 
-    // Unrelated threading issue. Will fix on another PR
-    func ignore_test_getHymn_resultsCached() {
+    func test_getHymn_resultsCached() {
         // Make one request to the db to store it the memcache.
         given(dataStore.getHymn(cebuano123)) ~> { _ in
             Just(self.databaseResult).mapError({ (_) -> ErrorType in
