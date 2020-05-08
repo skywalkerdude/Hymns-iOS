@@ -21,7 +21,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
             describe("fetching hymn") {
                 context("with nil repository result") {
                     beforeEach {
-                        target = DisplayHymnViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository,
+                        target = DisplayHymnViewModel(backgroundQueue: testQueue, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository,
                                                       favoritesStore: favoritesStore, historyStore: historyStore)
                         given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                             Just(nil).assertNoFailure().eraseToAnyPublisher()
@@ -45,7 +45,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                 context("with valid repository results") {
                     context("for a classic hymn 1151") {
                         beforeEach {
-                            target = DisplayHymnViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository,
+                            target = DisplayHymnViewModel(backgroundQueue: testQueue, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository,
                                                           mainQueue: testQueue, favoritesStore: favoritesStore, historyStore: historyStore)
                             let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: [Verse]())
                             given(hymnsRepository.getHymn(classic1151)) ~> { _ in
@@ -63,6 +63,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                             describe("fetching hymn") {
                                 beforeEach {
                                     target.fetchHymn()
+                                    testQueue.sync {}
+                                    testQueue.sync {}
                                     testQueue.sync {}
                                 }
                                 let expectedTitle = "Hymn 1151"
@@ -89,7 +91,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                     }
                     context("for new song 145") {
                         beforeEach {
-                            target = DisplayHymnViewModel(hymnToDisplay: newSong145, hymnsRepository: hymnsRepository,
+                            target = DisplayHymnViewModel(backgroundQueue: testQueue, hymnToDisplay: newSong145, hymnsRepository: hymnsRepository,
                                                           mainQueue: testQueue, favoritesStore: favoritesStore, historyStore: historyStore)
                         }
                         let expectedTitle = "In my spirit, I can see You as You are"
@@ -111,6 +113,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                 describe("fetching hymn") {
                                     beforeEach {
                                         target.fetchHymn()
+                                        testQueue.sync {}
+                                        testQueue.sync {}
                                         testQueue.sync {}
                                     }
                                     it("title should be '\(expectedTitle)'") {
@@ -152,6 +156,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                 describe("fetching hymn") {
                                     beforeEach {
                                         target.fetchHymn()
+                                        testQueue.sync {}
+                                        testQueue.sync {}
                                         testQueue.sync {}
                                     }
                                     it("title should be '\(expectedTitle)'") {
