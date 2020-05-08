@@ -5,6 +5,9 @@ import SwiftUI
 
 class DisplayHymnViewModel: ObservableObject {
 
+    typealias Title = String
+    typealias Lyrics = [Verse]
+
     @Published var title: String = ""
     var hymnLyricsViewModel: HymnLyricsViewModel
     private let backgroundQueue: DispatchQueue
@@ -13,6 +16,7 @@ class DisplayHymnViewModel: ObservableObject {
     private let mainQueue: DispatchQueue
     private let favoritesStore: FavoritesStore
     private let historyStore: HistoryStore
+    @Published var lyrics: Lyrics?
     @Published var chordsUrl: URL?
     @Published var guitarUrl: URL?
     @Published var pianoUrl: URL?
@@ -43,7 +47,7 @@ class DisplayHymnViewModel: ObservableObject {
     func fetchHymn() {
         repository
             .getHymn(identifier)
-            .map({ [weak self] hymn -> String? in
+            .map({ [weak self] hymn -> Title? in
                 guard let self = self else { return nil }
                 if self.identifier.hymnType == .classic {
                     return "Hymn \(self.identifier.hymnNumber)"
@@ -68,16 +72,19 @@ class DisplayHymnViewModel: ObservableObject {
     func fetchHymnChords() {
         repository
             .getHymn(identifier)
-            .map({ hymn -> MetaDatum? in
+            .map({ hymn -> (Lyrics?, MetaDatum?) in
                 guard let hymn = hymn else {
-                    return nil
+                    return (nil, nil)
                 }
-                return hymn.pdfSheet
+                return (hymn.lyrics, hymn.pdfSheet)
             })
             .receive(on: mainQueue)
             .sink(
-                receiveValue: { [weak self] pdfSheet in
+                receiveValue: { [weak self] (lyrics, pdfSheet) in
                     guard let self = self else { return }
+
+                    self.lyrics = lyrics
+
                     let chordsPath = pdfSheet?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.text.rawValue
                     })?.path
