@@ -1,4 +1,5 @@
 import Combine
+import FirebaseCrashlytics
 import Foundation
 import GRDB
 import Resolver
