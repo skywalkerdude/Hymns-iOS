@@ -4,7 +4,6 @@ import Resolver
 import SwiftUI
 
 class DisplayHymnViewModel: ObservableObject {
-    let webviewCache = WebViewPreloader()
 
     typealias Title = String
     typealias Lyrics = [Verse]
@@ -17,6 +16,7 @@ class DisplayHymnViewModel: ObservableObject {
     private let mainQueue: DispatchQueue
     private let favoritesStore: FavoritesStore
     private let historyStore: HistoryStore
+    private let webviewCache: WebViewPreloader
     @Published var lyrics: Lyrics?
     @Published var chordsUrl: URL?
     @Published var guitarUrl: URL?
@@ -31,13 +31,15 @@ class DisplayHymnViewModel: ObservableObject {
          hymnsRepository repository: HymnsRepository = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
          favoritesStore: FavoritesStore = Resolver.resolve(),
-         historyStore: HistoryStore = Resolver.resolve()) {
+         historyStore: HistoryStore = Resolver.resolve(),
+         webviewCache: WebViewPreloader = Resolver.resolve()) {
         self.backgroundQueue = backgroundQueue
         self.identifier = identifier
         self.repository = repository
         self.mainQueue = mainQueue
         self.favoritesStore = favoritesStore
         self.historyStore = historyStore
+        self.webviewCache = webviewCache
         hymnLyricsViewModel = HymnLyricsViewModel(hymnToDisplay: identifier)
     }
 
