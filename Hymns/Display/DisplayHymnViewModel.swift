@@ -91,6 +91,9 @@ class DisplayHymnViewModel: ObservableObject {
                     self.chordsUrl = chordsPath.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     })
+                    if self.chordsUrl != nil {
+                        WebView.preload(url: self.chordsUrl!)
+                    }
 
                     let guitarPath = pdfSheet?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.guitar.rawValue
@@ -98,6 +101,9 @@ class DisplayHymnViewModel: ObservableObject {
                     self.guitarUrl = guitarPath.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     })
+                    if self.guitarUrl != nil {
+                        WebView.preload(url: self.guitarUrl!)
+                    }
 
                     let pianoPath = pdfSheet?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.piano.rawValue
@@ -105,6 +111,9 @@ class DisplayHymnViewModel: ObservableObject {
                     self.pianoUrl = pianoPath.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     })
+                    if self.pianoUrl != nil {
+                        WebView.preload(url: self.pianoUrl!)
+                    }
             }).store(in: &disposables)
     }
 
