@@ -21,6 +21,7 @@ protocol NetworkBoundResource {
      */
     associatedtype UIResultType
 
+    // dummy comment to delete later
     func saveToDatabase(convertedNetworkResult: DatabaseResultType)
 
     func shouldFetch(uiResult: UIResultType?) -> Bool
@@ -57,6 +58,7 @@ extension NetworkBoundResource {
         prework()
         let publisher = CurrentValueSubject<Resource<UIResultType>, ErrorType>(Resource.loading(data: nil))
         var callbackDisposables = Set<AnyCancellable>()
+
         loadFromDatabase()
             .sink(
                 receiveCompletion: { state in

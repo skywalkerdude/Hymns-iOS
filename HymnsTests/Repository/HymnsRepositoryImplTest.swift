@@ -25,7 +25,7 @@ class HymnsRepositoryImplTests: XCTestCase {
         dataStore = mock(HymnDataStore.self)
         service = mock(HymnalApiService.self)
         systemUtil = mock(SystemUtil.self)
-        target = HymnsRepositoryImpl(converter: converter, dataStore: dataStore, service: service, systemUtil: systemUtil)
+        target = HymnsRepositoryImpl(converter: converter, dataStore: dataStore, mainQueue: backgroundQueue, service: service, systemUtil: systemUtil)
     }
 
     // Unrelated threading issue. Will fix on another PR
@@ -44,6 +44,8 @@ class HymnsRepositoryImplTests: XCTestCase {
             .print(self.description)
             .sink(receiveValue: { _ in })
             .store(in: &set)
+
+        backgroundQueue.sync {}
 
         // Clear all invocations on the mock.
         clearInvocations(on: dataStore)

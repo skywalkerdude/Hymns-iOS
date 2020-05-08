@@ -3,13 +3,12 @@ import RealmSwift
 import Resolver
 import SwiftUI
 
-//This view model will expose 4 other view models to be passed through detailhymnscreen to their respective views. HymnLyricsViewModel, GuitarViewModel, PianoViewModel, and ChordsView Model
-//ex. HymnLyricsViewModel -> DetailHymnScreenViewModel -> DetailHymnScreen -> HymnLyricsView
 class DisplayHymnViewModel: ObservableObject {
 
     @Published var title: String = ""
     var hymnLyricsViewModel: HymnLyricsViewModel
-    let identifier: HymnIdentifier
+    private let backgroundQueue: DispatchQueue
+    private let identifier: HymnIdentifier
     private let repository: HymnsRepository
     private let mainQueue: DispatchQueue
     private let favoritesStore: FavoritesStore
@@ -22,11 +21,13 @@ class DisplayHymnViewModel: ObservableObject {
     private var favoritesObserver: Notification?
     private var disposables = Set<AnyCancellable>()
 
-    init(hymnToDisplay identifier: HymnIdentifier,
+    init(backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
+         hymnToDisplay identifier: HymnIdentifier,
          hymnsRepository repository: HymnsRepository = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
          favoritesStore: FavoritesStore = Resolver.resolve(),
          historyStore: HistoryStore = Resolver.resolve()) {
+        self.backgroundQueue = backgroundQueue
         self.identifier = identifier
         self.repository = repository
         self.mainQueue = mainQueue
@@ -52,6 +53,7 @@ class DisplayHymnViewModel: ObservableObject {
                 }
                 return hymn.title.replacingOccurrences(of: "Hymn: ", with: "")
             })
+            .subscribe(on: backgroundQueue)
             .receive(on: mainQueue)
             .sink(
                 receiveValue: { [weak self] title in

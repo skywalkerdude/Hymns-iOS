@@ -17,23 +17,19 @@ protocol HymnDataStore {
  */
 class HymnDataStoreGrdbImpl: HymnDataStore {
 
-    private let backgroundQueue: DispatchQueue
     private let databaseQueue: DatabaseQueue
 
-    init(backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"), databaseQueue: DatabaseQueue) {
-        self.backgroundQueue = backgroundQueue
+    init(databaseQueue: DatabaseQueue) {
         self.databaseQueue = databaseQueue
     }
 
     func saveHymn(_ entity: HymnEntity) {
-        backgroundQueue.async {
-            do {
-                try self.databaseQueue.inDatabase { database in
-                    try entity.insert(database)
-                }
-            } catch {
-                Crashlytics.crashlytics().record(error: error)
+        do {
+            try self.databaseQueue.inDatabase { database in
+                try entity.insert(database)
             }
+        } catch {
+            Crashlytics.crashlytics().record(error: error)
         }
     }
 
@@ -42,20 +38,18 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
         let hymnNumber = hymnIdentifier.hymnNumber
         let queryParams = hymnIdentifier.queryParamString
 
-        let passThrough = PassthroughSubject<HymnEntity?, ErrorType>()
-        backgroundQueue.async {
-            do {
-                let hymnEntity = try self.databaseQueue.inDatabase { database in
-                    try HymnEntity.fetchOne(database,
-                                            sql: "SELECT * FROM SONG_DATA WHERE HYMN_TYPE = ? AND HYMN_NUMBER = ? AND QUERY_PARAMS = ?",
-                                            arguments: [hymnType, hymnNumber, queryParams])
-                }
-                passThrough.send(hymnEntity)
-            } catch {
-                passThrough.send(completion: .failure(.data(description: error.localizedDescription)))
+        let publisher = CurrentValueSubject<HymnEntity?, ErrorType>(nil)
+        do {
+            let hymnEntity = try self.databaseQueue.inDatabase { database -> HymnEntity? in
+                return try HymnEntity.fetchOne(database,
+                                               sql: "SELECT * FROM SONG_DATA WHERE HYMN_TYPE = ? AND HYMN_NUMBER = ? AND QUERY_PARAMS = ?",
+                                               arguments: [hymnType, hymnNumber, queryParams])
             }
+            publisher.send(hymnEntity)
+        } catch {
+            publisher.send(completion: .failure(.data(description: error.localizedDescription)))
         }
-        return passThrough.eraseToAnyPublisher()
+        return publisher.eraseToAnyPublisher()
     }
 }
 
