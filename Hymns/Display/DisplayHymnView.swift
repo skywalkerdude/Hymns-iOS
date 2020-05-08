@@ -32,7 +32,6 @@ struct DisplayHymnView: View {
         }.hideNavigationBar()
             .onAppear {
                 self.viewModel.fetchHymn()
-//                self.viewModel.fetchHymnChords()
         }
     }
 }
