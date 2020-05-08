@@ -184,6 +184,60 @@ class DisplayHymnViewModelSpec: QuickSpec {
                     }
                 }
             }
+            describe("fetching chords") {
+                context("with nil repository result") {
+                    beforeEach {
+                        target = DisplayHymnViewModel(backgroundQueue: testQueue, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository,
+                                                      favoritesStore: favoritesStore, historyStore: historyStore)
+                        given(hymnsRepository.getHymn(classic1151)) ~> { _ in
+                            Just(nil).assertNoFailure().eraseToAnyPublisher()
+                        }
+                    }
+                    describe("performing fetch hymn chords") {
+                        beforeEach {
+                            target.fetchHymnChords()
+                        }
+                        it("Chords should be empty") {
+                            expect(target.chordsUrl).to(beNil())
+                        }
+                        it("Guitar chords should be empty") {
+                            expect(target.guitarUrl).to(beNil())
+                        }
+                        it("Piano sheet music should be empty") {
+                            expect(target.guitarUrl).to(beNil())
+                        }
+                    }
+                }
+                context("with valid repository results") {
+                    context("for a classic hymn 1151") {
+                        beforeEach {
+                            target = DisplayHymnViewModel(backgroundQueue: testQueue, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository,
+                                                          mainQueue: testQueue, favoritesStore: favoritesStore, historyStore: historyStore)
+                            let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: [Verse](), pdfSheet: Hymns.MetaDatum(name: "Lead Sheet", data: [Hymns.Datum(value: "Piano", path: "/en/hymn/c/1151/f=ppdf"), Hymns.Datum(value: "Guitar", path: "/en/hymn/c/1151/f=pdf"), Hymns.Datum(value: "Text", path: "/en/hymn/c/1151/f=gtpdf")]))
+                            given(hymnsRepository.getHymn(classic1151)) ~> { _ in
+                                Just(hymn).assertNoFailure().eraseToAnyPublisher()
+                            }
+                            describe("fetching hymn chords for 1151") {
+                                beforeEach {
+                                    target.fetchHymnChords()
+                                    testQueue.sync {}
+                                    testQueue.sync {}
+                                    testQueue.sync {}
+                                }
+                                it("Piano url should be /en/hymn/c/1151/f=ppdf") {
+                                    expect(target.chordsUrl).to(equal(URL(string: "/en/hymn/c/1151/f=ppdf")))
+                                }
+                                it("Guitar url should be /en/hymn/c/1151/f=pdf") {
+                                    expect(target.guitarUrl).to(equal(URL(string: "/en/hymn/c/1151/f=pdf")))
+                                }
+                                it("Text url should be /en/hymn/c/1151/f=gtpdf") {
+                                    expect(target.pianoUrl).to(equal(URL(string: "/en/hymn/c/1151/f=pdf")))
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
