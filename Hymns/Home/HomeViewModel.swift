@@ -13,6 +13,7 @@ class HomeViewModel: ObservableObject {
     private var recentSongsNotification: Notification?
 
     private var disposables = Set<AnyCancellable>()
+    private let backgroundQueue: DispatchQueue
     private let historyStore: HistoryStore
     private let mainQueue: DispatchQueue
     private let repository: SongResultsRepository
@@ -21,6 +22,7 @@ class HomeViewModel: ObservableObject {
          historyStore: HistoryStore = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
          repository: SongResultsRepository = Resolver.resolve()) {
+        self.backgroundQueue = backgroundQueue
         self.historyStore = historyStore
         self.mainQueue = mainQueue
         self.repository = repository
@@ -38,7 +40,7 @@ class HomeViewModel: ObservableObject {
             // Ignore the first call with an empty string since it's take care of already by $searchActive
             .dropFirst()
             // Debounce works by waiting a bit until the user stops typing and before sending a value
-            .debounce(for: .seconds(0.5), scheduler: mainQueue)
+            .debounce(for: .seconds(0.3), scheduler: mainQueue)
             .sink { searchParameter in
                 if !self.searchActive {
                     return
@@ -98,7 +100,9 @@ class HomeViewModel: ObservableObject {
                     let identifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber)
                     return SongResultViewModel(title: songResult.name, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
                 }
-            }).receive(on: mainQueue)
+            })
+            .subscribe(on: backgroundQueue)
+            .receive(on: mainQueue)
             .sink(
                 receiveCompletion: { [weak self] state in
                     guard let self = self else { return }
@@ -110,8 +114,9 @@ class HomeViewModel: ObservableObject {
                     }
                 },
                 receiveValue: { [weak self] songResults in
-                    self?.isLoading = false
-                    self?.songResults = songResults
+                    guard let self = self else { return }
+                    self.isLoading = false
+                    self.songResults = songResults
             }).store(in: &disposables)
     }
 }
