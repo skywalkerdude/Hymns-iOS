@@ -24,7 +24,8 @@ class HomeViewModelSpec: QuickSpec {
                     return mock(Notification.self)
                 }
                 songResultsRepository = mock(SongResultsRepository.self)
-                target = HomeViewModel(backgroundQueue: testQueue, historyStore: historyStore, mainQueue: testQueue, repository: songResultsRepository)
+                target = HomeViewModel(backgroundQueue: testQueue, historyStore: historyStore,
+                                       mainQueue: testQueue, repository: songResultsRepository)
             }
             let recentHymns = "Recent hymns"
             context("default state") {
@@ -32,7 +33,7 @@ class HomeViewModelSpec: QuickSpec {
                     testQueue.sync {}
                 }
                 it("\"\(recentHymns)\" label should be showing") {
-                    expect(target.label).toEventuallyNot(beNil())
+                    expect(target.label).toNot(beNil())
                     expect(target.label).to(equal(recentHymns))
                 }
                 it("should not still be loading") {
@@ -42,21 +43,20 @@ class HomeViewModelSpec: QuickSpec {
                     verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
                 }
                 it("should display recent songs") {
-                    expect(target.songResults).toEventually(haveCount(2))
+                    expect(target.songResults).to(haveCount(2))
                     expect(target.songResults[0].title).to(equal(recentSongs[0].songTitle))
                     expect(target.songResults[1].title).to(equal(recentSongs[1].songTitle))
                 }
             }
             context("search active") {
                 beforeEach {
-                    testQueue.sync {
-                        target.searchActive = true
-                    }
+                    target.searchActive = true
+                    testQueue.sync {}
                 }
                 context("with empty search parameter") {
                     it("\"\(recentHymns)\" label should be showing") {
-                        expect(target.label).toEventuallyNot(beNil())
-                        expect(target.label).toEventually(equal(recentHymns))
+                        expect(target.label).toNot(beNil())
+                        expect(target.label).to(equal(recentHymns))
                     }
                     it("should not still be loading") {
                         expect(target.isLoading).to(beFalse())
@@ -72,9 +72,7 @@ class HomeViewModelSpec: QuickSpec {
                 }
                 context("with numeric search paramter") {
                     beforeEach {
-                        testQueue.sync {
-                            target.searchParameter = "198 "
-                        }
+                        target.searchParameter = "198 "
                         sleep(1) // allow time for the debouncer to trigger.
                     }
                     it("no label should be showing") {
@@ -97,9 +95,7 @@ class HomeViewModelSpec: QuickSpec {
                                 expect(target.isLoading).to(beTrue())
                                 return Just(nil).eraseToAnyPublisher()
                             }
-                            testQueue.sync {
-                                target.searchParameter = searchParameter + " \n  "
-                            }
+                            target.searchParameter = searchParameter + " \n  "
                             sleep(1) // allow time for the debouncer to trigger.
                         }
                         it("no label should be showing") {
@@ -126,9 +122,7 @@ class HomeViewModelSpec: QuickSpec {
                                 expect(target.isLoading).to(beTrue())
                                 return Just(songResultsPage).eraseToAnyPublisher()
                             }
-                            testQueue.sync {
-                                target.searchParameter = searchParameter
-                            }
+                            target.searchParameter = searchParameter
                             sleep(1) // allow time for the debouncer to trigger.
                         }
                         it("no label should be showing") {
@@ -147,9 +141,7 @@ class HomeViewModelSpec: QuickSpec {
                         }
                         context("search parameter cleared") {
                             beforeEach {
-                                testQueue.sync {
-                                    target.searchParameter = ""
-                                }
+                                target.searchParameter = ""
                                 sleep(1) // allow time for the debouncer to trigger.
                             }
                             it("\"\(recentHymns)\" label should be showing") {
@@ -168,11 +160,9 @@ class HomeViewModelSpec: QuickSpec {
                                 expect(target.songResults[1].title).to(equal(recentSongs[1].songTitle))
                             }
                         }
-                        context("deactiveate search") {
+                        context("deactivate search") {
                             beforeEach {
-                                testQueue.sync {
-                                    target.searchActive = false
-                                }
+                                target.searchActive = false
                                 sleep(1) // allow time for the debouncer to trigger.
                             }
                             it("\"\(recentHymns)\" label should be showing") {
