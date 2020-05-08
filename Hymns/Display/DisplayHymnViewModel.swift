@@ -4,6 +4,7 @@ import Resolver
 import SwiftUI
 
 class DisplayHymnViewModel: ObservableObject {
+    let webviewCache = WebViewPreloader()
 
     typealias Title = String
     typealias Lyrics = [Verse]
@@ -91,8 +92,8 @@ class DisplayHymnViewModel: ObservableObject {
                     self.chordsUrl = chordsPath.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     })
-                    if self.chordsUrl != nil {
-                        WebView.preload(url: self.chordsUrl!)
+                    if let chordsUrl = self.chordsUrl {
+                        self.webviewCache.preload(url: chordsUrl)
                     }
 
                     let guitarPath = pdfSheet?.data.first(where: { datum -> Bool in
@@ -101,8 +102,8 @@ class DisplayHymnViewModel: ObservableObject {
                     self.guitarUrl = guitarPath.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     })
-                    if self.guitarUrl != nil {
-                        WebView.preload(url: self.guitarUrl!)
+                    if let guitarUrl = self.guitarUrl {
+                        self.webviewCache.preload(url: guitarUrl)
                     }
 
                     let pianoPath = pdfSheet?.data.first(where: { datum -> Bool in
@@ -111,8 +112,8 @@ class DisplayHymnViewModel: ObservableObject {
                     self.pianoUrl = pianoPath.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     })
-                    if self.pianoUrl != nil {
-                        WebView.preload(url: self.pianoUrl!)
+                    if let pianoUrl = self.pianoUrl {
+                        self.webviewCache.preload(url: pianoUrl)
                     }
             }).store(in: &disposables)
     }
