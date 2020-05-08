@@ -14,7 +14,7 @@ struct WebView: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
         guard let url = url else {
             // TODO show error state
-             fatalError()
+            return WKWebView() //empty webview
         }
 
         if let webView = WebView.cache[url] {
