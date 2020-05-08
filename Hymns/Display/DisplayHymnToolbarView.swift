@@ -15,28 +15,22 @@ struct DisplayHymnToolbarView: View {
                 Text("LYRICS").foregroundColor(self.toolbarTab == ToolbarTabs.lyrics ? .accentColor : .primary).onTapGesture {
                     self.toolbarTab = ToolbarTabs.lyrics
                 }
-                viewModel.chordsUrl.map { _ in
                     HStack {
                         Spacer()
                         Text("CHORDS").foregroundColor(self.toolbarTab == ToolbarTabs.chords ? .accentColor : .primary).onTapGesture {
                             self.toolbarTab = ToolbarTabs.chords
                         }
                     }
-                }
-                viewModel.chordsUrl.map { _ in
                     HStack {
                         Spacer()
                         Text("GUITAR").foregroundColor(self.toolbarTab == ToolbarTabs.guitar ? .accentColor : .primary).onTapGesture {
                             self.toolbarTab = ToolbarTabs.guitar
                         }
                     }
-                }
-                viewModel.chordsUrl.map { _ in
                     HStack {
                         Spacer()
                         Text("PIANO").foregroundColor(self.toolbarTab == ToolbarTabs.piano ? .accentColor : .primary).onTapGesture {
                             self.toolbarTab = ToolbarTabs.piano
-                        }
                     }
                 }
                 Spacer()
@@ -50,6 +44,12 @@ struct DisplayHymnToolbarView: View {
                 WebView(url: self.viewModel.guitarUrl!)
             } else if self.toolbarTab == ToolbarTabs.piano && self.viewModel.pianoUrl != nil {
                 WebView(url: self.viewModel.pianoUrl!)
+            } else {
+                VStack {
+                    Spacer()
+                    Text("No sheet music is available for this song")
+                    Spacer()
+                }
             }
         }
     }
