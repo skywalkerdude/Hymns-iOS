@@ -66,6 +66,7 @@ class DisplayHymnViewModel: ObservableObject {
                     self.title = title
 
                     self.lyrics = hymn.lyrics
+
                     let chordsPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.text.rawValue
                     })?.path
