@@ -7,5 +7,13 @@ struct UiHymn: Equatable {
     let hymnIdentifier: HymnIdentifier
     let title: String
     let lyrics: [Verse]
+    let pdfSheet: MetaDatum?
     // add more fields as needed
+
+    init(hymnIdentifier: HymnIdentifier, title: String, lyrics: [Verse], pdfSheet: MetaDatum? = nil) {
+        self.hymnIdentifier = hymnIdentifier
+        self.title = title
+        self.lyrics = lyrics
+        self.pdfSheet = pdfSheet
+    }
 }

@@ -26,6 +26,7 @@ extension Resolver: ResolverRegistering {
         registerHistoryStore()
         registerFavoritesStore()
         registerHymnalApiService()
+        registerWebViewPreloader()
         registerRepositories()
         registerHomeViewModel()
         registerFavoritesViewModel()
