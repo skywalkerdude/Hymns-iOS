@@ -48,8 +48,8 @@ class HistoryStoreRealmImpl: HistoryStore {
                 }
                 onChanged(recentSongs)
             case .error(let error):
+                break
                 // TODO handle error
-                print(error)
             }
         }.toNotification()
     }

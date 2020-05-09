@@ -26,12 +26,16 @@ struct HomeView: View {
                 Text($0).fontWeight(.bold).padding(.top).padding(.leading).foregroundColor(Color("darkModeSubtitle"))
             }
 
-            if self.viewModel.isLoading {
+            if viewModel.state == .loading {
                 ActivityIndicator().maxSize()
+            } else if viewModel.state == .empty {
+                Text("Did not find any songs matching:\n\"\(viewModel.searchParameter)\".\nPlease try a different request").padding().multilineTextAlignment(.center).maxSize(alignment: .center)
             } else {
-                List(self.viewModel.songResults) { songResult in
+                List(viewModel.songResults) { songResult in
                     NavigationLink(destination: songResult.destinationView) {
                         SongResultView(viewModel: songResult)
+                    }.onAppear {
+                        self.viewModel.loadMore(at: songResult)
                     }
                 }.resignKeyboardOnDragGesture()
             }
@@ -52,14 +56,19 @@ struct HomeView_Previews: PreviewProvider {
         searchActiveViewModel.searchActive = true
 
         let loadingViewModel = HomeViewModel()
+        loadingViewModel.state = .loading
         loadingViewModel.searchActive = true
         loadingViewModel.searchParameter = "She loves me not"
-        loadingViewModel.isLoading = true
 
         let searchResults = HomeViewModel()
         searchResults.searchActive = true
         searchResults.searchParameter = "Do you love me?"
         searchResults.songResults = [PreviewSongResults.hymn480, PreviewSongResults.hymn1334, PreviewSongResults.hymn1151]
+
+        let noResultsViewModel = HomeViewModel()
+        noResultsViewModel.state = .empty
+        noResultsViewModel.searchActive = true
+        noResultsViewModel.searchParameter = "She loves me not"
 
         return
             Group {
@@ -73,6 +82,8 @@ struct HomeView_Previews: PreviewProvider {
                     .previewDisplayName("Active search loading")
                 HomeView(viewModel: searchResults)
                     .previewDisplayName("Search results")
+                HomeView(viewModel: noResultsViewModel)
+                    .previewDisplayName("No results")
                 HomeView(viewModel: defaultViewModel)
                     .previewDevice(PreviewDevice(rawValue: "iPhone SE"))
                     .previewDisplayName("iPhone SE")
