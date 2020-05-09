@@ -31,7 +31,7 @@ class HymnsRepositoryImplTests: XCTestCase {
     func test_getHymn_resultsCached() {
         // Make one request to the db to store it the memcache.
         given(dataStore.getHymn(cebuano123)) ~> { _ in
-            Just(self.databaseResult).mapError({ (_) -> ErrorType in
+            Just(self.databaseResult).mapError({ _ -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()
         }
@@ -68,7 +68,7 @@ class HymnsRepositoryImplTests: XCTestCase {
 
     func test_getHymn_databaseHit_noNetwork() {
         given(dataStore.getHymn(cebuano123)) ~> { _ in
-            Just(self.databaseResult).mapError({ (_) -> ErrorType in
+            Just(self.databaseResult).mapError({ _ -> ErrorType in
                 .data(description: "This will never get called")
             }).subscribe(on: self.backgroundQueue).eraseToAnyPublisher()
             // Test asynchronous data store call as well to make sure the loading values are being dropped
@@ -93,7 +93,7 @@ class HymnsRepositoryImplTests: XCTestCase {
 
     func test_getHymn_databaseMiss_noNetwork() {
         given(dataStore.getHymn(cebuano123)) ~> { _ in
-            Just(nil).mapError({ (_) -> ErrorType in
+            Just(nil).mapError({ _ -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()
         }
@@ -117,7 +117,7 @@ class HymnsRepositoryImplTests: XCTestCase {
 
     func test_getHymn_databaseHit_networkAvailable() {
         given(dataStore.getHymn(cebuano123)) ~> { _ in
-            Just(self.databaseResult).mapError({ (_) -> ErrorType in
+            Just(self.databaseResult).mapError({ _ -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()
         }
@@ -141,17 +141,17 @@ class HymnsRepositoryImplTests: XCTestCase {
 
     func test_getHymn_databaseMiss_networkAvailable_networkError() {
         given(dataStore.getHymn(cebuano123)) ~> { _ in
-            Just(nil).mapError({ (_) -> ErrorType in
+            Just(nil).mapError({ _ -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()
         }
         given(systemUtil.isNetworkAvailable()) ~> true
         given(service.getHymn(cebuano123)) ~> { _ in
             Just(self.networkResult)
-                .tryMap({ (_) -> Hymn in
+                .tryMap({ _ -> Hymn in
                     throw URLError(.badServerResponse)
                 })
-                .mapError({ (_) -> ErrorType in
+                .mapError({ _ -> ErrorType in
                     ErrorType.data(description: "forced network error")
                 }).eraseToAnyPublisher()
         }
@@ -173,13 +173,13 @@ class HymnsRepositoryImplTests: XCTestCase {
 
     func test_getHymn_databaseMiss_networkAvailable_resultsSuccessful() {
         given(dataStore.getHymn(cebuano123)) ~> { _ in
-            return Just(nil).mapError({ (_) -> ErrorType in
+            return Just(nil).mapError({ _ -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()
         }
         given(systemUtil.isNetworkAvailable()) ~> true
         given(service.getHymn(cebuano123)) ~> {  _ in
-            return Just(self.networkResult).mapError({ (_) -> ErrorType in
+            return Just(self.networkResult).mapError({ _ -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()
         }
@@ -203,7 +203,7 @@ class HymnsRepositoryImplTests: XCTestCase {
 
     func test_getHymn_databaseHit_databaseConversionError_noNetwork() {
         given(dataStore.getHymn(cebuano123)) ~> { _ in
-            Just(self.databaseResult).mapError({ (_) -> ErrorType in
+            Just(self.databaseResult).mapError({ _ -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()
         }
@@ -230,13 +230,13 @@ class HymnsRepositoryImplTests: XCTestCase {
 
     func test_getHymn_databaseMiss_networkConversionError() {
         given(dataStore.getHymn(cebuano123)) ~> { _ in
-            Just(nil).mapError({ (_) -> ErrorType in
+            Just(nil).mapError({ _ -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()
         }
         given(systemUtil.isNetworkAvailable()) ~> true
         given(service.getHymn(cebuano123)) ~> {  _ in
-            Just(self.networkResult).mapError({ (_) -> ErrorType in
+            Just(self.networkResult).mapError({ _ -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()
         }

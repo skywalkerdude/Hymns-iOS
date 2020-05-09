@@ -11,6 +11,9 @@ extension NotificationToken {
  * Protocol wapper for `NotificationToken` for ease of testing.
  */
 protocol Notification {
+    /**
+     * Stops notifications for the change subscription that returned this token.
+     */
     func invalidate()
 }
 
