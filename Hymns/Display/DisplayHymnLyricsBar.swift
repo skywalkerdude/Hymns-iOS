@@ -16,7 +16,7 @@ struct DisplayHymnLyricsBar: View {
             viewModel.lyrics.map {_ in
                 HStack {
                     Spacer()
-                    Text(HymnLyricsTab.lyrics.rawValue)
+                    Text(HymnLyricsTab.lyrics.label)
                         .foregroundColor(currentLyricsTab == .lyrics ? .accentColor : .primary)
                         .onTapGesture {
                             self.currentLyricsTab = .lyrics
@@ -27,7 +27,7 @@ struct DisplayHymnLyricsBar: View {
             viewModel.chordsUrl.map { _ in
                 HStack {
                     Spacer()
-                    Text(HymnLyricsTab.chords.rawValue)
+                    Text(HymnLyricsTab.chords.label)
                         .foregroundColor(currentLyricsTab == .chords ? .accentColor : .primary)
                         .onTapGesture {
                             self.currentLyricsTab = .chords
@@ -38,7 +38,7 @@ struct DisplayHymnLyricsBar: View {
             viewModel.guitarUrl.map { _ in
                 HStack {
                     Spacer()
-                    Text(HymnLyricsTab.guitar.rawValue)
+                    Text(HymnLyricsTab.guitar.label)
                         .foregroundColor(currentLyricsTab == .guitar ? .accentColor : .primary)
                         .onTapGesture {
                             self.currentLyricsTab = .guitar
@@ -49,7 +49,7 @@ struct DisplayHymnLyricsBar: View {
             viewModel.pianoUrl.map { _ in
                 HStack {
                     Spacer()
-                    Text(HymnLyricsTab.piano.rawValue)
+                    Text(HymnLyricsTab.piano.label)
                         .foregroundColor(currentLyricsTab == .piano ? .accentColor : .primary)
                         .onTapGesture {
                             self.currentLyricsTab = .piano
