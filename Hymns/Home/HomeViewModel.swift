@@ -17,15 +17,18 @@ class HomeViewModel: ObservableObject {
     private var recentSongsNotification: Notification?
 
     private var disposables = Set<AnyCancellable>()
+    private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue
     private let historyStore: HistoryStore
     private let mainQueue: DispatchQueue
     private let repository: SongResultsRepository
 
-    init(backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
+    init(analytics: AnalyticsLogger = Resolver.resolve(),
+         backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
          historyStore: HistoryStore = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
          repository: SongResultsRepository = Resolver.resolve()) {
+        self.analytics = analytics
         self.backgroundQueue = backgroundQueue
         self.historyStore = historyStore
         self.mainQueue = mainQueue
@@ -39,6 +42,7 @@ class HomeViewModel: ObservableObject {
         $searchActive
             .receive(on: mainQueue)
             .sink { searchActive in
+                self.analytics.logSearchActive(isActive: searchActive)
                 if !searchActive {
                     self.resetState()
                     self.fetchRecentSongs()
@@ -51,7 +55,8 @@ class HomeViewModel: ObservableObject {
             .dropFirst()
             // Debounce works by waiting a bit until the user stops typing and before sending a value
             .debounce(for: .seconds(0.3), scheduler: mainQueue)
-            .sink { _ in
+            .sink { searchParameter in
+                self.analytics.logQueryChanged(queryText: searchParameter)
                 self.refreshSearchResults()
         }.store(in: &disposables)
     }
