@@ -154,16 +154,13 @@ extension Resolver {
      *   NOTE: These fallbacks need to be tested manually, as there is no way to mock/stub these file system interactions.
      */
     public static func registerHymnDataStore() {
-        // TODO add Firebase Analytics to find out how often these database fallbacks are needed
         register(HymnDataStore.self) {
-
             let fileManager = FileManager.default
             guard let dbPath =
                 try? fileManager.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
                     .appendingPathComponent("hymnaldb-v12.sqlite")
                     .path else {
-                        // The path to the database that we want to create is nil, so just create an in-memory one
-                        // and initialize it with empty tables as a fallback.
+                        Crashlytics.crashlytics().log("The desired path in Application Support is nil, so we are unable to create a databse file. Fall back to useing an in-memory db and initialize it with empty tables")
                         return HymnDataStoreGrdbImpl(databaseQueue: DatabaseQueue(), initializeTables: true) as HymnDataStore
             }
 
@@ -174,8 +171,7 @@ extension Resolver {
                 // https://github.com/groue/GRDB.swift#how-do-i-open-a-database-stored-as-a-resource-of-my-application
                 if !fileManager.fileExists(atPath: dbPath) {
                     guard let bundledDbPath = Bundle.main.path(forResource: "hymnaldb-v12", ofType: "sqlite") else {
-                        // Path to the bundled database was not found, so we need to initialize empty tables upon
-                        // database creation.
+                        Crashlytics.crashlytics().log("Path to the bundled database was not found, so just create an empty database instead and initialize it with empty tables")
                         needToCreateTables = true
                         break outer
                     }
@@ -183,8 +179,7 @@ extension Resolver {
                     needToCreateTables = false
                 }
             } catch {
-                // Unable to copy bundled data to over, so assume we have an empty database file that we need to initialize
-                // with empty tables.
+                Crashlytics.crashlytics().log("Unable to copy bundled data to the Application Support directly, so just create an empty database there instead and initialize it with empty tables")
                 needToCreateTables = true
             }
 
@@ -192,8 +187,7 @@ extension Resolver {
             do {
                 databaseQueue = try DatabaseQueue(path: dbPath)
             } catch {
-                // Unable to create database queue at the desired path, so create an in-memory one and initialize it with
-                // empty tables as a fallback.
+                Crashlytics.crashlytics().log("Unable to create database queue at the desired path, so create an in-memory one and initialize it with empty tables as a fallback")
                 databaseQueue = DatabaseQueue()
                 needToCreateTables = true
             }
