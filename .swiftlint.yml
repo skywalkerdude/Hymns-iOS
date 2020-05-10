@@ -44,6 +44,9 @@ type_name:
     - HymnalApiService_GetHymnTest
     - HymnalApiService_GetHymnSpec
     - HymnalApiService_SearchTest
+    - HymnsRepositoryImpl_dbInitialized_dbHitTests
+    - HymnsRepositoryImpl_dbInitialized_dbMissTests
+    - HymnsRepositoryImpl_dbUninitializedTests
 
 # https://stackoverflow.com/questions/39665790/swiftlint-exclude-file-for-specific-rule
 identifier_name:
