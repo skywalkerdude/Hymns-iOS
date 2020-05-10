@@ -30,6 +30,7 @@ struct DisplayHymnToolbar: View {
     }
 }
 
+#if DEBUG
 struct DisplayHymnToolbar_Previews: PreviewProvider {
     static var previews: some View {
         let loading = DisplayHymnToolbar(viewModel: DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
@@ -56,3 +57,4 @@ struct DisplayHymnToolbar_Previews: PreviewProvider {
         }.previewLayout(.fixed(width: 400, height: 50))
     }
 }
+#endif
