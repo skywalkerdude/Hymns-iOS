@@ -28,7 +28,7 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
         target = HymnsRepositoryImpl(converter: converter, dataStore: dataStore, mainQueue: backgroundQueue, service: service, systemUtil: systemUtil)
         given(dataStore.getDatabaseInitializedProperly()) ~> true
         given(dataStore.getHymn(cebuano123)) ~> { _ in
-            Just(self.databaseResult).mapError({ (_) -> ErrorType in
+            Just(self.databaseResult).mapError({ _ -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()
         }

@@ -28,7 +28,7 @@ class HymnsRepositoryImpl_dbInitialized_dbMissTests: XCTestCase {
         target = HymnsRepositoryImpl(converter: converter, dataStore: dataStore, mainQueue: backgroundQueue, service: service, systemUtil: systemUtil)
         given(dataStore.getDatabaseInitializedProperly()) ~> true
         given(dataStore.getHymn(cebuano123)) ~> { _ in
-            Just(nil).mapError({ (_) -> ErrorType in
+            Just(nil).mapError({ _ -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()
         }
@@ -57,10 +57,10 @@ class HymnsRepositoryImpl_dbInitialized_dbMissTests: XCTestCase {
         given(systemUtil.isNetworkAvailable()) ~> true
         given(service.getHymn(cebuano123)) ~> { _ in
             Just(self.networkResult)
-                .tryMap({ (_) -> Hymn in
+                .tryMap({ _ -> Hymn in
                     throw URLError(.badServerResponse)
                 })
-                .mapError({ (_) -> ErrorType in
+                .mapError({ _ -> ErrorType in
                     ErrorType.data(description: "forced network error")
                 }).eraseToAnyPublisher()
         }
@@ -83,7 +83,7 @@ class HymnsRepositoryImpl_dbInitialized_dbMissTests: XCTestCase {
     func test_getHymn_networkAvailable_resultsSuccessful() {
         given(systemUtil.isNetworkAvailable()) ~> true
         given(service.getHymn(cebuano123)) ~> {  _ in
-            return Just(self.networkResult).mapError({ (_) -> ErrorType in
+            return Just(self.networkResult).mapError({ _ -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()
         }
@@ -108,7 +108,7 @@ class HymnsRepositoryImpl_dbInitialized_dbMissTests: XCTestCase {
     func test_getHymn_networkConversionError() {
         given(systemUtil.isNetworkAvailable()) ~> true
         given(service.getHymn(cebuano123)) ~> {  _ in
-            Just(self.networkResult).mapError({ (_) -> ErrorType in
+            Just(self.networkResult).mapError({ _ -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()
         }

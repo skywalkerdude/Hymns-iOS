@@ -37,8 +37,7 @@ struct WebView: UIViewRepresentable {
         }
 
         if uiView.url == nil {
-        print("Having to load afresh")
-        uiView.load(URLRequest(url: url))
+            uiView.load(URLRequest(url: url))
         }
     }
 }

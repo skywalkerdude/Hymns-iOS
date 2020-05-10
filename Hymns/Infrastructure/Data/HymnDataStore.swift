@@ -62,7 +62,7 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
                     //   SONG_META_DATA_LANGUAGES TEXT,
                     //   SONG_META_DATA_RELEVANT TEXT
                     // )
-                    try database.create(table: tableName) { table in
+                    try database.create(table: tableName, ifNotExists: true) { table in
                         table.autoIncrementedPrimaryKey(HymnEntity.CodingKeys.id.rawValue)
                         table.column(HymnEntity.CodingKeys.hymnType.rawValue, .text).notNull()
                         table.column(HymnEntity.CodingKeys.hymnNumber.rawValue, .text).notNull()
@@ -89,14 +89,16 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
                     try database.create(index: "index_SONG_DATA_HYMN_TYPE_HYMN_NUMBER_QUERY_PARAMS",
                                         on: tableName,
                                         columns: [HymnEntity.CodingKeys.hymnType.rawValue, HymnEntity.CodingKeys.hymnNumber.rawValue, HymnEntity.CodingKeys.queryParams.rawValue],
-                                        unique: true)
+                                        unique: true,
+                                        ifNotExists: true)
 
                     // CREATE INDEX IF NOT EXISTS index_SONG_DATA_ID ON SONG_DATA (ID)
                     try database.create(index: "index_SONG_DATA_ID",
                                         on: tableName,
                                         columns: [HymnEntity.CodingKeys.id.rawValue],
-                                        unique: false)
-                    try database.create(virtualTable: "SEARCH_VIRTUAL_SONG_DATA", using: FTS4()) { table in
+                                        unique: false,
+                                        ifNotExists: true)
+                    try database.create(virtualTable: "SEARCH_VIRTUAL_SONG_DATA", ifNotExists: true, using: FTS4()) { table in
                         table.tokenizer = .porter
                         table.column(HymnEntity.CodingKeys.title.rawValue)
                         table.column(HymnEntity.CodingKeys.lyricsJson.rawValue)
@@ -141,12 +143,20 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
 }
 
 extension Resolver {
+
+    /**
+     * Creates the hymn database and attempt to copy over the bundled database with fallbacks:
+     *   1) Try to import bundled database. If that fails...
+     *   2) Create a new database file and initialize it with empty tables. If that fails...
+     *   3) Create an in-memory database and initialize it with empty tables. And if all fails...
+     *   4) Indicate that the database isn't initialized correctly so that other classes will know to not use it
+     *
+     *   NOTE: These fallbacks need to be tested manually, as there is no way to mock/stub these file system interactions.
+     */
     public static func registerHymnDataStore() {
         // TODO add Firebase Analytics to find out how often these database fallbacks are needed
         register(HymnDataStore.self) {
 
-            // Need to copy the bundled database into the Application Support directory on order for GRDB to access it
-            // https://github.com/groue/GRDB.swift#how-do-i-open-a-database-stored-as-a-resource-of-my-application
             let fileManager = FileManager.default
             guard let dbPath =
                 try? fileManager.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
@@ -160,6 +170,8 @@ extension Resolver {
             /// Whether or not we need to create the tables for the database.
             var needToCreateTables: Bool = false
             outer: do {
+                // Need to copy the bundled database into the Application Support directory on order for GRDB to access it
+                // https://github.com/groue/GRDB.swift#how-do-i-open-a-database-stored-as-a-resource-of-my-application
                 if !fileManager.fileExists(atPath: dbPath) {
                     guard let bundledDbPath = Bundle.main.path(forResource: "hymnaldb-v12", ofType: "sqlite") else {
                         // Path to the bundled database was not found, so we need to initialize empty tables upon

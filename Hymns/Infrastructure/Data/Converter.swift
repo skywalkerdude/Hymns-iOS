@@ -33,10 +33,7 @@ class ConverterImpl: Converter {
         let pdfSheetJson = hymn.getMetaDatum(name: .pdfSheet) != nil ? try? jsonEncoder.encode(hymn.getMetaDatum(name: .pdfSheet)).toString : nil
         let languagesJson = hymn.getMetaDatum(name: .languages) != nil ? try? jsonEncoder.encode(hymn.getMetaDatum(name: .languages)).toString : nil
         let relevantJson = hymn.getMetaDatum(name: .relevant) != nil ? try? jsonEncoder.encode(hymn.getMetaDatum(name: .relevant)).toString : nil
-        return HymnEntity(id: 0,
-                          hymnType: hymnIdentifier.hymnType.abbreviatedValue,
-                          hymnNumber: hymnIdentifier.hymnNumber,
-                          queryParams: hymnIdentifier.queryParamString,
+        return HymnEntity(hymnIdentifier: hymnIdentifier,
                           title: title,
                           lyricsJson: lyricsJson,
                           category: category,
