@@ -15,6 +15,12 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                 target = HymnDataStoreGrdbImpl(databaseQueue: inMemoryDBQueue, initializeTables: true)
             }
 
+            describe("the database") {
+                it("should have been initialized successfully") {
+                    expect(target.databaseInitializedProperly).to(beTrue())
+                }
+            }
+
             describe("save a few songs") {
                 beforeEach {
                     target.saveHymn(HymnEntity(hymnIdentifier: classic1151))

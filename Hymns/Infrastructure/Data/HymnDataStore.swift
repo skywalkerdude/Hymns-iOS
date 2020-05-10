@@ -25,7 +25,7 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
 
     let tableName = "SONG_DATA"
 
-    private(set) var databaseInitializedProperly = false
+    private(set) var databaseInitializedProperly = true
 
     private let databaseQueue: DatabaseQueue
 
@@ -101,7 +101,6 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
                         table.column(HymnEntity.CodingKeys.title.rawValue)
                         table.column(HymnEntity.CodingKeys.lyricsJson.rawValue)
                     }
-                    databaseInitializedProperly = true
                 } catch {
                     databaseInitializedProperly = false
                     Crashlytics.crashlytics().log("unable to create tables for data store. Error: \(error.localizedDescription)")
