@@ -1,3 +1,4 @@
+import FirebaseCrashlytics
 import Foundation
 import RealmSwift
 import Resolver
@@ -28,13 +29,13 @@ class FavoritesStoreRealmImpl: FavoritesStore {
                 realm.add(entity, update: .modified)
             }
         } catch {
-            // TODO log in firebase
+            Crashlytics.crashlytics().log("error orccured when storing favorite \(entity): \(error.localizedDescription)")
         }
     }
 
     func deleteFavorite(primaryKey: String) {
         guard let entityToDelete = realm.object(ofType: FavoriteEntity.self, forPrimaryKey: primaryKey) else {
-            // TODO log in firebase
+            Crashlytics.crashlytics().log("tried to delete a favorite that didn't exist: \(primaryKey)")
             return
         }
 
@@ -43,7 +44,7 @@ class FavoritesStoreRealmImpl: FavoritesStore {
                 realm.delete(entityToDelete)
             }
         } catch {
-            // TODO log in firebase
+            Crashlytics.crashlytics().log("error orccured when deleting favorite \(primaryKey): \(error.localizedDescription)")
         }
     }
 

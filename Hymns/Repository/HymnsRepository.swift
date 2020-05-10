@@ -1,4 +1,5 @@
 import Combine
+import FirebaseCrashlytics
 import Foundation
 import Resolver
 
@@ -95,7 +96,7 @@ class HymnsRepositoryImpl: HymnsRepository {
             do {
                 return try converter.toHymnEntity(hymnIdentifier: hymnIdentifier, hymn: networkResult)
             } catch {
-                // TODO Firebase non-fatal
+                Crashlytics.crashlytics().log("error orccured when converting \(networkResult) to HymnEntity: \(error.localizedDescription)")
                 throw TypeConversionError(triggeringError: error)
             }
         }
@@ -107,7 +108,7 @@ class HymnsRepositoryImpl: HymnsRepository {
             do {
                 return try converter.toUiHymn(hymnIdentifier: hymnIdentifier, hymnEntity: databaseResult)
             } catch {
-                // TODO Firebase non-fatal
+                Crashlytics.crashlytics().log("error orccured when converting \(String(describing: databaseResult)) to UiHymn: \(error.localizedDescription)")
                 throw TypeConversionError(triggeringError: error)
             }
         }

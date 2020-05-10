@@ -1,3 +1,4 @@
+import FirebaseCrashlytics
 import Foundation
 import RealmSwift
 import Resolver
@@ -32,7 +33,7 @@ class HistoryStoreRealmImpl: HistoryStore {
                     realm.delete(entitiesToDelete)
                 }
             } catch {
-                // TODO log in firebase
+                Crashlytics.crashlytics().log("error orccured when deleting recent songs \(entitiesToDelete): \(error.localizedDescription)")
             }
         }
 
@@ -48,8 +49,7 @@ class HistoryStoreRealmImpl: HistoryStore {
                 }
                 onChanged(recentSongs)
             case .error(let error):
-                break
-                // TODO handle error
+                Crashlytics.crashlytics().log("error orccured while observing recent songs: \(error.localizedDescription)")
             }
         }.toNotification()
     }
@@ -64,7 +64,7 @@ class HistoryStoreRealmImpl: HistoryStore {
                     update: .modified)
             }
         } catch {
-            // TODO log in firebase
+            Crashlytics.crashlytics().log("error orccured when storing recent song \(hymnIdentifier), titled \(songTitle): \(error.localizedDescription)")
         }
     }
 }
