@@ -113,6 +113,13 @@ class HymnsRepositoryImpl: HymnsRepository {
         }
 
         func loadFromDatabase() -> AnyPublisher<HymnEntity?, ErrorType> {
+            if !dataStore.databaseInitializedProperly {
+                return Just<HymnEntity?>(nil).tryMap { _ -> HymnEntity? in
+                    throw ErrorType.data(description: "database was not intialized properly")
+                }.mapError({ error -> ErrorType in
+                    ErrorType.data(description: error.localizedDescription)
+                }).eraseToAnyPublisher()
+            }
             return dataStore.getHymn(hymnIdentifier)
         }
 

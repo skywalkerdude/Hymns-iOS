@@ -31,6 +31,11 @@ class HomeViewModel: ObservableObject {
         self.mainQueue = mainQueue
         self.repository = repository
 
+        // Initialize HymnDataStore early and start doing the heavy copying work on the background.
+        backgroundQueue.async {
+            let _: HymnDataStore = Resolver.resolve()
+        }
+
         $searchActive
             .receive(on: mainQueue)
             .sink { searchActive in
