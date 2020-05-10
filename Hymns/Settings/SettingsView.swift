@@ -1,3 +1,4 @@
+import FirebaseAnalytics
 import Resolver
 import SwiftUI
 
@@ -16,6 +17,8 @@ struct SettingsView: View {
                     setting.view
                 }
             }
+        }.onAppear {
+            Analytics.setScreenName("SettingsView", screenClass: "SettingsViewModel")
         }
     }
 }

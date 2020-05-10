@@ -1,3 +1,4 @@
+import FirebaseAnalytics
 import SwiftUI
 import Resolver
 
@@ -31,6 +32,7 @@ struct DisplayHymnView: View {
             }
         }.hideNavigationBar()
             .onAppear {
+                Analytics.setScreenName("DisplayHymnView", screenClass: "DisplayHymnViewModel")
                 self.viewModel.fetchHymn()
         }
     }

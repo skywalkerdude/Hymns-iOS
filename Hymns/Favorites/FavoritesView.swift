@@ -1,3 +1,4 @@
+import FirebaseAnalytics
 import Resolver
 import SwiftUI
 
@@ -22,6 +23,7 @@ struct FavoritesView: View {
                 }.resignKeyboardOnDragGesture()
             }
         }.onAppear {
+            Analytics.setScreenName("FavoritesView", screenClass: "FavoritesViewModel")
             self.viewModel.fetchFavorites()
         }
     }

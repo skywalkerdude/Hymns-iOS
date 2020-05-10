@@ -1,3 +1,4 @@
+import FirebaseAnalytics
 import Resolver
 import SwiftUI
 
@@ -39,6 +40,8 @@ struct HomeView: View {
                     }
                 }.resignKeyboardOnDragGesture()
             }
+        }.onAppear {
+            Analytics.setScreenName("HomeView", screenClass: "HomeViewModel")
         }
     }
 }

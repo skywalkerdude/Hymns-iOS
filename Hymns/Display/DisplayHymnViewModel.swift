@@ -10,6 +10,7 @@ class DisplayHymnViewModel: ObservableObject {
 
     @Published var title: String = ""
     var hymnLyricsViewModel: HymnLyricsViewModel
+    private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue
     private let identifier: HymnIdentifier
     private let repository: HymnsRepository
@@ -26,13 +27,15 @@ class DisplayHymnViewModel: ObservableObject {
     private var favoritesObserver: Notification?
     private var disposables = Set<AnyCancellable>()
 
-    init(backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
+    init(analytics: AnalyticsLogger = Resolver.resolve(),
+         backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
          hymnToDisplay identifier: HymnIdentifier,
          hymnsRepository repository: HymnsRepository = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
          favoritesStore: FavoritesStore = Resolver.resolve(),
          historyStore: HistoryStore = Resolver.resolve(),
          webviewCache: WebViewPreloader = Resolver.resolve()) {
+        self.analytics = analytics
         self.backgroundQueue = backgroundQueue
         self.identifier = identifier
         self.repository = repository
@@ -48,6 +51,7 @@ class DisplayHymnViewModel: ObservableObject {
     }
 
     func fetchHymn() {
+        analytics.logDisplaySong(hymnIdentifier: identifier)
         repository
             .getHymn(identifier)
             .subscribe(on: backgroundQueue)

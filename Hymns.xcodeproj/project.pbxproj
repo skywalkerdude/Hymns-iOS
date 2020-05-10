@@ -88,6 +88,8 @@
 		3BC53641243EB13E00DA728F /* SongRepositoryImplTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC53640243EB13E00DA728F /* SongRepositoryImplTest.swift */; };
 		3BC53646243EDB8100DA728F /* TestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC53645243EDB8100DA728F /* TestConstants.swift */; };
 		3BD345E32442EC5200F5DF2E /* HymnalApiService_GetHymnSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD345E22442EC5200F5DF2E /* HymnalApiService_GetHymnSpec.swift */; };
+		3BD4F51124689E7300352009 /* AnalyticsLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD4F51024689E7300352009 /* AnalyticsLogger.swift */; };
+		3BD4F51324689F8B00352009 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD4F51224689F8B00352009 /* EventType.swift */; };
 		3BE9EE94244AAA850098699E /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE9EE93244AAA850098699E /* WebView.swift */; };
 		3BE9EE98244AB8650098699E /* PrivacyPolicySettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE9EE97244AB8650098699E /* PrivacyPolicySettingView.swift */; };
 		3BE9EE9A244AC22C0098699E /* PrivacyPolicySettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE9EE99244AC22C0098699E /* PrivacyPolicySettingViewModel.swift */; };
@@ -223,6 +225,8 @@
 		3BC53640243EB13E00DA728F /* SongRepositoryImplTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongRepositoryImplTest.swift; sourceTree = "<group>"; };
 		3BC53645243EDB8100DA728F /* TestConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestConstants.swift; sourceTree = "<group>"; };
 		3BD345E22442EC5200F5DF2E /* HymnalApiService_GetHymnSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnalApiService_GetHymnSpec.swift; sourceTree = "<group>"; };
+		3BD4F51024689E7300352009 /* AnalyticsLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsLogger.swift; sourceTree = "<group>"; };
+		3BD4F51224689F8B00352009 /* EventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventType.swift; sourceTree = "<group>"; };
 		3BE9EE93244AAA850098699E /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		3BE9EE97244AB8650098699E /* PrivacyPolicySettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicySettingView.swift; sourceTree = "<group>"; };
 		3BE9EE99244AC22C0098699E /* PrivacyPolicySettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicySettingViewModel.swift; sourceTree = "<group>"; };
@@ -496,6 +500,7 @@
 		3B59359724353C8D00E6993C /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				3BD4F50F24689E5C00352009 /* Analytics */,
 				3B5935B92435B75100E6993C /* Dependency Injection */,
 				3B59359D24355EA500E6993C /* Data */,
 				3B3A2A0F244D7C65001BF689 /* Application+Extensions.swift */,
@@ -645,6 +650,15 @@
 				3BC1329824385C420082A274 /* HomeTab.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		3BD4F50F24689E5C00352009 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				3BD4F51024689E7300352009 /* AnalyticsLogger.swift */,
+				3BD4F51224689F8B00352009 /* EventType.swift */,
+			);
+			path = Analytics;
 			sourceTree = "<group>";
 		};
 		8E21761C8B5F357ED0CB6D4E /* Pods */ = {
@@ -1110,8 +1124,10 @@
 				3B25C0E824503B6900C435E1 /* RecentSong.swift in Sources */,
 				5CA7849E242D14C800B57903 /* FavoritesView.swift in Sources */,
 				3BA32C7E245256A0000ABD9F /* Notification.swift in Sources */,
+				3BD4F51324689F8B00352009 /* EventType.swift in Sources */,
 				3B45B906243BF1C900D38BEF /* PreviewSongResults.swift in Sources */,
 				3BF699AF24417921005AFF6A /* VerseView.swift in Sources */,
+				3BD4F51124689E7300352009 /* AnalyticsLogger.swift in Sources */,
 				3B877E7A245FBD31004C10DD /* NetworkBoundResource.swift in Sources */,
 				3B5935A62435848F00E6993C /* Datum.swift in Sources */,
 			);
