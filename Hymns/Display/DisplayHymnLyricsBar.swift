@@ -19,56 +19,8 @@ struct DisplayHymnLyricsBar: View {
                 .chords,
                 .guitar,
                 .piano
-                ])
+            ], viewModel: self.viewModel)
             .edgesIgnoringSafeArea(.top)
-            /*
-            viewModel.lyrics.map {_ in
-                HStack {
-                    Spacer()
-                    Text(HymnLyricsTab.lyrics.label)
-                        .foregroundColor(currentLyricsTab == .lyrics ? .accentColor : .primary)
-                        .onTapGesture {
-                            self.currentLyricsTab = .lyrics
-                    }
-                    Spacer()
-                }
-            }
-            viewModel.chordsUrl.map { _ in
-                HStack {
-                    Spacer()
-                    Text(HymnLyricsTab.chords.label)
-                        .foregroundColor(currentLyricsTab == .chords ? .accentColor : .primary)
-                        .onTapGesture {
-                            self.currentLyricsTab = .chords
-                    }
-                    Spacer()
-                }
-            }
-            viewModel.guitarUrl.map { _ in
-                HStack {
-                    Spacer()
-                    Text(HymnLyricsTab.guitar.label)
-                        .foregroundColor(currentLyricsTab == .guitar ? .accentColor : .primary)
-                        .onTapGesture {
-                            self.currentLyricsTab = .guitar
-                    }
-                    Spacer()
-                }
-            }
-            viewModel.pianoUrl.map { _ in
-                HStack {
-                    Spacer()
-                    Text(HymnLyricsTab.piano.label)
-                        .foregroundColor(currentLyricsTab == .piano ? .accentColor : .primary)
-                        .onTapGesture {
-                            self.currentLyricsTab = .piano
-                    }
-                    Spacer()
-
-                }
-            }
-            }
- */
         }
     }
 }

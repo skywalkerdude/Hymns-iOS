@@ -26,7 +26,7 @@ extension HymnLyricsTab: TabItem {
 
 var id: HymnLyricsTab { self }
 
-    //HOW CAN I PASS IN VARIABLES THROUGH AN ENUM?! Like view model or urls? 
+//NOT BEING USED RIGHT NOW. CAN REMOVE BUT ITS STILL IN THE PROTOCOL FOR NOW
 var content: some View {
     switch self {
     case .lyrics:
@@ -54,13 +54,13 @@ var content: some View {
 var a11yLabel: Text {
     switch self {
     case .lyrics:
-        return Text("Search tab")
+        return Text("lyrics")
     case .guitar:
-        return Text("Favorites tab")
+        return Text("guitar")
     case .chords:
-        return Text("Browse tab")
+        return Text("chords")
     case .piano:
-        return Text("Settings tab")
+        return Text("piano")
     }
 }
 }
