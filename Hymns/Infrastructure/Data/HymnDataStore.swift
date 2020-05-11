@@ -2,6 +2,7 @@ import Combine
 import FirebaseCrashlytics
 import Foundation
 import GRDB
+import GRDBCombine
 import Resolver
 
 /**
@@ -131,18 +132,15 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
         let hymnNumber = hymnIdentifier.hymnNumber
         let queryParams = hymnIdentifier.queryParamString
 
-        let publisher = CurrentValueSubject<HymnEntity?, ErrorType>(nil)
-        do {
-            let hymnEntity = try self.databaseQueue.inDatabase { database -> HymnEntity? in
-                return try HymnEntity.fetchOne(database,
-                                               sql: "SELECT * FROM SONG_DATA WHERE HYMN_TYPE = ? AND HYMN_NUMBER = ? AND QUERY_PARAMS = ?",
-                                               arguments: [hymnType, hymnNumber, queryParams])
-            }
-            publisher.send(hymnEntity)
-        } catch {
-            publisher.send(completion: .failure(.data(description: error.localizedDescription)))
-        }
-        return publisher.eraseToAnyPublisher()
+        return databaseQueue.readPublisher { database in
+            try HymnEntity.fetchOne(database,
+                                    sql: "SELECT * FROM SONG_DATA WHERE HYMN_TYPE = ? AND HYMN_NUMBER = ? AND QUERY_PARAMS = ?",
+                                    arguments: [hymnType, hymnNumber, queryParams])
+        }.mapError({error -> ErrorType in
+            .data(description: error.localizedDescription)
+        }).map({entity -> HymnEntity? in
+            return entity
+        }).eraseToAnyPublisher()
     }
 }
 
