@@ -38,10 +38,14 @@ class HymnsRepositoryImpl_dbUninitializedTests: XCTestCase {
         given(systemUtil.isNetworkAvailable()) ~> false
         given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: nil)) ~> nil
 
+        let completion = XCTestExpectation(description: "completion received")
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
             .print(self.description)
-            .sink(receiveValue: { hymn in
+            .sink(receiveCompletion: { state in
+                completion.fulfill()
+                XCTAssertEqual(state, .finished)
+            }, receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertNil(hymn)
             })
@@ -65,10 +69,14 @@ class HymnsRepositoryImpl_dbUninitializedTests: XCTestCase {
                 }).eraseToAnyPublisher()
         }
 
+        let completion = XCTestExpectation(description: "completion received")
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
             .print(self.description)
-            .sink(receiveValue: { hymn in
+            .sink(receiveCompletion: { state in
+                completion.fulfill()
+                XCTAssertEqual(state, .finished)
+            }, receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertNil(hymn)
             })
@@ -90,10 +98,14 @@ class HymnsRepositoryImpl_dbUninitializedTests: XCTestCase {
         given(converter.toHymnEntity(hymnIdentifier: cebuano123, hymn: self.networkResult)) ~> self.databaseResult
         given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
 
+        let completion = XCTestExpectation(description: "completion received")
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
             .print(self.description)
-            .sink(receiveValue: { hymn in
+            .sink(receiveCompletion: { state in
+                completion.fulfill()
+                XCTAssertEqual(state, .finished)
+            }, receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertEqual(self.expected, hymn!)
             })
@@ -116,10 +128,14 @@ class HymnsRepositoryImpl_dbUninitializedTests: XCTestCase {
             throw TypeConversionError.init(triggeringError: ErrorType.parsing(description: "failed to convert!"))
         }
 
+        let completion = XCTestExpectation(description: "completion received")
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
             .print(self.description)
-            .sink(receiveValue: { hymn in
+            .sink(receiveCompletion: { state in
+                completion.fulfill()
+                XCTAssertEqual(state, .finished)
+            }, receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertNil(hymn)
             })
