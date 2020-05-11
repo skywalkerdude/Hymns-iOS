@@ -64,6 +64,7 @@ class HymnsRepositoryImpl: HymnsRepository {
 
     fileprivate struct HymnNetworkBoundResource: NetworkBoundResource {
 
+        private let analytics: AnalyticsLogger
         private let converter: Converter
         private let dataStore: HymnDataStore
         private let decoder: JSONDecoder
@@ -73,8 +74,10 @@ class HymnsRepositoryImpl: HymnsRepository {
 
         let disposables: Set<AnyCancellable>
 
-        fileprivate init(converter: Converter, dataStore: HymnDataStore, decoder: JSONDecoder, disposables: Set<AnyCancellable>,
-                         hymnIdentifier: HymnIdentifier, service: HymnalApiService, systemUtil: SystemUtil) {
+        fileprivate init(analytics: AnalyticsLogger = Resolver.resolve(), converter: Converter, dataStore: HymnDataStore,
+                         decoder: JSONDecoder, disposables: Set<AnyCancellable>, hymnIdentifier: HymnIdentifier,
+                         service: HymnalApiService, systemUtil: SystemUtil) {
+            self.analytics = analytics
             self.converter = converter
             self.dataStore = dataStore
             self.decoder = decoder
@@ -96,7 +99,7 @@ class HymnsRepositoryImpl: HymnsRepository {
             do {
                 return try converter.toHymnEntity(hymnIdentifier: hymnIdentifier, hymn: networkResult)
             } catch {
-                Crashlytics.crashlytics().log("error orccured when converting \(networkResult) to HymnEntity: \(error.localizedDescription)")
+                analytics.logError(message: "error orccured when converting Hymn to HymnEntity", error: error, extraParameters: ["hymnIdentifier": String(describing: hymnIdentifier)])
                 throw TypeConversionError(triggeringError: error)
             }
         }
@@ -108,7 +111,7 @@ class HymnsRepositoryImpl: HymnsRepository {
             do {
                 return try converter.toUiHymn(hymnIdentifier: hymnIdentifier, hymnEntity: databaseResult)
             } catch {
-                Crashlytics.crashlytics().log("error orccured when converting \(String(describing: databaseResult)) to UiHymn: \(error.localizedDescription)")
+                analytics.logError(message: "error orccured when converting HymnEntity to UiHymn", error: error, extraParameters: ["hymnIdentifier": String(describing: hymnIdentifier)])
                 throw TypeConversionError(triggeringError: error)
             }
         }

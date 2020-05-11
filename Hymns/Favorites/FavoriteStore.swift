@@ -17,9 +17,11 @@ protocol FavoritesStore {
 
 class FavoritesStoreRealmImpl: FavoritesStore {
 
+    private let analytics: AnalyticsLogger
     private let realm: Realm
 
-    init(realm: Realm) {
+    init(analytics: AnalyticsLogger = Resolver.resolve(), realm: Realm) {
+        self.analytics = analytics
         self.realm = realm
     }
 
@@ -29,13 +31,13 @@ class FavoritesStoreRealmImpl: FavoritesStore {
                 realm.add(entity, update: .modified)
             }
         } catch {
-            Crashlytics.crashlytics().log("error orccured when storing favorite \(entity): \(error.localizedDescription)")
+            analytics.logError(message: "error orccured when storing favorite", error: error, extraParameters: ["primaryKey": entity.primaryKey])
         }
     }
 
     func deleteFavorite(primaryKey: String) {
         guard let entityToDelete = realm.object(ofType: FavoriteEntity.self, forPrimaryKey: primaryKey) else {
-            Crashlytics.crashlytics().log("tried to delete a favorite that didn't exist: \(primaryKey)")
+            analytics.logError(message: "tried to delete a favorite that doesn't exist", extraParameters: ["primaryKey": primaryKey])
             return
         }
 
@@ -44,7 +46,7 @@ class FavoritesStoreRealmImpl: FavoritesStore {
                 realm.delete(entityToDelete)
             }
         } catch {
-            Crashlytics.crashlytics().log("error orccured when deleting favorite \(primaryKey): \(error.localizedDescription)")
+            analytics.logError(message: "error orccured when deleting favorite", error: error, extraParameters: ["primaryKey": primaryKey])
         }
     }
 

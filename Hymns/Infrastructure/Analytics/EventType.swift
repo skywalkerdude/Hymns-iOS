@@ -41,3 +41,17 @@ struct DisplaySong: AnalyticsEvent {
     }
     // swiftlint:enable identifier_name
 }
+
+struct NonFatalEvent: AnalyticsEvent {
+
+    static let name = "non_fatal_error"
+
+    enum Params: String {
+        case message
+        case error
+    }
+
+    enum ErrorCode: Int {
+        case databaseInitialization
+    }
+}

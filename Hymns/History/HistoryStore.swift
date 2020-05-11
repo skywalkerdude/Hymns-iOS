@@ -15,9 +15,11 @@ class HistoryStoreRealmImpl: HistoryStore {
      */
     let numberToStore = 50
 
+    private let analytics: AnalyticsLogger
     private let realm: Realm
 
-    init(realm: Realm) {
+    init(analytics: AnalyticsLogger = Resolver.resolve(), realm: Realm) {
+        self.analytics = analytics
         self.realm = realm
     }
 
@@ -33,7 +35,11 @@ class HistoryStoreRealmImpl: HistoryStore {
                     realm.delete(entitiesToDelete)
                 }
             } catch {
-                Crashlytics.crashlytics().log("error orccured when deleting recent songs \(entitiesToDelete): \(error.localizedDescription)")
+                var extraParameters = [String: String]()
+                for (index, entity) in entitiesToDelete.enumerated() {
+                    extraParameters["primary_key \(index)"] = entity.primaryKey
+                }
+                analytics.logError(message: "error occurred when deleting recent songs", error: error, extraParameters: extraParameters)
             }
         }
 
@@ -49,7 +55,7 @@ class HistoryStoreRealmImpl: HistoryStore {
                 }
                 onChanged(recentSongs)
             case .error(let error):
-                Crashlytics.crashlytics().log("error orccured while observing recent songs: \(error.localizedDescription)")
+                self.analytics.logError(message: "error orccurred while observing recent songs", error: error)
             }
         }.toNotification()
     }
@@ -64,7 +70,7 @@ class HistoryStoreRealmImpl: HistoryStore {
                     update: .modified)
             }
         } catch {
-            Crashlytics.crashlytics().log("error orccured when storing recent song \(hymnIdentifier), titled \(songTitle): \(error.localizedDescription)")
+            analytics.logError(message: "error orccured when storing recent song", error: error, extraParameters: ["hymnIdentifier": String(describing: hymnIdentifier), "title": songTitle])
         }
     }
 }
