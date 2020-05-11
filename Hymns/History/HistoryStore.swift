@@ -55,7 +55,7 @@ class HistoryStoreRealmImpl: HistoryStore {
                 }
                 onChanged(recentSongs)
             case .error(let error):
-                self.analytics.logError(message: "error orccurred while observing recent songs", error: error)
+                self.analytics.logError(message: "error occurred while observing recent songs", error: error)
             }
         }.toNotification()
     }
@@ -70,7 +70,7 @@ class HistoryStoreRealmImpl: HistoryStore {
                     update: .modified)
             }
         } catch {
-            analytics.logError(message: "error orccured when storing recent song", error: error, extraParameters: ["hymnIdentifier": String(describing: hymnIdentifier), "title": songTitle])
+            analytics.logError(message: "error occurred when storing recent song", error: error, extraParameters: ["hymnIdentifier": String(describing: hymnIdentifier), "title": songTitle])
         }
     }
 }
