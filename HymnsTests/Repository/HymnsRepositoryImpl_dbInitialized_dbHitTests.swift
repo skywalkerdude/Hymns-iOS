@@ -52,10 +52,14 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
         clearInvocations(on: service)
 
         // Verify you still get the same result but without calling the API.
+        let completion = XCTestExpectation(description: "completion received")
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
             .print(self.description)
-            .sink(receiveValue: { hymn in
+            .sink(receiveCompletion: { state in
+                completion.fulfill()
+                XCTAssertEqual(state, .finished)
+            }, receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertEqual(self.expected, hymn!)
             })
@@ -77,10 +81,14 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
         given(systemUtil.isNetworkAvailable()) ~> false
         given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
 
+        let completion = XCTestExpectation(description: "completion received")
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
             .print(self.description)
-            .sink(receiveValue: { hymn in
+            .sink(receiveCompletion: { state in
+                completion.fulfill()
+                XCTAssertEqual(state, .finished)
+            }, receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertEqual(self.expected, hymn!)
             })
@@ -96,10 +104,14 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
         given(systemUtil.isNetworkAvailable()) ~> true
         given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
 
+        let completion = XCTestExpectation(description: "completion received")
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
             .print(self.description)
-            .sink(receiveValue: { hymn in
+            .sink(receiveCompletion: { state in
+                completion.fulfill()
+                XCTAssertEqual(state, .finished)
+            }, receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertEqual(self.expected, hymn!)
             })
@@ -117,10 +129,14 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
             throw TypeConversionError.init(triggeringError: ErrorType.parsing(description: "failed to convert!"))
         }
 
+        let completion = XCTestExpectation(description: "completion received")
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
             .print(self.description)
-            .sink(receiveValue: { hymn in
+            .sink(receiveCompletion: { state in
+                completion.fulfill()
+                XCTAssertEqual(state, .finished)
+            }, receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertNil(hymn)
             })
@@ -147,10 +163,14 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
         given(converter.toHymnEntity(hymnIdentifier: cebuano123, hymn: self.networkResult)) ~> self.databaseResult
         given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
 
+        let completion = XCTestExpectation(description: "completion received")
         let valueReceived = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
             .print(self.description)
-            .sink(receiveValue: { hymn in
+            .sink(receiveCompletion: { state in
+                completion.fulfill()
+                XCTAssertEqual(state, .finished)
+            }, receiveValue: { hymn in
                 valueReceived.fulfill()
                 XCTAssertEqual(self.expected, hymn!)
             })
