@@ -33,11 +33,11 @@ class HomeViewModelSpec: QuickSpec {
                     testQueue.sync {}
                     testQueue.sync {}
                     testQueue.sync {}
+                    testQueue.sync {}
                 }
                 it("\"\(recentHymns)\" label should be showing") {
                     expect(target.label).toNot(beNil())
                 }
-
                 it("\"\(recentHymns)\" label should be \(recentHymns)") {
                     expect(target.label).to(equal(recentHymns))
                 }
