@@ -33,11 +33,11 @@ class HomeViewModelSpec: QuickSpec {
                     testQueue.sync {}
                     testQueue.sync {}
                     testQueue.sync {}
+                    testQueue.sync {}
                 }
                 it("\"\(recentHymns)\" label should be showing") {
                     expect(target.label).toNot(beNil())
                 }
-
                 it("\"\(recentHymns)\" label should be \(recentHymns)") {
                     expect(target.label).to(equal(recentHymns))
                 }
@@ -82,7 +82,7 @@ class HomeViewModelSpec: QuickSpec {
                     beforeEach {
                         clearInvocations(on: historyStore)
                     }
-                    context("with numeric search paramter") {
+                    context("with numeric search parameter") {
                         beforeEach {
                             target.searchParameter = "198 "
                             sleep(1) // allow time for the debouncer to trigger.
@@ -105,7 +105,7 @@ class HomeViewModelSpec: QuickSpec {
                             verify(songResultsRepository.search(searchParameter: any(), pageNumber: any())).wasNeverCalled()
                         }
                     }
-                    context("with invalid numeric search paramter") {
+                    context("with invalid numeric search parameter") {
                         beforeEach {
                             target.searchParameter = "2000 " // number is larger than any valid song
                             sleep(1) // allow time for the debouncer to trigger.

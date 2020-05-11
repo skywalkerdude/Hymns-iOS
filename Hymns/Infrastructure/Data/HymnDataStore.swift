@@ -28,15 +28,18 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
 
     private(set) var databaseInitializedProperly = true
 
+    private let analytics: AnalyticsLogger
     private let databaseQueue: DatabaseQueue
 
     /**
      * Initializes the `HymnDataStoreGrdbImpl` object.
      *
+     * - Parameter analyticsLogger: Used for logging analytics and non-fatal errors
      * - Parameter databaseQueue: `DatabaseQueue` object to use to make sql queries to
      * - Parameter initializeTables: Whether or not to create the necessary tables on startup
      */
-    init(databaseQueue: DatabaseQueue, initializeTables: Bool = false) {
+    init(analytics: AnalyticsLogger = Resolver.resolve(), databaseQueue: DatabaseQueue, initializeTables: Bool = false) {
+        self.analytics = analytics
         self.databaseQueue = databaseQueue
         if initializeTables {
             databaseQueue.inDatabase { database in
@@ -106,7 +109,8 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
                     }
                 } catch {
                     databaseInitializedProperly = false
-                    Crashlytics.crashlytics().log("unable to create tables for data store. Error: \(error.localizedDescription)")
+                    Crashlytics.crashlytics().log("Failed to create tables for data store")
+                    Crashlytics.crashlytics().setCustomValue("corrupted db", forKey: "database_state")
                     Crashlytics.crashlytics().record(error: error)
                 }
             }
@@ -119,7 +123,7 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
                 try entity.insert(database)
             }
         } catch {
-            Crashlytics.crashlytics().log("unable to save entity \(entity). Error: \(error.localizedDescription)")
+            analytics.logError(message: "Save entity failed", error: error, extraParameters: ["hymnType": entity.hymnType, "hymnNumber": entity.hymnNumber, "queryParams": entity.queryParams])
         }
     }
 
@@ -159,6 +163,8 @@ extension Resolver {
                     .appendingPathComponent("hymnaldb-v12.sqlite")
                     .path else {
                         Crashlytics.crashlytics().log("The desired path in Application Support is nil, so we are unable to create a databse file. Fall back to useing an in-memory db and initialize it with empty tables")
+                        Crashlytics.crashlytics().setCustomValue("in-memory db", forKey: "database_state")
+                        Crashlytics.crashlytics().record(error: NSError(domain: "Database Initialization Error", code: NonFatalEvent.ErrorCode.databaseInitialization.rawValue))
                         return HymnDataStoreGrdbImpl(databaseQueue: DatabaseQueue(), initializeTables: true) as HymnDataStore
             }
 
@@ -170,14 +176,20 @@ extension Resolver {
                 if !fileManager.fileExists(atPath: dbPath) {
                     guard let bundledDbPath = Bundle.main.path(forResource: "hymnaldb-v12", ofType: "sqlite") else {
                         Crashlytics.crashlytics().log("Path to the bundled database was not found, so just create an empty database instead and initialize it with empty tables")
+                        Crashlytics.crashlytics().setCustomValue("empty persistent db", forKey: "database_state")
+                        Crashlytics.crashlytics().record(error: NSError(domain: "Database Initialization Error", code: NonFatalEvent.ErrorCode.databaseInitialization.rawValue))
                         needToCreateTables = true
                         break outer
                     }
                     try fileManager.copyItem(atPath: bundledDbPath, toPath: dbPath)
                     needToCreateTables = false
+                    Crashlytics.crashlytics().log("Database successfully copied from bundled SqLite file")
+                    Crashlytics.crashlytics().setCustomValue("bundled db", forKey: "database_state")
                 }
             } catch {
                 Crashlytics.crashlytics().log("Unable to copy bundled data to the Application Support directly, so just create an empty database there instead and initialize it with empty tables")
+                Crashlytics.crashlytics().setCustomValue("empty persistent db", forKey: "database_state")
+                Crashlytics.crashlytics().record(error: error)
                 needToCreateTables = true
             }
 
@@ -186,6 +198,8 @@ extension Resolver {
                 databaseQueue = try DatabaseQueue(path: dbPath)
             } catch {
                 Crashlytics.crashlytics().log("Unable to create database queue at the desired path, so create an in-memory one and initialize it with empty tables as a fallback")
+                Crashlytics.crashlytics().setCustomValue("in-memory db", forKey: "database_state")
+                Crashlytics.crashlytics().record(error: error)
                 databaseQueue = DatabaseQueue()
                 needToCreateTables = true
             }

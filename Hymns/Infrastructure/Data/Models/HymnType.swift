@@ -105,3 +105,7 @@ extension HymnType {
         return nil
     }
 }
+
+extension HymnType: CustomStringConvertible {
+    var description: String { abbreviatedValue }
+}
