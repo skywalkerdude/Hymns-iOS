@@ -8,6 +8,7 @@ struct HomeView: View {
 
     init(viewModel: HomeViewModel = Resolver.resolve()) {
         self.viewModel = viewModel
+        // dummy comment for swiftlint
     }
 
     var body: some View {
