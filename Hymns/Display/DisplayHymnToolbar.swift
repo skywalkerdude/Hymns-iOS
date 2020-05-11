@@ -22,6 +22,7 @@ struct DisplayHymnToolbar: View {
             viewModel.isFavorited.map { isFavorited in
                 Button(action: {
                     self.viewModel.toggleFavorited()
+                    fatalError()
                 }, label: {
                     isFavorited ? Image(systemName: "heart.fill").accentColor(.accentColor) : Image(systemName: "heart").accentColor(.primary)
                 })
