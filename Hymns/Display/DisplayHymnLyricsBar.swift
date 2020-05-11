@@ -3,6 +3,7 @@ import SwiftUI
 struct DisplayHymnLyricsBar: View {
 
     @ObservedObject private var viewModel: DisplayHymnViewModel
+    @State var selectedTab: HymnLyricsTab = .lyrics
 
     @Binding var currentLyricsTab: HymnLyricsTab
 
@@ -13,6 +14,14 @@ struct DisplayHymnLyricsBar: View {
 
     var body: some View {
         HStack {
+            IndicatorTabView(currentTab: $selectedTab, tabItems: [
+                .lyrics,
+                .chords,
+                .guitar,
+                .piano
+                ])
+            .edgesIgnoringSafeArea(.top)
+            /*
             viewModel.lyrics.map {_ in
                 HStack {
                     Spacer()
@@ -55,8 +64,11 @@ struct DisplayHymnLyricsBar: View {
                             self.currentLyricsTab = .piano
                     }
                     Spacer()
+
                 }
             }
+            }
+ */
         }
     }
 }
