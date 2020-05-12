@@ -14,7 +14,7 @@ struct DisplayHymnLyricsBar: View {
 
     var body: some View {
         HStack {
-            IndicatorTabView(currentTab: $selectedTab, tabItems: [
+            HymnLyricsTabView(currentTab: $selectedTab, tabItems: [
                 .lyrics,
                 .chords,
                 .guitar,
