@@ -35,9 +35,6 @@ struct WebView: UIViewRepresentable {
             // TODO show error state
             return
         }
-
-        if uiView.url == nil {
-            uiView.load(URLRequest(url: url))
-        }
+        uiView.load(URLRequest(url: url))
     }
 }

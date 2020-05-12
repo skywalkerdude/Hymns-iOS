@@ -11,18 +11,15 @@ public struct IndicatorTabView<TabType: TabItem>: View {
     let tabItems: [TabType]
 
     public var body: some View {
-        return
-            VStack(alignment: .center) {
-
-                Rectangle()
-                    .shadow(radius: 0, y: -0.2)
-                    .frame(height: 50)
-                    .foregroundColor(.white)
-                    .overlay(TabBar(currentTab: $currentTab, tabItems: tabItems))
-
-                Rectangle()
-                    .foregroundColor(.white)
-                    .overlay(currentTab.content)
+        VStack(alignment: .center) {
+            Rectangle()
+                .shadow(radius: 0, y: -0.2)
+                .frame(height: 50)
+                .foregroundColor(.white)
+                .overlay(TabBar(currentTab: $currentTab, tabItems: tabItems))
+            Rectangle()
+                .foregroundColor(.white)
+                .overlay(currentTab.content)
         }
     }
 }

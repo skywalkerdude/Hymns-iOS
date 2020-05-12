@@ -9,7 +9,6 @@ class DisplayHymnViewModel: ObservableObject {
     typealias Lyrics = [Verse]
 
     @Published var title: String = ""
-    var hymnLyricsViewModel: HymnLyricsViewModel
     private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue
     private let identifier: HymnIdentifier
@@ -18,10 +17,8 @@ class DisplayHymnViewModel: ObservableObject {
     private let favoritesStore: FavoritesStore
     private let historyStore: HistoryStore
     private let webviewCache: WebViewPreloader
-    @Published var lyrics: Lyrics?
-    @Published var chordsUrl: URL?
-    @Published var guitarUrl: URL?
-    @Published var pianoUrl: URL?
+    @Published var currentTab: HymnLyricsTab
+    @Published var tabItems: [HymnLyricsTab] = [HymnLyricsTab]()
     @Published var isFavorited: Bool?
 
     private var favoritesObserver: Notification?
@@ -43,7 +40,7 @@ class DisplayHymnViewModel: ObservableObject {
         self.favoritesStore = favoritesStore
         self.historyStore = historyStore
         self.webviewCache = webviewCache
-        hymnLyricsViewModel = HymnLyricsViewModel(hymnToDisplay: identifier)
+        self.currentTab = .lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: identifier)).maxSize().eraseToAnyView())
     }
 
     deinit {
@@ -69,36 +66,39 @@ class DisplayHymnViewModel: ObservableObject {
                     }
                     self.title = title
 
-                    self.lyrics = hymn.lyrics
+                    self.tabItems.append(self.currentTab)
 
                     let chordsPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.text.rawValue
                     })?.path
-                    self.chordsUrl = chordsPath.flatMap({ path -> URL? in
+                    let chordsUrl = chordsPath.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     })
-                    if let chordsUrl = self.chordsUrl {
+                    if let chordsUrl = chordsUrl {
                         self.webviewCache.preload(url: chordsUrl)
+                        self.tabItems.append(.chords(WebView(url: chordsUrl).eraseToAnyView()))
                     }
 
                     let guitarPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.guitar.rawValue
                     })?.path
-                    self.guitarUrl = guitarPath.flatMap({ path -> URL? in
+                    let guitarUrl = guitarPath.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     })
-                    if let guitarUrl = self.guitarUrl {
+                    if let guitarUrl = guitarUrl {
                         self.webviewCache.preload(url: guitarUrl)
+                        self.tabItems.append(.guitar(WebView(url: guitarUrl).eraseToAnyView()))
                     }
 
                     let pianoPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.piano.rawValue
                     })?.path
-                    self.pianoUrl = pianoPath.flatMap({ path -> URL? in
+                    let pianoUrl = pianoPath.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     })
-                    if let pianoUrl = self.pianoUrl {
+                    if let pianoUrl = pianoUrl {
                         self.webviewCache.preload(url: pianoUrl)
+                        self.tabItems.append(.piano(WebView(url: pianoUrl).eraseToAnyView()))
                     }
 
                     self.fetchFavoriteStatus()
