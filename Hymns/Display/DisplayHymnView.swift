@@ -17,6 +17,10 @@ struct DisplayHymnView: View {
             DisplayHymnToolbar(viewModel: viewModel)
             if viewModel.chordsUrl != nil || viewModel.guitarUrl != nil || viewModel.pianoUrl != nil {
                 DisplayHymnLyricsBar(viewModel: viewModel, currentLyricsTab: $currentLyricsTab)
+            } else {
+                HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel).padding(.horizontal).eraseToAnyView()
+
+                Spacer()
             }
         }.hideNavigationBar()
             .onAppear {
