@@ -56,4 +56,4 @@ func findXcresultFilePath() throws -> String {
 }
 
 // Generate coverage data
-Coverage.xcodeBuildCoverage(.xcresultBundle(findXcresultFilePath), minimumCoverage: 50, excludedTargets: ["HymnTests.xctest", "HymnsUITests.xctest"])
+Coverage.xcodeBuildCoverage(.xcresultBundle(findXcresultFilePath()), minimumCoverage: 50, excludedTargets: ["HymnTests.xctest", "HymnsUITests.xctest"])
