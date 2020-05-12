@@ -1,6 +1,5 @@
 // swiftlint:disable all
 import Danger
-import DangerSwiftCoverage // package: https://github.com/f-meloni/danger-swift-coverage.git
 import DangerXCodeSummary // package: https://github.com/f-meloni/danger-swift-xcodesummary.git
 
 let danger = Danger()
@@ -26,8 +25,6 @@ if (danger.github.pullRequest.additions! + danger.github.pullRequest.deletions! 
 // DangerXCodeSummary
 let summary = XCodeSummary(filePath: "result.json")
 if summary.errorsCount > maxErrorCount {
-    fail("There are more than \(maxErrorCount) errors"
+    fail("There are more than \(maxErrorCount) errors")
 }
 
-// Generate coverage data
-Coverage.xcodeBuildCoverage(.xcresultBundle("Hymns-*/Logs/Test/*.xcresult"), minimumCoverage: 50, excludedTargets: ["HymnTests.xctest", "HymnsUITests.xctest"])
