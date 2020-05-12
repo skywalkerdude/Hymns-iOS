@@ -18,7 +18,7 @@ public struct HymnLyricsTabView<TabType: HymnLyricsTabItem>: View {
                 Rectangle()
                     .shadow(radius: 0, y: -0.2)
                     .frame(height: 50)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color(UIColor.systemBackground))
                     .overlay(HymnLyricsTabBar(currentTab: $currentTab, tabItems: tabItems))
 
                 if self.currentTab.a11yLabel == Text("lyrics") {
