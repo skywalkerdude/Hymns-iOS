@@ -19,8 +19,6 @@ struct DisplayHymnView: View {
                 DisplayHymnLyricsBar(viewModel: viewModel, currentLyricsTab: $currentLyricsTab)
             } else {
                 HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel).padding(.horizontal).eraseToAnyView()
-
-                Spacer()
             }
         }.hideNavigationBar()
             .onAppear {
@@ -32,7 +30,6 @@ struct DisplayHymnView: View {
 
 #if DEBUG
 struct DisplayHymnView_Previews: PreviewProvider {
-
     static var previews: some View {
 
         let loading = DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
