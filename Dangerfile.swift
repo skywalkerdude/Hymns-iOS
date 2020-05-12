@@ -3,7 +3,7 @@ import Foundation
 import Danger
 import DangerSwiftCoverage // package: https://github.com/f-meloni/danger-swift-coverage.git
 
-struct CustomError: Error {
+enum CustomError: Error {
     case notFound(description: String)
 }
 
