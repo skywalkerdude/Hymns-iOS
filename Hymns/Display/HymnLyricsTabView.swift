@@ -6,22 +6,22 @@ import SwiftUI
  * Idea for this `TabView` class taken from: https://github.com/innoreq/IRScrollableTabView
  */
 public struct HymnLyricsTabView<TabType: HymnLyricsTabItem>: View {
-    
+
     @Binding var currentTab: TabType
     let tabItems: [TabType]
     @ObservedObject var viewModel: DisplayHymnViewModel
-    
+
     public var body: some View {
         return
             VStack(alignment: .center) {
-                
+
                 Rectangle()
                     .shadow(radius: 0, y: 0)
                     .frame(height: 50)
                     .foregroundColor(Color(UIColor.systemBackground))
                     .overlay(HymnLyricsTabBar(currentTab: $currentTab, tabItems: tabItems))
                 Divider().offset(x: 0.0, y: -3.0).edgesIgnoringSafeArea(.horizontal)
-                
+
                 if self.currentTab.a11yLabel == Text("lyrics") {
                     HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel).padding(.horizontal).eraseToAnyView()
                 } else if self.currentTab.a11yLabel == Text("chords") {
@@ -38,7 +38,7 @@ public struct HymnLyricsTabView<TabType: HymnLyricsTabItem>: View {
 }
 
 struct HymnLyricsTabView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
         var selectedTab: HymnLyricsTab = .lyrics
         let selectedTabBinding = Binding<HymnLyricsTab>(
@@ -50,16 +50,16 @@ struct HymnLyricsTabView_Previews: PreviewProvider {
             .guitar,
             .piano
         ]
-        
+
         let classic40ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn40)
-        
+
         classic40ViewModel.title = "Hymn 40"
         classic40ViewModel.isFavorited = true
         classic40ViewModel.lyrics = [Verse]()
         classic40ViewModel.chordsUrl = URL(string: "http://www.hymnal.net/en/hymn/h/40/f=gtpdf")
         classic40ViewModel.guitarUrl = URL(string: "http://www.hymnal.net/en/hymn/h/40/f=pdf")
         classic40ViewModel.pianoUrl = URL(string: "http://www.hymnal.net/en/hymn/h/40/f=ppdf")
-        
+
         return Group {
             HymnLyricsTabView(currentTab: selectedTabBinding, tabItems: tabItems, viewModel: classic40ViewModel)
                 .previewDevice(PreviewDevice(rawValue: "iPhone XS Max"))
