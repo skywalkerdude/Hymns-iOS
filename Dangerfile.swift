@@ -22,4 +22,4 @@ if (danger.github.pullRequest.additions! + danger.github.pullRequest.deletions! 
     warn("> Pull Request size seems relatively large. If this Pull Request contains multiple changes, please split each into separate PR will helps faster, easier review.");
 }
 
-Coverage.xcodeBuildCoverage(.derivedDataFolder("Build"), minimumCoverage: 50, excludedTargets: ["DangerSwiftCoverageTests.xctest"])
+//Coverage.xcodeBuildCoverage(.derivedDataFolder("Build"), minimumCoverage: 50, excludedTargets: ["DangerSwiftCoverageTests.xctest"])
