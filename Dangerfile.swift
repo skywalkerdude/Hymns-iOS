@@ -23,4 +23,4 @@ if (danger.github.pullRequest.additions! + danger.github.pullRequest.deletions! 
 }
 
 // Generate coverage data
-Coverage.xcodeBuildCoverage(.derivedDataFolder("Build"), minimumCoverage: 50, excludedTargets: ["HymnTests.xctest", "HymnsUITests.xctest"])
+//Coverage.xcodeBuildCoverage(.derivedDataFolder("Build"), minimumCoverage: 50, excludedTargets: ["HymnTests.xctest", "HymnsUITests.xctest"])
