@@ -55,7 +55,6 @@ func findXcresultFilePath() throws -> String {
     return testFolder + lastModifiedXcresult
 }
 
-// Generate coverage data
 do {
     let xcresultFilePath = try findXcresultFilePath()
     print(xcresultFilePath)
