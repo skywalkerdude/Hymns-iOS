@@ -43,7 +43,7 @@ jobs:
       - name: Display structure of files after downloading artifacts
         run: ls -R
       - name: Danger
-        uses: danger/swift@3.0.0
+        uses: docker://frmeloni/danger-swift-with-swiftlint:1.1.0
         with:
             args: --failOnErrors --no-publish-check
         env:
