@@ -22,9 +22,9 @@ jobs:
     - name: Build and test # https://medium.com/xcblog/xcodebuild-deploy-ios-app-from-command-line-c6defff0d8b8
       run: xcodebuild test -workspace Hymns.xcworkspace -scheme Hymns -destination "platform=iOS Simulator,name=iPhone 11 Pro" -testPlan MasterTestPlan -enableCodeCoverage YES
     - name: Display structure of files after testing is finished
-        run: ls -R
+      run: ls -R
     - name: Display structure of DerivedData after testing is finished
-        run: ls -R /Users/runner/Library/Developer/Xcode/DerivedData
+      run: ls -R /Users/runner/Library/Developer/Xcode/DerivedData
     - name: Upload test results
       uses: actions/upload-artifact@v2
       with:
