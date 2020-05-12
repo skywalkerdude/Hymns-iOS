@@ -7,21 +7,44 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
+  build_and_test:
+    name: Build and run tests
     runs-on: macos-latest
-
+    # https://medium.com/xcblog/xcodebuild-deploy-ios-app-from-command-line-c6defff0d8b8
     steps:
     - uses: actions/checkout@v2
-    - name: Install xcpretty
-      run: gem install xcpretty
-    - name: Install xcpretty-json-formatter
-      run: gem install xcpretty-json-formatter
-    - name: Dependencies
+    - name: Delete and re-install Pods
       run: |
         pod deintegrate
         pod install
     - name: Generate Mockingbird Mocks
       run: Pods/MockingbirdFramework/mockingbird generate --targets 'Hymns'  --outputs 'MockingbirdMocks/HymnsMocks.generated.swift' --disable-swiftlint
     - name: Build and test # https://medium.com/xcblog/xcodebuild-deploy-ios-app-from-command-line-c6defff0d8b8
-      run: xcodebuild test -workspace Hymns.xcworkspace -scheme Hymns -destination "platform=iOS Simulator,name=iPhone 11 Pro" -testPlan MasterTestPlan | XCPRETTY_JSON_FILE_OUTPUT=result.json xcpretty -f `xcpretty-json-formatter`
+      run: xcodebuild test -workspace Hymns.xcworkspace -scheme Hymns -destination "platform=iOS Simulator,name=iPhone 11 Pro" -testPlan MasterTestPlan -enableCodeCoverage YES
+    - name: Display structure of files after testing is finished
+        run: ls -R
+    - name: Display structure of DerivedData after testing is finished
+        run: ls -R /Users/runner/Library/Developer/Xcode/DerivedData
+    - name: Upload test results
+      uses: actions/upload-artifact@v2
+      with:
+        name: Test Logs
+        path: /Users/runner/Library/Developer/Xcode/DerivedData/Hymns-*/Logs
+  danger:
+    name: Run Danger
+    needs: build_and_test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download test results from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: Test Logs
+      - name: Display structure of files after downloading artifacts
+        run: ls -R
+      - name: Danger
+        uses: docker://frmeloni/danger-swift-with-swiftlint:1.1.0
+        with:
+            args: --failOnErrors --no-publish-check
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
