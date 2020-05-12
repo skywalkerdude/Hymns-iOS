@@ -41,7 +41,6 @@ func findXcresultFilePath() -> String {
     return testFolder + lastModifiedXcresult
 }
 
-let xcresultFilePath = try findXcresultFilePath()
+let xcresultFilePath = findXcresultFilePath()
 print(xcresultFilePath)
 //    Coverage.xcodeBuildCoverage(.xcresultBundle(xcresultFilePath), minimumCoverage: 50, excludedTargets: ["HymnTests.xctest", "HymnsUITests.xctest"])
-}
