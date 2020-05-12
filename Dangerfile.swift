@@ -1,6 +1,7 @@
 // swiftlint:disable all
 import Danger
 import DangerSwiftCoverage // package: https://github.com/f-meloni/danger-swift-coverage.git
+import DangerXCodeSummary // package: https://github.com/f-meloni/danger-swift-xcodesummary.git
 
 let danger = Danger()
 
@@ -20,6 +21,12 @@ if swiftFilesWithCopyright.count > 0 {
 var bigPRThreshold = 1000;
 if (danger.github.pullRequest.additions! + danger.github.pullRequest.deletions! > bigPRThreshold) {
     warn("> Pull Request size seems relatively large. If this Pull Request contains multiple changes, please split each into separate PR will helps faster, easier review.");
+}
+
+// DangerXCodeSummary
+let summary = XCodeSummary(filePath: "result.json")
+if summary.errorsCount > maxErrorCount {
+    fail("There are more than \(maxErrorCount) errors"
 }
 
 // Generate coverage data
