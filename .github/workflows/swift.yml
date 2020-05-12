@@ -26,18 +26,14 @@ jobs:
     # Very important to know that -testPlan is a flag that uses an xCode test plan of choice. Only necessary if we are going to use testplans.
     - name: Test with MasterTestPlan
       run: xcodebuild test-without-building -workspace Hymns.xcworkspace -scheme Hymns -destination "platform=iOS Simulator,name=iPhone 11 Pro" -testPlan MasterTestPlan -enableCodeCoverage YES
-  upload_test_results:
-    name: Upload test results
-    needs: build_and_test
-    runs-on: macos-latest
-    # Upload artifacts
-    - uses: actions/upload-artifact@v2
+    - name: Upload test results
+      uses: actions/upload-artifact@v2
       with:
         name: Test Logs
         path: /Users/runner/Library/Developer/Xcode/DerivedData/Hymns-*/Logs
   danger:
     name: Run Danger
-    needs: upload_test_results
+    needs: build_and_test
     runs-on: ubuntu-latest
     steps:
       - name: Download test results from artifacts
