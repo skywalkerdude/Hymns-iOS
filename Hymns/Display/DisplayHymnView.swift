@@ -17,20 +17,7 @@ struct DisplayHymnView: View {
             DisplayHymnToolbar(viewModel: viewModel)
             if viewModel.chordsUrl != nil || viewModel.guitarUrl != nil || viewModel.pianoUrl != nil {
                 DisplayHymnLyricsBar(viewModel: viewModel, currentLyricsTab: $currentLyricsTab)
-            //    Divider().background(Color.blue).edgesIgnoringSafeArea(.horizontal).frame(width: 200)
             }
-            /*
-            if self.currentLyricsTab == HymnLyricsTab.lyrics {
-                HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel).padding(.horizontal)
-            } else if self.currentLyricsTab == HymnLyricsTab.chords {
-                WebView(url: self.viewModel.chordsUrl!)
-            } else if self.currentLyricsTab == HymnLyricsTab.guitar {
-                WebView(url: self.viewModel.guitarUrl!)
-            } else if self.currentLyricsTab == HymnLyricsTab.piano {
-                WebView(url: self.viewModel.pianoUrl!)
-            } else {
-                Text("Selection is undefined. This should never happen. Please file feedback with a screenshot: hymnalappfeedback@gmail.com").maxSize()
-            } */
         }.hideNavigationBar()
             .onAppear {
                 Analytics.setScreenName("DisplayHymnView", screenClass: "DisplayHymnViewModel")
@@ -38,9 +25,6 @@ struct DisplayHymnView: View {
         }
     }
 }
-
-
-
 
 #if DEBUG
 struct DisplayHymnView_Previews: PreviewProvider {

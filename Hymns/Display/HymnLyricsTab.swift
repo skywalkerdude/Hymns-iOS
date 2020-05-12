@@ -22,32 +22,11 @@ extension HymnLyricsTab {
     }
 }
 
-extension HymnLyricsTab: TabItem {
+extension HymnLyricsTab: HymnLyricsTabItem {
 
 var id: HymnLyricsTab { self }
 
-//NOT BEING USED RIGHT NOW. CAN REMOVE BUT ITS STILL IN THE PROTOCOL FOR NOW
-var content: some View {
-    switch self {
-    case .lyrics:
-        return                 HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)).eraseToAnyView()
-    case .guitar:
-        return                 WebView(url: URL(string: "http://www.google.com")).eraseToAnyView()
-
-    case .chords:
-        return                 WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=gtpdf")).eraseToAnyView()
-
-    case .piano:
-        return                 WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=ppdf")).eraseToAnyView()
-
-    }
-}
-    
-    var selectedLabel: some View {
-        return Text(label)
-    }
-
-    var unselectedLabel: some View {
+var hymnTabLabel: some View {
         return Text(label)
     }
 
