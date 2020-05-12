@@ -14,6 +14,23 @@
   "testTargets" : [
     {
       "parallelizable" : true,
+      "skippedTests" : [
+        "ConverterSpec",
+        "DisplayHymnViewModelSpec",
+        "HistoryStoreRealmImplSpec",
+        "HomeViewModelSearchSpec",
+        "HomeViewModelSpec",
+        "HymnDataStoreGrdbImplSpec",
+        "HymnLyricsViewModelSpec",
+        "HymnalApiService_GetHymnSpec",
+        "HymnalApiService_SearchTest",
+        "HymnsRepositoryImpl_dbInitialized_dbHitTests",
+        "HymnsRepositoryImpl_dbInitialized_dbMissTests",
+        "HymnsRepositoryImpl_dbUninitializedTests",
+        "SettingsViewModelSpec",
+        "SongRepositoryImplTest",
+        "StringExtensionsSpec"
+      ],
       "target" : {
         "containerPath" : "container:Hymns.xcodeproj",
         "identifier" : "3B1B90272429CF57009FDCC5",
@@ -21,6 +38,7 @@
       }
     },
     {
+      "enabled" : false,
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:Hymns.xcodeproj",
