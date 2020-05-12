@@ -28,6 +28,7 @@ target 'Hymns' do
 
   # SQLite wrapper
   pod 'GRDB.swift'
+  pod 'GRDBCombine'
 
   target 'HymnsTests' do
     inherit! :search_paths

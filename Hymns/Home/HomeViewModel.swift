@@ -153,7 +153,7 @@ class HomeViewModel: ObservableObject {
                 let hasMorePages = songResultsPage.hasMorePages ?? false
                 let songResults = songResultsPage.results.compactMap { (songResult) -> SongResultViewModel? in
                     guard let hymnType = RegexUtil.getHymnType(path: songResult.path), let hymnNumber = RegexUtil.getHymnNumber(path: songResult.path) else {
-                        Crashlytics.crashlytics().log("error happened when trying to parse \(songResult)")
+                        self.analytics.logError(message: "error happened when trying to parse song result", extraParameters: ["path": songResult.path, "name": songResult.name])
                         return nil
                     }
                     let identifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber)

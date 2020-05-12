@@ -30,12 +30,12 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                 context("getting a stored song") {
                     it("should return the stored song") {
                         let completion = XCTestExpectation(description: "completion received")
-                        completion.isInverted = true
                         let value = XCTestExpectation(description: "value received")
                         let publisher = target.getHymn(cebuano123)
                             .print(self.description)
-                            .sink(receiveCompletion: { _ in
+                            .sink(receiveCompletion: { state in
                                 completion.fulfill()
+                                expect(state).to(equal(.finished))
                             }, receiveValue: { entity in
                                 value.fulfill()
                                 expect(entity).to(equal(HymnEntity(hymnIdentifier: cebuano123)))
@@ -47,12 +47,12 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                 context("getting an unstored song") {
                     it("should return a nil result") {
                         let completion = XCTestExpectation(description: "completion received")
-                        completion.isInverted = true
                         let value = XCTestExpectation(description: "value received")
                         let publisher = target.getHymn(children24)
                             .print(self.description)
-                            .sink(receiveCompletion: { _ in
+                            .sink(receiveCompletion: { state in
                                 completion.fulfill()
+                                expect(state).to(equal(.finished))
                             }, receiveValue: { entity in
                                 value.fulfill()
                                 expect(entity).to(beNil())
