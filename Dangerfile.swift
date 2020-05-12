@@ -24,7 +24,10 @@ if (danger.github.pullRequest.additions! + danger.github.pullRequest.deletions! 
 
 // DangerXCodeSummary
 let summary = XCodeSummary(filePath: "result.json")
-if summary.errorsCount > maxErrorCount {
-    fail("There are more than \(maxErrorCount) errors")
+if summary.warningsCount > 0 {
+    fail("Your PR has warnings")
+}
+if summary.errorsCount > 0 {
+    fail("Your PR has errors")
 }
 
