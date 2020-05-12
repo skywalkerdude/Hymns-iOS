@@ -56,4 +56,9 @@ func findXcresultFilePath() throws -> String {
 }
 
 // Generate coverage data
-Coverage.xcodeBuildCoverage(.xcresultBundle(findXcresultFilePath()), minimumCoverage: 50, excludedTargets: ["HymnTests.xctest", "HymnsUITests.xctest"])
+do {
+    let xcresultFilePath = try findXcresultFilePath()
+    Coverage.xcodeBuildCoverage(.xcresultBundle(xcresultFilePath), minimumCoverage: 50, excludedTargets: ["HymnTests.xctest", "HymnsUITests.xctest"])
+} catch {
+    danger.fail("Failed to find the .xcresult file")
+}
