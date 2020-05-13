@@ -100,7 +100,7 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
         cancellable.cancel()
     }
 
-    func test_getHymn_networkAvailable() {
+    func test_getHymn_networkAvailable_resultsSuccessful() {
         given(systemUtil.isNetworkAvailable()) ~> true
         given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
 
@@ -144,6 +144,35 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
         verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
         verify(service.getHymn(any())).wasNeverCalled()
         verify(dataStore.saveHymn(any())).wasNeverCalled()
+        wait(for: [valueReceived], timeout: testTimeout)
+        cancellable.cancel()
+    }
+
+    func test_getHymn_networkConversionNil_networkAvailable() {
+        given(systemUtil.isNetworkAvailable()) ~> true
+        given(service.getHymn(cebuano123)) ~> {  _ in
+            Just(self.networkResult).mapError({ _ -> ErrorType in
+                .data(description: "This will never get called")
+            }).eraseToAnyPublisher()
+        }
+        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> nil
+        given(converter.toHymnEntity(hymnIdentifier: cebuano123, hymn: self.networkResult)) ~> self.databaseResult
+
+        let completion = XCTestExpectation(description: "completion received")
+        let valueReceived = expectation(description: "value received")
+        let cancellable = target.getHymn(cebuano123)
+            .print(self.description)
+            .sink(receiveCompletion: { state in
+                completion.fulfill()
+                XCTAssertEqual(state, .finished)
+            }, receiveValue: { hymn in
+                valueReceived.fulfill()
+                XCTAssertNil(hymn)
+            })
+
+        verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
+        verify(service.getHymn(cebuano123)).wasCalled(exactly(1))
+        verify(dataStore.saveHymn(self.databaseResult)).wasCalled(exactly(1))
         wait(for: [valueReceived], timeout: testTimeout)
         cancellable.cancel()
     }

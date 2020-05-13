@@ -87,12 +87,21 @@ class HymnsRepositoryImpl: HymnsRepository {
             self.systemUtil = systemUtil
         }
 
-        func saveToDatabase(convertedNetworkResult: HymnEntity) {
-            dataStore.saveHymn(convertedNetworkResult)
+        func saveToDatabase(convertedNetworkResult: HymnEntity?) {
+            if !dataStore.databaseInitializedProperly {
+                return
+            }
+            guard let hymnEntity = convertedNetworkResult else {
+                return
+            }
+            dataStore.saveHymn(hymnEntity)
         }
 
-        func shouldFetch(uiResult: UiHymn?) -> Bool {
-            return systemUtil.isNetworkAvailable() && uiResult == nil
+        func shouldFetch(uiResult: UiHymn??) -> Bool {
+            let flattened = uiResult?.flatMap({ uiHymn -> UiHymn? in
+                return uiHymn
+            })
+            return systemUtil.isNetworkAvailable() && flattened == nil
         }
 
         func convertType(networkResult: Hymn) throws -> HymnEntity? {
