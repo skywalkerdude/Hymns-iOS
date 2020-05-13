@@ -7,7 +7,8 @@ struct DisplayHymnView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var viewModel: DisplayHymnViewModel
     @State var currentLyricsTab: HymnLyricsTab = .lyrics
-
+    @State var showingDetail = false
+    
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
     }
@@ -19,6 +20,9 @@ struct DisplayHymnView: View {
                 DisplayHymnLyricsBar(viewModel: viewModel, currentLyricsTab: $currentLyricsTab)
                 Divider().edgesIgnoringSafeArea(.horizontal)
             }
+            Button(action: {
+                print("music \(self.viewModel.musicJson)")
+            }){ Text("MUSIC") }
             if self.currentLyricsTab == HymnLyricsTab.lyrics {
                 HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel).padding(.horizontal)
             } else if self.currentLyricsTab == HymnLyricsTab.chords {
@@ -30,7 +34,18 @@ struct DisplayHymnView: View {
             } else {
                 Text("Selection is undefined. This should never happen. Please file feedback with a screenshot: hymnalappfeedback@gmail.com").maxSize()
             }
-            AudioView()
+           // AudioView(item: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3"))
+            //AudioView(item: self.viewModel.musicJson)
+            Button(action: {
+                self.showingDetail.toggle()
+            }) {
+                Text("Show Detail")
+            }.sheet(isPresented: $showingDetail) {
+                //print("music \(self.viewModel.musicJson)")
+                AudioView().onAppear(){
+                    print("music \(self.viewModel.musicJson)")
+                }
+            }
         }.hideNavigationBar()
             .onAppear {
                 Analytics.setScreenName("DisplayHymnView", screenClass: "DisplayHymnViewModel")

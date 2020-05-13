@@ -89,10 +89,18 @@ class ConverterImpl: Converter {
         } else {
             pdfSheet = nil
         }
+        
+        let musicJson: MetaDatum?
+        if let musicJsonData = hymnEntity.musicJson?.data(using: .utf8) {
+            musicJson = try? jsonDecoder.decode(MetaDatum.self, from: musicJsonData)
+        } else {
+            musicJson = nil
+        }
+
 
         do {
             let verses = try jsonDecoder.decode([Verse].self, from: lyricsData)
-            return UiHymn(hymnIdentifier: hymnIdentifier, title: title, lyrics: verses, pdfSheet: pdfSheet)
+            return UiHymn(hymnIdentifier: hymnIdentifier, title: title, lyrics: verses, pdfSheet: pdfSheet, musicJson: musicJson)
         } catch {
             throw TypeConversionError(triggeringError: error)
         }

@@ -91,7 +91,7 @@ struct AudioPlayerControlsView: View {
 
 struct AudioView: View {
     let player = AVPlayer()
-    private let item: URL? = URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")
+    let item: URL? = URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")
     
     var body: some View {
         VStack {
