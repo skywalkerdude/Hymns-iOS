@@ -1,6 +1,5 @@
-
-import SwiftUI
 import AVFoundation
+import SwiftUI
 
 struct AudioPlayerControlsView: View {
     private enum PlaybackState: Int {
@@ -8,7 +7,7 @@ struct AudioPlayerControlsView: View {
         case buffering
         case playing
     }
-    
+
     let player: AVPlayer
     let timeObserver: PlayerTimeObserver
     let durationObserver: PlayerDurationObserver
@@ -16,7 +15,7 @@ struct AudioPlayerControlsView: View {
     @State private var currentTime: TimeInterval = 0
     @State private var currentDuration: TimeInterval = 0
     @State private var state = PlaybackState.waitingForSelection
-    
+
     var body: some View {
         VStack {
             if state == .waitingForSelection {
@@ -26,7 +25,7 @@ struct AudioPlayerControlsView: View {
             } else {
                 Text("Great choice!")
             }
-            
+
             Slider(value: $currentTime,
                    in: 0...currentDuration,
                    onEditingChanged: sliderEditingChanged,
@@ -66,7 +65,7 @@ struct AudioPlayerControlsView: View {
 //            self.currentDuration = 0
 //        }
     }
-    
+
     // MARK: Private functions
     private func sliderEditingChanged(editingStarted: Bool) {
         if editingStarted {
@@ -74,8 +73,7 @@ struct AudioPlayerControlsView: View {
             // with the slider (otherwise it would keep jumping from where they've moved it to, back
             // to where the player is currently at)
             timeObserver.pause(true)
-        }
-        else {
+        } else {
             // Editing finished, start the seek
             state = .buffering
             let targetTime = CMTime(seconds: currentTime,
@@ -86,103 +84,5 @@ struct AudioPlayerControlsView: View {
                 self.state = .playing
             }
         }
-    }
-}
-
-struct AudioView: View {
-    let player = AVPlayer()
-    let item: URL? = URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")
-    
-    var body: some View {
-        VStack {
-            AudioPlayerControlsView(player: player,
-                                    timeObserver: PlayerTimeObserver(player: player),
-                                    durationObserver: PlayerDurationObserver(player: player),
-                                    itemObserver: PlayerItemObserver(player: player)).onAppear(){
-                                        
-                                        guard let url = self.item else {
-                                            return
-                                        }
-                                        let playerItem = AVPlayerItem(url: url)
-                                        self.player.replaceCurrentItem(with: playerItem)
-                                        self.player.play()
-                             
-            }
-            
-        }
-        .onDisappear {
-            // When this View isn't being shown anymore stop the player
-            self.player.replaceCurrentItem(with: nil)
-        }
-    }
-}
-
-import Combine
-class PlayerTimeObserver {
-    let publisher = PassthroughSubject<TimeInterval, Never>()
-    private weak var player: AVPlayer?
-    private var timeObservation: Any?
-    private var paused = false
-    
-    init(player: AVPlayer) {
-        self.player = player
-        
-        // Periodically observe the player's current time, whilst playing
-        timeObservation = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.5, preferredTimescale: 600), queue: nil) { [weak self] time in
-            guard let self = self else { return }
-            // If we've not been told to pause our updates
-            guard !self.paused else { return }
-            // Publish the new player time
-            self.publisher.send(time.seconds)
-        }
-    }
-    
-    deinit {
-        if let player = player,
-            let observer = timeObservation {
-            player.removeTimeObserver(observer)
-        }
-    }
-    
-    func pause(_ pause: Bool) {
-        paused = pause
-    }
-}
-
-class PlayerItemObserver {
-    let publisher = PassthroughSubject<Bool, Never>()
-    private var itemObservation: NSKeyValueObservation?
-    
-    init(player: AVPlayer) {
-        // Observe the current item changing
-        itemObservation = player.observe(\.currentItem) { [weak self] player, change in
-            guard let self = self else { return }
-            // Publish whether the player has an item or not
-            self.publisher.send(player.currentItem != nil)
-        }
-    }
-    
-    deinit {
-        if let observer = itemObservation {
-            observer.invalidate()
-        }
-    }
-}
-
-class PlayerDurationObserver {
-    let publisher = PassthroughSubject<TimeInterval, Never>()
-    private var cancellable: AnyCancellable?
-    
-    init(player: AVPlayer) {
-        let durationKeyPath: KeyPath<AVPlayer, CMTime?> = \.currentItem?.duration
-        cancellable = player.publisher(for: durationKeyPath).sink { duration in
-            guard let duration = duration else { return }
-            guard duration.isNumeric else { return }
-            self.publisher.send(duration.seconds)
-        }
-    }
-    
-    deinit {
-        cancellable?.cancel()
     }
 }

@@ -3,16 +3,17 @@ import SwiftUI
 import Resolver
 
 struct DisplayHymnView: View {
-
+    
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var viewModel: DisplayHymnViewModel
     @State var currentLyricsTab: HymnLyricsTab = .lyrics
-    @State var showingDetail = false
+    @State var showingMusicPlayer = false
+    @State var bottomSheetShown = false
     
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
     }
-
+    
     var body: some View {
         VStack(spacing: 15) {
             DisplayHymnToolbar(viewModel: viewModel)
@@ -20,32 +21,37 @@ struct DisplayHymnView: View {
                 DisplayHymnLyricsBar(viewModel: viewModel, currentLyricsTab: $currentLyricsTab)
                 Divider().edgesIgnoringSafeArea(.horizontal)
             }
-            Button(action: {
-                print("music \(self.viewModel.musicJson)")
-            }){ Text("MUSIC") }
-            if self.currentLyricsTab == HymnLyricsTab.lyrics {
-                HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel).padding(.horizontal)
-            } else if self.currentLyricsTab == HymnLyricsTab.chords {
-                WebView(url: self.viewModel.chordsUrl!)
-            } else if self.currentLyricsTab == HymnLyricsTab.guitar {
-                WebView(url: self.viewModel.guitarUrl!)
-            } else if self.currentLyricsTab == HymnLyricsTab.piano {
-                WebView(url: self.viewModel.pianoUrl!)
-            } else {
-                Text("Selection is undefined. This should never happen. Please file feedback with a screenshot: hymnalappfeedback@gmail.com").maxSize()
-            }
-           // AudioView(item: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3"))
-            //AudioView(item: self.viewModel.musicJson)
-            Button(action: {
-                self.showingDetail.toggle()
-            }) {
-                Text("Show Detail")
-            }.sheet(isPresented: $showingDetail) {
-                //print("music \(self.viewModel.musicJson)")
-                AudioView().onAppear(){
-                    print("music \(self.viewModel.musicJson)")
+            ZStack {
+                if self.currentLyricsTab == HymnLyricsTab.lyrics {
+                    HymnLyricsView(viewModel: self.viewModel.hymnLyricsViewModel).padding(.horizontal)
+                } else if self.currentLyricsTab == HymnLyricsTab.chords {
+                    WebView(url: self.viewModel.chordsUrl!)
+                } else if self.currentLyricsTab == HymnLyricsTab.guitar {
+                    WebView(url: self.viewModel.guitarUrl!)
+                } else if self.currentLyricsTab == HymnLyricsTab.piano {
+                    WebView(url: self.viewModel.pianoUrl!)
+                } else {
+                    Text("Selection is undefined. This should never happen. Please file feedback with a screenshot: hymnalappfeedback@gmail.com").maxSize()
+                }
+                
+                
+                viewModel.musicJson.map { _ in
+                    GeometryReader { geometry in
+                        // Color.green
+                        BottomSheetView(
+                            isOpen: self.$bottomSheetShown,
+                            maxHeight: geometry.size.height * 0.3
+                        ) {
+                            AudioView(item: self.viewModel.musicJson)
+                        }
+                    }.edgesIgnoringSafeArea(.all)
                 }
             }
+            
+            
+            
+            
+            
         }.hideNavigationBar()
             .onAppear {
                 Analytics.setScreenName("DisplayHymnView", screenClass: "DisplayHymnViewModel")
@@ -63,7 +69,7 @@ enum HymnLyricsTab: String {
 
 extension HymnLyricsTab {
     var label: String {
-
+        
         switch self {
         case .lyrics:
             return "Lyrics"
@@ -79,13 +85,13 @@ extension HymnLyricsTab {
 
 #if DEBUG
 struct DisplayHymnView_Previews: PreviewProvider {
-
+    
     static var previews: some View {
-
+        
         let loading = DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
-
+        
         let classic40ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn40)
-
+        
         classic40ViewModel.title = "Hymn 40"
         classic40ViewModel.isFavorited = true
         classic40ViewModel.lyrics = [Verse]()
@@ -100,7 +106,7 @@ struct DisplayHymnView_Previews: PreviewProvider {
                                   VerseViewModel(verseNumber: "4", verseLines: classic40_preview.lyrics[4].verseContent)]
         classic40ViewModel.hymnLyricsViewModel = classic40Lyrics
         let classic40 = DisplayHymnView(viewModel: classic40ViewModel)
-
+        
         let classic1151ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
         classic1151ViewModel.title = "Hymn 1151"
         classic1151ViewModel.isFavorited = false
@@ -112,7 +118,7 @@ struct DisplayHymnView_Previews: PreviewProvider {
                                     VerseViewModel(verseNumber: "4", verseLines: classic1151_preview.lyrics[4].verseContent)]
         classic1151ViewModel.hymnLyricsViewModel = classic1151Lyrics
         let classic1151 = DisplayHymnView(viewModel: classic1151ViewModel)
-
+        
         let classic1334ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334)
         classic1334ViewModel.title = "Hymn 1334"
         classic1334ViewModel.isFavorited = true
