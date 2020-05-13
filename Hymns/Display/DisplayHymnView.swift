@@ -37,11 +37,7 @@ struct DisplayHymnView_Previews: PreviewProvider {
         classic40ViewModel.title = "Hymn 40"
         classic40ViewModel.isFavorited = true
         let classic40Lyrics = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn40)
-//        classic40Lyrics.lyrics = [VerseViewModel(verseNumber: "1", verseLines: classic40_preview.lyrics[0].verseContent),
-//                                  VerseViewModel(verseLines: classic40_preview.lyrics[1].verseContent),
-//                                  VerseViewModel(verseNumber: "2", verseLines: classic40_preview.lyrics[2].verseContent),
-//                                  VerseViewModel(verseNumber: "3", verseLines: classic40_preview.lyrics[3].verseContent),
-//                                  VerseViewModel(verseNumber: "4", verseLines: classic40_preview.lyrics[4].verseContent)]
+
         classic40ViewModel.currentTab = .chords(WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=gtpdf")).eraseToAnyView())
         classic40ViewModel.tabItems = [.lyrics(HymnLyricsView(viewModel: classic40Lyrics).eraseToAnyView()),
                                        classic40ViewModel.currentTab,
@@ -49,32 +45,39 @@ struct DisplayHymnView_Previews: PreviewProvider {
                                        .piano(WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=ppdf")).eraseToAnyView())]
         let classic40 = DisplayHymnView(viewModel: classic40ViewModel)
 
-        //        let classic1151ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
-        //        classic1151ViewModel.title = "Hymn 1151"
-        //        classic1151ViewModel.isFavorited = false
-        //        let classic1151Lyrics = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
-        //        classic1151Lyrics.lyrics = [VerseViewModel(verseNumber: "1", verseLines: classic1151_preview.lyrics[0].verseContent),
-        //                                    VerseViewModel(verseLines: classic1151_preview.lyrics[1].verseContent),
-        //                                    VerseViewModel(verseNumber: "2", verseLines: classic1151_preview.lyrics[2].verseContent),
-        //                                    VerseViewModel(verseNumber: "3", verseLines: classic1151_preview.lyrics[3].verseContent),
-        //                                    VerseViewModel(verseNumber: "4", verseLines: classic1151_preview.lyrics[4].verseContent)]
-        // 
-        //        let classic1151 = DisplayHymnView(viewModel: classic1151ViewModel)
-        //
-        //        let classic1334ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334)
-        //        classic1334ViewModel.title = "Hymn 1334"
-        //        classic1334ViewModel.isFavorited = true
-        //        let classic1334Lyrics = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334)
-        //        classic1334Lyrics.lyrics
-        //            = [VerseViewModel(verseNumber: "1", verseLines: classic1334_preview.lyrics[0].verseContent)
-        //        ]
-        //        classic1334ViewModel.hymnLyricsViewModel = classic1334Lyrics
-        //        let classic1334 = DisplayHymnView(viewModel: classic1334ViewModel)
+        let classic1151ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+        classic1151ViewModel.title = "Hymn 1151"
+        classic1151ViewModel.isFavorited = false
+        let classic1151Lyrics = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+
+        classic1151ViewModel.currentTab = .lyrics(HymnLyricsView(viewModel: classic1151Lyrics).maxSize().eraseToAnyView())
+
+        classic1151ViewModel.tabItems = [
+            classic1151ViewModel.currentTab,
+            .chords(WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=gtpdf")).eraseToAnyView()),
+            .guitar(WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=pdf")).eraseToAnyView()),
+            .piano(WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=ppdf")).eraseToAnyView())]
+
+        let classic1151 = DisplayHymnView(viewModel: classic1151ViewModel)
+        let classic1334ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334)
+        classic1334ViewModel.title = "Hymn 1334"
+        classic1334ViewModel.isFavorited = true
+        let classic1334Lyrics = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334)
+
+        classic1334ViewModel.currentTab = .lyrics(HymnLyricsView(viewModel: classic1334Lyrics).maxSize().eraseToAnyView())
+
+        classic1334ViewModel.tabItems = [
+            classic1334ViewModel.currentTab,
+            .chords(WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=gtpdf")).eraseToAnyView()),
+            .guitar(WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=pdf")).eraseToAnyView()),
+            .piano(WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=ppdf")).eraseToAnyView())]
+
+        let classic1334 = DisplayHymnView(viewModel: classic1334ViewModel)
         return Group {
             loading.previewDisplayName("loading")
             classic40.previewDisplayName("classic 40")
-            //            classic1151.previewDisplayName("classic 1151")
-            //            classic1334.previewDisplayName("classic 1334")
+            classic1151.previewDisplayName("classic 1151")
+            classic1334.previewDisplayName("classic 1334")
         }
     }
 }
