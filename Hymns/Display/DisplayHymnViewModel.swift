@@ -91,14 +91,13 @@ class DisplayHymnViewModel: ObservableObject {
                     if let guitarUrl = self.guitarUrl {
                         self.webviewCache.preload(url: guitarUrl)
                     }
-                    
+
                     let musicJsonPath = hymn.musicJson?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.mp3.rawValue
                         })?.path
                     self.musicJson = musicJsonPath.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     })
-                    
 
                     let pianoPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.piano.rawValue

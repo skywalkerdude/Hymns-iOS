@@ -14,14 +14,13 @@ struct AudioView: View {
                                     itemObserver: PlayerItemObserver(player: player))
 
             Button(action: {
-                                        guard let url = self.item else {
-                                            return
-                                        }
-                                        let playerItem = AVPlayerItem(url: url)
-                                        self.player.replaceCurrentItem(with: playerItem)
-                                        self.player.play()
+                guard let url = self.item else {
+                    return
+                }
+                let playerItem = AVPlayerItem(url: url)
+                self.player.replaceCurrentItem(with: playerItem)
+                self.player.play()
             }) {Text("Play")}
-
         }
         .onDisappear {
             // When this View isn't being shown anymore stop the player

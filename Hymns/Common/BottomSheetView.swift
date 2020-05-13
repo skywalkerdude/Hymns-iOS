@@ -21,7 +21,7 @@ struct BottomSheetView<Content: View>: View {
         self.content = content()
         self._isOpen = isOpen
     }
-    
+
     private var offset: CGFloat {
         isOpen ? 0 : maxHeight - minHeight
     }
@@ -35,7 +35,6 @@ struct BottomSheetView<Content: View>: View {
         )
     }
 
-    
     @GestureState private var translation: CGFloat = 0
 
     var body: some View {
