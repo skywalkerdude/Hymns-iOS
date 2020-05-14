@@ -20,6 +20,7 @@ extension Resolver: ResolverRegistering {
             encoder.nonConformingFloatEncodingStrategy = .throw
             return encoder
         })
+        register {URLSession.shared}.scope(application)
         register {AnalyticsLogger()}
         register {SystemUtil()}
         registerConverters()

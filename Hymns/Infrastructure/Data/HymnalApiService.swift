@@ -16,7 +16,7 @@ class HymnalApiServiceImpl: HymnalApiService {
     private let decoder: JSONDecoder
     private let session: URLSession
 
-    init(decoder: JSONDecoder, session: URLSession) {
+    init(decoder: JSONDecoder = Resolver.resolve(), session: URLSession = Resolver.resolve()) {
         self.decoder = decoder
         self.session = session
     }
@@ -101,7 +101,6 @@ private extension HymnalApi {
 
 extension Resolver {
     static func registerHymnalApiService() {
-        register {HymnalApiServiceImpl(decoder: resolve(), session: resolve()) as HymnalApiService}.scope(application)
-        register {URLSession.shared}.scope(application)
+        register {HymnalApiServiceImpl() as HymnalApiService}.scope(application)
     }
 }
