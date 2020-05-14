@@ -10,7 +10,12 @@ struct PDFViewer: UIViewRepresentable {
     }
 
     func updateUIView(_ pdfView: PDFView, context: Context) {
-        pdfView.document = PDFDocument(url: url!)
+        guard let url = url else {
+            // TODO create erroro state
+            return
+        }
+        pdfView.document = PDFDocument(url: url)
+        pdfView.sizeToFit()
         pdfView.autoScales = true
     }
 }
