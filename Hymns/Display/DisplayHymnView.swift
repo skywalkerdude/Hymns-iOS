@@ -38,11 +38,11 @@ struct DisplayHymnView_Previews: PreviewProvider {
         classic40ViewModel.isFavorited = true
         let classic40Lyrics = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn40)
 
-        classic40ViewModel.currentTab = .chords(WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=gtpdf")).eraseToAnyView())
+        classic40ViewModel.currentTab = .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=gtpdf")).eraseToAnyView())
         classic40ViewModel.tabItems = [.lyrics(HymnLyricsView(viewModel: classic40Lyrics).eraseToAnyView()),
                                        classic40ViewModel.currentTab,
-                                       .guitar(WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=pdf")).eraseToAnyView()),
-                                       .piano(WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=ppdf")).eraseToAnyView())]
+                                       .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=pdf")).eraseToAnyView()),
+                                       .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=ppdf")).eraseToAnyView())]
         let classic40 = DisplayHymnView(viewModel: classic40ViewModel)
 
         let classic1151ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
@@ -54,9 +54,9 @@ struct DisplayHymnView_Previews: PreviewProvider {
 
         classic1151ViewModel.tabItems = [
             classic1151ViewModel.currentTab,
-            .chords(WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=gtpdf")).eraseToAnyView()),
-            .guitar(WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=pdf")).eraseToAnyView()),
-            .piano(WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=ppdf")).eraseToAnyView())]
+            .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=gtpdf")).eraseToAnyView()),
+            .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=pdf")).eraseToAnyView()),
+            .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=ppdf")).eraseToAnyView())]
 
         let classic1151 = DisplayHymnView(viewModel: classic1151ViewModel)
         let classic1334ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334)
@@ -68,9 +68,9 @@ struct DisplayHymnView_Previews: PreviewProvider {
 
         classic1334ViewModel.tabItems = [
             classic1334ViewModel.currentTab,
-            .chords(WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=gtpdf")).eraseToAnyView()),
-            .guitar(WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=pdf")).eraseToAnyView()),
-            .piano(WebView(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=ppdf")).eraseToAnyView())]
+            .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=gtpdf")).eraseToAnyView()),
+            .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=pdf")).eraseToAnyView()),
+            .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=ppdf")).eraseToAnyView())]
 
         let classic1334 = DisplayHymnView(viewModel: classic1334ViewModel)
         return Group {

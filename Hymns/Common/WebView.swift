@@ -7,32 +7,15 @@ import WebKit
  */
 struct WebView: UIViewRepresentable {
 
-    private let preloader: WebViewPreloader
-    private let url: URL?
-
-    init(url: URL?, preloader: WebViewPreloader = Resolver.resolve()) {
-        self.preloader = preloader
-        self.url = url
-    }
+    let url: URL?
 
     func makeUIView(context: Context) -> WKWebView {
-        guard let url = url else {
-            // TODO show error state
-            return WKWebView() //empty webview
-        }
-
-        if let webView = preloader.getCachedWebview(url) {
-            return webView
-        }
-
-        let webView = WKWebView()
-        preloader.cacheWebview(url: url, webView: webView)
-        return webView
+        return WKWebView()
     }
 
     func updateUIView(_ uiView: WKWebView, context: Context) {
         guard let url = url else {
-            // TODO show error state
+            // TODO create error state
             return
         }
         uiView.load(URLRequest(url: url))

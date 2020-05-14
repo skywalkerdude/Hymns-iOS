@@ -9,38 +9,39 @@ class DisplayHymnViewModel: ObservableObject {
     typealias Lyrics = [Verse]
 
     @Published var title: String = ""
-    private let analytics: AnalyticsLogger
-    private let backgroundQueue: DispatchQueue
-    private let identifier: HymnIdentifier
-    private let repository: HymnsRepository
-    private let mainQueue: DispatchQueue
-    private let favoritesStore: FavoritesStore
-    private let historyStore: HistoryStore
-    private let webviewCache: WebViewPreloader
     @Published var currentTab: HymnLyricsTab
     @Published var tabItems: [HymnLyricsTab] = [HymnLyricsTab]()
     @Published var isFavorited: Bool?
+
+    private let analytics: AnalyticsLogger
+    private let backgroundQueue: DispatchQueue
+    private let favoritesStore: FavoritesStore
+    private let historyStore: HistoryStore
+    private let identifier: HymnIdentifier
+    private let mainQueue: DispatchQueue
+    private let pdfLoader: PDFLoader
+    private let repository: HymnsRepository
 
     private var favoritesObserver: Notification?
     private var disposables = Set<AnyCancellable>()
 
     init(analytics: AnalyticsLogger = Resolver.resolve(),
          backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
+         favoritesStore: FavoritesStore = Resolver.resolve(),
          hymnToDisplay identifier: HymnIdentifier,
          hymnsRepository repository: HymnsRepository = Resolver.resolve(),
-         mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
-         favoritesStore: FavoritesStore = Resolver.resolve(),
          historyStore: HistoryStore = Resolver.resolve(),
-         webviewCache: WebViewPreloader = Resolver.resolve()) {
+         mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
+         pdfPreloader: PDFLoader = Resolver.resolve()) {
         self.analytics = analytics
         self.backgroundQueue = backgroundQueue
-        self.identifier = identifier
-        self.repository = repository
-        self.mainQueue = mainQueue
+        self.currentTab = .lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: identifier)).maxSize().eraseToAnyView())
         self.favoritesStore = favoritesStore
         self.historyStore = historyStore
-        self.webviewCache = webviewCache
-        self.currentTab = .lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: identifier)).maxSize().eraseToAnyView())
+        self.identifier = identifier
+        self.mainQueue = mainQueue
+        self.pdfLoader = pdfPreloader
+        self.repository = repository
     }
 
     deinit {
@@ -75,8 +76,8 @@ class DisplayHymnViewModel: ObservableObject {
                         HymnalNet.url(path: path)
                     })
                     if let chordsUrl = chordsUrl {
-                        self.webviewCache.preload(url: chordsUrl)
-                        self.tabItems.append(.chords(WebView(url: chordsUrl).eraseToAnyView()))
+                        self.pdfLoader.load(url: chordsUrl)
+                        self.tabItems.append(.chords(PDFViewer(url: chordsUrl).eraseToAnyView()))
                     }
 
                     let guitarPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
@@ -86,8 +87,8 @@ class DisplayHymnViewModel: ObservableObject {
                         HymnalNet.url(path: path)
                     })
                     if let guitarUrl = guitarUrl {
-                        self.webviewCache.preload(url: guitarUrl)
-                        self.tabItems.append(.guitar(WebView(url: guitarUrl).eraseToAnyView()))
+                        self.pdfLoader.load(url: guitarUrl)
+                        self.tabItems.append(.guitar(PDFViewer(url: guitarUrl).eraseToAnyView()))
                     }
 
                     let pianoPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
@@ -97,8 +98,8 @@ class DisplayHymnViewModel: ObservableObject {
                         HymnalNet.url(path: path)
                     })
                     if let pianoUrl = pianoUrl {
-                        self.webviewCache.preload(url: pianoUrl)
-                        self.tabItems.append(.piano(WebView(url: pianoUrl).eraseToAnyView()))
+                        self.pdfLoader.load(url: pianoUrl)
+                        self.tabItems.append(.piano(PDFViewer(url: pianoUrl).eraseToAnyView()))
                     }
 
                     self.fetchFavoriteStatus()

@@ -20,14 +20,15 @@ extension Resolver: ResolverRegistering {
             encoder.nonConformingFloatEncodingStrategy = .throw
             return encoder
         })
+        register {URLSession.shared}.scope(application)
         register {AnalyticsLogger()}
         register {SystemUtil()}
+        register {PDFLoader()}
         registerConverters()
         registerHymnDataStore()
         registerHistoryStore()
         registerFavoritesStore()
         registerHymnalApiService()
-        registerWebViewPreloader()
         registerRepositories()
         registerHomeViewModel()
         registerFavoritesViewModel()
