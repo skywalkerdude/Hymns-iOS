@@ -29,14 +29,14 @@ protocol NetworkBoundResource {
     /**
      * Converts the network result to the equivalent database result type.
      */
-    func convertType(networkResult: NetworkResultType) throws -> DatabaseResultType?
+    func convertType(networkResult: NetworkResultType) throws -> DatabaseResultType
 
     /**
      * Converts the database result to the type consumed by the UI.
      */
-    func convertType(databaseResult: DatabaseResultType?) throws -> UIResultType?
+    func convertType(databaseResult: DatabaseResultType) throws -> UIResultType
 
-    func loadFromDatabase() -> AnyPublisher<DatabaseResultType?, ErrorType>
+    func loadFromDatabase() -> AnyPublisher<DatabaseResultType, ErrorType>
 
     func createNetworkCall() -> AnyPublisher<NetworkResultType, ErrorType>
 }
@@ -112,10 +112,7 @@ extension NetworkBoundResource {
             },
                 receiveValue: { networkResult in
                     do {
-                        guard let convertedNetworkResponse = try self.convertType(networkResult: networkResult) else {
-                            publisher.send(Resource.success(data: nil))
-                            return
-                        }
+                        let convertedNetworkResponse = try self.convertType(networkResult: networkResult)
                         self.saveToDatabase(convertedNetworkResult: convertedNetworkResponse)
                         let uiResult = try self.convertType(databaseResult: convertedNetworkResponse)
                         publisher.send(Resource.success(data: uiResult))

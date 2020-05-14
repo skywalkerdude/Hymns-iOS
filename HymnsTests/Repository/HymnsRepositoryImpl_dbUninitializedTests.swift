@@ -110,9 +110,9 @@ class HymnsRepositoryImpl_dbUninitializedTests: XCTestCase {
                 XCTAssertEqual(self.expected, hymn!)
             })
 
-        verify(dataStore.getDatabaseInitializedProperly()).wasCalled(exactly(1))
+        verify(dataStore.getDatabaseInitializedProperly()).wasCalled(exactly(2))
         verify(service.getHymn(cebuano123)).wasCalled(exactly(1))
-        verify(dataStore.saveHymn(self.databaseResult)).wasCalled(exactly(1))
+        verify(dataStore.saveHymn(any())).wasNeverCalled()
         wait(for: [valueReceived], timeout: testTimeout)
         cancellable.cancel()
     }
