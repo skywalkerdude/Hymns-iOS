@@ -87,7 +87,7 @@ class DisplayHymnViewModel: ObservableObject {
                     })
                     if let guitarUrl = guitarUrl {
                         self.webviewCache.preload(url: guitarUrl)
-                        self.tabItems.append(.guitar(WebView2(url: guitarUrl).eraseToAnyView()))
+                        self.tabItems.append(.guitar(WebView(url: guitarUrl).eraseToAnyView()))
                     }
 
                     let pianoPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
@@ -98,7 +98,7 @@ class DisplayHymnViewModel: ObservableObject {
                     })
                     if let pianoUrl = pianoUrl {
                         self.webviewCache.preload(url: pianoUrl)
-                        self.tabItems.append(.piano(WebView3(url: pianoUrl).eraseToAnyView()))
+                        self.tabItems.append(.piano(WebView(url: pianoUrl).eraseToAnyView()))
                     }
 
                     self.fetchFavoriteStatus()
