@@ -1,11 +1,3 @@
-//
-//  HymnsUITests.swift
-//  HymnsUITests
-//
-//  Created by Luke Lu on 3/23/20.
-//  Copyright © 2020 skywalkerdude. All rights reserved.
-//
-
 import XCTest
 
 class HymnsUITests: XCTestCase {
@@ -30,21 +22,45 @@ class HymnsUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func ignore_test_navigateBetweenTabs() {
+    func test_navigateBetweenTabs() {
         app.launch()
         let tabBarsQuery = app.tabBars
-        let tab1 = tabBarsQuery.children(matching: .button).element(boundBy: 0) //Home
-        let tab2 = tabBarsQuery.children(matching: .button).element(boundBy: 1) //Browse
-        let tab3 = tabBarsQuery.children(matching: .button).element(boundBy: 2) //Favorites
-        let tab4 = tabBarsQuery.children(matching: .button).element(boundBy: 3) //Settings
+        let homeTab = tabBarsQuery.children(matching: .button).element(boundBy: 0)
+        let browseTab = tabBarsQuery.children(matching: .button).element(boundBy: 1)
+        let favoritesTab = tabBarsQuery.children(matching: .button).element(boundBy: 2)
+        let settingsTab = tabBarsQuery.children(matching: .button).element(boundBy: 3)
 
-        //TODO: Assertions after each tap
-        tab1.tap()
-        tab4.tap() //Settings
-        tab3.tap()
-        tab2.tap()
-        tab1.tap()
-        tab2.tap()
+        homeTab.tap()
+        XCTAssertEqual(app.staticTexts["Recent hymns"].label, "Recent hymns")
+
+        settingsTab.tap()
+        XCTAssertEqual(app.staticTexts["Settings"].label, "Settings")
+
+        favoritesTab.tap()
+        XCTAssertEqual(app.staticTexts["Favorites"].label, "Favorites")
+
+        browseTab.tap()
+        XCTAssertEqual(app.staticTexts["Browse"].label, "Browse")
+
+        homeTab.tap()
+        XCTAssertEqual(app.staticTexts["Recent hymns"].label, "Recent hymns")
+
+        settingsTab.tap()
+        XCTAssertEqual(app.staticTexts["Settings"].label, "Settings")
+
+    }
+    
+    func testSearchBarFunctioning() {
+        app.launch()
+        app.textFields.element.tap()
+        app.textFields.element.typeText("test")
+        //Note the .keys function will only work if you have your iOS Simulator with hardware keyboard off to use the app's keyboard
+        app.keys["t"].tap()
+        app.keys["e"].tap()
+        app.keys["s"].tap()
+        app.keys["t"].tap()
+        
+        app.buttons["Cancel"].tap()
     }
 
     func testLaunchPerformance() {
