@@ -7,6 +7,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+
+        //vastly accelerate UI testing by increasing animation speed https://pspdfkit.com/blog/2016/running-ui-tests-with-ludicrous-speed/
+        if ProcessInfo.processInfo.arguments.contains("UITests") {
+            UIApplication.shared.keyWindow?.layer.speed = 100
+        }
         return true
     }
 
