@@ -85,7 +85,7 @@ extension NetworkBoundSubscription {
                         self.fetchFromNetwork(disposables: &disposables2)
                     } else {
                         _ = subscriber.receive(uiResult)
-//                        subscriber.receive(completion: .finished)
+                        subscriber.receive(completion: .finished)
                     }
                 } catch {
                     if self.shouldFetch(uiResult: nil) {
@@ -106,14 +106,14 @@ extension NetworkBoundSubscription {
                 return try self.convertType(databaseResult: convertedNetworkResponse)
             }).mapError({ error -> ErrorType in
                 switch error {
-                case let error as TypeConversionError:subscriber.receive(completion: .finished)
-                return .parsing(description: error.triggeringError.localizedDescription)
+                case let error as TypeConversionError:
+                    return .parsing(description: error.triggeringError.localizedDescription)
                 default:
                     return .data(description: error.localizedDescription)
                 }
             })
             .sink(receiveCompletion: { state in
-                _ = subscriber.receive(completion: state)
+                subscriber.receive(completion: state)
             }, receiveValue: { uiResult in
                 _ = subscriber.receive(uiResult)
             }).store(in: &disposables)

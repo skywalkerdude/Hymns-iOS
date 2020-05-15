@@ -52,7 +52,7 @@ class HymnsRepositoryImpl: HymnsRepository {
                     self.hymns[hymnIdentifier] = hymn
                 }
                 return hymn
-        }.replaceError(with: nil).eraseToAnyPublisher()
+        }.eraseToAnyPublisher()
     }
 
     fileprivate class HymnPublisher: NetworkBoundPublisher {
@@ -95,6 +95,8 @@ class HymnsRepositoryImpl: HymnsRepository {
         private let service: HymnalApiService
         private let systemUtil: SystemUtil
 
+        private var disposables: Set<AnyCancellable>
+
         var subscriber: SubscriberType?
 
         fileprivate init(hymnIdentifier: HymnIdentifier, analytics: AnalyticsLogger = Resolver.resolve(),
@@ -104,15 +106,16 @@ class HymnsRepositoryImpl: HymnsRepository {
             self.analytics = analytics
             self.converter = converter
             self.dataStore = dataStore
+            self.disposables = disposables
             self.hymnIdentifier = hymnIdentifier
             self.service = service
             self.subscriber = subscriber
             self.systemUtil = systemUtil
-            execute(disposables: &disposables)
         }
 
         func request(_ demand: Subscribers.Demand) {
             // Optionaly Adjust The Demand
+            execute(disposables: &disposables)
         }
 
         func saveToDatabase(convertedNetworkResult: HymnEntity?) {
