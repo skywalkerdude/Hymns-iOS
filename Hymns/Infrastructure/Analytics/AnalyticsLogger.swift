@@ -24,6 +24,10 @@ class AnalyticsLogger {
         ])
     }
 
+    func logDisplayMusicPDF(url: URL) {
+        Analytics.logEvent(DisplayMusicPDF.name, parameters: [ DisplayMusicPDF.Params.display_musicPDF.rawValue: url])
+    }
+
     /**
      * Log when an error ocurred but is not a fatal error but may happen frequently enough that we don't to
      * log it as a Crashlytics non-fatal.

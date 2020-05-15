@@ -33,6 +33,7 @@ class PDFLoader {
     }
 
     func get(url: URL) -> PDFDocument? {
+        analytics.logDisplayMusicPDF(url: url)
         return cache[url]
     }
 }
