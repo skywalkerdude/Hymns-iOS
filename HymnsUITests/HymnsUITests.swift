@@ -80,6 +80,16 @@ class HymnsUITests: XCTestCase {
         app.buttons["Cancel"].tap()
     }
 
+    func testChordsPianoGuitarTabs() {
+        app.launch()
+        app.textFields.element.tap()
+        app.textFields.element.typeText("Mary poured out her love offering")
+        self.app.tables.cells.element(boundBy: 0).tap()
+        app.staticTexts["Chords"].tap()
+        app.staticTexts["Guitar"].tap()
+        app.staticTexts["Piano"].tap()
+    }
+
     func testLaunchPerformance() {
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, *) {
             // This measures how long it takes to launch your application.
