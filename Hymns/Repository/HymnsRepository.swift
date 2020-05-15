@@ -41,50 +41,78 @@ class HymnsRepositoryImpl: HymnsRepository {
             return Just(hymn).eraseToAnyPublisher()
         }
 
-        return HymnNetworkBoundResource(
-            converter: converter, dataStore: dataStore, decoder: decoder, disposables: disposables,
-            hymnIdentifier: hymnIdentifier, service: service, systemUtil: systemUtil)
-            .execute(disposables: &disposables)
-            // Don't pass through any values while hymn is still loading.
-            .drop(while: { resource -> Bool in
-                resource.status == .loading
-            })
-            .map { [weak self] resource -> UiHymn? in
-                guard let self = self, let hymn = resource.data else {
+        return HymnPublisher(hymnIdentifier: hymnIdentifier, disposables: &disposables, converter: converter,
+                             dataStore: dataStore, service: service, systemUtil: systemUtil)
+            .replaceError(with: nil)
+            .map { hymn -> UiHymn? in
+                guard let hymn = hymn else {
                     return nil
                 }
                 self.mainQueue.async {
                     self.hymns[hymnIdentifier] = hymn
                 }
                 return hymn
-        }
-        .replaceError(with: nil)
-        .eraseToAnyPublisher()
+        }.replaceError(with: nil).eraseToAnyPublisher()
     }
 
-    fileprivate struct HymnNetworkBoundResource: NetworkBoundResource {
+    fileprivate class HymnPublisher: NetworkBoundPublisher {
 
-        private let analytics: AnalyticsLogger
+        // swiftlint:disable nesting
+        typealias UIResultType = UiHymn?
+        typealias Output = UiHymn?
+        // swiftlint:enable nesting
+
+        private var disposables: Set<AnyCancellable>
         private let converter: Converter
         private let dataStore: HymnDataStore
-        private let decoder: JSONDecoder
         private let hymnIdentifier: HymnIdentifier
         private let service: HymnalApiService
         private let systemUtil: SystemUtil
 
-        let disposables: Set<AnyCancellable>
-
-        fileprivate init(analytics: AnalyticsLogger = Resolver.resolve(), converter: Converter, dataStore: HymnDataStore,
-                         decoder: JSONDecoder, disposables: Set<AnyCancellable>, hymnIdentifier: HymnIdentifier,
-                         service: HymnalApiService, systemUtil: SystemUtil) {
-            self.analytics = analytics
+        init(hymnIdentifier: HymnIdentifier, disposables: inout Set<AnyCancellable>, converter: Converter,
+             dataStore: HymnDataStore, service: HymnalApiService, systemUtil: SystemUtil) {
+            self.disposables = disposables
             self.converter = converter
             self.dataStore = dataStore
-            self.decoder = decoder
-            self.disposables = disposables
             self.hymnIdentifier = hymnIdentifier
             self.service = service
             self.systemUtil = systemUtil
+        }
+
+        func createSubscription<S>(_ subscriber: S) -> Subscription where S: Subscriber, S.Failure == ErrorType, S.Input == UIResultType {
+            HymnSubscription(hymnIdentifier: hymnIdentifier, converter: converter, dataStore: dataStore,
+                             disposables: &disposables, service: service, subscriber: subscriber, systemUtil: systemUtil)
+        }
+    }
+
+    fileprivate class HymnSubscription<SubscriberType: Subscriber>: NetworkBoundSubscription
+        where SubscriberType.Input == UiHymn?, SubscriberType.Failure == ErrorType {
+
+        private let analytics: AnalyticsLogger
+        private let converter: Converter
+        private let dataStore: HymnDataStore
+        private let hymnIdentifier: HymnIdentifier
+        private let service: HymnalApiService
+        private let systemUtil: SystemUtil
+
+        var subscriber: SubscriberType?
+
+        fileprivate init(hymnIdentifier: HymnIdentifier, analytics: AnalyticsLogger = Resolver.resolve(),
+                         converter: Converter, dataStore: HymnDataStore, disposables: inout Set<AnyCancellable>,
+                         service: HymnalApiService, subscriber: SubscriberType, systemUtil: SystemUtil) {
+            // okay to inject analytics because wse aren't mocking it in the unit tests
+            self.analytics = analytics
+            self.converter = converter
+            self.dataStore = dataStore
+            self.hymnIdentifier = hymnIdentifier
+            self.service = service
+            self.subscriber = subscriber
+            self.systemUtil = systemUtil
+            execute(disposables: &disposables)
+        }
+
+        func request(_ demand: Subscribers.Demand) {
+            // Optionaly Adjust The Demand
         }
 
         func saveToDatabase(convertedNetworkResult: HymnEntity?) {
@@ -104,6 +132,9 @@ class HymnsRepositoryImpl: HymnsRepository {
             return systemUtil.isNetworkAvailable() && flattened == nil
         }
 
+        /**
+         * Converts the network result to the equivalent database result type.
+         */
         func convertType(networkResult: Hymn) throws -> HymnEntity? {
             do {
                 return try converter.toHymnEntity(hymnIdentifier: hymnIdentifier, hymn: networkResult)
@@ -114,7 +145,7 @@ class HymnsRepositoryImpl: HymnsRepository {
         }
 
         /**
-         * Converts the network result to the database result type and combines them together.
+         * Converts the database result to the type consumed by the UI.
          */
         func convertType(databaseResult: HymnEntity?) throws -> UiHymn? {
             do {
@@ -137,7 +168,7 @@ class HymnsRepositoryImpl: HymnsRepository {
         }
 
         func createNetworkCall() -> AnyPublisher<Hymn, ErrorType> {
-            return service.getHymn(hymnIdentifier)
+            service.getHymn(hymnIdentifier)
         }
     }
 }

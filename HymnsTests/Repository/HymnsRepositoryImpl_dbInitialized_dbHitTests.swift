@@ -34,71 +34,71 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
         }
     }
 
-    func test_getHymn_resultsCached() {
-        given(systemUtil.isNetworkAvailable()) ~> false
-        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
+//    func test_getHymn_resultsCached() {
+//        given(systemUtil.isNetworkAvailable()) ~> false
+//        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
+//
+//        var set = Set<AnyCancellable>()
+//        // Make one request to store it the memcache.
+//        target.getHymn(cebuano123)
+//            .print(self.description)
+//            .sink(receiveValue: { _ in })
+//            .store(in: &set)
+//
+//        backgroundQueue.sync {}
+//
+//        // Clear all invocations on the mock.
+//        clearInvocations(on: dataStore)
+//        clearInvocations(on: service)
+//
+//        // Verify you still get the same result but without calling the API.
+//        let completion = XCTestExpectation(description: "completion received")
+//        let valueReceived = expectation(description: "value received")
+//        let cancellable = target.getHymn(cebuano123)
+//            .print(self.description)
+//            .sink(receiveCompletion: { state in
+//                completion.fulfill()
+//                XCTAssertEqual(state, .finished)
+//            }, receiveValue: { hymn in
+//                valueReceived.fulfill()
+//                XCTAssertEqual(self.expected, hymn!)
+//            })
+//
+//        verify(dataStore.getHymn(any())).wasNeverCalled()
+//        verify(service.getHymn(any())).wasNeverCalled()
+//        verify(dataStore.saveHymn(any())).wasNeverCalled()
+//        wait(for: [valueReceived], timeout: testTimeout)
+//        cancellable.cancel()
+//    }
 
-        var set = Set<AnyCancellable>()
-        // Make one request to store it the memcache.
-        target.getHymn(cebuano123)
-            .print(self.description)
-            .sink(receiveValue: { _ in })
-            .store(in: &set)
-
-        backgroundQueue.sync {}
-
-        // Clear all invocations on the mock.
-        clearInvocations(on: dataStore)
-        clearInvocations(on: service)
-
-        // Verify you still get the same result but without calling the API.
-        let completion = XCTestExpectation(description: "completion received")
-        let valueReceived = expectation(description: "value received")
-        let cancellable = target.getHymn(cebuano123)
-            .print(self.description)
-            .sink(receiveCompletion: { state in
-                completion.fulfill()
-                XCTAssertEqual(state, .finished)
-            }, receiveValue: { hymn in
-                valueReceived.fulfill()
-                XCTAssertEqual(self.expected, hymn!)
-            })
-
-        verify(dataStore.getHymn(any())).wasNeverCalled()
-        verify(service.getHymn(any())).wasNeverCalled()
-        verify(dataStore.saveHymn(any())).wasNeverCalled()
-        wait(for: [valueReceived], timeout: testTimeout)
-        cancellable.cancel()
-    }
-
-    func test_getHymn_noNetwork() {
-        given(dataStore.getHymn(cebuano123)) ~> { _ in
-            Just(self.databaseResult).mapError({ _ -> ErrorType in
-                .data(description: "This will never get called")
-            }).subscribe(on: self.backgroundQueue).eraseToAnyPublisher()
-            // Test asynchronous data store call as well to make sure the loading values are being dropped
-        }
-        given(systemUtil.isNetworkAvailable()) ~> false
-        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
-
-        let completion = XCTestExpectation(description: "completion received")
-        let valueReceived = expectation(description: "value received")
-        let cancellable = target.getHymn(cebuano123)
-            .print(self.description)
-            .sink(receiveCompletion: { state in
-                completion.fulfill()
-                XCTAssertEqual(state, .finished)
-            }, receiveValue: { hymn in
-                valueReceived.fulfill()
-                XCTAssertEqual(self.expected, hymn!)
-            })
-
-        verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
-        verify(service.getHymn(any())).wasNeverCalled()
-        verify(dataStore.saveHymn(any())).wasNeverCalled()
-        wait(for: [valueReceived], timeout: testTimeout)
-        cancellable.cancel()
-    }
+//    func test_getHymn_noNetwork() {
+//        given(dataStore.getHymn(cebuano123)) ~> { _ in
+//            Just(self.databaseResult).mapError({ _ -> ErrorType in
+//                .data(description: "This will never get called")
+//            }).subscribe(on: self.backgroundQueue).eraseToAnyPublisher()
+//            // Test asynchronous data store call as well to make sure the loading values are being dropped
+//        }
+//        given(systemUtil.isNetworkAvailable()) ~> false
+//        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
+//
+//        let completion = XCTestExpectation(description: "completion received")
+//        let valueReceived = expectation(description: "value received")
+//        let cancellable = target.getHymn(cebuano123)
+//            .print(self.description)
+//            .sink(receiveCompletion: { state in
+//                completion.fulfill()
+//                XCTAssertEqual(state, .finished)
+//            }, receiveValue: { hymn in
+//                valueReceived.fulfill()
+//                XCTAssertEqual(self.expected, hymn!)
+//            })
+//
+//        verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
+//        verify(service.getHymn(any())).wasNeverCalled()
+//        verify(dataStore.saveHymn(any())).wasNeverCalled()
+//        wait(for: [valueReceived], timeout: testTimeout)
+//        cancellable.cancel()
+//    }
 
     func test_getHymn_networkAvailable_resultsSuccessful() {
         given(systemUtil.isNetworkAvailable()) ~> true
@@ -122,92 +122,92 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
         wait(for: [valueReceived], timeout: testTimeout)
         cancellable.cancel()
     }
-
-    func test_getHymn_databaseConversionError_noNetwork() {
-        given(systemUtil.isNetworkAvailable()) ~> false
-        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> { _, _ in
-            throw TypeConversionError.init(triggeringError: ErrorType.parsing(description: "failed to convert!"))
-        }
-
-        let completion = XCTestExpectation(description: "completion received")
-        let valueReceived = expectation(description: "value received")
-        let cancellable = target.getHymn(cebuano123)
-            .print(self.description)
-            .sink(receiveCompletion: { state in
-                completion.fulfill()
-                XCTAssertEqual(state, .finished)
-            }, receiveValue: { hymn in
-                valueReceived.fulfill()
-                XCTAssertNil(hymn)
-            })
-
-        verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
-        verify(service.getHymn(any())).wasNeverCalled()
-        verify(dataStore.saveHymn(any())).wasNeverCalled()
-        wait(for: [valueReceived], timeout: testTimeout)
-        cancellable.cancel()
-    }
-
-    func test_getHymn_networkConversionNil_networkAvailable() {
-        given(systemUtil.isNetworkAvailable()) ~> true
-        given(service.getHymn(cebuano123)) ~> {  _ in
-            Just(self.networkResult).mapError({ _ -> ErrorType in
-                .data(description: "This will never get called")
-            }).eraseToAnyPublisher()
-        }
-        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> nil
-        given(converter.toHymnEntity(hymnIdentifier: cebuano123, hymn: self.networkResult)) ~> self.databaseResult
-
-        let completion = XCTestExpectation(description: "completion received")
-        let valueReceived = expectation(description: "value received")
-        let cancellable = target.getHymn(cebuano123)
-            .print(self.description)
-            .sink(receiveCompletion: { state in
-                completion.fulfill()
-                XCTAssertEqual(state, .finished)
-            }, receiveValue: { hymn in
-                valueReceived.fulfill()
-                XCTAssertNil(hymn)
-            })
-
-        verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
-        verify(service.getHymn(cebuano123)).wasCalled(exactly(1))
-        verify(dataStore.saveHymn(self.databaseResult)).wasCalled(exactly(1))
-        wait(for: [valueReceived], timeout: testTimeout)
-        cancellable.cancel()
-    }
-
-    // Cannot do until https://github.com/birdrides/mockingbird/issues/111 is resolved, since we are try to
-    // make converter.toUiHymn throw an error the first time and execute sucessfully the second time.
-    func ignored_test_getHymn_databaseConversionError_networkAvailable_resultsSuccessful() {
-        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> { _, _ in
-            throw TypeConversionError.init(triggeringError: ErrorType.parsing(description: "failed to convert!"))
-        }
-        given(systemUtil.isNetworkAvailable()) ~> true
-        given(service.getHymn(cebuano123)) ~> {  _ in
-            return Just(self.networkResult).mapError({ _ -> ErrorType in
-                .data(description: "This will never get called")
-            }).eraseToAnyPublisher()
-        }
-        given(converter.toHymnEntity(hymnIdentifier: cebuano123, hymn: self.networkResult)) ~> self.databaseResult
-        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
-
-        let completion = XCTestExpectation(description: "completion received")
-        let valueReceived = expectation(description: "value received")
-        let cancellable = target.getHymn(cebuano123)
-            .print(self.description)
-            .sink(receiveCompletion: { state in
-                completion.fulfill()
-                XCTAssertEqual(state, .finished)
-            }, receiveValue: { hymn in
-                valueReceived.fulfill()
-                XCTAssertEqual(self.expected, hymn!)
-            })
-
-        verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
-        verify(service.getHymn(cebuano123)).wasCalled(exactly(1))
-        verify(dataStore.saveHymn(self.databaseResult)).wasCalled(exactly(1))
-        wait(for: [valueReceived], timeout: testTimeout)
-        cancellable.cancel()
-    }
+//
+//    func test_getHymn_databaseConversionError_noNetwork() {
+//        given(systemUtil.isNetworkAvailable()) ~> false
+//        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> { _, _ in
+//            throw TypeConversionError.init(triggeringError: ErrorType.parsing(description: "failed to convert!"))
+//        }
+//
+//        let completion = XCTestExpectation(description: "completion received")
+//        let valueReceived = expectation(description: "value received")
+//        let cancellable = target.getHymn(cebuano123)
+//            .print(self.description)
+//            .sink(receiveCompletion: { state in
+//                completion.fulfill()
+//                XCTAssertEqual(state, .finished)
+//            }, receiveValue: { hymn in
+//                valueReceived.fulfill()
+//                XCTAssertNil(hymn)
+//            })
+//
+//        verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
+//        verify(service.getHymn(any())).wasNeverCalled()
+//        verify(dataStore.saveHymn(any())).wasNeverCalled()
+//        wait(for: [valueReceived], timeout: testTimeout)
+//        cancellable.cancel()
+//    }
+//
+//    func test_getHymn_networkConversionNil_networkAvailable() {
+//        given(systemUtil.isNetworkAvailable()) ~> true
+//        given(service.getHymn(cebuano123)) ~> {  _ in
+//            Just(self.networkResult).mapError({ _ -> ErrorType in
+//                .data(description: "This will never get called")
+//            }).eraseToAnyPublisher()
+//        }
+//        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> nil
+//        given(converter.toHymnEntity(hymnIdentifier: cebuano123, hymn: self.networkResult)) ~> self.databaseResult
+//
+//        let completion = XCTestExpectation(description: "completion received")
+//        let valueReceived = expectation(description: "value received")
+//        let cancellable = target.getHymn(cebuano123)
+//            .print(self.description)
+//            .sink(receiveCompletion: { state in
+//                completion.fulfill()
+//                XCTAssertEqual(state, .finished)
+//            }, receiveValue: { hymn in
+//                valueReceived.fulfill()
+//                XCTAssertNil(hymn)
+//            })
+//
+//        verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
+//        verify(service.getHymn(cebuano123)).wasCalled(exactly(1))
+//        verify(dataStore.saveHymn(self.databaseResult)).wasCalled(exactly(1))
+//        wait(for: [valueReceived], timeout: testTimeout)
+//        cancellable.cancel()
+//    }
+//
+//    // Cannot do until https://github.com/birdrides/mockingbird/issues/111 is resolved, since we are try to
+//    // make converter.toUiHymn throw an error the first time and execute sucessfully the second time.
+//    func ignored_test_getHymn_databaseConversionError_networkAvailable_resultsSuccessful() {
+//        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> { _, _ in
+//            throw TypeConversionError.init(triggeringError: ErrorType.parsing(description: "failed to convert!"))
+//        }
+//        given(systemUtil.isNetworkAvailable()) ~> true
+//        given(service.getHymn(cebuano123)) ~> {  _ in
+//            return Just(self.networkResult).mapError({ _ -> ErrorType in
+//                .data(description: "This will never get called")
+//            }).eraseToAnyPublisher()
+//        }
+//        given(converter.toHymnEntity(hymnIdentifier: cebuano123, hymn: self.networkResult)) ~> self.databaseResult
+//        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
+//
+//        let completion = XCTestExpectation(description: "completion received")
+//        let valueReceived = expectation(description: "value received")
+//        let cancellable = target.getHymn(cebuano123)
+//            .print(self.description)
+//            .sink(receiveCompletion: { state in
+//                completion.fulfill()
+//                XCTAssertEqual(state, .finished)
+//            }, receiveValue: { hymn in
+//                valueReceived.fulfill()
+//                XCTAssertEqual(self.expected, hymn!)
+//            })
+//
+//        verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
+//        verify(service.getHymn(cebuano123)).wasCalled(exactly(1))
+//        verify(dataStore.saveHymn(self.databaseResult)).wasCalled(exactly(1))
+//        wait(for: [valueReceived], timeout: testTimeout)
+//        cancellable.cancel()
+//    }
 }
