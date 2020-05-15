@@ -50,6 +50,23 @@ class HymnsUITests: XCTestCase {
 
     }
     
+    func testToggleDetailedHymnViewFavorite() {
+        app.launch()
+        let cellQuery = self.app.tables.cells.element(boundBy: 0)
+        cellQuery.tap()
+        let favoriteToggle = app.buttons["favoriteToggle"]
+        favoriteToggle.tap()
+        favoriteToggle.tap()
+}
+    
+    func testSearchFindsSpecificHymn() {
+        app.launch()
+        app.textFields.element.tap()
+        app.textFields.element.typeText("A Noble Deed")
+        self.app.tables.cells.element(boundBy: 0).tap()
+        XCTAssertEqual(app.staticTexts["Upon the Lord Jesus."].label, "Upon the Lord Jesus.")
+    }
+    
     func testSearchBarFunctioning() {
         app.launch()
         app.textFields.element.tap()

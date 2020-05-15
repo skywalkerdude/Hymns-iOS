@@ -24,7 +24,7 @@ struct DisplayHymnToolbar: View {
                     self.viewModel.toggleFavorited()
                 }, label: {
                     isFavorited ? Image(systemName: "heart.fill").accentColor(.accentColor) : Image(systemName: "heart").accentColor(.primary)
-                })
+                }).accessibility(label: Text("favoriteToggle"))
             }
         }.padding(.horizontal)
     }
