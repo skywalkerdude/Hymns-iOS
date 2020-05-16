@@ -1,10 +1,11 @@
+import Resolver
 import SwiftUI
 import PDFKit
 
 struct PDFViewer: UIViewRepresentable {
 
+    private let analytics: AnalyticsLogger = Resolver.resolve()
     let url: URL?
-    private let analytics = AnalyticsLogger()
 
     func makeUIView(context: Context) -> PDFView {
         return PDFView()
@@ -15,7 +16,7 @@ struct PDFViewer: UIViewRepresentable {
             // TODO create error state
             return
         }
-        self.analytics.logDisplayMusicPDF(url: String(describing: url))
+        analytics.logDisplayMusicPDF(url: url)
         pdfView.document = PDFDocument(url: url)
         pdfView.sizeToFit()
         pdfView.autoScales = true
