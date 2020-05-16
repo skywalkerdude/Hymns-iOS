@@ -54,124 +54,121 @@ class HymnsRepositoryImpl: HymnsRepository {
                 return hymn
         }.eraseToAnyPublisher()
     }
+}
 
-    fileprivate class HymnPublisher: NetworkBoundPublisher {
+private class HymnPublisher: NetworkBoundPublisher {
 
-        // swiftlint:disable nesting
-        typealias UIResultType = UiHymn?
-        typealias Output = UiHymn?
-        // swiftlint:enable nesting
+    typealias UIResultType = UiHymn?
+    typealias Output = UiHymn?
 
-        private var disposables: Set<AnyCancellable>
-        private let converter: Converter
-        private let dataStore: HymnDataStore
-        private let hymnIdentifier: HymnIdentifier
-        private let service: HymnalApiService
-        private let systemUtil: SystemUtil
+    private var disposables: Set<AnyCancellable>
+    private let converter: Converter
+    private let dataStore: HymnDataStore
+    private let hymnIdentifier: HymnIdentifier
+    private let service: HymnalApiService
+    private let systemUtil: SystemUtil
 
-        init(hymnIdentifier: HymnIdentifier, disposables: inout Set<AnyCancellable>, converter: Converter,
-             dataStore: HymnDataStore, service: HymnalApiService, systemUtil: SystemUtil) {
-            self.disposables = disposables
-            self.converter = converter
-            self.dataStore = dataStore
-            self.hymnIdentifier = hymnIdentifier
-            self.service = service
-            self.systemUtil = systemUtil
+    init(hymnIdentifier: HymnIdentifier, disposables: inout Set<AnyCancellable>, converter: Converter,
+         dataStore: HymnDataStore, service: HymnalApiService, systemUtil: SystemUtil) {
+        self.disposables = disposables
+        self.converter = converter
+        self.dataStore = dataStore
+        self.hymnIdentifier = hymnIdentifier
+        self.service = service
+        self.systemUtil = systemUtil
+    }
+
+    func createSubscription<S>(_ subscriber: S) -> Subscription where S: Subscriber, S.Failure == ErrorType, S.Input == UIResultType {
+        HymnSubscription(hymnIdentifier: hymnIdentifier, converter: converter, dataStore: dataStore,
+                         disposables: &disposables, service: service, subscriber: subscriber, systemUtil: systemUtil)
+    }
+}
+
+private class HymnSubscription<SubscriberType: Subscriber>: NetworkBoundSubscription where SubscriberType.Input == UiHymn?, SubscriberType.Failure == ErrorType {
+
+    private let analytics: AnalyticsLogger
+    private let converter: Converter
+    private let dataStore: HymnDataStore
+    private let hymnIdentifier: HymnIdentifier
+    private let service: HymnalApiService
+    private let systemUtil: SystemUtil
+
+    private var disposables: Set<AnyCancellable>
+
+    var subscriber: SubscriberType?
+
+    fileprivate init(hymnIdentifier: HymnIdentifier, analytics: AnalyticsLogger = Resolver.resolve(),
+                     converter: Converter, dataStore: HymnDataStore, disposables: inout Set<AnyCancellable>,
+                     service: HymnalApiService, subscriber: SubscriberType, systemUtil: SystemUtil) {
+        // okay to inject analytics because wse aren't mocking it in the unit tests
+        self.analytics = analytics
+        self.converter = converter
+        self.dataStore = dataStore
+        self.disposables = disposables
+        self.hymnIdentifier = hymnIdentifier
+        self.service = service
+        self.subscriber = subscriber
+        self.systemUtil = systemUtil
+    }
+
+    func request(_ demand: Subscribers.Demand) {
+        // Optionaly Adjust The Demand
+        execute(disposables: &disposables)
+    }
+
+    func saveToDatabase(convertedNetworkResult: HymnEntity?) {
+        if !dataStore.databaseInitializedProperly {
+            return
         }
+        guard let hymnEntity = convertedNetworkResult else {
+            return
+        }
+        dataStore.saveHymn(hymnEntity)
+    }
 
-        func createSubscription<S>(_ subscriber: S) -> Subscription where S: Subscriber, S.Failure == ErrorType, S.Input == UIResultType {
-            HymnSubscription(hymnIdentifier: hymnIdentifier, converter: converter, dataStore: dataStore,
-                             disposables: &disposables, service: service, subscriber: subscriber, systemUtil: systemUtil)
+    func shouldFetch(convertedDatabaseResult: UiHymn??) -> Bool {
+        let flattened = convertedDatabaseResult?.flatMap({ uiHymn -> UiHymn? in
+            return uiHymn
+        })
+        return systemUtil.isNetworkAvailable() && flattened == nil
+    }
+
+    /**
+     * Converts the network result to the equivalent database result type.
+     */
+    func convertType(networkResult: Hymn) throws -> HymnEntity? {
+        do {
+            return try converter.toHymnEntity(hymnIdentifier: hymnIdentifier, hymn: networkResult)
+        } catch {
+            analytics.logError(message: "error orccured when converting Hymn to HymnEntity", error: error, extraParameters: ["hymnIdentifier": String(describing: hymnIdentifier)])
+            throw TypeConversionError(triggeringError: error)
         }
     }
 
-    fileprivate class HymnSubscription<SubscriberType: Subscriber>: NetworkBoundSubscription
-        where SubscriberType.Input == UiHymn?, SubscriberType.Failure == ErrorType {
-
-        private let analytics: AnalyticsLogger
-        private let converter: Converter
-        private let dataStore: HymnDataStore
-        private let hymnIdentifier: HymnIdentifier
-        private let service: HymnalApiService
-        private let systemUtil: SystemUtil
-
-        private var disposables: Set<AnyCancellable>
-
-        var subscriber: SubscriberType?
-
-        fileprivate init(hymnIdentifier: HymnIdentifier, analytics: AnalyticsLogger = Resolver.resolve(),
-                         converter: Converter, dataStore: HymnDataStore, disposables: inout Set<AnyCancellable>,
-                         service: HymnalApiService, subscriber: SubscriberType, systemUtil: SystemUtil) {
-            // okay to inject analytics because wse aren't mocking it in the unit tests
-            self.analytics = analytics
-            self.converter = converter
-            self.dataStore = dataStore
-            self.disposables = disposables
-            self.hymnIdentifier = hymnIdentifier
-            self.service = service
-            self.subscriber = subscriber
-            self.systemUtil = systemUtil
+    /**
+     * Converts the database result to the type consumed by the UI.
+     */
+    func convertType(databaseResult: HymnEntity?) throws -> UiHymn? {
+        do {
+            return try converter.toUiHymn(hymnIdentifier: hymnIdentifier, hymnEntity: databaseResult)
+        } catch {
+            analytics.logError(message: "error orccured when converting HymnEntity to UiHymn", error: error, extraParameters: ["hymnIdentifier": String(describing: hymnIdentifier)])
+            throw TypeConversionError(triggeringError: error)
         }
+    }
 
-        func request(_ demand: Subscribers.Demand) {
-            // Optionaly Adjust The Demand
-            execute(disposables: &disposables)
+    func loadFromDatabase() -> AnyPublisher<HymnEntity?, ErrorType> {
+        if !dataStore.databaseInitializedProperly {
+            return Just<HymnEntity?>(nil).tryMap { _ -> HymnEntity? in
+                throw ErrorType.data(description: "database was not intialized properly")
+            }.mapError({ error -> ErrorType in
+                ErrorType.data(description: error.localizedDescription)
+            }).eraseToAnyPublisher()
         }
+        return dataStore.getHymn(hymnIdentifier)
+    }
 
-        func saveToDatabase(convertedNetworkResult: HymnEntity?) {
-            if !dataStore.databaseInitializedProperly {
-                return
-            }
-            guard let hymnEntity = convertedNetworkResult else {
-                return
-            }
-            dataStore.saveHymn(hymnEntity)
-        }
-
-        func shouldFetch(convertedDatabaseResult: UiHymn??) -> Bool {
-            let flattened = convertedDatabaseResult?.flatMap({ uiHymn -> UiHymn? in
-                return uiHymn
-            })
-            return systemUtil.isNetworkAvailable() && flattened == nil
-        }
-
-        /**
-         * Converts the network result to the equivalent database result type.
-         */
-        func convertType(networkResult: Hymn) throws -> HymnEntity? {
-            do {
-                return try converter.toHymnEntity(hymnIdentifier: hymnIdentifier, hymn: networkResult)
-            } catch {
-                analytics.logError(message: "error orccured when converting Hymn to HymnEntity", error: error, extraParameters: ["hymnIdentifier": String(describing: hymnIdentifier)])
-                throw TypeConversionError(triggeringError: error)
-            }
-        }
-
-        /**
-         * Converts the database result to the type consumed by the UI.
-         */
-        func convertType(databaseResult: HymnEntity?) throws -> UiHymn? {
-            do {
-                return try converter.toUiHymn(hymnIdentifier: hymnIdentifier, hymnEntity: databaseResult)
-            } catch {
-                analytics.logError(message: "error orccured when converting HymnEntity to UiHymn", error: error, extraParameters: ["hymnIdentifier": String(describing: hymnIdentifier)])
-                throw TypeConversionError(triggeringError: error)
-            }
-        }
-
-        func loadFromDatabase() -> AnyPublisher<HymnEntity?, ErrorType> {
-            if !dataStore.databaseInitializedProperly {
-                return Just<HymnEntity?>(nil).tryMap { _ -> HymnEntity? in
-                    throw ErrorType.data(description: "database was not intialized properly")
-                }.mapError({ error -> ErrorType in
-                    ErrorType.data(description: error.localizedDescription)
-                }).eraseToAnyPublisher()
-            }
-            return dataStore.getHymn(hymnIdentifier)
-        }
-
-        func createNetworkCall() -> AnyPublisher<Hymn, ErrorType> {
-            service.getHymn(hymnIdentifier)
-        }
+    func createNetworkCall() -> AnyPublisher<Hymn, ErrorType> {
+        service.getHymn(hymnIdentifier)
     }
 }
