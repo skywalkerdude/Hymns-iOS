@@ -71,7 +71,16 @@ extension NetworkBoundSubscription {
         prework()
 
         loadFromDatabase()
-            .sink(
+            .tryMap({ dbResult -> UIResultType in
+                try self.convertType(databaseResult: dbResult)
+            }).mapError({ error -> ErrorType in
+                switch error {
+                case let error as TypeConversionError:
+                    return .parsing(description: error.triggeringError.localizedDescription)
+                default:
+                    return .data(description: error.localizedDescription)
+                }
+            }).sink(
                 receiveCompletion: { state in
                     switch state {
                     case .failure:
@@ -83,22 +92,13 @@ extension NetworkBoundSubscription {
                     case .finished:
                         break
                     }
-            }, receiveValue: { dbResult in
-                do {
-                    let uiResult = try self.convertType(databaseResult: dbResult)
-                    if self.shouldFetch(convertedDatabaseResult: uiResult) {
-                        _ = subscriber.receive(uiResult)
-                        self.fetchFromNetwork(disposables: &self.disposables)
-                    } else {
-                        _ = subscriber.receive(uiResult)
-                        subscriber.receive(completion: .finished)
-                    }
-                } catch {
-                    if self.shouldFetch(convertedDatabaseResult: nil) {
-                        self.fetchFromNetwork(disposables: &self.disposables)
-                    } else {
-                        subscriber.receive(completion: .failure(ErrorType.parsing(description: "error occured while converting the database response")))
-                    }
+            }, receiveValue: { uiResult in
+                if self.shouldFetch(convertedDatabaseResult: uiResult) {
+                    _ = subscriber.receive(uiResult)
+                    self.fetchFromNetwork(disposables: &self.disposables)
+                } else {
+                    _ = subscriber.receive(uiResult)
+                    subscriber.receive(completion: .finished)
                 }
             }).store(in: &disposables)
     }
