@@ -17,21 +17,57 @@ class HymnLyricsViewModelSpec: QuickSpec {
                 target = HymnLyricsViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, mainQueue: testQueue)
             }
             context("with nil repository result") {
-                beforeEach {
-                    given(hymnsRepository.getHymn(classic1151)) ~> {_ in
-                        Just(nil).assertNoFailure().eraseToAnyPublisher()
+                context("result is completed") {
+                    beforeEach {
+                        given(hymnsRepository.getHymn(classic1151)) ~> {_ in
+                            Just(nil).assertNoFailure().eraseToAnyPublisher()
+                        }
+                    }
+                    describe("fetching lyrics") {
+                        beforeEach {
+                            target.fetchLyrics()
+                            testQueue.sync {}
+                        }
+                        it("lyrics should be nil") {
+                            expect(target.lyrics).to(beNil())
+                        }
+                        it("should call hymnsRepository.getHymn") {
+                            verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
+                        }
                     }
                 }
-                describe("fetching lyrics") {
+                context("result is not yet finished") {
+                    let currentValue = CurrentValueSubject<UiHymn?, Never>(nil)
                     beforeEach {
-                        target.fetchLyrics()
-                        testQueue.sync {}
+                        given(hymnsRepository.getHymn(classic1151)) ~> {_ in
+                            currentValue.eraseToAnyPublisher()
+                        }
                     }
-                    it("lyrics should be nil") {
-                        expect(target.lyrics).to(beNil())
-                    }
-                    it("should call hymnsRepository.getHymn") {
-                        verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
+                    describe("fetching lyrics") {
+                        beforeEach {
+                            target.fetchLyrics()
+                            testQueue.sync {}
+                        }
+                        it("lyrics should not be nil") {
+                            expect(target.lyrics).toNot(beNil())
+                        }
+                        it("lyrics should not be empty") {
+                            expect(target.lyrics).to(beEmpty())
+                        }
+                        it("should call hymnsRepository.getHymn") {
+                            verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
+                        }
+                        context("result finishes") {
+                            beforeEach {
+                                currentValue.send(completion: .finished)
+                            }
+                            it("lyrics should be nil") {
+                                expect(target.lyrics).to(beNil())
+                            }
+                            it("should call hymnsRepository.getHymn") {
+                                verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
+                            }
+                        }
                     }
                 }
             }
