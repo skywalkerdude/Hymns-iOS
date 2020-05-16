@@ -60,6 +60,7 @@ class HymnLyricsViewModelSpec: QuickSpec {
                         context("result finishes") {
                             beforeEach {
                                 currentValue.send(completion: .finished)
+                                testQueue.sync {}
                             }
                             it("lyrics should be nil") {
                                 expect(target.lyrics).to(beNil())
