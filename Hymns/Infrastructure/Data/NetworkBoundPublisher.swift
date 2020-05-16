@@ -25,6 +25,8 @@ protocol NetworkBoundSubscription: class, Subscription {
 
     var subscriber: SubscriberType? {get set}
 
+    var disposables: Set<AnyCancellable> {get set}
+
     func saveToDatabase(convertedNetworkResult: DatabaseResultType)
 
     func shouldFetch(convertedDatabaseResult: UIResultType?) -> Bool
@@ -59,18 +61,22 @@ extension NetworkBoundSubscription {
         // subclasses can implement
     }
 
-    func execute(disposables: inout Set<AnyCancellable>) {
+    func request(_ demand: Subscribers.Demand) {
+        // subclasses can override
+        execute()
+    }
+
+    func execute() {
         guard let subscriber = subscriber else { return }
         prework()
 
-        var disposables2 = Set<AnyCancellable>()
         loadFromDatabase()
             .sink(
                 receiveCompletion: { state in
                     switch state {
                     case .failure:
                         if self.shouldFetch(convertedDatabaseResult: nil) {
-                            self.fetchFromNetwork(disposables: &disposables2)
+                            self.fetchFromNetwork(disposables: &self.disposables)
                         } else {
                             subscriber.receive(completion: state)
                         }
@@ -82,14 +88,14 @@ extension NetworkBoundSubscription {
                     let uiResult = try self.convertType(databaseResult: dbResult)
                     if self.shouldFetch(convertedDatabaseResult: uiResult) {
                         _ = subscriber.receive(uiResult)
-                        self.fetchFromNetwork(disposables: &disposables2)
+                        self.fetchFromNetwork(disposables: &self.disposables)
                     } else {
                         _ = subscriber.receive(uiResult)
                         subscriber.receive(completion: .finished)
                     }
                 } catch {
                     if self.shouldFetch(convertedDatabaseResult: nil) {
-                        self.fetchFromNetwork(disposables: &disposables2)
+                        self.fetchFromNetwork(disposables: &self.disposables)
                     } else {
                         subscriber.receive(completion: .failure(ErrorType.parsing(description: "error occured while converting the database response")))
                     }
