@@ -44,12 +44,12 @@ struct DisplaySong: AnalyticsEvent {
 
 struct DisplayMusicPDF: AnalyticsEvent {
 
-    static let name = "display_hymnMusic_pdfs"
+    static let name = "display_music_pdfs"
 
     // Allow non-alphanumeric characters for logging params
     // swiftlint:disable identifier_name
     enum Params: String {
-        case display_musicPDF
+        case display_music_pdfs
     }
     // swiftlint:enable identifier_name
 }

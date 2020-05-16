@@ -25,7 +25,7 @@ class AnalyticsLogger {
     }
 
     func logDisplayMusicPDF(url: String) {
-        Analytics.logEvent(DisplayMusicPDF.name, parameters: [ DisplayMusicPDF.Params.display_musicPDF.rawValue: url])
+        Analytics.logEvent(DisplayMusicPDF.name, parameters: [ DisplayMusicPDF.Params.display_music_pdfs.rawValue: url])
     }
 
     /**
