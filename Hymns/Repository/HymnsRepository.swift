@@ -14,7 +14,6 @@ class HymnsRepositoryImpl: HymnsRepository {
 
     private let converter: Converter
     private let dataStore: HymnDataStore
-    private let decoder: JSONDecoder
     private let mainQueue: DispatchQueue
     private let service: HymnalApiService
     private let systemUtil: SystemUtil
@@ -24,13 +23,11 @@ class HymnsRepositoryImpl: HymnsRepository {
 
     init(converter: Converter = Resolver.resolve(),
          dataStore: HymnDataStore = Resolver.resolve(),
-         decoder: JSONDecoder = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
          service: HymnalApiService = Resolver.resolve(),
          systemUtil: SystemUtil = Resolver.resolve()) {
         self.converter = converter
         self.dataStore = dataStore
-        self.decoder = decoder
         self.mainQueue = mainQueue
         self.service = service
         self.systemUtil = systemUtil
