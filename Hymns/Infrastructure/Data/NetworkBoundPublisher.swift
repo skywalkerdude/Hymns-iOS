@@ -27,7 +27,7 @@ protocol NetworkBoundSubscription: class, Subscription {
 
     func saveToDatabase(convertedNetworkResult: DatabaseResultType)
 
-    func shouldFetch(uiResult: UIResultType?) -> Bool
+    func shouldFetch(convertedDatabaseResult: UIResultType?) -> Bool
 
     /**
      * Converts the network result to the equivalent database result type.
@@ -69,7 +69,7 @@ extension NetworkBoundSubscription {
                 receiveCompletion: { state in
                     switch state {
                     case .failure:
-                        if self.shouldFetch(uiResult: nil) {
+                        if self.shouldFetch(convertedDatabaseResult: nil) {
                             self.fetchFromNetwork(disposables: &disposables2)
                         } else {
                             subscriber.receive(completion: state)
@@ -80,7 +80,7 @@ extension NetworkBoundSubscription {
             }, receiveValue: { dbResult in
                 do {
                     let uiResult = try self.convertType(databaseResult: dbResult)
-                    if self.shouldFetch(uiResult: uiResult) {
+                    if self.shouldFetch(convertedDatabaseResult: uiResult) {
                         _ = subscriber.receive(uiResult)
                         self.fetchFromNetwork(disposables: &disposables2)
                     } else {
@@ -88,7 +88,7 @@ extension NetworkBoundSubscription {
                         subscriber.receive(completion: .finished)
                     }
                 } catch {
-                    if self.shouldFetch(uiResult: nil) {
+                    if self.shouldFetch(convertedDatabaseResult: nil) {
                         self.fetchFromNetwork(disposables: &disposables2)
                     } else {
                         subscriber.receive(completion: .failure(ErrorType.parsing(description: "error occured while converting the database response")))

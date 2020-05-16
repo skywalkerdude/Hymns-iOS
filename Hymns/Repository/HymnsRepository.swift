@@ -128,8 +128,8 @@ class HymnsRepositoryImpl: HymnsRepository {
             dataStore.saveHymn(hymnEntity)
         }
 
-        func shouldFetch(uiResult: UiHymn??) -> Bool {
-            let flattened = uiResult?.flatMap({ uiHymn -> UiHymn? in
+        func shouldFetch(convertedDatabaseResult: UiHymn??) -> Bool {
+            let flattened = convertedDatabaseResult?.flatMap({ uiHymn -> UiHymn? in
                 return uiHymn
             })
             return systemUtil.isNetworkAvailable() && flattened == nil
