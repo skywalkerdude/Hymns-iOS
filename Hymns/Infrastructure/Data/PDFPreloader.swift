@@ -8,18 +8,15 @@ import Resolver
  */
 class PDFLoader {
 
-    private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue
     private let session: URLSession
 
     private var cache = [URL: PDFDocument]()
     private var disposables = Set<AnyCancellable>()
 
-    init(analytics: AnalyticsLogger = Resolver.resolve(),
-         backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
+    init(backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
          session: URLSession = Resolver.resolve()) {
         self.backgroundQueue = backgroundQueue
-        self.analytics = analytics
         self.session = session
     }
 
@@ -33,7 +30,6 @@ class PDFLoader {
     }
 
     func get(url: URL) -> PDFDocument? {
-        self.analytics.logDisplayMusicPDF(url: String(describing: url))
         return cache[url]
     }
 }
