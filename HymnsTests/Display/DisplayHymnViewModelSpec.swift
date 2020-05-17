@@ -13,19 +13,17 @@ class DisplayHymnViewModelSpec: QuickSpec {
             var favoritesStore: FavoritesStoreMock!
             var historyStore: HistoryStoreMock!
             var target: DisplayHymnViewModel!
-            var analytics: AnalyticsLoggerMock!
             var pdfLoader: PDFLoaderMock!
             beforeEach {
                 hymnsRepository = mock(HymnsRepository.self)
                 favoritesStore = mock(FavoritesStore.self)
                 historyStore = mock(HistoryStore.self)
-                analytics = mock(AnalyticsLogger.self)
                 pdfLoader = mock(PDFLoader.self)
             }
             describe("fetching hymn") {
                 context("with nil repository result") {
                     beforeEach {
-                        target = DisplayHymnViewModel(analytics: analytics, backgroundQueue: testQueue, favoritesStore: favoritesStore, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore, pdfPreloader: pdfLoader)
+                        target = DisplayHymnViewModel(backgroundQueue: testQueue, favoritesStore: favoritesStore, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore, pdfPreloader: pdfLoader)
                         given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                             Just(nil).assertNoFailure().eraseToAnyPublisher()
                         }
@@ -54,7 +52,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                 context("with valid repository results") {
                     context("for a classic hymn 1151") {
                         beforeEach {
-                            target = DisplayHymnViewModel(analytics: analytics, backgroundQueue: testQueue, favoritesStore: favoritesStore, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore,
+                            target = DisplayHymnViewModel(backgroundQueue: testQueue, favoritesStore: favoritesStore, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore,
                                                           mainQueue: testQueue, pdfPreloader: pdfLoader)
                             let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: [Verse](), pdfSheet: Hymns.MetaDatum(name: "Lead Sheet", data: [Hymns.Datum(value: "Piano", path: "/en/hymn/c/1151/f=ppdf"), Hymns.Datum(value: "Guitar", path: "/en/hymn/c/1151/f=pdf"), Hymns.Datum(value: "Text", path: "/en/hymn/c/1151/f=gtpdf")]))
                             given(hymnsRepository.getHymn(classic1151)) ~> { _ in
@@ -112,7 +110,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                     }
                     context("for new song 145") {
                         beforeEach {
-                            target = DisplayHymnViewModel(analytics: analytics, backgroundQueue: testQueue, favoritesStore: favoritesStore, hymnToDisplay: newSong145, hymnsRepository: hymnsRepository, historyStore: historyStore,
+                            target = DisplayHymnViewModel(backgroundQueue: testQueue, favoritesStore: favoritesStore, hymnToDisplay: newSong145, hymnsRepository: hymnsRepository, historyStore: historyStore,
                                                           mainQueue: testQueue, pdfPreloader: pdfLoader)
                         }
                         let expectedTitle = "In my spirit, I can see You as You are"
@@ -134,7 +132,6 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                         testQueue.sync {}
                                         testQueue.sync {}
                                         testQueue.sync {}
-
                                     }
                                     it("title should be '\(expectedTitle)'") {
                                         expect(target.title).to(equal(expectedTitle))
