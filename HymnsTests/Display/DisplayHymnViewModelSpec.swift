@@ -69,9 +69,6 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                     testQueue.sync {}
                                     testQueue.sync {}
                                     testQueue.sync {}
-                                    testQueue.sync {}
-                                    testQueue.sync {}
-
                                 }
                                 let expectedTitle = "Hymn 1151"
                                 it("title should be '\(expectedTitle)'") {
@@ -131,7 +128,6 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                         testQueue.sync {}
                                         testQueue.sync {}
                                         testQueue.sync {}
-                                        testQueue.sync {}
 
                                     }
                                     it("title should be '\(expectedTitle)'") {
@@ -182,8 +178,6 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                     testQueue.sync {}
                                     testQueue.sync {}
                                     testQueue.sync {}
-                                    testQueue.sync {}
-
                                 }
                             }
                         }
@@ -208,8 +202,6 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                         testQueue.sync {}
                                         testQueue.sync {}
                                         testQueue.sync {}
-                                        testQueue.sync {}
-
                                     }
                                     it("title should be '\(expectedTitle)'") {
                                         expect(target.title).to(equal(expectedTitle))
