@@ -95,7 +95,7 @@ private class HymnSubscription<SubscriberType: Subscriber>: NetworkBoundSubscrip
     fileprivate init(hymnIdentifier: HymnIdentifier, analytics: AnalyticsLogger = Resolver.resolve(),
                      converter: Converter, dataStore: HymnDataStore, disposables: inout Set<AnyCancellable>,
                      service: HymnalApiService, subscriber: SubscriberType, systemUtil: SystemUtil) {
-        // okay to inject analytics because wse aren't mocking it in the unit tests
+        // okay to inject analytics because we aren't mocking it in the unit tests
         self.analytics = analytics
         self.converter = converter
         self.dataStore = dataStore
