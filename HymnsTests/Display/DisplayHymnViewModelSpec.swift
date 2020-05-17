@@ -5,7 +5,7 @@ import Quick
 @testable import Hymns
 
 class DisplayHymnViewModelSpec: QuickSpec {
-    
+
     override func spec() {
         describe("DisplayHymnViewModel") {
             let testQueue = DispatchQueue(label: "test_queue")
@@ -25,7 +25,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
             describe("fetching hymn") {
                 context("with nil repository result") {
                     beforeEach {
-                        target = DisplayHymnViewModel(analytics: analytics, backgroundQueue: testQueue, favoritesStore: favoritesStore, hymnToDisplay: classic1151, historyStore: historyStore, pdfPreloader: pdfLoader)
+                        target = DisplayHymnViewModel(analytics: analytics, backgroundQueue: testQueue, favoritesStore: favoritesStore, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore, pdfPreloader: pdfLoader)
                         given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                             Just(nil).assertNoFailure().eraseToAnyPublisher()
                         }
@@ -69,6 +69,9 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                     testQueue.sync {}
                                     testQueue.sync {}
                                     testQueue.sync {}
+                                    testQueue.sync {}
+                                    testQueue.sync {}
+
                                 }
                                 let expectedTitle = "Hymn 1151"
                                 it("title should be '\(expectedTitle)'") {
@@ -128,6 +131,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                         testQueue.sync {}
                                         testQueue.sync {}
                                         testQueue.sync {}
+                                        testQueue.sync {}
+
                                     }
                                     it("title should be '\(expectedTitle)'") {
                                         expect(target.title).to(equal(expectedTitle))
@@ -177,6 +182,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                     testQueue.sync {}
                                     testQueue.sync {}
                                     testQueue.sync {}
+                                    testQueue.sync {}
+
                                 }
                             }
                         }
@@ -201,6 +208,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                         testQueue.sync {}
                                         testQueue.sync {}
                                         testQueue.sync {}
+                                        testQueue.sync {}
+
                                     }
                                     it("title should be '\(expectedTitle)'") {
                                         expect(target.title).to(equal(expectedTitle))

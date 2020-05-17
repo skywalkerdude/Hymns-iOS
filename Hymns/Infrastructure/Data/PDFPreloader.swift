@@ -43,7 +43,7 @@ class PDFLoaderImpl: PDFLoader {
 extension Resolver {
     public static func registerPDFLoader() {
         register(PDFLoader.self) {
-            return PDFLoaderImpl() as PDFLoader
+            PDFLoaderImpl() as PDFLoader
         }.scope(application)
     }
 }
