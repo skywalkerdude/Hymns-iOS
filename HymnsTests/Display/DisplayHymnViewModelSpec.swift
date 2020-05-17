@@ -40,6 +40,9 @@ class DisplayHymnViewModelSpec: QuickSpec {
                         it("should not perform any prefetching") {
                             verify(pdfLoader.load(url: any())).wasNeverCalled()
                         }
+                        it("tabItems should be empty") {
+                            expect(target.tabItems).to(beEmpty())
+                        }
                         it("should not store any song into the history store") {
                             verify(historyStore.storeRecentSong(hymnToStore: any(), songTitle: any())).wasNeverCalled()
                         }
@@ -106,7 +109,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                     }
                     context("for new song 145") {
                         beforeEach {
-                            target = DisplayHymnViewModel(analytics: analytics, backgroundQueue: testQueue, favoritesStore: favoritesStore, hymnToDisplay: newSong145, hymnsRepository: hymnsRepository,
+                            target = DisplayHymnViewModel(analytics: analytics, backgroundQueue: testQueue, favoritesStore: favoritesStore, hymnToDisplay: newSong145, hymnsRepository: hymnsRepository, historyStore: historyStore,
                                                           mainQueue: testQueue, pdfPreloader: pdfLoader)
                         }
                         let expectedTitle = "In my spirit, I can see You as You are"
