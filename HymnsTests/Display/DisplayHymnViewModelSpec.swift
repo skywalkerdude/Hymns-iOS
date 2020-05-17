@@ -104,6 +104,9 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                 it("piano url should be prefetched") {
                                     verify(pdfLoader.load(url: pianoUrl)).wasCalled(exactly(1))
                                 }
+                                it("tabItems should be four") {
+                                    expect(target.tabItems.count).to(equal(4))
+                                }
                             }
                         }
                     }
@@ -162,6 +165,9 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                     let pianoUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=ppdf")!
                                     it("piano url should be prefetched") {
                                         verify(pdfLoader.load(url: pianoUrl)).wasCalled(exactly(1))
+                                    }
+                                    it("tabItems should be four") {
+                                        expect(target.tabItems.count).to(equal(4))
                                     }
                                 }
                             }
@@ -223,6 +229,9 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                     }
                                     it("should observe its favorite status") {
                                         verify(favoritesStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())).wasCalled(exactly(1))
+                                    }
+                                    it("tabItems should be one because this call is without sheet music") {
+                                        expect(target.tabItems.count).to(equal(1))
                                     }
                                 }
                             }
