@@ -20,7 +20,13 @@ class AnalyticsLogger {
 
     func logDisplaySong(hymnIdentifier: HymnIdentifier) {
         Analytics.logEvent(DisplaySong.name, parameters: [
-            DisplaySong.Params.hymn_identifier.rawValue: hymnIdentifier
+            DisplaySong.Params.hymn_identifier.rawValue: String(describing: hymnIdentifier)
+        ])
+    }
+
+    func logDisplayMusicPDF(url: URL) {
+        Analytics.logEvent(DisplayMusicPDF.name, parameters: [
+            DisplayMusicPDF.Params.pdf_url.rawValue: url.absoluteString
         ])
     }
 

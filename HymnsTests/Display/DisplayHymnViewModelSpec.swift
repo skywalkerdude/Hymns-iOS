@@ -13,18 +13,17 @@ class DisplayHymnViewModelSpec: QuickSpec {
             var favoritesStore: FavoritesStoreMock!
             var historyStore: HistoryStoreMock!
             var target: DisplayHymnViewModel!
-            var webViewPreloader: WebViewPreloaderMock!
+            var pdfLoader: PDFLoaderMock!
             beforeEach {
                 hymnsRepository = mock(HymnsRepository.self)
                 favoritesStore = mock(FavoritesStore.self)
                 historyStore = mock(HistoryStore.self)
-                webViewPreloader = mock(WebViewPreloader.self)
+                pdfLoader = mock(PDFLoader.self)
             }
             describe("fetching hymn") {
                 context("with nil repository result") {
                     beforeEach {
-                        target = DisplayHymnViewModel(backgroundQueue: testQueue, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository,
-                                                      favoritesStore: favoritesStore, historyStore: historyStore)
+                        target = DisplayHymnViewModel(backgroundQueue: testQueue, favoritesStore: favoritesStore, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore, pdfPreloader: pdfLoader)
                         given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                             Just(nil).assertNoFailure().eraseToAnyPublisher()
                         }
@@ -36,20 +35,11 @@ class DisplayHymnViewModelSpec: QuickSpec {
                         it("title should be empty") {
                             expect(target.title).to(beEmpty())
                         }
-                        it("lyrics should be nil") {
-                            expect(target.lyrics).to(beNil())
-                        }
-                        it("chords should be nil") {
-                            expect(target.chordsUrl).to(beNil())
-                        }
-                        it("guitar url should be nil") {
-                            expect(target.guitarUrl).to(beNil())
-                        }
-                        it("piano url should be nil") {
-                            expect(target.pianoUrl).to(beNil())
-                        }
                         it("should not perform any prefetching") {
-                            verify(webViewPreloader.preload(url: any())).wasNeverCalled()
+                            verify(pdfLoader.load(url: any())).wasNeverCalled()
+                        }
+                        it("should have no tabs") {
+                            expect(target.tabItems).to(beEmpty())
                         }
                         it("should not store any song into the history store") {
                             verify(historyStore.storeRecentSong(hymnToStore: any(), songTitle: any())).wasNeverCalled()
@@ -62,8 +52,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                 context("with valid repository results") {
                     context("for a classic hymn 1151") {
                         beforeEach {
-                            target = DisplayHymnViewModel(backgroundQueue: testQueue, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository,
-                                                          mainQueue: testQueue, favoritesStore: favoritesStore, historyStore: historyStore, webviewCache: webViewPreloader)
+                            target = DisplayHymnViewModel(backgroundQueue: testQueue, favoritesStore: favoritesStore, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore,
+                                                          mainQueue: testQueue, pdfPreloader: pdfLoader)
                             let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: [Verse](), pdfSheet: Hymns.MetaDatum(name: "Lead Sheet", data: [Hymns.Datum(value: "Piano", path: "/en/hymn/c/1151/f=ppdf"), Hymns.Datum(value: "Guitar", path: "/en/hymn/c/1151/f=pdf"), Hymns.Datum(value: "Text", path: "/en/hymn/c/1151/f=gtpdf")]))
                             given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                                 Just(hymn).assertNoFailure().eraseToAnyPublisher()
@@ -100,38 +90,40 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                 it("should observe its favorite status") {
                                     verify(favoritesStore.observeFavoriteStatus(hymnIdentifier: classic1151, action: any())).wasCalled(exactly(1))
                                 }
-                                it("should have lyrics") {
-                                    expect(target.lyrics).to(equal([Verse]()))
-                                }
                                 let chordsUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=gtpdf")!
-                                it("chords url should be \(String(describing: chordsUrl))") {
-                                    expect(target.chordsUrl).to(equal(chordsUrl))
-                                }
                                 it("chords url should be prefetched") {
-                                    verify(webViewPreloader.preload(url: chordsUrl)).wasCalled(exactly(1))
+                                    verify(pdfLoader.load(url: chordsUrl)).wasCalled(exactly(1))
                                 }
                                 let guitarUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=pdf")!
-                                it("guitar url should be \(String(describing: guitarUrl))") {
-                                    expect(target.guitarUrl).to(equal(guitarUrl))
-                                }
                                 it("guitar url should be prefetched") {
-                                    verify(webViewPreloader.preload(url: guitarUrl)).wasCalled(exactly(1))
+                                    verify(pdfLoader.load(url: guitarUrl)).wasCalled(exactly(1))
                                 }
                                 let pianoUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=ppdf")!
-                                it("piano url should be \(String(describing: pianoUrl))") {
-                                    expect(target.pianoUrl).to(equal(pianoUrl))
-                                }
                                 it("piano url should be prefetched") {
-                                    verify(webViewPreloader.preload(url: pianoUrl)).wasCalled(exactly(1))
+                                    verify(pdfLoader.load(url: pianoUrl)).wasCalled(exactly(1))
+                                }
+                                it("should have four tabs") {
+                                    expect(target.tabItems).to(haveCount(4))
+                                }
+                                it("first tab should be lyrics") {
+                                    expect(target.tabItems[0].id).to(equal("Lyrics"))
+                                }
+                                it("second tab should be chords") {
+                                    expect(target.tabItems[1].id).to(equal("Chords"))
+                                }
+                                it("third tab should be guitar") {
+                                    expect(target.tabItems[2].id).to(equal("Guitar"))
+                                }
+                                it("fourth tab should be piano") {
+                                    expect(target.tabItems[3].id).to(equal("Piano"))
                                 }
                             }
                         }
                     }
                     context("for new song 145") {
                         beforeEach {
-                            target = DisplayHymnViewModel(backgroundQueue: testQueue, hymnToDisplay: newSong145, hymnsRepository: hymnsRepository,
-                                                          mainQueue: testQueue, favoritesStore: favoritesStore, historyStore: historyStore,
-                                                          webviewCache: webViewPreloader)
+                            target = DisplayHymnViewModel(backgroundQueue: testQueue, favoritesStore: favoritesStore, hymnToDisplay: newSong145, hymnsRepository: hymnsRepository, historyStore: historyStore,
+                                                          mainQueue: testQueue, pdfPreloader: pdfLoader)
                         }
                         let expectedTitle = "In my spirit, I can see You as You are"
                         context("title contains 'Hymn: '") {
@@ -172,25 +164,31 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                         verify(favoritesStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())).wasCalled(exactly(1))
                                     }
                                     let chordsUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=gtpdf")!
-                                    it("chords url should be \(String(describing: chordsUrl))") {
-                                        expect(target.chordsUrl).to(equal(chordsUrl))
-                                    }
                                     it("chords url should be prefetched") {
-                                        verify(webViewPreloader.preload(url: chordsUrl)).wasCalled(exactly(1))
+                                        verify(pdfLoader.load(url: chordsUrl)).wasCalled(exactly(1))
                                     }
                                     let guitarUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=pdf")!
-                                    it("guitar url should be \(String(describing: guitarUrl))") {
-                                        expect(target.guitarUrl).to(equal(guitarUrl))
-                                    }
                                     it("guitar url should be prefetched") {
-                                        verify(webViewPreloader.preload(url: guitarUrl)).wasCalled(exactly(1))
+                                        verify(pdfLoader.load(url: guitarUrl)).wasCalled(exactly(1))
                                     }
                                     let pianoUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=ppdf")!
-                                    it("piano url should be \(String(describing: pianoUrl))") {
-                                        expect(target.pianoUrl).to(equal(pianoUrl))
-                                    }
                                     it("piano url should be prefetched") {
-                                        verify(webViewPreloader.preload(url: pianoUrl)).wasCalled(exactly(1))
+                                        verify(pdfLoader.load(url: pianoUrl)).wasCalled(exactly(1))
+                                    }
+                                    it("should have four tabs") {
+                                        expect(target.tabItems).to(haveCount(4))
+                                    }
+                                    it("first tab should be lyrics") {
+                                        expect(target.tabItems[0].id).to(equal("Lyrics"))
+                                    }
+                                    it("second tab should be chords") {
+                                        expect(target.tabItems[1].id).to(equal("Chords"))
+                                    }
+                                    it("third tab should be guitar") {
+                                        expect(target.tabItems[2].id).to(equal("Guitar"))
+                                    }
+                                    it("fourth tab should be piano") {
+                                        expect(target.tabItems[3].id).to(equal("Piano"))
                                     }
                                 }
                             }
@@ -210,21 +208,6 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                     testQueue.sync {}
                                     testQueue.sync {}
                                     testQueue.sync {}
-                                }
-                                it("should have lyrics") {
-                                    expect(target.lyrics).to(equal([Verse]()))
-                                }
-                                it("chords url should be nil") {
-                                    expect(target.chordsUrl).to(beNil())
-                                }
-                                it("guitar url should be nil") {
-                                    expect(target.guitarUrl).to(beNil())
-                                }
-                                it("piano url should be nil") {
-                                    expect(target.pianoUrl).to(beNil())
-                                }
-                                it("should not perform any prefetching") {
-                                    verify(webViewPreloader.preload(url: any())).wasNeverCalled()
                                 }
                             }
                         }
@@ -267,6 +250,13 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                     }
                                     it("should observe its favorite status") {
                                         verify(favoritesStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())).wasCalled(exactly(1))
+                                    }
+                                    it("should have one tab") {
+                                        // tabItems should be one because this call is without sheet music
+                                        expect(target.tabItems).to(haveCount(1))
+                                    }
+                                    it("first tab should be lyrics") {
+                                        expect(target.tabItems[0].id).to(equal("Lyrics"))
                                     }
                                 }
                             }

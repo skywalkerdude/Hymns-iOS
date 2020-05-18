@@ -51,6 +51,20 @@ public class RegexUtil {
         return nil
     }
 
+    static func getQueryParams(path: String) -> [String: String]? {
+        guard let url = URL(string: path), let query = url.query else { return nil }
+        var queryParams = [String: String]()
+        for pair in query.components(separatedBy: "&") {
+            let key = pair.components(separatedBy: "=")[0]
+            let value = pair
+                .components(separatedBy: "=")[1]
+                .replacingOccurrences(of: "+", with: " ")
+                .removingPercentEncoding ?? ""
+            queryParams[key] = value
+        }
+        return queryParams.isEmpty ? nil : queryParams
+    }
+
     private static func removeQueryParams(path: String) -> String {
         if let index = path.firstIndex(of: "?") {
             return String(path.prefix(upTo: index))

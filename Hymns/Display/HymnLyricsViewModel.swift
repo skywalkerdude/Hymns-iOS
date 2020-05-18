@@ -21,6 +21,7 @@ class HymnLyricsViewModel: ObservableObject {
     }
 
     func fetchLyrics() {
+        var latestValue: [VerseViewModel]? = [VerseViewModel]()
         repository
             .getHymn(identifier)
             .map({ [weak self] hymn -> [VerseViewModel]? in
@@ -30,9 +31,14 @@ class HymnLyricsViewModel: ObservableObject {
                 return self.convertToViewModels(verses: hymn.lyrics)
             })
             .receive(on: mainQueue)
-            .sink(
-                receiveValue: { [weak self] lyrics in
-                    self?.lyrics = lyrics
+            .sink(receiveCompletion: { [weak self] state in
+                guard let self = self else { return }
+                if state == .finished {
+                    // Only display the lyrics if the call is finished and we aren't getting any more values
+                    self.lyrics = latestValue
+                }
+                }, receiveValue: { lyrics in
+                    latestValue = lyrics
             }).store(in: &disposables)
     }
 

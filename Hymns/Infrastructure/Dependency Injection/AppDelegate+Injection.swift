@@ -23,12 +23,12 @@ extension Resolver: ResolverRegistering {
         register {URLSession.shared}.scope(application)
         register {AnalyticsLogger()}
         register {SystemUtil()}
+        registerPDFLoader()
         registerConverters()
         registerHymnDataStore()
         registerHistoryStore()
         registerFavoritesStore()
         registerHymnalApiService()
-        registerWebViewPreloader()
         registerRepositories()
         registerHomeViewModel()
         registerFavoritesViewModel()
