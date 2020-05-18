@@ -105,6 +105,18 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                 it("should have four tabs") {
                                     expect(target.tabItems).to(haveCount(4))
                                 }
+                                it("first tab should be lyrics") {
+                                    expect(target.tabItems[0].id).to(equal("Lyrics"))
+                                }
+                                it("second tab should be chords") {
+                                    expect(target.tabItems[1].id).to(equal("Chords"))
+                                }
+                                it("third tab should be guitar") {
+                                    expect(target.tabItems[2].id).to(equal("Guitar"))
+                                }
+                                it("fourth tab should be piano") {
+                                    expect(target.tabItems[3].id).to(equal("Piano"))
+                                }
                             }
                         }
                     }
@@ -165,6 +177,18 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                     }
                                     it("should have four tabs") {
                                         expect(target.tabItems).to(haveCount(4))
+                                    }
+                                    it("first tab should be lyrics") {
+                                        expect(target.tabItems[0].id).to(equal("Lyrics"))
+                                    }
+                                    it("second tab should be chords") {
+                                        expect(target.tabItems[1].id).to(equal("Chords"))
+                                    }
+                                    it("third tab should be guitar") {
+                                        expect(target.tabItems[2].id).to(equal("Guitar"))
+                                    }
+                                    it("fourth tab should be piano") {
+                                        expect(target.tabItems[3].id).to(equal("Piano"))
                                     }
                                 }
                             }
@@ -230,6 +254,9 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                     it("should have one tab") {
                                         // tabItems should be one because this call is without sheet music
                                         expect(target.tabItems).to(haveCount(1))
+                                    }
+                                    it("first tab should be lyrics") {
+                                        expect(target.tabItems[0].id).to(equal("Lyrics"))
                                     }
                                 }
                             }
