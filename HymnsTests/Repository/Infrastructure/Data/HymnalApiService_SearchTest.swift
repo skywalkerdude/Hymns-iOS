@@ -40,7 +40,7 @@ class HymnalApiService_SearchTest: XCTestCase {
                     receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
                         switch completion {
                         case .failure(let error):
-                            XCTAssertEqual(error.localizedDescription, "Error occurred when making a data request")
+                            XCTAssertEqual(error, .data(description: "The operation couldn’t be completed. (NSURLErrorDomain error -1.)"))
                             failureExpectation.fulfill()
                         case .finished:
                             finishedExpectation.fulfill()
@@ -73,7 +73,7 @@ class HymnalApiService_SearchTest: XCTestCase {
                     receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
                         switch completion {
                         case .failure(let error):
-                            XCTAssertEqual(error.localizedDescription, "Error occurred when parsing a data response")
+                            XCTAssertEqual(error, .parsing(description: "The data couldn’t be read because it isn’t in the correct format."))
                             failureExpectation.fulfill()
                         case .finished:
                             finishedExpectation.fulfill()

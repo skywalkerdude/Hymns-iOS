@@ -39,7 +39,7 @@ class HymnalApiService_GetHymnSpec: QuickSpec {
                                 receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
                                     switch completion {
                                     case .failure(let error):
-                                        expect(error.localizedDescription).to(equal("Error occurred when making a data request"))
+                                        expect(error).to(equal(.data(description: "The operation couldn’t be completed. (NSURLErrorDomain error -1.)")))
                                         failureExpectation.fulfill()
                                     case .finished:
                                         finishedExpectation.fulfill()
@@ -73,7 +73,7 @@ class HymnalApiService_GetHymnSpec: QuickSpec {
                                 receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
                                     switch completion {
                                     case .failure(let error):
-                                        expect(error.localizedDescription).to(equal("Error occurred when parsing a data response"))
+                                        expect(error).to(equal(.parsing(description: "The data couldn’t be read because it isn’t in the correct format.")))
                                         failureExpectation.fulfill()
                                     case .finished:
                                         finishedExpectation.fulfill()
