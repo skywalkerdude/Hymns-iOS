@@ -52,22 +52,22 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
         clearInvocations(on: service)
 
         // Verify you still get the same result but without calling the API.
-        let completion = XCTestExpectation(description: "completion received")
-        let valueReceived = expectation(description: "value received")
+        let completion = expectation(description: "completion received")
+        let value = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
             .print(self.description)
             .sink(receiveCompletion: { state in
                 completion.fulfill()
                 XCTAssertEqual(state, .finished)
             }, receiveValue: { hymn in
-                valueReceived.fulfill()
+                value.fulfill()
                 XCTAssertEqual(self.expected, hymn!)
             })
 
         verify(dataStore.getHymn(any())).wasNeverCalled()
         verify(service.getHymn(any())).wasNeverCalled()
         verify(dataStore.saveHymn(any())).wasNeverCalled()
-        wait(for: [valueReceived], timeout: testTimeout)
+        wait(for: [completion, value], timeout: testTimeout)
         cancellable.cancel()
     }
 
@@ -81,22 +81,22 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
         given(systemUtil.isNetworkAvailable()) ~> false
         given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
 
-        let completion = XCTestExpectation(description: "completion received")
-        let valueReceived = expectation(description: "value received")
+        let completion = expectation(description: "completion received")
+        let value = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
             .print(self.description)
             .sink(receiveCompletion: { state in
                 completion.fulfill()
                 XCTAssertEqual(state, .finished)
             }, receiveValue: { hymn in
-                valueReceived.fulfill()
+                value.fulfill()
                 XCTAssertEqual(self.expected, hymn!)
             })
 
         verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
         verify(service.getHymn(any())).wasNeverCalled()
         verify(dataStore.saveHymn(any())).wasNeverCalled()
-        wait(for: [valueReceived], timeout: testTimeout)
+        wait(for: [completion, value], timeout: testTimeout)
         cancellable.cancel()
     }
 
@@ -104,22 +104,22 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
         given(systemUtil.isNetworkAvailable()) ~> true
         given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
 
-        let completion = XCTestExpectation(description: "completion received")
-        let valueReceived = expectation(description: "value received")
+        let completion = expectation(description: "completion received")
+        let value = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
             .print(self.description)
             .sink(receiveCompletion: { state in
                 completion.fulfill()
                 XCTAssertEqual(state, .finished)
             }, receiveValue: { hymn in
-                valueReceived.fulfill()
+                value.fulfill()
                 XCTAssertEqual(self.expected, hymn!)
             })
 
         verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
         verify(service.getHymn(any())).wasNeverCalled()
         verify(dataStore.saveHymn(any())).wasNeverCalled()
-        wait(for: [valueReceived], timeout: testTimeout)
+        wait(for: [completion, value], timeout: testTimeout)
         cancellable.cancel()
     }
 
@@ -129,26 +129,26 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
             throw TypeConversionError.init(triggeringError: ErrorType.parsing(description: "failed to convert!"))
         }
 
-        let completion = XCTestExpectation(description: "completion received")
-        let valueReceived = expectation(description: "value received")
+        let completion = expectation(description: "completion received")
+        let value = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
             .print(self.description)
             .sink(receiveCompletion: { state in
                 completion.fulfill()
                 XCTAssertEqual(state, .finished)
             }, receiveValue: { hymn in
-                valueReceived.fulfill()
+                value.fulfill()
                 XCTAssertNil(hymn)
             })
 
         verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
         verify(service.getHymn(any())).wasNeverCalled()
         verify(dataStore.saveHymn(any())).wasNeverCalled()
-        wait(for: [valueReceived], timeout: testTimeout)
+        wait(for: [completion, value], timeout: testTimeout)
         cancellable.cancel()
     }
 
-    func test_getHymn_networkConversionNil_networkAvailable() {
+    func test_getHymn_databaseConversionNil_networkAvailable() {
         given(systemUtil.isNetworkAvailable()) ~> true
         given(service.getHymn(cebuano123)) ~> {  _ in
             Just(self.networkResult).mapError({ _ -> ErrorType in
@@ -158,22 +158,23 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
         given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> nil
         given(converter.toHymnEntity(hymnIdentifier: cebuano123, hymn: self.networkResult)) ~> self.databaseResult
 
-        let completion = XCTestExpectation(description: "completion received")
-        let valueReceived = expectation(description: "value received")
+        let completion = expectation(description: "completion received")
+        let value = expectation(description: "value received")
+        value.expectedFulfillmentCount = 2
         let cancellable = target.getHymn(cebuano123)
             .print(self.description)
             .sink(receiveCompletion: { state in
                 completion.fulfill()
                 XCTAssertEqual(state, .finished)
             }, receiveValue: { hymn in
-                valueReceived.fulfill()
+                value.fulfill()
                 XCTAssertNil(hymn)
             })
 
         verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
         verify(service.getHymn(cebuano123)).wasCalled(exactly(1))
         verify(dataStore.saveHymn(self.databaseResult)).wasCalled(exactly(1))
-        wait(for: [valueReceived], timeout: testTimeout)
+        wait(for: [completion, value], timeout: testTimeout)
         cancellable.cancel()
     }
 
@@ -192,22 +193,22 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
         given(converter.toHymnEntity(hymnIdentifier: cebuano123, hymn: self.networkResult)) ~> self.databaseResult
         given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
 
-        let completion = XCTestExpectation(description: "completion received")
-        let valueReceived = expectation(description: "value received")
+        let completion = expectation(description: "completion received")
+        let value = expectation(description: "value received")
         let cancellable = target.getHymn(cebuano123)
             .print(self.description)
             .sink(receiveCompletion: { state in
                 completion.fulfill()
                 XCTAssertEqual(state, .finished)
             }, receiveValue: { hymn in
-                valueReceived.fulfill()
+                value.fulfill()
                 XCTAssertEqual(self.expected, hymn!)
             })
 
         verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
         verify(service.getHymn(cebuano123)).wasCalled(exactly(1))
         verify(dataStore.saveHymn(self.databaseResult)).wasCalled(exactly(1))
-        wait(for: [valueReceived], timeout: testTimeout)
+        wait(for: [completion, value], timeout: testTimeout)
         cancellable.cancel()
     }
 }
