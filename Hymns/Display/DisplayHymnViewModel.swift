@@ -9,41 +9,39 @@ class DisplayHymnViewModel: ObservableObject {
     typealias Lyrics = [Verse]
 
     @Published var title: String = ""
-    var hymnLyricsViewModel: HymnLyricsViewModel
+    @Published var currentTab: HymnLyricsTab
+    @Published var tabItems: [HymnLyricsTab] = [HymnLyricsTab]()
+    @Published var isFavorited: Bool?
+
     private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue
-    private let identifier: HymnIdentifier
-    private let repository: HymnsRepository
-    private let mainQueue: DispatchQueue
     private let favoritesStore: FavoritesStore
     private let historyStore: HistoryStore
-    private let webviewCache: WebViewPreloader
-    @Published var lyrics: Lyrics?
-    @Published var chordsUrl: URL?
-    @Published var guitarUrl: URL?
-    @Published var pianoUrl: URL?
-    @Published var isFavorited: Bool?
+    private let identifier: HymnIdentifier
+    private let mainQueue: DispatchQueue
+    private let pdfLoader: PDFLoader
+    private let repository: HymnsRepository
 
     private var favoritesObserver: Notification?
     private var disposables = Set<AnyCancellable>()
 
     init(analytics: AnalyticsLogger = Resolver.resolve(),
          backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
+         favoritesStore: FavoritesStore = Resolver.resolve(),
          hymnToDisplay identifier: HymnIdentifier,
          hymnsRepository repository: HymnsRepository = Resolver.resolve(),
-         mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
-         favoritesStore: FavoritesStore = Resolver.resolve(),
          historyStore: HistoryStore = Resolver.resolve(),
-         webviewCache: WebViewPreloader = Resolver.resolve()) {
+         mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
+         pdfPreloader: PDFLoader = Resolver.resolve()) {
         self.analytics = analytics
         self.backgroundQueue = backgroundQueue
-        self.identifier = identifier
-        self.repository = repository
-        self.mainQueue = mainQueue
+        self.currentTab = .lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: identifier)).maxSize().eraseToAnyView())
         self.favoritesStore = favoritesStore
         self.historyStore = historyStore
-        self.webviewCache = webviewCache
-        hymnLyricsViewModel = HymnLyricsViewModel(hymnToDisplay: identifier)
+        self.identifier = identifier
+        self.mainQueue = mainQueue
+        self.pdfLoader = pdfPreloader
+        self.repository = repository
     }
 
     deinit {
@@ -69,36 +67,39 @@ class DisplayHymnViewModel: ObservableObject {
                     }
                     self.title = title
 
-                    self.lyrics = hymn.lyrics
+                    self.tabItems.append(self.currentTab)
 
                     let chordsPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.text.rawValue
                     })?.path
-                    self.chordsUrl = chordsPath.flatMap({ path -> URL? in
+                    let chordsUrl = chordsPath.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     })
-                    if let chordsUrl = self.chordsUrl {
-                        self.webviewCache.preload(url: chordsUrl)
+                    if let chordsUrl = chordsUrl {
+                        self.pdfLoader.load(url: chordsUrl)
+                        self.tabItems.append(.chords(PDFViewer(url: chordsUrl).eraseToAnyView()))
                     }
 
                     let guitarPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.guitar.rawValue
                     })?.path
-                    self.guitarUrl = guitarPath.flatMap({ path -> URL? in
+                    let guitarUrl = guitarPath.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     })
-                    if let guitarUrl = self.guitarUrl {
-                        self.webviewCache.preload(url: guitarUrl)
+                    if let guitarUrl = guitarUrl {
+                        self.pdfLoader.load(url: guitarUrl)
+                        self.tabItems.append(.guitar(PDFViewer(url: guitarUrl).eraseToAnyView()))
                     }
 
                     let pianoPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.piano.rawValue
                     })?.path
-                    self.pianoUrl = pianoPath.flatMap({ path -> URL? in
+                    let pianoUrl = pianoPath.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     })
-                    if let pianoUrl = self.pianoUrl {
-                        self.webviewCache.preload(url: pianoUrl)
+                    if let pianoUrl = pianoUrl {
+                        self.pdfLoader.load(url: pianoUrl)
+                        self.tabItems.append(.piano(PDFViewer(url: pianoUrl).eraseToAnyView()))
                     }
 
                     self.fetchFavoriteStatus()
