@@ -38,7 +38,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                         it("should not perform any prefetching") {
                             verify(pdfLoader.load(url: any())).wasNeverCalled()
                         }
-                        it("tabItems should be empty") {
+                        it("should have no tabs") {
                             expect(target.tabItems).to(beEmpty())
                         }
                         it("should not store any song into the history store") {
@@ -102,8 +102,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                 it("piano url should be prefetched") {
                                     verify(pdfLoader.load(url: pianoUrl)).wasCalled(exactly(1))
                                 }
-                                it("tabItems should be four") {
-                                    expect(target.tabItems.count).to(equal(4))
+                                it("should have four tabs") {
+                                    expect(target.tabItems).to(haveCount(4))
                                 }
                             }
                         }
@@ -163,8 +163,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                     it("piano url should be prefetched") {
                                         verify(pdfLoader.load(url: pianoUrl)).wasCalled(exactly(1))
                                     }
-                                    it("tabItems should be four") {
-                                        expect(target.tabItems.count).to(equal(4))
+                                    it("should have four tabs") {
+                                        expect(target.tabItems).to(haveCount(4))
                                     }
                                 }
                             }
@@ -227,8 +227,9 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                     it("should observe its favorite status") {
                                         verify(favoritesStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())).wasCalled(exactly(1))
                                     }
-                                    it("tabItems should be one because this call is without sheet music") {
-                                        expect(target.tabItems.count).to(equal(1))
+                                    it("should have one tab") {
+                                        // tabItems should be one because this call is without sheet music
+                                        expect(target.tabItems).to(haveCount(1))
                                     }
                                 }
                             }
