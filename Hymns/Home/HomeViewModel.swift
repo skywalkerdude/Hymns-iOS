@@ -146,18 +146,10 @@ class HomeViewModel: ObservableObject {
         isLoading = true
         repository
             .search(searchParameter: searchParameter.trim(), pageNumber: page)
-            .map({ (songResultsPage) -> ([SongResultViewModel], Bool) in
-                guard let songResultsPage = songResultsPage else {
-                    return ([SongResultViewModel](), false)
-                }
+            .map({ songResultsPage -> ([SongResultViewModel], Bool) in
                 let hasMorePages = songResultsPage.hasMorePages ?? false
-                let songResults = songResultsPage.results.compactMap { (songResult) -> SongResultViewModel? in
-                    guard let hymnType = RegexUtil.getHymnType(path: songResult.path), let hymnNumber = RegexUtil.getHymnNumber(path: songResult.path) else {
-                        self.analytics.logError(message: "error happened when trying to parse song result", extraParameters: ["path": songResult.path, "name": songResult.name])
-                        return nil
-                    }
-                    let identifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber)
-                    return SongResultViewModel(title: songResult.name, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
+                let songResults = songResultsPage.results.compactMap { songResult -> SongResultViewModel? in
+                    return SongResultViewModel(title: songResult.name, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: songResult.identifier)).eraseToAnyView())
                 }
                 return (songResults, hasMorePages)
             })
@@ -166,19 +158,24 @@ class HomeViewModel: ObservableObject {
             .sink(
                 receiveCompletion: { [weak self] state in
                     guard let self = self else { return }
+
+                    if searchInput != self.searchParameter {
+                        // search parameter has changed by the time the call completed, so just drop this.
+                        return
+                    }
+
+                    // Call is completed, so set isLoading to false.
+                    self.isLoading = false
+
+                    // If there are no more pages and still no results, then we should show the empty state.
+                    if !self.hasMorePages && self.songResults.isEmpty {
+                        self.state = .empty
+                    }
+
                     switch state {
                     case .failure:
-                        // Call failed, so we should stop loading any more pages
-                        self.isLoading = false
+                        // If a call fails, then we assume there are no more pages to load.
                         self.hasMorePages = false
-
-                        // If there are no results and there's an error, then we should show the no
-                        // results state. Otherwise, just keep the results that we have.
-                        if self.songResults.isEmpty {
-                            self.state = .empty
-                        } else {
-                            self.state = .results
-                        }
                     case .finished:
                         break
                     }
@@ -190,14 +187,13 @@ class HomeViewModel: ObservableObject {
                         return
                     }
 
-                    self.state = .results
-                    self.songResults.append(contentsOf: songResults)
+                    // Filter out duplicates
+                    self.songResults.append(contentsOf: songResults.filter({ newViewModel -> Bool in
+                        !self.songResults.contains(newViewModel)
+                    }))
                     self.hasMorePages = hasMorePages
-                    self.isLoading = false
-
-                    if self.songResults.isEmpty && !self.hasMorePages {
-                        // If there are no results and no more pages to load, show the empty state
-                        self.state = .empty
+                    if !self.songResults.isEmpty {
+                        self.state = .results
                     }
             }).store(in: &disposables)
     }

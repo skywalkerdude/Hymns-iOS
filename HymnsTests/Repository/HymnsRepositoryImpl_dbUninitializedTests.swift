@@ -56,10 +56,10 @@ class HymnsRepositoryImpl_dbUninitializedTests: XCTestCase {
         given(systemUtil.isNetworkAvailable()) ~> true
         given(service.getHymn(cebuano123)) ~> { _ in
             Just(self.networkResult)
-                .tryMap({ (_) -> Hymn in
+                .tryMap({ _ -> Hymn in
                     throw URLError(.badServerResponse)
                 })
-                .mapError({ (_) -> ErrorType in
+                .mapError({ _ -> ErrorType in
                     ErrorType.data(description: "forced network error")
                 }).eraseToAnyPublisher()
         }
@@ -86,7 +86,7 @@ class HymnsRepositoryImpl_dbUninitializedTests: XCTestCase {
     func test_getHymn_databaseError_networkAvailable_resultsSuccessful() {
         given(systemUtil.isNetworkAvailable()) ~> true
         given(service.getHymn(cebuano123)) ~> {  _ in
-            return Just(self.networkResult).mapError({ (_) -> ErrorType in
+            return Just(self.networkResult).mapError({ _ -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()
         }
@@ -115,7 +115,7 @@ class HymnsRepositoryImpl_dbUninitializedTests: XCTestCase {
     func test_getHymn_databaseError_networkConversionError() {
         given(systemUtil.isNetworkAvailable()) ~> true
         given(service.getHymn(cebuano123)) ~> {  _ in
-            Just(self.networkResult).mapError({ (_) -> ErrorType in
+            Just(self.networkResult).mapError({ _ -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()
         }

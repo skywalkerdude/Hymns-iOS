@@ -17,6 +17,7 @@ protocol HymnDataStore {
 
     func saveHymn(_ entity: HymnEntity)
     func getHymn(_ hymnIdentifier: HymnIdentifier) -> AnyPublisher<HymnEntity?, ErrorType>
+    func searchHymn(_ searchParamter: String) -> AnyPublisher<[SearchResultEntity], ErrorType>
 }
 
 /**
@@ -103,6 +104,7 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
                                         unique: false,
                                         ifNotExists: true)
                     try database.create(virtualTable: "SEARCH_VIRTUAL_SONG_DATA", ifNotExists: true, using: FTS4()) { table in
+                        table.synchronize(withTable: self.tableName)
                         table.tokenizer = .porter
                         table.column(HymnEntity.CodingKeys.title.rawValue)
                         table.column(HymnEntity.CodingKeys.lyricsJson.rawValue)
@@ -142,7 +144,28 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
             return entity
         }).eraseToAnyPublisher()
     }
+
+    func searchHymn(_ searchParameter: String) -> AnyPublisher<[SearchResultEntity], ErrorType> {
+        let pattern = FTS3Pattern(matchingAnyTokenIn: searchParameter)
+
+        /*
+         For each column, the length of the longest subsequence of phrase matches that the column value has in common with
+         the query text. For example, if a table column contains the text 'a b c d e' and the query is 'a c "d e"', then
+         the length of the longest common subsequence is 2 (phrase "c" followed by phrase "d e").
+         https://sqlite.org/fts3.html#matchinfo
+         */
+        return databaseQueue.readPublisher { database in
+            try SearchResultEntity.fetchAll(database,
+                                            sql: "SELECT SONG_DATA.SONG_TITLE, HYMN_TYPE, HYMN_NUMBER, QUERY_PARAMS, matchinfo(SEARCH_VIRTUAL_SONG_DATA, 's') FROM SONG_DATA JOIN SEARCH_VIRTUAL_SONG_DATA ON (SEARCH_VIRTUAL_SONG_DATA.docid = SONG_DATA.rowid) WHERE SEARCH_VIRTUAL_SONG_DATA MATCH ?",
+                                            arguments: [pattern])
+        }.mapError({error -> ErrorType in
+            .data(description: error.localizedDescription)
+        }).eraseToAnyPublisher()
+    }
 }
+
+///     let values: [String: DatabaseValueConvertible?] = ["firstName": nil, "lastName": "Miller"]
+///     db.execute(sql: "INSERT ... (:firstName, :lastName)", arguments: StatementArguments(values))
 
 extension Resolver {
 
@@ -174,7 +197,7 @@ extension Resolver {
                 // Need to copy the bundled database into the Application Support directory on order for GRDB to access it
                 // https://github.com/groue/GRDB.swift#how-do-i-open-a-database-stored-as-a-resource-of-my-application
                 if !fileManager.fileExists(atPath: dbPath) {
-                    guard let bundledDbPath = Bundle.main.path(forResource: "hymnaldb-v12", ofType: "sqlite") else {
+                    guard let bundledDbPath = Bundle.main.path(forResource: "12hymnaldb-v12", ofType: "sqlite") else {
                         Crashlytics.crashlytics().log("Path to the bundled database was not found, so just create an empty database instead and initialize it with empty tables")
                         Crashlytics.crashlytics().setCustomValue("empty persistent db", forKey: "database_state")
                         Crashlytics.crashlytics().record(error: NSError(domain: "Database Initialization Error", code: NonFatalEvent.ErrorCode.databaseInitialization.rawValue))

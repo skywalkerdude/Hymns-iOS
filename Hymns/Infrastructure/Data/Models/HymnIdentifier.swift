@@ -12,7 +12,18 @@ struct HymnIdentifier: Hashable, Equatable {
         guard let queryParams = queryParams else {
             return ""
         }
-        return queryParams.jsonString ?? ""
+        return queryParams.queryParamsString ?? ""
+    }
+}
+
+/**
+ * Class wrapper for HymnIdentifiers so it can be used as an ObjectIdentifier.
+ * https://developer.apple.com/documentation/swift/objectidentifier/1538294-init
+ */
+class HymnIdentifierRef {
+    let identifier: HymnIdentifier
+    init(_ identifier: HymnIdentifier) {
+        self.identifier = identifier
     }
 }
 
@@ -30,6 +41,12 @@ extension HymnIdentifier {
         self.hymnType = entity.hymnType
         self.hymnNumber = entity.hymnNumber
         self.queryParams = entity.queryParams?.dictionary as? [String: String]
+    }
+}
+
+extension HymnIdentifier {
+    func toObjectIdentifier() -> ObjectIdentifier {
+        ObjectIdentifier(HymnIdentifierRef(self))
     }
 }
 
@@ -55,9 +72,7 @@ class HymnIdentifierEntity: Object {
         super.init()
         self.hymnType = hymnIdentifier.hymnType
         self.hymnNumber = hymnIdentifier.hymnNumber
-        if let queryParams = hymnIdentifier.queryParams {
-            self.queryParams = queryParams.jsonString
-        }
+        self.queryParams = hymnIdentifier.queryParamString
     }
 
     override func isEqual(_ object: Any?) -> Bool {

@@ -7,7 +7,6 @@ import Resolver
  */
 protocol HymnalApiService {
     func getHymn(_ hymnIdentifier: HymnIdentifier) -> AnyPublisher<Hymn, ErrorType>
-
     func search(for searchInput: String, onPage pageNumber: Int?) -> AnyPublisher<SongResultsPage, ErrorType>
 }
 
