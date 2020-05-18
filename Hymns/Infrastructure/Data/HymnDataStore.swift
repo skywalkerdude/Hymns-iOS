@@ -164,9 +164,6 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
     }
 }
 
-///     let values: [String: DatabaseValueConvertible?] = ["firstName": nil, "lastName": "Miller"]
-///     db.execute(sql: "INSERT ... (:firstName, :lastName)", arguments: StatementArguments(values))
-
 extension Resolver {
 
     /**
@@ -197,7 +194,7 @@ extension Resolver {
                 // Need to copy the bundled database into the Application Support directory on order for GRDB to access it
                 // https://github.com/groue/GRDB.swift#how-do-i-open-a-database-stored-as-a-resource-of-my-application
                 if !fileManager.fileExists(atPath: dbPath) {
-                    guard let bundledDbPath = Bundle.main.path(forResource: "12hymnaldb-v12", ofType: "sqlite") else {
+                    guard let bundledDbPath = Bundle.main.path(forResource: "hymnaldb-v12", ofType: "sqlite") else {
                         Crashlytics.crashlytics().log("Path to the bundled database was not found, so just create an empty database instead and initialize it with empty tables")
                         Crashlytics.crashlytics().setCustomValue("empty persistent db", forKey: "database_state")
                         Crashlytics.crashlytics().record(error: NSError(domain: "Database Initialization Error", code: NonFatalEvent.ErrorCode.databaseInitialization.rawValue))

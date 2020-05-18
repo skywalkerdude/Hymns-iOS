@@ -148,7 +148,7 @@ class HomeViewModel: ObservableObject {
             .search(searchParameter: searchParameter.trim(), pageNumber: page)
             .map({ songResultsPage -> ([SongResultViewModel], Bool) in
                 let hasMorePages = songResultsPage.hasMorePages ?? false
-                let songResults = songResultsPage.results.compactMap { songResult -> SongResultViewModel? in
+                let songResults = songResultsPage.results.map { songResult -> SongResultViewModel in
                     return SongResultViewModel(title: songResult.name, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: songResult.identifier)).eraseToAnyView())
                 }
                 return (songResults, hasMorePages)

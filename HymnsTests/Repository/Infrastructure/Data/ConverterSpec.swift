@@ -7,7 +7,7 @@ class ConverterSpec: QuickSpec {
     // Don't worry about force_try in tests.
     // swiftlint:disable force_try
     override func spec() {
-        describe("using an in-memory database queue") {
+        describe("Converter") {
             var target: Converter!
             beforeEach {
                 target = ConverterImpl()
@@ -67,6 +67,7 @@ class ConverterSpec: QuickSpec {
                 }
                 context("invalid json") {
                     let invalidJson = HymnEntity(hymnIdentifier: classic1151, title: "title", lyricsJson: "invalid json")
+                    // <TypeConversionError(triggeringError: Swift.DecodingError.dataCorrupted(Swift.DecodingError.Context(codingPath: [], debugDescription: "The given data was not valid JSON.", underlyingError: Optional(Error Domain=NSCocoaErrorDomain Code=3840 "Invalid value around character 0." UserInfo={NSDebugDescription=Invalid value around character 0.}))))>
                     it("should throw type conversion error") {
                         expect {
                             try target.toUiHymn(hymnIdentifier: classic1151, hymnEntity: invalidJson)
@@ -75,7 +76,6 @@ class ConverterSpec: QuickSpec {
                         })
                     }
                 }
-                // <TypeConversionError(triggeringError: Swift.DecodingError.dataCorrupted(Swift.DecodingError.Context(codingPath: [], debugDescription: "The given data was not valid JSON.", underlyingError: Optional(Error Domain=NSCocoaErrorDomain Code=3840 "Invalid value around character 0." UserInfo={NSDebugDescription=Invalid value around character 0.}))))>
                 context("filled hymn") {
                     let filledHymn = HymnEntity(hymnIdentifier: classic1151, title: "title", lyricsJson: "[{\"verse_type\":\"verse\",\"verse_content\":[\"line 1\",\"line 2\"]}]")
                     let expected = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: [Verse(verseType: .verse, verseContent: ["line 1", "line 2"])])
@@ -84,6 +84,14 @@ class ConverterSpec: QuickSpec {
                     }
                 }
             }
+            describe("toSongResultEntities") {
+                context("valid hymn") {
+                    it("should valid hymn entity") {
+                        expect(try! target.toHymnEntity(hymnIdentifier: children24, hymn: children_24_hymn)).to(equal(children_24_hymn_entity))
+                    }
+                }
+            }
+            sdf
         }
     }
 }

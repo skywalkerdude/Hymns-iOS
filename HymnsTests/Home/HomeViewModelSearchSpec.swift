@@ -323,6 +323,15 @@ class HomeViewModelSearchSpec: QuickSpec {
                     it("should fetch the first page") {
                         verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)).wasCalled(exactly(1))
                     }
+                    describe("try to load more") {
+                        beforeEach {
+                            target.loadMore(at: SongResultViewModel(title: "classic7", destinationView: EmptyView().eraseToAnyView()))
+                            testQueue.sync {}
+                        }
+                        it("not fetch the next page since previous call is still loading") {
+                            verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 2)).wasNeverCalled()
+                        }
+                    }
                     context("search fails") {
                         beforeEach {
                             response.send(completion: .failure(.data(description: "some network error")))
