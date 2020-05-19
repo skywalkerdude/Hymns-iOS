@@ -3,6 +3,7 @@ import FirebaseCrashlytics
 import Foundation
 import Resolver
 
+// TODO remove later
 class HomeViewModel: ObservableObject {
 
     @Published var searchActive: Bool = false
