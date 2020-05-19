@@ -128,11 +128,11 @@ private class SearchSubscription<SubscriberType: Subscriber>: NetworkBoundSubscr
                     let rank2 = self.calculateRank(entity2.matchInfo)
                     return rank1 > rank2
                 }.map { searchResultEntity -> SongResultEntity in
-                    /**
-                     * Many hymn titles prepend "Hymn: " to the title. It is unnecessary and takes up screen space, so  we strip it out whenever possible.
-                     */
+                    // Many hymn titles prepend "Hymn: " to the title. It is unnecessary and takes up screen space, so  we
+                    // strip it out whenever possible.
                     let title = searchResultEntity.title.replacingOccurrences(of: "Hymn: ", with: "")
-                    return SongResultEntity(hymnType: searchResultEntity.hymnType, hymnNumber: searchResultEntity.hymnNumber, queryParams: searchResultEntity.queryParams, title: title)
+                    return SongResultEntity(hymnType: searchResultEntity.hymnType, hymnNumber: searchResultEntity.hymnNumber,
+                                            queryParams: searchResultEntity.queryParams, title: title)
                 }
                 return (sortedSongResults, false)
         }.eraseToAnyPublisher()
