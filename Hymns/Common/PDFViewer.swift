@@ -3,7 +3,7 @@ import SwiftUI
 import PDFKit
 
 struct PDFViewer: UIViewRepresentable {
-
+    private let preloader: PDFLoader = Resolver.resolve()
     private let analytics: AnalyticsLogger = Resolver.resolve()
     let url: URL?
 
@@ -17,7 +17,12 @@ struct PDFViewer: UIViewRepresentable {
             return
         }
         analytics.logDisplayMusicPDF(url: url)
-        pdfView.document = PDFDocument(url: url)
+        if let preloadedDoc = preloader.get(url: url) {
+            pdfView.document = preloadedDoc
+        }
+        else {
+            pdfView.document = PDFDocument(url: url)
+        }
         pdfView.sizeToFit()
         pdfView.autoScales = true
     }
