@@ -43,7 +43,7 @@ struct TabBar<TabItemType: TabItem>: View {
                         width: proxy[anchor].width,
                         offset: .init(
                             width: proxy[anchor].minX,
-                            height: proxy[anchor].height
+                            height: proxy[anchor].height - 4 // Make the indicator a little higher
                         )
                     )
                 }
