@@ -6,22 +6,49 @@ import SwiftUI
  * Idea for this `TabView` class taken from: https://github.com/innoreq/IRScrollableTabView
  */
 public struct IndicatorTabView<TabType: TabItem>: View {
+    @Binding private var currentTab: TabType
+    private let tabItems: [TabType]
+    private let tabAlignment: TabAlignment
 
-    @Binding var currentTab: TabType
-    let tabItems: [TabType]
+    init(currentTab: Binding<TabType>, tabItems: [TabType], tabAlignment: TabAlignment = .top) {
+        self._currentTab = currentTab
+        self.tabItems = tabItems
+        self.tabAlignment = tabAlignment
+    }
 
     public var body: some View {
         VStack(alignment: .center) {
-            Rectangle()
-                .shadow(radius: 0, y: -0.2)
-                .frame(height: 50)
-                .foregroundColor(.white)
-                .overlay(TabBar(currentTab: $currentTab, tabItems: tabItems))
+            if tabAlignment == .top {
+                TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment)
+            }
             Rectangle()
                 .foregroundColor(.white)
                 .overlay(currentTab.content)
+            if tabAlignment == .bottom {
+                TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment)
+            }
         }
     }
+}
+
+private struct TabContainer<TabType: TabItem>: View {
+
+    @Binding fileprivate var currentTab: TabType
+    fileprivate let tabItems: [TabType]
+    fileprivate let tabAlignment: TabAlignment
+
+    fileprivate var body: some View {
+        Rectangle()
+            .shadow(radius: 0.5, y: self.tabAlignment == .top ? 1 : -1)
+            .frame(height: 50)
+            .foregroundColor(.white)
+            .overlay(TabBar(currentTab: $currentTab, tabItems: tabItems))
+    }
+}
+
+public enum TabAlignment {
+    case top
+    case bottom
 }
 
 struct IndicatorTabView_Previews: PreviewProvider {
@@ -42,6 +69,9 @@ struct IndicatorTabView_Previews: PreviewProvider {
             IndicatorTabView(currentTab: selectedTabBinding, tabItems: tabItems)
                 .previewDevice(PreviewDevice(rawValue: "iPhone XS Max"))
                 .previewDisplayName("iPhone XS Max")
+            IndicatorTabView(currentTab: selectedTabBinding, tabItems: tabItems, tabAlignment: .bottom)
+                .previewDevice(PreviewDevice(rawValue: "iPhone XS Max"))
+                .previewDisplayName("iPhone XS Max bottom tabs")
             IndicatorTabView(currentTab: selectedTabBinding, tabItems: tabItems)
                 .previewDevice(PreviewDevice(rawValue: "iPhone SE"))
                 .previewDisplayName("iPhone SE")
