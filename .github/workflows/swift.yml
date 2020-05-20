@@ -27,6 +27,7 @@ jobs:
       run: xcodebuild test-without-building -workspace Hymns.xcworkspace -scheme Hymns -destination "platform=iOS Simulator,name=iPhone 11 Pro" -testPlan MasterTestPlan
     - name: Upload test results
       uses: actions/upload-artifact@v2
+      if: failure()
       with:
         name: Test Logs
         path: /Users/runner/Library/Developer/Xcode/DerivedData/Hymns-*/Logs
