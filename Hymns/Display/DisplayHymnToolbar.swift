@@ -4,7 +4,6 @@ struct DisplayHymnToolbar: View {
 
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var viewModel: DisplayHymnViewModel
-    @EnvironmentObject var scrollY: ScrollPosition
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
@@ -20,7 +19,7 @@ struct DisplayHymnToolbar: View {
             Spacer()
             //Dynamic title on lyric view for when the user scrolls up and down. Other tabs stay with a static title
             if viewModel.currentTab.label == "Lyrics" {
-                Text(viewModel.title).fontWeight(.bold).opacity(self.scrollY.posDeltaY >= (self.scrollY.posOriginY) ? 0 : 1) //Title to use scrolled in on a hymn
+                Text(viewModel.title).fontWeight(.bold).opacity(self.viewModel.posDeltaY >= (self.viewModel.posOriginY) ? 0 : 1) //Title to use scrolled in on a hymn
             } else {
                 Text(viewModel.title).fontWeight(.bold)
             }

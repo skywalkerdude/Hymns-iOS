@@ -3,7 +3,8 @@ import SwiftUI
 public struct HymnLyricsView: View {
 
     @ObservedObject private var viewModel: HymnLyricsViewModel
-    @EnvironmentObject private var scrollY: ScrollPosition
+    @State var posDeltaY: CGFloat = 0  // Scroll Y Position
+    @State var posOriginY: CGFloat = 0 // Original Y Position
 
     init(viewModel: HymnLyricsViewModel) {
         self.viewModel = viewModel
@@ -26,10 +27,10 @@ public struct HymnLyricsView: View {
                         //We are tracking the scrollY here especially for lyrics to then update the title based on our Y position
                          GeometryReader { innerGeo -> Text in
                             DispatchQueue.main.async {
-                            self.scrollY.posDeltaY = innerGeo.frame(in: .global).minY //although this modifies state during view update we are doing it in an async that is safe
+                            self.posDeltaY = innerGeo.frame(in: .global).minY //although this modifies state during view update we are doing it in an async that is safe
                             }
                              return Text("")
-                         }.onAppear { self.scrollY.posOriginY = self.scrollY.posDeltaY }
+                         }.onAppear { self.posOriginY = self.posDeltaY }
                         ForEach(lyrics, id: \.self) { verseViewModel in
                             Group {
                                 VerseView(viewModel: verseViewModel)

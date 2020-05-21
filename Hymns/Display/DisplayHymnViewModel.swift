@@ -12,6 +12,8 @@ class DisplayHymnViewModel: ObservableObject {
     @Published var currentTab: HymnLyricsTab
     @Published var tabItems: [HymnLyricsTab] = [HymnLyricsTab]()
     @Published var isFavorited: Bool?
+    @Published var posDeltaY: CGFloat = 0  // Scroll Y Position
+    @Published var posOriginY: CGFloat = 0 // Original Y Position
 
     private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue

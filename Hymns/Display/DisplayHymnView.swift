@@ -5,7 +5,6 @@ import Resolver
 struct DisplayHymnView: View {
 
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject private var scrollY: ScrollPosition
     @ObservedObject private var viewModel: DisplayHymnViewModel
 
     init(viewModel: DisplayHymnViewModel) {
@@ -17,7 +16,7 @@ struct DisplayHymnView: View {
             DisplayHymnToolbar(viewModel: viewModel).padding(.top)
             Group {
                 if viewModel.currentTab.label == "Lyrics" {
-            Text(viewModel.title).font(self.scrollY.posDeltaY < (self.scrollY.posOriginY) ? .system(size: 0) : .largeTitle).opacity(self.scrollY.posDeltaY < (self.scrollY.posOriginY) ? 0 : 1) //Title to use at the top of the hymn scrollview
+            Text(viewModel.title).font(self.viewModel.posDeltaY < (self.viewModel.posOriginY) ? .system(size: 0) : .largeTitle).opacity(self.viewModel.posDeltaY < (self.viewModel.posOriginY) ? 0 : 1) //Title to use at the top of the hymn scrollview
                 }
             }
             if viewModel.tabItems.count > 1 {
