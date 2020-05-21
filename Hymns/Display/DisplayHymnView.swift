@@ -19,6 +19,7 @@ struct DisplayHymnView: View {
             } else {
                 viewModel.currentTab.content
             }
+            DisplayHymnBottomBar().maxWidth()
         }.hideNavigationBar()
             .onAppear {
                 Analytics.setScreenName("DisplayHymnView", screenClass: "DisplayHymnViewModel")
@@ -109,7 +110,7 @@ struct DisplayHymnView_Previews: PreviewProvider {
             classic1151.previewDisplayName("classic 1151")
             classic1151Chords.previewDisplayName("classic 1151 chords")
             classic1151Piano.previewDisplayName("classic 1151 piano")
-            classic1334.previewDisplayName("classic 1334")
+            classic1334.toPreviews("classic 1334")
         }
     }
 }

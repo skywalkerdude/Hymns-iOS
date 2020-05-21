@@ -53,7 +53,7 @@ struct DisplayHymnToolbar_Previews: PreviewProvider {
             loading.previewDisplayName("loading")
             classic40.previewDisplayName("classic 40")
             classic1151.previewDisplayName("classic 1151")
-            cupOfChrist.previewDisplayName("cup of christ")
+            cupOfChrist.toPreviews("cup of christ")
         }.previewLayout(.fixed(width: 400, height: 50))
     }
 }
