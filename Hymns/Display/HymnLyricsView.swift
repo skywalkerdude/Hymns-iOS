@@ -21,7 +21,7 @@ public struct HymnLyricsView: View {
             return VStack {
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading) {
-                        
+
                         //Important to put this async because we are modifying a state dynamically in the view https://swiftui-lab.com/state-changes/
                         //We are tracking the scrollY here especially for lyrics to then update the title based on our Y position
                          GeometryReader { innerGeo -> Text in
@@ -29,8 +29,7 @@ public struct HymnLyricsView: View {
                             self.scrollY.posDeltaY = innerGeo.frame(in: .global).minY //although this modifies state during view update we are doing it in an async that is safe
                             }
                              return Text("")
-                         }.onAppear { self.scrollY.posOriginY = self.scrollY.posDeltaY
-                         }
+                         }.onAppear { self.scrollY.posOriginY = self.scrollY.posDeltaY }
                         ForEach(lyrics, id: \.self) { verseViewModel in
                             Group {
                                 VerseView(viewModel: verseViewModel)

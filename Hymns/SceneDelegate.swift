@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Environment object to track scroll position
         let scrollPosition = ScrollPosition()
-        
+
         // Create the SwiftUI view and set the context as the value for the managedObjectContext environment keyPath.
         // Add `@Environment(\.managedObjectContext)` in the views that will need the context.
         let rootView = HomeContainerView().environment(\.managedObjectContext, context).environmentObject(scrollPosition)

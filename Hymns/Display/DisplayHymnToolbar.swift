@@ -18,7 +18,12 @@ struct DisplayHymnToolbar: View {
                 Image(systemName: "chevron.left").accentColor(.primary)
             })
             Spacer()
-            Text(viewModel.title).fontWeight(.bold).opacity(self.scrollY.posDeltaY >= (self.scrollY.posOriginY) ? 0 : 1) //Title to use scrolled in on a hymn
+            //Dynamic title on lyric view for when the user scrolls up and down. Other tabs stay with a static title
+            if viewModel.currentTab.label == "Lyrics" {
+                Text(viewModel.title).fontWeight(.bold).opacity(self.scrollY.posDeltaY >= (self.scrollY.posOriginY) ? 0 : 1) //Title to use scrolled in on a hymn
+            } else {
+                Text(viewModel.title).fontWeight(.bold)
+            }
             Spacer()
             viewModel.isFavorited.map { isFavorited in
                 Button(action: {

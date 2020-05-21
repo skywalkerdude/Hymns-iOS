@@ -2,11 +2,6 @@ import FirebaseAnalytics
 import SwiftUI
 import Resolver
 
-class ScrollPosition: ObservableObject {
-    @Published var posDeltaY: CGFloat = 0  // Scroll Y Position
-    @Published var posOriginY: CGFloat = 0 // Original Y Position
-}
-
 struct DisplayHymnView: View {
 
     @Environment(\.presentationMode) var presentationMode
@@ -20,9 +15,13 @@ struct DisplayHymnView: View {
     var body: some View {
         VStack(spacing: 15) {
             DisplayHymnToolbar(viewModel: viewModel).padding(.top)
+            Group {
+                if viewModel.currentTab.label == "Lyrics" {
             Text(viewModel.title).font(self.scrollY.posDeltaY < (self.scrollY.posOriginY) ? .system(size: 0) : .largeTitle).opacity(self.scrollY.posDeltaY < (self.scrollY.posOriginY) ? 0 : 1) //Title to use at the top of the hymn scrollview
+                }
+            }
             if viewModel.tabItems.count > 1 {
-                IndicatorTabView(currentTab: $viewModel.currentTab, tabItems: viewModel.tabItemvs)
+                IndicatorTabView(currentTab: $viewModel.currentTab, tabItems: viewModel.tabItems)
             } else {
                 viewModel.currentTab.content
             }
