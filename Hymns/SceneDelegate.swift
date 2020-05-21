@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UITableView.appearance().separatorColor = .clear
 
         // Environment object to track scroll position
-        var scrollPosition = ScrollPosition()
+        let scrollPosition = ScrollPosition()
         
         // Create the SwiftUI view and set the context as the value for the managedObjectContext environment keyPath.
         // Add `@Environment(\.managedObjectContext)` in the views that will need the context.

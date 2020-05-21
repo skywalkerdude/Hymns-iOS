@@ -27,7 +27,6 @@ struct DisplayHymnToolbar: View {
                     isFavorited ? Image(systemName: "heart.fill").accentColor(.accentColor) : Image(systemName: "heart").accentColor(.primary)
                 })
             }
-            Text(viewModel.title).font(self.scrollY.posDeltaY < (self.scrollY.posOriginY) ? .system(size: 0) : .largeTitle).opacity(self.scrollY.posDeltaY < (self.scrollY.posOriginY) ? 0 : 1) //Title to use at the top of the hymn scrollview
         }.padding(.horizontal)
     }
 }

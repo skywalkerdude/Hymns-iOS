@@ -10,6 +10,7 @@ class ScrollPosition: ObservableObject {
 struct DisplayHymnView: View {
 
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject private var scrollY: ScrollPosition
     @ObservedObject private var viewModel: DisplayHymnViewModel
 
     init(viewModel: DisplayHymnViewModel) {
@@ -19,8 +20,9 @@ struct DisplayHymnView: View {
     var body: some View {
         VStack(spacing: 15) {
             DisplayHymnToolbar(viewModel: viewModel).padding(.top)
+            Text(viewModel.title).font(self.scrollY.posDeltaY < (self.scrollY.posOriginY) ? .system(size: 0) : .largeTitle).opacity(self.scrollY.posDeltaY < (self.scrollY.posOriginY) ? 0 : 1) //Title to use at the top of the hymn scrollview
             if viewModel.tabItems.count > 1 {
-                IndicatorTabView(currentTab: $viewModel.currentTab, tabItems: viewModel.tabItems)
+                IndicatorTabView(currentTab: $viewModel.currentTab, tabItems: viewModel.tabItemvs)
             } else {
                 viewModel.currentTab.content
             }
