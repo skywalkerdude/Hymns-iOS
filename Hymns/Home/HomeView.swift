@@ -32,13 +32,23 @@ struct HomeView: View {
             } else if viewModel.state == .empty {
                 Text("Did not find any songs matching:\n\"\(viewModel.searchParameter)\".\nPlease try a different request").padding().multilineTextAlignment(.center).maxSize(alignment: .center)
             } else {
-                List(viewModel.songResults) { songResult in
-                    NavigationLink(destination: songResult.destinationView) {
-                        SongResultView(viewModel: songResult)
-                    }.onAppear {
-                        self.viewModel.loadMore(at: songResult)
+                if viewModel.songResults.isEmpty {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Image("search illustration")
+                        Spacer()
                     }
-                }.resignKeyboardOnDragGesture()
+                    Spacer()
+                } else {
+                    List(viewModel.songResults) { songResult in
+                        NavigationLink(destination: songResult.destinationView) {
+                            SongResultView(viewModel: songResult)
+                        }.onAppear {
+                            self.viewModel.loadMore(at: songResult)
+                        }
+                    }.resignKeyboardOnDragGesture()
+                }
             }
         }.onAppear {
             Analytics.setScreenName("HomeView", screenClass: "HomeViewModel")

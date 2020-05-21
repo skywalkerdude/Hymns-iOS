@@ -14,7 +14,10 @@ struct FavoritesView: View {
         VStack {
             CustomTitle(title: "Favorites")
             if self.viewModel.favorites.isEmpty {
-                Text("Tap the ♡ on any hymn to add as a favorite").maxSize()
+                ZStack {
+                    Image("favorites illustration").offset(y: -70)
+                    Text("Tap the ♡ on any hymn to add as a favorite").maxSize().offset(y: 70)
+                }
             } else {
                 List(self.viewModel.favorites) { favorite in
                     NavigationLink(destination: favorite.destinationView) {
