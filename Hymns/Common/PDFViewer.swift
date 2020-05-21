@@ -19,8 +19,7 @@ struct PDFViewer: UIViewRepresentable {
         analytics.logDisplayMusicPDF(url: url)
         if let preloadedDoc = preloader.get(url: url) {
             pdfView.document = preloadedDoc
-        }
-        else {
+        } else {
             pdfView.document = PDFDocument(url: url)
         }
         pdfView.sizeToFit()
