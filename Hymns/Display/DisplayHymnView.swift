@@ -16,7 +16,7 @@ struct DisplayHymnView: View {
             DisplayHymnToolbar(viewModel: viewModel).padding(.top)
             Group {
                 if viewModel.currentTab.label == "Lyrics" {
-            Text(viewModel.title).font(self.viewModel.posDeltaY < (self.viewModel.posOriginY) ? .system(size: 0) : .largeTitle).opacity(self.viewModel.posDeltaY < (self.viewModel.posOriginY) ? 0 : 1) //Title to use at the top of the hymn scrollview
+                    Text(viewModel.title).font(self.viewModel.position.posDeltaY < (self.viewModel.position.posOriginY) ? .system(size: 0) : .largeTitle).opacity(self.viewModel.position.posDeltaY < (self.viewModel.position.posOriginY) ? 0 : 1) //Title to use at the top of the hymn scrollview
                 }
             }
             if viewModel.tabItems.count > 1 {
@@ -31,7 +31,7 @@ struct DisplayHymnView: View {
         }
     }
 }
-
+/*
 #if DEBUG
 struct DisplayHymnView_Previews: PreviewProvider {
     static var previews: some View {
@@ -119,3 +119,4 @@ struct DisplayHymnView_Previews: PreviewProvider {
     }
 }
 #endif
+*/
