@@ -17,9 +17,9 @@ public struct IndicatorTabView<TabType: TabItem>: View {
     }
 
     public var body: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: .center, spacing: 0) {
             if tabAlignment == .top {
-                TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment)
+                TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment).padding(.bottom, 0.2)
             }
             Rectangle()
                 .foregroundColor(.white)
@@ -39,7 +39,7 @@ private struct TabContainer<TabType: TabItem>: View {
 
     fileprivate var body: some View {
         Rectangle()
-            .shadow(radius: 0.5, y: self.tabAlignment == .top ? 1 : -1)
+            .shadow(radius: 0.2, y: self.tabAlignment == .top ? 0.3 : -0.3)
             .frame(height: 50)
             .foregroundColor(.white)
             .overlay(TabBar(currentTab: $currentTab, tabItems: tabItems))

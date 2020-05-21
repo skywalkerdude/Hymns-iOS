@@ -12,7 +12,7 @@ struct DisplayHymnView: View {
     }
 
     var body: some View {
-        VStack(spacing: 15) {
+        VStack(spacing: 0) {
             DisplayHymnToolbar(viewModel: viewModel).padding(.top)
             if viewModel.tabItems.count > 1 {
                 IndicatorTabView(currentTab: $viewModel.currentTab, tabItems: viewModel.tabItems)

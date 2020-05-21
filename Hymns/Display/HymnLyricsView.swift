@@ -17,18 +17,14 @@ public struct HymnLyricsView: View {
                 return ActivityIndicator().maxSize().eraseToAnyView()
             }
 
-            return VStack {
+            return
                 ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .leading, spacing: 15) {
                         ForEach(lyrics, id: \.self) { verseViewModel in
-                            Group {
-                                VerseView(viewModel: verseViewModel)
-                                Spacer().frame(height: 15)
-                            }
+                            VerseView(viewModel: verseViewModel)
                         }
-                    }
-                }
-            }.maxSize(alignment: .leading).eraseToAnyView()
+                    }.padding()
+                }.maxSize(alignment: .leading).eraseToAnyView()
         }.onAppear {
             self.viewModel.fetchLyrics()
         }
