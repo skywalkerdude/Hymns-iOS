@@ -3,6 +3,8 @@ import SwiftUI
 public struct HymnLyricsView: View {
 
     @ObservedObject private var viewModel: HymnLyricsViewModel
+   // @State var posDeltaY: CGFloat = 0  // Scroll Y Position
+ //   @State var posOriginY: CGFloat = 0 // Original Y Position
 
     init(viewModel: HymnLyricsViewModel) {
         self.viewModel = viewModel
@@ -20,6 +22,18 @@ public struct HymnLyricsView: View {
             return VStack {
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading) {
+
+                        //Important to put this async because we are modifying a state dynamically in the view https://swiftui-lab.com/state-changes/
+                        //We are tracking the scrollY here especially for lyrics to then update the title based on our Y position
+                         GeometryReader { innerGeo -> Text in
+                            DispatchQueue.main.async {
+                                self.viewModel.position.posDeltaY = innerGeo.frame(in: .global).minY //although this modifies state during view update we are doing it in an async that is safe
+                            }
+                             return Text("")
+                         }.onAppear {
+                            print("bbug firing")
+                            self.viewModel.position.posOriginY = self.viewModel.position.posDeltaY
+                        }
                         ForEach(lyrics, id: \.self) { verseViewModel in
                             Group {
                                 VerseView(viewModel: verseViewModel)
@@ -34,7 +48,7 @@ public struct HymnLyricsView: View {
         }
     }
 }
-
+/*
 #if DEBUG
 struct HymnLyricsView_Previews: PreviewProvider {
     static var previews: some View {
@@ -68,3 +82,4 @@ struct HymnLyricsView_Previews: PreviewProvider {
     }
 }
 #endif
+*/

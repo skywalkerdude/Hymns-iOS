@@ -9,15 +9,17 @@ class HymnLyricsViewModel: ObservableObject {
     private let identifier: HymnIdentifier
     private let mainQueue: DispatchQueue
     private let repository: HymnsRepository
+    let position: ScrollPosition
 
     private var disposables = Set<AnyCancellable>()
 
     init(hymnToDisplay identifier: HymnIdentifier,
          hymnsRepository repository: HymnsRepository = Resolver.resolve(),
-         mainQueue: DispatchQueue = Resolver.resolve(name: "main")) {
+         mainQueue: DispatchQueue = Resolver.resolve(name: "main"), position: ScrollPosition) {
         self.identifier = identifier
         self.mainQueue = mainQueue
         self.repository = repository
+        self.position = position
     }
 
     func fetchLyrics() {
