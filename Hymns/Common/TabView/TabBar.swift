@@ -75,18 +75,33 @@ private func indicator(width: CGFloat, offset: CGSize) -> some View {
 struct TabBar_Previews: PreviewProvider {
 
     static var previews: some View {
-        var selectedTab: HomeTab = .home
+        var home: HomeTab = .home
+        let homeSelected = TabBar(
+            currentTab: Binding<HomeTab>(
+                get: {home},
+                set: {home = $0}),
+            tabItems: [
+                .home,
+                .browse,
+                .favorites,
+                .settings
+        ])
+
+        var browse: HomeTab = .browse
+        let browseSelected = TabBar(
+            currentTab: Binding<HomeTab>(
+                get: {browse},
+                set: {browse = $0}),
+            tabItems: [
+                .home,
+                .browse,
+                .favorites,
+                .settings
+        ])
+
         return Group {
-            TabBar(
-                currentTab: Binding<HomeTab>(
-                    get: {selectedTab},
-                    set: {selectedTab = $0}),
-                tabItems: [
-                    .home,
-                    .browse,
-                    .favorites,
-                    .settings
-            ])
+            homeSelected.toPreviews("home tab selected")
+            browseSelected.previewLayout(.sizeThatFits).previewDisplayName("browse tab selected")
         }.previewLayout(.fixed(width: 350, height: 50))
     }
 }

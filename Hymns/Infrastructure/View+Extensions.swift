@@ -20,11 +20,15 @@ extension View {
     }
 
     func resignKeyboardOnDragGesture() -> some View {
-        return modifier(ResignKeyboardOnDragGesture())
+        modifier(ResignKeyboardOnDragGesture())
     }
 
     func maxSize(alignment: Alignment = .center) -> some View {
-        return self.frame(minWidth: .zero, idealWidth: .infinity, maxWidth: .infinity, minHeight: .zero, idealHeight: .infinity, maxHeight: .infinity, alignment: alignment)
+        self.frame(minWidth: .zero, idealWidth: .infinity, maxWidth: .infinity, minHeight: .zero, idealHeight: .infinity, maxHeight: .infinity, alignment: alignment)
+    }
+
+    func maxWidth(alignment: Alignment = .center) -> some View {
+        self.frame(minWidth: .zero, idealWidth: .infinity, maxWidth: .infinity)
     }
 }
 
