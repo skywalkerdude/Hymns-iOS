@@ -3,6 +3,7 @@ import SwiftUI
 public struct HymnLyricsView: View {
 
     @ObservedObject private var viewModel: HymnLyricsViewModel
+    @EnvironmentObject private var scrollY: ScrollPosition
 
     init(viewModel: HymnLyricsViewModel) {
         self.viewModel = viewModel
@@ -20,6 +21,16 @@ public struct HymnLyricsView: View {
             return VStack {
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading) {
+                        
+                        
+                        //INNER GEO
+                         GeometryReader { innerGeo -> Text in
+                            self.scrollY.posDeltaY = innerGeo.frame(in: .global).minY //although this modifies state during view update that way we are using it appears safe and is done in several tutorials online.
+                             return Text("")
+                         }.onAppear { self.scrollY.posOriginY = self.scrollY.posDeltaY
+                         }
+                        
+                        
                         ForEach(lyrics, id: \.self) { verseViewModel in
                             Group {
                                 VerseView(viewModel: verseViewModel)
@@ -34,7 +45,7 @@ public struct HymnLyricsView: View {
         }
     }
 }
-
+/*
 #if DEBUG
 struct HymnLyricsView_Previews: PreviewProvider {
     static var previews: some View {
@@ -68,3 +79,4 @@ struct HymnLyricsView_Previews: PreviewProvider {
     }
 }
 #endif
+*/

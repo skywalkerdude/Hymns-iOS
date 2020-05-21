@@ -4,6 +4,7 @@ struct DisplayHymnToolbar: View {
 
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var viewModel: DisplayHymnViewModel
+    @EnvironmentObject var scrollY: ScrollPosition
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
@@ -17,7 +18,7 @@ struct DisplayHymnToolbar: View {
                 Image(systemName: "chevron.left").accentColor(.primary)
             })
             Spacer()
-            Text(viewModel.title).fontWeight(.bold)
+            Text(viewModel.title).fontWeight(.bold).opacity(self.scrollY.posDeltaY >= (self.scrollY.posOriginY) ? 0 : 1) //Title to use scrolled in on a hymn
             Spacer()
             viewModel.isFavorited.map { isFavorited in
                 Button(action: {
@@ -26,6 +27,7 @@ struct DisplayHymnToolbar: View {
                     isFavorited ? Image(systemName: "heart.fill").accentColor(.accentColor) : Image(systemName: "heart").accentColor(.primary)
                 })
             }
+            Text(viewModel.title).font(self.scrollY.posDeltaY < (self.scrollY.posOriginY) ? .system(size: 0) : .largeTitle).opacity(self.scrollY.posDeltaY < (self.scrollY.posOriginY) ? 0 : 1) //Title to use at the top of the hymn scrollview
         }.padding(.horizontal)
     }
 }

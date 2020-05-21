@@ -2,6 +2,11 @@ import FirebaseAnalytics
 import SwiftUI
 import Resolver
 
+class ScrollPosition: ObservableObject {
+    @Published var posDeltaY: CGFloat = 0  // Scroll Y Position
+    @Published var posOriginY: CGFloat = 0 // Original Y Position
+}
+
 struct DisplayHymnView: View {
 
     @Environment(\.presentationMode) var presentationMode
