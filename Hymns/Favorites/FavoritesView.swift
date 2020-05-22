@@ -15,8 +15,8 @@ struct FavoritesView: View {
             CustomTitle(title: "Favorites")
             if self.viewModel.favorites.isEmpty {
                 ZStack {
-                    Image("favorites illustration").offset(y: -70)
-                    Text("Tap the ♡ on any hymn to add as a favorite").maxSize().offset(y: 70)
+                    Image("empty favorites illustration").offset(y: -70)
+                    Text("Tap the heart on any hymn to add as a favorite").maxSize().offset(y: 70)
                 }
             } else {
                 List(self.viewModel.favorites) { favorite in

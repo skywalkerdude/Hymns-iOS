@@ -23,8 +23,10 @@ struct HomeView: View {
                 .padding(.horizontal)
                 .padding(.top, viewModel.searchActive ? nil : .zero)
 
-            viewModel.label.map {
-                Text($0).fontWeight(.bold).padding(.top).padding(.leading).foregroundColor(Color("darkModeSubtitle"))
+            if !viewModel.songResults.isEmpty {
+                viewModel.label.map {
+                    Text($0).fontWeight(.bold).padding(.top).padding(.leading).foregroundColor(Color("darkModeSubtitle"))
+                }
             }
 
             if viewModel.state == .loading {
@@ -36,7 +38,7 @@ struct HomeView: View {
                     Spacer()
                     HStack {
                         Spacer()
-                        Image("search illustration")
+                        Image("empty search illustration")
                         Spacer()
                     }
                     Spacer()
