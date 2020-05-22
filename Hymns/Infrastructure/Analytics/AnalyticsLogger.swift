@@ -1,33 +1,48 @@
 import FirebaseAnalytics
 import Foundation
+import Resolver
 
 /**
  * Wrapper for `FirebaseAnalytics` to help keep track of what we are logging and analyzing.
  */
 class AnalyticsLogger {
 
+    private let backgroundThread: DispatchQueue
+
+    init(backgroundThread: DispatchQueue = Resolver.resolve(name: "background")) {
+        self.backgroundThread = backgroundThread
+    }
+
     func logSearchActive(isActive: Bool) {
-        Analytics.logEvent(SearchActiveChanged.name, parameters: [
-            SearchActiveChanged.Params.is_active.rawValue: isActive ? "true" : false
-        ])
+        backgroundThread.async {
+            Analytics.logEvent(SearchActiveChanged.name, parameters: [
+                SearchActiveChanged.Params.is_active.rawValue: isActive ? "true" : false
+            ])
+        }
     }
 
     func logQueryChanged(queryText: String) {
-        Analytics.logEvent(QueryChanged.name, parameters: [
-            QueryChanged.Params.query_text.rawValue: queryText
-        ])
+        backgroundThread.async {
+            Analytics.logEvent(QueryChanged.name, parameters: [
+                QueryChanged.Params.query_text.rawValue: queryText
+            ])
+        }
     }
 
     func logDisplaySong(hymnIdentifier: HymnIdentifier) {
-        Analytics.logEvent(DisplaySong.name, parameters: [
-            DisplaySong.Params.hymn_identifier.rawValue: String(describing: hymnIdentifier)
-        ])
+        backgroundThread.async {
+            Analytics.logEvent(DisplaySong.name, parameters: [
+                DisplaySong.Params.hymn_identifier.rawValue: String(describing: hymnIdentifier)
+            ])
+        }
     }
 
     func logDisplayMusicPDF(url: URL) {
-        Analytics.logEvent(DisplayMusicPDF.name, parameters: [
-            DisplayMusicPDF.Params.pdf_url.rawValue: url.absoluteString
-        ])
+        backgroundThread.async {
+            Analytics.logEvent(DisplayMusicPDF.name, parameters: [
+                DisplayMusicPDF.Params.pdf_url.rawValue: url.absoluteString
+            ])
+        }
     }
 
     /**
@@ -43,6 +58,8 @@ class AnalyticsLogger {
         if let extraParameters = extraParameters {
             parameters.merge(extraParameters) { (current, _) in current }
         }
-        Analytics.logEvent(NonFatalEvent.name, parameters: parameters)
+        backgroundThread.async {
+            Analytics.logEvent(NonFatalEvent.name, parameters: parameters)
+        }
     }
 }

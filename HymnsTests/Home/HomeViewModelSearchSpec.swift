@@ -5,13 +5,15 @@ import Quick
 import SwiftUI
 @testable import Hymns
 
+// swiftlint:disable type_body_length function_body_length
 /**
  * Tests cases where the `HomeViewModel` performs a search request.
  */
 class HomeViewModelSearchSpec: QuickSpec {
 
     override func spec() {
-        describe("HymnLyricsViewModel") {
+        let searchParameter = "Wakanda Forever"
+        describe("with search parameter \(searchParameter)") {
             // https://www.vadimbulavin.com/unit-testing-async-code-in-swift/
             let testQueue = DispatchQueue(label: "test_queue")
             var historyStore: HistoryStoreMock!
@@ -38,14 +40,15 @@ class HomeViewModelSearchSpec: QuickSpec {
                 clearInvocations(on: historyStore)
                 clearInvocations(on: songResultsRepository)
             }
-            let recentHymns = "Recent hymns"
-            let searchParameter = "Wakanda Forever"
-            context("with search parameter: \(searchParameter)") {
-                context("with nil network response") {
+            context("with empty results") {
+                let results = [UiSongResult]()
+                context("search complete") {
                     beforeEach {
                         given(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)) ~> { _, _ in
                             expect(target.state).to(equal(HomeResultState.loading))
-                            return Just(nil).eraseToAnyPublisher()
+                            return Just(UiSongResultsPage(results: [UiSongResult](), hasMorePages: false)).mapError({ _ -> ErrorType in
+                                .data(description: "This will never get called")
+                            }).eraseToAnyPublisher()
                         }
                         target.searchParameter = "\(searchParameter) \n  "
                         sleep(1) // allow time for the debouncer to trigger.
@@ -66,97 +69,170 @@ class HomeViewModelSearchSpec: QuickSpec {
                         verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)).wasCalled(exactly(1))
                     }
                 }
-                context("with a single page of network results") {
-                    let classic594 = SongResult(name: "classic594", path: "/en/hymn/h/594?gb=1&query=3")
-                    let noHymnType = SongResult(name: "noHymnType", path: "")
-                    let newTune7 = SongResult(name: "newTune7", path: "/en/hymn/nt/7")
-                    let noHymnNumber = SongResult(name: "noHymnNumber", path: "/en/hymn/h/a")
+                context("search incomplete") {
+                    var response: CurrentValueSubject<UiSongResultsPage, ErrorType>!
                     beforeEach {
-                        given(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)) ~> { searchInput, pageNumber in
+                        given(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)) ~> { _, _ in
                             expect(target.state).to(equal(HomeResultState.loading))
-                            let page = SongResultsPage(results: [classic594, noHymnType, newTune7, noHymnNumber], hasMorePages: false)
-                            return Just(page).eraseToAnyPublisher()
+                            return response.eraseToAnyPublisher()
                         }
-                        target.searchParameter = searchParameter
+                        target.searchParameter = "\(searchParameter) \n  "
+                        response = CurrentValueSubject<UiSongResultsPage, ErrorType>(UiSongResultsPage(results: results, hasMorePages: false))
                         sleep(1) // allow time for the debouncer to trigger.
                     }
                     it("no label should be showing") {
                         expect(target.label).to(beNil())
                     }
-                    it("should not still be loading") {
-                        expect(target.state).to(equal(HomeResultState.results))
+                    it("should still be loading") {
+                        expect(target.state).to(equal(HomeResultState.loading))
                     }
-                    it("should have two results") {
-                        expect(target.songResults).to(haveCount(2))
-                        expect(target.songResults[0].title).to(equal("classic594"))
-                        expect(target.songResults[1].title).to(equal("newTune7"))
+                    it("song results should be empty") {
+                        expect(target.songResults).to(beEmpty())
                     }
-                    it("should not fetch the recent songs from the history store") {
-                        verify(historyStore.recentSongs(onChanged: any())).wasNeverCalled()
-                    }
-                    it("should fetch the first page") {
-                        verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)).wasCalled(exactly(1))
-                    }
-                    context("search parameter cleared") {
+                    context("search finishes") {
                         beforeEach {
-                            target.searchParameter = ""
-                            sleep(1) // allow time for the debouncer to trigger.
+                            response.send(completion: .finished)
+                            testQueue.sync {}
                         }
-                        it("\"\(recentHymns)\" label should be showing") {
-                            expect(target.label).toNot(beNil())
-                            expect(target.label).to(equal(recentHymns))
+                        it("no label should be showing") {
+                            expect(target.label).to(beNil())
                         }
                         it("should not still be loading") {
-                            expect(target.state).to(equal(HomeResultState.results))
+                            expect(target.state).to(equal(HomeResultState.empty))
                         }
-                        it("should fetch the recent songs from the history store") {
-                            verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
+                        it("song results should be empty") {
+                            expect(target.songResults).to(beEmpty())
                         }
-                        it("should display recent songs") {
-                            expect(target.songResults).to(haveCount(2))
-                            expect(target.songResults[0].title).to(equal(recentSongs[0].songTitle))
-                            expect(target.songResults[1].title).to(equal(recentSongs[1].songTitle))
+                        it("should not fetch the recent songs from the history store") {
+                            verify(historyStore.recentSongs(onChanged: any())).wasNeverCalled()
+                        }
+                        it("should fetch the first page") {
+                            verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)).wasCalled(exactly(1))
                         }
                     }
-                    context("deactivate search") {
+                    context("search fails") {
                         beforeEach {
-                            target.searchActive = false
-                            sleep(1) // allow time for the debouncer to trigger.
+                            response.send(completion: .failure(.parsing(description: "some parsing error")))
+                            testQueue.sync {}
                         }
-                        it("\"\(recentHymns)\" label should be showing") {
-                            expect(target.label).toNot(beNil())
-                            expect(target.label).to(equal(recentHymns))
+                        it("no label should be showing") {
+                            expect(target.label).to(beNil())
                         }
                         it("should not still be loading") {
-                            expect(target.state).to(equal(HomeResultState.results))
+                            expect(target.state).to(equal(HomeResultState.empty))
                         }
-                        it("should fetch the recent songs from the history store") {
-                            verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
+                        it("song results should be empty") {
+                            expect(target.songResults).to(beEmpty())
                         }
-                        it("should display recent songs") {
-                            expect(target.songResults).to(haveCount(2))
-                            expect(target.songResults[0].title).to(equal(recentSongs[0].songTitle))
-                            expect(target.songResults[1].title).to(equal(recentSongs[1].songTitle))
+                        it("should not fetch the recent songs from the history store") {
+                            verify(historyStore.recentSongs(onChanged: any())).wasNeverCalled()
+                        }
+                        it("should fetch the first page") {
+                            verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)).wasCalled(exactly(1))
                         }
                     }
                 }
-                context("with a two pages of network results") {
-                    let page1 = Array(1...10).map { int -> SongResult in
-                        return SongResult(name: "classic\(int)", path: "/en/hymn/h/\(int)")
+            }
+            context("with a single page of results") {
+                let classic594 = UiSongResult(name: "classic594", identifier: HymnIdentifier(hymnType: .classic, hymnNumber: "594", queryParams: ["gb": "1", "query": "3"]))
+                let newTune7 = UiSongResult(name: "newTune7", identifier: HymnIdentifier(hymnType: .newTune, hymnNumber: "7"))
+                beforeEach {
+                    given(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)) ~> { searchInput, pageNumber in
+                        expect(target.state).to(equal(HomeResultState.loading))
+                        let page = UiSongResultsPage(results: [classic594, newTune7], hasMorePages: false)
+                        return Just(page).mapError({ _ -> ErrorType in
+                            .data(description: "This will never get called")
+                        }).eraseToAnyPublisher()
                     }
-                    let page2 = Array(20...23).map { int -> SongResult in
-                        return SongResult(name: "classic\(int)", path: "/en/hymn/h/\(int)")
+                    target.searchParameter = searchParameter
+                    sleep(1) // allow time for the debouncer to trigger.
+                }
+                it("no label should be showing") {
+                    expect(target.label).to(beNil())
+                }
+                it("should not still be loading") {
+                    expect(target.state).to(equal(HomeResultState.results))
+                }
+                it("should have two results") {
+                    expect(target.songResults).to(haveCount(2))
+                    expect(target.songResults[0].title).to(equal("classic594"))
+                    expect(target.songResults[1].title).to(equal("newTune7"))
+                }
+                it("should not fetch the recent songs from the history store") {
+                    verify(historyStore.recentSongs(onChanged: any())).wasNeverCalled()
+                }
+                it("should fetch the first page") {
+                    verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)).wasCalled(exactly(1))
+                }
+                let recentHymns = "Recent hymns"
+                context("search parameter cleared") {
+                    beforeEach {
+                        target.searchParameter = ""
+                        sleep(1) // allow time for the debouncer to trigger.
                     }
+                    it("\"\(recentHymns)\" label should be showing") {
+                        expect(target.label).toNot(beNil())
+                        expect(target.label).to(equal(recentHymns))
+                    }
+                    it("should not still be loading") {
+                        expect(target.state).to(equal(HomeResultState.results))
+                    }
+                    it("should fetch the recent songs from the history store") {
+                        verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
+                    }
+                    it("should display recent songs") {
+                        expect(target.songResults).to(haveCount(2))
+                        expect(target.songResults[0].title).to(equal(recentSongs[0].songTitle))
+                        expect(target.songResults[1].title).to(equal(recentSongs[1].songTitle))
+                    }
+                }
+                context("deactivate search") {
+                    beforeEach {
+                        target.searchActive = false
+                        sleep(1) // allow time for the debouncer to trigger.
+                    }
+                    it("\"\(recentHymns)\" label should be showing") {
+                        expect(target.label).toNot(beNil())
+                        expect(target.label).to(equal(recentHymns))
+                    }
+                    it("should not still be loading") {
+                        expect(target.state).to(equal(HomeResultState.results))
+                    }
+                    it("should fetch the recent songs from the history store") {
+                        verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
+                    }
+                    it("should display recent songs") {
+                        expect(target.songResults).to(haveCount(2))
+                        expect(target.songResults[0].title).to(equal(recentSongs[0].songTitle))
+                        expect(target.songResults[1].title).to(equal(recentSongs[1].songTitle))
+                    }
+                }
+            }
+            context("with two pages of results") {
+                let page1 = Array(1...10).map { int -> UiSongResult in
+                    return UiSongResult(name: "classic\(int)", identifier: HymnIdentifier(hymnType: .classic, hymnNumber: "\(int)"))
+                }
+                let page2 = Array(20...23).map { int -> UiSongResult in
+                    return UiSongResult(name: "classic\(int)", identifier: HymnIdentifier(hymnType: .classic, hymnNumber: "\(int)"))
+                    }
+                    // add a few results from page1 to ensure that they are deduped.
+                    + [UiSongResult(name: "classic1", identifier: HymnIdentifier(hymnType: .classic, hymnNumber: "1")),
+                       UiSongResult(name: "classic2", identifier: HymnIdentifier(hymnType: .classic, hymnNumber: "1"))]
+                context("first page complete successfully") {
                     beforeEach {
                         given(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)) ~> { searchInput, pageNumber in
                             expect(target.state).to(equal(HomeResultState.loading))
-                            let page = SongResultsPage(results: page1, hasMorePages: true)
-                            return Just(page).eraseToAnyPublisher()
+                            let page = UiSongResultsPage(results: page1, hasMorePages: true)
+                            return Just(page).mapError({ _ -> ErrorType in
+                                .data(description: "This will never get called")
+                            }).eraseToAnyPublisher()
                         }
                         given(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 2)) ~> { searchInput, pageNumber in
                             expect(target.state).to(equal(HomeResultState.results))
-                            let page = SongResultsPage(results: page2, hasMorePages: false)
-                            return Just(page).eraseToAnyPublisher()
+                            let page = UiSongResultsPage(results: page2, hasMorePages: false)
+                            return Just(page).mapError({ _ -> ErrorType in
+                                .data(description: "This will never get called")
+                            }).eraseToAnyPublisher()
                         }
                         target.searchParameter = searchParameter
                         sleep(1) // allow time for the debouncer to trigger.
@@ -214,6 +290,69 @@ class HomeViewModelSearchSpec: QuickSpec {
                             }
                             it("should not fetch the next page") {
                                 verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 3)).wasNeverCalled()
+                            }
+                        }
+                    }
+                }
+                context("first page incomplete") {
+                    var response: CurrentValueSubject<UiSongResultsPage, ErrorType>!
+                    beforeEach {
+                        given(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)) ~> { searchInput, pageNumber in
+                            expect(target.state).to(equal(HomeResultState.loading))
+                            return response.eraseToAnyPublisher()
+                        }
+                        response = CurrentValueSubject<UiSongResultsPage, ErrorType>(UiSongResultsPage(results: page1, hasMorePages: true))
+                        target.searchParameter = searchParameter
+                        sleep(1) // allow time for the debouncer to trigger.
+                    }
+                    it("no label should be showing") {
+                        expect(target.label).to(beNil())
+                    }
+                    it("should not still be loading") {
+                        expect(target.state).to(equal(HomeResultState.results))
+                    }
+                    it("should have the first page of results") {
+                        expect(target.songResults).to(haveCount(10))
+                        for (index, num) in Array(1...10).enumerated() {
+                            expect(target.songResults[index].title).to(equal("classic\(num)"))
+                        }
+                    }
+                    it("should not fetch the recent songs from the history store") {
+                        verify(historyStore.recentSongs(onChanged: any())).wasNeverCalled()
+                    }
+                    it("should fetch the first page") {
+                        verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)).wasCalled(exactly(1))
+                    }
+                    describe("try to load more") {
+                        beforeEach {
+                            target.loadMore(at: SongResultViewModel(title: "classic7", destinationView: EmptyView().eraseToAnyView()))
+                            testQueue.sync {}
+                        }
+                        it("not fetch the next page since previous call is still loading") {
+                            verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 2)).wasNeverCalled()
+                        }
+                    }
+                    context("search fails") {
+                        beforeEach {
+                            response.send(completion: .failure(.data(description: "some network error")))
+                            testQueue.sync {}
+                        }
+                        it("should show existing results") {
+                            expect(target.state).to(equal(HomeResultState.results))
+                            expect(target.songResults).to(haveCount(10))
+                            for (index, num) in Array(1...10).enumerated() {
+                                expect(target.songResults[index].title).to(equal("classic\(num)"))
+                            }
+                        }
+                        describe("loading more") {
+                            beforeEach {
+                                target.loadMore(at: SongResultViewModel(title: "classic7", destinationView: EmptyView().eraseToAnyView()))
+                                testQueue.sync {}
+                                testQueue.sync {}
+                                testQueue.sync {}
+                            }
+                            it("not fetch the next page since previous call failed") {
+                                verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 2)).wasNeverCalled()
                             }
                         }
                     }

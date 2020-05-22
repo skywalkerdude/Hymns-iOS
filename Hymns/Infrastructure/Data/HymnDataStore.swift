@@ -17,6 +17,7 @@ protocol HymnDataStore {
 
     func saveHymn(_ entity: HymnEntity)
     func getHymn(_ hymnIdentifier: HymnIdentifier) -> AnyPublisher<HymnEntity?, ErrorType>
+    func searchHymn(_ searchParamter: String) -> AnyPublisher<[SearchResultEntity], ErrorType>
 }
 
 /**
@@ -103,6 +104,7 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
                                         unique: false,
                                         ifNotExists: true)
                     try database.create(virtualTable: "SEARCH_VIRTUAL_SONG_DATA", ifNotExists: true, using: FTS4()) { table in
+                        table.synchronize(withTable: self.tableName)
                         table.tokenizer = .porter
                         table.column(HymnEntity.CodingKeys.title.rawValue)
                         table.column(HymnEntity.CodingKeys.lyricsJson.rawValue)
@@ -140,6 +142,24 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
             .data(description: error.localizedDescription)
         }).map({entity -> HymnEntity? in
             return entity
+        }).eraseToAnyPublisher()
+    }
+
+    func searchHymn(_ searchParameter: String) -> AnyPublisher<[SearchResultEntity], ErrorType> {
+        let pattern = FTS3Pattern(matchingAnyTokenIn: searchParameter)
+
+        /*
+         For each column, the length of the longest subsequence of phrase matches that the column value has in common with
+         the query text. For example, if a table column contains the text 'a b c d e' and the query is 'a c "d e"', then
+         the length of the longest common subsequence is 2 (phrase "c" followed by phrase "d e").
+         https://sqlite.org/fts3.html#matchinfo
+         */
+        return databaseQueue.readPublisher { database in
+            try SearchResultEntity.fetchAll(database,
+                                            sql: "SELECT SONG_DATA.SONG_TITLE, HYMN_TYPE, HYMN_NUMBER, QUERY_PARAMS, matchinfo(SEARCH_VIRTUAL_SONG_DATA, 's') FROM SONG_DATA JOIN SEARCH_VIRTUAL_SONG_DATA ON (SEARCH_VIRTUAL_SONG_DATA.docid = SONG_DATA.rowid) WHERE SEARCH_VIRTUAL_SONG_DATA MATCH ?",
+                                            arguments: [pattern])
+        }.mapError({error -> ErrorType in
+            .data(description: error.localizedDescription)
         }).eraseToAnyPublisher()
     }
 }

@@ -109,3 +109,19 @@ extension HymnType {
 extension HymnType: CustomStringConvertible {
     var description: String { abbreviatedValue }
 }
+
+extension HymnType: Decodable {
+
+    enum HymnTypeCodingError: Error {
+        case decoding(String)
+    }
+
+    // Decoding an enum: https://stackoverflow.com/a/48204890/1907538
+    init(from decoder: Decoder) throws {
+        let value = try decoder.singleValueContainer().decode(String.self)
+        guard let hymnType = HymnType.fromAbbreviatedValue(value) else {
+            throw HymnTypeCodingError.decoding("Unrecognized abbreviated hymn type: \(value)")
+        }
+        self = hymnType
+    }
+}
