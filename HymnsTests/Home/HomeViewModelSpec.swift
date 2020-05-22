@@ -31,9 +31,6 @@ class HomeViewModelSpec: QuickSpec {
             context("default state") {
                 beforeEach {
                     testQueue.sync {}
-                    testQueue.sync {}
-                    testQueue.sync {}
-                    testQueue.sync {}
                 }
                 it("\"\(recentHymns)\" label should be showing") {
                     expect(target.label).toNot(beNil())

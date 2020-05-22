@@ -6,6 +6,6 @@ import Resolver
 extension Resolver {
     public static func registerRepositories() {
         register {HymnsRepositoryImpl() as HymnsRepository}.scope(application)
-        register {SongResultsRepositoryImpl(hymnalApiService: resolve()) as SongResultsRepository}.scope(application)
+        register {SongResultsRepositoryImpl() as SongResultsRepository}.scope(application)
     }
 }

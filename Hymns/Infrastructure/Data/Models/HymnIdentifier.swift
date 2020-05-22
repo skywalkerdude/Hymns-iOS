@@ -12,7 +12,23 @@ struct HymnIdentifier: Hashable, Equatable {
         guard let queryParams = queryParams else {
             return ""
         }
-        return queryParams.jsonString ?? ""
+        return queryParams.serializeToQueryParamString ?? ""
+    }
+}
+
+extension Dictionary where Key: ExpressibleByStringLiteral, Value: Any {
+    var serializeToQueryParamString: String? {
+        guard !self.isEmpty else {
+            return nil
+        }
+        var str = "?"
+        for (index, (key, value)) in self.enumerated() {
+            if index > 0 {
+                str += "&"
+            }
+            str += "\(key)=\(value)"
+        }
+        return str
     }
 }
 
@@ -29,7 +45,40 @@ extension HymnIdentifier {
     init(_ entity: HymnIdentifierEntity) {
         self.hymnType = entity.hymnType
         self.hymnNumber = entity.hymnNumber
-        self.queryParams = entity.queryParams?.dictionary as? [String: String]
+        self.queryParams = entity.queryParams?.deserializeFromQueryParamString
+    }
+}
+
+enum SerializationError: Error {
+    case deserialization
+}
+
+extension String {
+
+    /**
+     * Ties to deserialize a query param string (e.g. ?key1=a&key2=b) into a dictionary (e.g. ["key1: "a", "key2": "b"])
+     */
+    var deserializeFromQueryParamString: [String: String]? {
+        do {
+            // remove the leading "?" in the query param string if it exists
+            return try replacingOccurrences(of: "?", with: "")
+                // separate the key-value pairs
+                .components(separatedBy: "&")
+                // separate each pair into an array that looks like [key, value]
+                .map({ component -> [String] in
+                    component.components(separatedBy: "=")
+                }).compactMap({ components throws -> (key: String, value: String) in
+                    if components.count != 2 {
+                        throw SerializationError.deserialization
+                    }
+                    return (key: components[0], value: components[1])
+                }).reduce(into: [String: String](), { (result, arg1) in
+                    let (key, value) = arg1
+                    result[key] = value
+                })
+        } catch {
+            return nil
+        }
     }
 }
 
@@ -55,9 +104,7 @@ class HymnIdentifierEntity: Object {
         super.init()
         self.hymnType = hymnIdentifier.hymnType
         self.hymnNumber = hymnIdentifier.hymnNumber
-        if let queryParams = hymnIdentifier.queryParams {
-            self.queryParams = queryParams.jsonString
-        }
+        self.queryParams = hymnIdentifier.queryParamString
     }
 
     override func isEqual(_ object: Any?) -> Bool {

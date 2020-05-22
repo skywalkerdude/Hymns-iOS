@@ -4,14 +4,20 @@ import Resolver
 protocol Converter {
     func toHymnEntity(hymnIdentifier: HymnIdentifier, hymn: Hymn) throws -> HymnEntity
     func toUiHymn(hymnIdentifier: HymnIdentifier, hymnEntity: HymnEntity?) throws -> UiHymn?
+    func toSongResultEntities(songResultsPage: SongResultsPage) -> ([SongResultEntity], Bool)
+    func toUiSongResultsPage(songResultsEntities: [SongResultEntity], hasMorePages: Bool) -> UiSongResultsPage
 }
 
 class ConverterImpl: Converter {
 
+    private let analytics: AnalyticsLogger
     private let jsonDecoder: JSONDecoder
     private let jsonEncoder: JSONEncoder
 
-    init(jsonDecoder: JSONDecoder = Resolver.resolve(), jsonEncoder: JSONEncoder = Resolver.resolve()) {
+    init(analytics: AnalyticsLogger = Resolver.resolve(),
+         jsonDecoder: JSONDecoder = Resolver.resolve(),
+         jsonEncoder: JSONEncoder = Resolver.resolve()) {
+        self.analytics = analytics
         self.jsonDecoder = jsonDecoder
         self.jsonEncoder = jsonEncoder
     }
@@ -96,6 +102,31 @@ class ConverterImpl: Converter {
         } catch {
             throw TypeConversionError(triggeringError: error)
         }
+    }
+
+    func toSongResultEntities(songResultsPage: SongResultsPage) -> ([SongResultEntity], Bool) {
+        let songResultEntities = songResultsPage.results.compactMap { songResult -> SongResultEntity? in
+            guard let hymnType = RegexUtil.getHymnType(path: songResult.path), let hymnNumber = RegexUtil.getHymnNumber(path: songResult.path) else {
+                self.analytics.logError(message: "error happened when trying to parse song result", extraParameters: ["path": songResult.path, "name": songResult.name])
+                return nil
+            }
+            let queryParams = RegexUtil.getQueryParams(path: songResult.path)
+            let title = songResult.name
+            return SongResultEntity(hymnType: hymnType, hymnNumber: hymnNumber, queryParams: queryParams, title: title)
+        }
+        return (songResultEntities, songResultsPage.hasMorePages ?? false)
+    }
+
+    func toUiSongResultsPage(songResultsEntities: [SongResultEntity], hasMorePages: Bool) -> UiSongResultsPage {
+        let songResults = songResultsEntities.map { songResultsEntity -> UiSongResult in
+            let title = songResultsEntity.title
+            let hymnType = songResultsEntity.hymnType
+            let hymnNumber = songResultsEntity.hymnNumber
+            let queryParams = songResultsEntity.queryParams
+            let hymnIdentifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber, queryParams: queryParams)
+            return UiSongResult(name: title, identifier: hymnIdentifier)
+        }
+        return UiSongResultsPage(results: songResults, hasMorePages: hasMorePages)
     }
 }
 
