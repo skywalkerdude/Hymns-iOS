@@ -19,7 +19,9 @@ struct DisplayHymnView: View {
             } else {
                 viewModel.currentTab.content
             }
-            DisplayHymnBottomBar().maxWidth()
+            viewModel.bottomBar.map { viewModel in
+                DisplayHymnBottomBar(viewModel: viewModel)
+            }
         }.hideNavigationBar()
             .onAppear {
                 Analytics.setScreenName("DisplayHymnView", screenClass: "DisplayHymnViewModel")

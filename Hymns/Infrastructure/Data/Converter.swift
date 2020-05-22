@@ -96,9 +96,13 @@ class ConverterImpl: Converter {
             pdfSheet = nil
         }
 
+        let category = hymnEntity.category
+        let subcategory = hymnEntity.subcategory
+        let author = hymnEntity.author
+
         do {
             let verses = try jsonDecoder.decode([Verse].self, from: lyricsData)
-            return UiHymn(hymnIdentifier: hymnIdentifier, title: title, lyrics: verses, pdfSheet: pdfSheet)
+            return UiHymn(hymnIdentifier: hymnIdentifier, title: title, lyrics: verses, pdfSheet: pdfSheet, category: category, subcategory: subcategory, author: author)
         } catch {
             throw TypeConversionError(triggeringError: error)
         }

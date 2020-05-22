@@ -21,8 +21,15 @@ struct BottomBarLabel_Previews: PreviewProvider {
 struct DisplayHymnBottomBar: View {
 
     @State private var tabPresented: DisplayHymnActionSheet?
+    @State private var showingInfoDialog = false
 
-    private let userDefaultsManager: UserDefaultsManager = Resolver.resolve()
+    @ObservedObject private var viewModel: DisplayHymnBottomBarViewModel
+    private let userDefaultsManager: UserDefaultsManager
+
+    init(viewModel: DisplayHymnBottomBarViewModel, userDefaultsManager: UserDefaultsManager = Resolver.resolve()) {
+        self.viewModel = viewModel
+        self.userDefaultsManager = userDefaultsManager
+    }
 
     var body: some View {
         HStack(spacing: 0) {
@@ -64,8 +71,12 @@ struct DisplayHymnBottomBar: View {
                 Spacer()
             }
             Group {
-                Button(action: {}, label: {
+                Button(action: {
+                    self.showingInfoDialog = true
+                }, label: {
                     BottomBarLabel(imageName: "info.circle")
+                }).sheet(isPresented: $showingInfoDialog, content: {
+                    SongInfoDialog(viewModel: self.viewModel.songInfo)
                 })
                 Spacer()
             }
@@ -107,7 +118,8 @@ extension DisplayHymnActionSheet: Identifiable {
 #if DEBUG
 struct DisplayHymnBottomBar_Previews: PreviewProvider {
     static var previews: some View {
-        DisplayHymnBottomBar().toPreviews()
+        let viewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+        return DisplayHymnBottomBar(viewModel: viewModel).toPreviews()
     }
 }
 #endif

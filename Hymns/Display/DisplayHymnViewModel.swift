@@ -12,6 +12,7 @@ class DisplayHymnViewModel: ObservableObject {
     @Published var currentTab: HymnLyricsTab
     @Published var tabItems: [HymnLyricsTab] = [HymnLyricsTab]()
     @Published var isFavorited: Bool?
+    @Published var bottomBar: DisplayHymnBottomBarViewModel?
 
     private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue
@@ -102,6 +103,7 @@ class DisplayHymnViewModel: ObservableObject {
                         self.tabItems.append(.piano(PDFViewer(url: pianoUrl).eraseToAnyView()))
                     }
 
+                    self.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: self.identifier)
                     self.fetchFavoriteStatus()
                     self.historyStore.storeRecentSong(hymnToStore: self.identifier, songTitle: title)
             }).store(in: &disposables)

@@ -75,9 +75,11 @@ class ConverterSpec: QuickSpec {
                     }
                 }
                 context("filled hymn") {
-                    let filledHymn = HymnEntity(hymnIdentifier: classic1151, title: "title", lyricsJson: "[{\"verse_type\":\"verse\",\"verse_content\":[\"line 1\",\"line 2\"]}]")
-                    let expected = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: [Verse(verseType: .verse, verseContent: ["line 1", "line 2"])])
-                    it("should throw type conversion error") {
+                    let filledHymn = HymnEntity(hymnIdentifier: classic1151, title: "title", lyricsJson: "[{\"verse_type\":\"verse\",\"verse_content\":[\"line 1\",\"line 2\"]}]",
+                                                category: "This is my category", subcategory: "This is my subcategory", author: "This is the author")
+                    let expected = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: [Verse(verseType: .verse, verseContent: ["line 1", "line 2"])],
+                                          category: "This is my category", subcategory: "This is my subcategory", author: "This is the author")
+                    it("should correctly convert to a UiHymn") {
                         expect(try! target.toUiHymn(hymnIdentifier: classic1151, hymnEntity: filledHymn)).to(equal(expected))
                     }
                 }
