@@ -21,6 +21,7 @@ extension Resolver: ResolverRegistering {
             return encoder
         })
         register {URLSession.shared}.scope(application)
+        register {UserDefaulstManager()}
         register {AnalyticsLogger()}
         register {SystemUtil()}
         registerPDFLoader()
