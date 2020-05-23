@@ -38,9 +38,11 @@ struct HomeView: View {
                     Spacer()
                     HStack {
                         Spacer()
-                        Image("empty search illustration")
+                        Image("empty search illustration").resizable()
+                            .aspectRatio(1, contentMode: .fit)
+                            .padding()
                         Spacer()
-                    }
+                    }.padding()
                     Spacer()
                 } else {
                     List(viewModel.songResults) { songResult in
