@@ -1,12 +1,13 @@
+import Resolver
 import SwiftUI
 
 struct VerseLineView: View {
 
-    let viewModel: VerseLineViewModel
+    @ObservedObject var viewModel: VerseLineViewModel
 
     var body: some View {
         HStack(alignment: .top) {
-            Text(viewModel.verseNumber ?? "").frame(width: 10)
+            Text(viewModel.verseNumber ?? "").font(viewModel.fontSize.font).frame(minWidth: viewModel.fontSize.minWidth)
             Text(viewModel.verseText).font(viewModel.fontSize.font).lineSpacing(5).padding(.bottom, 5)
         }
     }
@@ -15,16 +16,47 @@ struct VerseLineView: View {
 #if DEBUG
 struct VerseLineView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            VStack(alignment: .leading) {
-                VerseLineView(viewModel: VerseLineViewModel(verseNumber: "1", verseText: "Drink! A river pure and clear that's flowing from the throne"))
-                VerseLineView(viewModel: VerseLineViewModel(verseText: "Eat! The tree of life with fruits abundant, richly grown"))
-            }.previewDisplayName("regular verse")
-            VStack(alignment: .leading) {
-                VerseLineView(viewModel: VerseLineViewModel(verseNumber: "1", verseText: "Drink! A river pure and clear that's flowing from the throne", transliteration: "h\\u0113 \\uff01 c\\u00f3ng b\\u01ceo zu\\u00f2 l\\u00edu ch\\u016b"))
-                VerseLineView(viewModel: VerseLineViewModel(verseText: "Eat! The tree of life with fruits abundant, richly grown", transliteration: "ch\\u00fan j\\u00ecng sh\\u0113ng m\\u00ecng h\\u00e9 de sh\\u01d4i \\uff01"))
-            }.previewDisplayName("verse with transliteration")
-        }.previewLayout(.fixed(width: 450, height: 50))
+
+        let regularVerseViewModels = [VerseLineViewModel(verseNumber: "1", verseText: "Drink! A river pure and clear that's flowing from the throne"),
+                                      VerseLineViewModel(verseText: "Eat! The tree of life with fruits abundant, richly grown")]
+        let regularVerse = VStack(alignment: .leading) {
+            VerseLineView(viewModel: regularVerseViewModels[0])
+            VerseLineView(viewModel: regularVerseViewModels[1])
+        }
+
+        let largeTextViewModels = [VerseLineViewModel(verseNumber: "1", verseText: "Drink! A river pure and clear that's flowing from the throne"),
+                                      VerseLineViewModel(verseText: "Eat! The tree of life with fruits abundant, richly grown")]
+        largeTextViewModels[0].fontSize = .large
+        largeTextViewModels[1].fontSize = .large
+        let largeText = VStack(alignment: .leading) {
+            VerseLineView(viewModel: largeTextViewModels[0])
+            VerseLineView(viewModel: largeTextViewModels[1])
+        }
+
+        let extraLargeTextViewModels = [VerseLineViewModel(verseNumber: "1", verseText: "Drink! A river pure and clear that's flowing from the throne"),
+                                      VerseLineViewModel(verseText: "Eat! The tree of life with fruits abundant, richly grown")]
+        extraLargeTextViewModels[0].fontSize = .xlarge
+        extraLargeTextViewModels[1].fontSize = .xlarge
+        let extraLargeText = VStack(alignment: .leading) {
+            VerseLineView(viewModel: extraLargeTextViewModels[0])
+            VerseLineView(viewModel: extraLargeTextViewModels[1])
+        }
+
+        let transliterationViewModels = [VerseLineViewModel(verseNumber: "1", verseText: "Drink! A river pure and clear that's flowing from the throne",
+                                                            transliteration: "h\\u0113 \\uff01 c\\u00f3ng b\\u01ceo zu\\u00f2 l\\u00edu ch\\u016b"),
+                                         VerseLineViewModel(verseText: "Eat! The tree of life with fruits abundant, richly grown",
+                                                            transliteration: "ch\\u00fan j\\u00ecng sh\\u0113ng m\\u00ecng h\\u00e9 de sh\\u01d4i \\uff01")]
+        let transliteration = VStack(alignment: .leading) {
+            VerseLineView(viewModel: transliterationViewModels[0])
+            VerseLineView(viewModel: transliterationViewModels[1])
+        }
+
+        return Group {
+            regularVerse.previewLayout(.fixed(width: 425, height: 50)).previewDisplayName("regular verse")
+            transliteration.previewLayout(.fixed(width: 425, height: 50)).previewDisplayName("verse with transliteration")
+            largeText.previewLayout(.fixed(width: 425, height: 100)).previewDisplayName("large text")
+            extraLargeText.previewLayout(.fixed(width: 425, height:175)).previewDisplayName("extra large text")
+        }
     }
 }
 #endif
