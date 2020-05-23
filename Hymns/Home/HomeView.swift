@@ -43,7 +43,7 @@ struct HomeView: View {
                             .aspectRatio(1, contentMode: .fit)
                             .padding()
                         Spacer()
-                    }.padding()
+                    }.padding(.horizontal)
                     Spacer()
                 } else {
                     List(viewModel.songResults) { songResult in
