@@ -1,5 +1,7 @@
+import Combine
 import Foundation
 import Resolver
+import SwiftUI
 
 class VerseLineViewModel: Hashable, ObservableObject {
 
@@ -9,12 +11,21 @@ class VerseLineViewModel: Hashable, ObservableObject {
     let verseText: String
     let transliteration: String?
 
+    private var disposables = Set<AnyCancellable>()
+
     init(verseNumber: String?, verseText: String, transliteration: String?,
-         userDefaultsManager: UserDefaulstManager = Resolver.resolve()) {
+         userDefaultsManager: UserDefaultsManager = Resolver.resolve()) {
         self.verseNumber = verseNumber
         self.verseText = verseText
         self.transliteration = transliteration
-        fontSize = userDefaultsManager.fontSize
+        self.fontSize = userDefaultsManager.fontSize
+        userDefaultsManager
+            .fontSizeSubject
+            .sink { fontSize in
+                withAnimation(.easeInOut(duration: 0.5)) {
+                    self.fontSize = fontSize
+                }
+        }.store(in: &disposables)
     }
 
     static func == (lhs: VerseLineViewModel, rhs: VerseLineViewModel) -> Bool {
