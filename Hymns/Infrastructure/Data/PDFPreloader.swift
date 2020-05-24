@@ -31,7 +31,9 @@ class PDFLoaderImpl: PDFLoader {
      */
     func load(url: URL) {
         backgroundQueue.async {
-            self.cache[url] = PDFDocument(url: url)
+            if let document = PDFDocument(url: url) {
+                self.cache[url] = document
+            }
         }
     }
 
