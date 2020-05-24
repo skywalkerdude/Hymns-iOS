@@ -22,7 +22,7 @@ public struct IndicatorTabView<TabType: TabItem>: View {
                 TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment).padding(.bottom, 0.2)
             }
             Rectangle()
-                .foregroundColor(.white)
+                .foregroundColor(Color("darkModePrimary"))
                 .overlay(currentTab.content)
             if tabAlignment == .bottom {
                 TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment)
@@ -41,7 +41,7 @@ private struct TabContainer<TabType: TabItem>: View {
         Rectangle()
             .shadow(radius: 0.2, y: self.tabAlignment == .top ? 0.3 : -0.3)
             .frame(height: 50)
-            .foregroundColor(.white)
+            .foregroundColor(Color("darkModePrimary"))
             .overlay(TabBar(currentTab: $currentTab, tabItems: tabItems))
     }
 }
