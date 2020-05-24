@@ -23,8 +23,11 @@ struct HomeView: View {
                 .padding(.horizontal)
                 .padding(.top, viewModel.searchActive ? nil : .zero)
 
-            viewModel.label.map {
-                Text($0).fontWeight(.bold).padding(.top).padding(.leading).foregroundColor(Color("darkModeSubtitle"))
+            //TODO: Move business logic to viewModel
+            if !viewModel.songResults.isEmpty {
+                viewModel.label.map {
+                    Text($0).fontWeight(.bold).padding(.top).padding(.leading).foregroundColor(Color("darkModeSubtitle"))
+                }
             }
 
             if viewModel.state == .loading {
@@ -32,13 +35,25 @@ struct HomeView: View {
             } else if viewModel.state == .empty {
                 Text("Did not find any songs matching:\n\"\(viewModel.searchParameter)\".\nPlease try a different request").padding().multilineTextAlignment(.center).maxSize(alignment: .center)
             } else {
-                List(viewModel.songResults) { songResult in
-                    NavigationLink(destination: songResult.destinationView) {
-                        SongResultView(viewModel: songResult)
-                    }.onAppear {
-                        self.viewModel.loadMore(at: songResult)
-                    }
-                }.resignKeyboardOnDragGesture()
+                if viewModel.songResults.isEmpty {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Image("empty search illustration").resizable()
+                            .aspectRatio(1, contentMode: .fit)
+                            .padding()
+                        Spacer()
+                    }.padding(.horizontal)
+                    Spacer()
+                } else {
+                    List(viewModel.songResults) { songResult in
+                        NavigationLink(destination: songResult.destinationView) {
+                            SongResultView(viewModel: songResult)
+                        }.onAppear {
+                            self.viewModel.loadMore(at: songResult)
+                        }
+                    }.resignKeyboardOnDragGesture()
+                }
             }
         }.onAppear {
             Analytics.setScreenName("HomeView", screenClass: "HomeViewModel")
