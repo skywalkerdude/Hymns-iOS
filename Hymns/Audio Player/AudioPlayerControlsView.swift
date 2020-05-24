@@ -3,7 +3,7 @@ import SwiftUI
 
 struct AudioPlayerControlsView: View {
     private enum PlaybackState: Int {
-        case waitingForSelection
+   //     case waitingForSelection
         case buffering
         case playing
     }
@@ -12,13 +12,14 @@ struct AudioPlayerControlsView: View {
     let timeObserver: PlayerTimeObserver
     let itemObserver: PlayerItemObserver
     @State private var currentTime: TimeInterval = 0
-    @State private var state = PlaybackState.waitingForSelection
+    @State private var state = PlaybackState.buffering
 
     var body: some View {
         VStack {
-            if state == .waitingForSelection {
-                Text("Select a song below")
-            } else if state == .buffering {
+        //    if state == .waitingForSelection {
+         //       Text("Select a song below")
+         //   } else
+        if state == .buffering {
                 Text("Buffering...")
             } else {
                 Text("Great choice!")
@@ -36,7 +37,7 @@ struct AudioPlayerControlsView: View {
         }
         // Listen out for the item observer publishing a change to whether the player has an item
         .onReceive(itemObserver.publisher) { hasItem in
-            self.state = hasItem ? .buffering : .waitingForSelection
+            self.state = hasItem ? .buffering : .buffering
             self.currentTime = 0
         }
     }
