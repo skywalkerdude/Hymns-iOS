@@ -23,6 +23,7 @@ struct Dialog<Content: View>: View {
     }
 }
 
+#if DEBUG
 struct Dialog_Previews: PreviewProvider {
 
     static var previews: some View {
@@ -55,3 +56,4 @@ Dummy text? More like dummy thicc text, amirite?
         }
     }
 }
+#endif
