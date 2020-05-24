@@ -20,6 +20,9 @@ class HomeViewModelSpec2: QuickSpec {
                 print("booyah beforeEach starting")
                 historyStore = mock(HistoryStore.self)
                 given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
+                    if target == nil {
+                        print("booyah target was nil!")
+                    }
                     print("booyah historyStore.recentSongs called. Current state is \(target.state)")
                     Thread.callStackSymbols.forEach { print($0) }
                     expect(target.state).to(equal(HomeResultState.loading))
