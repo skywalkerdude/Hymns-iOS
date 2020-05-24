@@ -7,7 +7,7 @@ import Quick
 class HomeViewModelSpec: QuickSpec {
 
     override func spec() {
-        describe("HomeViewModelSpec") {
+        xdescribe("HomeViewModelSpec") {
             // https://www.vadimbulavin.com/unit-testing-async-code-in-swift/
             let testQueue = DispatchQueue(label: "test_queue")
             var historyStore: HistoryStoreMock!
