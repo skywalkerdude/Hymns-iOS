@@ -14,15 +14,10 @@ protocol PDFLoader {
 
 class PDFLoaderImpl: PDFLoader {
 
-    private let backgroundQueue: DispatchQueue
     private let session: URLSession
-
     private var cache = [URL: PDFDocument]()
-    private var disposables = Set<AnyCancellable>()
 
-    init(backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
-         session: URLSession = Resolver.resolve()) {
-        self.backgroundQueue = backgroundQueue
+    init(session: URLSession = Resolver.resolve()) {
         self.session = session
     }
 
@@ -30,13 +25,11 @@ class PDFLoaderImpl: PDFLoader {
      * Saves the `HTML` or `URL` for the current session.
      */
     func load(url: URL) {
-        backgroundQueue.async {
-            if let document = PDFDocument(url: url) {
-                self.cache[url] = document
-            }
+        if let document = PDFDocument(url: url) {
+            self.cache[url] = document
         }
     }
-
+    
     func get(url: URL) -> PDFDocument? {
         return cache[url]
     }
