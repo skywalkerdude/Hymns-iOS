@@ -20,16 +20,11 @@ struct BottomBarLabel_Previews: PreviewProvider {
 
 struct DisplayHymnBottomBar: View {
 
+    @Binding var contentBuilder: (() -> AnyView)?
     @State private var tabPresented: DisplayHymnActionSheet?
-    @State private var showingInfoDialog = false
 
-    @ObservedObject private var viewModel: DisplayHymnBottomBarViewModel
-    private let userDefaultsManager: UserDefaultsManager
-
-    init(viewModel: DisplayHymnBottomBarViewModel, userDefaultsManager: UserDefaultsManager = Resolver.resolve()) {
-        self.viewModel = viewModel
-        self.userDefaultsManager = userDefaultsManager
-    }
+    @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
+    let userDefaultsManager: UserDefaultsManager = Resolver.resolve()
 
     var body: some View {
         HStack(spacing: 0) {
@@ -72,11 +67,11 @@ struct DisplayHymnBottomBar: View {
             }
             Group {
                 Button(action: {
-                    self.showingInfoDialog = true
+                    self.contentBuilder = {
+                        SongInfoDialog(viewModel: self.viewModel.songInfo).eraseToAnyView()
+                    }
                 }, label: {
                     BottomBarLabel(imageName: "info.circle")
-                }).sheet(isPresented: $showingInfoDialog, content: {
-                    SongInfoDialog(viewModel: self.viewModel.songInfo)
                 })
                 Spacer()
             }
@@ -99,7 +94,8 @@ struct DisplayHymnBottomBar: View {
                             .default(Text(FontSize.xlarge.rawValue),
                                      action: {
                                         self.userDefaultsManager.fontSize = .xlarge
-                            })])
+                            }),
+                            .cancel()])
             }
         }
     }
@@ -119,7 +115,10 @@ extension DisplayHymnActionSheet: Identifiable {
 struct DisplayHymnBottomBar_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
-        return DisplayHymnBottomBar(viewModel: viewModel).toPreviews()
+        var contentBuilder: (() -> AnyView)?
+        return DisplayHymnBottomBar(contentBuilder: Binding<(() -> AnyView)?>(
+            get: {contentBuilder},
+            set: {contentBuilder = $0}), viewModel: viewModel).toPreviews()
     }
 }
 #endif

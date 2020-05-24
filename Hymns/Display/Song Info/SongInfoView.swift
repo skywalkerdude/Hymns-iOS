@@ -6,10 +6,10 @@ struct SongInfoView: View {
 
     var body: some View {
         HStack {
-            Text(viewModel.label).bold()
+            Text(viewModel.label).font(.callout).bold()
             VStack(alignment: .leading) {
                 ForEach(viewModel.values, id: \.self) { value in
-                    Text(value)
+                    Text(value).font(.callout)
                 }
             }
         }

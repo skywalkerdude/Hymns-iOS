@@ -20,7 +20,10 @@ struct SongInfoDialog: View {
                     }
                 }
             }
-        }.onAppear {
+        }
+        .padding()
+        .cornerRadius(5)
+        .onAppear {
             self.viewModel.fetchSongInfo()
         }
     }

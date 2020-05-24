@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0D214AA0370FEE2CB9572B22 /* Pods_Hymns.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 577432E03E7CD9933CB82ECF /* Pods_Hymns.framework */; };
 		3AFE65E42E41270228EDA976 /* Pods_Hymns_HymnsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A995ED4B5658A040650FDDA0 /* Pods_Hymns_HymnsUITests.framework */; };
+		3B02725A24777BF9007348B0 /* Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B02725924777BF9007348B0 /* Dialog.swift */; };
 		3B09F901243D3BDC00252C15 /* HymnalApiService_SearchTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B09F900243D3BDC00252C15 /* HymnalApiService_SearchTest.swift */; };
 		3B09F904243D4D9300252C15 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B09F903243D4D9300252C15 /* URLProtocolMock.swift */; };
 		3B09F909243D806500252C15 /* TestHymns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B09F908243D806500252C15 /* TestHymns.swift */; };
@@ -169,6 +170,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B02725924777BF9007348B0 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
 		3B09F900243D3BDC00252C15 /* HymnalApiService_SearchTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnalApiService_SearchTest.swift; sourceTree = "<group>"; };
 		3B09F903243D4D9300252C15 /* URLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
 		3B09F908243D806500252C15 /* TestHymns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHymns.swift; sourceTree = "<group>"; };
@@ -534,6 +536,7 @@
 			children = (
 				3BB1DCAA244D03AE0011169D /* TabView */,
 				3B45B901243BEC1C00D38BEF /* SongResultViewModel.swift */,
+				3B02725924777BF9007348B0 /* Dialog.swift */,
 				3B45B903243BEC8400D38BEF /* SongResultView.swift */,
 				B56305B6244223A5003BC132 /* CustomTitleView.swift */,
 				B56305B8244223D7003BC132 /* FontViewModifier.swift */,
@@ -1247,6 +1250,7 @@
 				3BA4612B24772B250068F269 /* SongInfoDialog.swift in Sources */,
 				5CA7849E242D14C800B57903 /* FavoritesView.swift in Sources */,
 				3BA32C7E245256A0000ABD9F /* Notification.swift in Sources */,
+				3B02725A24777BF9007348B0 /* Dialog.swift in Sources */,
 				3BD4F51324689F8B00352009 /* EventType.swift in Sources */,
 				3B45B906243BF1C900D38BEF /* PreviewSongResults.swift in Sources */,
 				3B43717F24764BEF000B42AC /* DisplayHymnBottomBar.swift in Sources */,
