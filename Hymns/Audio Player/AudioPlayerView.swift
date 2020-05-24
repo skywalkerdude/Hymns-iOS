@@ -11,7 +11,7 @@ enum PlaybackState: Int {
 struct AudioView: View {
     let player = AVPlayer()
     let item: URL?
-    @State var currentlyPlaying = false
+    @State var currentlyPlaying = true
     @State var playbackState: PlaybackState = .waitingForSelection
 
     var body: some View {
@@ -19,7 +19,6 @@ struct AudioView: View {
             AudioPlayerControlsView(player: player,
                                     timeObserver: PlayerTimeObserver(player: player),
                                     itemObserver: PlayerItemObserver(player: player), playbackState: $playbackState)
-            if playbackState != .buffering {
                 HStack(spacing: 30) {
 
                     //Button to toggle play and pause
@@ -33,32 +32,29 @@ struct AudioView: View {
                     }, label: {Image(systemName: currentlyPlaying ? "play.circle" : "pause.circle")
                         .font(.largeTitle)
                     })
-                    
-                    //Stop button to stop music completely
+
+                    //Currently needed for when you tab to chords, piano, or guitar....
                     Button(action: {
-                        if self.currentlyPlaying {
-                            guard let url = self.item else {
-                                return
-                            }
-                            let playerItem = AVPlayerItem(url: url)
-                            self.player.replaceCurrentItem(with: playerItem)
-                            self.player.play()
-                        } else {
-                            self.player.pause()
+                        self.playbackState = .buffering
+                        self.player.replaceCurrentItem(with: nil)
+                        guard let url = self.item else {
+                            return
                         }
-                        self.currentlyPlaying.toggle()
-                    }, label: {Image(systemName: "stop.circle")
-                        .font(.largeTitle)
-                    })
+                        let playerItem = AVPlayerItem(url: url)
+                        self.player.replaceCurrentItem(with: playerItem)
+                        self.player.play()
+
+                    }){
+                        Text("Reset")
+                    }
                 }
-            }
         }.onAppear() {
             guard let url = self.item else {
                 return
             }
             let playerItem = AVPlayerItem(url: url)
             self.player.replaceCurrentItem(with: playerItem)
-            self.player.play()
+         //   self.player.play()
         }
         .onDisappear {
             // When this View isn't being shown anymore stop the player

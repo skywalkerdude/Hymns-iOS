@@ -13,11 +13,7 @@ struct AudioPlayerControlsView: View {
     var body: some View {
         VStack {
             if playbackState == .waitingForSelection {
-                Text("Searching for song")
-            } else if playbackState == .buffering {
                 Text("Buffering...")
-            } else {
-                EmptyView()
             }
                Slider(value: $currentTime,
                        in: 0...100,
