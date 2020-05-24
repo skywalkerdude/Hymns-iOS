@@ -7,6 +7,9 @@ struct DisplayHymnView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var viewModel: DisplayHymnViewModel
     @State var dialogContent: (() -> AnyView)?
+    @State var showingMusicPlayer = false
+    @State var bottomSheetShown = false
+    @State var playButtonOn = false
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
@@ -21,8 +24,22 @@ struct DisplayHymnView: View {
                 } else {
                     viewModel.currentTab.content
                 }
+                if playButtonOn {
+                    viewModel.musicJson.map { _ in
+                        GeometryReader { geometry in
+                            // Color.green
+                            BottomSheetView(
+                                isOpen: self.$bottomSheetShown,
+                                maxHeight: geometry.size.height * 0.35
+                            ) {
+                                AudioView(item: self.viewModel.musicJson)
+                            }
+                        }.edgesIgnoringSafeArea(.all)
+                    }
+                }
+
                 viewModel.bottomBar.map { viewModel in
-                    DisplayHymnBottomBar(contentBuilder: self.$dialogContent, viewModel: viewModel).maxWidth()
+                    DisplayHymnBottomBar(contentBuilder: self.$dialogContent, playButtonOn: $playButtonOn, viewModel: viewModel).maxWidth()
                 }
             }
             dialogContent.map { _ in

@@ -22,6 +22,7 @@ struct DisplayHymnBottomBar: View {
 
     @Binding var contentBuilder: (() -> AnyView)?
     @State private var tabPresented: DisplayHymnActionSheet?
+    @Binding var playButtonOn: Bool
 
     @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
     let userDefaultsManager: UserDefaultsManager = Resolver.resolve()
@@ -54,13 +55,19 @@ struct DisplayHymnBottomBar: View {
                 Spacer()
             }
             Group {
-                Button(action: {}, label: {
+                Button(action: {
+                    self.contentBuilder = {
+                        SongInfoDialog(viewModel: self.viewModel.songInfo).eraseToAnyView()
+                    }
+                }, label: {
                     BottomBarLabel(imageName: "music.note.list")
                 })
                 Spacer()
             }
             Group {
-                Button(action: {}, label: {
+                Button(action: {
+                    self.playButtonOn.toggle()
+                }, label: {
                     BottomBarLabel(imageName: "play")
                 })
                 Spacer()
@@ -111,14 +118,14 @@ extension DisplayHymnActionSheet: Identifiable {
     }
 }
 
-#if DEBUG
-struct DisplayHymnBottomBar_Previews: PreviewProvider {
-    static var previews: some View {
-        let viewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
-        var contentBuilder: (() -> AnyView)?
-        return DisplayHymnBottomBar(contentBuilder: Binding<(() -> AnyView)?>(
-            get: {contentBuilder},
-            set: {contentBuilder = $0}), viewModel: viewModel).toPreviews()
-    }
-}
-#endif
+ #if DEBUG
+ struct DisplayHymnBottomBar_Previews: PreviewProvider {
+ static var previews: some View {
+ let viewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+ var contentBuilder: (() -> AnyView)?
+ return DisplayHymnBottomBar(contentBuilder: Binding<(() -> AnyView)?>(
+ get: {contentBuilder},
+ set: {contentBuilder = $0}), playButtonOn: .constant(true), viewModel: viewModel).toPreviews()
+ }
+ }
+ #endif
