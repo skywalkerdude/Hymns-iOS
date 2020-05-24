@@ -3,6 +3,13 @@ import Foundation
 import Resolver
 import SwiftUI
 
+/**
+    This class is specifically a way to actually store hymn lyrics for when they need to be shared with other people. The text is simply populated dynamically when the verse views appear and later depopulated when that hymn disappears.
+*/
+class StoreLyricsForShare: ObservableObject {
+    var text = ""
+}
+
 class VerseLineViewModel: Hashable, ObservableObject {
 
     @Published var fontSize: FontSize

@@ -22,6 +22,8 @@ struct DisplayHymnBottomBar: View {
 
     @Binding var contentBuilder: (() -> AnyView)?
     @State private var tabPresented: DisplayHymnActionSheet?
+    @State private var showShareSheet = false
+    @EnvironmentObject var storeLyricsForShare: StoreLyricsForShare
 
     @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
     let userDefaultsManager: UserDefaultsManager = Resolver.resolve()
@@ -30,10 +32,18 @@ struct DisplayHymnBottomBar: View {
         HStack(spacing: 0) {
             Group {
                 Spacer()
-                Button(action: {}, label: {
-                    BottomBarLabel(imageName: "square.and.arrow.up")
-                })
+                    Button(action: {
+                        self.showShareSheet = true
+                    }) {
+                        BottomBarLabel(imageName: "square.and.arrow.up")
+                    }
+                .sheet(isPresented: $showShareSheet) {
+                    ShareSheet(activityItems: [self.storeLyricsForShare.text])
+                }
+
                 Spacer()
+            }.onDisappear() {
+                self.storeLyricsForShare.text = ""
             }
             Group {
                 Button(action: {self.tabPresented = .fontSize}, label: {
