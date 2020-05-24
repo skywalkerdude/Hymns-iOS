@@ -30,11 +30,11 @@ struct DisplayHymnView: View {
                             // Color.green
                             BottomSheetView(
                                 isOpen: self.$bottomSheetShown,
-                                maxHeight: geometry.size.height * 0.35
+                                maxHeight: geometry.size.height * 1
                             ) {
                                 AudioView(item: self.viewModel.musicJson)
                             }
-                        }.edgesIgnoringSafeArea(.all)
+                        }.frame(minHeight: 100, idealHeight: 100.0, maxHeight: 130.0)
                     }
                 }
 

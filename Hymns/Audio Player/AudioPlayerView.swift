@@ -25,8 +25,8 @@ struct AudioView: View {
                 guard let url = self.item else {
                     return
                 }
-                let playerItem = AVPlayerItem(url: url)
-                self.player.replaceCurrentItem(with: playerItem)
+             //   let playerItem = AVPlayerItem(url: url)
+            //    self.player.replaceCurrentItem(with: playerItem)
                 self.player.pause()
             }) {Image(systemName: "stop")}
             }

@@ -41,23 +41,24 @@ struct AudioPlayerControlsView: View {
         }
     }
 
-    // MARK: Private functions
-    private func sliderEditingChanged(editingStarted: Bool) {
-        if editingStarted {
-            // Tell the PlayerTimeObserver to stop publishing updates while the user is interacting
-            // with the slider (otherwise it would keep jumping from where they've moved it to, back
-            // to where the player is currently at)
-            timeObserver.pause(true)
-        } else {
-            // Editing finished, start the seek
-            state = .buffering
-            let targetTime = CMTime(seconds: currentTime,
-                                    preferredTimescale: 600)
-            player.seek(to: targetTime) { _ in
-                // Now the (async) seek is completed, resume normal operation
-                self.timeObserver.pause(false)
-                self.state = .playing
-            }
-        }
-    }
+//    // MARK: Private functions
+//    private func sliderEditingChanged(editingStarted: Bool) {
+//        if editingStarted {
+//            // Tell the PlayerTimeObserver to stop publishing updates while the user is interacting
+//            // with the slider (otherwise it would keep jumping from where they've moved it to, back
+//            // to where the player is currently at)
+//            timeObserver.pause(true)
+//        } else {
+//            // Editing finished, start the seek
+//            state = .buffering
+//            let targetTime = CMTime(seconds: currentTime,
+//                                    preferredTimescale: 600)
+//            player.seek(to: targetTime) { _ in
+//                // Now the (async) seek is completed, resume normal operation
+//                self.timeObserver.pause(false)
+//                self.state = .playing
+//            }
+//        }
+//    }
+//}
 }
