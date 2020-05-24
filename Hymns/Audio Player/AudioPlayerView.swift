@@ -33,8 +33,12 @@ struct AudioView: View {
                         .font(.largeTitle)
                     })
 
-                    //Currently needed for when you tab to chords, piano, or guitar....
+                    //Reset button currently needed for when you tab to chords, piano, or guitar....
                     Button(action: {
+                        if self.currentlyPlaying {
+                            self.currentlyPlaying.toggle()
+                        }
+                        
                         self.playbackState = .buffering
                         self.player.replaceCurrentItem(with: nil)
                         guard let url = self.item else {
