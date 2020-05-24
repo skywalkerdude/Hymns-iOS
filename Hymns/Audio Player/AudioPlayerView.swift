@@ -58,7 +58,6 @@ struct AudioView: View {
             }
             let playerItem = AVPlayerItem(url: url)
             self.player.replaceCurrentItem(with: playerItem)
-         //   self.player.play()
         }
         .onDisappear {
             // When this View isn't being shown anymore stop the player

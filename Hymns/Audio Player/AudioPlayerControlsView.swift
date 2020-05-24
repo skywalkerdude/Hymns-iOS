@@ -8,7 +8,6 @@ struct AudioPlayerControlsView: View {
     let itemObserver: PlayerItemObserver
     @Binding var playbackState: PlaybackState
     @State private var currentTime: TimeInterval = 0
- //   @State private var playbackState = PlaybackState.waitingForSelection
 
     var body: some View {
         VStack {
@@ -16,7 +15,7 @@ struct AudioPlayerControlsView: View {
                 Text("Buffering...")
             }
                Slider(value: $currentTime,
-                       in: 0...100,
+                       in: 0...60,
                        onEditingChanged: sliderEditingChanged,
                        minimumValueLabel: Text("\(Utility.formatSecondsToHMS(currentTime))"),
                        maximumValueLabel: Text("")) {
