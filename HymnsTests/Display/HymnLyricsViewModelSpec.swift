@@ -7,7 +7,7 @@ import Nimble
 class HymnLyricsViewModelSpec: QuickSpec {
 
     override func spec() {
-        describe("HymnLyricsViewModel") {
+        xdescribe("HymnLyricsViewModel") {
             // https://www.vadimbulavin.com/unit-testing-async-code-in-swift/
             let testQueue = DispatchQueue(label: "test_queue")
             var hymnsRepository: HymnsRepositoryMock!
