@@ -117,6 +117,9 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                 it("fourth tab should be piano") {
                                     expect(target.tabItems[3].id).to(equal("Piano"))
                                 }
+                                it("should have a bottom bar") {
+                                    expect(target.bottomBar).to(equal(DisplayHymnBottomBarViewModel(hymnToDisplay: classic1151)))
+                                }
                             }
                         }
                     }
