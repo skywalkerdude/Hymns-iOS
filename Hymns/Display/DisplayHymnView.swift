@@ -27,14 +27,13 @@ struct DisplayHymnView: View {
                 if playButtonOn {
                     viewModel.musicJson.map { _ in
                         GeometryReader { geometry in
-                            // Color.green
                             BottomSheetView(
                                 isOpen: self.$bottomSheetShown,
                                 maxHeight: geometry.size.height * 1
                             ) {
                                 AudioView(item: self.viewModel.musicJson)
                             }
-                        }.frame(minHeight: 130, idealHeight: 130.0, maxHeight: 130.0)
+                        }.frame(minHeight: 150, idealHeight: 150, maxHeight: 150.0)
                     }
                 }
 

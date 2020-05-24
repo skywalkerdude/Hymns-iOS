@@ -2,23 +2,19 @@ import AVFoundation
 import SwiftUI
 
 struct AudioPlayerControlsView: View {
-    private enum PlaybackState: Int {
-        case waitingForSelection
-        case buffering
-        case playing
-    }
 
     let player: AVPlayer
     let timeObserver: PlayerTimeObserver
     let itemObserver: PlayerItemObserver
+    @Binding var playbackState: PlaybackState
     @State private var currentTime: TimeInterval = 0
-    @State private var state = PlaybackState.waitingForSelection
+ //   @State private var playbackState = PlaybackState.waitingForSelection
 
     var body: some View {
         VStack {
-            if state == .waitingForSelection {
+            if playbackState == .waitingForSelection {
                 Text("Searching for song")
-            } else if state == .buffering {
+            } else if playbackState == .buffering {
                 Text("Buffering...")
             } else {
                 EmptyView()
@@ -31,7 +27,7 @@ struct AudioPlayerControlsView: View {
                         // I have no idea in what scenario this View is shown...
                         Text("seek/progress slider")
                 }
-                .disabled(state != .playing)
+                .disabled(playbackState != .playing)
             }
         .padding()
         // Listen out for the time observer publishing changes to the player's time
@@ -40,12 +36,12 @@ struct AudioPlayerControlsView: View {
             self.currentTime = time
             // And flag that we've started playback
             if time > 0 {
-                self.state = .playing
+                self.playbackState = .playing
             }
         }
         // Listen out for the item observer publishing a change to whether the player has an item
         .onReceive(itemObserver.publisher) { hasItem in
-            self.state = hasItem ? .buffering : .waitingForSelection
+            self.playbackState = hasItem ? .buffering : .waitingForSelection
             self.currentTime = 0
         }
     }
@@ -59,13 +55,13 @@ struct AudioPlayerControlsView: View {
             timeObserver.pause(true)
         } else {
             // Editing finished, start the seek
-            state = .buffering
+            playbackState = .buffering
             let targetTime = CMTime(seconds: currentTime,
                                     preferredTimescale: 600)
             player.seek(to: targetTime) { _ in
                 // Now the (async) seek is completed, resume normal operation
                 self.timeObserver.pause(false)
-                self.state = .playing
+                self.playbackState = .playing
             }
         }
     }

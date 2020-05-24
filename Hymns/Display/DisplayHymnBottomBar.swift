@@ -68,7 +68,7 @@ struct DisplayHymnBottomBar: View {
                 Button(action: {
                     self.playButtonOn.toggle()
                 }, label: {
-                    BottomBarLabel(imageName: "play")
+                    playButtonOn ? Image(systemName: "play.fill").accentColor(.accentColor) : Image(systemName: "play").accentColor(.primary)
                 })
                 Spacer()
             }
