@@ -33,7 +33,7 @@ struct DisplayHymnView: View {
                             ) {
                                 AudioView(item: self.viewModel.musicJson)
                             }
-                        }.frame(minHeight: 150, idealHeight: 150, maxHeight: 150.0)
+                        }.frame(minHeight: 120, idealHeight: 120, maxHeight: 120.0)
                     }
                 }
 
