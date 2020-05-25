@@ -48,7 +48,7 @@ struct TabBar<TabItemType: TabItem>: View {
                     )
                 }
             }
-        }
+        }.background(Color(.systemBackground))
     }
 
     private func isSelected(_ tabItem: TabItemType) -> Bool {
@@ -99,8 +99,18 @@ struct TabBar_Previews: PreviewProvider {
                 .settings
         ])
 
+        var lyricsTab: HymnLyricsTab = .lyrics(EmptyView().eraseToAnyView())
+        let lyricsSelected = TabBar(
+            currentTab: Binding<HymnLyricsTab>(
+                get: {lyricsTab},
+                set: {lyricsTab = $0}),
+            tabItems: [lyricsTab,
+                       .chords(EmptyView().eraseToAnyView()),
+                       .guitar(EmptyView().eraseToAnyView()),
+                       .piano(EmptyView().eraseToAnyView())])
         return Group {
-            homeSelected.toPreviews("home tab selected")
+            lyricsSelected
+            homeSelected.previewDisplayName("home tab selected")
             browseSelected.previewLayout(.sizeThatFits).previewDisplayName("browse tab selected")
         }.previewLayout(.fixed(width: 350, height: 50))
     }
