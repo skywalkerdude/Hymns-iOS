@@ -1,9 +1,14 @@
 import SwiftUI
+import Resolver
 
 struct DisplayHymnToolbar: View {
 
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var viewModel: DisplayHymnViewModel
+
+    //Only used for font size ellipsis
+    @State private var tabPresented: DisplayHymnActionSheet?
+    let userDefaultsManager: UserDefaultsManager = Resolver.resolve()
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
@@ -11,6 +16,7 @@ struct DisplayHymnToolbar: View {
 
     var body: some View {
         HStack {
+            //Go back button
             Button(action: {
                 self.presentationMode.wrappedValue.dismiss()
             }, label: {
@@ -20,11 +26,41 @@ struct DisplayHymnToolbar: View {
             Text(viewModel.title).fontWeight(.bold)
             Spacer()
             viewModel.isFavorited.map { isFavorited in
-                Button(action: {
-                    self.viewModel.toggleFavorited()
-                }, label: {
-                    isFavorited ? Image(systemName: "heart.fill").accentColor(.accentColor) : Image(systemName: "heart").accentColor(.primary)
-                })
+                Group {
+                    //Favorite heart button
+                    Button(action: {
+                        self.viewModel.toggleFavorited()
+                    }, label: {
+                        isFavorited ? Image(systemName: "heart.fill").accentColor(.accentColor) : Image(systemName: "heart").accentColor(.primary)
+                    })
+                    //Font size button
+                    Button(action: {self.tabPresented = .fontSize}, label: {
+                        Image(systemName: "ellipsis").rotationEffect(.degrees(90)).foregroundColor(.primary)
+                    })
+               //     Spacer()
+                }
+            } //Action sheet is for the font selection toggle
+        }.actionSheet(item: $tabPresented) { tab -> ActionSheet in
+            switch tab {
+            case .fontSize:
+                return
+                    ActionSheet(
+                        title: Text("Font size"),
+                        message: Text("Change the song lyrics font size"),
+                        buttons: [
+                            .default(Text(FontSize.normal.rawValue),
+                                     action: {
+                                        self.userDefaultsManager.fontSize = .normal
+                            }),
+                            .default(Text(FontSize.large.rawValue),
+                                     action: {
+                                        self.userDefaultsManager.fontSize = .large
+                            }),
+                            .default(Text(FontSize.xlarge.rawValue),
+                                     action: {
+                                        self.userDefaultsManager.fontSize = .xlarge
+                            }),
+                            .cancel()])
             }
         }.padding(.horizontal)
     }

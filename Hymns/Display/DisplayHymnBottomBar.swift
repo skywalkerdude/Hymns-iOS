@@ -21,10 +21,8 @@ struct BottomBarLabel_Previews: PreviewProvider {
 struct DisplayHymnBottomBar: View {
 
     @Binding var contentBuilder: (() -> AnyView)?
-    @State private var tabPresented: DisplayHymnActionSheet?
 
     @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
-    let userDefaultsManager: UserDefaultsManager = Resolver.resolve()
 
     var body: some View {
         HStack(spacing: 0) {
@@ -32,12 +30,6 @@ struct DisplayHymnBottomBar: View {
                 Spacer()
                 Button(action: {}, label: {
                     BottomBarLabel(imageName: "square.and.arrow.up")
-                })
-                Spacer()
-            }
-            Group {
-                Button(action: {self.tabPresented = .fontSize}, label: {
-                    BottomBarLabel(imageName: "textformat.size")
                 })
                 Spacer()
             }
@@ -74,28 +66,6 @@ struct DisplayHymnBottomBar: View {
                     BottomBarLabel(imageName: "info.circle")
                 })
                 Spacer()
-            }
-        }.actionSheet(item: $tabPresented) { tab -> ActionSheet in
-            switch tab {
-            case .fontSize:
-                return
-                    ActionSheet(
-                        title: Text("Font size"),
-                        message: Text("Change the song lyrics font size"),
-                        buttons: [
-                            .default(Text(FontSize.normal.rawValue),
-                                     action: {
-                                        self.userDefaultsManager.fontSize = .normal
-                            }),
-                            .default(Text(FontSize.large.rawValue),
-                                     action: {
-                                        self.userDefaultsManager.fontSize = .large
-                            }),
-                            .default(Text(FontSize.xlarge.rawValue),
-                                     action: {
-                                        self.userDefaultsManager.fontSize = .xlarge
-                            }),
-                            .cancel()])
             }
         }
     }
