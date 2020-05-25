@@ -18,18 +18,40 @@ class HomeViewModelSpec: QuickSpec {
                                RecentSong(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014")]
             beforeEach {
                 historyStore = mock(HistoryStore.self)
-                given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
-                    expect(target.state).to(equal(HomeResultState.loading))
-                    onChanged(recentSongs)
-                    return mock(Notification.self)
-                }
                 songResultsRepository = mock(SongResultsRepository.self)
-                target = HomeViewModel(backgroundQueue: testQueue, historyStore: historyStore,
-                                       mainQueue: testQueue, repository: songResultsRepository)
             }
             let recentHymns = "Recent hymns"
-            context("default state") {
+            context("empty recent songs") {
                 beforeEach {
+                    given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
+                        expect(target.state).to(equal(HomeResultState.loading))
+                        onChanged([RecentSong]())
+                        return mock(Notification.self)
+                    }
+                    target = HomeViewModel(backgroundQueue: testQueue, historyStore: historyStore,
+                                           mainQueue: testQueue, repository: songResultsRepository)
+                    testQueue.sync {}
+                }
+                it("\"\(recentHymns)\" label should not be showing") {
+                    expect(target.label).to(beNil())
+                }
+                it("should display empty results") {
+                    expect(target.state).to(equal(HomeResultState.results))
+                    expect(target.songResults).to(beEmpty())
+                }
+                it("should fetch the recent songs from the history store") {
+                    verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
+                }
+            }
+            context("recent songs") {
+                beforeEach {
+                    given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
+                        expect(target.state).to(equal(HomeResultState.loading))
+                        onChanged(recentSongs)
+                        return mock(Notification.self)
+                    }
+                    target = HomeViewModel(backgroundQueue: testQueue, historyStore: historyStore,
+                                           mainQueue: testQueue, repository: songResultsRepository)
                     testQueue.sync {}
                 }
                 it("\"\(recentHymns)\" label should be showing") {
@@ -52,6 +74,13 @@ class HomeViewModelSpec: QuickSpec {
             }
             context("search active") {
                 beforeEach {
+                    given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
+                        expect(target.state).to(equal(HomeResultState.loading))
+                        onChanged(recentSongs)
+                        return mock(Notification.self)
+                    }
+                    target = HomeViewModel(backgroundQueue: testQueue, historyStore: historyStore,
+                                           mainQueue: testQueue, repository: songResultsRepository)
                     target.searchActive = true
                     testQueue.sync {}
                 }

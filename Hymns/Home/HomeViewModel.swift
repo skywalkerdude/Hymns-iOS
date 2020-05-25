@@ -93,10 +93,12 @@ class HomeViewModel: ObservableObject {
     }
 
     private func fetchRecentSongs() {
-        label = "Recent hymns"
+        label = nil
         state = .loading
         recentSongsNotification?.invalidate() // invalidate old notification because we're about to create a new one
-        recentSongsNotification = historyStore.recentSongs { recentSongs in
+        recentSongsNotification = historyStore.recentSongs { [weak self] recentSongs in
+            guard let self = self else { return }
+
             if self.searchActive && !self.searchParameter.isEmpty {
                 // If the recent songs db changes while recent songs shouldn't be shown (there's an active search going on),
                 // we don't want to randomly replace the search results with updated db results.
@@ -106,6 +108,9 @@ class HomeViewModel: ObservableObject {
             self.songResults = recentSongs.map { recentSong in
                 let identifier = HymnIdentifier(recentSong.hymnIdentifierEntity)
                 return SongResultViewModel(title: recentSong.songTitle, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
+            }
+            if !self.songResults.isEmpty {
+                self.label = "Recent hymns"
             }
         }
     }
