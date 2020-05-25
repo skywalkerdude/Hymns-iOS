@@ -29,7 +29,7 @@ class PDFLoaderImpl: PDFLoader {
             self.cache[url] = document
         }
     }
-    
+
     func get(url: URL) -> PDFDocument? {
         return cache[url]
     }
