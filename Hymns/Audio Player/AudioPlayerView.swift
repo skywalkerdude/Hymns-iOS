@@ -25,7 +25,7 @@ struct AudioView: View {
             AudioPlayerControlsView(player: player,
                                     timeObserver: PlayerTimeObserver(player: player),
                                     itemObserver: PlayerItemObserver(player: player), playbackState: $playbackState)
-            HStack(spacing: 30) {
+            HStack(spacing: 30) { 
                 //Reset button currently needed for when you tab to chords, piano, or guitar....
                 Button(action: {
                     if self.currentlyPlaying {
