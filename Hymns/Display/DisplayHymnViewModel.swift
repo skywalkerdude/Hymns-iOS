@@ -15,7 +15,6 @@ class DisplayHymnViewModel: ObservableObject {
     @Published var bottomBar: DisplayHymnBottomBarViewModel?
     @Published var musicJson: URL?
 
-
     private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue
     private let favoritesStore: FavoritesStore
@@ -104,7 +103,7 @@ class DisplayHymnViewModel: ObservableObject {
                         self.pdfLoader.load(url: pianoUrl)
                         self.tabItems.append(.piano(PDFViewer(url: pianoUrl).eraseToAnyView()))
                     }
-                    
+
                     let musicJsonPath = hymn.musicJson?.data.first(where: { datum -> Bool in
                          datum.value == DatumValue.mp3.rawValue
                          })?.path
