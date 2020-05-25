@@ -25,7 +25,9 @@ class HomeViewModelSearchSpec: QuickSpec {
             beforeEach {
                 historyStore = mock(HistoryStore.self)
                 given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
+                    print("start expecting on \(Thread.current)")
                     expect(target.state).to(equal(HomeResultState.loading))
+                    print("end expecting")
                     onChanged(recentSongs)
                     return mock(Notification.self)
                 }
@@ -169,21 +171,58 @@ class HomeViewModelSearchSpec: QuickSpec {
                     beforeEach {
                         target.searchParameter = ""
                         sleep(1) // allow time for the debouncer to trigger.
+                        testQueue.sync {}
                     }
                     it("\"\(recentHymns)\" label should be showing") {
+                        print("sync 1")
+                        testQueue.sync {}
+                        print("sync 1 done")
+                        print("Asserting '\(recentHymns) label should be showing' on \(Thread.current)")
+
                         expect(target.label).toNot(beNil())
                         expect(target.label).to(equal(recentHymns))
+
+                        print("sync 2")
+                        testQueue.sync {}
+                        print("sync 2 done")
                     }
                     it("should not still be loading") {
+                        print("sync 1")
+                        testQueue.sync {}
+                        print("sync 1 done")
+                        print("Asserting 'should not still be loading' on \(Thread.current)")
+
                         expect(target.state).to(equal(HomeResultState.results))
+
+                        print("sync 2")
+                        testQueue.sync {}
+                        print("sync 2 done")
                     }
                     it("should fetch the recent songs from the history store") {
+                        print("sync 1")
+                        testQueue.sync {}
+                        print("sync 1 done")
+                        print("Asserting 'should fetch the recent songs from the history store' on \(Thread.current)")
+
                         verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
+
+                        print("sync 2")
+                        testQueue.sync {}
+                        print("sync 2 done")
                     }
                     it("should display recent songs") {
+                        print("sync 1")
+                        testQueue.sync {}
+                        print("sync 1 done")
+                        print("Asserting 'should display recent songs' on \(Thread.current)")
+
                         expect(target.songResults).to(haveCount(2))
                         expect(target.songResults[0].title).to(equal(recentSongs[0].songTitle))
                         expect(target.songResults[1].title).to(equal(recentSongs[1].songTitle))
+
+                        print("sync 2")
+                        testQueue.sync {}
+                        print("sync 2 done")
                     }
                 }
                 context("deactivate search") {
