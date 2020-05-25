@@ -75,10 +75,30 @@ class ConverterSpec: QuickSpec {
                     }
                 }
                 context("filled hymn") {
-                    let filledHymn = HymnEntity(hymnIdentifier: classic1151, title: "title", lyricsJson: "[{\"verse_type\":\"verse\",\"verse_content\":[\"line 1\",\"line 2\"]}]",
-                                                category: "This is my category", subcategory: "This is my subcategory", author: "This is the author")
-                    let expected = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: [Verse(verseType: .verse, verseContent: ["line 1", "line 2"])],
-                                          category: "This is my category", subcategory: "This is my subcategory", author: "This is the author")
+                    let filledHymn
+                        = HymnEntity(hymnIdentifier: classic1151,
+                                     title: "title",
+                                     lyricsJson: "[{\"verse_type\":\"verse\",\"verse_content\":[\"line 1\",\"line 2\"]}]",
+                                     category: "This is my category",
+                                     subcategory: "This is my subcategory",
+                                     author: "This is the author",
+                                     pdfSheetJson: "{\"data\": [{\"path\": \"/en/hymn/h/1151/f=ppdf\", \"value\": \"Piano\"}, {\"path\": \"/en/hymn/h/1151/f=pdf\", \"value\": \"Guitar\"}, {\"path\": \"/en/hymn/h/1151/f=gtpdf\", \"value\": \"Text\"}], \"name\": \"Lead Sheet\"}",
+                                     languagesJson: "{\"data\": [{\"path\": \"/en/hymn/cb/1151\", \"value\": \"Cebuano\"}, {\"path\": \"/en/hymn/ts/216?gb=1\", \"value\": \"诗歌(简)\"}, {\"path\": \"/en/hymn/ht/1151\", \"value\": \"Tagalog\"}], \"name\": \"Languages\"}")
+                    let expected
+                        = UiHymn(hymnIdentifier: classic1151,
+                                 title: "title",
+                                 lyrics: [Verse(verseType: .verse, verseContent: ["line 1", "line 2"])],
+                                 pdfSheet: MetaDatum(name: "Lead Sheet",
+                                                     data: [Datum(value: "Piano", path: "/en/hymn/h/1151/f=ppdf"),
+                                                            Datum(value: "Guitar", path: "/en/hymn/h/1151/f=pdf"),
+                                                            Datum(value: "Text", path: "/en/hymn/h/1151/f=gtpdf")]),
+                                 category: "This is my category",
+                                 subcategory: "This is my subcategory",
+                                 author: "This is the author",
+                                 languages: MetaDatum(name: "Languages",
+                                                      data: [Datum(value: "Cebuano", path: "/en/hymn/cb/1151"),
+                                                             Datum(value: "诗歌(简)", path: "/en/hymn/ts/216?gb=1"),
+                                                             Datum(value: "Tagalog", path: "/en/hymn/ht/1151")]))
                     it("should correctly convert to a UiHymn") {
                         expect(try! target.toUiHymn(hymnIdentifier: classic1151, hymnEntity: filledHymn)).to(equal(expected))
                     }
