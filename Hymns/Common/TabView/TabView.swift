@@ -22,7 +22,6 @@ public struct IndicatorTabView<TabType: TabItem>: View {
                 TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment).padding(.bottom, 0.2)
             }
             Rectangle()
-                .foregroundColor(.white)
                 .overlay(currentTab.content)
             if tabAlignment == .bottom {
                 TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment)
@@ -41,7 +40,6 @@ private struct TabContainer<TabType: TabItem>: View {
         Rectangle()
             .shadow(radius: 0.2, y: self.tabAlignment == .top ? 0.3 : -0.3)
             .frame(height: 50)
-            .foregroundColor(.white)
             .overlay(TabBar(currentTab: $currentTab, tabItems: tabItems))
     }
 }
@@ -54,16 +52,22 @@ public enum TabAlignment {
 struct IndicatorTabView_Previews: PreviewProvider {
 
     static var previews: some View {
-        var selectedTab: HomeTab = .home
-        let selectedTabBinding = Binding<HomeTab>(
+
+        let viewModel = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn40)
+        viewModel.lyrics = [VerseViewModel(verseNumber: "1", verseLines: classic40_preview.lyrics[0].verseContent),
+                            VerseViewModel(verseLines: classic40_preview.lyrics[1].verseContent),
+                            VerseViewModel(verseNumber: "2", verseLines: classic40_preview.lyrics[2].verseContent),
+                            VerseViewModel(verseNumber: "3", verseLines: classic40_preview.lyrics[3].verseContent),
+                            VerseViewModel(verseNumber: "4", verseLines: classic40_preview.lyrics[4].verseContent)]
+        var selectedTab: HymnLyricsTab = .lyrics(HymnLyricsView(viewModel: viewModel).eraseToAnyView())
+        let selectedTabBinding = Binding<HymnLyricsTab>(
             get: {selectedTab},
             set: {selectedTab = $0})
-        let tabItems: [HomeTab] = [
-            .home,
-            .browse,
-            .favorites,
-            .settings
-        ]
+        let tabItems: [HymnLyricsTab] = [
+            selectedTab,
+            .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=gtpdf")).eraseToAnyView()),
+            .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=pdf")).eraseToAnyView()),
+            .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=ppdf")).eraseToAnyView())]
 
         return Group {
             IndicatorTabView(currentTab: selectedTabBinding, tabItems: tabItems)
