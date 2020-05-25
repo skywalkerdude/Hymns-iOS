@@ -38,7 +38,7 @@ struct AudioView: View {
                         if self.currentlyPlaying {
                             self.currentlyPlaying.toggle()
                         }
-                        
+
                         self.playbackState = .buffering
                         self.player.replaceCurrentItem(with: nil)
                         guard let url = self.item else {
@@ -47,12 +47,11 @@ struct AudioView: View {
                         let playerItem = AVPlayerItem(url: url)
                         self.player.replaceCurrentItem(with: playerItem)
                         self.player.play()
-
-                    }){
+                    }, label: {
                         Text("Reset")
-                    }
+                    })
                 }
-        }.onAppear() {
+        }.onAppear {
             guard let url = self.item else {
                 return
             }

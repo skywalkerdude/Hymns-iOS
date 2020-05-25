@@ -95,7 +95,7 @@ class ConverterImpl: Converter {
         } else {
             pdfSheet = nil
         }
-        
+
         let musicJson: MetaDatum?
          if let musicJsonData = hymnEntity.musicJson?.data(using: .utf8) {
              musicJson = try? jsonDecoder.decode(MetaDatum.self, from: musicJsonData)

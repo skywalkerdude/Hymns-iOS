@@ -118,14 +118,14 @@ extension DisplayHymnActionSheet: Identifiable {
     }
 }
 
- #if DEBUG
- struct DisplayHymnBottomBar_Previews: PreviewProvider {
- static var previews: some View {
- let viewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
- var contentBuilder: (() -> AnyView)?
- return DisplayHymnBottomBar(contentBuilder: Binding<(() -> AnyView)?>(
- get: {contentBuilder},
- set: {contentBuilder = $0}), playButtonOn: .constant(true), viewModel: viewModel).toPreviews()
- }
- }
- #endif
+#if DEBUG
+struct DisplayHymnBottomBar_Previews: PreviewProvider {
+    static var previews: some View {
+        let viewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+        var contentBuilder: (() -> AnyView)?
+        return DisplayHymnBottomBar(contentBuilder: Binding<(() -> AnyView)?>(
+            get: {contentBuilder},
+            set: {contentBuilder = $0}), playButtonOn: .constant(true), viewModel: viewModel).toPreviews()
+    }
+}
+#endif
