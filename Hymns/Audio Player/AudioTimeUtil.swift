@@ -1,4 +1,5 @@
 import Foundation
+import AVFoundation
 
 class Utility: NSObject {
 
@@ -12,5 +13,9 @@ class Utility: NSObject {
 
     static func formatSecondsToHMS(_ seconds: Double) -> String {
         return timeHMSFormatter.string(from: seconds) ?? "00:00"
+    }
+
+    static func convertFloatToCMTime(_ floatTime: Float64) -> CMTime {
+        CMTimeMake(value: Int64(floatTime * 1000 as Float64), timescale: 1000)
     }
 }
