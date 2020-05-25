@@ -30,7 +30,7 @@ struct DisplayHymnView: View {
         }.hideNavigationBar()
             .onAppear {
                 self.viewModel.fetchHymn()
-        }
+        }.background(Color(.systemBackground))
     }
 }
 

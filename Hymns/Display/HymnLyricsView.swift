@@ -27,7 +27,7 @@ public struct HymnLyricsView: View {
                 }.maxSize(alignment: .leading).eraseToAnyView()
         }.onAppear {
             self.viewModel.fetchLyrics()
-        }
+        }.background(Color(.systemBackground))
     }
 }
 
