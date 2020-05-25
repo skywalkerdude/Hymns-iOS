@@ -37,7 +37,6 @@ struct DisplayHymnToolbar: View {
                     Button(action: {self.tabPresented = .fontSize}, label: {
                         Image(systemName: "ellipsis").rotationEffect(.degrees(90)).foregroundColor(.primary)
                     })
-               //     Spacer()
                 }
             } //Action sheet is for the font selection toggle
         }.actionSheet(item: $tabPresented) { tab -> ActionSheet in
