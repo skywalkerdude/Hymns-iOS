@@ -41,6 +41,25 @@ class HomeViewModelTest: XCTestCase {
         expect(self.target.songResults[1].title).to(equal(recentSongs[1].songTitle))
     }
 
+    func test_defaultState_withoutRecentSongs() {
+        testQueue.sync {}
+        clearInvocations(on: historyStore)
+        reset(historyStore)
+        given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
+            expect(self.target.state).to(equal(HomeResultState.loading))
+            onChanged([RecentSong]())
+            return mock(Notification.self)
+        }
+        target = HomeViewModel(backgroundQueue: testQueue, historyStore: historyStore,
+                               mainQueue: testQueue, repository: songResultsRepository)
+        testQueue.sync {}
+
+        expect(self.target.label).to(beNil())
+        expect(self.target.state).to(equal(HomeResultState.results))
+        verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
+        expect(self.target.songResults).to(beEmpty())
+    }
+
     func test_searchActive_emptySearchParameter() {
         target.searchActive = true
         testQueue.sync {}
