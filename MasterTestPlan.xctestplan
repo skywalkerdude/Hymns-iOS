@@ -1,15 +1,15 @@
 {
   "configurations" : [
     {
-      "id" : "0D0342D3-F5B1-4ED2-8653-1B1FD7C66B79",
-      "name" : "Configuration 1",
+      "id" : "8D6B573D-D08C-44F0-B58A-3176BB8EBA2C",
+      "name" : "Default Configuration",
       "options" : {
 
       }
     }
   ],
   "defaultOptions" : {
-
+    "testExecutionOrdering" : "random"
   },
   "testTargets" : [
     {
