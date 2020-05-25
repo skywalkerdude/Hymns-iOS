@@ -5,9 +5,8 @@ import Resolver
 class DisplayHymnBottomBarViewModel: ObservableObject {
 
     @Published var songInfo: SongInfoDialogViewModel
-    @Published var sharablelLyrics = ""
+    @Published var shareableLyrics: String = ""
 
-    private var lyrics: [VerseViewModel]? = [VerseViewModel]()
     private let identifier: HymnIdentifier
     private let mainQueue: DispatchQueue
     private let repository: HymnsRepository
@@ -22,51 +21,36 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
     }
 
     func fetchLyrics() {
-        var latestValue: [VerseViewModel]? = [VerseViewModel]()
+        var latestValue: String = ""
         repository
             .getHymn(identifier)
-            .map({ [weak self] hymn -> [VerseViewModel]? in
+            .map({ [weak self] hymn -> String in
                 guard let self = self, let hymn = hymn, !hymn.lyrics.isEmpty else {
-                    return nil
+                    return ""
                 }
-                return self.convertToViewModels(verses: hymn.lyrics)
+                return self.convertToOneString(verses: hymn.lyrics)
             })
             .receive(on: mainQueue)
             .sink(receiveCompletion: { [weak self] state in
                 guard let self = self else { return }
                 if state == .finished {
                     // Only display the lyrics if the call is finished and we aren't getting any more values
-                    self.lyrics = latestValue
+                    self.shareableLyrics = latestValue
                 }
                 }, receiveValue: { lyrics in
                     latestValue = lyrics
             }).store(in: &disposables)
     }
 
-    func convertToOneString(verses: [VerseViewModel]) -> String {
-        var sharablelLyrics = ""
+    func convertToOneString(verses: [Verse]) -> String {
+        var shareableLyrics = ""
         for verse in verses {
-            for verseLine in verse.verseLines {
-                sharablelLyrics += (verseLine.verseText + "\n")
+            for verseLine in verse.verseContent {
+                shareableLyrics += (verseLine + "\n")
             }
-            sharablelLyrics += "\n"
+            shareableLyrics += "\n"
         }
-        return sharablelLyrics
-    }
-
-    func convertToViewModels(verses: [Verse]) -> [VerseViewModel] {
-        var verseViewModels = [VerseViewModel]()
-        var verseNumber = 0
-        for verse in verses {
-            if verse.verseType == .chorus || verse.verseType == .other {
-                verseViewModels.append(VerseViewModel(verseLines: verse.verseContent, transliteration: verse.transliteration))
-            } else {
-                verseNumber += 1
-                verseViewModels.append(VerseViewModel(verseNumber: "\(verseNumber)", verseLines: verse.verseContent, transliteration: verse.transliteration))
-            }
-        }
-        self.sharablelLyrics = convertToOneString(verses: verseViewModels)
-        return verseViewModels
+        return shareableLyrics
     }
 }
 

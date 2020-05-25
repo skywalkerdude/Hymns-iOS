@@ -22,24 +22,26 @@ struct DisplayHymnBottomBar: View {
 
     @Binding var contentBuilder: (() -> AnyView)?
     @State private var tabPresented: DisplayHymnActionSheet?
-    @State private var showShareSheet = false
-
+    @State private var sheetPresented: DisplayHymnSheet?
     @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
+
     let userDefaultsManager: UserDefaultsManager = Resolver.resolve()
 
     var body: some View {
         HStack(spacing: 0) {
             Group {
                 Spacer()
-                    Button(action: {
-                        self.showShareSheet = true
-                    }, label: {
-                        BottomBarLabel(imageName: "square.and.arrow.up")
+                Button(action: {
+                    self.sheetPresented = .share
+                }, label: {
+                    BottomBarLabel(imageName: "square.and.arrow.up")
                     })
-                .sheet(isPresented: $showShareSheet) {
-                    ShareSheet(activityItems: [self.viewModel.sharablelLyrics])
+                    .sheet(item: $sheetPresented) { tab -> ShareSheet in
+                        switch tab {
+                        case .share:
+                            return ShareSheet(activityItems: [self.viewModel.shareableLyrics])
+                        }
                 }
-
                 Spacer()
             }
             Group {
@@ -47,8 +49,6 @@ struct DisplayHymnBottomBar: View {
                     BottomBarLabel(imageName: "textformat.size")
                 })
                 Spacer()
-            }.onAppear {
-                self.viewModel.fetchLyrics()
             }
             Group {
                 Button(action: {}, label: {
@@ -84,6 +84,8 @@ struct DisplayHymnBottomBar: View {
                 })
                 Spacer()
             }
+        }.onAppear {
+            self.viewModel.fetchLyrics()
         }.actionSheet(item: $tabPresented) { tab -> ActionSheet in
             switch tab {
             case .fontSize:
@@ -115,6 +117,16 @@ enum DisplayHymnActionSheet: String {
 }
 
 extension DisplayHymnActionSheet: Identifiable {
+    var id: String {
+        rawValue
+    }
+}
+
+enum DisplayHymnSheet: String {
+    case share = "Share Lyrics"
+}
+
+extension DisplayHymnSheet: Identifiable {
     var id: String {
         rawValue
     }
