@@ -19,7 +19,12 @@ struct DisplayHymnToolbar: View {
             Spacer()
             //Dynamic title on lyric view for when the user scrolls up and down. Other tabs stay with a static title
             if viewModel.currentTab.label == "Lyrics" {
-                Text(viewModel.title).fontWeight(.bold).opacity(self.viewModel.position.posDeltaY >= (self.viewModel.position.posOriginY) ? 0 : 1) //Title to use scrolled in on a hymn
+                viewModel.bigTitle.largeTitle.map { largeTitle in
+                        Text(viewModel.title).fontWeight(.bold).opacity(0)
+//                    else {
+//                        Text(viewModel.title).fontWeight(.bold).opacity(1)
+//                    }
+                }
             } else {
                 Text(viewModel.title).fontWeight(.bold)
             }

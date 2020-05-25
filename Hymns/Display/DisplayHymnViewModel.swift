@@ -3,11 +3,6 @@ import RealmSwift
 import Resolver
 import SwiftUI
 
-class ScrollPosition: ObservableObject {
-    @Published var posDeltaY: CGFloat = 0  // Scroll Y Position
-    @Published var posOriginY: CGFloat = 0 // Original Y Position
-}
-
 class DisplayHymnViewModel: ObservableObject {
 
     typealias Title = String
@@ -26,7 +21,7 @@ class DisplayHymnViewModel: ObservableObject {
     private let mainQueue: DispatchQueue
     private let pdfLoader: PDFLoader
     private let repository: HymnsRepository
-    let position: ScrollPosition
+    let bigTitle: BigTitle
 
     private var favoritesObserver: Notification?
     private var disposables = Set<AnyCancellable>()
@@ -38,17 +33,17 @@ class DisplayHymnViewModel: ObservableObject {
          hymnsRepository repository: HymnsRepository = Resolver.resolve(),
          historyStore: HistoryStore = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
-         pdfPreloader: PDFLoader = Resolver.resolve(), position: ScrollPosition = ScrollPosition()) {
+         pdfPreloader: PDFLoader = Resolver.resolve(), bigTitle: BigTitle = BigTitle()) {
         self.analytics = analytics
         self.backgroundQueue = backgroundQueue
-        self.currentTab = .lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: identifier, position: position)).maxSize().eraseToAnyView())
+        self.currentTab = .lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: identifier, bigTitle: bigTitle)).maxSize().eraseToAnyView())
         self.favoritesStore = favoritesStore
         self.historyStore = historyStore
         self.identifier = identifier
         self.mainQueue = mainQueue
         self.pdfLoader = pdfPreloader
         self.repository = repository
-        self.position = position
+        self.bigTitle = bigTitle
     }
 
     deinit {

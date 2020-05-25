@@ -3,8 +3,10 @@ import SwiftUI
 public struct HymnLyricsView: View {
 
     @ObservedObject private var viewModel: HymnLyricsViewModel
-   // @State var posDeltaY: CGFloat = 0  // Scroll Y Position
- //   @State var posOriginY: CGFloat = 0 // Original Y Position
+    //@ObservedObject private var bigTitle: BigTitle
+    @State var posDeltaY: CGFloat = 0  // Scroll Y Position
+    @State var posOriginY: CGFloat = 0 // Original Y Position
+    
 
     init(viewModel: HymnLyricsViewModel) {
         self.viewModel = viewModel
@@ -27,12 +29,24 @@ public struct HymnLyricsView: View {
                         //We are tracking the scrollY here especially for lyrics to then update the title based on our Y position
                          GeometryReader { innerGeo -> Text in
                             DispatchQueue.main.async {
-                                self.viewModel.position.posDeltaY = innerGeo.frame(in: .global).minY //although this modifies state during view update we are doing it in an async that is safe
+                                self.posDeltaY = innerGeo.frame(in: .global).minY //although this modifies state during view update we are doing it in an async that is safe
+                                print("bbug origin title \(self.posOriginY)")
+                                print("bbug delta title \(self.posDeltaY)")
+
+                                if self.posDeltaY < self.posOriginY {
+                                    self.viewModel.bigTitle.largeTitle = nil
+                                //    print("bbug bigtite title \(self.viewModel.bigTitle.largeTitle)")
+                                }
+                                else {
+                                self.viewModel.bigTitle.largeTitle = true
+                                 //   print("bbug bigtite2 title \(self.viewModel.bigTitle.largeTitle)")
+
+                                }
                             }
                              return Text("")
                          }.onAppear {
                             print("bbug firing")
-                            self.viewModel.position.posOriginY = self.viewModel.position.posDeltaY
+                            self.posOriginY = self.posDeltaY
                         }
                         ForEach(lyrics, id: \.self) { verseViewModel in
                             Group {
