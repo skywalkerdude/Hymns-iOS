@@ -10,8 +10,6 @@ struct VerseLineView: View {
         HStack(alignment: .top) {
             Text(viewModel.verseNumber ?? "").font(viewModel.fontSize.font).frame(minWidth: viewModel.fontSize.minWidth)
             Text(viewModel.verseText).font(viewModel.fontSize.font).lineSpacing(5).padding(.bottom, 5)
-        }.onAppear() {
-            self.storeLyricsForShare.text += "\n" + self.viewModel.verseText
         }
     }
 }

@@ -4,7 +4,6 @@ import Resolver
 
 struct DisplayHymnView: View {
 
-    @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var viewModel: DisplayHymnViewModel
     @State var dialogContent: (() -> AnyView)?
 
