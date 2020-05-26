@@ -1,22 +1,15 @@
 import SwiftUI
 
-private enum Constants {
-    static let radius: CGFloat = 16
-    static let indicatorHeight: CGFloat = 6
-    static let indicatorWidth: CGFloat = 60
-    static let snapRatio: CGFloat = 1
-    static let minHeightRatio: CGFloat = 1
-}
-
 struct BottomSheetView<Content: View>: View {
     @Binding var isOpen: Bool
 
     let maxHeight: CGFloat
     let minHeight: CGFloat
     let content: Content
+    let radius: CGFloat = 16
 
     init(isOpen: Binding<Bool>, maxHeight: CGFloat, @ViewBuilder content: () -> Content) {
-        self.minHeight = maxHeight// * Constants.minHeightRatio
+        self.minHeight = maxHeight
         self.maxHeight = maxHeight
         self.content = content()
         self._isOpen = isOpen
@@ -35,7 +28,7 @@ struct BottomSheetView<Content: View>: View {
             }
             .frame(width: geometry.size.width, height: self.maxHeight, alignment: .top)
             .background(Color(.secondarySystemBackground))
-            .cornerRadius(Constants.radius)
+            .cornerRadius(self.radius)
             .frame(height: geometry.size.height, alignment: .bottom)
             .offset(y: max(self.offset + self.translation, 0))
         }

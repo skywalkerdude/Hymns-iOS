@@ -25,13 +25,13 @@ struct DisplayHymnView: View {
                     viewModel.currentTab.content
                 }
                 if playButtonOn {
-                    viewModel.musicJson.map { _ in
+                    viewModel.mp3Path.map { _ in
                         GeometryReader { geometry in
                             BottomSheetView(
                                 isOpen: self.$bottomSheetShown,
                                 maxHeight: geometry.size.height * 1
                             ) {
-                                AudioView(item: self.viewModel.musicJson)
+                                AudioView(viewModel: AudioPlayerViewModel(item: self.viewModel.mp3Path))
                             }
                         }.frame(minHeight: 120, idealHeight: 120, maxHeight: 120.0)
                     }
