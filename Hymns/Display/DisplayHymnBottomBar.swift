@@ -35,13 +35,7 @@ struct DisplayHymnBottomBar: View {
                     self.sheetPresented = .share
                 }, label: {
                     BottomBarLabel(imageName: "square.and.arrow.up")
-                    })
-                    .sheet(item: $sheetPresented) { tab -> ShareSheet in
-                        switch tab {
-                        case .share:
-                            return ShareSheet(activityItems: [self.viewModel.shareableLyrics])
-                        }
-                }
+                })
                 Spacer()
             }
             Group {
@@ -107,6 +101,11 @@ struct DisplayHymnBottomBar: View {
                                         self.userDefaultsManager.fontSize = .xlarge
                             }),
                             .cancel()])
+            }
+        }.sheet(item: $sheetPresented) { tab -> ShareSheet in
+            switch tab {
+            case .share:
+                return ShareSheet(activityItems: [self.viewModel.shareableLyrics])
             }
         }
     }

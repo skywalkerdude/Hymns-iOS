@@ -8,16 +8,18 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
     @Published var shareableLyrics: String = ""
 
     private let identifier: HymnIdentifier
+    private let backgroundQueue: DispatchQueue
     private let mainQueue: DispatchQueue
     private let repository: HymnsRepository
 
     private var disposables = Set<AnyCancellable>()
 
-    init(hymnToDisplay identifier: HymnIdentifier, hymnsRepository repository: HymnsRepository = Resolver.resolve(), mainQueue: DispatchQueue = Resolver.resolve(name: "main")) {
+    init(hymnToDisplay identifier: HymnIdentifier, hymnsRepository repository: HymnsRepository = Resolver.resolve(), mainQueue: DispatchQueue = Resolver.resolve(name: "main"), backgroundQueue: DispatchQueue = Resolver.resolve(name: "background")) {
         self.identifier = identifier
         self.songInfo = SongInfoDialogViewModel(hymnToDisplay: identifier)
         self.mainQueue = mainQueue
         self.repository = repository
+        self.backgroundQueue = backgroundQueue
     }
 
     func fetchLyrics() {
@@ -30,6 +32,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                 }
                 return self.convertToOneString(verses: hymn.lyrics)
             })
+            .subscribe(on: backgroundQueue)
             .receive(on: mainQueue)
             .sink(receiveCompletion: { [weak self] state in
                 guard let self = self else { return }
@@ -42,7 +45,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
             }).store(in: &disposables)
     }
 
-    func convertToOneString(verses: [Verse]) -> String {
+    private func convertToOneString(verses: [Verse]) -> String {
         var shareableLyrics = ""
         for verse in verses {
             for verseLine in verse.verseContent {
