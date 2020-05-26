@@ -23,15 +23,19 @@ struct DisplayHymnBottomBar: View {
     @Binding var contentBuilder: (() -> AnyView)?
     @State private var tabPresented: DisplayHymnActionSheet?
     @Binding var playButtonOn: Bool
+    @State private var sheetPresented: DisplayHymnSheet?
 
-    @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
+  @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
+
     let userDefaultsManager: UserDefaultsManager = Resolver.resolve()
 
     var body: some View {
         HStack(spacing: 0) {
             Group {
                 Spacer()
-                Button(action: {}, label: {
+                Button(action: {
+                    self.sheetPresented = .share
+                }, label: {
                     BottomBarLabel(imageName: "square.and.arrow.up")
                 })
                 Spacer()
@@ -82,6 +86,8 @@ struct DisplayHymnBottomBar: View {
                 })
                 Spacer()
             }
+        }.onAppear {
+            self.viewModel.fetchLyrics()
         }.actionSheet(item: $tabPresented) { tab -> ActionSheet in
             switch tab {
             case .fontSize:
@@ -104,6 +110,11 @@ struct DisplayHymnBottomBar: View {
                             }),
                             .cancel()])
             }
+        }.sheet(item: $sheetPresented) { tab -> ShareSheet in
+            switch tab {
+            case .share:
+                return ShareSheet(activityItems: [self.viewModel.shareableLyrics])
+            }
         }
     }
 }
@@ -118,14 +129,24 @@ extension DisplayHymnActionSheet: Identifiable {
     }
 }
 
- #if DEBUG
- struct DisplayHymnBottomBar_Previews: PreviewProvider {
- static var previews: some View {
- let viewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
- var contentBuilder: (() -> AnyView)?
- return DisplayHymnBottomBar(contentBuilder: Binding<(() -> AnyView)?>(
- get: {contentBuilder},
- set: {contentBuilder = $0}), playButtonOn: .constant(true), viewModel: viewModel).toPreviews()
- }
- }
- #endif
+enum DisplayHymnSheet: String {
+    case share = "Share Lyrics"
+}
+
+extension DisplayHymnSheet: Identifiable {
+    var id: String {
+        rawValue
+    }
+}
+
+#if DEBUG
+struct DisplayHymnBottomBar_Previews: PreviewProvider {
+    static var previews: some View {
+        let viewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+        var contentBuilder: (() -> AnyView)?
+        return DisplayHymnBottomBar(contentBuilder: Binding<(() -> AnyView)?>(
+            get: {contentBuilder},
+            set: {contentBuilder = $0}), viewModel: viewModel).toPreviews()
+    }
+}
+#endif

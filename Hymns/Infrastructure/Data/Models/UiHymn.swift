@@ -12,11 +12,12 @@ struct UiHymn: Equatable {
     let subcategory: String?
     let author: String?
     let musicJson: MetaDatum?
+    let languages: MetaDatum?
 
     // add more fields as needed
 
     init(hymnIdentifier: HymnIdentifier, title: String, lyrics: [Verse], pdfSheet: MetaDatum? = nil,
-         category: String? = nil, subcategory: String? = nil, author: String? = nil, musicJson: MetaDatum? = nil) {
+         category: String? = nil, subcategory: String? = nil, author: String? = nil, musicJson: MetaDatum? = nil, languages: MetaDatum? = nil) {
         self.hymnIdentifier = hymnIdentifier
         self.title = title
         self.lyrics = lyrics
@@ -25,5 +26,6 @@ struct UiHymn: Equatable {
         self.subcategory = subcategory
         self.author = author
         self.musicJson = musicJson
+        self.languages = languages
     }
 }
