@@ -24,8 +24,7 @@ struct DisplayHymnBottomBar: View {
     @State private var tabPresented: DisplayHymnActionSheet?
     @Binding var playButtonOn: Bool
     @State private var sheetPresented: DisplayHymnSheet?
-
-  @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
+    @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
 
     let userDefaultsManager: UserDefaultsManager = Resolver.resolve()
 
@@ -146,7 +145,7 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
         var contentBuilder: (() -> AnyView)?
         return DisplayHymnBottomBar(contentBuilder: Binding<(() -> AnyView)?>(
             get: {contentBuilder},
-            set: {contentBuilder = $0}), viewModel: viewModel).toPreviews()
+            set: {contentBuilder = $0}), playButtonOn: .constant(true), viewModel: viewModel).toPreviews()
     }
 }
 #endif

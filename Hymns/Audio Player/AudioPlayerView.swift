@@ -2,16 +2,9 @@ import SwiftUI
 import AVFoundation
 import Combine
 
-enum PlaybackState: Int {
-    case waitingForSelection
-    case buffering
-    case playing
-}
-
 struct AudioView: View {
 
     @State var currentlyPlaying = true
-    @State var playbackState: PlaybackState = .waitingForSelection
 
     @ObservedObject private var viewModel: AudioPlayerViewModel
 
@@ -22,16 +15,13 @@ struct AudioView: View {
     var body: some View {
         VStack {
             AudioPlayerControlsView(player: viewModel.player,
-                                    timeObserver: PlayerTimeObserver(player: viewModel.player),
-                                    itemObserver: PlayerItemObserver(player: viewModel.player), playbackState: $playbackState)
+                                    timeObserver: PlayerTimeObserver(player: viewModel.player), currentlyPlaying: $currentlyPlaying)
             HStack(spacing: 30) {
 
                 // TODO Keep the music playing when you tab between piano, chords, etc.
                 //Reset button currently needed for when you tab to chords, piano, or guitar....
                 Button(action: {
                     self.currentlyPlaying = false
-                    self.playbackState = .buffering
-                    self.viewModel.player.replaceCurrentItem(with: nil)
                     guard let url = self.viewModel.item else {
                         return
                     }
