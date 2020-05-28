@@ -3,6 +3,7 @@ import Resolver
 
 // swiftlint:disable all
 
+#if DEBUG
 let decoder: JSONDecoder = Resolver.resolve()
 let classic40_preview = getHymnFromJson(fileName: "classic40")
 let classic1151_preview = getHymnFromJson(fileName: "classic1151")
@@ -14,3 +15,4 @@ func getHymnFromJson(fileName: String) -> Hymn {
     let jsonData = jsonString.data(using: .utf8)!
     return try! decoder.decode(Hymn.self, from: jsonData)
 }
+#endif

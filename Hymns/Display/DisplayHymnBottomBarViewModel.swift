@@ -6,6 +6,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
 
     @Published var songInfo: SongInfoDialogViewModel
     @Published var shareableLyrics: String = ""
+    @Published var mp3Path: URL?
 
     private let identifier: HymnIdentifier
     private let backgroundQueue: DispatchQueue
@@ -22,26 +23,25 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
         self.backgroundQueue = backgroundQueue
     }
 
-    func fetchLyrics() {
-        var latestValue: String = ""
+    func fetchHymn() {
         repository
             .getHymn(identifier)
-            .map({ [weak self] hymn -> String in
-                guard let self = self, let hymn = hymn, !hymn.lyrics.isEmpty else {
-                    return ""
-                }
-                return self.convertToOneString(verses: hymn.lyrics)
-            })
             .subscribe(on: backgroundQueue)
             .receive(on: mainQueue)
-            .sink(receiveCompletion: { [weak self] state in
-                guard let self = self else { return }
-                if state == .finished {
-                    // Only display the lyrics if the call is finished and we aren't getting any more values
-                    self.shareableLyrics = latestValue
-                }
-                }, receiveValue: { lyrics in
-                    latestValue = lyrics
+            .sink(
+                receiveValue: { [weak self] hymn in
+                    guard let self = self, let hymn = hymn, !hymn.lyrics.isEmpty else {
+                        return
+                    }
+
+                    self.shareableLyrics = self.convertToOneString(verses: hymn.lyrics)
+
+                    let mp3Path = hymn.musicJson?.data.first(where: { datum -> Bool in
+                         datum.value == DatumValue.mp3.rawValue
+                         })?.path
+                     self.mp3Path = mp3Path.flatMap({ path -> URL? in
+                         HymnalNet.url(path: path)
+                     })
             }).store(in: &disposables)
     }
 
