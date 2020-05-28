@@ -26,7 +26,6 @@ class SongInfoDialogViewModel: ObservableObject {
     }
 
     func fetchSongInfo() {
-        songInfo = [SongInfoViewModel]()
         repository
             .getHymn(identifier)
             .subscribe(on: backgroundQueue)
