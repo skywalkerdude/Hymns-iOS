@@ -2,6 +2,7 @@ import Foundation
 import Resolver
 import SwiftUI
 
+#if DEBUG
 struct PreviewSongResults {
     static let hymn1151
         = SongResultViewModel(
@@ -28,3 +29,4 @@ struct PreviewSongResults {
             title: "Hymn 1334",
             destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334)).eraseToAnyView())
 }
+#endif
