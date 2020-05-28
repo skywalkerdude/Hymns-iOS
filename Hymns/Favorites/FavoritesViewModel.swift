@@ -28,7 +28,9 @@ class FavoritesViewModel: ObservableObject {
 
         favorites = result.map { (favorite) -> SongResultViewModel in
             let identifier = HymnIdentifier(favorite.hymnIdentifierEntity)
-            return SongResultViewModel(title: favorite.songTitle, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
+            return SongResultViewModel(
+                title: favorite.songTitle,
+                destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
         }
     }
 }
