@@ -83,7 +83,9 @@ class ConverterSpec: QuickSpec {
                                      subcategory: "This is my subcategory",
                                      author: "This is the author",
                                      pdfSheetJson: "{\"data\": [{\"path\": \"/en/hymn/h/1151/f=ppdf\", \"value\": \"Piano\"}, {\"path\": \"/en/hymn/h/1151/f=pdf\", \"value\": \"Guitar\"}, {\"path\": \"/en/hymn/h/1151/f=gtpdf\", \"value\": \"Text\"}], \"name\": \"Lead Sheet\"}",
-                                     languagesJson: "{\"data\": [{\"path\": \"/en/hymn/cb/1151\", \"value\": \"Cebuano\"}, {\"path\": \"/en/hymn/ts/216?gb=1\", \"value\": \"诗歌(简)\"}, {\"path\": \"/en/hymn/ht/1151\", \"value\": \"Tagalog\"}], \"name\": \"Languages\"}")
+                                     languagesJson: "{\"data\": [{\"path\": \"/en/hymn/cb/1151\", \"value\": \"Cebuano\"}, {\"path\": \"/en/hymn/ts/216?gb=1\", \"value\": \"诗歌(简)\"}, {\"path\": \"/en/hymn/ht/1151\", \"value\": \"Tagalog\"}], \"name\": \"Languages\"}",
+                                     relevantJson: "{\"data\": [{\"path\": \"/en/hymn/h/152\", \"value\": \"Original Tune\"}, {\"path\": \"/en/hymn/nt/152\", \"value\": \"New Tune\"}, {\"path\": \"/en/hymn/h/152b\", \"value\": \"Alternate Tune\"}], \"name\": \"Relevant\"}")
+
                     let expected
                         = UiHymn(hymnIdentifier: classic1151,
                                  title: "title",
@@ -98,7 +100,11 @@ class ConverterSpec: QuickSpec {
                                  languages: MetaDatum(name: "Languages",
                                                       data: [Datum(value: "Cebuano", path: "/en/hymn/cb/1151"),
                                                              Datum(value: "诗歌(简)", path: "/en/hymn/ts/216?gb=1"),
-                                                             Datum(value: "Tagalog", path: "/en/hymn/ht/1151")]))
+                                                             Datum(value: "Tagalog", path: "/en/hymn/ht/1151")]),
+                                 tunes: MetaDatum(name: "Relevant",
+                                                  data: [Datum(value: "Original Tune", path: "/en/hymn/h/152"),
+                                                         Datum(value: "New Tune", path: "/en/hymn/nt/152"),
+                                                         Datum(value: "Alternate Tune", path: "/en/hymn/h/152b")]))
                     it("should correctly convert to a UiHymn") {
                         expect(try! target.toUiHymn(hymnIdentifier: classic1151, hymnEntity: filledHymn)).to(equal(expected))
                     }
