@@ -18,6 +18,8 @@ protocol HymnDataStore {
     func saveHymn(_ entity: HymnEntity)
     func getHymn(_ hymnIdentifier: HymnIdentifier) -> AnyPublisher<HymnEntity?, ErrorType>
     func searchHymn(_ searchParamter: String) -> AnyPublisher<[SearchResultEntity], ErrorType>
+    func getAllCategories() -> AnyPublisher<[CategoryEntity], ErrorType>
+    func getCategories(by hymnType: HymnType) -> AnyPublisher<[CategoryEntity], ErrorType>
 }
 
 /**
@@ -158,6 +160,25 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
             try SearchResultEntity.fetchAll(database,
                                             sql: "SELECT SONG_DATA.SONG_TITLE, HYMN_TYPE, HYMN_NUMBER, QUERY_PARAMS, matchinfo(SEARCH_VIRTUAL_SONG_DATA, 's') FROM SONG_DATA JOIN SEARCH_VIRTUAL_SONG_DATA ON (SEARCH_VIRTUAL_SONG_DATA.docid = SONG_DATA.rowid) WHERE SEARCH_VIRTUAL_SONG_DATA MATCH ?",
                                             arguments: [pattern])
+        }.mapError({error -> ErrorType in
+            .data(description: error.localizedDescription)
+        }).eraseToAnyPublisher()
+    }
+
+    func getAllCategories() -> AnyPublisher<[CategoryEntity], ErrorType> {
+        return databaseQueue.readPublisher { database in
+            try CategoryEntity.fetchAll(database,
+                                        sql: "SELECT DISTINCT SONG_META_DATA_CATEGORY, SONG_META_DATA_SUBCATEGORY, COUNT(1) FROM SONG_DATA GROUP BY 1, 2")
+        }.mapError({error -> ErrorType in
+            .data(description: error.localizedDescription)
+        }).eraseToAnyPublisher()
+    }
+
+    func getCategories(by hymnType: HymnType) -> AnyPublisher<[CategoryEntity], ErrorType> {
+        return databaseQueue.readPublisher { database in
+            try CategoryEntity.fetchAll(database,
+                                        sql: "SELECT DISTINCT SONG_META_DATA_CATEGORY, SONG_META_DATA_SUBCATEGORY, COUNT(1) FROM SONG_DATA WHERE HYMN_TYPE = ? GROUP BY 1, 2",
+                                        arguments: [hymnType.abbreviatedValue])
         }.mapError({error -> ErrorType in
             .data(description: error.localizedDescription)
         }).eraseToAnyPublisher()
