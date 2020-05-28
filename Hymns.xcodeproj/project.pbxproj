@@ -136,7 +136,6 @@
 		B5838BC6247AF009003B85E9 /* AudioPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5838BC5247AF009003B85E9 /* AudioPlayerView.swift */; };
 		B5838BCA247AF04B003B85E9 /* PlayerTimeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5838BC9247AF04B003B85E9 /* PlayerTimeObserver.swift */; };
 		B5838BCC247AF065003B85E9 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5838BCB247AF065003B85E9 /* BottomSheetView.swift */; };
-		B5838BCE247AF150003B85E9 /* AudioTimeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5838BCD247AF150003B85E9 /* AudioTimeUtil.swift */; };
 		B595A4A824438CC2005F7A14 /* DisplayHymnViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B595A4A724438CC2005F7A14 /* DisplayHymnViewModel.swift */; };
 		B595A4AA24438D8E005F7A14 /* HymnLyricsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B595A4A924438D8E005F7A14 /* HymnLyricsViewModel.swift */; };
 		B5A00F5F245277E300F7E3E1 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A00F5E245277E300F7E3E1 /* ActivityIndicator.swift */; };
@@ -305,7 +304,6 @@
 		B5838BC5247AF009003B85E9 /* AudioPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerView.swift; sourceTree = "<group>"; };
 		B5838BC9247AF04B003B85E9 /* PlayerTimeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTimeObserver.swift; sourceTree = "<group>"; };
 		B5838BCB247AF065003B85E9 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
-		B5838BCD247AF150003B85E9 /* AudioTimeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTimeUtil.swift; sourceTree = "<group>"; };
 		B595A4A724438CC2005F7A14 /* DisplayHymnViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnViewModel.swift; sourceTree = "<group>"; };
 		B595A4A924438D8E005F7A14 /* HymnLyricsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnLyricsViewModel.swift; sourceTree = "<group>"; };
 		B5A00F5E245277E300F7E3E1 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
@@ -789,7 +787,6 @@
 				B5838BC5247AF009003B85E9 /* AudioPlayerView.swift */,
 				B5A77A56247DA0D900447008 /* AudioPlayerViewModel.swift */,
 				B5838BC9247AF04B003B85E9 /* PlayerTimeObserver.swift */,
-				B5838BCD247AF150003B85E9 /* AudioTimeUtil.swift */,
 			);
 			path = "Audio Player";
 			sourceTree = "<group>";
@@ -1227,7 +1224,6 @@
 				3B11E2A42464AA3400F27E73 /* HymnalNetService.swift in Sources */,
 				B56305B9244223D7003BC132 /* FontViewModifier.swift in Sources */,
 				3BA4612F24773A040068F269 /* DisplayHymnBottomBarViewModel.swift in Sources */,
-				B5838BCE247AF150003B85E9 /* AudioTimeUtil.swift in Sources */,
 				3B1B90132429CF55009FDCC5 /* AppDelegate.swift in Sources */,
 				B5838BCA247AF04B003B85E9 /* PlayerTimeObserver.swift in Sources */,
 				3B5935C02435C6A300E6993C /* HymnsRepository.swift in Sources */,
