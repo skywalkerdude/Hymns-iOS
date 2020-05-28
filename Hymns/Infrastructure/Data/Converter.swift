@@ -89,6 +89,10 @@ class ConverterImpl: Converter {
             throw TypeConversionError(triggeringError: ErrorType.parsing(description: "title was empty"))
         }
 
+        let category = hymnEntity.category
+        let subcategory = hymnEntity.subcategory
+        let author = hymnEntity.author
+
         let pdfSheet: MetaDatum?
         if let pdfData = hymnEntity.pdfSheetJson?.data(using: .utf8) {
             pdfSheet = try? jsonDecoder.decode(MetaDatum.self, from: pdfData)
@@ -103,14 +107,18 @@ class ConverterImpl: Converter {
             languages = nil
         }
 
-        let category = hymnEntity.category
-        let subcategory = hymnEntity.subcategory
-        let author = hymnEntity.author
+        let tunes: MetaDatum?
+        if let tunesData = hymnEntity.relevantJson?.data(using: .utf8) {
+            tunes = try? jsonDecoder.decode(MetaDatum.self, from: tunesData)
+        } else {
+            tunes = nil
+        }
 
         do {
             let verses = try jsonDecoder.decode([Verse].self, from: lyricsData)
             return UiHymn(hymnIdentifier: hymnIdentifier, title: title, lyrics: verses, pdfSheet: pdfSheet,
-                          category: category, subcategory: subcategory, author: author, languages: languages)
+                          category: category, subcategory: subcategory, author: author, languages: languages,
+                          tunes: tunes)
         } catch {
             throw TypeConversionError(triggeringError: error)
         }
