@@ -102,7 +102,6 @@ struct DisplayHymnBottomBar: View {
                 }
             }.onAppear {
                 self.viewModel.fetchHymn()
-
             }.actionSheet(item: $tabPresented) { tab -> ActionSheet in
                 switch tab {
                 case .fontSize:

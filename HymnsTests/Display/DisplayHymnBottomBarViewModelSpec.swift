@@ -93,7 +93,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     expect(target.shareableLyrics).to(equal("Drink! a river pure and clear that's flowing from the throne;\nEat! the tree of life with fruits abundant, richly grown\n\nDo come, oh, do come,\nSays Spirit and the Bride:\n\n"))
                 }
                 let mp3FilePath = URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=mp3")
-                it("mp3Path should be http://www.hymnal.net/en/hymn/h/1151/f=mp3") {
+                it("mp3Path should be \(mp3FilePath)") {
                     expect(target.mp3Path).to(equal(mp3FilePath))
                 }
             }
