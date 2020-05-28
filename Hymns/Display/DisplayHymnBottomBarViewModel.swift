@@ -42,25 +42,25 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                     }
 
                     self.shareableLyrics = self.convertToOneString(verses: hymn.lyrics)
-                               
-                    self.languages = hymn.languages.map { languageDatum -> [SongResultViewModel] in
-                    languageDatum.data.compactMap { language -> SongResultViewModel? in
-                        guard let hymnType = RegexUtil.getHymnType(path: language.path), let hymnNumber = RegexUtil.getHymnNumber(path: language.path) else {
-                            self.analytics.logError(message: "error happened when trying to parse song language", extraParameters: ["path": language.path, "value": language.value])
-                            return nil
-                        }
-                        let queryParams = RegexUtil.getQueryParams(path: language.path)
-                        let title = language.value
-                        let hymnIdentifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber, queryParams: queryParams)
-                        return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
-                    }} ?? [SongResultViewModel]()
 
-                    let mp3Path = hymn.musicJson?.data.first(where: { datum -> Bool in
-                         datum.value == DatumValue.mp3.rawValue
-                         })?.path
-                     self.mp3Path = mp3Path.flatMap({ path -> URL? in
-                         HymnalNet.url(path: path)
-                     })
+                    self.languages = hymn.languages.map { languageDatum -> [SongResultViewModel] in
+                        languageDatum.data.compactMap { language -> SongResultViewModel? in
+                            guard let hymnType = RegexUtil.getHymnType(path: language.path), let hymnNumber = RegexUtil.getHymnNumber(path: language.path) else {
+                                self.analytics.logError(message: "error happened when trying to parse song language", extraParameters: ["path": language.path, "value": language.value])
+                                return nil
+                            }
+                            let queryParams = RegexUtil.getQueryParams(path: language.path)
+                            let title = language.value
+                            let hymnIdentifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber, queryParams: queryParams)
+                            return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
+                        }} ?? [SongResultViewModel]()
+
+                    let mp3Path = hymn.music?.data.first(where: { datum -> Bool in
+                        datum.value == DatumValue.mp3.rawValue
+                    })?.path
+                    self.mp3Path = mp3Path.flatMap({ path -> URL? in
+                        HymnalNet.url(path: path)
+                    })
             }).store(in: &disposables)
     }
 

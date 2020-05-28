@@ -104,7 +104,7 @@ class DisplayHymnViewModel: ObservableObject {
                         self.tabItems.append(.piano(PDFViewer(url: pianoUrl).eraseToAnyView()))
                     }
 
-                    let mp3Path = hymn.musicJson?.data.first(where: { datum -> Bool in
+                    let mp3Path = hymn.music?.data.first(where: { datum -> Bool in
                          datum.value == DatumValue.mp3.rawValue
                          })?.path
                      self.mp3Path = mp3Path.flatMap({ path -> URL? in

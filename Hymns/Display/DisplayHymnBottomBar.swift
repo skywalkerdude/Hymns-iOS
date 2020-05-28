@@ -27,7 +27,7 @@ struct DisplayHymnBottomBar: View {
     // Navigating out of an action sheet requires another state variable
     // https://stackoverflow.com/questions/59454407/how-to-navigate-out-of-a-actionsheet
     @State private var languageIndexShown: Int?
-  
+
     @State var mp3PlayerShown = false
     @State var playButtonOn = false
 
@@ -65,23 +65,22 @@ struct DisplayHymnBottomBar: View {
                     })
                     Spacer()
                 }
-            if !viewModel.languages.isEmpty {
-                Group {
-                    Button(action: {
-                        self.actionSheet = .languages
-                    }, label: {
-                        BottomBarLabel(imageName: "globe")
-                    })
-                    languageIndexShown.map { index in
-                        NavigationLink(destination: self.viewModel.languages[index].destinationView,
-                                       tag: index,
-                                       selection: $languageIndexShown) {
-                            EmptyView()
+                if !viewModel.languages.isEmpty {
+                    Group {
+                        Button(action: {
+                            self.actionSheet = .languages
+                        }, label: {
+                            BottomBarLabel(imageName: "globe")
+                        })
+                        languageIndexShown.map { index in
+                            NavigationLink(destination: self.viewModel.languages[index].destinationView,
+                                           tag: index,
+                                           selection: $languageIndexShown) {
+                                            EmptyView()
+                            }
                         }
+                        Spacer()
                     }
-                    Spacer()
-                }
-
                 }
                 Group {
                     Button(action: {}, label: {
@@ -109,7 +108,7 @@ struct DisplayHymnBottomBar: View {
                 }
                 Group {
                     Button(action: {
-                        self.contentBuilder = {
+                        self.dialogBuilder = {
                             SongInfoDialog(viewModel: self.viewModel.songInfo).eraseToAnyView()
                         }
                     }, label: {
@@ -140,17 +139,16 @@ struct DisplayHymnBottomBar: View {
                                             self.userDefaultsManager.fontSize = .xlarge
                                 }),
                                 .cancel()])
-                              case .languages:
-                return
-                    ActionSheet(
-                        title: Text(item.rawValue),
-                        message: Text("Change to another language"),
-                        buttons: self.viewModel.languages.enumerated().map({ index, viewModel -> Alert.Button in
-                            .default(Text(viewModel.title), action: {
-                                self.languageIndexShown = index
-                            })
-                        }) + [.cancel()])
-
+                case .languages:
+                    return
+                        ActionSheet(
+                            title: Text(item.rawValue),
+                            message: Text("Change to another language"),
+                            buttons: self.viewModel.languages.enumerated().map({ index, viewModel -> Alert.Button in
+                                .default(Text(viewModel.title), action: {
+                                    self.languageIndexShown = index
+                                })
+                            }) + [.cancel()])
                 }
             }.sheet(item: $sheet) { tab -> ShareSheet in
                 switch tab {
