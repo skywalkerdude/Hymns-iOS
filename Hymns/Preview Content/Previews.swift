@@ -1,5 +1,6 @@
 import SwiftUI
 
+#if DEBUG
 // https://www.avanderlee.com/swiftui/previews-different-states/
 struct UIElementPreview<Value: View>: View {
 
@@ -51,3 +52,4 @@ public extension View {
         UIElementPreview(self, previewDisplayName: previewDisplayName)
     }
 }
+#endif
