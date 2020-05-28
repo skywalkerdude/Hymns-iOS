@@ -26,6 +26,8 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                 }
                 it("languages should be empty") {
                     expect(target.languages).to(beEmpty())
+                it("mp3Path should be nil") {
+                    expect(target.mp3Path).to(beNil())
                 }
             }
             context("with nil repository result") {
@@ -34,7 +36,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                         Just(nil).assertNoFailure().eraseToAnyPublisher()
                     }
 
-                    target.fetchLyrics()
+                    target.fetchHymn()
                     testQueue.sync {}
                     testQueue.sync {}
                     testQueue.sync {}
@@ -56,7 +58,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                         Just(emptyLyrics).assertNoFailure().eraseToAnyPublisher()
                     }
 
-                    target.fetchLyrics()
+                    target.fetchHymn()
                     testQueue.sync {}
                     testQueue.sync {}
                     testQueue.sync {}
@@ -69,6 +71,8 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                 }
                 it("languages should be empty") {
                     expect(target.languages).to(beEmpty())
+                it("mp3Path should be nil") {
+                    expect(target.mp3Path).to(beNil())
                 }
             }
             context("with valid repository result") {
@@ -81,12 +85,14 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                                                                    Datum(value: "Missing path", path: ""),
                                                                    Datum(value: "Invalid number", path: "/en/hymn/h/13f/f=333/asdf"),
                                                                    Datum(value: "诗歌(简)", path: "/en/hymn/ts/216?gb=1")])
-                    let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: lyricsWithoutTransliteration, languages: languages)
+                    let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: lyricsWithoutTransliteration, musicJson: Hymns.MetaDatum(name: "Music", data: [
+                        Hymns.Datum(value: "mp3", path: "/en/hymn/h/1151/f=mp3")
+                    ], , languages: languages))
                     given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                         Just(hymn).assertNoFailure().eraseToAnyPublisher()
                     }
 
-                    target.fetchLyrics()
+                    target.fetchHymn()
                     testQueue.sync {}
                     testQueue.sync {}
                     testQueue.sync {}
@@ -101,6 +107,9 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     expect(target.languages).to(haveCount(2))
                     expect(target.languages[0].title).to(equal("Tagalog"))
                     expect(target.languages[1].title).to(equal("诗歌(简)"))
+                let mp3FilePath = URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=mp3")
+                it("mp3Path should be \(mp3FilePath)") {
+                    expect(target.mp3Path).to(equal(mp3FilePath))
                 }
             }
         }

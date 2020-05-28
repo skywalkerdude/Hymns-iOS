@@ -13,6 +13,7 @@ let classic1151 = HymnIdentifier(hymnType: .classic, hymnNumber: "1151")
 let newSong145 = HymnIdentifier(hymnType: .newSong, hymnNumber: "145")
 let newSong500 = HymnIdentifier(hymnType: .newSong, hymnNumber: "500")
 let classic1109 = HymnIdentifier(hymnType: .classic, hymnNumber: "1109")
+let classic500 = HymnIdentifier(hymnType: .classic, hymnNumber: "500")
 
 let decoder: JSONDecoder = Resolver.resolve()
 let children_24_json = getJsonString(for: "children_24")

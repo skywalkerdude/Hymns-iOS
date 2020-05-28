@@ -27,28 +27,44 @@ struct DisplayHymnBottomBar: View {
     // Navigating out of an action sheet requires another state variable
     // https://stackoverflow.com/questions/59454407/how-to-navigate-out-of-a-actionsheet
     @State private var languageIndexShown: Int?
+  
+    @State var mp3PlayerShown = false
+    @State var playButtonOn = false
 
     @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
 
     let userDefaultsManager: UserDefaultsManager = Resolver.resolve()
 
     var body: some View {
-        HStack(spacing: 0) {
-            Group {
-                Spacer()
-                Button(action: {
-                    self.sheet = .share
-                }, label: {
-                    BottomBarLabel(imageName: "square.and.arrow.up")
-                })
-                Spacer()
+        VStack {
+            if playButtonOn {
+                viewModel.mp3Path.map { _ in
+                    GeometryReader { geometry in
+                        BottomSheetView(
+                            isOpen: self.$mp3PlayerShown,
+                            maxHeight: geometry.size.height * 1
+                        ) {
+                            AudioView(viewModel: AudioPlayerViewModel(item: self.viewModel.mp3Path))
+                        }
+                    }.frame(minHeight: 120, idealHeight: 120, maxHeight: 120.0)
+                }
             }
-            Group {
-                Button(action: {self.actionSheet = .fontSize}, label: {
-                    BottomBarLabel(imageName: "textformat.size")
-                })
-                Spacer()
-            }
+            HStack(spacing: 0) {
+                Group {
+                    Spacer()
+                    Button(action: {
+                        self.sheet = .share
+                    }, label: {
+                        BottomBarLabel(imageName: "square.and.arrow.up")
+                    })
+                    Spacer()
+                }
+                Group {
+                    Button(action: {self.actionSheet = .fontSize}, label: {
+                        BottomBarLabel(imageName: "textformat.size")
+                    })
+                    Spacer()
+                }
             if !viewModel.languages.isEmpty {
                 Group {
                     Button(action: {
@@ -65,59 +81,66 @@ struct DisplayHymnBottomBar: View {
                     }
                     Spacer()
                 }
-            }
-            Group {
-                Button(action: {}, label: {
-                    BottomBarLabel(imageName: "tag")
-                })
-                Spacer()
-            }
-            Group {
-                Button(action: {}, label: {
-                    BottomBarLabel(imageName: "music.note.list")
-                })
-                Spacer()
-            }
-            Group {
-                Button(action: {}, label: {
-                    BottomBarLabel(imageName: "play")
-                })
-                Spacer()
-            }
-            Group {
-                Button(action: {
-                    self.dialogBuilder = {
-                        SongInfoDialog(viewModel: self.viewModel.songInfo).eraseToAnyView()
-                    }
-                }, label: {
-                    BottomBarLabel(imageName: "info.circle")
-                })
-                Spacer()
-            }
-        }.onAppear {
-            self.viewModel.fetchLyrics()
-        }.actionSheet(item: $actionSheet) { item -> ActionSheet in
-            switch item {
-            case .fontSize:
-                return
-                    ActionSheet(
-                        title: Text(item.rawValue),
-                        message: Text("Change the song lyrics font size"),
-                        buttons: [
-                            .default(Text(FontSize.normal.rawValue),
-                                     action: {
-                                        self.userDefaultsManager.fontSize = .normal
-                            }),
-                            .default(Text(FontSize.large.rawValue),
-                                     action: {
-                                        self.userDefaultsManager.fontSize = .large
-                            }),
-                            .default(Text(FontSize.xlarge.rawValue),
-                                     action: {
-                                        self.userDefaultsManager.fontSize = .xlarge
-                            }),
-                            .cancel()])
-            case .languages:
+
+                }
+                Group {
+                    Button(action: {}, label: {
+                        BottomBarLabel(imageName: "tag")
+                    })
+                    Spacer()
+                }
+                Group {
+                    Button(action: {
+                        self.dialogBuilder = {
+                            SongInfoDialog(viewModel: self.viewModel.songInfo).eraseToAnyView()
+                        }
+                    }, label: {
+                        BottomBarLabel(imageName: "music.note.list")
+                    })
+                    Spacer()
+                }
+                Group {
+                    Button(action: {
+                        self.playButtonOn.toggle()
+                    }, label: {
+                        playButtonOn ? Image(systemName: "play.fill").accentColor(.accentColor) : Image(systemName: "play").accentColor(.primary)
+                    })
+                    Spacer()
+                }
+                Group {
+                    Button(action: {
+                        self.contentBuilder = {
+                            SongInfoDialog(viewModel: self.viewModel.songInfo).eraseToAnyView()
+                        }
+                    }, label: {
+                        BottomBarLabel(imageName: "info.circle")
+                    })
+                    Spacer()
+                }
+            }.onAppear {
+                self.viewModel.fetchHymn()
+            }.actionSheet(item: $actionSheet) { item -> ActionSheet in
+                switch item {
+                case .fontSize:
+                    return
+                        ActionSheet(
+                            title: Text(item.rawValue),
+                            message: Text("Change the song lyrics font size"),
+                            buttons: [
+                                .default(Text(FontSize.normal.rawValue),
+                                         action: {
+                                            self.userDefaultsManager.fontSize = .normal
+                                }),
+                                .default(Text(FontSize.large.rawValue),
+                                         action: {
+                                            self.userDefaultsManager.fontSize = .large
+                                }),
+                                .default(Text(FontSize.xlarge.rawValue),
+                                         action: {
+                                            self.userDefaultsManager.fontSize = .xlarge
+                                }),
+                                .cancel()])
+                              case .languages:
                 return
                     ActionSheet(
                         title: Text(item.rawValue),
@@ -127,11 +150,13 @@ struct DisplayHymnBottomBar: View {
                                 self.languageIndexShown = index
                             })
                         }) + [.cancel()])
-            }
-        }.sheet(item: $sheet) { tab -> ShareSheet in
-            switch tab {
-            case .share:
-                return ShareSheet(activityItems: [self.viewModel.shareableLyrics])
+
+                }
+            }.sheet(item: $sheet) { tab -> ShareSheet in
+                switch tab {
+                case .share:
+                    return ShareSheet(activityItems: [self.viewModel.shareableLyrics])
+                }
             }
         }
     }

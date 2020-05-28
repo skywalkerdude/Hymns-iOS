@@ -7,6 +7,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
     @Published var songInfo: SongInfoDialogViewModel
     @Published var shareableLyrics: String = ""
     @Published var languages = [SongResultViewModel]()
+    @Published var mp3Path: URL?
 
     private let analytics: AnalyticsLogger
     private let identifier: HymnIdentifier
@@ -29,17 +30,20 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
         self.backgroundQueue = backgroundQueue
     }
 
-    func fetchLyrics() {
+    func fetchHymn() {
         repository
             .getHymn(identifier)
             .subscribe(on: backgroundQueue)
             .receive(on: mainQueue)
-            .sink(receiveValue: { [weak self] hymn in
-                guard let self = self, let hymn = hymn, !hymn.lyrics.isEmpty else {
-                    return
-                }
-                self.shareableLyrics = self.convertToOneString(verses: hymn.lyrics)
-                self.languages = hymn.languages.map { languageDatum -> [SongResultViewModel] in
+            .sink(
+                receiveValue: { [weak self] hymn in
+                    guard let self = self, let hymn = hymn, !hymn.lyrics.isEmpty else {
+                        return
+                    }
+
+                    self.shareableLyrics = self.convertToOneString(verses: hymn.lyrics)
+                               
+                    self.languages = hymn.languages.map { languageDatum -> [SongResultViewModel] in
                     languageDatum.data.compactMap { language -> SongResultViewModel? in
                         guard let hymnType = RegexUtil.getHymnType(path: language.path), let hymnNumber = RegexUtil.getHymnNumber(path: language.path) else {
                             self.analytics.logError(message: "error happened when trying to parse song language", extraParameters: ["path": language.path, "value": language.value])
@@ -50,6 +54,13 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                         let hymnIdentifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber, queryParams: queryParams)
                         return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
                     }} ?? [SongResultViewModel]()
+
+                    let mp3Path = hymn.musicJson?.data.first(where: { datum -> Bool in
+                         datum.value == DatumValue.mp3.rawValue
+                         })?.path
+                     self.mp3Path = mp3Path.flatMap({ path -> URL? in
+                         HymnalNet.url(path: path)
+                     })
             }).store(in: &disposables)
     }
 

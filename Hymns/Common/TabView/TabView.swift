@@ -49,6 +49,7 @@ public enum TabAlignment {
     case bottom
 }
 
+#if DEBUG
 struct IndicatorTabView_Previews: PreviewProvider {
 
     static var previews: some View {
@@ -85,3 +86,4 @@ struct IndicatorTabView_Previews: PreviewProvider {
         }
     }
 }
+#endif
