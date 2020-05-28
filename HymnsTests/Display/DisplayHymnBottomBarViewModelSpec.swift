@@ -24,6 +24,9 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                 it("shareable lyrics should be an empty string") {
                     expect(target.shareableLyrics).to(equal(""))
                 }
+                it("mp3Path should be nil") {
+                    expect(target.mp3Path).to(beNil())
+                }
             }
             context("with nil repository result") {
                 beforeEach {
@@ -31,7 +34,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                         Just(nil).assertNoFailure().eraseToAnyPublisher()
                     }
 
-                    target.fetchLyrics()
+                    target.fetchHymn()
                     testQueue.sync {}
                     testQueue.sync {}
                     testQueue.sync {}
@@ -50,7 +53,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                         Just(emptyLyrics).assertNoFailure().eraseToAnyPublisher()
                     }
 
-                    target.fetchLyrics()
+                    target.fetchHymn()
                     testQueue.sync {}
                     testQueue.sync {}
                     testQueue.sync {}
@@ -61,6 +64,9 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                 it("shareable lyrics should be an empty string") {
                     expect(target.shareableLyrics).to(equal(""))
                 }
+                it("mp3Path should be nil") {
+                    expect(target.mp3Path).to(beNil())
+                }
             }
             context("with valid repository result") {
                 beforeEach {
@@ -68,12 +74,14 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                         Verse(verseType: .verse, verseContent: ["Drink! a river pure and clear that's flowing from the throne;", "Eat! the tree of life with fruits abundant, richly grown"], transliteration: nil),
                         Verse(verseType: .chorus, verseContent: ["Do come, oh, do come,", "Says Spirit and the Bride:"], transliteration: nil)
                     ]
-                    let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: lyricsWithoutTransliteration)
+                    let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: lyricsWithoutTransliteration, musicJson: Hymns.MetaDatum(name: "Music", data: [
+                        Hymns.Datum(value: "mp3", path: "/en/hymn/h/1151/f=mp3")
+                    ]))
                     given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                         Just(hymn).assertNoFailure().eraseToAnyPublisher()
                     }
 
-                    target.fetchLyrics()
+                    target.fetchHymn()
                     testQueue.sync {}
                     testQueue.sync {}
                     testQueue.sync {}
@@ -83,6 +91,10 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                 }
                 it("shareable lyrics should be Drink a river") {
                     expect(target.shareableLyrics).to(equal("Drink! a river pure and clear that's flowing from the throne;\nEat! the tree of life with fruits abundant, richly grown\n\nDo come, oh, do come,\nSays Spirit and the Bride:\n\n"))
+                }
+                let mp3FilePath = URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=mp3")
+                it("mp3Path should be http://www.hymnal.net/en/hymn/h/1151/f=mp3") {
+                    expect(target.mp3Path).to(equal(mp3FilePath))
                 }
             }
         }

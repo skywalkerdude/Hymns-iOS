@@ -20,6 +20,7 @@ struct DisplayHymnView: View {
                 } else {
                     viewModel.currentTab.content
                 }
+
                 viewModel.bottomBar.map { viewModel in
                     DisplayHymnBottomBar(contentBuilder: self.$dialogContent, viewModel: viewModel).maxWidth()
                 }
