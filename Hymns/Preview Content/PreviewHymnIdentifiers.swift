@@ -1,5 +1,6 @@
 import Foundation
 
+#if DEBUG
 struct PreviewHymnIdentifiers {
     static let hymn40 = HymnIdentifier(hymnType: .classic, hymnNumber: "40")
     static let hymn1151 = HymnIdentifier(hymnType: .classic, hymnNumber: "1151")
@@ -9,3 +10,4 @@ struct PreviewHymnIdentifiers {
     static let sinfulPast = HymnIdentifier(hymnType: .howardHigashi, hymnNumber: "76")
     static let hymn1334 = HymnIdentifier(hymnType: .classic, hymnNumber: "1334")
 }
+#endif
