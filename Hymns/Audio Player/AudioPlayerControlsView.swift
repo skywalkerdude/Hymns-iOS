@@ -13,7 +13,7 @@ struct AudioPlayerControlsView: View {
             Slider(value: $currentTime,
                    in: 0...60,
                    onEditingChanged: sliderEditingChanged,
-                   minimumValueLabel: Text("\(Utility.formatSecondsToHMS(currentTime))"),
+                   minimumValueLabel: Text("\(formatSecondsToHMS(currentTime))"),
                    maximumValueLabel: Text("")) {
                     // I have no idea in what scenario this View is shown...
                     Text("seek/progress slider")
@@ -50,5 +50,18 @@ struct AudioPlayerControlsView: View {
                 self.currentlyPlaying = true
             }
         }
+    }
+
+    // MARK: Helper functions
+    var timeHMSFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .positional
+        formatter.allowedUnits = [.minute, .second]
+        formatter.zeroFormattingBehavior = [.pad]
+        return formatter
+    }()
+
+    private func formatSecondsToHMS(_ seconds: Double) -> String {
+        return timeHMSFormatter.string(from: seconds) ?? "00:00"
     }
 }

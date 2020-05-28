@@ -1,5 +1,6 @@
 import SwiftUI
 
+//Based off of tweaking the bottom sheet from this tutorial https://swiftwithmajid.com/2019/12/11/building-bottom-sheet-in-swiftui/
 struct BottomSheetView<Content: View>: View {
     @Binding var isOpen: Bool
 
