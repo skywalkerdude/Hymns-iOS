@@ -68,7 +68,7 @@ class DisplayHymnViewModel: ObservableObject {
                     }
                     self.title = title
 
-                    self.tabItems.append(self.currentTab)
+                    self.tabItems = [self.currentTab]
 
                     let chordsPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.text.rawValue

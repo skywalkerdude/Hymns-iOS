@@ -6,7 +6,9 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
 
     @Published var songInfo: SongInfoDialogViewModel
     @Published var shareableLyrics: String = ""
+    @Published var languages = [SongResultViewModel]()
 
+    private let analytics: AnalyticsLogger
     private let identifier: HymnIdentifier
     private let backgroundQueue: DispatchQueue
     private let mainQueue: DispatchQueue
@@ -14,7 +16,12 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
 
     private var disposables = Set<AnyCancellable>()
 
-    init(hymnToDisplay identifier: HymnIdentifier, hymnsRepository repository: HymnsRepository = Resolver.resolve(), mainQueue: DispatchQueue = Resolver.resolve(name: "main"), backgroundQueue: DispatchQueue = Resolver.resolve(name: "background")) {
+    init(hymnToDisplay identifier: HymnIdentifier,
+         analytics: AnalyticsLogger = Resolver.resolve(),
+         hymnsRepository repository: HymnsRepository = Resolver.resolve(),
+         mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
+         backgroundQueue: DispatchQueue = Resolver.resolve(name: "background")) {
+        self.analytics = analytics
         self.identifier = identifier
         self.songInfo = SongInfoDialogViewModel(hymnToDisplay: identifier)
         self.mainQueue = mainQueue
@@ -23,25 +30,26 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
     }
 
     func fetchLyrics() {
-        var latestValue: String = ""
         repository
             .getHymn(identifier)
-            .map({ [weak self] hymn -> String in
-                guard let self = self, let hymn = hymn, !hymn.lyrics.isEmpty else {
-                    return ""
-                }
-                return self.convertToOneString(verses: hymn.lyrics)
-            })
             .subscribe(on: backgroundQueue)
             .receive(on: mainQueue)
-            .sink(receiveCompletion: { [weak self] state in
-                guard let self = self else { return }
-                if state == .finished {
-                    // Only display the lyrics if the call is finished and we aren't getting any more values
-                    self.shareableLyrics = latestValue
+            .sink(receiveValue: { [weak self] hymn in
+                guard let self = self, let hymn = hymn, !hymn.lyrics.isEmpty else {
+                    return
                 }
-                }, receiveValue: { lyrics in
-                    latestValue = lyrics
+                self.shareableLyrics = self.convertToOneString(verses: hymn.lyrics)
+                self.languages = hymn.languages.map { languageDatum -> [SongResultViewModel] in
+                    languageDatum.data.compactMap { language -> SongResultViewModel? in
+                        guard let hymnType = RegexUtil.getHymnType(path: language.path), let hymnNumber = RegexUtil.getHymnNumber(path: language.path) else {
+                            self.analytics.logError(message: "error happened when trying to parse song language", extraParameters: ["path": language.path, "value": language.value])
+                            return nil
+                        }
+                        let queryParams = RegexUtil.getQueryParams(path: language.path)
+                        let title = language.value
+                        let hymnIdentifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber, queryParams: queryParams)
+                        return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
+                    }} ?? [SongResultViewModel]()
             }).store(in: &disposables)
     }
 

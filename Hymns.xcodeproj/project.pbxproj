@@ -516,9 +516,9 @@
 			isa = PBXGroup;
 			children = (
 				3BB1DCAA244D03AE0011169D /* TabView */,
-				3B45B901243BEC1C00D38BEF /* SongResultViewModel.swift */,
 				3B02725924777BF9007348B0 /* Dialog.swift */,
 				3B45B903243BEC8400D38BEF /* SongResultView.swift */,
+				3B45B901243BEC1C00D38BEF /* SongResultViewModel.swift */,
 				B56305B6244223A5003BC132 /* CustomTitleView.swift */,
 				B56305B8244223D7003BC132 /* FontViewModifier.swift */,
 				3B369CEB246D07580068A29C /* PDFViewer.swift */,

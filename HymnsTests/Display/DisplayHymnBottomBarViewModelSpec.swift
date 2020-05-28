@@ -24,6 +24,9 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                 it("shareable lyrics should be an empty string") {
                     expect(target.shareableLyrics).to(equal(""))
                 }
+                it("languages should be empty") {
+                    expect(target.languages).to(beEmpty())
+                }
             }
             context("with nil repository result") {
                 beforeEach {
@@ -41,6 +44,9 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                 }
                 it("shareable lyrics should be an empty string") {
                     expect(target.shareableLyrics).to(equal(""))
+                }
+                it("languages should be empty") {
+                    expect(target.languages).to(beEmpty())
                 }
             }
             context("with empty repository result") {
@@ -61,14 +67,21 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                 it("shareable lyrics should be an empty string") {
                     expect(target.shareableLyrics).to(equal(""))
                 }
+                it("languages should be empty") {
+                    expect(target.languages).to(beEmpty())
+                }
             }
             context("with valid repository result") {
                 beforeEach {
-                    let lyricsWithoutTransliteration: [Verse] = [
+                    let lyricsWithoutTransliteration = [
                         Verse(verseType: .verse, verseContent: ["Drink! a river pure and clear that's flowing from the throne;", "Eat! the tree of life with fruits abundant, richly grown"], transliteration: nil),
                         Verse(verseType: .chorus, verseContent: ["Do come, oh, do come,", "Says Spirit and the Bride:"], transliteration: nil)
                     ]
-                    let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: lyricsWithoutTransliteration)
+                    let languages = MetaDatum(name: "lang", data: [Datum(value: "Tagalog", path: "/en/hymn/ht/1151"),
+                                                                   Datum(value: "Missing path", path: ""),
+                                                                   Datum(value: "Invalid number", path: "/en/hymn/h/13f/f=333/asdf"),
+                                                                   Datum(value: "诗歌(简)", path: "/en/hymn/ts/216?gb=1")])
+                    let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: lyricsWithoutTransliteration, languages: languages)
                     given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                         Just(hymn).assertNoFailure().eraseToAnyPublisher()
                     }
@@ -83,6 +96,11 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                 }
                 it("shareable lyrics should be Drink a river") {
                     expect(target.shareableLyrics).to(equal("Drink! a river pure and clear that's flowing from the throne;\nEat! the tree of life with fruits abundant, richly grown\n\nDo come, oh, do come,\nSays Spirit and the Bride:\n\n"))
+                }
+                it("languages should have two items") {
+                    expect(target.languages).to(haveCount(2))
+                    expect(target.languages[0].title).to(equal("Tagalog"))
+                    expect(target.languages[1].title).to(equal("诗歌(简)"))
                 }
             }
         }
