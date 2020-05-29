@@ -197,16 +197,19 @@ if [ -r "${ARTIFACT_LIST_FILE}" ]; then
 fi
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "${PODS_ROOT}/EarlGrey/EarlGrey/EarlGrey.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MockingbirdFramework/Mockingbird.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Quick/Quick.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "${PODS_ROOT}/EarlGrey/EarlGrey/EarlGrey.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MockingbirdFramework/Mockingbird.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Quick/Quick.framework"
 fi
 if [[ "$CONFIGURATION" == "Beta" ]]; then
+  install_framework "${PODS_ROOT}/EarlGrey/EarlGrey/EarlGrey.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MockingbirdFramework/Mockingbird.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Quick/Quick.framework"

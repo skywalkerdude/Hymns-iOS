@@ -121,12 +121,17 @@
 		3BF699AF24417921005AFF6A /* VerseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF699AE24417921005AFF6A /* VerseView.swift */; };
 		3BFBF66D2450D19200C2FC5D /* FavoriteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFBF66C2450D19200C2FC5D /* FavoriteStore.swift */; };
 		3BFF25AE24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF25AD24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift */; };
+		422C2C2977D070DBDCE18CAC /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 451E8B98BA0130111D5EC69F /* EarlGrey.swift */; };
+		493691F38E3D290E98EABC1D /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 056E1C15D3A94B5A6D9D7221 /* EarlGrey.framework */; };
 		5C45E09924512E9000872369 /* VerseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C45E09824512E9000872369 /* VerseViewModel.swift */; };
 		5CA7849C242D14BA00B57903 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7849B242D14BA00B57903 /* SettingsView.swift */; };
 		5CA7849E242D14C800B57903 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7849D242D14C800B57903 /* FavoritesView.swift */; };
 		5CA784A0242D1A3200B57903 /* BrowseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7849F242D1A3200B57903 /* BrowseView.swift */; };
 		5CA784A4242D1CF800B57903 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA784A3242D1CF800B57903 /* HomeView.swift */; };
+		9D4DF20BAA08EDD35BCEE980 /* EarlGrey.framework in EarlGrey Copy Files */ = {isa = PBXBuildFile; fileRef = 056E1C15D3A94B5A6D9D7221 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B51BA5C92430075300CA52F7 /* DisplayHymnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51BA5C82430075300CA52F7 /* DisplayHymnView.swift */; };
+		B52343D32480AC94001CA6BC /* EarlGreyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52343D22480AC94001CA6BC /* EarlGreyUITests.swift */; };
+		B52343D52480ACAC001CA6BC /* EarlGreyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52343D42480ACAC001CA6BC /* EarlGreyExtensions.swift */; };
 		B56305B7244223A5003BC132 /* CustomTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56305B6244223A5003BC132 /* CustomTitleView.swift */; };
 		B56305B9244223D7003BC132 /* FontViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56305B8244223D7003BC132 /* FontViewModifier.swift */; };
 		B5809DFA244F60FD00EF0C63 /* FavoritedEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5809DF9244F60FD00EF0C63 /* FavoritedEntity.swift */; };
@@ -162,7 +167,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		0D451DE05BB9E67D7F033056 /* EarlGrey Copy Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(TEST_HOST)/../";
+			dstSubfolderSpec = 0;
+			files = (
+				9D4DF20BAA08EDD35BCEE980 /* EarlGrey.framework in EarlGrey Copy Files */,
+			);
+			name = "EarlGrey Copy Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		056E1C15D3A94B5A6D9D7221 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Pods/EarlGrey/EarlGrey/EarlGrey.framework; sourceTree = SOURCE_ROOT; };
 		3B02725924777BF9007348B0 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
 		3B09F900243D3BDC00252C15 /* HymnalApiService_SearchTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnalApiService_SearchTest.swift; sourceTree = "<group>"; };
 		3B09F903243D4D9300252C15 /* URLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
@@ -285,6 +305,7 @@
 		3BF699AE24417921005AFF6A /* VerseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseView.swift; sourceTree = "<group>"; };
 		3BFBF66C2450D19200C2FC5D /* FavoriteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStore.swift; sourceTree = "<group>"; };
 		3BFF25AD24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnViewModelSpec.swift; sourceTree = "<group>"; };
+		451E8B98BA0130111D5EC69F /* EarlGrey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EarlGrey.swift; sourceTree = "<group>"; };
 		577432E03E7CD9933CB82ECF /* Pods_Hymns.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hymns.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C45E09824512E9000872369 /* VerseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerseViewModel.swift; sourceTree = "<group>"; };
 		5CA7849B242D14BA00B57903 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -296,6 +317,8 @@
 		A20B833C2BD0F10337016F43 /* Pods-Hymns-HymnsUITests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns-HymnsUITests.beta.xcconfig"; path = "Target Support Files/Pods-Hymns-HymnsUITests/Pods-Hymns-HymnsUITests.beta.xcconfig"; sourceTree = "<group>"; };
 		A995ED4B5658A040650FDDA0 /* Pods_Hymns_HymnsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hymns_HymnsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B51BA5C82430075300CA52F7 /* DisplayHymnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnView.swift; sourceTree = "<group>"; };
+		B52343D22480AC94001CA6BC /* EarlGreyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlGreyUITests.swift; sourceTree = "<group>"; };
+		B52343D42480ACAC001CA6BC /* EarlGreyExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlGreyExtensions.swift; sourceTree = "<group>"; };
 		B560B615243F978D00FD5867 /* MasterTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MasterTestPlan.xctestplan; sourceTree = SOURCE_ROOT; };
 		B56305B6244223A5003BC132 /* CustomTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTitleView.swift; sourceTree = "<group>"; };
 		B56305B8244223D7003BC132 /* FontViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontViewModifier.swift; sourceTree = "<group>"; };
@@ -337,6 +360,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB4C7E9E5879F6AF8CCA77D9 /* Pods_HymnsTests.framework in Frameworks */,
+				493691F38E3D290E98EABC1D /* EarlGrey.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,6 +502,7 @@
 		3B1B902B2429CF57009FDCC5 /* HymnsTests */ = {
 			isa = PBXGroup;
 			children = (
+				B52343D12480AC6A001CA6BC /* Earl Grey Tests */,
 				B560B615243F978D00FD5867 /* MasterTestPlan.xctestplan */,
 				3B09F902243D4D8000252C15 /* Test Utilities */,
 				3B7555C62437C22300DA17F6 /* Display */,
@@ -488,6 +513,7 @@
 				3B87B82D2449885100AEC7E9 /* Settings */,
 				3B575697243EA4B9007013FE /* Utility */,
 				3B1B902E2429CF57009FDCC5 /* Info.plist */,
+				451E8B98BA0130111D5EC69F /* EarlGrey.swift */,
 			);
 			path = HymnsTests;
 			sourceTree = "<group>";
@@ -780,6 +806,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		B52343D12480AC6A001CA6BC /* Earl Grey Tests */ = {
+			isa = PBXGroup;
+			children = (
+				B52343D22480AC94001CA6BC /* EarlGreyUITests.swift */,
+				B52343D42480ACAC001CA6BC /* EarlGreyExtensions.swift */,
+			);
+			path = "Earl Grey Tests";
+			sourceTree = "<group>";
+		};
 		B5809DF8244F60D300EF0C63 /* Favorites */ = {
 			isa = PBXGroup;
 			children = (
@@ -823,6 +858,7 @@
 				577432E03E7CD9933CB82ECF /* Pods_Hymns.framework */,
 				A995ED4B5658A040650FDDA0 /* Pods_Hymns_HymnsUITests.framework */,
 				C052BC4D7D8FB1033B79AAE7 /* Pods_HymnsTests.framework */,
+				056E1C15D3A94B5A6D9D7221 /* EarlGrey.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -864,6 +900,7 @@
 				3B1B90252429CF57009FDCC5 /* Frameworks */,
 				3B1B90262429CF57009FDCC5 /* Resources */,
 				FA474E96B9C2741F33EBF3B3 /* [CP] Embed Pods Frameworks */,
+				0D451DE05BB9E67D7F033056 /* EarlGrey Copy Files */,
 			);
 			buildRules = (
 			);
@@ -1315,9 +1352,11 @@
 				3BA46134247753C30068F269 /* SongInfoDialogViewModelSpec.swift in Sources */,
 				3BA461322477522E0068F269 /* DisplayHymnBottomBarViewModelSpec.swift in Sources */,
 				3B5FD7242436B20A00B65132 /* HymnsRepositoryImpl_dbInitialized_dbHitTests.swift in Sources */,
+				B52343D52480ACAC001CA6BC /* EarlGreyExtensions.swift in Sources */,
 				3B11E29C2461F93100F27E73 /* HymnDataStoreGrdbImplSpec.swift in Sources */,
 				3BFF25AE24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift in Sources */,
 				3B6BD3A9247AF0850036E934 /* HymnLyricsViewModelTest.swift in Sources */,
+				B52343D32480AC94001CA6BC /* EarlGreyUITests.swift in Sources */,
 				3B14B874244E9C760027D7AA /* HomeViewModelSpec.swift in Sources */,
 				3BD345E32442EC5200F5DF2E /* HymnalApiService_GetHymnSpec.swift in Sources */,
 				3B575694243E9F17007013FE /* XCTestCaseExtension.swift in Sources */,
@@ -1333,6 +1372,7 @@
 				3BDBEAA4247A3FC0007D903A /* HomeViewModelTest.swift in Sources */,
 				3BF3BDC62467C39A0046228C /* HymnsRepositoryImpl_dbInitialized_dbMissTests.swift in Sources */,
 				3B575699243EA4DB007013FE /* RegexUtilSpec.swift in Sources */,
+				422C2C2977D070DBDCE18CAC /* EarlGrey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

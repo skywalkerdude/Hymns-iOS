@@ -1,4 +1,5 @@
 PODS:
+  - EarlGrey (1.16.0)
   - Firebase/Analytics (6.25.0):
     - Firebase/Core
   - Firebase/Core (6.25.0):
@@ -96,6 +97,7 @@ PODS:
   - SwiftLint (0.39.2)
 
 DEPENDENCIES:
+  - EarlGrey
   - Firebase/Analytics
   - Firebase/Crashlytics
   - GRDB.swift
@@ -109,6 +111,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - EarlGrey
     - Firebase
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
@@ -134,6 +137,7 @@ SPEC REPOS:
     - SwiftLint
 
 SPEC CHECKSUMS:
+  EarlGrey: 455e5597ae5ccaca92cd46b81d8b25cacec060a1
   Firebase: 5719b4f965f76643241a1bb8244483ff6117db39
   FirebaseAnalytics: 93565f3f0f0f50a5d8770850bfe6a82eaba5db27
   FirebaseAnalyticsInterop: 3f86269c38ae41f47afeb43ebf32a001f58fcdae
@@ -158,6 +162,6 @@ SPEC CHECKSUMS:
   Resolver: 1f4c046255cbadfa97094692e16e940d4329779f
   SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
 
-PODFILE CHECKSUM: bed7aa7feddf5972c6f8558a365b9aafabc8d4f8
+PODFILE CHECKSUM: 9aa83c9ea17b4ae80ee77e4de0b5cd99fd9be997
 
 COCOAPODS: 1.9.1

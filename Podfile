@@ -42,6 +42,9 @@ target 'Hymns' do
     pod 'Quick'
     # https://github.com/Quick/Nimble
     pod 'Nimble'
+
+    #Earl grey for "white box" UI testing. Still can't be done under UITests yet though until 2.0
+    pod 'EarlGrey'
   end
 
   target 'HymnsUITests' do
