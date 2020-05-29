@@ -7,7 +7,7 @@ import Nimble
 class HymnLyricsViewModelSpec: QuickSpec {
 
     override func spec() {
-        xdescribe("HymnLyricsViewModel") {
+        describe("HymnLyricsViewModel") {
             // https://www.vadimbulavin.com/unit-testing-async-code-in-swift/
             let testQueue = DispatchQueue(label: "test_queue")
             var hymnsRepository: HymnsRepositoryMock!
@@ -37,8 +37,9 @@ class HymnLyricsViewModelSpec: QuickSpec {
                     }
                 }
                 context("result is not yet finished") {
-                    let currentValue = CurrentValueSubject<UiHymn?, Never>(nil)
+                    var currentValue: CurrentValueSubject<UiHymn?, Never>!
                     beforeEach {
+                        currentValue = CurrentValueSubject<UiHymn?, Never>(nil)
                         given(hymnsRepository.getHymn(classic1151)) ~> {_ in
                             currentValue.eraseToAnyPublisher()
                         }
