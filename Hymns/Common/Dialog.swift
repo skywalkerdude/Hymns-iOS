@@ -5,18 +5,18 @@ import SwiftUI
  */
 struct Dialog<Content: View>: View {
 
-    @Binding private var contentBuilder: (() -> Content)?
+    @Binding private var dialogBuilder: (() -> Content)?
 
-    init(contentBuilder: Binding<(() -> Content)?>) {
-        self._contentBuilder = contentBuilder
+    init(builder: Binding<(() -> Content)?>) {
+        self._dialogBuilder = builder
     }
 
     var body: some View {
         ZStack {
             Color.black.opacity(0.66).edgesIgnoringSafeArea(.all).onTapGesture {
-                    self.contentBuilder = nil
+                    self.dialogBuilder = nil
             }
-            self.contentBuilder.map { content in
+            self.dialogBuilder.map { content in
                 content().background(Color(UIColor.systemBackground))
             }
         }.edgesIgnoringSafeArea(.all)
@@ -41,13 +41,13 @@ Pickled cred skateboard photo booth cornhole kombucha lumbersexual pop-up jianbi
 Dummy text? More like dummy thicc text, amirite?
 """)
 
-        var contentBuilder: (() -> AnyView)? = {
+        var dialogBuilder: (() -> AnyView)? = {
             Text("Example Text").eraseToAnyView()
         }
         let dialog = Dialog(
-            contentBuilder: Binding<(() -> AnyView)?>(
-                get: {contentBuilder},
-                set: {contentBuilder = $0}))
+            builder: Binding<(() -> AnyView)?>(
+                get: {dialogBuilder},
+                set: {dialogBuilder = $0}))
         return Group {
             ZStack {
                 backgroundText

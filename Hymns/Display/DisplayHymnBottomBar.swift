@@ -20,11 +20,16 @@ struct BottomBarLabel_Previews: PreviewProvider {
 
 struct DisplayHymnBottomBar: View {
 
-    @State private var tabPresented: DisplayHymnActionSheet?
-    @State private var sheetPresented: DisplayHymnSheet?
+    @Binding var dialogBuilder: (() -> AnyView)?
+    @State private var actionSheet: ActionSheetItem?
+    @State private var sheet: DisplayHymnSheet?
+
+    // Navigating out of an action sheet requires another state variable
+    // https://stackoverflow.com/questions/59454407/how-to-navigate-out-of-a-actionsheet
+    @State private var languageIndexShown: Int?
+
     @State var mp3PlayerShown = false
     @State var playButtonOn = false
-    @Binding var contentBuilder: (() -> AnyView)?
 
     @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
 
@@ -48,23 +53,34 @@ struct DisplayHymnBottomBar: View {
                 Group {
                     Spacer()
                     Button(action: {
-                        self.sheetPresented = .share
+                        self.sheet = .share
                     }, label: {
                         BottomBarLabel(imageName: "square.and.arrow.up")
                     })
                     Spacer()
                 }
                 Group {
-                    Button(action: {self.tabPresented = .fontSize}, label: {
+                    Button(action: {self.actionSheet = .fontSize}, label: {
                         BottomBarLabel(imageName: "textformat.size")
                     })
                     Spacer()
                 }
-                Group {
-                    Button(action: {}, label: {
-                        BottomBarLabel(imageName: "globe")
-                    })
-                    Spacer()
+                if !viewModel.languages.isEmpty {
+                    Group {
+                        Button(action: {
+                            self.actionSheet = .languages
+                        }, label: {
+                            BottomBarLabel(imageName: "globe")
+                        })
+                        languageIndexShown.map { index in
+                            NavigationLink(destination: self.viewModel.languages[index].destinationView,
+                                           tag: index,
+                                           selection: $languageIndexShown) {
+                                            EmptyView()
+                            }
+                        }
+                        Spacer()
+                    }
                 }
                 Group {
                     Button(action: {}, label: {
@@ -74,7 +90,7 @@ struct DisplayHymnBottomBar: View {
                 }
                 Group {
                     Button(action: {
-                        self.contentBuilder = {
+                        self.dialogBuilder = {
                             SongInfoDialog(viewModel: self.viewModel.songInfo).eraseToAnyView()
                         }
                     }, label: {
@@ -92,7 +108,7 @@ struct DisplayHymnBottomBar: View {
                 }
                 Group {
                     Button(action: {
-                        self.contentBuilder = {
+                        self.dialogBuilder = {
                             SongInfoDialog(viewModel: self.viewModel.songInfo).eraseToAnyView()
                         }
                     }, label: {
@@ -102,12 +118,12 @@ struct DisplayHymnBottomBar: View {
                 }
             }.onAppear {
                 self.viewModel.fetchHymn()
-            }.actionSheet(item: $tabPresented) { tab -> ActionSheet in
-                switch tab {
+            }.actionSheet(item: $actionSheet) { item -> ActionSheet in
+                switch item {
                 case .fontSize:
                     return
                         ActionSheet(
-                            title: Text("Font size"),
+                            title: Text(item.rawValue),
                             message: Text("Change the song lyrics font size"),
                             buttons: [
                                 .default(Text(FontSize.normal.rawValue),
@@ -123,8 +139,18 @@ struct DisplayHymnBottomBar: View {
                                             self.userDefaultsManager.fontSize = .xlarge
                                 }),
                                 .cancel()])
+                case .languages:
+                    return
+                        ActionSheet(
+                            title: Text(item.rawValue),
+                            message: Text("Change to another language"),
+                            buttons: self.viewModel.languages.enumerated().map({ index, viewModel -> Alert.Button in
+                                .default(Text(viewModel.title), action: {
+                                    self.languageIndexShown = index
+                                })
+                            }) + [.cancel()])
                 }
-            }.sheet(item: $sheetPresented) { tab -> ShareSheet in
+            }.sheet(item: $sheet) { tab -> ShareSheet in
                 switch tab {
                 case .share:
                     return ShareSheet(activityItems: [self.viewModel.shareableLyrics])
@@ -134,11 +160,12 @@ struct DisplayHymnBottomBar: View {
     }
 }
 
-enum DisplayHymnActionSheet: String {
+private enum ActionSheetItem: String {
     case fontSize = "Lyrics font fize"
+    case languages = "Languages"
 }
 
-extension DisplayHymnActionSheet: Identifiable {
+extension ActionSheetItem: Identifiable {
     var id: String {
         rawValue
     }
@@ -158,10 +185,10 @@ extension DisplayHymnSheet: Identifiable {
 struct DisplayHymnBottomBar_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
-        var contentBuilder: (() -> AnyView)?
-        return DisplayHymnBottomBar(contentBuilder: Binding<(() -> AnyView)?>(
-            get: {contentBuilder},
-            set: {contentBuilder = $0}), viewModel: viewModel).toPreviews()
+        var dialogBuilder: (() -> AnyView)?
+        return DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
+            get: {dialogBuilder},
+            set: {dialogBuilder = $0}), viewModel: viewModel).toPreviews()
     }
 }
 #endif
