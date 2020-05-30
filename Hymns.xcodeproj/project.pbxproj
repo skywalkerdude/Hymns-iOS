@@ -136,6 +136,9 @@
 		B51BA5C92430075300CA52F7 /* DisplayHymnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51BA5C82430075300CA52F7 /* DisplayHymnView.swift */; };
 		B56305B7244223A5003BC132 /* CustomTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56305B6244223A5003BC132 /* CustomTitleView.swift */; };
 		B56305B9244223D7003BC132 /* FontViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56305B8244223D7003BC132 /* FontViewModifier.swift */; };
+		B565B85D2482E7F20037BC0E /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B565B85C2482E7F20037BC0E /* LaunchViewController.swift */; };
+		B565B85F2482F1CB0037BC0E /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B565B85E2482F1CB0037BC0E /* SplashScreenView.swift */; };
+		B565B8632482F8800037BC0E /* circle.json in Resources */ = {isa = PBXBuildFile; fileRef = B565B8622482F8800037BC0E /* circle.json */; };
 		B5809DFA244F60FD00EF0C63 /* FavoritedEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5809DF9244F60FD00EF0C63 /* FavoritedEntity.swift */; };
 		B5809DFC244F614000EF0C63 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5809DFB244F614000EF0C63 /* FavoritesViewModel.swift */; };
 		B5838BC4247AEFE9003B85E9 /* AudioPlayerControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5838BC3247AEFE9003B85E9 /* AudioPlayerControlsView.swift */; };
@@ -313,6 +316,9 @@
 		B560B615243F978D00FD5867 /* MasterTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MasterTestPlan.xctestplan; sourceTree = SOURCE_ROOT; };
 		B56305B6244223A5003BC132 /* CustomTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTitleView.swift; sourceTree = "<group>"; };
 		B56305B8244223D7003BC132 /* FontViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontViewModifier.swift; sourceTree = "<group>"; };
+		B565B85C2482E7F20037BC0E /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		B565B85E2482F1CB0037BC0E /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
+		B565B8622482F8800037BC0E /* circle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = circle.json; sourceTree = "<group>"; };
 		B5809DF9244F60FD00EF0C63 /* FavoritedEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritedEntity.swift; sourceTree = "<group>"; };
 		B5809DFB244F614000EF0C63 /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
 		B5838BC3247AEFE9003B85E9 /* AudioPlayerControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerControlsView.swift; sourceTree = "<group>"; };
@@ -766,6 +772,7 @@
 				3B45B8FE243BE87300D38BEF /* HomeViewModel.swift */,
 				3BC1329624385A580082A274 /* HomeContainerView.swift */,
 				3BC1329824385C420082A274 /* HomeTab.swift */,
+				B565B85E2482F1CB0037BC0E /* SplashScreenView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -842,6 +849,8 @@
 				3B1B90202429CF57009FDCC5 /* LaunchScreen.storyboard */,
 				3B1B90232429CF57009FDCC5 /* Info.plist */,
 				3B1B90162429CF55009FDCC5 /* Hymns.xcdatamodeld */,
+				B565B85C2482E7F20037BC0E /* LaunchViewController.swift */,
+				B565B8622482F8800037BC0E /* circle.json */,
 			);
 			name = "Setup Files";
 			sourceTree = "<group>";
@@ -977,6 +986,7 @@
 				3B909696245F658D000229A2 /* hymnaldb-v12.sqlite in Resources */,
 				3B1B90222429CF57009FDCC5 /* LaunchScreen.storyboard in Resources */,
 				B5E61B34242E613D00EF497D /* Localizable.strings in Resources */,
+				B565B8632482F8800037BC0E /* circle.json in Resources */,
 				3B1B901C2429CF57009FDCC5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1267,6 +1277,7 @@
 				3B45B902243BEC1C00D38BEF /* SongResultViewModel.swift in Sources */,
 				3B909698245F78D8000229A2 /* HymnDataStore.swift in Sources */,
 				3B50B972243E450500EABDE4 /* RegexUtil.swift in Sources */,
+				B565B85D2482E7F20037BC0E /* LaunchViewController.swift in Sources */,
 				B51BA5C92430075300CA52F7 /* DisplayHymnView.swift in Sources */,
 				B595A4A824438CC2005F7A14 /* DisplayHymnViewModel.swift in Sources */,
 				3BE9EE98244AB8650098699E /* PrivacyPolicySettingView.swift in Sources */,
@@ -1306,6 +1317,7 @@
 				B5A00F5F245277E300F7E3E1 /* ActivityIndicator.swift in Sources */,
 				3B5935BB2435B7A400E6993C /* AppDelegate+Injection.swift in Sources */,
 				3BFBF66D2450D19200C2FC5D /* FavoriteStore.swift in Sources */,
+				B565B85F2482F1CB0037BC0E /* SplashScreenView.swift in Sources */,
 				3B0B39AF243931B3003C5161 /* ErrorType.swift in Sources */,
 				3B5935A22435685400E6993C /* Verse.swift in Sources */,
 				3B87B82A2449497A00AEC7E9 /* SettingsViewModel.swift in Sources */,
