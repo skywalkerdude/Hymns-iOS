@@ -20,6 +20,8 @@ class HymnDataStoreGrdbImpl_BrowseSpec: QuickSpec {
                     target.saveHymn(HymnEntity(hymnIdentifier: newSong145, title: "new song 145", category: "category 1", subcategory: "subcategory 2"))
                     target.saveHymn(HymnEntity(hymnIdentifier: classic500, title: "classic 500", category: "category 1", subcategory: "subcategory 1"))
                     target.saveHymn(HymnEntity(hymnIdentifier: classic1109, title: "classic 1109", category: "category 2", subcategory: "subcategory 2"))
+                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .spanish, hymnNumber: "1"), title: "spanish 1", category: "category 1"))
+                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .spanish, hymnNumber: "2"), title: "spanish 2"))
                 }
                 describe("getting all categories") {
                     it("should contain categories with their counts") {

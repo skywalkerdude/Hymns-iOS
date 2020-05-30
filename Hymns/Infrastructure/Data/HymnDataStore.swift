@@ -168,7 +168,7 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
     func getAllCategories() -> AnyPublisher<[CategoryEntity], ErrorType> {
         return databaseQueue.readPublisher { database in
             try CategoryEntity.fetchAll(database,
-                                        sql: "SELECT DISTINCT SONG_META_DATA_CATEGORY, SONG_META_DATA_SUBCATEGORY, COUNT(1) FROM SONG_DATA GROUP BY 1, 2")
+                                        sql: "SELECT DISTINCT SONG_META_DATA_CATEGORY, SONG_META_DATA_SUBCATEGORY, COUNT(1) FROM SONG_DATA WHERE SONG_META_DATA_CATEGORY IS NOT NULL AND SONG_META_DATA_SUBCATEGORY IS NOT NULL GROUP BY 1, 2")
         }.mapError({error -> ErrorType in
             .data(description: error.localizedDescription)
         }).eraseToAnyPublisher()
@@ -177,7 +177,7 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
     func getCategories(by hymnType: HymnType) -> AnyPublisher<[CategoryEntity], ErrorType> {
         return databaseQueue.readPublisher { database in
             try CategoryEntity.fetchAll(database,
-                                        sql: "SELECT DISTINCT SONG_META_DATA_CATEGORY, SONG_META_DATA_SUBCATEGORY, COUNT(1) FROM SONG_DATA WHERE HYMN_TYPE = ? GROUP BY 1, 2",
+                                        sql: "SELECT DISTINCT SONG_META_DATA_CATEGORY, SONG_META_DATA_SUBCATEGORY, COUNT(1) FROM SONG_DATA WHERE SONG_META_DATA_CATEGORY IS NOT NULL AND SONG_META_DATA_SUBCATEGORY IS NOT NULL AND HYMN_TYPE = ? GROUP BY 1, 2",
                                         arguments: [hymnType.abbreviatedValue])
         }.mapError({error -> ErrorType in
             .data(description: error.localizedDescription)
