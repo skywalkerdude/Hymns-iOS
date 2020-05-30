@@ -26,7 +26,14 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "NO">
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "DYLD_INSERT_LIBRARIES"
+            value = "@executable_path/EarlGrey.framework/EarlGrey"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <TestPlans>
          <TestPlanReference
             reference = "container:MasterTestPlan.xctestplan"
@@ -53,6 +60,16 @@
                BlueprintIdentifier = "3B1B90322429CF57009FDCC5"
                BuildableName = "HymnsUITests.xctest"
                BlueprintName = "HymnsUITests"
+               ReferencedContainer = "container:Hymns.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B5177C112481F4A00040865F"
+               BuildableName = "HymnsFunctionalTests.xctest"
+               BlueprintName = "HymnsFunctionalTests"
                ReferencedContainer = "container:Hymns.xcodeproj">
             </BuildableReference>
          </TestableReference>

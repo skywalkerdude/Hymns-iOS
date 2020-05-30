@@ -121,11 +121,14 @@
 		3BF699AF24417921005AFF6A /* VerseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF699AE24417921005AFF6A /* VerseView.swift */; };
 		3BFBF66D2450D19200C2FC5D /* FavoriteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFBF66C2450D19200C2FC5D /* FavoriteStore.swift */; };
 		3BFF25AE24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF25AD24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift */; };
+		3D2254563EDD5241A54DC025 /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D80EB9D87B7DA7E65E450F4 /* EarlGrey.swift */; };
 		5C45E09924512E9000872369 /* VerseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C45E09824512E9000872369 /* VerseViewModel.swift */; };
 		5CA7849C242D14BA00B57903 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7849B242D14BA00B57903 /* SettingsView.swift */; };
 		5CA7849E242D14C800B57903 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7849D242D14C800B57903 /* FavoritesView.swift */; };
 		5CA784A0242D1A3200B57903 /* BrowseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7849F242D1A3200B57903 /* BrowseView.swift */; };
 		5CA784A4242D1CF800B57903 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA784A3242D1CF800B57903 /* HomeView.swift */; };
+		B5177C152481F4A10040865F /* HymnsFunctionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5177C142481F4A10040865F /* HymnsFunctionalTests.swift */; };
+		B5177C1E2481F5610040865F /* EarlGreyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5177C1D2481F5610040865F /* EarlGreyExtensions.swift */; };
 		B51BA5C92430075300CA52F7 /* DisplayHymnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51BA5C82430075300CA52F7 /* DisplayHymnView.swift */; };
 		B56305B7244223A5003BC132 /* CustomTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56305B6244223A5003BC132 /* CustomTitleView.swift */; };
 		B56305B9244223D7003BC132 /* FontViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56305B8244223D7003BC132 /* FontViewModifier.swift */; };
@@ -142,6 +145,9 @@
 		B5C35EFA247AA4D600EF6AA9 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C35EF9247AA4D600EF6AA9 /* ShareSheet.swift */; };
 		B5E61B34242E613D00EF497D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5E61B36242E613D00EF497D /* Localizable.strings */; };
 		BB4C7E9E5879F6AF8CCA77D9 /* Pods_HymnsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C052BC4D7D8FB1033B79AAE7 /* Pods_HymnsTests.framework */; };
+		BBE08D40161EEDD3F561AC15 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FB43ACAE18D3D87B5C5B382 /* EarlGrey.framework */; };
+		BFE73A1EE9FA6D8BE1D51631 /* Pods_HymnsFunctionalTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1581F5394C681FF2C6340A8C /* Pods_HymnsFunctionalTests.framework */; };
+		E36CB4393114465D7129F987 /* EarlGrey.framework in EarlGrey Copy Files */ = {isa = PBXBuildFile; fileRef = 7FB43ACAE18D3D87B5C5B382 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		EF9D228545974074AF495E83 /* HymnsMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD96F2BF8386A9E600A9B55C /* HymnsMocks.generated.swift */; };
 /* End PBXBuildFile section */
 
@@ -160,9 +166,34 @@
 			remoteGlobalIDString = 3B1B900E2429CF55009FDCC5;
 			remoteInfo = Hymns;
 		};
+		B5177C172481F4A10040865F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3B1B90072429CF55009FDCC5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3B1B900E2429CF55009FDCC5;
+			remoteInfo = Hymns;
+		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		29E64ABD0D7E3E5E1DA227D6 /* EarlGrey Copy Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(TEST_HOST)/../";
+			dstSubfolderSpec = 0;
+			files = (
+				E36CB4393114465D7129F987 /* EarlGrey.framework in EarlGrey Copy Files */,
+			);
+			name = "EarlGrey Copy Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		0FFF6296E864D839680DB6FA /* Pods-HymnsFunctionalTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HymnsFunctionalTests.release.xcconfig"; path = "Target Support Files/Pods-HymnsFunctionalTests/Pods-HymnsFunctionalTests.release.xcconfig"; sourceTree = "<group>"; };
+		1581F5394C681FF2C6340A8C /* Pods_HymnsFunctionalTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HymnsFunctionalTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		26EC0E1D026FB7C7AFDF5D52 /* Pods-HymnsFunctionalTests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HymnsFunctionalTests.beta.xcconfig"; path = "Target Support Files/Pods-HymnsFunctionalTests/Pods-HymnsFunctionalTests.beta.xcconfig"; sourceTree = "<group>"; };
+		2D80EB9D87B7DA7E65E450F4 /* EarlGrey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EarlGrey.swift; sourceTree = "<group>"; };
 		3B02725924777BF9007348B0 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
 		3B09F900243D3BDC00252C15 /* HymnalApiService_SearchTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnalApiService_SearchTest.swift; sourceTree = "<group>"; };
 		3B09F903243D4D9300252C15 /* URLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
@@ -285,6 +316,7 @@
 		3BF699AE24417921005AFF6A /* VerseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseView.swift; sourceTree = "<group>"; };
 		3BFBF66C2450D19200C2FC5D /* FavoriteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStore.swift; sourceTree = "<group>"; };
 		3BFF25AD24480CC500DD91F6 /* DisplayHymnViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnViewModelSpec.swift; sourceTree = "<group>"; };
+		5172758DD8F7E72511EC10FD /* Pods-HymnsFunctionalTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HymnsFunctionalTests.debug.xcconfig"; path = "Target Support Files/Pods-HymnsFunctionalTests/Pods-HymnsFunctionalTests.debug.xcconfig"; sourceTree = "<group>"; };
 		577432E03E7CD9933CB82ECF /* Pods_Hymns.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hymns.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C45E09824512E9000872369 /* VerseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerseViewModel.swift; sourceTree = "<group>"; };
 		5CA7849B242D14BA00B57903 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -292,9 +324,14 @@
 		5CA7849F242D1A3200B57903 /* BrowseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseView.swift; sourceTree = "<group>"; };
 		5CA784A3242D1CF800B57903 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		7901F01049AF1ED5829EDCB0 /* Pods-Hymns-HymnsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns-HymnsUITests.debug.xcconfig"; path = "Target Support Files/Pods-Hymns-HymnsUITests/Pods-Hymns-HymnsUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		7FB43ACAE18D3D87B5C5B382 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Pods/EarlGrey/EarlGrey/EarlGrey.framework; sourceTree = SOURCE_ROOT; };
 		817FBCF3C63009B1B506C99D /* Pods-Hymns.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns.beta.xcconfig"; path = "Target Support Files/Pods-Hymns/Pods-Hymns.beta.xcconfig"; sourceTree = "<group>"; };
 		A20B833C2BD0F10337016F43 /* Pods-Hymns-HymnsUITests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns-HymnsUITests.beta.xcconfig"; path = "Target Support Files/Pods-Hymns-HymnsUITests/Pods-Hymns-HymnsUITests.beta.xcconfig"; sourceTree = "<group>"; };
 		A995ED4B5658A040650FDDA0 /* Pods_Hymns_HymnsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hymns_HymnsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5177C122481F4A00040865F /* HymnsFunctionalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HymnsFunctionalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5177C142481F4A10040865F /* HymnsFunctionalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnsFunctionalTests.swift; sourceTree = "<group>"; };
+		B5177C162481F4A10040865F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B5177C1D2481F5610040865F /* EarlGreyExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlGreyExtensions.swift; sourceTree = "<group>"; };
 		B51BA5C82430075300CA52F7 /* DisplayHymnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnView.swift; sourceTree = "<group>"; };
 		B560B615243F978D00FD5867 /* MasterTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MasterTestPlan.xctestplan; sourceTree = SOURCE_ROOT; };
 		B56305B6244223A5003BC132 /* CustomTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTitleView.swift; sourceTree = "<group>"; };
@@ -345,6 +382,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AFE65E42E41270228EDA976 /* Pods_Hymns_HymnsUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B5177C0F2481F4A00040865F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBE08D40161EEDD3F561AC15 /* EarlGrey.framework in Frameworks */,
+				BFE73A1EE9FA6D8BE1D51631 /* Pods_HymnsFunctionalTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,6 +470,7 @@
 				3B1B90112429CF55009FDCC5 /* Hymns */,
 				3B1B902B2429CF57009FDCC5 /* HymnsTests */,
 				3B1B90362429CF57009FDCC5 /* HymnsUITests */,
+				B5177C132481F4A10040865F /* HymnsFunctionalTests */,
 				3B1B90102429CF55009FDCC5 /* Products */,
 				8E21761C8B5F357ED0CB6D4E /* Pods */,
 				1C187AD4C2CB9E2415FD0B0A /* Generated Mocks */,
@@ -437,6 +484,7 @@
 				3B1B900F2429CF55009FDCC5 /* Hymns.app */,
 				3B1B90282429CF57009FDCC5 /* HymnsTests.xctest */,
 				3B1B90332429CF57009FDCC5 /* HymnsUITests.xctest */,
+				B5177C122481F4A00040865F /* HymnsFunctionalTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -776,8 +824,22 @@
 				BE1FD226FF9481BAC9870F7E /* Pods-HymnsTests.debug.xcconfig */,
 				C5D1C4BA46957DA80ACA7399 /* Pods-HymnsTests.release.xcconfig */,
 				E6C890CA7449863C0D371419 /* Pods-HymnsTests.beta.xcconfig */,
+				5172758DD8F7E72511EC10FD /* Pods-HymnsFunctionalTests.debug.xcconfig */,
+				0FFF6296E864D839680DB6FA /* Pods-HymnsFunctionalTests.release.xcconfig */,
+				26EC0E1D026FB7C7AFDF5D52 /* Pods-HymnsFunctionalTests.beta.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		B5177C132481F4A10040865F /* HymnsFunctionalTests */ = {
+			isa = PBXGroup;
+			children = (
+				B5177C142481F4A10040865F /* HymnsFunctionalTests.swift */,
+				B5177C162481F4A10040865F /* Info.plist */,
+				B5177C1D2481F5610040865F /* EarlGreyExtensions.swift */,
+				2D80EB9D87B7DA7E65E450F4 /* EarlGrey.swift */,
+			);
+			path = HymnsFunctionalTests;
 			sourceTree = "<group>";
 		};
 		B5809DF8244F60D300EF0C63 /* Favorites */ = {
@@ -823,6 +885,8 @@
 				577432E03E7CD9933CB82ECF /* Pods_Hymns.framework */,
 				A995ED4B5658A040650FDDA0 /* Pods_Hymns_HymnsUITests.framework */,
 				C052BC4D7D8FB1033B79AAE7 /* Pods_HymnsTests.framework */,
+				7FB43ACAE18D3D87B5C5B382 /* EarlGrey.framework */,
+				1581F5394C681FF2C6340A8C /* Pods_HymnsFunctionalTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -895,13 +959,34 @@
 			productReference = 3B1B90332429CF57009FDCC5 /* HymnsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		B5177C112481F4A00040865F /* HymnsFunctionalTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B5177C1C2481F4A10040865F /* Build configuration list for PBXNativeTarget "HymnsFunctionalTests" */;
+			buildPhases = (
+				11082136660F2E71957E40A1 /* [CP] Check Pods Manifest.lock */,
+				B5177C0E2481F4A00040865F /* Sources */,
+				B5177C0F2481F4A00040865F /* Frameworks */,
+				B5177C102481F4A00040865F /* Resources */,
+				29E64ABD0D7E3E5E1DA227D6 /* EarlGrey Copy Files */,
+				9D2463DB690CB0FC627C34EA /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B5177C182481F4A10040865F /* PBXTargetDependency */,
+			);
+			name = HymnsFunctionalTests;
+			productName = HymnsFunctionalTests;
+			productReference = B5177C122481F4A00040865F /* HymnsFunctionalTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		3B1B90072429CF55009FDCC5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1130;
+				LastSwiftUpdateCheck = 1150;
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = skywalkerdude;
 				TargetAttributes = {
@@ -914,6 +999,10 @@
 					};
 					3B1B90322429CF57009FDCC5 = {
 						CreatedOnToolsVersion = 11.3.1;
+						TestTargetID = 3B1B900E2429CF55009FDCC5;
+					};
+					B5177C112481F4A00040865F = {
+						CreatedOnToolsVersion = 11.5;
 						TestTargetID = 3B1B900E2429CF55009FDCC5;
 					};
 				};
@@ -936,6 +1025,7 @@
 				3B1B900E2429CF55009FDCC5 /* Hymns */,
 				3B1B90272429CF57009FDCC5 /* HymnsTests */,
 				3B1B90322429CF57009FDCC5 /* HymnsUITests */,
+				B5177C112481F4A00040865F /* HymnsFunctionalTests */,
 			);
 		};
 /* End PBXProject section */
@@ -973,9 +1063,38 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B5177C102481F4A00040865F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		11082136660F2E71957E40A1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HymnsFunctionalTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		27A9D11749D3EC3C9D1111C3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1140,6 +1259,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hymns/Pods-Hymns-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9D2463DB690CB0FC627C34EA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HymnsFunctionalTests/Pods-HymnsFunctionalTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HymnsFunctionalTests/Pods-HymnsFunctionalTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HymnsFunctionalTests/Pods-HymnsFunctionalTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D502EF09F7BDF5B89504C001 /* [CP] Check Pods Manifest.lock */ = {
@@ -1344,6 +1480,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B5177C0E2481F4A00040865F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5177C1E2481F5610040865F /* EarlGreyExtensions.swift in Sources */,
+				B5177C152481F4A10040865F /* HymnsFunctionalTests.swift in Sources */,
+				3D2254563EDD5241A54DC025 /* EarlGrey.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1356,6 +1502,11 @@
 			isa = PBXTargetDependency;
 			target = 3B1B900E2429CF55009FDCC5 /* Hymns */;
 			targetProxy = 3B1B90342429CF57009FDCC5 /* PBXContainerItemProxy */;
+		};
+		B5177C182481F4A10040865F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3B1B900E2429CF55009FDCC5 /* Hymns */;
+			targetProxy = B5177C172481F4A10040865F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1899,6 +2050,70 @@
 			};
 			name = Beta;
 		};
+		B5177C192481F4A10040865F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5172758DD8F7E72511EC10FD /* Pods-HymnsFunctionalTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = HymnsFunctionalTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lukelu.Hymns.dev.HymnsFunctionalTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hymns.app/Hymns";
+			};
+			name = Debug;
+		};
+		B5177C1A2481F4A10040865F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0FFF6296E864D839680DB6FA /* Pods-HymnsFunctionalTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HymnsFunctionalTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lukelu.Hymns.dev.HymnsFunctionalTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hymns.app/Hymns";
+			};
+			name = Release;
+		};
+		B5177C1B2481F4A10040865F /* Beta */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 26EC0E1D026FB7C7AFDF5D52 /* Pods-HymnsFunctionalTests.beta.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = HymnsFunctionalTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lukelu.Hymns.dev.HymnsFunctionalTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hymns.app/Hymns";
+			};
+			name = Beta;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1938,6 +2153,16 @@
 				3B1B90432429CF57009FDCC5 /* Debug */,
 				3B1B90442429CF57009FDCC5 /* Release */,
 				3B1D239C245B9F95006C986D /* Beta */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B5177C1C2481F4A10040865F /* Build configuration list for PBXNativeTarget "HymnsFunctionalTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5177C192481F4A10040865F /* Debug */,
+				B5177C1A2481F4A10040865F /* Release */,
+				B5177C1B2481F4A10040865F /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

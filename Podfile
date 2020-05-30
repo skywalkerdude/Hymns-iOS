@@ -44,6 +44,14 @@ target 'Hymns' do
     pod 'Nimble'
   end
 
+  target 'HymnsFunctionalTests' do
+    inherit! :search_paths
+
+    # Pods for functional testing
+    # https://github.com/google/EarlGrey
+    pod 'EarlGrey'
+  end
+
   target 'HymnsUITests' do
     # Pods for testing
   end

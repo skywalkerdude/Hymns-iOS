@@ -4,7 +4,6 @@ import Mockingbird
 import Combine
 @testable import Hymns
 
-// swiftlint:disable:next type_name
 class DisplayHymnBottomBarViewModelSpec: QuickSpec {
 
     override func spec() {
