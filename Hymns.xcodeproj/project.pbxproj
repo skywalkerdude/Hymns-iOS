@@ -102,6 +102,7 @@
 		3BA4612F24773A040068F269 /* DisplayHymnBottomBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA4612E24773A040068F269 /* DisplayHymnBottomBarViewModel.swift */; };
 		3BA461322477522E0068F269 /* DisplayHymnBottomBarViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA461312477522E0068F269 /* DisplayHymnBottomBarViewModelSpec.swift */; };
 		3BA46134247753C30068F269 /* SongInfoDialogViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA46133247753C30068F269 /* SongInfoDialogViewModelSpec.swift */; };
+		3BADB42524822BDB008CEDAB /* BrowseTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BADB42424822BDB008CEDAB /* BrowseTab.swift */; };
 		3BB09207244A18F800EAE411 /* BaseSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB09206244A18F800EAE411 /* BaseSettingViewModel.swift */; };
 		3BB1DCAE244D03DE0011169D /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB1DCAB244D03DD0011169D /* TabItem.swift */; };
 		3BB1DCAF244D03DE0011169D /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB1DCAC244D03DD0011169D /* TabBar.swift */; };
@@ -270,6 +271,7 @@
 		3BA4612E24773A040068F269 /* DisplayHymnBottomBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnBottomBarViewModel.swift; sourceTree = "<group>"; };
 		3BA461312477522E0068F269 /* DisplayHymnBottomBarViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnBottomBarViewModelSpec.swift; sourceTree = "<group>"; };
 		3BA46133247753C30068F269 /* SongInfoDialogViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongInfoDialogViewModelSpec.swift; sourceTree = "<group>"; };
+		3BADB42424822BDB008CEDAB /* BrowseTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseTab.swift; sourceTree = "<group>"; };
 		3BB09206244A18F800EAE411 /* BaseSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSettingViewModel.swift; sourceTree = "<group>"; };
 		3BB1DCAB244D03DD0011169D /* TabItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabItem.swift; path = Hymns/Common/TabView/TabItem.swift; sourceTree = SOURCE_ROOT; };
 		3BB1DCAC244D03DD0011169D /* TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabBar.swift; path = Hymns/Common/TabView/TabBar.swift; sourceTree = SOURCE_ROOT; };
@@ -772,6 +774,7 @@
 			isa = PBXGroup;
 			children = (
 				5CA7849F242D1A3200B57903 /* BrowseView.swift */,
+				3BADB42424822BDB008CEDAB /* BrowseTab.swift */,
 				3B58D20724809E9500C66445 /* BrowseCategoriesViewModel.swift */,
 				3B58D20F2480D0EA00C66445 /* BrowseCategoriesView.swift */,
 				3B58D20B2480A00100C66445 /* CategoryViewModel.swift */,
@@ -1317,6 +1320,7 @@
 				B5809DFC244F614000EF0C63 /* FavoritesViewModel.swift in Sources */,
 				3BB09207244A18F800EAE411 /* BaseSettingViewModel.swift in Sources */,
 				3B25C0E824503B6900C435E1 /* RecentSong.swift in Sources */,
+				3BADB42524822BDB008CEDAB /* BrowseTab.swift in Sources */,
 				3BA4612B24772B250068F269 /* SongInfoDialog.swift in Sources */,
 				5CA7849E242D14C800B57903 /* FavoritesView.swift in Sources */,
 				3BA32C7E245256A0000ABD9F /* Notification.swift in Sources */,

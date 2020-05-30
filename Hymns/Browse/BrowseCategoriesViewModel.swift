@@ -3,7 +3,7 @@ import Resolver
 
 class BrowseCategoriesViewModel: ObservableObject {
 
-    @Published var categories = [CategoryViewModel]()
+    @Published var categories: [CategoryViewModel]? = [CategoryViewModel]()
 
     private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue
@@ -30,7 +30,12 @@ class BrowseCategoriesViewModel: ObservableObject {
             .categories(by: hymnType)
             .sink(receiveCompletion: { _ in
             }, receiveValue: { categories in
-                self.categories = categories.reduce(into: self.categories) { viewModels, entity in
+                guard !categories.isEmpty else {
+                    self.categories = nil
+                    return
+                }
+
+                let sdf = categories.reduce(into: [CategoryViewModel]()) { viewModels, entity in
                     guard let sameCategory = viewModels.first(where: { viewModel -> Bool in
                         viewModel.category == entity.category
                     }) else {
@@ -38,13 +43,13 @@ class BrowseCategoriesViewModel: ObservableObject {
                         viewModels.append(viewModel)
                         return
                     }
-
                     viewModels.removeAll { viewModel -> Bool in
                         viewModel == sameCategory
                     }
                     let newModel = CategoryViewModel(category: sameCategory.category, subcategories: sameCategory.subcategories + [entity.subcategory])
                     viewModels.append(newModel)
                 }
+                self.categories = sdf
             }).store(in: &disposables)
     }
 }

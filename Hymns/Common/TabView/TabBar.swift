@@ -10,31 +10,33 @@ struct TabBar<TabItemType: TabItem>: View {
     let tabItems: [TabItemType]
 
     var body: some View {
-        HStack {
-            ForEach(tabItems) { tabItem in
-                Spacer()
-                Button(
-                    action: {
-                        withAnimation(.default) {
-                            self.currentTab = tabItem
-                        }
-                },
-                    label: {
-                        Group {
-                            if self.isSelected(tabItem) {
-                                tabItem.selectedLabel
-                            } else {
-                                tabItem.unselectedLabel
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(tabItems) { tabItem in
+                    Spacer()
+                    Button(
+                        action: {
+                            withAnimation(.default) {
+                                self.currentTab = tabItem
                             }
-                        }.accessibility(label: tabItem.a11yLabel).padding()
-                })
-                    .accentColor(self.isSelected(tabItem) ? .accentColor : .primary)
-                    .anchorPreference(
-                        key: FirstNonNilPreferenceKey<Anchor<CGRect>>.self,
-                        value: .bounds,
-                        transform: { anchor in self.isSelected(tabItem) ? .some(anchor) : nil }
-                )
-                Spacer()
+                    },
+                        label: {
+                            Group {
+                                if self.isSelected(tabItem) {
+                                    tabItem.selectedLabel
+                                } else {
+                                    tabItem.unselectedLabel
+                                }
+                            }.accessibility(label: tabItem.a11yLabel).padding()
+                    })
+                        .accentColor(self.isSelected(tabItem) ? .accentColor : .primary)
+                        .anchorPreference(
+                            key: FirstNonNilPreferenceKey<Anchor<CGRect>>.self,
+                            value: .bounds,
+                            transform: { anchor in self.isSelected(tabItem) ? .some(anchor) : nil }
+                    )
+                    Spacer()
+                }
             }
         }.backgroundPreferenceValue(FirstNonNilPreferenceKey<Anchor<CGRect>>.self) { boundsAnchor in
             GeometryReader { proxy in

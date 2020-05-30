@@ -1,12 +1,15 @@
 import SwiftUI
 
 struct BrowseView: View {
+
+    @State private var currentTab: BrowseTab = .classic
+
+    let tabItems: [BrowseTab] = [.classic, .newTunes, .newSongs, .children, .all]
+
     var body: some View {
         VStack {
             CustomTitle(title: "Browse")
-            Spacer()
-            Text("TODO: Browse")
-            Spacer()
+            IndicatorTabView(currentTab: $currentTab, tabItems: tabItems)
         }
     }
 }
