@@ -5,7 +5,7 @@ import Lottie
 //And the help from https://www.youtube.com/watch?v=fVehE3Jf7K0
 struct SplashScreenView: UIViewRepresentable {
     let animationView = AnimationView()
-    var filename = "circle"
+    var filename = "hymnalLaunchAnimation"
 
     func makeUIView(context: UIViewRepresentableContext<SplashScreenView>) -> UIView {
         let view = UIView()
