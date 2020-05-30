@@ -35,6 +35,7 @@ class SongInfoDialogViewModel: ObservableObject {
                     guard let self = self else { return }
                     guard let hymn = hymn else { return }
 
+                    self.songInfo = [SongInfoViewModel]()
                     if let category = hymn.category, !category.isEmpty {
                         self.songInfo.append(self.createSongInfoViewModel(label: "Category", compositeValue: category))
                     }
