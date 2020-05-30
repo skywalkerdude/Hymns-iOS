@@ -99,11 +99,13 @@ struct DisplayHymnBottomBar: View {
                     Spacer()
                 }
                 Group {
-                    Button(action: {
-                        self.playButtonOn.toggle()
-                    }, label: {
-                        playButtonOn ? Image(systemName: "play.fill").accentColor(.accentColor) : Image(systemName: "play").accentColor(.primary)
-                    })
+                    viewModel.mp3Path.map { _ in
+                        Button(action: {
+                            self.playButtonOn.toggle()
+                        }, label: {
+                            playButtonOn ? Image(systemName: "play.fill").accentColor(.accentColor) : Image(systemName: "play").accentColor(.primary)
+                        })
+                    }
                     Spacer()
                 }
                 Group {
