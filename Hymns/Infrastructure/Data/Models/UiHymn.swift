@@ -13,12 +13,12 @@ struct UiHymn: Equatable {
     let author: String?
     let languages: MetaDatum?
     let music: MetaDatum?
-    let tunes: MetaDatum?
+    let relevant: MetaDatum?
     // add more fields as needed
 
     init(hymnIdentifier: HymnIdentifier, title: String, lyrics: [Verse], pdfSheet: MetaDatum? = nil,
          category: String? = nil, subcategory: String? = nil, author: String? = nil, languages: MetaDatum? = nil,
-         music: MetaDatum? = nil, tunes: MetaDatum? = nil) {
+         music: MetaDatum? = nil, relevant: MetaDatum? = nil) {
         self.hymnIdentifier = hymnIdentifier
         self.title = title
         self.lyrics = lyrics
@@ -28,6 +28,6 @@ struct UiHymn: Equatable {
         self.author = author
         self.languages = languages
         self.music = music
-        self.tunes = tunes
+        self.relevant = relevant
     }
 }

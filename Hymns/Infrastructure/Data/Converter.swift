@@ -114,18 +114,18 @@ class ConverterImpl: Converter {
             languages = nil
         }
 
-        let tunes: MetaDatum?
-        if let tunesData = hymnEntity.relevantJson?.data(using: .utf8) {
-            tunes = try? jsonDecoder.decode(MetaDatum.self, from: tunesData)
+        let relevant: MetaDatum?
+        if let relevantData = hymnEntity.relevantJson?.data(using: .utf8) {
+            relevant = try? jsonDecoder.decode(MetaDatum.self, from: relevantData)
         } else {
-            tunes = nil
+            relevant = nil
         }
 
         do {
             let verses = try jsonDecoder.decode([Verse].self, from: lyricsData)
             return UiHymn(hymnIdentifier: hymnIdentifier, title: title, lyrics: verses, pdfSheet: pdfSheet,
                           category: category, subcategory: subcategory, author: author, languages: languages,
-                          music: music, tunes: tunes)
+                          music: music, relevant: relevant)
         } catch {
             throw TypeConversionError(triggeringError: error)
         }
