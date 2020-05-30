@@ -2,14 +2,24 @@ import SwiftUI
 
 struct BrowseCategoriesView: View {
 
-    let viewModel: BrowseCategoriesViewModel
+    @ObservedObject var viewModel: BrowseCategoriesViewModel
 
     var body: some View {
-        List(viewModel.categories) { category in
-            CategoryView(viewModel: category)
-        }.onAppear {
-            self.viewModel.fetchCategories()
-        }
+        Group<AnyView> {
+            guard let categories = viewModel.categories else {
+                return Text("error!").maxSize().eraseToAnyView()
+            }
+
+            guard !categories.isEmpty else {
+                return ActivityIndicator().maxSize().onAppear {
+                    self.viewModel.fetchCategories()
+                }.eraseToAnyView()
+            }
+
+            return List(categories) { category in
+                CategoryView(viewModel: category)
+            }.eraseToAnyView()
+        }.background(Color(.systemBackground))
     }
 }
 

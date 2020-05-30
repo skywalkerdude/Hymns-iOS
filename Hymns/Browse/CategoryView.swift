@@ -8,16 +8,18 @@ struct CategoryView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(viewModel.category)
+            Text(viewModel.category).onTapGesture {
+                self.isExpanded.toggle()
+            }
             if isExpanded {
                 List {
                     ForEach(viewModel.subcategories, id: \.self) { subcategory in
-                        Text(subcategory)
+                        NavigationLink(destination: Text(subcategory)) {
+                            Text("TOOD create results")
+                        }
                     }
-                }
+                }.frame(height: CGFloat(viewModel.subcategories.count * 45))
             }
-        }.onTapGesture {
-            self.isExpanded.toggle()
         }
     }
 }
