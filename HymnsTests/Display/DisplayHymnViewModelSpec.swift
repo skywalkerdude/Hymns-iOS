@@ -50,10 +50,10 @@ class DisplayHymnViewModelSpec: QuickSpec {
                     }
                 }
                 context("with valid repository results") {
-                    context("for a classic hymn 1151") {
+                    context("for a classic hymn 1151 and store in recent songs") {
                         beforeEach {
                             target = DisplayHymnViewModel(backgroundQueue: testQueue, favoritesStore: favoritesStore, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore,
-                                                          mainQueue: testQueue, pdfPreloader: pdfLoader)
+                                                          mainQueue: testQueue, pdfPreloader: pdfLoader, storeInHistoryStore: true)
                             let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: [Verse](), pdfSheet: Hymns.MetaDatum(name: "Lead Sheet", data: [Hymns.Datum(value: "Piano", path: "/en/hymn/c/1151/f=ppdf"), Hymns.Datum(value: "Guitar", path: "/en/hymn/c/1151/f=pdf"), Hymns.Datum(value: "Text", path: "/en/hymn/c/1151/f=gtpdf")]))
                             given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                                 Just(hymn).assertNoFailure().eraseToAnyPublisher()
@@ -152,7 +152,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                         expect(target.title).to(equal(expectedTitle))
                                     }
                                     it("should store the song into the history store") {
-                                        verify(historyStore.storeRecentSong(hymnToStore: newSong145, songTitle: expectedTitle)).wasCalled(exactly(1))
+                                        verify(historyStore.storeRecentSong(hymnToStore: any(), songTitle: any())).wasNeverCalled()
                                     }
                                     it("should call hymnsRepository.getHymn") {
                                         verify(hymnsRepository.getHymn(newSong145)).wasCalled(exactly(1))
@@ -240,7 +240,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                         expect(target.title).to(equal(expectedTitle))
                                     }
                                     it("should store the song into the history store") {
-                                        verify(historyStore.storeRecentSong(hymnToStore: newSong145, songTitle: expectedTitle)).wasCalled(exactly(1))
+                                        verify(historyStore.storeRecentSong(hymnToStore: any(), songTitle: any())).wasNeverCalled()
                                     }
                                     it("should call hymnsRepository.getHymn") {
                                         verify(hymnsRepository.getHymn(newSong145)).wasCalled(exactly(1))

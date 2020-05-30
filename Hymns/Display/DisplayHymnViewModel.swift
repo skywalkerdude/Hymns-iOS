@@ -23,6 +23,7 @@ class DisplayHymnViewModel: ObservableObject {
     private let mainQueue: DispatchQueue
     private let pdfLoader: PDFLoader
     private let repository: HymnsRepository
+    private let storeInHistoryStore: Bool
 
     private var favoritesObserver: Notification?
     private var disposables = Set<AnyCancellable>()
@@ -34,7 +35,8 @@ class DisplayHymnViewModel: ObservableObject {
          hymnsRepository repository: HymnsRepository = Resolver.resolve(),
          historyStore: HistoryStore = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
-         pdfPreloader: PDFLoader = Resolver.resolve()) {
+         pdfPreloader: PDFLoader = Resolver.resolve(),
+         storeInHistoryStore: Bool = false) {
         self.analytics = analytics
         self.backgroundQueue = backgroundQueue
         self.currentTab = .lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: identifier)).maxSize().eraseToAnyView())
@@ -44,6 +46,7 @@ class DisplayHymnViewModel: ObservableObject {
         self.mainQueue = mainQueue
         self.pdfLoader = pdfPreloader
         self.repository = repository
+        self.storeInHistoryStore = storeInHistoryStore
     }
 
     deinit {
@@ -113,7 +116,9 @@ class DisplayHymnViewModel: ObservableObject {
 
                     self.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: self.identifier)
                     self.fetchFavoriteStatus()
-                    self.historyStore.storeRecentSong(hymnToStore: self.identifier, songTitle: title)
+                    if self.storeInHistoryStore {
+                        self.historyStore.storeRecentSong(hymnToStore: self.identifier, songTitle: title)
+                    }
             }).store(in: &disposables)
     }
 
