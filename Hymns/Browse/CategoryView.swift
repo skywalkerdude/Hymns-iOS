@@ -15,7 +15,7 @@ struct CategoryView: View {
                 List {
                     ForEach(viewModel.subcategories, id: \.self) { subcategory in
                         NavigationLink(destination: Text(subcategory)) {
-                            Text(subcategory)
+                            Text("TOOD create results")
                         }
                     }
                 }.frame(height: CGFloat(viewModel.subcategories.count * 45))
