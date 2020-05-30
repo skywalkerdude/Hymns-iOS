@@ -7,6 +7,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
     @Published var songInfo: SongInfoDialogViewModel
     @Published var shareableLyrics: String = ""
     @Published var languages = [SongResultViewModel]()
+    @Published var relevant = [SongResultViewModel]()
     @Published var mp3Path: URL?
 
     private let analytics: AnalyticsLogger
@@ -42,18 +43,8 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                     }
 
                     self.shareableLyrics = self.convertToOneString(verses: hymn.lyrics)
-
-                    self.languages = hymn.languages.map { languageDatum -> [SongResultViewModel] in
-                        languageDatum.data.compactMap { language -> SongResultViewModel? in
-                            guard let hymnType = RegexUtil.getHymnType(path: language.path), let hymnNumber = RegexUtil.getHymnNumber(path: language.path) else {
-                                self.analytics.logError(message: "error happened when trying to parse song language", extraParameters: ["path": language.path, "value": language.value])
-                                return nil
-                            }
-                            let queryParams = RegexUtil.getQueryParams(path: language.path)
-                            let title = language.value
-                            let hymnIdentifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber, queryParams: queryParams)
-                            return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
-                        }} ?? [SongResultViewModel]()
+                    self.languages = self.convertToSongResults(hymn.languages)
+                    self.relevant = self.convertToSongResults(hymn.relevant)
 
                     let mp3Path = hymn.music?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.mp3.rawValue
@@ -62,6 +53,21 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                         HymnalNet.url(path: path)
                     })
             }).store(in: &disposables)
+    }
+
+    private func convertToSongResults(_ option: MetaDatum?) -> [SongResultViewModel] {
+        option.map { metaDatum -> [SongResultViewModel] in
+            metaDatum.data.compactMap {datum -> SongResultViewModel? in
+                guard let hymnType = RegexUtil.getHymnType(path: datum.path), let hymnNumber = RegexUtil.getHymnNumber(path: datum.path) else {
+                    self.analytics.logError(message: "error happened when trying to parse song language", extraParameters: ["path": datum.path, "value": datum.value])
+                    return nil
+                }
+                let queryParams = RegexUtil.getQueryParams(path: datum.path)
+                let title = datum.value
+                let hymnIdentifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber, queryParams: queryParams)
+                return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
+            }
+        }  ?? [SongResultViewModel]()
     }
 
     private func convertToOneString(verses: [Verse]) -> String {

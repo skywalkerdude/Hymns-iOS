@@ -107,7 +107,9 @@ class HomeViewModel: ObservableObject {
             self.state = .results
             self.songResults = recentSongs.map { recentSong in
                 let identifier = HymnIdentifier(recentSong.hymnIdentifierEntity)
-                return SongResultViewModel(title: recentSong.songTitle, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
+                return SongResultViewModel(title: recentSong.songTitle,
+                                           destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier,
+                                                                                                            storeInHistoryStore: true)).eraseToAnyView())
             }
             if !self.songResults.isEmpty {
                 self.label = "Recent hymns"
@@ -120,7 +122,9 @@ class HomeViewModel: ObservableObject {
         let matchingNumbers = HymnNumberUtil.matchHymnNumbers(hymnNumber: hymnNumber)
         songResults = matchingNumbers.map({ number -> SongResultViewModel in
             let identifier = HymnIdentifier(hymnType: .classic, hymnNumber: number)
-            return SongResultViewModel(title: "Hymn \(number)", destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
+            return SongResultViewModel(title: "Hymn \(number)",
+                                       destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier,
+                                                                                                        storeInHistoryStore: true)).eraseToAnyView())
         })
         state = songResults.isEmpty ? .empty : .results
     }
@@ -154,7 +158,9 @@ class HomeViewModel: ObservableObject {
             .map({ songResultsPage -> ([SongResultViewModel], Bool) in
                 let hasMorePages = songResultsPage.hasMorePages ?? false
                 let songResults = songResultsPage.results.map { songResult -> SongResultViewModel in
-                    return SongResultViewModel(title: songResult.name, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: songResult.identifier)).eraseToAnyView())
+                    return SongResultViewModel(title: songResult.name,
+                                               destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: songResult.identifier,
+                                                                                                                storeInHistoryStore: true)).eraseToAnyView())
                 }
                 return (songResults, hasMorePages)
             })

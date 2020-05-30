@@ -27,6 +27,7 @@ struct DisplayHymnBottomBar: View {
     // Navigating out of an action sheet requires another state variable
     // https://stackoverflow.com/questions/59454407/how-to-navigate-out-of-a-actionsheet
     @State private var languageIndexShown: Int?
+    @State private var relevantIndexShown: Int?
 
     @State var mp3PlayerShown = false
     @State var playButtonOn = false
@@ -88,15 +89,22 @@ struct DisplayHymnBottomBar: View {
                     })
                     Spacer()
                 }
-                Group {
-                    Button(action: {
-                        self.dialogBuilder = {
-                            SongInfoDialog(viewModel: self.viewModel.songInfo).eraseToAnyView()
+                if !viewModel.relevant.isEmpty {
+                    Group {
+                        Button(action: {
+                            self.actionSheet = .relevant
+                        }, label: {
+                            BottomBarLabel(imageName: "music.note.list")
+                        })
+                        relevantIndexShown.map { index in
+                            NavigationLink(destination: self.viewModel.relevant[index].destinationView,
+                                           tag: index,
+                                           selection: $relevantIndexShown) {
+                                            EmptyView()
+                            }
                         }
-                    }, label: {
-                        BottomBarLabel(imageName: "music.note.list")
-                    })
-                    Spacer()
+                        Spacer()
+                    }
                 }
                 Group {
                     viewModel.mp3Path.map { _ in
@@ -151,6 +159,16 @@ struct DisplayHymnBottomBar: View {
                                     self.languageIndexShown = index
                                 })
                             }) + [.cancel()])
+                case .relevant:
+                    return
+                        ActionSheet(
+                            title: Text(item.rawValue),
+                            message: Text("Change to a relevant hymn"),
+                            buttons: self.viewModel.relevant.enumerated().map({ index, viewModel -> Alert.Button in
+                                .default(Text(viewModel.title), action: {
+                                    self.relevantIndexShown = index
+                                })
+                            }) + [.cancel()])
                 }
             }.sheet(item: $sheet) { tab -> ShareSheet in
                 switch tab {
@@ -165,6 +183,7 @@ struct DisplayHymnBottomBar: View {
 private enum ActionSheetItem: String {
     case fontSize = "Lyrics font fize"
     case languages = "Languages"
+    case relevant = "Relevant songs"
 }
 
 extension ActionSheetItem: Identifiable {
