@@ -35,13 +35,19 @@ struct HomeContainerView: View {
                         UITabBar.appearance().unselectedItemTintColor = .label
                     }
                 }}
-
             SplashScreenView()
                 .opacity(showSplash ? 1 : 0)
                 .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                         self.showSplash = false
                     }
+            }
+        }.onAppear {
+            if !UserDefaults.standard.bool(forKey: "didLaunchBefore") {
+                UserDefaults.standard.set(true, forKey: "didLaunchBefore")
+                self.showSplash = true
+            } else {
+                self.showSplash = false
             }
         }
     }
