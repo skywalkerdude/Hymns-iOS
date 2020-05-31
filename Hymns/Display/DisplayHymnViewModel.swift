@@ -64,13 +64,21 @@ class DisplayHymnViewModel: ObservableObject {
                     guard let self = self else { return }
                     guard let hymn = hymn else { return }
 
+                    //NOTE: 224, it turns into As we're sharing of the cup,
                     let title: Title
                     if self.identifier.hymnType == .classic {
-                        title = "Hymn \(self.identifier.hymnNumber)"
+                        var titleLyric = ""
+                        if let lyrics = hymn.lyrics.first {
+                            if let firstLine = lyrics.verseContent.first {
+                                titleLyric = ": \(firstLine)"
+                            }
+                        }
+                        title = "Hymn \(self.identifier.hymnNumber)\(titleLyric)"
                     } else {
                         title = hymn.title.replacingOccurrences(of: "Hymn: ", with: "")
                     }
                     self.title = title
+                    print("meep: \(title)")
 
                     self.tabItems = [self.currentTab]
 
