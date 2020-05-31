@@ -32,9 +32,9 @@ class DisplayHymnViewModelSpec: QuickSpec {
                         beforeEach {
                             target.fetchHymn()
                         }
-//                        it("title should be empty") {
-//                            expect(target.title).to(beEmpty())
-//                        }
+                        it("title should be empty") {
+                            expect(target.title).to(beEmpty())
+                        }
                         it("should not perform any prefetching") {
                             verify(pdfLoader.load(url: any())).wasNeverCalled()
                         }
