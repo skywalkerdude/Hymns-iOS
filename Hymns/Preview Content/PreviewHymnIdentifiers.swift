@@ -9,5 +9,6 @@ struct PreviewHymnIdentifiers {
     static let hymn480 = HymnIdentifier(hymnType: .classic, hymnNumber: "480")
     static let sinfulPast = HymnIdentifier(hymnType: .howardHigashi, hymnNumber: "76")
     static let hymn1334 = HymnIdentifier(hymnType: .classic, hymnNumber: "1334")
+    static let chineseSupplement216 = HymnIdentifier(hymnType: .chineseSupplement, hymnNumber: "216")
 }
 #endif

@@ -8,6 +8,7 @@ let decoder: JSONDecoder = Resolver.resolve()
 let classic40_preview = getHymnFromJson(fileName: "classic40")
 let classic1151_preview = getHymnFromJson(fileName: "classic1151")
 let classic1334_preview = getHymnFromJson(fileName: "classic1334")
+let chineseSupplement216_preview = getHymnFromJson(fileName: "chineseSupplement216")
 
 func getHymnFromJson(fileName: String) -> Hymn {
     let jsonPath = Bundle.main.path(forResource: fileName, ofType: "json")!

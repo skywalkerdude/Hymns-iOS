@@ -1,0 +1,267 @@
+{
+    "lyrics": [
+        {
+            "transliteration": [
+                "hē ！ cóng bǎo zuò líu chū",
+                "chún jìng shēng mìng hé de shǔi ！",
+                "chī ！ shēng mìng shù guǒ zǐ ，",
+                "fēng shuò yòu léi léi chúi chúi ！",
+                "kàn ！ nà mǎn chéng guāng hūi ，",
+                "bù xū dēng guāng huò rì 、 yuè ，",
+                "tā méi yǒu hēi yè ！"
+            ],
+            "verse_content": [
+                "喝！從寶座流出",
+                "純淨生命河的水！",
+                "喫！生命樹果子，",
+                "豐碩又纍纍垂垂！",
+                "看！那滿城光輝，",
+                "不需燈光或日、月，",
+                "她沒有黑夜！"
+            ],
+            "verse_type": "verse"
+        },
+        {
+            "transliteration": [
+                "lái bà ！ é ， lái bà ！",
+                "shèng líng yǔ xīn fù shuō ；",
+                "lái bà ！ é ， lái bà ！",
+                "tīng jiàn de rén yě shuō ；",
+                "lái bà ！ é ， lái bà ！",
+                "kǒu kě yòu yuàn yì de",
+                "kě bái bái lái hē ！"
+            ],
+            "verse_content": [
+                "來罷！哦，來罷！",
+                "聖靈與新婦說；",
+                "來罷！哦，來罷！",
+                "聽見的人也說；",
+                "來罷！哦，來罷！",
+                "口渴又願意的",
+                "可白白來喝！"
+            ],
+            "verse_type": "chorus"
+        },
+        {
+            "transliteration": [
+                "jī dū nǎi shì wǒ men hé shǔi ，",
+                "zài lǐ miàn yǒng líu ；",
+                "jī dū nǎi shì shēng mìng shù guǒ ，",
+                "gōng wǒ men xiǎng shòu ；",
+                "jī dū nǎi shì wǒ men de guāng 、",
+                "chén xīng yǔ bái zhòu ；",
+                "tā nǎi shì wàn yǒu ！"
+            ],
+            "verse_content": [
+                "基督乃是我們河水，",
+                "在裡面湧流；",
+                "基督乃是生命樹果，",
+                "供我們享受；",
+                "基督乃是我們的光、",
+                "晨星與白晝；",
+                "祂乃是萬有！"
+            ],
+            "verse_type": "verse"
+        },
+        {
+            "transliteration": [
+                "wǒ men xǐ jìng páo zǐ ，",
+                "yǒu quán lái chī shēng mìng shù ，",
+                "『 é zhǔ ， ā men ，",
+                "ā lì lù yà ， 』",
+                "wǒ men zhēn yǒu fú ！",
+                "wǒ men cāo liàn wǒ men de líng ，",
+                "lái jīng lì jī dū ─",
+                "hé děng de jī dū ！"
+            ],
+            "verse_content": [
+                "我們洗淨袍子，",
+                "有權來喫生命樹，",
+                "『哦主，阿們，",
+                "阿利路亞，』",
+                "我們真有福！",
+                "我們操練我們的靈，",
+                "來經歷基督─",
+                "何等的基督！"
+            ],
+            "verse_type": "verse"
+        },
+        {
+            "transliteration": [
+                "xiàn zài wǒ men yǒu yī gè jiā ，",
+                "hūi huáng shèng tài yáng ，",
+                "dì xiōng zǐ mèi tóng xīn zhàn zhù",
+                "hé yī de lì cháng ；",
+                "dì fāng zhào hùi nǎi shì",
+                "xīn yé lù sā lěng yù cháng ─",
+                "hé děng de yù cháng ！"
+            ],
+            "verse_content": [
+                "現在我們有一個家，",
+                "輝煌勝太陽，",
+                "弟兄姊妹同心站住",
+                "合一的立場；",
+                "地方召會乃是",
+                "新耶路撒冷豫嘗─",
+                "何等的豫嘗！"
+            ],
+            "verse_type": "verse"
+        }
+    ],
+    "meta_data": [
+        {
+            "data": [
+                {
+                    "path": "/en/search/all/category/%E4%BA%AB%E5%8F%97%E5%9F%BA%E7%9D%A3",
+                    "value": "享受基督"
+                }
+            ],
+            "name": "Category"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/search/all/author/M.+C.?t=ts&n=216",
+                    "value": "Translated from M. C."
+                }
+            ],
+            "name": "Lyrics"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/search/all/composer/Traditional+American+melody?t=ts&n=216",
+                    "value": "Traditional American melody"
+                }
+            ],
+            "name": "Music"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/search/all/key/Ab+Major",
+                    "value": "Ab Major"
+                }
+            ],
+            "name": "Key"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/search/all/time/4%2F4",
+                    "value": "4/4"
+                }
+            ],
+            "name": "Time"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/search/all/meter/Peculiar+Meter.",
+                    "value": "Peculiar Meter."
+                }
+            ],
+            "name": "Meter"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/search/all/hymncode/5556111233321",
+                    "value": "5556111233321"
+                }
+            ],
+            "name": "Hymn Code"
+        },
+        {
+            "data": [
+                {
+                    "path": "http://online.recoveryversion.bible/BibleChapters.cfm?cid=22",
+                    "value": "Revelation 22"
+                }
+            ],
+            "name": "Scriptures"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/hymn/ts/216?gb=1",
+                    "value": "诗歌(简)"
+                },
+                {
+                    "path": "/en/hymn/cb/1151",
+                    "value": "Cebuano"
+                },
+                {
+                    "path": "/en/hymn/hd/35",
+                    "value": "Dutch"
+                },
+                {
+                    "path": "/en/hymn/h/1151",
+                    "value": "English"
+                },
+                {
+                    "path": "/en/hymn/ht/1151",
+                    "value": "Tagalog"
+                }
+            ],
+            "name": "Languages"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/hymn/ts/204",
+                    "value": "享受主的豐富\n更多得著基督\n哦，說不出的喜樂\n祂是天天更寶貝\n新鮮活潑的耶穌"
+                }
+            ],
+            "name": "See Also"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/hymn/ts/216/f=ppdf",
+                    "value": "Piano"
+                },
+                {
+                    "path": "/en/hymn/ts/216/f=pdf",
+                    "value": "Guitar"
+                },
+                {
+                    "path": "/en/hymn/ts/216/f=gtpdf",
+                    "value": "Text"
+                }
+            ],
+            "name": "Lead Sheet"
+        },
+        {
+            "data": [
+                {
+                    "path": "/en/hymn/ts/216/f=mp3",
+                    "value": "mp3"
+                },
+                {
+                    "path": "/en/hymn/ts/216/f=mid",
+                    "value": "MIDI"
+                },
+                {
+                    "path": "/en/hymn/ts/216/f=tune",
+                    "value": "Tune (MIDI)"
+                }
+            ],
+            "name": "Music"
+        },
+        {
+            "data": [
+                {
+                    "path": "https://www.hymnal.net/Hymns/ChineseTS/svg/ts0216_p.svg",
+                    "value": "Piano"
+                },
+                {
+                    "path": "https://www.hymnal.net/Hymns/ChineseTS/svg/ts0216_g.svg",
+                    "value": "Guitar"
+                }
+            ],
+            "name": "svg"
+        }
+    ],
+    "title": "Hymn: 喝！喫！看！"
+}

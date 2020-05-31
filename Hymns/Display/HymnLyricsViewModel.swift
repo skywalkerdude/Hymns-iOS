@@ -5,6 +5,7 @@ import Resolver
 class HymnLyricsViewModel: ObservableObject {
 
     @Published var lyrics: [VerseViewModel]? = [VerseViewModel]()
+    @Published var showTransliterationButton = false
 
     private let identifier: HymnIdentifier
     private let mainQueue: DispatchQueue
@@ -22,6 +23,7 @@ class HymnLyricsViewModel: ObservableObject {
 
     func fetchLyrics() {
         var latestValue: [VerseViewModel]? = [VerseViewModel]()
+        var showTransliterationButton = false
         repository
             .getHymn(identifier)
             .map({ [weak self] hymn -> [VerseViewModel]? in
@@ -36,9 +38,12 @@ class HymnLyricsViewModel: ObservableObject {
                 if state == .finished {
                     // Only display the lyrics if the call is finished and we aren't getting any more values
                     self.lyrics = latestValue
+                    self.showTransliterationButton = showTransliterationButton
                 }
-                }, receiveValue: { lyrics in
+                }, receiveValue: { [weak self ] lyrics in
+                    guard let self = self else { return }
                     latestValue = lyrics
+                    showTransliterationButton = self.containsTransliteration(viewModels: lyrics)
             }).store(in: &disposables)
     }
 
@@ -54,5 +59,15 @@ class HymnLyricsViewModel: ObservableObject {
             }
         }
         return verseViewModels
+    }
+
+    private func containsTransliteration(viewModels: [VerseViewModel]?) -> Bool {
+        guard
+            let viewModels = viewModels,
+            let firstViewModel = viewModels.first,
+            let firstLine = firstViewModel.verseLines.first else {
+                return false
+        }
+        return firstLine.transliteration != nil
     }
 }
