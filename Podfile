@@ -30,6 +30,9 @@ target 'Hymns' do
   pod 'GRDB.swift'
   pod 'GRDBCombine'
 
+  # For cool animations https://github.com/airbnb/lottie-ios
+  pod 'lottie-ios'
+
   target 'HymnsTests' do
     inherit! :search_paths
     
