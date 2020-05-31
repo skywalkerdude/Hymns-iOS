@@ -31,7 +31,6 @@ struct HomeView: View {
                 ActivityIndicator().maxSize()
             } else if viewModel.state == .empty {
                 Text("Did not find any songs matching:\n\"\(viewModel.searchParameter)\".\nPlease try a different request").padding().multilineTextAlignment(.center).maxSize(alignment: .center)
-            } else {
                 if viewModel.songResults.isEmpty {
                     Spacer()
                     HStack {
