@@ -4,50 +4,32 @@ import Resolver
 struct HomeContainerView: View {
 
     @State var selectedTab: HomeTab = .none
-    @State var showSplash = true
 
     var body: some View {
-        ZStack {
-            if !showSplash {
-                NavigationView {
-                    TabView(selection: $selectedTab) {
-                        HomeView(viewModel: Resolver.resolve())
-                            .tabItem {HomeTab.home.getImage(selectedTab == HomeTab.home).imageScale(.large)}
-                            .tag(HomeTab.home)
-                            .hideNavigationBar()
+        NavigationView {
+            TabView(selection: $selectedTab) {
+                HomeView(viewModel: Resolver.resolve())
+                    .tabItem {HomeTab.home.getImage(selectedTab == HomeTab.home).imageScale(.large)}
+                    .tag(HomeTab.home)
+                    .hideNavigationBar()
 
-                        BrowseView()
-                            .tabItem { HomeTab.browse.getImage(selectedTab == HomeTab.browse).imageScale(.large)}
-                            .tag(HomeTab.browse)
-                            .hideNavigationBar()
+                BrowseView()
+                    .tabItem { HomeTab.browse.getImage(selectedTab == HomeTab.browse).imageScale(.large)}
+                    .tag(HomeTab.browse)
+                    .hideNavigationBar()
 
-                        FavoritesView()
-                            .tabItem {HomeTab.favorites.getImage(selectedTab == HomeTab.favorites).imageScale(.large)}
-                            .tag(HomeTab.favorites)
-                            .hideNavigationBar()
+                FavoritesView()
+                    .tabItem {HomeTab.favorites.getImage(selectedTab == HomeTab.favorites).imageScale(.large)}
+                    .tag(HomeTab.favorites)
+                    .hideNavigationBar()
 
-                        SettingsView()
-                            .tabItem {HomeTab.settings.getImage(selectedTab == HomeTab.settings).imageScale(.large)}
-                            .tag(HomeTab.settings)
-                            .hideNavigationBar()
-                    }.onAppear {
-                        self.selectedTab = .home
-                        UITabBar.appearance().unselectedItemTintColor = .label
-                    }
-                }}
-            SplashScreenView()
-                .opacity(showSplash ? 1 : 0)
-                .onAppear {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.7) {
-                        self.showSplash = false
-                    }
-            }
-        }.onAppear {
-            if !UserDefaults.standard.bool(forKey: "didLaunchBefore") {
-                UserDefaults.standard.set(true, forKey: "didLaunchBefore")
-                self.showSplash = true
-            } else {
-                self.showSplash = false
+                SettingsView()
+                    .tabItem {HomeTab.settings.getImage(selectedTab == HomeTab.settings).imageScale(.large)}
+                    .tag(HomeTab.settings)
+                    .hideNavigationBar()
+            }.onAppear {
+                self.selectedTab = .home
+                UITabBar.appearance().unselectedItemTintColor = .label
             }
         }
     }

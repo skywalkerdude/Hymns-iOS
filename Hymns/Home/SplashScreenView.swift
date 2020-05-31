@@ -18,11 +18,33 @@ struct SplashScreenView: UIViewRepresentable {
 
         NSLayoutConstraint.activate([
             animationView.heightAnchor.constraint(equalTo: view.heightAnchor),
-        animationView.widthAnchor.constraint(equalTo: view.widthAnchor)])
+            animationView.widthAnchor.constraint(equalTo: view.widthAnchor)])
 
         return view
     }
 
     func updateUIView(_ uiView: UIViewType, context: UIViewRepresentableContext<SplashScreenView>) {
+    }
+}
+
+struct SplashRouter: View {
+
+    @State var showSplash = true
+
+    var body: some View {
+
+        ZStack {
+            if !showSplash {
+                HomeContainerView()
+            } else {
+                SplashScreenView()
+                    .opacity(showSplash ? 1 : 0)
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.7) {
+                            self.showSplash = false
+                        }
+                }
+            }
         }
+    }
 }
