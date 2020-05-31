@@ -20,7 +20,6 @@ class HomeViewModelTest: XCTestCase {
         super.setUp()
         historyStore = mock(HistoryStore.self)
         given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
-            expect(self.target.state).to(equal(HomeResultState.loading))
             onChanged(self.recentSongs)
             return mock(Notification.self)
         }
