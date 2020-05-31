@@ -9,7 +9,7 @@ struct BrowseView: View {
     var body: some View {
         VStack {
             CustomTitle(title: "Browse")
-            IndicatorTabView(currentTab: $currentTab, tabItems: tabItems)
+            IndicatorTabView(currentTab: $currentTab, tabItems: tabItems) 
         }
     }
 }
