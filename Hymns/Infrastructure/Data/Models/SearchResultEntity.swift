@@ -17,7 +17,7 @@ struct SearchResultEntity: Decodable {
     }
 }
 
-extension SearchResultEntity {
+extension SearchResultEntity: FetchableRecord {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         hymnType = try container.decode(HymnType.self, forKey: .hymnType)
@@ -26,7 +26,4 @@ extension SearchResultEntity {
         title = try container.decode(String.self, forKey: .title)
         matchInfo = try container.decode(Data.self, forKey: .matchInfo)
     }
-}
-
-extension SearchResultEntity: FetchableRecord {
 }
