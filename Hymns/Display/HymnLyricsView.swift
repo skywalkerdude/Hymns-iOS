@@ -3,6 +3,7 @@ import SwiftUI
 public struct HymnLyricsView: View {
 
     @ObservedObject private var viewModel: HymnLyricsViewModel
+    @State var transliterate = false
 
     init(viewModel: HymnLyricsViewModel) {
         self.viewModel = viewModel
@@ -20,8 +21,20 @@ public struct HymnLyricsView: View {
             return
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading, spacing: 15) {
+                        if viewModel.showTransliterationButton {
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    self.transliterate.toggle()
+                                }, label: {
+                                    self.transliterate ?
+                                        Image(systemName: "a.square.fill").accentColor(.accentColor) :
+                                        Image(systemName: "a.square").accentColor(.primary)
+                                }).frame(width: 25, height: 25)
+                            }
+                        }
                         ForEach(lyrics, id: \.self) { verseViewModel in
-                            VerseView(viewModel: verseViewModel)
+                            VerseView(viewModel: verseViewModel, transliterate: self.$transliterate)
                         }
                     }.padding()
                 }.maxSize(alignment: .leading).eraseToAnyView()
@@ -54,12 +67,18 @@ struct HymnLyricsView_Previews: PreviewProvider {
         classic1334ViewModel.lyrics = classic1334ViewModel.convertToViewModels(verses: classic1334_preview.lyrics)
         let classic1334 = HymnLyricsView(viewModel: classic1334ViewModel)
 
+        let chineseSupplement216ViewModel = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.chineseSupplement216)
+        chineseSupplement216ViewModel.lyrics = chineseSupplement216ViewModel.convertToViewModels(verses: chineseSupplement216_preview.lyrics)
+        chineseSupplement216ViewModel.showTransliterationButton = true
+        let chineseSupplement216 = HymnLyricsView(viewModel: chineseSupplement216ViewModel)
+
         return Group {
             loading.previewDisplayName("loading")
             error.previewDisplayName("error")
             classic40.previewDisplayName("classic40")
             classic1151.previewDisplayName("classic1151")
             classic1334.previewDisplayName("classic1334")
+            chineseSupplement216.previewDisplayName("chineseSupplement216")
         }
     }
 }

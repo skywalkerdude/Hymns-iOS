@@ -12,7 +12,7 @@ class SongResultViewModel: Identifiable {
     }
 }
 
-extension SongResultViewModel: Equatable, Hashable {
+extension SongResultViewModel: Hashable {
     static func == (lhs: SongResultViewModel, rhs: SongResultViewModel) -> Bool {
         lhs.title == rhs.title
     }
