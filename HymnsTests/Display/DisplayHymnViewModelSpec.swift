@@ -54,7 +54,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                         beforeEach {
                             target = DisplayHymnViewModel(backgroundQueue: testQueue, favoritesStore: favoritesStore, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore,
                                                           mainQueue: testQueue, pdfPreloader: pdfLoader, storeInHistoryStore: true)
-                            let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: [Verse](), pdfSheet: Hymns.MetaDatum(name: "Lead Sheet", data: [Hymns.Datum(value: "Piano", path: "/en/hymn/c/1151/f=ppdf"), Hymns.Datum(value: "Guitar", path: "/en/hymn/c/1151/f=pdf"), Hymns.Datum(value: "Text", path: "/en/hymn/c/1151/f=gtpdf")]))
+                            let hymn = UiHymn(hymnIdentifier: classic1151, title: "Drink! A river pure and clear that’s flowing from the throne", lyrics: [Verse](), pdfSheet: Hymns.MetaDatum(name: "Lead Sheet", data: [Hymns.Datum(value: "Piano", path: "/en/hymn/c/1151/f=ppdf"), Hymns.Datum(value: "Guitar", path: "/en/hymn/c/1151/f=pdf"), Hymns.Datum(value: "Text", path: "/en/hymn/c/1151/f=gtpdf")]))
+
                             given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                                 Just(hymn).assertNoFailure().eraseToAnyPublisher()
                             }
@@ -71,7 +72,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                     testQueue.sync {}
                                     testQueue.sync {}
                                 }
-                                let expectedTitle = "Hymn 1151"
+                                let expectedTitle = "Hymn 1151: Drink! A river pure and clear that’s flowing from the throne"
                                 it("title should be '\(expectedTitle)'") {
                                     expect(target.title).to(equal(expectedTitle))
                                 }
