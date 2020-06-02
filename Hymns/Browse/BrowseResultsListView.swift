@@ -1,10 +1,13 @@
 import SwiftUI
-import UIKit
 
 struct BrowseResultsListView: View {
 
     @Environment(\.presentationMode) var presentationMode
-    let viewModel: BrowseResultsListViewModel
+    private let viewModel: BrowseResultsListViewModel
+
+    init(viewModel: BrowseResultsListViewModel) {
+        self.viewModel = viewModel
+    }
 
     var body: some View {
         VStack {
