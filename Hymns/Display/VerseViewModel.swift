@@ -57,25 +57,37 @@ extension VerseLineViewModel {
     }
 }
 
-struct VerseViewModel: Hashable {
+class VerseViewModel {
+
     let verseLines: [VerseLineViewModel]
 
-    init(verseLines: [String]) {
+    convenience init(verseLines: [String]) {
         self.init(verseNumber: nil, verseLines: verseLines, transliteration: nil)
     }
 
-    init(verseLines: [String], transliteration: [String]?) {
+    convenience init(verseLines: [String], transliteration: [String]?) {
         self.init(verseNumber: nil, verseLines: verseLines, transliteration: transliteration)
     }
 
-    init(verseNumber: String, verseLines: [String]) {
+    convenience init(verseNumber: String, verseLines: [String]) {
         self.init(verseNumber: verseNumber, verseLines: verseLines, transliteration: nil)
     }
 
-    init(verseNumber: String?, verseLines: [String], transliteration: [String]?) {
+    init(verseNumber: String?, verseLines: [String],
+         transliteration: [String]?, shouldTransliterate: Binding<Bool>? = nil) {
         self.verseLines = verseLines.enumerated().map { (index, line) -> VerseLineViewModel in
             let transliteration = transliteration?[index]
             return VerseLineViewModel(verseNumber: index == 0 ? verseNumber : nil, verseText: line, transliteration: transliteration)
         }
+    }
+}
+
+extension VerseViewModel: Hashable {
+    static func == (lhs: VerseViewModel, rhs: VerseViewModel) -> Bool {
+        lhs.verseLines == rhs.verseLines
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(verseLines)
     }
 }

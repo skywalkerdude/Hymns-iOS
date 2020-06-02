@@ -25,9 +25,6 @@ class HomeViewModelSearchSpec: QuickSpec {
             beforeEach {
                 historyStore = mock(HistoryStore.self)
                 given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
-                    print("start expecting on \(Thread.current)")
-                    expect(target.state).to(equal(HomeResultState.loading))
-                    print("end expecting")
                     onChanged(recentSongs)
                     return mock(Notification.self)
                 }
