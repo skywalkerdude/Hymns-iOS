@@ -4,14 +4,17 @@ import Resolver
 
 class DisplayHymnBottomBarViewModel: ObservableObject {
 
+    typealias Title = String
     @Published var songInfo: SongInfoDialogViewModel
     @Published var shareableLyrics: String = ""
     @Published var languages = [SongResultViewModel]()
     @Published var relevant = [SongResultViewModel]()
+    @Published var tags = [TagSheetView]()
     @Published var mp3Path: URL?
+    @Published var title: String = ""
 
     private let analytics: AnalyticsLogger
-    private let identifier: HymnIdentifier
+    let identifier: HymnIdentifier
     private let backgroundQueue: DispatchQueue
     private let mainQueue: DispatchQueue
     private let repository: HymnsRepository
@@ -41,6 +44,14 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                     guard let self = self, let hymn = hymn, !hymn.lyrics.isEmpty else {
                         return
                     }
+
+                    let title: Title
+                    if self.identifier.hymnType == .classic {
+                        title = "Hymn \(self.identifier.hymnNumber)"
+                    } else {
+                        title = hymn.title.replacingOccurrences(of: "Hymn: ", with: "")
+                    }
+                    self.title = title
 
                     self.shareableLyrics = self.convertToOneString(verses: hymn.lyrics)
                     self.languages = self.convertToSongResults(hymn.languages)
