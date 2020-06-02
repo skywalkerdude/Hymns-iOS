@@ -14,8 +14,8 @@ struct CategoryView: View {
             if isExpanded {
                 List {
                     ForEach(viewModel.subcategories, id: \.self) { subcategory in
-                        NavigationLink(destination: Text(subcategory)) {
-                            Text("TOOD create results")
+                        NavigationLink(destination: BrowseResultsListView(viewModel: BrowseResultsListViewModel(category: self.viewModel.category, subcategory: subcategory, hymnType: self.viewModel.hymnType))) {
+                            Text(subcategory)
                         }
                     }
                 }.frame(height: CGFloat(viewModel.subcategories.count * 45))
