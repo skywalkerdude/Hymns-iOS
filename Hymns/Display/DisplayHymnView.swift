@@ -14,7 +14,7 @@ struct DisplayHymnView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                DisplayHymnToolbar(viewModel: viewModel).padding(.top)
+                DisplayHymnToolbar(viewModel: viewModel)
                 if viewModel.tabItems.count > 1 {
                     IndicatorTabView(currentTab: $viewModel.currentTab, tabItems: viewModel.tabItems)
                 } else {
