@@ -7,14 +7,14 @@ struct TagSheetView: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) var moc
     @State private var tagNames = ""
-    var title: String
-    var hymnIdentifier: HymnIdentifier
-    var fetchRequest: FetchRequest<TaggedHymn>
-
-    //@FetchRequest<TaggedHymn>(entity: TaggedHymn.entity(), sortDescriptors: []) var taggedHymn: FetchedResults<TaggedHymn>
+    private var title: String
+    private var hymnIdentifier: HymnIdentifier
+    private var fetchRequest: FetchRequest<TaggedHymn>
 
     init(title: String, hymnIdentifier: HymnIdentifier) {
-        fetchRequest = FetchRequest<TaggedHymn>(entity: TaggedHymn.entity(), sortDescriptors: [], predicate: NSPredicate(format: "songTitle BEGINSWITH %@", title))
+        fetchRequest = FetchRequest<TaggedHymn>(entity: TaggedHymn.entity(), sortDescriptors: [
+            NSSortDescriptor(keyPath: \TaggedHymn.tagName, ascending: true)
+        ], predicate: NSPredicate(format: "songTitle BEGINSWITH %@", title))
         self.hymnIdentifier = hymnIdentifier
         self.title = title
     }
@@ -22,37 +22,52 @@ struct TagSheetView: View {
     var body: some View {
         Form {
             Section {
-                Text("Label your tag")
-                TextField("Add tags", text: self.$tagNames)
-            }
-            Button("ADD") {
-                let newTag = TaggedHymn(context: self.moc)
-                newTag.tagName = self.tagNames
-                newTag.songTitle = self.title
-                newTag.hymnIdentifier = FavoriteEntity.createPrimaryKey(hymnIdentifier: self.hymnIdentifier)
-                try? self.moc.save()
-                self.presentationMode.wrappedValue.dismiss()
+                HStack {
+                    Text("Label your tag")
+                    Spacer()
+                    Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Image(systemName: "xmark.circle")
+                    })
+                }
+                HStack {
+                    TextField("Add tags", text: self.$tagNames)
+                    Button("Add") {
+                        let newTag = TaggedHymn(context: self.moc)
+                        newTag.tagName = self.tagNames
+                        newTag.songTitle = self.title
+                        newTag.hymnIdentifier = FavoriteEntity.createPrimaryKey(hymnIdentifier: self.hymnIdentifier)
+                        try? self.moc.save()
+                    }
+                }
             }
             Section {
                 HStack {
                     ForEach(self.fetchRequest.wrappedValue, id: \.self) { tag in
                         Button(action: {
-                            //TODO: Tags should be deletable here.
+                            //TODO: Delete button should only delete one tag instead of all of them
+                            self.deleteTag(tag: tag)
                         }, label: {
                             HStack {
                                 Text("\(tag.tagName ?? "" )")
                                 Image(systemName: "xmark.circle")
                             }
                         })
-                        .padding()
-                        .foregroundColor(.primary)
-                        .background(Color.orange)
-                        .cornerRadius(.infinity)
-                        .lineLimit(1)
+                            .padding()
+                            .foregroundColor(.primary)
+                            .background(Color.orange)
+                            .cornerRadius(.infinity)
+                            .lineLimit(1)
                     }
                 }
             }
         }
+    }
+    func deleteTag(tag: TaggedHymn) {
+        moc.delete(tag)
+
+        try? moc.save()
     }
 }
 
