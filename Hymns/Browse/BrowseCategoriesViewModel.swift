@@ -35,7 +35,7 @@ class BrowseCategoriesViewModel: ObservableObject {
                     return
                 }
 
-                let sdf = categories.reduce(into: [CategoryViewModel]()) { viewModels, entity in
+                self.categories = categories.reduce(into: [CategoryViewModel]()) { viewModels, entity in
                     guard let sameCategory = viewModels.first(where: { viewModel -> Bool in
                         viewModel.category == entity.category
                     }) else {
@@ -49,7 +49,6 @@ class BrowseCategoriesViewModel: ObservableObject {
                     let newModel = CategoryViewModel(category: sameCategory.category, subcategories: sameCategory.subcategories + [entity.subcategory])
                     viewModels.append(newModel)
                 }
-                self.categories = sdf
             }).store(in: &disposables)
     }
 }
