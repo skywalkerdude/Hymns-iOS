@@ -20,7 +20,6 @@ struct BottomBarLabel_Previews: PreviewProvider {
 
 struct DisplayHymnBottomBar: View {
 
-    //TODO: REalm variables
     @Binding var dialogBuilder: (() -> AnyView)?
     @State private var actionSheet: ActionSheetItem?
     @State private var sheet: DisplayHymnSheet?
