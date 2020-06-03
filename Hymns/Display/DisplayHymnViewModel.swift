@@ -122,7 +122,7 @@ class DisplayHymnViewModel: ObservableObject {
                     }
             }).store(in: &disposables)
     }
-
+    
     func fetchFavoriteStatus() {
         self.isFavorited = favoritesStore.isFavorite(hymnIdentifier: identifier)
         favoritesObserver = favoritesStore.observeFavoriteStatus(hymnIdentifier: identifier) { isFavorited in
@@ -140,3 +140,5 @@ class DisplayHymnViewModel: ObservableObject {
         }
     }
 }
+//                favoritesStore.deleteFavorite(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: self.identifier))
+

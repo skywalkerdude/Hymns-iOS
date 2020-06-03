@@ -14,6 +14,8 @@ protocol FavoritesStore {
 
     func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool
 
+    func isTagsEmpty(hymnIdentifier: HymnIdentifier)
+
     func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
 }
 
@@ -70,6 +72,7 @@ class FavoritesStoreRealmImpl: FavoritesStore {
         realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags CONTAINS[c] 'favorited'"))
     }
 
+// MARK: Realm Query Functions
     func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool {
         guard let queriedObject = realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier)) else {
             return false
@@ -78,6 +81,19 @@ class FavoritesStoreRealmImpl: FavoritesStore {
             return true
         } else {
             return false
+        }
+    }
+
+    /**Function is used to call delete on the realm object if tags are all empty*/
+    func isTagsEmpty(hymnIdentifier: HymnIdentifier) {
+        guard let queriedObject = realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier)) else {
+            return
+        }
+        if queriedObject.tags.isEmpty {
+            deleteFavorite(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier))
+            return
+        } else {
+            return
         }
     }
 
