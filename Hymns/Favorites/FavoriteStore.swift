@@ -6,6 +6,8 @@ import Resolver
 protocol FavoritesStore {
     func storeFavorite(_ entity: FavoriteEntity)
 
+    func unstoreFavorite(_ entity: FavoriteEntity)
+
     func deleteFavorite(primaryKey: String)
 
     func favorites() -> Results<FavoriteEntity>
@@ -27,6 +29,7 @@ class FavoritesStoreRealmImpl: FavoritesStore {
 
     func storeFavorite(_ entity: FavoriteEntity) {
         do {
+            entity.tags = "favorited"
             try realm.write {
                 realm.add(entity, update: .modified)
             }
@@ -35,6 +38,19 @@ class FavoritesStoreRealmImpl: FavoritesStore {
         }
     }
 
+    func unstoreFavorite(_ entity: FavoriteEntity) {
+        do {
+            entity.tags = ""
+
+            try realm.write {
+                realm.add(entity, update: .modified)
+            }
+        } catch {
+            analytics.logError(message: "error orccured when storing favorite", error: error, extraParameters: ["primaryKey": entity.primaryKey])
+        }
+    }
+
+//TODO: change name later
     func deleteFavorite(primaryKey: String) {
         guard let entityToDelete = realm.object(ofType: FavoriteEntity.self, forPrimaryKey: primaryKey) else {
             analytics.logError(message: "tried to delete a favorite that doesn't exist", extraParameters: ["primaryKey": primaryKey])
@@ -51,11 +67,18 @@ class FavoritesStoreRealmImpl: FavoritesStore {
     }
 
     func favorites() -> Results<FavoriteEntity> {
-        realm.objects(FavoriteEntity.self)
+        realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags CONTAINS[c] 'favorited'"))
     }
 
     func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool {
-        return realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier)) != nil
+        guard let queriedObject = realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier)) else {
+            return false
+        }
+        if queriedObject.tags.contains("favorited") {
+            return true
+        } else {
+            return false
+        }
     }
 
     func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification {
