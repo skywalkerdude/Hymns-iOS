@@ -1,26 +1,24 @@
 import SwiftUI
+import Resolver
 
 struct TagSubSelectionList: View {
+    let tagSelected: SongResultViewModel
+    @ObservedObject private var viewModel: FavoritesViewModel
 
-    var body: some View {
-//        List(fetchRequest.wrappedValue, id: \.self) { hymn in
-//            //TODO: Use hymn identifier to fetch hymn with another nav link
-//            HStack {
-//                Text("\(hymn.songTitle ?? "")")
-//                Spacer()
-//                Text("Hymn id stored" + (hymn.hymnIdentifier ?? ""))
-//            }
-//        }
-        Text("TODO")
+    init(viewModel: FavoritesViewModel = Resolver.resolve(), tagSelected: SongResultViewModel) {
+        self.viewModel = viewModel
+        self.tagSelected = tagSelected
     }
 
-//    init(filter: String) {
-//        fetchRequest = FetchRequest<TaggedHymn>(entity: TaggedHymn.entity(), sortDescriptors: [], predicate: NSPredicate(format: "tagName BEGINSWITH %@", filter))
-//    }
-}
-
-struct TagSubSelectionList_Previews: PreviewProvider {
-    static var previews: some View {
-        TagSubSelectionList()
+    var body: some View {
+        VStack {
+            List(self.viewModel.tags) { tag in
+                NavigationLink(destination: tag.destinationView) {
+                    SongResultView(viewModel: tag)
+                }
+            }
+        }.onAppear {
+            self.viewModel.fetchTags(self.tagSelected.title)
+        }
     }
 }

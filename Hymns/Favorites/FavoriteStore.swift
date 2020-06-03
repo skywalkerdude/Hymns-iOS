@@ -6,11 +6,13 @@ import Resolver
 protocol FavoritesStore {
     func storeFavorite(_ entity: FavoriteEntity)
 
-   // func unstoreFavorite(_ entity: FavoriteEntity)
-
     func deleteFavoriteObject(primaryKey: String, tags: String)
 
     func favorites() -> Results<FavoriteEntity>
+
+    func tags() -> Results<FavoriteEntity>
+
+    func specificTag(_ tagSelected: String) -> Results<FavoriteEntity>
 
     func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool
 
@@ -57,6 +59,22 @@ class FavoritesStoreRealmImpl: FavoritesStore {
     func favorites() -> Results<FavoriteEntity> {
         realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags CONTAINS[c] 'favorited'"))
     }
+
+    func tags() -> Results<FavoriteEntity> {
+        print("bbug tags retrieve")
+        return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags != 'favorited'"))
+    }
+
+    func specificTag(_ tagSelected: String) -> Results<FavoriteEntity> {
+        print("bbug tags retrieve")
+        return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags == %@", tagSelected))
+    }
+
+//    func tagsFirst() -> Results<FavoriteEntity> {
+//
+//        print("bbug tags retrieve")
+//        return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags CONTAINS[c] 'Christ'"))
+//    }
 
 // MARK: Realm Query Functions
       func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool {
