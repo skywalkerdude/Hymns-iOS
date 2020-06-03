@@ -39,14 +39,16 @@ class BrowseCategoriesViewModel: ObservableObject {
                     guard let sameCategory = viewModels.first(where: { viewModel -> Bool in
                         viewModel.category == entity.category
                     }) else {
-                        let viewModel = CategoryViewModel(category: entity.category, subcategories: [entity.subcategory])
+                        let viewModel = CategoryViewModel(category: entity.category,
+                                                          subcategories: [SubcategoryViewModel(subcategory: entity.subcategory, count: entity.count)])
                         viewModels.append(viewModel)
                         return
                     }
                     viewModels.removeAll { viewModel -> Bool in
                         viewModel == sameCategory
                     }
-                    let newModel = CategoryViewModel(category: sameCategory.category, subcategories: sameCategory.subcategories + [entity.subcategory])
+                    let newModel = CategoryViewModel(category: sameCategory.category,
+                                                     subcategories: sameCategory.subcategories + [SubcategoryViewModel(subcategory: entity.subcategory, count: entity.count)])
                     viewModels.append(newModel)
                 }
             }).store(in: &disposables)
