@@ -19,8 +19,8 @@ class FavoritesViewModel: ObservableObject {
         notificationToken?.invalidate()
     }
 
-    func fetchTags(_ tagSelected: String) {
-        let result: Results<FavoriteEntity> = favoritesStore.specificTag(tagSelected: tagSelected)
+    func fetchTags(_ tagSelected: String?) {
+        let result: Results<FavoriteEntity> = favoritesStore.querySelectedTags(tagSelected: tagSelected)
 
         notificationToken = result.observe { _ in
             self.objectWillChange.send()
@@ -28,23 +28,16 @@ class FavoritesViewModel: ObservableObject {
 
         tags = result.map { (tag) -> SongResultViewModel in
             let identifier = HymnIdentifier(tag.hymnIdentifierEntity)
+            var displayTitle = ""
+
+            if tagSelected != nil {
+                displayTitle = tag.songTitle
+            } else {
+                displayTitle = tag.tags
+            }
+
             return SongResultViewModel(
-                title: tag.songTitle,
-                destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
-        }
-    }
-
-    func fetchTagsName() {
-        let result: Results<FavoriteEntity> = favoritesStore.getAllTags()
-
-        notificationToken = result.observe { _ in
-            self.objectWillChange.send()
-        }
-
-        tags = result.map { (tag) -> SongResultViewModel in
-            let identifier = HymnIdentifier(tag.hymnIdentifierEntity)
-            return SongResultViewModel(
-                title: tag.tags,
+                title: displayTitle,
                 destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
         }
     }

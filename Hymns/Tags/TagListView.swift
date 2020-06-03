@@ -21,7 +21,7 @@ struct TagListView: View {
                 }.resignKeyboardOnDragGesture()
             }
         }.onAppear {
-            self.viewModel.fetchTagsName()
+            self.viewModel.fetchTags(nil)
             self.storeUniqueTags(self.viewModel.tags)
         }
     }

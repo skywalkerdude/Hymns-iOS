@@ -8,9 +8,7 @@ protocol FavoritesStore {
 
     func deleteFavoriteObject(primaryKey: String, tags: String)
 
-    func getAllTags() -> Results<FavoriteEntity>
-
-    func specificTag(tagSelected: String) -> Results<FavoriteEntity>
+    func querySelectedTags(tagSelected: String?) -> Results<FavoriteEntity>
 
     func specificHymn(hymnIdentifier: HymnIdentifier) -> Results<FavoriteEntity>
 
@@ -63,12 +61,12 @@ class FavoritesStoreRealmImpl: FavoritesStore {
         realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: "favorited")) != nil
     }
 
-    func getAllTags() -> Results<FavoriteEntity> {
-        return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags != 'favorited'"))
-    }
-
-    func specificTag(tagSelected: String) -> Results<FavoriteEntity> {
-        return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags == %@", tagSelected))
+    /** Can be used either with a value to specificially query for one tag or without the optional to query all tags besides favorites*/
+    func querySelectedTags(tagSelected: String?) -> Results<FavoriteEntity> {
+        guard let specificTag = tagSelected else {
+            return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags != 'favorited'"))
+        }
+        return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags == %@", specificTag))
     }
 
     func specificHymn(hymnIdentifier: HymnIdentifier) -> Results<FavoriteEntity> {
