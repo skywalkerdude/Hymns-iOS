@@ -5,7 +5,6 @@ import Resolver
 
 class FavoritesViewModel: ObservableObject {
 
-    @Published var favorites = [SongResultViewModel]()
     @Published var tags = [SongResultViewModel]()
 
     let objectWillChange = ObservableObjectPublisher()
@@ -18,21 +17,6 @@ class FavoritesViewModel: ObservableObject {
 
     deinit {
         notificationToken?.invalidate()
-    }
-
-    func fetchFavorites() {
-        let result: Results<FavoriteEntity> = favoritesStore.favorites()
-
-        notificationToken = result.observe { _ in
-            self.objectWillChange.send()
-        }
-
-        favorites = result.map { (favorite) -> SongResultViewModel in
-            let identifier = HymnIdentifier(favorite.hymnIdentifierEntity)
-            return SongResultViewModel(
-                title: favorite.songTitle,
-                destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
-        }
     }
 
     func fetchTags(_ tagSelected: String) {

@@ -8,8 +8,6 @@ protocol FavoritesStore {
 
     func deleteFavoriteObject(primaryKey: String, tags: String)
 
-    func favorites() -> Results<FavoriteEntity>
-
     func getAllTags() -> Results<FavoriteEntity>
 
     func specificTag(tagSelected: String) -> Results<FavoriteEntity>
@@ -53,10 +51,6 @@ class FavoritesStoreRealmImpl: FavoritesStore {
         }
     }
 
-    func favorites() -> Results<FavoriteEntity> {
-        realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags CONTAINS[c] 'favorited'"))
-    }
-
     func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification {
         return realm.observe { (_, _) in
             let favorite = self.isFavorite(hymnIdentifier: hymnIdentifier)
@@ -66,8 +60,7 @@ class FavoritesStoreRealmImpl: FavoritesStore {
 
     // MARK: Realm Query Functions
     func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool {
-        //let convertedKey = FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: "favorited")
-        return realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: "favorited")) != nil
+        realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: "favorited")) != nil
     }
 
     func isTagsEmpty(hymnIdentifier: HymnIdentifier) {

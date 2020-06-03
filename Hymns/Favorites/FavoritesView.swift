@@ -13,13 +13,13 @@ struct FavoritesView: View {
     var body: some View {
         VStack {
             CustomTitle(title: "Favorites")
-            if self.viewModel.favorites.isEmpty {
+            if self.viewModel.tags.isEmpty {
                 VStack(spacing: 25) {
                     Image("empty favorites illustration")
                     Text("Tap the heart on any hymn to add as a favorite")
                 }.maxSize().offset(y: -25)
             } else {
-                List(self.viewModel.favorites) { favorite in
+                List(self.viewModel.tags) { favorite in
                     NavigationLink(destination: favorite.destinationView) {
                         SongResultView(viewModel: favorite)
                     }
@@ -27,7 +27,7 @@ struct FavoritesView: View {
             }
         }.onAppear {
             Analytics.setScreenName("FavoritesView", screenClass: "FavoritesViewModel")
-            self.viewModel.fetchFavorites()
+            self.viewModel.fetchTags("favorited")
         }
     }
 }
