@@ -10,7 +10,7 @@ class FavoriteEntity: Object, Identifiable {
     required init() {
         super.init()
     }
-//TODO: delete this init if not needed later
+
     init(hymnIdentifier: HymnIdentifier, songTitle: String, tags: String) {
         super.init()
         self.primaryKey = Self.createPrimaryKey(hymnIdentifier: hymnIdentifier)
@@ -19,18 +19,12 @@ class FavoriteEntity: Object, Identifiable {
         self.tags = tags
     }
 
-    init(hymnIdentifier: HymnIdentifier, songTitle: String) {
-        super.init()
-        self.primaryKey = Self.createPrimaryKey(hymnIdentifier: hymnIdentifier)
-        self.hymnIdentifierEntity = HymnIdentifierEntity(hymnIdentifier)
-        self.songTitle = songTitle
-    }
-
-    init(hymnIdentifier: HymnIdentifier) {
+    init(hymnIdentifier: HymnIdentifier, tags: String) {
         super.init()
         self.primaryKey = Self.createPrimaryKey(hymnIdentifier: hymnIdentifier)
         self.hymnIdentifierEntity = HymnIdentifierEntity(hymnIdentifier)
         self.songTitle = ""
+        self.tags = tags
     }
 
     override static func primaryKey() -> String? {

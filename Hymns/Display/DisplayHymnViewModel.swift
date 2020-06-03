@@ -122,7 +122,7 @@ class DisplayHymnViewModel: ObservableObject {
                     }
             }).store(in: &disposables)
     }
-    
+
     func fetchFavoriteStatus() {
         self.isFavorited = favoritesStore.isFavorite(hymnIdentifier: identifier)
         favoritesObserver = favoritesStore.observeFavoriteStatus(hymnIdentifier: identifier) { isFavorited in
@@ -133,12 +133,10 @@ class DisplayHymnViewModel: ObservableObject {
     func toggleFavorited() {
         isFavorited.map { isFavorited in
             if isFavorited {
-                favoritesStore.unstoreFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.title))
+                favoritesStore.unstoreFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.title, tags: ""))
             } else {
-                favoritesStore.storeFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.title))
+                favoritesStore.storeFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.title, tags: "favorited"))
             }
         }
     }
 }
-//                favoritesStore.deleteFavorite(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: self.identifier))
-
