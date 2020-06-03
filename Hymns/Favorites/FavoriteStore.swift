@@ -63,17 +63,6 @@ class FavoritesStoreRealmImpl: FavoritesStore {
         realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: "favorited")) != nil
     }
 
-    func isTagsEmpty(hymnIdentifier: HymnIdentifier) {
-        let queriedObject = realm.objects(FavoriteEntity.self).filter("tags = 'favorited' AND primaryKey BEGINSWITH '\(hymnIdentifier)'")
-
-        if queriedObject.isEmpty {
-            deleteFavoriteObject(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: ""), tags: "")
-            return
-        } else {
-            return
-        }
-    }
-
     func getAllTags() -> Results<FavoriteEntity> {
         return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags != 'favorited'"))
     }
