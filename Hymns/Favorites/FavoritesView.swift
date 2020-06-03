@@ -4,9 +4,9 @@ import SwiftUI
 
 struct FavoritesView: View {
 
-    @ObservedObject private var viewModel: FavoritesViewModel
+    @ObservedObject private var viewModel: TagsViewModel
 
-    init(viewModel: FavoritesViewModel = Resolver.resolve()) {
+    init(viewModel: TagsViewModel = Resolver.resolve()) {
         self.viewModel = viewModel
     }
 
@@ -27,7 +27,7 @@ struct FavoritesView: View {
             }
         }.onAppear {
             Analytics.setScreenName("FavoritesView", screenClass: "FavoritesViewModel")
-            self.viewModel.fetchTags("favorited")
+            self.viewModel.fetchTagsByTags("favorited")
         }
     }
 }

@@ -3,9 +3,9 @@ import Resolver
 
 struct TagListView: View {
     @State var unique = [SongResultViewModel]()
-    @ObservedObject private var viewModel: FavoritesViewModel
+    @ObservedObject private var viewModel: TagsViewModel
 
-    init(viewModel: FavoritesViewModel = Resolver.resolve()) {
+    init(viewModel: TagsViewModel = Resolver.resolve()) {
         self.viewModel = viewModel
     }
 
@@ -21,7 +21,7 @@ struct TagListView: View {
                 }.resignKeyboardOnDragGesture()
             }
         }.onAppear {
-            self.viewModel.fetchTags(nil)
+            self.viewModel.fetchTagsByTags(nil)
             self.storeUniqueTags(self.viewModel.tags)
         }
     }

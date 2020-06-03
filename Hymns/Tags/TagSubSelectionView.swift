@@ -3,9 +3,9 @@ import Resolver
 
 struct TagSubSelectionList: View {
     let tagSelected: SongResultViewModel
-    @ObservedObject private var viewModel: FavoritesViewModel
+    @ObservedObject private var viewModel: TagsViewModel
 
-    init(viewModel: FavoritesViewModel = Resolver.resolve(), tagSelected: SongResultViewModel) {
+    init(viewModel: TagsViewModel = Resolver.resolve(), tagSelected: SongResultViewModel) {
         self.viewModel = viewModel
         self.tagSelected = tagSelected
     }
@@ -18,7 +18,7 @@ struct TagSubSelectionList: View {
                 }
             }
         }.onAppear {
-            self.viewModel.fetchTags(self.tagSelected.title)
+            self.viewModel.fetchTagsByTags(self.tagSelected.title)
         }
     }
 }

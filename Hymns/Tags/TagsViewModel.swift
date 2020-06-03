@@ -3,7 +3,7 @@ import SwiftUI
 import RealmSwift
 import Resolver
 
-class FavoritesViewModel: ObservableObject {
+class TagsViewModel: ObservableObject {
 
     @Published var tags = [SongResultViewModel]()
 
@@ -19,7 +19,7 @@ class FavoritesViewModel: ObservableObject {
         notificationToken?.invalidate()
     }
 
-    func fetchTags(_ tagSelected: String?) {
+    func fetchTagsByTags(_ tagSelected: String?) {
         let result: Results<FavoriteEntity> = favoritesStore.querySelectedTags(tagSelected: tagSelected)
 
         notificationToken = result.observe { _ in
@@ -42,7 +42,7 @@ class FavoritesViewModel: ObservableObject {
         }
     }
 
-    func fetchHymnTags(hymnSelected: HymnIdentifier) {
+    func fetchTagsByHymn(hymnSelected: HymnIdentifier) {
         let result: Results<FavoriteEntity> = favoritesStore.specificHymn(hymnIdentifier: hymnSelected)
 
         notificationToken = result.observe { _ in
@@ -60,6 +60,6 @@ class FavoritesViewModel: ObservableObject {
 
 extension Resolver {
     public static func registerFavoritesViewModel() {
-        register {FavoritesViewModel()}.scope(graph)
+        register {TagsViewModel()}.scope(graph)
     }
 }
