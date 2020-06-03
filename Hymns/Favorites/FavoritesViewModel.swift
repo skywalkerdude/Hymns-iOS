@@ -51,7 +51,7 @@ class FavoritesViewModel: ObservableObject {
     }
 
     func fetchTagsName() {
-        let result: Results<FavoriteEntity> = favoritesStore.tags()
+        let result: Results<FavoriteEntity> = favoritesStore.getAllTags()
 
         notificationToken = result.observe { _ in
             self.objectWillChange.send()

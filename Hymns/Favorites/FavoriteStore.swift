@@ -10,7 +10,7 @@ protocol FavoritesStore {
 
     func favorites() -> Results<FavoriteEntity>
 
-    func tags() -> Results<FavoriteEntity>
+    func getAllTags() -> Results<FavoriteEntity>
 
     func specificTag(tagSelected: String) -> Results<FavoriteEntity>
 
@@ -34,7 +34,7 @@ class FavoritesStoreRealmImpl: FavoritesStore {
     func storeFavorite(_ entity: FavoriteEntity) {
         do {
             try realm.write {
-                realm.add(entity, update: .all)
+                realm.add(entity, update: .modified)
             }
         } catch {
             analytics.logError(message: "error orccured when storing favorite", error: error, extraParameters: ["primaryKey": entity.primaryKey])
@@ -42,9 +42,7 @@ class FavoritesStoreRealmImpl: FavoritesStore {
     }
 
     func deleteFavoriteObject(primaryKey: String, tags: String) {
-        // Query using an NSPredicate
-        let predicate = NSPredicate(format: "tags CONTAINS[c] %@ AND primaryKey CONTAINS[c] %@", tags, primaryKey)
-        let entityToDelete = realm.objects(FavoriteEntity.self).filter(predicate)
+        let entityToDelete = realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags CONTAINS[c] %@ AND primaryKey CONTAINS[c] %@", tags, primaryKey))
 
         do {
             try realm.write {
@@ -59,28 +57,21 @@ class FavoritesStoreRealmImpl: FavoritesStore {
         realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags CONTAINS[c] 'favorited'"))
     }
 
-    func tags() -> Results<FavoriteEntity> {
-        return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags != 'favorited'"))
+    func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification {
+        return realm.observe { (_, _) in
+            let favorite = self.isFavorite(hymnIdentifier: hymnIdentifier)
+            action(favorite)
+        }.toNotification()
     }
 
-    func specificTag(tagSelected: String) -> Results<FavoriteEntity> {
-        return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags == %@", tagSelected))
-    }
-
-    func specificHymn(hymnIdentifier: HymnIdentifier) -> Results<FavoriteEntity> {
-      let convertedKey = FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: "")
-      return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "primaryKey CONTAINS[c] %@ AND tags != %@", convertedKey, "favorited"))
-      }
-
-// MARK: Realm Query Functions
-      func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool {
-            //let convertedKey = FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: "favorited")
+    // MARK: Realm Query Functions
+    func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool {
+        //let convertedKey = FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: "favorited")
         return realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: "favorited")) != nil
-        }
+    }
 
-    /**Function is used to call delete on the realm object if tags are all empty*/
     func isTagsEmpty(hymnIdentifier: HymnIdentifier) {
-       let queriedObject = realm.objects(FavoriteEntity.self).filter("tags = 'favorited' AND primaryKey BEGINSWITH '\(hymnIdentifier)'")
+        let queriedObject = realm.objects(FavoriteEntity.self).filter("tags = 'favorited' AND primaryKey BEGINSWITH '\(hymnIdentifier)'")
 
         if queriedObject.isEmpty {
             deleteFavoriteObject(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: ""), tags: "")
@@ -90,11 +81,17 @@ class FavoritesStoreRealmImpl: FavoritesStore {
         }
     }
 
-    func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification {
-        return realm.observe { (_, _) in
-            let favorite = self.isFavorite(hymnIdentifier: hymnIdentifier)
-            action(favorite)
-        }.toNotification()
+    func getAllTags() -> Results<FavoriteEntity> {
+        return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags != 'favorited'"))
+    }
+
+    func specificTag(tagSelected: String) -> Results<FavoriteEntity> {
+        return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags == %@", tagSelected))
+    }
+
+    func specificHymn(hymnIdentifier: HymnIdentifier) -> Results<FavoriteEntity> {
+        let convertedKey = FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: "")
+        return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "primaryKey CONTAINS[c] %@ AND tags != %@", convertedKey, "favorited"))
     }
 }
 
