@@ -149,6 +149,9 @@
 		B5A77A57247DA0D900447008 /* AudioPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A77A56247DA0D900447008 /* AudioPlayerViewModel.swift */; };
 		B5C35EFA247AA4D600EF6AA9 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C35EF9247AA4D600EF6AA9 /* ShareSheet.swift */; };
 		B5E61B34242E613D00EF497D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5E61B36242E613D00EF497D /* Localizable.strings */; };
+		B5ED4E172487C26300BC911E /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ED4E162487C26300BC911E /* TagListView.swift */; };
+		B5ED4E192487C2C100BC911E /* TagSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ED4E182487C2C100BC911E /* TagSheetView.swift */; };
+		B5ED4E1B2487C46000BC911E /* TagSubSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ED4E1A2487C46000BC911E /* TagSubSelectionView.swift */; };
 		BB4C7E9E5879F6AF8CCA77D9 /* Pods_HymnsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C052BC4D7D8FB1033B79AAE7 /* Pods_HymnsTests.framework */; };
 		EF9D228545974074AF495E83 /* HymnsMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD96F2BF8386A9E600A9B55C /* HymnsMocks.generated.swift */; };
 /* End PBXBuildFile section */
@@ -329,6 +332,9 @@
 		B5E61B35242E613D00EF497D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B5E61B37242E62F600EF497D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B5E61B38242E630000EF497D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B5ED4E162487C26300BC911E /* TagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
+		B5ED4E182487C2C100BC911E /* TagSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSheetView.swift; sourceTree = "<group>"; };
+		B5ED4E1A2487C46000BC911E /* TagSubSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSubSelectionView.swift; sourceTree = "<group>"; };
 		BE1FD226FF9481BAC9870F7E /* Pods-HymnsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HymnsTests.debug.xcconfig"; path = "Target Support Files/Pods-HymnsTests/Pods-HymnsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C052BC4D7D8FB1033B79AAE7 /* Pods_HymnsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HymnsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4175AB0D14C32B25C0FCFE4 /* Pods-Hymns.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns.release.xcconfig"; path = "Target Support Files/Pods-Hymns/Pods-Hymns.release.xcconfig"; sourceTree = "<group>"; };
@@ -460,6 +466,7 @@
 		3B1B90112429CF55009FDCC5 /* Hymns */ = {
 			isa = PBXGroup;
 			children = (
+				B5ED4E152487C24B00BC911E /* Tags */,
 				B5838BC2247AEFAE003B85E9 /* Audio Player */,
 				B5EBBB2124758E2A00780F40 /* Setup Files */,
 				3BC5B15A247F7AEA00F5D63A /* Browse */,
@@ -847,6 +854,16 @@
 				3B1B90162429CF55009FDCC5 /* Hymns.xcdatamodeld */,
 			);
 			name = "Setup Files";
+			sourceTree = "<group>";
+		};
+		B5ED4E152487C24B00BC911E /* Tags */ = {
+			isa = PBXGroup;
+			children = (
+				B5ED4E162487C26300BC911E /* TagListView.swift */,
+				B5ED4E182487C2C100BC911E /* TagSheetView.swift */,
+				B5ED4E1A2487C46000BC911E /* TagSubSelectionView.swift */,
+			);
+			path = Tags;
 			sourceTree = "<group>";
 		};
 		ED9FEC9E5CCA06C03EC15701 /* Frameworks */ = {
@@ -1303,6 +1320,7 @@
 				3B25C0E32450398F00C435E1 /* String+Extensions.swift in Sources */,
 				3BB1DCAF244D03DE0011169D /* TabBar.swift in Sources */,
 				3B58D20824809E9500C66445 /* BrowseCategoriesViewModel.swift in Sources */,
+				B5ED4E172487C26300BC911E /* TagListView.swift in Sources */,
 				3B2E84B7246FA8A200EA4329 /* UiSongResultsPage.swift in Sources */,
 				3B3A2A10244D7C65001BF689 /* Application+Extensions.swift in Sources */,
 				3B5935B124358D1B00E6993C /* Hymn.swift in Sources */,
@@ -1317,6 +1335,7 @@
 				B5A77A57247DA0D900447008 /* AudioPlayerViewModel.swift in Sources */,
 				3BB787782454CBDD003CBEED /* HymnNumberUtil.swift in Sources */,
 				3B45B904243BEC8400D38BEF /* SongResultView.swift in Sources */,
+				B5ED4E1B2487C46000BC911E /* TagSubSelectionView.swift in Sources */,
 				B5809DFA244F60FD00EF0C63 /* FavoritedEntity.swift in Sources */,
 				3B5935A8243584F700E6993C /* MetaDatum.swift in Sources */,
 				3BB1DCB5244D55770011169D /* SearchBar.swift in Sources */,
@@ -1324,6 +1343,7 @@
 				B5809DFC244F614000EF0C63 /* FavoritesViewModel.swift in Sources */,
 				3BB09207244A18F800EAE411 /* BaseSettingViewModel.swift in Sources */,
 				3B25C0E824503B6900C435E1 /* RecentSong.swift in Sources */,
+				B5ED4E192487C2C100BC911E /* TagSheetView.swift in Sources */,
 				3BADB42524822BDB008CEDAB /* BrowseTab.swift in Sources */,
 				3BA4612B24772B250068F269 /* SongInfoDialog.swift in Sources */,
 				5CA7849E242D14C800B57903 /* FavoritesView.swift in Sources */,

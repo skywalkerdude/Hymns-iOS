@@ -6,9 +6,9 @@ import Resolver
 protocol FavoritesStore {
     func storeFavorite(_ entity: FavoriteEntity)
 
-    func unstoreFavorite(_ entity: FavoriteEntity)
+   // func unstoreFavorite(_ entity: FavoriteEntity)
 
-    func deleteFavoriteObject(primaryKey: String)
+    func deleteFavoriteObject(primaryKey: String, tags: String)
 
     func favorites() -> Results<FavoriteEntity>
 
@@ -30,30 +30,20 @@ class FavoritesStoreRealmImpl: FavoritesStore {
     }
 
     func storeFavorite(_ entity: FavoriteEntity) {
+        print("bbug store called")
         do {
             try realm.write {
-                realm.add(entity, update: .modified)
+                realm.add(entity, update: .all)
             }
         } catch {
             analytics.logError(message: "error orccured when storing favorite", error: error, extraParameters: ["primaryKey": entity.primaryKey])
         }
     }
 
-    func unstoreFavorite(_ entity: FavoriteEntity) {
-        do {
-            try realm.write {
-                realm.add(entity, update: .modified)
-            }
-        } catch {
-            analytics.logError(message: "error orccured when storing favorite", error: error, extraParameters: ["primaryKey": entity.primaryKey])
-        }
-    }
-
-    func deleteFavoriteObject(primaryKey: String) {
-        guard let entityToDelete = realm.object(ofType: FavoriteEntity.self, forPrimaryKey: primaryKey) else {
-            analytics.logError(message: "tried to delete a favorite that doesn't exist", extraParameters: ["primaryKey": primaryKey])
-            return
-        }
+    func deleteFavoriteObject(primaryKey: String, tags: String) {
+        // Query using an NSPredicate
+        let predicate = NSPredicate(format: "tags CONTAINS[c] %@ AND primaryKey CONTAINS[c] %@", tags, primaryKey)
+        let entityToDelete = realm.objects(FavoriteEntity.self).filter(predicate)
 
         do {
             try realm.write {
@@ -69,29 +59,34 @@ class FavoritesStoreRealmImpl: FavoritesStore {
     }
 
 // MARK: Realm Query Functions
-    func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool {
-        guard let queriedObject = realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier)) else {
-            return false
+      func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool {
+            //let convertedKey = FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: "favorited")
+        return realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: "favorited")) != nil
         }
-        if queriedObject.tags.contains("favorited") {
-            return true
-        } else {
-            return false
-        }
-    }
 
     /**Function is used to call delete on the realm object if tags are all empty*/
     func isTagsEmpty(hymnIdentifier: HymnIdentifier) {
-        guard let queriedObject = realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier)) else {
-            return
-        }
-        if queriedObject.tags.isEmpty {
-            deleteFavoriteObject(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier))
+       let queriedObject = realm.objects(FavoriteEntity.self).filter("tags = 'favorited' AND primaryKey BEGINSWITH '\(hymnIdentifier)'")
+
+        if queriedObject.isEmpty {
+            deleteFavoriteObject(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: ""), tags: "")
             return
         } else {
             return
         }
     }
+
+//    func isTagsEmpty(hymnIdentifier: HymnIdentifier) {
+//        guard let queriedObject = realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier)) else {
+//            return
+//        }
+//        if queriedObject.tags.isEmpty {
+//            deleteFavoriteObject(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier))
+//            return
+//        } else {
+//            return
+//        }
+//    }
 
     func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification {
         return realm.observe { (_, _) in

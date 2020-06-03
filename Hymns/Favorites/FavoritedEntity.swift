@@ -13,7 +13,7 @@ class FavoriteEntity: Object, Identifiable {
 
     init(hymnIdentifier: HymnIdentifier, songTitle: String, tags: String) {
         super.init()
-        self.primaryKey = Self.createPrimaryKey(hymnIdentifier: hymnIdentifier)
+        self.primaryKey = Self.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: tags)
         self.hymnIdentifierEntity = HymnIdentifierEntity(hymnIdentifier)
         self.songTitle = songTitle
         self.tags = tags
@@ -21,7 +21,7 @@ class FavoriteEntity: Object, Identifiable {
 
     init(hymnIdentifier: HymnIdentifier, tags: String) {
         super.init()
-        self.primaryKey = Self.createPrimaryKey(hymnIdentifier: hymnIdentifier)
+        self.primaryKey = Self.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: tags)
         self.hymnIdentifierEntity = HymnIdentifierEntity(hymnIdentifier)
         self.songTitle = ""
         self.tags = tags
@@ -31,7 +31,7 @@ class FavoriteEntity: Object, Identifiable {
         return "primaryKey"
     }
 
-    static func createPrimaryKey(hymnIdentifier: HymnIdentifier) -> String {
-        return "\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())"
+    static func createPrimaryKey(hymnIdentifier: HymnIdentifier, tags: String) -> String {
+        return ("\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())" + tags)
     }
 }

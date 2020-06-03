@@ -20,6 +20,7 @@ struct BottomBarLabel_Previews: PreviewProvider {
 
 struct DisplayHymnBottomBar: View {
 
+    //TODO: REalm variables
     @Binding var dialogBuilder: (() -> AnyView)?
     @State private var actionSheet: ActionSheetItem?
     @State private var sheet: DisplayHymnSheet?
@@ -84,7 +85,9 @@ struct DisplayHymnBottomBar: View {
                     }
                 }
                 Group {
-                    Button(action: {}, label: {
+                    Button(action: {
+                        self.sheet = .tags
+                    }, label: {
                         BottomBarLabel(imageName: "tag")
                     })
                     Spacer()
@@ -170,10 +173,12 @@ struct DisplayHymnBottomBar: View {
                                 })
                             }) + [.cancel()])
                 }
-            }.sheet(item: $sheet) { tab -> ShareSheet in
+            }.sheet(item: $sheet) { tab -> AnyView in
                 switch tab {
                 case .share:
-                    return ShareSheet(activityItems: [self.viewModel.shareableLyrics])
+                    return ShareSheet(activityItems: [self.viewModel.shareableLyrics]).eraseToAnyView()
+                case .tags:
+                    return TagSheetView(title: self.viewModel.title, hymnIdentifier: self.viewModel.identifier).eraseToAnyView()
                 }
             }
         }
@@ -194,6 +199,7 @@ extension ActionSheetItem: Identifiable {
 
 enum DisplayHymnSheet: String {
     case share = "Share Lyrics"
+    case tags = "Tags"
 }
 
 extension DisplayHymnSheet: Identifiable {

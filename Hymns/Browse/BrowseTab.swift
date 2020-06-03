@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 
 enum BrowseTab {
+    case tags
     case classic
     case newTunes
     case newSongs
@@ -13,6 +14,8 @@ extension BrowseTab {
 
     var label: String {
         switch self {
+        case .tags:
+            return "Tags"
         case .classic:
             return "Classic Hymns"
         case .newTunes:
@@ -33,6 +36,8 @@ extension BrowseTab: TabItem {
 
     var content: AnyView {
         switch self {
+        case .tags:
+            return TagListView().eraseToAnyView()
         case .classic:
             return BrowseCategoriesView(viewModel: BrowseCategoriesViewModel(hymnType: .classic)).eraseToAnyView()
         case .newTunes:
