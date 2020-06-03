@@ -1,7 +1,7 @@
 import SwiftUI
 import Resolver
 
-struct TagSubSelectionList: View {
+struct TagSubList: View {
     let tagSelected: SongResultViewModel
     @ObservedObject private var viewModel: TagsViewModel
 

@@ -43,7 +43,7 @@ struct TagSheetView: View {
                                 ForEach(self.viewModel.tags, id: \.self) { tag in
                                     Button(action: {
                                         //TODO FIX Delete is deleting all the tags because the button when clicked is clicking all of them.
-                                        self.favoritesStore.deleteFavoriteObject(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: self.hymnIdentifier, tags: tag.title), tags: tag.title)
+                                        self.favoritesStore.deleteTag(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: self.hymnIdentifier, tags: tag.title), tags: tag.title)
                                         self.viewModel.fetchTagsByHymn(hymnSelected: self.hymnIdentifier)
                                     }, label: {
                                         HStack {

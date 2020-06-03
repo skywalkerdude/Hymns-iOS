@@ -15,7 +15,7 @@ struct TagListView: View {
                 EmptyView()
             } else {
                 List(self.unique) { tag in
-                    NavigationLink(destination: TagSubSelectionList(tagSelected: tag)) {
+                    NavigationLink(destination: TagSubList(tagSelected: tag)) {
                         SongResultView(viewModel: tag)
                     }
                 }.resignKeyboardOnDragGesture()
