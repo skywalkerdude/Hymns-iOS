@@ -64,13 +64,12 @@ class DisplayHymnViewModel: ObservableObject {
                     guard let self = self else { return }
                     guard let hymn = hymn else { return }
 
-                    var title: Title
+                    let title: Title
                     if self.identifier.hymnType == .classic {
-                        title = "Hymn \(self.identifier.hymnNumber): "
+                        title = "Hymn \(self.identifier.hymnNumber)"
                     } else {
-                        title = ""
+                        title = hymn.title.replacingOccurrences(of: "Hymn: ", with: "")
                     }
-                    title.append(hymn.title.replacingOccurrences(of: "Hymn: ", with: ""))
                     self.title = title
 
                     self.tabItems = [self.currentTab]
