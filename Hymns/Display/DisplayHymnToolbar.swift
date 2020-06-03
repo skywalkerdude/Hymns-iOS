@@ -14,8 +14,8 @@ struct DisplayHymnToolbar: View {
             Button(action: {
                 self.presentationMode.wrappedValue.dismiss()
             }, label: {
-                Image(systemName: "chevron.left").accentColor(.primary)
-            })
+                Image(systemName: "chevron.left").accentColor(.primary).frame(minWidth: 0).contentShape(Rectangle())
+            }).padding()
             Spacer()
             Text(viewModel.title).fontWeight(.bold)
             Spacer()
@@ -24,9 +24,9 @@ struct DisplayHymnToolbar: View {
                     self.viewModel.toggleFavorited()
                 }, label: {
                     isFavorited ? Image(systemName: "heart.fill").accentColor(.accentColor) : Image(systemName: "heart").accentColor(.primary)
-                })
+                }).padding()
             }
-        }.padding(.horizontal)
+        }
     }
 }
 
@@ -54,7 +54,7 @@ struct DisplayHymnToolbar_Previews: PreviewProvider {
             classic40.previewDisplayName("classic 40")
             classic1151.previewDisplayName("classic 1151")
             cupOfChrist.toPreviews("cup of christ")
-        }.previewLayout(.fixed(width: 400, height: 50))
+        }.previewLayout(.sizeThatFits)
     }
 }
 #endif
