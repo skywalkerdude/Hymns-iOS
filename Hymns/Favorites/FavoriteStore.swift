@@ -6,7 +6,7 @@ import Resolver
 protocol FavoritesStore {
     func storeFavorite(_ entity: FavoriteEntity)
 
-    func deleteFavoriteObject(primaryKey: String, tags: String)
+    func deleteTag(primaryKey: String, tags: String)
 
     func querySelectedTags(tagSelected: String?) -> Results<FavoriteEntity>
 
@@ -37,7 +37,7 @@ class FavoritesStoreRealmImpl: FavoritesStore {
         }
     }
 
-    func deleteFavoriteObject(primaryKey: String, tags: String) {
+    func deleteTag(primaryKey: String, tags: String) {
         let entityToDelete = realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags CONTAINS[c] %@ AND primaryKey CONTAINS[c] %@", tags, primaryKey))
 
         do {

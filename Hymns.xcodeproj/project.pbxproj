@@ -151,7 +151,7 @@
 		B5E61B34242E613D00EF497D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5E61B36242E613D00EF497D /* Localizable.strings */; };
 		B5ED4E172487C26300BC911E /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ED4E162487C26300BC911E /* TagListView.swift */; };
 		B5ED4E192487C2C100BC911E /* TagSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ED4E182487C2C100BC911E /* TagSheetView.swift */; };
-		B5ED4E1B2487C46000BC911E /* TagSubSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ED4E1A2487C46000BC911E /* TagSubSelectionView.swift */; };
+		B5ED4E1B2487C46000BC911E /* TagSubListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ED4E1A2487C46000BC911E /* TagSubListView.swift */; };
 		BB4C7E9E5879F6AF8CCA77D9 /* Pods_HymnsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C052BC4D7D8FB1033B79AAE7 /* Pods_HymnsTests.framework */; };
 		EF9D228545974074AF495E83 /* HymnsMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD96F2BF8386A9E600A9B55C /* HymnsMocks.generated.swift */; };
 /* End PBXBuildFile section */
@@ -334,7 +334,7 @@
 		B5E61B38242E630000EF497D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B5ED4E162487C26300BC911E /* TagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
 		B5ED4E182487C2C100BC911E /* TagSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSheetView.swift; sourceTree = "<group>"; };
-		B5ED4E1A2487C46000BC911E /* TagSubSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSubSelectionView.swift; sourceTree = "<group>"; };
+		B5ED4E1A2487C46000BC911E /* TagSubListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSubListView.swift; sourceTree = "<group>"; };
 		BE1FD226FF9481BAC9870F7E /* Pods-HymnsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HymnsTests.debug.xcconfig"; path = "Target Support Files/Pods-HymnsTests/Pods-HymnsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C052BC4D7D8FB1033B79AAE7 /* Pods_HymnsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HymnsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4175AB0D14C32B25C0FCFE4 /* Pods-Hymns.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns.release.xcconfig"; path = "Target Support Files/Pods-Hymns/Pods-Hymns.release.xcconfig"; sourceTree = "<group>"; };
@@ -861,7 +861,7 @@
 				B5809DFB244F614000EF0C63 /* TagsViewModel.swift */,
 				B5ED4E162487C26300BC911E /* TagListView.swift */,
 				B5ED4E182487C2C100BC911E /* TagSheetView.swift */,
-				B5ED4E1A2487C46000BC911E /* TagSubSelectionView.swift */,
+				B5ED4E1A2487C46000BC911E /* TagSubListView.swift */,
 			);
 			path = Tags;
 			sourceTree = "<group>";
@@ -1335,7 +1335,7 @@
 				B5A77A57247DA0D900447008 /* AudioPlayerViewModel.swift in Sources */,
 				3BB787782454CBDD003CBEED /* HymnNumberUtil.swift in Sources */,
 				3B45B904243BEC8400D38BEF /* SongResultView.swift in Sources */,
-				B5ED4E1B2487C46000BC911E /* TagSubSelectionView.swift in Sources */,
+				B5ED4E1B2487C46000BC911E /* TagSubListView.swift in Sources */,
 				B5809DFA244F60FD00EF0C63 /* FavoritedEntity.swift in Sources */,
 				3B5935A8243584F700E6993C /* MetaDatum.swift in Sources */,
 				3BB1DCB5244D55770011169D /* SearchBar.swift in Sources */,
