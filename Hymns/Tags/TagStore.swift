@@ -11,7 +11,7 @@ protocol TagStore {
     func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool
     func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
     func querySelectedTags(tagSelected: String?) -> Results<TagEntity>
-    func queryTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity>
+    func quereyTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity>
 }
 
 class TagStoreRealmImpl: TagStore {
@@ -76,9 +76,7 @@ class TagStoreRealmImpl: TagStore {
         }.toNotification()
     }
 
-    // MARK: Realm Query Functions
-
-    /** Can be used either with a value to specificially query for one tag or without the optional to query all tags besides favorites*/
+    /** Can be used either with a value to specificially query for one tag or without the optional to query all tags*/
     func querySelectedTags(tagSelected: String?) -> Results<TagEntity> {
         guard let specificTag = tagSelected else {
             return realm.objects(TagEntity.self)
@@ -86,9 +84,8 @@ class TagStoreRealmImpl: TagStore {
         return realm.objects(TagEntity.self).filter(NSPredicate(format: "tags == %@", specificTag))
     }
 
-    func queryTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity> {
-        let convertedKey = TagEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tag: "")
-        return realm.objects(TagEntity.self).filter(NSPredicate(format: "primaryKey CONTAINS[c] %@ AND tags != %@", convertedKey, "_*_favorited_*_"))
+    func quereyTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity> {
+        return realm.objects(TagEntity.self).filter(NSPredicate(format: "primaryKey CONTAINS[c] %@", ("\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())")))
     }
 }
 
