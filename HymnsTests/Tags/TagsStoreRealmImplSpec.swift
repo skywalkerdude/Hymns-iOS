@@ -50,13 +50,13 @@ class TagStoreRealmImplSpec: QuickSpec {
             }
             context("store a few tags") {
                 beforeEach {
-                    target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Christ"))
+                    target.storeRealmObject(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Christ"))
 
                     target
-                        .storeTag(TagEntity(hymnIdentifier: newSong145, songTitle: "Hymn: Jesus shall reign where\\u2019er the sun", tag: "Bread and wine"))
+                        .storeRealmObject(TagEntity(hymnIdentifier: newSong145, songTitle: "Hymn: Jesus shall reign where\\u2019er the sun", tag: "Bread and wine"))
 
                     target
-                        .storeTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "Table"))
+                        .storeRealmObject(TagEntity(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "Table"))
                 }
                 describe("getting all tags") {
                     it("should contain the stored songs sorted by last-stored") {
@@ -66,9 +66,9 @@ class TagStoreRealmImplSpec: QuickSpec {
                 }
                 describe("getting one hymns tags after storing multiple tags for that hymn") {
                     beforeEach {
-                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Is"))
-                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Life"))
-                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Peace"))
+                        target.storeRealmObject(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Is"))
+                        target.storeRealmObject(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Life"))
+                        target.storeRealmObject(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Peace"))
                     }
                     it("should contain a query number matching the number of tags for that hymn") {
                         let resultsOfQuery = target.queryTagsForHymn(hymnIdentifier: classic1151)

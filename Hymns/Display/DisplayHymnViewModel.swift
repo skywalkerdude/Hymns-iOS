@@ -133,7 +133,7 @@ class DisplayHymnViewModel: ObservableObject {
             if isFavorited {
                 tagStore.deleteFavorite(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: self.identifier))
             } else {
-                tagStore.storeFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.title))
+                tagStore.storeRealmObject(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.title))
             }
         }
     }

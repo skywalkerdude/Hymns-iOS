@@ -4,9 +4,8 @@ import RealmSwift
 import Resolver
 
 protocol TagStore {
-    func storeFavorite(_ entity: FavoriteEntity)
+    func storeRealmObject<T: Object>(_ entity: T)
     func deleteFavorite(primaryKey: String)
-    func storeTag(_ entity: TagEntity)
     func deleteTag(primaryKey: String, tags: String)
     func favorites() -> Results<FavoriteEntity>
     func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool
@@ -25,13 +24,13 @@ class TagStoreRealmImpl: TagStore {
         self.realm = realm
     }
 
-    func storeFavorite(_ entity: FavoriteEntity) {
+    func storeRealmObject<T: Object>(_ entity: T) {
         do {
             try realm.write {
                 realm.add(entity, update: .modified)
             }
         } catch {
-            analytics.logError(message: "error orccured when storing favorite", error: error, extraParameters: ["primaryKey": entity.primaryKey])
+            analytics.logError(message: "error orccured when storing favorite", error: error, extraParameters: ["primaryKey": "\(entity)"])
         }
     }
 
@@ -47,16 +46,6 @@ class TagStoreRealmImpl: TagStore {
             }
         } catch {
             analytics.logError(message: "error orccured when deleting favorite", error: error, extraParameters: ["primaryKey": primaryKey])
-        }
-    }
-
-    func storeTag(_ entity: TagEntity) {
-        do {
-            try realm.write {
-                realm.add(entity, update: .modified)
-            }
-        } catch {
-            analytics.logError(message: "error orccured when storing favorite", error: error, extraParameters: ["primaryKey": entity.primaryKey])
         }
     }
 
