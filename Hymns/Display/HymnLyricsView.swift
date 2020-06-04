@@ -11,7 +11,7 @@ public struct HymnLyricsView: View {
     public var body: some View {
         Group { () -> AnyView in
             guard let lyrics = viewModel.lyrics else {
-                return Text("error!").maxSize().eraseToAnyView()
+                return Text("Lyrics are not available for this song").maxSize().eraseToAnyView()
             }
 
             guard !lyrics.isEmpty else {
