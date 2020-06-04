@@ -27,7 +27,7 @@ struct FavoritesView: View {
             }
         }.onAppear {
             Analytics.setScreenName("FavoritesView", screenClass: "FavoritesViewModel")
-            self.viewModel.fetchFavorites("favorited")
+            self.viewModel.fetchFavorites("_*_favorited_*_")
         }
     }
 }

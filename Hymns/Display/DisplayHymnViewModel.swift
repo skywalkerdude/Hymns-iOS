@@ -133,9 +133,9 @@ class DisplayHymnViewModel: ObservableObject {
     func toggleFavorited() {
         isFavorited.map { isFavorited in
             if isFavorited {
-                favoritesStore.deleteTag(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: self.identifier, tags: "favorited"), tags: "favorited")
+                favoritesStore.deleteTag(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: self.identifier, tags: "_*_favorited_*_"), tags: "_*_favorited_*_")
             } else {
-                favoritesStore.storeFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.title, tags: "favorited"))
+                favoritesStore.storeFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.title, tags: "_*_favorited_*_"))
             }
         }
     }

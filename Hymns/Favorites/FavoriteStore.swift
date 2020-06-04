@@ -58,20 +58,20 @@ class FavoritesStoreRealmImpl: FavoritesStore {
 
     // MARK: Realm Query Functions
     func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool {
-        realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: "favorited")) != nil
+        realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: "_*_favorited_*_")) != nil
     }
 
     /** Can be used either with a value to specificially query for one tag or without the optional to query all tags besides favorites*/
     func querySelectedTags(tagSelected: String?) -> Results<FavoriteEntity> {
         guard let specificTag = tagSelected else {
-            return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags != 'favorited'"))
+            return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags != '_*_favorited_*_'"))
         }
         return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "tags == %@", specificTag))
     }
 
     func specificHymn(hymnIdentifier: HymnIdentifier) -> Results<FavoriteEntity> {
         let convertedKey = FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tags: "")
-        return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "primaryKey CONTAINS[c] %@ AND tags != %@", convertedKey, "favorited"))
+        return realm.objects(FavoriteEntity.self).filter(NSPredicate(format: "primaryKey CONTAINS[c] %@ AND tags != %@", convertedKey, "_*_favorited_*_"))
     }
 }
 
