@@ -35,9 +35,12 @@ class BrowseCategoriesViewModelSpec: QuickSpec {
                     testQueue.sync {}
                 }
                 it("should contain returned categories") {
-                    let expected = [CategoryViewModel(category: "Category 2", subcategories: ["Subcategory 1"]),
-                                    CategoryViewModel(category: "Category 3", subcategories: ["Subcategory 20"]),
-                                    CategoryViewModel(category: "Category 1", subcategories: ["Subcategory 1", "Subcategory 3", "Subcategory 4", "Subcategory 2"])]
+                    let expected = [CategoryViewModel(category: "Category 2", subcategories: [SubcategoryViewModel(subcategory: "Subcategory 1", count: 6)]),
+                                    CategoryViewModel(category: "Category 3", subcategories: [SubcategoryViewModel(subcategory: "Subcategory 20", count: 98)]),
+                                    CategoryViewModel(category: "Category 1", subcategories: [SubcategoryViewModel(subcategory: "Subcategory 1", count: 5),
+                                                                                              SubcategoryViewModel(subcategory: "Subcategory 3", count: 2),
+                                                                                              SubcategoryViewModel(subcategory: "Subcategory 4", count: 5),
+                                                                                              SubcategoryViewModel(subcategory: "Subcategory 2", count: 738)])]
                     expect(target.categories).to(equal(expected))
                 }
             }
