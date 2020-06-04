@@ -66,10 +66,14 @@ class DisplayHymnViewModelSpec: QuickSpec {
                             }
                             describe("fetching hymn") {
                                 beforeEach {
+                                    expect(target.isLoaded).to(beFalse())
                                     target.fetchHymn()
                                     testQueue.sync {}
                                     testQueue.sync {}
                                     testQueue.sync {}
+                                }
+                                it("should be done loading") {
+                                    expect(target.isLoaded).to(beTrue())
                                 }
                                 let expectedTitle = "Hymn 1151"
                                 it("title should be '\(expectedTitle)'") {
