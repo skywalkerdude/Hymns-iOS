@@ -3,19 +3,15 @@ import Foundation
 import RealmSwift
 import Resolver
 
-protocol FavoritesStore {
+protocol TagStore {
     func storeFavorite(_ entity: FavoriteEntity)
-
     func deleteFavorite(primaryKey: String)
-
     func favorites() -> Results<FavoriteEntity>
-
     func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool
-
     func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
 }
 
-class FavoritesStoreRealmImpl: FavoritesStore {
+class TagStoreRealmImpl: TagStore {
 
     private let analytics: AnalyticsLogger
     private let realm: Realm
@@ -67,16 +63,16 @@ class FavoritesStoreRealmImpl: FavoritesStore {
 }
 
 extension Resolver {
-    public static func registerFavoritesStore() {
-        register(FavoritesStore.self) {
+    public static func registerTagStore() {
+        register(TagStore.self) {
             // https://stackoverflow.com/questions/28465706/how-to-find-my-realm-file
             var url = Realm.Configuration.defaultConfiguration.fileURL
             url?.deleteLastPathComponent()
-            url?.appendPathComponent("favorites.realm")
+            url?.appendPathComponent("tags.realm")
             // If the Realm db is unable to be created, that's an unrecoverable error, so crashing the app is appropriate.
             // swiftlint:disable:next force_try
             let realm = try! Realm(fileURL: url!)
-            return FavoritesStoreRealmImpl(realm: realm) as FavoritesStore
+            return TagStoreRealmImpl(realm: realm) as TagStore
         }.scope(application)
     }
 }

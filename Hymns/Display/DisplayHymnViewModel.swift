@@ -17,36 +17,36 @@ class DisplayHymnViewModel: ObservableObject {
 
     private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue
-    private let favoritesStore: FavoritesStore
     private let historyStore: HistoryStore
     private let identifier: HymnIdentifier
     private let mainQueue: DispatchQueue
     private let pdfLoader: PDFLoader
     private let repository: HymnsRepository
     private let storeInHistoryStore: Bool
+    private let tagStore: TagStore
 
     private var favoritesObserver: Notification?
     private var disposables = Set<AnyCancellable>()
 
     init(analytics: AnalyticsLogger = Resolver.resolve(),
          backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
-         favoritesStore: FavoritesStore = Resolver.resolve(),
          hymnToDisplay identifier: HymnIdentifier,
          hymnsRepository repository: HymnsRepository = Resolver.resolve(),
          historyStore: HistoryStore = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
          pdfPreloader: PDFLoader = Resolver.resolve(),
-         storeInHistoryStore: Bool = false) {
+         storeInHistoryStore: Bool = false,
+         tagStore: TagStore = Resolver.resolve()) {
         self.analytics = analytics
         self.backgroundQueue = backgroundQueue
         self.currentTab = .lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: identifier)).maxSize().eraseToAnyView())
-        self.favoritesStore = favoritesStore
         self.historyStore = historyStore
         self.identifier = identifier
         self.mainQueue = mainQueue
         self.pdfLoader = pdfPreloader
         self.repository = repository
         self.storeInHistoryStore = storeInHistoryStore
+        self.tagStore = tagStore
     }
 
     deinit {
@@ -123,17 +123,17 @@ class DisplayHymnViewModel: ObservableObject {
     }
 
     func fetchFavoriteStatus() {
-        self.isFavorited = favoritesStore.isFavorite(hymnIdentifier: identifier)
-        favoritesObserver = favoritesStore.observeFavoriteStatus(hymnIdentifier: identifier) { isFavorited in
+        self.isFavorited = tagStore.isFavorite(hymnIdentifier: identifier)
+        favoritesObserver = tagStore.observeFavoriteStatus(hymnIdentifier: identifier) { isFavorited in
             self.isFavorited = isFavorited
         }
     }
     func toggleFavorited() {
         isFavorited.map { isFavorited in
             if isFavorited {
-                favoritesStore.deleteFavorite(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: self.identifier))
+                tagStore.deleteFavorite(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: self.identifier))
             } else {
-                favoritesStore.storeFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.title))
+                tagStore.storeFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.title))
             }
         }
     }
