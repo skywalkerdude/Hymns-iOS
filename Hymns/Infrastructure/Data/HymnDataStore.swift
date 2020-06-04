@@ -149,7 +149,7 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
     }
 
     func searchHymn(_ searchParameter: String) -> AnyPublisher<[SearchResultEntity], ErrorType> {
-        let pattern = FTS3Pattern(matchingAnyTokenIn: searchParameter)
+        let pattern = FTS3Pattern(matchingAllTokensIn: searchParameter)
 
         /*
          For each column, the length of the longest subsequence of phrase matches that the column value has in common with
