@@ -6,9 +6,12 @@ import Resolver
 protocol TagStore {
     func storeFavorite(_ entity: FavoriteEntity)
     func deleteFavorite(primaryKey: String)
+    func deleteTag(primaryKey: String, tags: String)
     func favorites() -> Results<FavoriteEntity>
     func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool
     func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
+    func querySelectedTags(tagSelected: String?) -> Results<TagEntity>
+    func queryTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity>
 }
 
 class TagStoreRealmImpl: TagStore {
@@ -46,6 +49,18 @@ class TagStoreRealmImpl: TagStore {
         }
     }
 
+    func deleteTag(primaryKey: String, tags: String) {
+           let entityToDelete = realm.objects(TagEntity.self).filter(NSPredicate(format: "tags CONTAINS[c] %@ AND primaryKey CONTAINS[c] %@", tags, primaryKey))
+
+               do {
+                   try realm.write {
+                       realm.delete(entityToDelete)
+                   }
+               } catch {
+                   analytics.logError(message: "error orccured when deleting tag", error: error, extraParameters: ["primaryKey": primaryKey])
+               }
+           }
+
     func favorites() -> Results<FavoriteEntity> {
         realm.objects(FavoriteEntity.self)
     }
@@ -59,6 +74,21 @@ class TagStoreRealmImpl: TagStore {
             let favorite = self.isFavorite(hymnIdentifier: hymnIdentifier)
             action(favorite)
         }.toNotification()
+    }
+
+    // MARK: Realm Query Functions
+
+    /** Can be used either with a value to specificially query for one tag or without the optional to query all tags besides favorites*/
+    func querySelectedTags(tagSelected: String?) -> Results<TagEntity> {
+        guard let specificTag = tagSelected else {
+            return realm.objects(TagEntity.self)
+        }
+        return realm.objects(TagEntity.self).filter(NSPredicate(format: "tags == %@", specificTag))
+    }
+
+    func queryTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity> {
+        let convertedKey = TagEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tag: "")
+        return realm.objects(TagEntity.self).filter(NSPredicate(format: "primaryKey CONTAINS[c] %@ AND tags != %@", convertedKey, "_*_favorited_*_"))
     }
 }
 
