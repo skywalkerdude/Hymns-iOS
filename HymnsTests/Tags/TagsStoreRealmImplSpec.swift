@@ -40,15 +40,12 @@ class TagStoreRealmImplSpec: QuickSpec {
 
                         let queryAllTags = target.querySelectedTags(tagSelected: nil)
                         expect(queryAllTags).to(haveCount(0))
-
-
                     }
                     it("should be 3 when we query FavoriteEntity") {
 
                         let queryAllFavorites = inMemoryRealm.objects(FavoriteEntity.self)
                         expect(queryAllFavorites).to(haveCount(3))
                     }
-
                 }
             }
             context("store a few tags") {
@@ -61,11 +58,21 @@ class TagStoreRealmImplSpec: QuickSpec {
                     target
                         .storeTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "Table"))
                 }
-                describe("getting all recent songs") {
+                describe("getting all tags") {
                     it("should contain the stored songs sorted by last-stored") {
-
                         let resultsOfQuery = target.querySelectedTags(tagSelected: nil)
                         expect(resultsOfQuery).to(haveCount(3))
+                    }
+                }
+                describe("getting one hymns tags after storing multiple tags for that hymn") {
+                    beforeEach {
+                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Is"))
+                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Life"))
+                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Peace"))
+                    }
+                    it("should contain a query number matching the number of tags for that hymn") {
+                        let resultsOfQuery = target.queryTagsForHymn(hymnIdentifier: classic1151)
+                        expect(resultsOfQuery).to(haveCount(4))
                     }
                 }
             }

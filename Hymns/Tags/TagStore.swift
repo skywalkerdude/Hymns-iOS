@@ -12,7 +12,7 @@ protocol TagStore {
     func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool
     func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
     func querySelectedTags(tagSelected: String?) -> Results<TagEntity>
-    func quereyTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity>
+    func queryTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity>
 }
 
 class TagStoreRealmImpl: TagStore {
@@ -95,7 +95,7 @@ class TagStoreRealmImpl: TagStore {
         return realm.objects(TagEntity.self).filter(NSPredicate(format: "tags == %@", specificTag))
     }
 
-    func quereyTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity> {
+    func queryTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity> {
         return realm.objects(TagEntity.self).filter(NSPredicate(format: "primaryKey CONTAINS[c] %@", ("\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())")))
     }
 }
