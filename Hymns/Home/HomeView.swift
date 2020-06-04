@@ -36,9 +36,7 @@ struct HomeView: View {
                     Spacer()
                     HStack {
                         Spacer()
-                        Image("empty search illustration").resizable()
-                            .aspectRatio(1, contentMode: .fit)
-                            .padding()
+                        Image("empty search illustration").resizable().aspectRatio(contentMode: .fit).padding()
                         Spacer()
                     }.padding(.horizontal)
                     Spacer()
