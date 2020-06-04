@@ -3,9 +3,9 @@ import Resolver
 
 struct TagSubList: View {
     let tagSelected: SongResultViewModel
-    @ObservedObject private var viewModel: TagsViewModel
+    @ObservedObject private var viewModel: TagListViewModel
 
-    init(viewModel: TagsViewModel = Resolver.resolve(), tagSelected: SongResultViewModel) {
+    init(viewModel: TagListViewModel = Resolver.resolve(), tagSelected: SongResultViewModel) {
         self.viewModel = viewModel
         self.tagSelected = tagSelected
     }

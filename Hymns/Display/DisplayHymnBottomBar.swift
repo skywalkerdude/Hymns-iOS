@@ -177,7 +177,7 @@ struct DisplayHymnBottomBar: View {
                 case .share:
                     return ShareSheet(activityItems: [self.viewModel.shareableLyrics]).eraseToAnyView()
                 case .tags:
-                    return TagSheetView(title: self.viewModel.title, hymnIdentifier: self.viewModel.identifier).eraseToAnyView()
+                    return TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: self.viewModel.identifier)).eraseToAnyView()
                 }
             }
         }

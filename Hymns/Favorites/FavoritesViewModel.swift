@@ -3,9 +3,9 @@ import SwiftUI
 import RealmSwift
 import Resolver
 
-class TagsViewModel: ObservableObject {
+class FavoritesViewModel: ObservableObject {
 
-    @Published var tags = [SongResultViewModel]()
+    @Published var favorites = [SongResultViewModel]()
 
     let objectWillChange = ObservableObjectPublisher()
     private var notificationToken: NotificationToken?
@@ -19,21 +19,21 @@ class TagsViewModel: ObservableObject {
         notificationToken?.invalidate()
     }
 
-    func fetchTagsByTags(_ tagSelected: String?) {
+    func fetchFavorites(_ tagSelected: String?) {
         let result: Results<FavoriteEntity> = favoritesStore.querySelectedTags(tagSelected: tagSelected)
 
         notificationToken = result.observe { _ in
             self.objectWillChange.send()
         }
 
-        tags = result.map { (tag) -> SongResultViewModel in
-            let identifier = HymnIdentifier(tag.hymnIdentifierEntity)
+        favorites = result.map { (favorite) -> SongResultViewModel in
+            let identifier = HymnIdentifier(favorite.hymnIdentifierEntity)
             var displayTitle = ""
 
             if tagSelected != nil {
-                displayTitle = tag.songTitle
+                displayTitle = favorite.songTitle
             } else {
-                displayTitle = tag.tags
+                displayTitle = favorite.tags
             }
 
             return SongResultViewModel(
@@ -41,25 +41,10 @@ class TagsViewModel: ObservableObject {
                 destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
         }
     }
-
-    func fetchTagsByHymn(hymnSelected: HymnIdentifier) {
-        let result: Results<FavoriteEntity> = favoritesStore.specificHymn(hymnIdentifier: hymnSelected)
-
-        notificationToken = result.observe { _ in
-            self.objectWillChange.send()
-        }
-
-        tags = result.map { (tag) -> SongResultViewModel in
-            let identifier = HymnIdentifier(tag.hymnIdentifierEntity)
-            return SongResultViewModel(
-                title: tag.tags,
-                destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
-        }
-    }
 }
 
 extension Resolver {
     public static func registerFavoritesViewModel() {
-        register {TagsViewModel()}.scope(graph)
+        register {FavoritesViewModel()}.scope(graph)
     }
 }

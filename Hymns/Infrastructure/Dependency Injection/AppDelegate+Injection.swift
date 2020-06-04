@@ -33,6 +33,8 @@ extension Resolver: ResolverRegistering {
         registerRepositories()
         registerHomeViewModel()
         registerFavoritesViewModel()
+        registerTagListViewModel()
+        registerTagSheetViewModel()
         registerSettingsViewModel()
     }
 }

@@ -3,9 +3,9 @@ import Resolver
 
 struct TagListView: View {
     @State var unique = [SongResultViewModel]()
-    @ObservedObject private var viewModel: TagsViewModel
+    @ObservedObject private var viewModel: TagListViewModel
 
-    init(viewModel: TagsViewModel = Resolver.resolve()) {
+    init(viewModel: TagListViewModel = Resolver.resolve()) {
         self.viewModel = viewModel
     }
 
@@ -43,4 +43,3 @@ struct TagListView_Previews: PreviewProvider {
         TagListView()
     }
 }
-

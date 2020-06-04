@@ -3,18 +3,12 @@ import Resolver
 
 struct TagSheetView: View {
 
-    @ObservedObject private var viewModel: TagsViewModel
+    @ObservedObject private var viewModel: TagSheetViewModel
     @Environment(\.presentationMode) var presentationMode
     @State private var tagNames = ""
-    let favoritesStore: FavoritesStore
-    private var title: String
-    private var hymnIdentifier: HymnIdentifier
 
-    init(title: String, hymnIdentifier: HymnIdentifier, viewModel: TagsViewModel = Resolver.resolve(), favoritesStore: FavoritesStore = Resolver.resolve()) {
-        self.hymnIdentifier = hymnIdentifier
-        self.title = title
+    init(viewModel: TagSheetViewModel) {
         self.viewModel = viewModel
-        self.favoritesStore = favoritesStore
     }
 
     var body: some View {
@@ -32,40 +26,43 @@ struct TagSheetView: View {
                 HStack {
                     TextField("Add tags", text: self.$tagNames)
                     Button("Add") {
-                        self.favoritesStore.storeFavorite(FavoriteEntity(hymnIdentifier: self.hymnIdentifier, songTitle: self.title, tags: self.tagNames))
-                        self.viewModel.fetchTagsByHymn(hymnSelected: self.hymnIdentifier)
-                    }
+                        self.viewModel.addTag(tagName: self.tagNames)
+                    }.disabled(tagNames.isEmpty)
                 }
             }
-            Section {
-                HStack {
-                    ForEach(self.viewModel.tags, id: \.self) { tag in
-                        Button(action: {
-                            //TODO FIX Delete is deleting all the tags because the button when clicked is clicking all of them.
-                            self.favoritesStore.deleteTag(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: self.hymnIdentifier, tags: tag.title), tags: tag.title)
-                            self.viewModel.fetchTagsByHymn(hymnSelected: self.hymnIdentifier)
-                        }, label: {
-                            HStack {
-                                SongResultView(viewModel: tag)
-                                Image(systemName: "xmark.circle")
-                            }
-                        })
-                            .padding()
-                            .foregroundColor(.primary)
-                            .background(Color.orange)
-                            .cornerRadius(.infinity)
-                            .lineLimit(1)
+            if self.viewModel.tags.isEmpty {
+                EmptyView()
+            } else {
+                Section {
+                    HStack {
+                        ForEach(self.viewModel.tags, id: \.self) { tag in
+                            Button(action: {
+                                //TODO FIX Delete is deleting all the tags because the button when clicked is clicking all of them.
+                                self.viewModel.deleteTag(tagTitle: tag.title)
+                            }, label: {
+                                HStack {
+                                    SongResultView(viewModel: tag)
+                                    Image(systemName: "xmark.circle")
+                                }
+                            })
+                                .padding()
+                                .foregroundColor(.primary)
+                                .background(Color.orange)
+                                .cornerRadius(.infinity)
+                                .lineLimit(1)
+                        }
                     }
                 }
             }
         }.onAppear {
-            self.viewModel.fetchTagsByHymn(hymnSelected: self.hymnIdentifier)
+            self.viewModel.fetchHymn()
+            self.viewModel.fetchTagsByHymn()
         }
     }
 }
 
 struct TagSheetView_Previews: PreviewProvider {
     static var previews: some View {
-        TagSheetView(title: "Lord's Table", hymnIdentifier: PreviewHymnIdentifiers.hymn1151)
+        TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
     }
 }
