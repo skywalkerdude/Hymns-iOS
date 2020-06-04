@@ -27,8 +27,11 @@ struct BrowseCategoriesView_Previews: PreviewProvider {
     static var previews: some View {
 
         let viewModel = BrowseCategoriesViewModel(hymnType: nil)
-        viewModel.categories = [CategoryViewModel(category: "Category 1", subcategories: ["Subcategory 1", "Subcategory 2"]),
-                                CategoryViewModel(category: "Category 2", subcategories: ["Subcategory 2", "Subcategory 3"])]
+        viewModel.categories
+            = [CategoryViewModel(category: "Category 1", subcategories: [SubcategoryViewModel(subcategory: "Subcategory 1", count: 15),
+                                                                         SubcategoryViewModel(subcategory: "Subcategory 2", count: 2)]),
+               CategoryViewModel(category: "Category 2", subcategories: [SubcategoryViewModel(subcategory: "Subcategory 2", count: 12),
+                                                                         SubcategoryViewModel(subcategory: "Subcategory 3", count: 1)])]
 
         return Group {
             BrowseCategoriesView(viewModel: viewModel)
