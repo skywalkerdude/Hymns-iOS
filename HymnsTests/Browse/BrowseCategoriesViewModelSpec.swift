@@ -35,12 +35,15 @@ class BrowseCategoriesViewModelSpec: QuickSpec {
                     testQueue.sync {}
                 }
                 it("should contain returned categories") {
-                    let expected = [CategoryViewModel(category: "Category 2", subcategories: [SubcategoryViewModel(subcategory: "Subcategory 1", count: 6)]),
-                                    CategoryViewModel(category: "Category 3", subcategories: [SubcategoryViewModel(subcategory: "Subcategory 20", count: 98)]),
-                                    CategoryViewModel(category: "Category 1", subcategories: [SubcategoryViewModel(subcategory: "Subcategory 1", count: 5),
+                    let expected = [CategoryViewModel(category: "Category 1", subcategories: [SubcategoryViewModel(subcategory: nil, count: 750),
+                                                                                              SubcategoryViewModel(subcategory: "Subcategory 1", count: 5),
                                                                                               SubcategoryViewModel(subcategory: "Subcategory 3", count: 2),
                                                                                               SubcategoryViewModel(subcategory: "Subcategory 4", count: 5),
-                                                                                              SubcategoryViewModel(subcategory: "Subcategory 2", count: 738)])]
+                                                                                              SubcategoryViewModel(subcategory: "Subcategory 2", count: 738)]),
+                                    CategoryViewModel(category: "Category 2", subcategories: [SubcategoryViewModel(subcategory: nil, count: 6),
+                                                                                              SubcategoryViewModel(subcategory: "Subcategory 1", count: 6)]),
+                                    CategoryViewModel(category: "Category 3", subcategories: [SubcategoryViewModel(subcategory: nil, count: 98),
+                                                                                              SubcategoryViewModel(subcategory: "Subcategory 20", count: 98)])]
                     expect(target.categories).to(equal(expected))
                 }
             }
