@@ -12,7 +12,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
             let testQueue = DispatchQueue(label: "test_queue")
             var dataStore: HymnDataStoreMock!
             var inMemoryRealm: Realm!
-            var tagStore: TagStoreRealmImpl!
+            var tagStore: TagStoreMock!
             var target: BrowseResultsListViewModel!
             beforeEach {
                 dataStore = mock(HymnDataStore.self)
@@ -85,7 +85,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                 beforeEach {
                     // swiftlint:disable:next force_try
                     inMemoryRealm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: "TagStoreRealmImplSpec"))
-                    tagStore = TagStoreRealmImpl(realm: inMemoryRealm)
+                    tagStore = TagStoreMock(realm: inMemoryRealm)
                     tagStore.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Cheery"))
                     tagStore.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "fanIntoFlames"))
                     tagStore.storeTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "fanIntoFlames"))

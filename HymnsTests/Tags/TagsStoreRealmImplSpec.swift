@@ -9,12 +9,12 @@ class TagStoreRealmImplSpec: QuickSpec {
     override func spec() {
         describe("using an in-memory realm") {
             var inMemoryRealm: Realm!
-            var target: TagStoreRealmImpl!
+            var target: TagStoreMock!
             beforeEach {
                 // Don't worry about force_try in tests.
                 // swiftlint:disable:next force_try
                 inMemoryRealm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: "TagStoreRealmImplSpec"))
-                target = TagStoreRealmImpl(realm: inMemoryRealm)
+                target = TagStoreMock(realm: inMemoryRealm)
             }
             afterEach {
                 // Don't worry about force_try in tests.
