@@ -31,16 +31,16 @@ class TagStoreRealmImpl: TagStore {
     }
 
     func deleteTag(primaryKey: String, tag: String) {
-           let entityToDelete = realm.objects(TagEntity.self).filter(NSPredicate(format: "tag CONTAINS[c] %@ AND primaryKey CONTAINS[c] %@", tag, primaryKey))
+        let entityToDelete = realm.objects(TagEntity.self).filter(NSPredicate(format: "tag CONTAINS[c] %@ AND primaryKey CONTAINS[c] %@", tag, primaryKey))
 
-               do {
-                   try realm.write {
-                       realm.delete(entityToDelete)
-                   }
-               } catch {
-                   analytics.logError(message: "error orccured when deleting tag", error: error, extraParameters: ["primaryKey": primaryKey])
-               }
-           }
+        do {
+            try realm.write {
+                realm.delete(entityToDelete)
+            }
+        } catch {
+            analytics.logError(message: "error orccured when deleting tag", error: error, extraParameters: ["primaryKey": primaryKey])
+        }
+    }
 
     /** Can be used either with a value to specificially query for one tag or without the optional to query all tags*/
     func querySelectedTags(tagSelected: String?) -> Results<TagEntity> {
