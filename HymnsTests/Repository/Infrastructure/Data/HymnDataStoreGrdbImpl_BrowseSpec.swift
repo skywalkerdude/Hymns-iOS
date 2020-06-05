@@ -166,6 +166,35 @@ class HymnDataStoreGrdbImpl_BrowseSpec: QuickSpec {
                     }
                 }
             }
+            describe("save some scripture songs") {
+                beforeEach {
+                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "1"), scriptures: "scripture"))
+                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "2"), scriptures: "scripture"))
+                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "3"), scriptures: "scripture"))
+                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .children, hymnNumber: "1"), scriptures: "scripture"))
+                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .children, hymnNumber: "no scripture")))
+                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .children, hymnNumber: "1"), scriptures: "scripture 2")) // replaces the previous children1 song
+                }
+                let expected = [ScriptureEntity(hymnType: .classic, hymnNumber: "1", queryParams: nil, scriptures: "scripture"),
+                                ScriptureEntity(hymnType: .classic, hymnNumber: "2", queryParams: nil, scriptures: "scripture"),
+                                ScriptureEntity(hymnType: .classic, hymnNumber: "3", queryParams: nil, scriptures: "scripture"),
+                                ScriptureEntity(hymnType: .children, hymnNumber: "1", queryParams: nil, scriptures: "scripture 2")]
+                it("should fetch songs with scripture references") {
+                    let completion = XCTestExpectation(description: "completion received")
+                    let value = XCTestExpectation(description: "value received")
+                    let publisher = target.getScriptureSongs()
+                        .print(self.description)
+                        .sink(receiveCompletion: { state in
+                            completion.fulfill()
+                            expect(state).to(equal(.finished))
+                        }, receiveValue: { scriptures in
+                            value.fulfill()
+                            expect(scriptures).to(equal(expected))
+                        })
+                    self.wait(for: [completion, value], timeout: testTimeout)
+                    publisher.cancel()
+                }
+            }
         }
     }
 }
