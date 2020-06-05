@@ -225,7 +225,7 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
 
     func getScriptureSongs() -> AnyPublisher<[ScriptureEntity], ErrorType> {
         databaseQueue.readPublisher { database in
-            try ScriptureEntity.fetchAll(database, sql: "SELECT SONG_TITLE, HYMN_TYPE, HYMN_NUMBER, QUERY_PARAMS, SONG_META_DATA_SCRIPTURES FROM SONG_DATA WHERE SONG_META_DATA_SCRIPTURES IS NOT NULL")
+            try ScriptureEntity.fetchAll(database, sql: "SELECT SONG_TITLE, HYMN_TYPE, HYMN_NUMBER, QUERY_PARAMS, SONG_META_DATA_SCRIPTURES FROM SONG_DATA WHERE SONG_META_DATA_SCRIPTURES IS NOT NULL AND SONG_TITLE IS NOT NULL")
         }.mapError({error -> ErrorType in
             .data(description: error.localizedDescription)
         }).eraseToAnyPublisher()
