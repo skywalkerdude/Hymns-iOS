@@ -68,7 +68,7 @@ extension Resolver {
             // https://stackoverflow.com/questions/28465706/how-to-find-my-realm-file
             var url = Realm.Configuration.defaultConfiguration.fileURL
             url?.deleteLastPathComponent()
-            url?.appendPathComponent("tags.realm")
+            url?.appendPathComponent("favorites.realm")
             // If the Realm db is unable to be created, that's an unrecoverable error, so crashing the app is appropriate.
             // swiftlint:disable:next force_try
             let realm = try! Realm(fileURL: url!)

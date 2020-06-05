@@ -1,19 +1,34 @@
 import SwiftUI
 import RealmSwift
 
-class FavoriteEntity: TagEntity {
-
-    private static let favoriteTag = "_*_favorited_*_"
+class FavoriteEntity: Object, Identifiable {
+    @objc dynamic var primaryKey: String!
+    @objc dynamic var hymnIdentifierEntity: HymnIdentifierEntity!
+    @objc dynamic var songTitle: String!
 
     required init() {
         super.init()
     }
 
     init(hymnIdentifier: HymnIdentifier, songTitle: String) {
-        super.init(hymnIdentifier: hymnIdentifier, songTitle: songTitle, tag: Self.favoriteTag)
+        super.init()
+        self.primaryKey = Self.createPrimaryKey(hymnIdentifier: hymnIdentifier)
+        self.hymnIdentifierEntity = HymnIdentifierEntity(hymnIdentifier)
+        self.songTitle = songTitle
+    }
+
+    init(hymnIdentifier: HymnIdentifier) {
+        super.init()
+        self.primaryKey = Self.createPrimaryKey(hymnIdentifier: hymnIdentifier)
+        self.hymnIdentifierEntity = HymnIdentifierEntity(hymnIdentifier)
+        self.songTitle = ""
+    }
+
+    override static func primaryKey() -> String? {
+        return "primaryKey"
     }
 
     static func createPrimaryKey(hymnIdentifier: HymnIdentifier) -> String {
-        return TagEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tag: favoriteTag)
+        return "\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())"
     }
 }

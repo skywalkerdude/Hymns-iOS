@@ -23,7 +23,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
             describe("fetching hymn") {
                 context("with nil repository result") {
                     beforeEach {
-                        target = DisplayHymnViewModel(backgroundQueue: testQueue, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore, pdfPreloader: pdfLoader, favoriteStore: favoriteStore)
+                        target = DisplayHymnViewModel(backgroundQueue: testQueue, favoriteStore: favoriteStore, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore, pdfPreloader: pdfLoader)
                         given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                             Just(nil).assertNoFailure().eraseToAnyPublisher()
                         }
@@ -52,8 +52,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                 context("with valid repository results") {
                     context("for a classic hymn 1151 and store in recent songs") {
                         beforeEach {
-                            target = DisplayHymnViewModel(backgroundQueue: testQueue, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore,
-                                                          mainQueue: testQueue, pdfPreloader: pdfLoader, storeInHistoryStore: true, favoriteStore: favoriteStore)
+                            target = DisplayHymnViewModel(backgroundQueue: testQueue, favoriteStore: favoriteStore, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore,
+                                                          mainQueue: testQueue, pdfPreloader: pdfLoader, storeInHistoryStore: true)
                             let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: [Verse](), pdfSheet: Hymns.MetaDatum(name: "Lead Sheet", data: [Hymns.Datum(value: "Piano", path: "/en/hymn/c/1151/f=ppdf"), Hymns.Datum(value: "Guitar", path: "/en/hymn/c/1151/f=pdf"), Hymns.Datum(value: "Text", path: "/en/hymn/c/1151/f=gtpdf")]))
                             given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                                 Just(hymn).assertNoFailure().eraseToAnyPublisher()
@@ -125,8 +125,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                     }
                     context("for new song 145") {
                         beforeEach {
-                            target = DisplayHymnViewModel(backgroundQueue: testQueue, hymnToDisplay: newSong145, hymnsRepository: hymnsRepository, historyStore: historyStore,
-                                                          mainQueue: testQueue, pdfPreloader: pdfLoader, favoriteStore: favoriteStore)
+                            target = DisplayHymnViewModel(backgroundQueue: testQueue, favoriteStore: favoriteStore, hymnToDisplay: newSong145, hymnsRepository: hymnsRepository, historyStore: historyStore,
+                                                          mainQueue: testQueue, pdfPreloader: pdfLoader)
                         }
                         let expectedTitle = "In my spirit, I can see You as You are"
                         context("title contains 'Hymn: '") {

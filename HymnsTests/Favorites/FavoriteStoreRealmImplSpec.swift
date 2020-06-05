@@ -36,7 +36,7 @@ class FavoriteStoreRealmImplSpec: QuickSpec {
                         .storeFavorite(FavoriteEntity(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014"))
                 }
                 describe("get the list of all favorites") {
-                    it("should return a bool when we query if it is favorited") {
+                    it("cebuano123 should be favorited") {
 
                         let queryAllTags = target.isFavorite(hymnIdentifier: cebuano123)
                         expect(queryAllTags).to(equal(true))

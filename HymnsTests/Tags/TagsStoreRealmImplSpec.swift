@@ -35,12 +35,12 @@ class TagStoreRealmImplSpec: QuickSpec {
                         .storeTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "Table"))
                 }
                 describe("getting all tags") {
-                    it("should contain the stored songs sorted by last-stored") {
+                    it("should contain all of the stored hymns") {
                         let resultsOfQuery = target.querySelectedTags(tagSelected: nil)
                         expect(resultsOfQuery).to(haveCount(3))
                     }
                 }
-                describe("getting one hymns tags after storing multiple tags for that hymn") {
+                describe("getting one hymn's tags after storing multiple tags for that hymn") {
                     beforeEach {
                         target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Is"))
                         target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Life"))
@@ -49,6 +49,15 @@ class TagStoreRealmImplSpec: QuickSpec {
                     it("should contain a query number matching the number of tags for that hymn") {
                         let resultsOfQuery = target.queryTagsForHymn(hymnIdentifier: classic1151)
                         expect(resultsOfQuery).to(haveCount(4))
+                    }
+                }
+                describe("deleting a tag") {
+                    it("should delete the tag") {
+                        let queryBeforeDelete = target.querySelectedTags(tagSelected: "Table")
+                        expect(queryBeforeDelete).to(haveCount(1))
+                        target.deleteTag(primaryKey: TagEntity.createPrimaryKey(hymnIdentifier: cebuano123, tag: ""), tag: "Table")
+                        let queryAfterDelete = target.querySelectedTags(tagSelected: "Table")
+                        expect(queryAfterDelete).to(haveCount(0))
                     }
                 }
             }

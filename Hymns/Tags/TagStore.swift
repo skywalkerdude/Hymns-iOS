@@ -5,7 +5,7 @@ import Resolver
 
 protocol TagStore {
     func storeTag(_ entity: TagEntity)
-    func deleteTag(primaryKey: String, tags: String)
+    func deleteTag(primaryKey: String, tag: String)
     func observeTagStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
     func querySelectedTags(tagSelected: String?) -> Results<TagEntity>
     func queryTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity>
@@ -31,8 +31,8 @@ class TagStoreRealmImpl: TagStore {
         }
     }
 
-    func deleteTag(primaryKey: String, tags: String) {
-           let entityToDelete = realm.objects(TagEntity.self).filter(NSPredicate(format: "tags CONTAINS[c] %@ AND primaryKey CONTAINS[c] %@", tags, primaryKey))
+    func deleteTag(primaryKey: String, tag: String) {
+           let entityToDelete = realm.objects(TagEntity.self).filter(NSPredicate(format: "tag CONTAINS[c] %@ AND primaryKey CONTAINS[c] %@", tag, primaryKey))
 
                do {
                    try realm.write {
@@ -59,7 +59,7 @@ class TagStoreRealmImpl: TagStore {
         guard let specificTag = tagSelected else {
             return realm.objects(TagEntity.self)
         }
-        return realm.objects(TagEntity.self).filter(NSPredicate(format: "tags == %@", specificTag))
+        return realm.objects(TagEntity.self).filter(NSPredicate(format: "tag == %@", specificTag))
     }
 
     func queryTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity> {
