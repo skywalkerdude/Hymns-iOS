@@ -21,6 +21,7 @@ protocol HymnDataStore {
     func getAllCategories() -> AnyPublisher<[CategoryEntity], ErrorType>
     func getCategories(by hymnType: HymnType) -> AnyPublisher<[CategoryEntity], ErrorType>
     func getResultsBy(category: String, hymnType: HymnType?, subcategory: String?) -> AnyPublisher<[SongResultEntity], ErrorType>
+    func getScriptureSongs() -> AnyPublisher<[ScriptureEntity], ErrorType>
 }
 
 /**
@@ -167,7 +168,7 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
     }
 
     func getAllCategories() -> AnyPublisher<[CategoryEntity], ErrorType> {
-        return databaseQueue.readPublisher { database in
+        databaseQueue.readPublisher { database in
             try CategoryEntity.fetchAll(database,
                                         sql: "SELECT DISTINCT SONG_META_DATA_CATEGORY, SONG_META_DATA_SUBCATEGORY, COUNT(1) FROM SONG_DATA WHERE SONG_META_DATA_CATEGORY IS NOT NULL AND SONG_META_DATA_SUBCATEGORY IS NOT NULL GROUP BY 1, 2")
         }.mapError({error -> ErrorType in
@@ -176,7 +177,7 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
     }
 
     func getCategories(by hymnType: HymnType) -> AnyPublisher<[CategoryEntity], ErrorType> {
-        return databaseQueue.readPublisher { database in
+        databaseQueue.readPublisher { database in
             try CategoryEntity.fetchAll(database,
                                         sql: "SELECT DISTINCT SONG_META_DATA_CATEGORY, SONG_META_DATA_SUBCATEGORY, COUNT(1) FROM SONG_DATA WHERE SONG_META_DATA_CATEGORY IS NOT NULL AND SONG_META_DATA_SUBCATEGORY IS NOT NULL AND HYMN_TYPE = ? GROUP BY 1, 2",
                                         arguments: [hymnType.abbreviatedValue])
@@ -218,6 +219,14 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
             }
         }
         return publisher.mapError({error -> ErrorType in
+            .data(description: error.localizedDescription)
+        }).eraseToAnyPublisher()
+    }
+
+    func getScriptureSongs() -> AnyPublisher<[ScriptureEntity], ErrorType> {
+        databaseQueue.readPublisher { database in
+            try ScriptureEntity.fetchAll(database, sql: "SELECT SONG_TITLE, HYMN_TYPE, HYMN_NUMBER, QUERY_PARAMS, SONG_META_DATA_SCRIPTURES FROM SONG_DATA WHERE SONG_META_DATA_SCRIPTURES IS NOT NULL")
+        }.mapError({error -> ErrorType in
             .data(description: error.localizedDescription)
         }).eraseToAnyPublisher()
     }
