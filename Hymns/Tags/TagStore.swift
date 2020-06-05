@@ -4,12 +4,9 @@ import RealmSwift
 import Resolver
 
 protocol TagStore {
-    func storeRealmObject<T: Object>(_ entity: T)
-    func deleteFavorite(primaryKey: String)
+    func storeTag(_ entity: TagEntity)
     func deleteTag(primaryKey: String, tags: String)
-    func favorites() -> Results<FavoriteEntity>
-    func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool
-    func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
+    func observeTagStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
     func querySelectedTags(tagSelected: String?) -> Results<TagEntity>
     func queryTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity>
 }
@@ -24,28 +21,13 @@ class TagStoreRealmImpl: TagStore {
         self.realm = realm
     }
 
-    func storeRealmObject<T: Object>(_ entity: T) {
+    func storeTag(_ entity: TagEntity) {
         do {
             try realm.write {
                 realm.add(entity, update: .modified)
             }
         } catch {
-            analytics.logError(message: "error orccured when storing favorite", error: error, extraParameters: ["primaryKey": "\(entity)"])
-        }
-    }
-
-    func deleteFavorite(primaryKey: String) {
-        guard let entityToDelete = realm.object(ofType: FavoriteEntity.self, forPrimaryKey: primaryKey) else {
-            analytics.logError(message: "tried to delete a favorite that doesn't exist", extraParameters: ["primaryKey": primaryKey])
-            return
-        }
-
-        do {
-            try realm.write {
-                realm.delete(entityToDelete)
-            }
-        } catch {
-            analytics.logError(message: "error orccured when deleting favorite", error: error, extraParameters: ["primaryKey": primaryKey])
+            analytics.logError(message: "error orccured when storing favorite", error: error, extraParameters: ["primaryKey": entity.primaryKey])
         }
     }
 
@@ -61,17 +43,13 @@ class TagStoreRealmImpl: TagStore {
                }
            }
 
-    func favorites() -> Results<FavoriteEntity> {
-        realm.objects(FavoriteEntity.self)
+    func isTagged(hymnIdentifier: HymnIdentifier) -> Bool {
+        return realm.object(ofType: TagEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier)) != nil
     }
 
-    func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool {
-        return realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier)) != nil
-    }
-
-    func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification {
+    func observeTagStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification {
         return realm.observe { (_, _) in
-            let favorite = self.isFavorite(hymnIdentifier: hymnIdentifier)
+            let favorite = self.isTagged(hymnIdentifier: hymnIdentifier)
             action(favorite)
         }.toNotification()
     }

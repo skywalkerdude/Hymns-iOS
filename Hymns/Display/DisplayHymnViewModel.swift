@@ -23,7 +23,7 @@ class DisplayHymnViewModel: ObservableObject {
     private let pdfLoader: PDFLoader
     private let repository: HymnsRepository
     private let storeInHistoryStore: Bool
-    private let tagStore: TagStore
+    private let favoriteStore: FavoriteStore
 
     private var favoritesObserver: Notification?
     private var disposables = Set<AnyCancellable>()
@@ -36,7 +36,7 @@ class DisplayHymnViewModel: ObservableObject {
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
          pdfPreloader: PDFLoader = Resolver.resolve(),
          storeInHistoryStore: Bool = false,
-         tagStore: TagStore = Resolver.resolve()) {
+         favoriteStore: FavoriteStore = Resolver.resolve()) {
         self.analytics = analytics
         self.backgroundQueue = backgroundQueue
         self.currentTab = .lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: identifier)).maxSize().eraseToAnyView())
@@ -46,7 +46,7 @@ class DisplayHymnViewModel: ObservableObject {
         self.pdfLoader = pdfPreloader
         self.repository = repository
         self.storeInHistoryStore = storeInHistoryStore
-        self.tagStore = tagStore
+        self.favoriteStore = favoriteStore
     }
 
     deinit {
@@ -123,17 +123,17 @@ class DisplayHymnViewModel: ObservableObject {
     }
 
     func fetchFavoriteStatus() {
-        self.isFavorited = tagStore.isFavorite(hymnIdentifier: identifier)
-        favoritesObserver = tagStore.observeFavoriteStatus(hymnIdentifier: identifier) { isFavorited in
+        self.isFavorited = favoriteStore.isFavorite(hymnIdentifier: identifier)
+        favoritesObserver = favoriteStore.observeFavoriteStatus(hymnIdentifier: identifier) { isFavorited in
             self.isFavorited = isFavorited
         }
     }
     func toggleFavorited() {
         isFavorited.map { isFavorited in
             if isFavorited {
-                tagStore.deleteFavorite(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: self.identifier))
+                favoriteStore.deleteFavorite(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: self.identifier))
             } else {
-                tagStore.storeRealmObject(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.title))
+                favoriteStore.storeFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.title))
             }
         }
     }

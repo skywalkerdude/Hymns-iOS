@@ -153,6 +153,8 @@
 		B5A00F5F245277E300F7E3E1 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A00F5E245277E300F7E3E1 /* ActivityIndicator.swift */; };
 		B5A77A57247DA0D900447008 /* AudioPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A77A56247DA0D900447008 /* AudioPlayerViewModel.swift */; };
 		B5C0A5962489A76A0048FA46 /* TagsStoreRealmImplSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C0A5952489A7690048FA46 /* TagsStoreRealmImplSpec.swift */; };
+		B5C0A5982489BD140048FA46 /* FavoriteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C0A5972489BD140048FA46 /* FavoriteStore.swift */; };
+		B5C0A59B2489C0590048FA46 /* FavoriteStoreRealmImplSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C0A59A2489C0590048FA46 /* FavoriteStoreRealmImplSpec.swift */; };
 		B5C35EFA247AA4D600EF6AA9 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C35EF9247AA4D600EF6AA9 /* ShareSheet.swift */; };
 		B5E61B34242E613D00EF497D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5E61B36242E613D00EF497D /* Localizable.strings */; };
 		BB4C7E9E5879F6AF8CCA77D9 /* Pods_HymnsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C052BC4D7D8FB1033B79AAE7 /* Pods_HymnsTests.framework */; };
@@ -337,6 +339,8 @@
 		B5A00F5E245277E300F7E3E1 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		B5A77A56247DA0D900447008 /* AudioPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerViewModel.swift; sourceTree = "<group>"; };
 		B5C0A5952489A7690048FA46 /* TagsStoreRealmImplSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsStoreRealmImplSpec.swift; sourceTree = "<group>"; };
+		B5C0A5972489BD140048FA46 /* FavoriteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStore.swift; sourceTree = "<group>"; };
+		B5C0A59A2489C0590048FA46 /* FavoriteStoreRealmImplSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStoreRealmImplSpec.swift; sourceTree = "<group>"; };
 		B5C35EF9247AA4D600EF6AA9 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		B5E61B35242E613D00EF497D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B5E61B37242E62F600EF497D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -515,6 +519,7 @@
 		3B1B902B2429CF57009FDCC5 /* HymnsTests */ = {
 			isa = PBXGroup;
 			children = (
+				B5C0A5992489C0440048FA46 /* Favorites */,
 				B5C0A5942489A7310048FA46 /* Tags */,
 				B560B615243F978D00FD5867 /* MasterTestPlan.xctestplan */,
 				3B09F902243D4D8000252C15 /* Test Utilities */,
@@ -845,6 +850,7 @@
 				5CA7849D242D14C800B57903 /* FavoritesView.swift */,
 				B5809DF9244F60FD00EF0C63 /* FavoriteEntity.swift */,
 				B5809DFB244F614000EF0C63 /* FavoritesViewModel.swift */,
+				B5C0A5972489BD140048FA46 /* FavoriteStore.swift */,
 			);
 			path = Favorites;
 			sourceTree = "<group>";
@@ -866,6 +872,14 @@
 				B5C0A5952489A7690048FA46 /* TagsStoreRealmImplSpec.swift */,
 			);
 			path = Tags;
+			sourceTree = "<group>";
+		};
+		B5C0A5992489C0440048FA46 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				B5C0A59A2489C0590048FA46 /* FavoriteStoreRealmImplSpec.swift */,
+			);
+			path = Favorites;
 			sourceTree = "<group>";
 		};
 		B5EBBB2124758E2A00780F40 /* Setup Files */ = {
@@ -1315,6 +1329,7 @@
 				3B59359B243544EF00E6993C /* HymnalApiService.swift in Sources */,
 				3B2E84B3246FA87D00EA4329 /* SearchResultEntity.swift in Sources */,
 				B5838BCC247AF065003B85E9 /* BottomSheetView.swift in Sources */,
+				B5C0A5982489BD140048FA46 /* FavoriteStore.swift in Sources */,
 				3BE9EE9A244AC22C0098699E /* PrivacyPolicySettingViewModel.swift in Sources */,
 				3B04D2FC24898137008C7E5E /* TagEntity.swift in Sources */,
 				3B369CEC246D07580068A29C /* PDFViewer.swift in Sources */,
@@ -1410,6 +1425,7 @@
 				3B7D0C7F24668F6E00C23735 /* HomeViewModelSearchSpec.swift in Sources */,
 				3B09F901243D3BDC00252C15 /* HymnalApiService_SearchTest.swift in Sources */,
 				3B09F909243D806500252C15 /* TestHymns.swift in Sources */,
+				B5C0A59B2489C0590048FA46 /* FavoriteStoreRealmImplSpec.swift in Sources */,
 				3BDBEAA4247A3FC0007D903A /* HomeViewModelTest.swift in Sources */,
 				3BF3BDC62467C39A0046228C /* HymnsRepositoryImpl_dbInitialized_dbMissTests.swift in Sources */,
 				3B575699243EA4DB007013FE /* RegexUtilSpec.swift in Sources */,

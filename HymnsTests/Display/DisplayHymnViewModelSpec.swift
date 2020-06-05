@@ -10,20 +10,20 @@ class DisplayHymnViewModelSpec: QuickSpec {
         describe("DisplayHymnViewModel") {
             let testQueue = DispatchQueue(label: "test_queue")
             var hymnsRepository: HymnsRepositoryMock!
-            var tagStore: TagStoreMock!
+            var favoriteStore: FavoriteStoreMock!
             var historyStore: HistoryStoreMock!
             var target: DisplayHymnViewModel!
             var pdfLoader: PDFLoaderMock!
             beforeEach {
                 hymnsRepository = mock(HymnsRepository.self)
-                tagStore = mock(TagStore.self)
+                favoriteStore = mock(FavoriteStore.self)
                 historyStore = mock(HistoryStore.self)
                 pdfLoader = mock(PDFLoader.self)
             }
             describe("fetching hymn") {
                 context("with nil repository result") {
                     beforeEach {
-                        target = DisplayHymnViewModel(backgroundQueue: testQueue, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore, pdfPreloader: pdfLoader, tagStore: tagStore)
+                        target = DisplayHymnViewModel(backgroundQueue: testQueue, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore, pdfPreloader: pdfLoader, favoriteStore: favoriteStore)
                         given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                             Just(nil).assertNoFailure().eraseToAnyPublisher()
                         }
@@ -53,7 +53,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                     context("for a classic hymn 1151 and store in recent songs") {
                         beforeEach {
                             target = DisplayHymnViewModel(backgroundQueue: testQueue, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore,
-                                                          mainQueue: testQueue, pdfPreloader: pdfLoader, storeInHistoryStore: true, tagStore: tagStore)
+                                                          mainQueue: testQueue, pdfPreloader: pdfLoader, storeInHistoryStore: true, favoriteStore: favoriteStore)
                             let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: [Verse](), pdfSheet: Hymns.MetaDatum(name: "Lead Sheet", data: [Hymns.Datum(value: "Piano", path: "/en/hymn/c/1151/f=ppdf"), Hymns.Datum(value: "Guitar", path: "/en/hymn/c/1151/f=pdf"), Hymns.Datum(value: "Text", path: "/en/hymn/c/1151/f=gtpdf")]))
                             given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                                 Just(hymn).assertNoFailure().eraseToAnyPublisher()
@@ -61,8 +61,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                         }
                         context("is favorited") {
                             beforeEach {
-                                given(tagStore.isFavorite(hymnIdentifier: classic1151)) ~> true
-                                given(tagStore.observeFavoriteStatus(hymnIdentifier: classic1151, action: any())) ~> mock(Notification.self)
+                                given(favoriteStore.isFavorite(hymnIdentifier: classic1151)) ~> true
+                                given(favoriteStore.observeFavoriteStatus(hymnIdentifier: classic1151, action: any())) ~> mock(Notification.self)
                             }
                             describe("fetching hymn") {
                                 beforeEach {
@@ -84,11 +84,11 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                 it("should be favorited") {
                                     expect(target.isFavorited).to(beTrue())
                                 }
-                                it("should call tagStore.isFavorite") {
-                                    verify(tagStore.isFavorite(hymnIdentifier: classic1151)).wasCalled(exactly(1))
+                                it("should call favoriteStore.isFavorite") {
+                                    verify(favoriteStore.isFavorite(hymnIdentifier: classic1151)).wasCalled(exactly(1))
                                 }
                                 it("should observe its favorite status") {
-                                    verify(tagStore.observeFavoriteStatus(hymnIdentifier: classic1151, action: any())).wasCalled(exactly(1))
+                                    verify(favoriteStore.observeFavoriteStatus(hymnIdentifier: classic1151, action: any())).wasCalled(exactly(1))
                                 }
                                 let chordsUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=gtpdf")!
                                 it("chords url should be prefetched") {
@@ -126,7 +126,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                     context("for new song 145") {
                         beforeEach {
                             target = DisplayHymnViewModel(backgroundQueue: testQueue, hymnToDisplay: newSong145, hymnsRepository: hymnsRepository, historyStore: historyStore,
-                                                          mainQueue: testQueue, pdfPreloader: pdfLoader, tagStore: tagStore)
+                                                          mainQueue: testQueue, pdfPreloader: pdfLoader, favoriteStore: favoriteStore)
                         }
                         let expectedTitle = "In my spirit, I can see You as You are"
                         context("title contains 'Hymn: '") {
@@ -138,8 +138,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                             }
                             context("is not favorited") {
                                 beforeEach {
-                                    given(tagStore.isFavorite(hymnIdentifier: newSong145)) ~> false
-                                    given(tagStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())) ~> mock(Notification.self)
+                                    given(favoriteStore.isFavorite(hymnIdentifier: newSong145)) ~> false
+                                    given(favoriteStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())) ~> mock(Notification.self)
                                 }
                                 describe("fetching hymn") {
                                     beforeEach {
@@ -160,11 +160,11 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                     it("should not be favorited") {
                                         expect(target.isFavorited).to(beFalse())
                                     }
-                                    it("should call tagStore.isFavorite") {
-                                        verify(tagStore.isFavorite(hymnIdentifier: newSong145)).wasCalled(exactly(1))
+                                    it("should call favoriteStore.isFavorite") {
+                                        verify(favoriteStore.isFavorite(hymnIdentifier: newSong145)).wasCalled(exactly(1))
                                     }
                                     it("should observe its favorite status") {
-                                        verify(tagStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())).wasCalled(exactly(1))
+                                        verify(favoriteStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())).wasCalled(exactly(1))
                                     }
                                     let chordsUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=gtpdf")!
                                     it("chords url should be prefetched") {
@@ -202,8 +202,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                 given(hymnsRepository.getHymn(newSong145)) ~> { _ in
                                     Just(hymnWithoutSheetMusic).assertNoFailure().eraseToAnyPublisher()
                                 }
-                                given(tagStore.isFavorite(hymnIdentifier: newSong145)) ~> false
-                                given(tagStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())) ~> mock(Notification.self)
+                                given(favoriteStore.isFavorite(hymnIdentifier: newSong145)) ~> false
+                                given(favoriteStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())) ~> mock(Notification.self)
                             }
                             describe("fetching hymn") {
                                 beforeEach {
@@ -223,8 +223,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                             }
                             context("favorite status updated from true to false") {
                                 beforeEach {
-                                    given(tagStore.isFavorite(hymnIdentifier: newSong145)) ~> true
-                                    given(tagStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())) ~> { (hymnIdentifier, action) in
+                                    given(favoriteStore.isFavorite(hymnIdentifier: newSong145)) ~> true
+                                    given(favoriteStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())) ~> { (hymnIdentifier, action) in
                                         action(false)
                                         return mock(Notification.self)
                                     }
@@ -248,11 +248,11 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                     it("should not be favorited") {
                                         expect(target.isFavorited).to(beFalse())
                                     }
-                                    it("should call tagStore.isFavorite") {
-                                        verify(tagStore.isFavorite(hymnIdentifier: newSong145)).wasCalled(exactly(1))
+                                    it("should call favoriteStore.isFavorite") {
+                                        verify(favoriteStore.isFavorite(hymnIdentifier: newSong145)).wasCalled(exactly(1))
                                     }
                                     it("should observe its favorite status") {
-                                        verify(tagStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())).wasCalled(exactly(1))
+                                        verify(favoriteStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())).wasCalled(exactly(1))
                                     }
                                     it("should have one tab") {
                                         // tabItems should be one because this call is without sheet music
