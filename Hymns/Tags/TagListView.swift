@@ -17,7 +17,7 @@ struct TagListView: View {
                 }
             }.resignKeyboardOnDragGesture()
         }.onAppear {
-            self.viewModel.fetchTagsByTags(nil)
+            self.viewModel.fetchUniqueTags()
             //self.viewModel.storeUniqueTags()
         }
     }

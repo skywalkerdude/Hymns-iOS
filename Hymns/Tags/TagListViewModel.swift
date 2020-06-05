@@ -6,7 +6,7 @@ import Resolver
 class TagListViewModel: ObservableObject {
 
     @Published var tags = [SongResultViewModel]()
-    @Published var unique = [SongResultViewModel]()
+   // @Published var unique = [SongResultViewModel]()
 
     let objectWillChange = ObservableObjectPublisher()
     private var notificationToken: NotificationToken?
@@ -31,21 +31,10 @@ class TagListViewModel: ObservableObject {
             let identifier = HymnIdentifier(tag.hymnIdentifierEntity)
             var displayTitle = ""
             //song title is used for TagSubList but tag is used for TagList
-            if tagSelected != nil {
                 displayTitle = tag.songTitle
                 return SongResultViewModel(
                     title: displayTitle,
                     destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
-            } else {
-                displayTitle = tag.tag
-                storeUniqueTags(SongResultViewModel(
-                    title: displayTitle,
-                    destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView()))
-            }
-
-            return SongResultViewModel(
-                title: displayTitle,
-                destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
         }
     }
 //TODO: Fix this up
@@ -53,25 +42,15 @@ class TagListViewModel: ObservableObject {
     func fetchUniqueTags() {
         let result: [TagEntity] = tagStore.queryUniqueTags()
 
-        notificationToken = result.observe { _ in
-            self.objectWillChange.send()
-        }
-
         tags = result.map { (tag) -> SongResultViewModel in
             let identifier = HymnIdentifier(tag.hymnIdentifierEntity)
             var displayTitle = ""
             //song title is used for TagSubList but tag is used for TagList
-            if tagSelected != nil {
-                displayTitle = tag.songTitle
-                return SongResultViewModel(
-                    title: displayTitle,
-                    destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
-            } else {
-                displayTitle = tag.tag
-                storeUniqueTags(SongResultViewModel(
-                    title: displayTitle,
-                    destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView()))
-            }
+
+            displayTitle = tag.tag
+            storeUniqueTags(SongResultViewModel(
+                title: displayTitle,
+                destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView()))
 
             return SongResultViewModel(
                 title: displayTitle,
@@ -81,14 +60,13 @@ class TagListViewModel: ObservableObject {
 
     //Takes all of the fetched hymnTags and stores only the unique tag names for us to iterate through
     func storeUniqueTags(_ taggedHymn: SongResultViewModel) {
-        if self.unique.contains(taggedHymn) {
+        if self.tags.contains(taggedHymn) {
             return
         } else {
-            self.unique.append(taggedHymn)
+            self.tags.append(taggedHymn)
         }
     }
 }
-
 
 extension Resolver {
     public static func registerTagListViewModel() {

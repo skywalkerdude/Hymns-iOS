@@ -9,7 +9,7 @@ protocol TagStore {
     func observeTagStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
     func querySelectedTags(tagSelected: String?) -> Results<TagEntity>
     func queryTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity>
-    func queryUniqueTags() -> [TagEntity] {
+    func queryUniqueTags() -> [TagEntity]
 }
 
 class TagStoreRealmImpl: TagStore {
