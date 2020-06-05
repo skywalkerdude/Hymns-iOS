@@ -22,6 +22,5 @@ extension ScriptureEntity: FetchableRecord {
         hymnNumber = try container.decode(String.self, forKey: .hymnNumber)
         queryParams = try container.decode(String.self, forKey: .queryParams).deserializeFromQueryParamString
         scriptures = try container.decode(String.self, forKey: .scriptures)
-        print("\(hymnType):\(hymnNumber):\(queryParams):\(scriptures)")
     }
 }
