@@ -35,7 +35,7 @@ file_length:
 
 # Change from an error to a warning by using the warning flag.
 type_name:
-  min_length: 4 # only warning
+  min_length: 3 # only warning
   max_length: # warning and error
     warning: 30
     error: 35

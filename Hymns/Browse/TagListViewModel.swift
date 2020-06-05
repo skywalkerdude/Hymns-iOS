@@ -5,45 +5,20 @@ import Resolver
 
 class TagListViewModel: ObservableObject {
 
-    @Published var tags = [SongResultViewModel]()
+    typealias Tag = String
 
-    let objectWillChange = ObservableObjectPublisher()
-    private var notificationToken: NotificationToken?
+    @Published var tags = [Tag]()
+
     private let tagStore: TagStore
 
     init(tagStore: TagStore = Resolver.resolve()) {
         self.tagStore = tagStore
     }
 
-    deinit {
-        notificationToken?.invalidate()
-    }
-
-    func fetchTagsByTags(_ tagSelected: String?) {
-        let result: Results<TagEntity> = tagStore.getSelectedTags(tagSelected: tagSelected)
-
-        notificationToken = result.observe { _ in
-            self.objectWillChange.send()
-        }
-
-        tags = result.map { (tag) -> SongResultViewModel in
-            let identifier = HymnIdentifier(tag.hymnIdentifierEntity)
-            let displayTitle = tag.songTitle
-            return SongResultViewModel(
-                title: displayTitle ?? "",
-                destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
-        }
-    }
-
     func fetchUniqueTags() {
         let result: Results<TagEntity> = tagStore.getUniqueTags()
-
-        tags = result.map { (tag) -> SongResultViewModel in
-            let identifier = HymnIdentifier(tag.hymnIdentifierEntity)
-            let displayTitle = tag.songTitle
-            return SongResultViewModel(
-                title: displayTitle ?? "",
-                destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
+        tags = result.map { (tagEntity) -> Tag in
+            return tagEntity.tag
         }
     }
 }

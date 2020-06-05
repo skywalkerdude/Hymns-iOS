@@ -9,6 +9,14 @@ class BrowseResultsListViewModel: ObservableObject {
 
     private var disposables = Set<AnyCancellable>()
 
+    init(tag: String, tagStore: TagStore = Resolver.resolve()) {
+        self.title = tag
+        songResults = tagStore.getSelectedTags(tagSelected: tag).map { tagEntity -> SongResultViewModel in
+            let hymnIdentifier = HymnIdentifier(tagEntity.hymnIdentifierEntity)
+            return SongResultViewModel(title: tagEntity.songTitle, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
+        }
+    }
+
     init(category: String, subcategory: String? = nil,
          hymnType: HymnType? = nil, dataStore: HymnDataStore = Resolver.resolve(),
          backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
