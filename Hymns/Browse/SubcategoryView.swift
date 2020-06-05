@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 struct SubcategoryViewModel: Equatable, Hashable {
-    let subcategory: String
+    let subcategory: String?
     let count: Int
 }
 
@@ -12,7 +12,7 @@ struct SubcategoryView: View {
 
     var body: some View {
         HStack {
-            Text(viewModel.subcategory)
+            Text(viewModel.subcategory != nil ? viewModel.subcategory! : "All subcategories")
             Spacer()
             Text("\(viewModel.count)")
         }
