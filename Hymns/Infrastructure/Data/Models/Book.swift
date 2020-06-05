@@ -11,7 +11,7 @@ enum Book: String {
     case secondSamuel = "2 Samuel"
     case firstKings = "1 Kings"
     case secondKings = "2 Kings"
-    case firstChronicles = "1 Fhronicles"
+    case firstChronicles = "1 Chronicles"
     case secondChronicles = "2 Chronicles"
     case ezra = "Ezra"
     case nehemiah = "Nehemiah"
