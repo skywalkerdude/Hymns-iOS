@@ -18,7 +18,6 @@ struct TagListView: View {
             }.resignKeyboardOnDragGesture()
         }.onAppear {
             self.viewModel.fetchUniqueTags()
-            //self.viewModel.storeUniqueTags()
         }
     }
 }

@@ -6,7 +6,6 @@ import Resolver
 class TagListViewModel: ObservableObject {
 
     @Published var tags = [SongResultViewModel]()
-   // @Published var unique = [SongResultViewModel]()
 
     let objectWillChange = ObservableObjectPublisher()
     private var notificationToken: NotificationToken?
@@ -29,41 +28,23 @@ class TagListViewModel: ObservableObject {
 
         tags = result.map { (tag) -> SongResultViewModel in
             let identifier = HymnIdentifier(tag.hymnIdentifierEntity)
-            var displayTitle = ""
-            //song title is used for TagSubList but tag is used for TagList
-                displayTitle = tag.songTitle
-                return SongResultViewModel(
-                    title: displayTitle,
-                    destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
+            let displayTitle = tag.songTitle
+            return SongResultViewModel(
+                title: displayTitle ?? "",
+                destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
         }
     }
-//TODO: Fix this up
-    //UNIQUE
+
     func fetchUniqueTags() {
         let result: [TagEntity] = tagStore.queryUniqueTags()
 
         tags = result.map { (tag) -> SongResultViewModel in
             let identifier = HymnIdentifier(tag.hymnIdentifierEntity)
-            var displayTitle = ""
-            //song title is used for TagSubList but tag is used for TagList
-
-            displayTitle = tag.tag
-            storeUniqueTags(SongResultViewModel(
-                title: displayTitle,
-                destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView()))
+            let displayTitle = tag.tag
 
             return SongResultViewModel(
-                title: displayTitle,
+                title: displayTitle ?? "",
                 destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
-        }
-    }
-
-    //Takes all of the fetched hymnTags and stores only the unique tag names for us to iterate through
-    func storeUniqueTags(_ taggedHymn: SongResultViewModel) {
-        if self.tags.contains(taggedHymn) {
-            return
-        } else {
-            self.tags.append(taggedHymn)
         }
     }
 }

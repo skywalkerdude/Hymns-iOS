@@ -67,6 +67,7 @@ class TagStoreRealmImpl: TagStore {
         return realm.objects(TagEntity.self).filter(NSPredicate(format: "primaryKey CONTAINS[c] %@", ("\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())")))
     }
 
+    //A workaround to the fact that Realm does not yet support querying unique values. Force cast should never fail since the realm object will always be a string and castable into a string array.
     //swiftlint:disable force_cast
     func queryUniqueTags() -> [TagEntity] {
         let tags = Set(realm.objects(TagEntity.self).value(forKey: "tag") as! [String])
