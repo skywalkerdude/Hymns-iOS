@@ -15,13 +15,11 @@ class TagListViewModel: ObservableObject {
         self.tagStore = tagStore
     }
 
-    func fetchUniqueTags() {
-        let result: Results<TagEntity> = tagStore.getUniqueTags()
-        tags = result.map { (tagEntity) -> Tag in
-            return tagEntity.tag
+    func getUniqueTags() {
+        let result: [String] = tagStore.getUniqueTags()
+        tags = result
         }
     }
-}
 
 extension Resolver {
     public static func registerTagListViewModel() {

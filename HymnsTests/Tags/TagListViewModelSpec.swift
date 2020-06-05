@@ -39,14 +39,8 @@ class TagListViewModelSpec: QuickSpec {
                 }
                 describe("getting all tags without duplication of tag names to display on tag list") {
                     it("should contain only unique tag names") {
-                        target.fetchUniqueTags()
+                        target.getUniqueTags()
                         expect(target.tags).to(haveCount(3))
-                    }
-                }
-                describe("getting all songs that contain a certain tag for use on tag sub list view.") {
-                    it("should contain only unique tag names") {
-                        target.fetchTagsByTags("Christ")
-                        expect(target.tags).to(haveCount(2))
                     }
                 }
             }

@@ -17,7 +17,7 @@ struct TagListView: View {
                 }
             }
         }.onAppear {
-            self.viewModel.fetchUniqueTags()
+            self.viewModel.getUniqueTags()
         }
     }
 }

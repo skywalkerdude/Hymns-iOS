@@ -9,13 +9,14 @@ protocol TagStore {
     func observeTagStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
     func getSelectedTags(tagSelected: String?) -> Results<TagEntity>
     func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity>
-    func getUniqueTags() -> Results<TagEntity>
+    func getUniqueTags() ->  [String]
 }
 
 class TagStoreRealmImpl: TagStore {
 
     private let analytics: AnalyticsLogger
     private let realm: Realm
+    typealias Tag = String
 
     init(analytics: AnalyticsLogger = Resolver.resolve(), realm: Realm) {
         self.analytics = analytics
@@ -67,8 +68,13 @@ class TagStoreRealmImpl: TagStore {
         return realm.objects(TagEntity.self).filter(NSPredicate(format: "primaryKey CONTAINS[c] %@", ("\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())")))
     }
 
-    func getUniqueTags() ->  Results<TagEntity> {
-      return realm.objects(TagEntity.self).distinct(by: ["tag"])
+    func getUniqueTags() -> [String] {
+        let result = realm.objects(TagEntity.self).distinct(by: ["tag"])
+        var tags = [String]()
+        tags = result.map { (tagEntity) -> Tag in
+            return tagEntity.tag
+        }
+        return tags
     }
 }
 

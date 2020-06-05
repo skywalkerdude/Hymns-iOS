@@ -18,7 +18,7 @@ struct BrowseCategoriesView: View {
 
             return List(categories) { category in
                 CategoryView(viewModel: category)
-            }.listStyle(GroupedListStyle()).eraseToAnyView()
+            }.eraseToAnyView()
         }.background(Color(.systemBackground))
     }
 }
