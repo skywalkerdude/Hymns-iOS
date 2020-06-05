@@ -6,7 +6,6 @@ import Resolver
 protocol TagStore {
     func storeTag(_ entity: TagEntity)
     func deleteTag(primaryKey: String, tag: String)
-    func observeTagStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
     func querySelectedTags(tagSelected: String?) -> Results<TagEntity>
     func queryTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity>
 }
@@ -42,17 +41,6 @@ class TagStoreRealmImpl: TagStore {
                    analytics.logError(message: "error orccured when deleting tag", error: error, extraParameters: ["primaryKey": primaryKey])
                }
            }
-
-    func isTagged(hymnIdentifier: HymnIdentifier) -> Bool {
-        return realm.object(ofType: TagEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier)) != nil
-    }
-
-    func observeTagStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification {
-        return realm.observe { (_, _) in
-            let favorite = self.isTagged(hymnIdentifier: hymnIdentifier)
-            action(favorite)
-        }.toNotification()
-    }
 
     /** Can be used either with a value to specificially query for one tag or without the optional to query all tags*/
     func querySelectedTags(tagSelected: String?) -> Results<TagEntity> {
