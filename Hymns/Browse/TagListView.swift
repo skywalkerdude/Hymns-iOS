@@ -2,7 +2,7 @@ import SwiftUI
 import Resolver
 
 struct TagListView: View {
-    @State var unique = [SongResultViewModel]()
+
     @ObservedObject private var viewModel: TagListViewModel
 
     init(viewModel: TagListViewModel = Resolver.resolve()) {
@@ -11,11 +11,11 @@ struct TagListView: View {
 
     var body: some View {
         VStack {
-            List(self.unique) { tag in
-                NavigationLink(destination: TagSubList(tagSelected: tag)) {
-                    SongResultView(viewModel: tag)
+            List(viewModel.tags, id: \.self) { tag in
+                NavigationLink(destination: BrowseResultsListView(viewModel: BrowseResultsListViewModel(tag: tag))) {
+                    Text(tag)
                 }
-            }.resignKeyboardOnDragGesture()
+            }
         }.onAppear {
             self.viewModel.fetchUniqueTags()
         }
