@@ -18,7 +18,7 @@ class DisplayHymnViewModel: ObservableObject {
 
     private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue
-    private let favoritesStore: FavoritesStore
+    private let favoriteStore: FavoriteStore
     private let historyStore: HistoryStore
     private let identifier: HymnIdentifier
     private let mainQueue: DispatchQueue
@@ -31,7 +31,7 @@ class DisplayHymnViewModel: ObservableObject {
 
     init(analytics: AnalyticsLogger = Resolver.resolve(),
          backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
-         favoritesStore: FavoritesStore = Resolver.resolve(),
+         favoriteStore: FavoriteStore = Resolver.resolve(),
          hymnToDisplay identifier: HymnIdentifier,
          hymnsRepository repository: HymnsRepository = Resolver.resolve(),
          historyStore: HistoryStore = Resolver.resolve(),
@@ -41,7 +41,7 @@ class DisplayHymnViewModel: ObservableObject {
         self.analytics = analytics
         self.backgroundQueue = backgroundQueue
         self.currentTab = .lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: identifier)).maxSize().eraseToAnyView())
-        self.favoritesStore = favoritesStore
+        self.favoriteStore = favoriteStore
         self.historyStore = historyStore
         self.identifier = identifier
         self.mainQueue = mainQueue
@@ -125,17 +125,17 @@ class DisplayHymnViewModel: ObservableObject {
     }
 
     func fetchFavoriteStatus() {
-        self.isFavorited = favoritesStore.isFavorite(hymnIdentifier: identifier)
-        favoritesObserver = favoritesStore.observeFavoriteStatus(hymnIdentifier: identifier) { isFavorited in
+        self.isFavorited = favoriteStore.isFavorite(hymnIdentifier: identifier)
+        favoritesObserver = favoriteStore.observeFavoriteStatus(hymnIdentifier: identifier) { isFavorited in
             self.isFavorited = isFavorited
         }
     }
     func toggleFavorited() {
         isFavorited.map { isFavorited in
             if isFavorited {
-                favoritesStore.deleteFavorite(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: self.identifier))
+                favoriteStore.deleteFavorite(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: self.identifier))
             } else {
-                favoritesStore.storeFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.title))
+                favoriteStore.storeFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.title))
             }
         }
     }

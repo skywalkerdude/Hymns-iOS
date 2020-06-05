@@ -9,10 +9,10 @@ class FavoritesViewModel: ObservableObject {
 
     let objectWillChange = ObservableObjectPublisher()
     private var notificationToken: NotificationToken?
-    private let favoritesStore: FavoritesStore
+    private let favoriteStore: FavoriteStore
 
-    init(favoritesStore: FavoritesStore = Resolver.resolve()) {
-        self.favoritesStore = favoritesStore
+    init(favoriteStore: FavoriteStore = Resolver.resolve()) {
+        self.favoriteStore = favoriteStore
     }
 
     deinit {
@@ -20,7 +20,7 @@ class FavoritesViewModel: ObservableObject {
     }
 
     func fetchFavorites() {
-        let result: Results<FavoriteEntity> = favoritesStore.favorites()
+        let result: Results<FavoriteEntity> = favoriteStore.favorites()
 
         notificationToken = result.observe { _ in
             self.objectWillChange.send()
