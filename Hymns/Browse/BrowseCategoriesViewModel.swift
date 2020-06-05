@@ -35,7 +35,7 @@ class BrowseCategoriesViewModel: ObservableObject {
                     return
                 }
 
-                self.categories = categories.reduce(into: [CategoryViewModel]()) { viewModels, entity in
+                let categoryViewModels = categories.reduce(into: [CategoryViewModel]()) { viewModels, entity in
                     guard let sameCategory = viewModels.first(where: { viewModel -> Bool in
                         viewModel.category == entity.category
                     }) else {
@@ -44,13 +44,17 @@ class BrowseCategoriesViewModel: ObservableObject {
                         viewModels.append(viewModel)
                         return
                     }
-                    viewModels.removeAll { viewModel -> Bool in
-                        viewModel == sameCategory
-                    }
-                    let newModel = CategoryViewModel(category: sameCategory.category,
-                                                     subcategories: sameCategory.subcategories + [SubcategoryViewModel(subcategory: entity.subcategory, count: entity.count)])
-                    viewModels.append(newModel)
+                    sameCategory.subcategories.append(SubcategoryViewModel(subcategory: entity.subcategory, count: entity.count))
                 }
+
+                // Add the "All subcategories" section to each categoryViewModel
+                self.categories = categoryViewModels.map({ categoryViewModel -> CategoryViewModel in
+                    let total = categoryViewModel.subcategories.reduce(0) { (totalSoFar, subcategory) -> Int in
+                        return totalSoFar + subcategory.count
+                    }
+                    categoryViewModel.subcategories.insert(SubcategoryViewModel(subcategory: nil, count: total), at: 0)
+                    return categoryViewModel
+                })
             }).store(in: &disposables)
     }
 }
