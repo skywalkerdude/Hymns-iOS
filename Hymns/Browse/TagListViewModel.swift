@@ -20,7 +20,7 @@ class TagListViewModel: ObservableObject {
     }
 
     func fetchTagsByTags(_ tagSelected: String?) {
-        let result: Results<TagEntity> = tagStore.querySelectedTags(tagSelected: tagSelected)
+        let result: Results<TagEntity> = tagStore.getSelectedTags(tagSelected: tagSelected)
 
         notificationToken = result.observe { _ in
             self.objectWillChange.send()
@@ -36,12 +36,11 @@ class TagListViewModel: ObservableObject {
     }
 
     func fetchUniqueTags() {
-        let result: [TagEntity] = tagStore.queryUniqueTags()
+        let result: Results<TagEntity> = tagStore.getUniqueTags()
 
         tags = result.map { (tag) -> SongResultViewModel in
             let identifier = HymnIdentifier(tag.hymnIdentifierEntity)
-            let displayTitle = tag.tag
-
+            let displayTitle = tag.songTitle
             return SongResultViewModel(
                 title: displayTitle ?? "",
                 destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())

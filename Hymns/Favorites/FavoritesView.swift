@@ -23,7 +23,7 @@ struct FavoritesView: View {
                     NavigationLink(destination: favorite.destinationView) {
                         SongResultView(viewModel: favorite)
                     }
-                }.resignKeyboardOnDragGesture()
+                }.listStyle(GroupedListStyle()).resignKeyboardOnDragGesture()
             }
         }.onAppear {
             Analytics.setScreenName("FavoritesView", screenClass: "FavoritesViewModel")

@@ -404,9 +404,6 @@
 			children = (
 				3B04D2FB24898137008C7E5E /* TagEntity.swift */,
 				3B04D2FD2489819A008C7E5E /* TagStore.swift */,
-				B5C0A59D2489F2EB0048FA46 /* TagListView.swift */,
-				B5C0A59F2489F3220048FA46 /* TagListViewModel.swift */,
-				B5C0A5A12489F3BE0048FA46 /* TagSubList.swift */,
 			);
 			path = Tags;
 			sourceTree = "<group>";
@@ -826,6 +823,9 @@
 				3BC5B15B247F7B0400F5D63A /* CategoryEntity.swift */,
 				3B9ED1BD2486272600BD004E /* BrowseResultsListView.swift */,
 				3B9ED1BF2486296000BD004E /* BrowseResultsListViewModel.swift */,
+				B5C0A59D2489F2EB0048FA46 /* TagListView.swift */,
+				B5C0A59F2489F3220048FA46 /* TagListViewModel.swift */,
+				B5C0A5A12489F3BE0048FA46 /* TagSubList.swift */,
 			);
 			path = Browse;
 			sourceTree = "<group>";

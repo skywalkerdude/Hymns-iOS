@@ -7,9 +7,9 @@ protocol TagStore {
     func storeTag(_ entity: TagEntity)
     func deleteTag(primaryKey: String, tag: String)
     func observeTagStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
-    func querySelectedTags(tagSelected: String?) -> Results<TagEntity>
-    func queryTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity>
-    func queryUniqueTags() -> [TagEntity]
+    func getSelectedTags(tagSelected: String?) -> Results<TagEntity>
+    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity>
+    func getUniqueTags() -> Results<TagEntity>
 }
 
 class TagStoreRealmImpl: TagStore {
@@ -56,28 +56,19 @@ class TagStoreRealmImpl: TagStore {
     }
 
     /** Can be used either with a value to specificially query for one tag or without the optional to query all tags*/
-    func querySelectedTags(tagSelected: String?) -> Results<TagEntity> {
+    func getSelectedTags(tagSelected: String?) -> Results<TagEntity> {
         guard let specificTag = tagSelected else {
             return realm.objects(TagEntity.self)
         }
         return realm.objects(TagEntity.self).filter(NSPredicate(format: "tag == %@", specificTag))
     }
 
-    func queryTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity> {
+    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity> {
         return realm.objects(TagEntity.self).filter(NSPredicate(format: "primaryKey CONTAINS[c] %@", ("\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())")))
     }
 
-    //A workaround to the fact that Realm does not yet support querying unique values. Force cast should never fail since the realm object will always be a string and castable into a string array.
-    //swiftlint:disable force_cast
-    func queryUniqueTags() -> [TagEntity] {
-        let tags = Set(realm.objects(TagEntity.self).value(forKey: "tag") as! [String])
-        var distinctTags = [TagEntity]()
-        for tag in tags {
-            if let uniqueTag = realm.objects(TagEntity.self).filter("tag = '\(tag)'").first {
-                distinctTags.append(uniqueTag)
-            }
-        }
-        return distinctTags
+    func getUniqueTags() ->  Results<TagEntity> {
+      return realm.objects(TagEntity.self).distinct(by: ["tag"])
     }
 }
 
