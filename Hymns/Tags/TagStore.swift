@@ -9,6 +9,7 @@ protocol TagStore {
     func observeTagStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
     func querySelectedTags(tagSelected: String?) -> Results<TagEntity>
     func queryTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity>
+    func queryUniqueTags() -> [TagEntity] {
 }
 
 class TagStoreRealmImpl: TagStore {
@@ -64,6 +65,18 @@ class TagStoreRealmImpl: TagStore {
 
     func queryTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity> {
         return realm.objects(TagEntity.self).filter(NSPredicate(format: "primaryKey CONTAINS[c] %@", ("\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())")))
+    }
+
+    //swiftlint:disable force_cast
+    func queryUniqueTags() -> [TagEntity] {
+        let tags = Set(realm.objects(TagEntity.self).value(forKey: "tag") as! [String])
+        var distinctTags = [TagEntity]()
+        for tag in tags {
+            if let uniqueTag = realm.objects(TagEntity.self).filter("tag = '\(tag)'").first {
+                distinctTags.append(uniqueTag)
+            }
+        }
+        return distinctTags
     }
 }
 
