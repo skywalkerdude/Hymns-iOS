@@ -6,10 +6,9 @@ import Resolver
 protocol TagStore {
     func storeTag(_ entity: TagEntity)
     func deleteTag(primaryKey: String, tag: String)
-    func observeTagStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
     func getSelectedTags(tagSelected: String?) -> Results<TagEntity>
     func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity>
-    func getUniqueTags() ->  [String]
+    func getUniqueTags() -> [String]
 }
 
 class TagStoreRealmImpl: TagStore {
@@ -34,26 +33,15 @@ class TagStoreRealmImpl: TagStore {
     }
 
     func deleteTag(primaryKey: String, tag: String) {
-           let entityToDelete = realm.objects(TagEntity.self).filter(NSPredicate(format: "tag CONTAINS[c] %@ AND primaryKey CONTAINS[c] %@", tag, primaryKey))
+        let entityToDelete = realm.objects(TagEntity.self).filter(NSPredicate(format: "tag CONTAINS[c] %@ AND primaryKey CONTAINS[c] %@", tag, primaryKey))
 
-               do {
-                   try realm.write {
-                       realm.delete(entityToDelete)
-                   }
-               } catch {
-                   analytics.logError(message: "error orccured when deleting tag", error: error, extraParameters: ["primaryKey": primaryKey])
-               }
-           }
-
-    func isTagged(hymnIdentifier: HymnIdentifier) -> Bool {
-        return realm.object(ofType: TagEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier)) != nil
-    }
-
-    func observeTagStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification {
-        return realm.observe { (_, _) in
-            let favorite = self.isTagged(hymnIdentifier: hymnIdentifier)
-            action(favorite)
-        }.toNotification()
+        do {
+            try realm.write {
+                realm.delete(entityToDelete)
+            }
+        } catch {
+            analytics.logError(message: "error orccured when deleting tag", error: error, extraParameters: ["primaryKey": primaryKey])
+        }
     }
 
     /** Can be used either with a value to specificially query for one tag or without the optional to query all tags*/

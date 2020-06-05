@@ -28,7 +28,9 @@ struct HomeContainerView: View {
                     .tag(HomeTab.settings)
                     .hideNavigationBar()
             }.onAppear {
-                self.selectedTab = .home
+                if self.selectedTab == .none {
+                    self.selectedTab = .home
+                }
                 UITabBar.appearance().unselectedItemTintColor = .label
             }
         }

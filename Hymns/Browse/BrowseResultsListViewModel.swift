@@ -11,6 +11,7 @@ class BrowseResultsListViewModel: ObservableObject {
 
     init(tag: String, tagStore: TagStore = Resolver.resolve()) {
         self.title = tag
+
         songResults = tagStore.getSelectedTags(tagSelected: tag).compactMap { tagEntity -> SongResultViewModel? in
             guard let title = tagEntity.songTitle else {
                 return nil

@@ -8,9 +8,13 @@ struct CategoryView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(viewModel.category).onTapGesture {
+            HStack {
+                Text(viewModel.category)
+                Spacer()
+                Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+            }.onTapGesture {
                 self.isExpanded.toggle()
-            }
+            }.foregroundColor(isExpanded ? .accentColor : .primary)
             if isExpanded {
                 List {
                     ForEach(viewModel.subcategories, id: \.self) { subcategory in
