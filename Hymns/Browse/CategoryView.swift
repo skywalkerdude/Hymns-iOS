@@ -1,16 +1,20 @@
 import SwiftUI
 
 struct CategoryView: View {
-
+    
     @State fileprivate var isExpanded = false
-
+    
     let viewModel: CategoryViewModel
-
+    
     var body: some View {
         VStack(alignment: .leading) {
-            Text(viewModel.category).onTapGesture {
+            HStack {
+                Text(viewModel.category)
+                Spacer()
+                Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+            }.onTapGesture {
                 self.isExpanded.toggle()
-            }
+            }.foregroundColor(isExpanded ? .accentColor : .primary)
             if isExpanded {
                 List {
                     ForEach(viewModel.subcategories, id: \.self) { subcategory in
@@ -25,13 +29,13 @@ struct CategoryView: View {
 }
 
 struct CategoryView_Previews: PreviewProvider {
-
+    
     static var previews: some View {
-
+        
         let viewModel = CategoryViewModel(category: "Category",
                                           subcategories: [SubcategoryViewModel(subcategory: "Subcategory 1", count: 5),
                                                           SubcategoryViewModel(subcategory: "Subcategory 2", count: 1)])
-
+        
         return Group {
             CategoryView(viewModel: viewModel).previewLayout(.sizeThatFits)
         }
