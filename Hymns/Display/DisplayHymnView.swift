@@ -13,19 +13,23 @@ struct DisplayHymnView: View {
 
     var body: some View {
         ZStack {
-            VStack(spacing: 0) {
-                DisplayHymnToolbar(viewModel: viewModel)
-                if viewModel.tabItems.count > 1 {
-                    IndicatorTabView(currentTab: $viewModel.currentTab, tabItems: viewModel.tabItems)
-                } else {
-                    viewModel.currentTab.content
+            if !viewModel.isLoaded {
+                ActivityIndicator().maxSize()
+            } else {
+                VStack(spacing: 0) {
+                    DisplayHymnToolbar(viewModel: viewModel)
+                    if viewModel.tabItems.count > 1 {
+                        IndicatorTabView(currentTab: $viewModel.currentTab, tabItems: viewModel.tabItems)
+                    } else {
+                        viewModel.currentTab.content
+                    }
+                    viewModel.bottomBar.map { viewModel in
+                        DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, viewModel: viewModel).maxWidth()
+                    }
                 }
-                viewModel.bottomBar.map { viewModel in
-                    DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, viewModel: viewModel).maxWidth()
+                dialogBuilder.map { _ in
+                    Dialog(builder: $dialogBuilder)
                 }
-            }
-            dialogBuilder.map { _ in
-                Dialog(builder: $dialogBuilder)
             }
         }.hideNavigationBar()
             .onAppear {

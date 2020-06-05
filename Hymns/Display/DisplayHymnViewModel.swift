@@ -8,6 +8,7 @@ class DisplayHymnViewModel: ObservableObject {
     typealias Title = String
     typealias Lyrics = [Verse]
 
+    @Published var isLoaded = false
     @Published var title: String = ""
     @Published var currentTab: HymnLyricsTab
     @Published var tabItems: [HymnLyricsTab] = [HymnLyricsTab]()
@@ -62,6 +63,7 @@ class DisplayHymnViewModel: ObservableObject {
             .sink(
                 receiveValue: { [weak self] hymn in
                     guard let self = self else { return }
+                    self.isLoaded = true
                     guard let hymn = hymn else { return }
 
                     let title: Title
