@@ -21,7 +21,6 @@ class FavoritesViewModel: ObservableObject {
 
     func fetchFavorites() {
         let result: Results<FavoriteEntity> = favoriteStore.favorites()
-        print("bbug", result)
 
         notificationToken = result.observe { _ in
             self.objectWillChange.send()

@@ -24,6 +24,8 @@ struct TagListView: View {
 
 struct TagListView_Previews: PreviewProvider {
     static var previews: some View {
-        TagListView()
+        let viewModel = TagListViewModel()
+        viewModel.tags = ["tag 1", "tag 2", "tag 3", "tag 4"]
+        return TagListView(viewModel: viewModel)
     }
 }

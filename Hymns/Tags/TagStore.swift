@@ -15,7 +15,6 @@ class TagStoreRealmImpl: TagStore {
 
     private let analytics: AnalyticsLogger
     private let realm: Realm
-    typealias Tag = String
 
     init(analytics: AnalyticsLogger = Resolver.resolve(), realm: Realm) {
         self.analytics = analytics
