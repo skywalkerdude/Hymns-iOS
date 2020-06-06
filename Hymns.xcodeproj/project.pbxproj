@@ -28,6 +28,7 @@
 		3B1B901C2429CF57009FDCC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B1B901B2429CF57009FDCC5 /* Assets.xcassets */; };
 		3B1B90222429CF57009FDCC5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B1B90202429CF57009FDCC5 /* LaunchScreen.storyboard */; };
 		3B1B90382429CF57009FDCC5 /* HymnsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B90372429CF57009FDCC5 /* HymnsUITests.swift */; };
+		3B203690248C131B00D90DF5 /* NonFatal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20368F248C131B00D90DF5 /* NonFatal.swift */; };
 		3B21F3642486CFA200B4AFE0 /* BrowseResultsListViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B21F3632486CFA200B4AFE0 /* BrowseResultsListViewModelSpec.swift */; };
 		3B21F366248720E600B4AFE0 /* SubcategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B21F365248720E500B4AFE0 /* SubcategoryView.swift */; };
 		3B22187F247910C3009202B0 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22187E247910C3009202B0 /* UserDefaultsManager.swift */; };
@@ -214,6 +215,7 @@
 		3B1B90332429CF57009FDCC5 /* HymnsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HymnsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B1B90372429CF57009FDCC5 /* HymnsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnsUITests.swift; sourceTree = "<group>"; };
 		3B1B90392429CF57009FDCC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3B20368F248C131B00D90DF5 /* NonFatal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonFatal.swift; sourceTree = "<group>"; };
 		3B21F3632486CFA200B4AFE0 /* BrowseResultsListViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseResultsListViewModelSpec.swift; sourceTree = "<group>"; };
 		3B21F365248720E500B4AFE0 /* SubcategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubcategoryView.swift; sourceTree = "<group>"; };
 		3B22187E247910C3009202B0 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
@@ -644,6 +646,7 @@
 				3B877E81245FF4B4004C10DD /* Data+Extensions.swift */,
 				3BA32C7D245256A0000ABD9F /* Notification.swift */,
 				3B25C0E22450398F00C435E1 /* String+Extensions.swift */,
+				3B20368F248C131B00D90DF5 /* NonFatal.swift */,
 				3B67A50A244653F1004B9F4A /* View+Extensions.swift */,
 			);
 			path = Infrastructure;
@@ -1363,6 +1366,7 @@
 				5CA784A0242D1A3200B57903 /* BrowseView.swift in Sources */,
 				3BA4612724771EAD0068F269 /* SongInfoView.swift in Sources */,
 				3B369CEE246D08A50068A29C /* PDFPreloader.swift in Sources */,
+				3B203690248C131B00D90DF5 /* NonFatal.swift in Sources */,
 				3B11E2A42464AA3400F27E73 /* HymnalNetService.swift in Sources */,
 				B56305B9244223D7003BC132 /* FontViewModifier.swift in Sources */,
 				3BE4436B248AC21300763B3C /* ScriptureView.swift in Sources */,
