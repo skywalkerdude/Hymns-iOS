@@ -20,6 +20,35 @@ public class RegexUtil {
     static let songPathFormat = "(\\w+)/([a-z]?\\d+[a-z]*)(?:/f=(\\w+\\z)|\\z)"
 
     /**
+     * Regex format to extract information out of a scripture reference that doesn't include the verse<br>
+     * ([123]?\s?\w+) --> maybe a number 1, 2, or 3, followed by maybe a white space, followed by 1
+     *                    or more word characters
+     * Examples:<br>
+     *     2 Chronicles 15:45
+     *     Psalms 45
+     *     Psalms
+     *     1 John 5:12
+     *     3 John 5:12
+     *     Jude 1:12
+     *     Matthew 17:5-14
+     *     Song of Songs 4:12
+     *     6:19
+     *     80
+     *     cf. Psalms 16
+     *
+     *     See songs:
+     *     https://www.hymnal.net/en/hymn/ns/123
+     *     https://www.hymnal.net/en/hymn/ns/138
+     *     https://www.hymnal.net/en/hymn/h/600
+     */
+    static let scripturePatternNoVerse = "(?:cf. )?(Song of Songs|(?:[123]\\s)?[a-zA-Z]+)?(?:\\s?(\\d+))?"
+
+    /**
+     * Regex format to extract information out of the verse portion of a scripture reference<br>
+     */
+    static let scripturePatternVerse = "\\A(\\d+(?:-?\\d+)?)\\z"
+
+    /**
      * @param path path of the song
      * @return parsed hymn type from path, or null if it's not found
      */
@@ -71,6 +100,59 @@ public class RegexUtil {
         } else {
             return path
         }
+    }
+
+    static func getBookFromReference(_ reference: String) -> Book? {
+        guard let firstReference = reference.components(separatedBy: ":").first else {
+            return nil
+        }
+
+        let regex = NSRegularExpression(scripturePatternNoVerse, options: .caseInsensitive)
+        if let match = regex.firstMatch(in: firstReference, options: [], range: NSRange(location: 0, length: firstReference.utf16.count)) {
+            if let hymnTypeRange = Range(match.range(at: 1), in: firstReference) {
+                return Book(rawValue: String(reference[hymnTypeRange]))
+            }
+        }
+        return nil
+    }
+
+    static func getChapterFromReference(_ reference: String) -> String? {
+        // If the reference is just a single digit, then that's just the verse only, so return
+        // a null chapter
+        if reference.isPositiveInteger {
+            return nil
+        }
+
+        guard let firstReference = reference.components(separatedBy: ":").first else {
+            return nil
+        }
+        let regex = NSRegularExpression(scripturePatternNoVerse, options: .caseInsensitive)
+        if let match = regex.firstMatch(in: firstReference, options: [], range: NSRange(location: 0, length: firstReference.utf16.count)) {
+            if let hymnNumberRange = Range(match.range(at: 2), in: firstReference) {
+                return String(reference[hymnNumberRange])
+            }
+        }
+        return nil
+    }
+
+    static func getVerseFromReference(_ reference: String) -> String? {
+        var secondReference: String
+        if reference.contains(":") {
+            guard let ref = reference.components(separatedBy: ":").dropFirst().first ?? nil else {
+                return nil
+            }
+            secondReference = ref
+        } else {
+            secondReference = reference
+        }
+
+        let regex = NSRegularExpression(scripturePatternVerse, options: .caseInsensitive)
+        if let match = regex.firstMatch(in: secondReference, options: [], range: NSRange(location: 0, length: secondReference.utf16.count)) {
+            if let hymnTypeRange = Range(match.range(at: 1), in: secondReference) {
+                return String(secondReference[hymnTypeRange])
+            }
+        }
+        return nil
     }
 }
 
