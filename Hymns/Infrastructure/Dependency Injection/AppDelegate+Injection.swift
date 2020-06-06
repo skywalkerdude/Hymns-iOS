@@ -33,6 +33,7 @@ extension Resolver: ResolverRegistering {
         registerHymnalApiService()
         registerRepositories()
         registerHomeViewModel()
+        registerTagListViewModel()
         registerFavoritesViewModel()
         registerSettingsViewModel()
     }

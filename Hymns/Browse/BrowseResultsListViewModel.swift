@@ -9,6 +9,11 @@ class BrowseResultsListViewModel: ObservableObject {
 
     private var disposables = Set<AnyCancellable>()
 
+    init(tag: String, tagStore: TagStore = Resolver.resolve()) {
+        self.title = tag
+        songResults = tagStore.getSongsByTag(tag)
+    }
+
     init(category: String, subcategory: String? = nil,
          hymnType: HymnType? = nil, dataStore: HymnDataStore = Resolver.resolve(),
          backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),

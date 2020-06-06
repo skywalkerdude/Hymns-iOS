@@ -161,8 +161,11 @@
 		B5C0A5962489A76A0048FA46 /* TagsStoreRealmImplSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C0A5952489A7690048FA46 /* TagsStoreRealmImplSpec.swift */; };
 		B5C0A5982489BD140048FA46 /* FavoriteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C0A5972489BD140048FA46 /* FavoriteStore.swift */; };
 		B5C0A59B2489C0590048FA46 /* FavoriteStoreRealmImplSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C0A59A2489C0590048FA46 /* FavoriteStoreRealmImplSpec.swift */; };
+		B5C0A59E2489F2EB0048FA46 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C0A59D2489F2EB0048FA46 /* TagListView.swift */; };
+		B5C0A5A02489F3220048FA46 /* TagListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C0A59F2489F3220048FA46 /* TagListViewModel.swift */; };
 		B5C35EFA247AA4D600EF6AA9 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C35EF9247AA4D600EF6AA9 /* ShareSheet.swift */; };
 		B5E61B34242E613D00EF497D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5E61B36242E613D00EF497D /* Localizable.strings */; };
+		B5FCEBFC248A89FB000DA2DD /* TagListViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FCEBFB248A89FB000DA2DD /* TagListViewModelSpec.swift */; };
 		BB4C7E9E5879F6AF8CCA77D9 /* Pods_HymnsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C052BC4D7D8FB1033B79AAE7 /* Pods_HymnsTests.framework */; };
 		EF9D228545974074AF495E83 /* HymnsMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD96F2BF8386A9E600A9B55C /* HymnsMocks.generated.swift */; };
 /* End PBXBuildFile section */
@@ -353,10 +356,13 @@
 		B5C0A5952489A7690048FA46 /* TagsStoreRealmImplSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsStoreRealmImplSpec.swift; sourceTree = "<group>"; };
 		B5C0A5972489BD140048FA46 /* FavoriteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStore.swift; sourceTree = "<group>"; };
 		B5C0A59A2489C0590048FA46 /* FavoriteStoreRealmImplSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStoreRealmImplSpec.swift; sourceTree = "<group>"; };
+		B5C0A59D2489F2EB0048FA46 /* TagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
+		B5C0A59F2489F3220048FA46 /* TagListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListViewModel.swift; sourceTree = "<group>"; };
 		B5C35EF9247AA4D600EF6AA9 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		B5E61B35242E613D00EF497D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B5E61B37242E62F600EF497D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B5E61B38242E630000EF497D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B5FCEBFB248A89FB000DA2DD /* TagListViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListViewModelSpec.swift; sourceTree = "<group>"; };
 		BE1FD226FF9481BAC9870F7E /* Pods-HymnsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HymnsTests.debug.xcconfig"; path = "Target Support Files/Pods-HymnsTests/Pods-HymnsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C052BC4D7D8FB1033B79AAE7 /* Pods_HymnsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HymnsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4175AB0D14C32B25C0FCFE4 /* Pods-Hymns.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns.release.xcconfig"; path = "Target Support Files/Pods-Hymns/Pods-Hymns.release.xcconfig"; sourceTree = "<group>"; };
@@ -829,6 +835,8 @@
 				3BE4435E248AA9AD00763B3C /* ScriptureEntity.swift */,
 				3B9ED1BD2486272600BD004E /* BrowseResultsListView.swift */,
 				3B9ED1BF2486296000BD004E /* BrowseResultsListViewModel.swift */,
+				B5C0A59D2489F2EB0048FA46 /* TagListView.swift */,
+				B5C0A59F2489F3220048FA46 /* TagListViewModel.swift */,
 				3BE44360248ABBB000763B3C /* BrowseScripturesViewModel.swift */,
 				3BE44364248AC08300763B3C /* ScriptureViewModel.swift */,
 				3BE4436A248AC21300763B3C /* ScriptureView.swift */,
@@ -888,6 +896,7 @@
 			isa = PBXGroup;
 			children = (
 				B5C0A5952489A7690048FA46 /* TagsStoreRealmImplSpec.swift */,
+				B5FCEBFB248A89FB000DA2DD /* TagListViewModelSpec.swift */,
 			);
 			path = Tags;
 			sourceTree = "<group>";
@@ -1395,7 +1404,9 @@
 				3B45B904243BEC8400D38BEF /* SongResultView.swift in Sources */,
 				B5809DFA244F60FD00EF0C63 /* FavoriteEntity.swift in Sources */,
 				3B5935A8243584F700E6993C /* MetaDatum.swift in Sources */,
+				B5C0A5A02489F3220048FA46 /* TagListViewModel.swift in Sources */,
 				3BB1DCB5244D55770011169D /* SearchBar.swift in Sources */,
+				B5C0A59E2489F2EB0048FA46 /* TagListView.swift in Sources */,
 				3B1B90152429CF55009FDCC5 /* SceneDelegate.swift in Sources */,
 				B5809DFC244F614000EF0C63 /* FavoritesViewModel.swift in Sources */,
 				3BB09207244A18F800EAE411 /* BaseSettingViewModel.swift in Sources */,
@@ -1426,6 +1437,7 @@
 				3B25C0EF2450BF9200C435E1 /* HistoryStoreRealmImplSpec.swift in Sources */,
 				3B09F904243D4D9300252C15 /* URLProtocolMock.swift in Sources */,
 				3BC5B15E247F7DDC00F5D63A /* HymnDataStoreGrdbImpl_BrowseSpec.swift in Sources */,
+				B5FCEBFC248A89FB000DA2DD /* TagListViewModelSpec.swift in Sources */,
 				3BB7877A24550686003CBEED /* StringExtensionsSpec.swift in Sources */,
 				3B2E84C924735E5C00EA4329 /* HymnIdentifierSpec.swift in Sources */,
 				3BA46134247753C30068F269 /* SongInfoDialogViewModelSpec.swift in Sources */,
