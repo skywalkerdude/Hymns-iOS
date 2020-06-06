@@ -2,12 +2,14 @@ import Combine
 import Mockingbird
 import Nimble
 import Quick
+import RealmSwift
+import SwiftUI
 @testable import Hymns
 
 class BrowseResultsListViewModelSpec: QuickSpec {
 
     override func spec() {
-        describe("BrowseResultsListViewModel") {
+        describe("Getting results by category") {
             let testQueue = DispatchQueue(label: "test_queue")
             var dataStore: HymnDataStoreMock!
             var target: BrowseResultsListViewModel!
@@ -76,6 +78,24 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                 it("should have an empty result list") {
                     expect(target.songResults).to(beEmpty())
                 }
+            }
+        }
+        describe("getting results by tag") {
+            var tagStore: TagStoreMock!
+            var target: BrowseResultsListViewModel!
+            beforeEach {
+                tagStore = mock(TagStore.self)
+                given(tagStore.getSongsByTag("FanIntoFlames")) ~> [SongResultViewModel(title: "title1", destinationView: EmptyView().eraseToAnyView()),
+                                                                   SongResultViewModel(title: "title2", destinationView: EmptyView().eraseToAnyView())]
+                target = BrowseResultsListViewModel(tag: "FanIntoFlames", tagStore: tagStore)
+            }
+            it("should set the title to the tag") {
+                expect(target.title).to(equal("FanIntoFlames"))
+            }
+            it("should set the title using only the category") {
+                expect(target.songResults).to(haveCount(2))
+                expect(target.songResults[0].title).to(equal("title1"))
+                expect(target.songResults[1].title).to(equal("title2"))
             }
         }
     }
