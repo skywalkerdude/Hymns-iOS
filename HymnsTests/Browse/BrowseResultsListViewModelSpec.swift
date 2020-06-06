@@ -3,17 +3,15 @@ import Mockingbird
 import Nimble
 import Quick
 import RealmSwift
+import SwiftUI
 @testable import Hymns
 
 class BrowseResultsListViewModelSpec: QuickSpec {
 
     override func spec() {
-        describe("BrowseResultsListViewModel") {
+        describe("Getting results by category") {
             let testQueue = DispatchQueue(label: "test_queue")
             var dataStore: HymnDataStoreMock!
-        //    var inMemoryRealm: Realm!
-       //     var tagStore: TagStoreRealmImpl!
-            var tagStore: TagStoreMock!
             var target: BrowseResultsListViewModel!
             beforeEach {
                 dataStore = mock(HymnDataStore.self)
@@ -81,26 +79,24 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                     expect(target.songResults).to(beEmpty())
                 }
             }
-            context("Use different initializer for tag functions") {
-                beforeEach {
-                    tagStore = mock(TagStore.self)
-//HELP!!! Do I even need to move the storing? How do I mock something with void returns?! Ughhh also, my getUniqueTags should be working! But it seems I am missing a stub? Thats the error i am getting   Assertions: failed - Missing stubbed implementation for 'getSelectedTags(tagSelected: String?) -> Results<Hymns.TagEntity>' with arguments [fanIntoFlames]
-//File: BrowseResultsListViewModelSpec.swift:86
-//Assertions: Test operation was canceled
-                   given(tagStore.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "fanIntoFlames")))
-                    given(tagStore.getUniqueTags()) ~> ["FanIntoFlames"]
-
-
-                }
-                describe("Should return all the hymns that have this specific tag") {
-                    beforeEach {
-                        target = BrowseResultsListViewModel(tag: "fanIntoFlames", tagStore: tagStore)
-                    }
-                    it("should set the title using only the category") {
-                        expect(target.songResults).to(haveCount(2))
-                    }
-                }
+        }
+        describe("getting results by tag") {
+            var tagStore: TagStoreMock!
+            var target: BrowseResultsListViewModel!
+            beforeEach {
+                tagStore = mock(TagStore.self)
+                given(tagStore.getSongsByTag("FanIntoFlames")) ~> [SongResultViewModel(title: "title1", destinationView: EmptyView().eraseToAnyView()),
+                                                                   SongResultViewModel(title: "title2", destinationView: EmptyView().eraseToAnyView())]
+                target = BrowseResultsListViewModel(tag: "FanIntoFlames", tagStore: tagStore)
+            }
+            it("should set the title to the tag") {
+                expect(target.title).to(equal("FanIntoFlames"))
+            }
+            it("should set the title using only the category") {
+                expect(target.songResults).to(haveCount(2))
+                expect(target.songResults[0].title).to(equal("title1"))
+                expect(target.songResults[1].title).to(equal("title2"))
             }
         }
     }
-    }
+}

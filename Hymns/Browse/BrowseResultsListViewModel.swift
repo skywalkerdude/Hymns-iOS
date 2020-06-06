@@ -11,14 +11,7 @@ class BrowseResultsListViewModel: ObservableObject {
 
     init(tag: String, tagStore: TagStore = Resolver.resolve()) {
         self.title = tag
-
-        songResults = tagStore.getSelectedTags(tagSelected: tag).compactMap { tagEntity -> SongResultViewModel? in
-            guard let title = tagEntity.songTitle else {
-                return nil
-            }
-            let hymnIdentifier = HymnIdentifier(tagEntity.hymnIdentifierEntity)
-            return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
-        }
+        songResults = tagStore.getSongsByTag(tag)
     }
 
     init(category: String, subcategory: String? = nil,

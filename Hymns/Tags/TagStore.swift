@@ -6,8 +6,8 @@ import Resolver
 protocol TagStore {
     func storeTag(_ entity: TagEntity)
     func deleteTag(primaryKey: String, tag: String)
-    func getSelectedTags(tagSelected: String?) -> Results<TagEntity>
-    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity>
+    func getSongsByTag(_ tag: String) -> [SongResultViewModel]
+    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> [String]
     func getUniqueTags() -> [String]
 }
 
@@ -45,24 +45,32 @@ class TagStoreRealmImpl: TagStore {
     }
 
     /** Can be used either with a value to specificially query for one tag or without the optional to query all tags*/
-    func getSelectedTags(tagSelected: String?) -> Results<TagEntity> {
-        guard let specificTag = tagSelected else {
-            return realm.objects(TagEntity.self)
+    func getSongsByTag(_ tag: String) -> [SongResultViewModel] {
+        let songResults: [SongResultViewModel] =
+            realm.objects(TagEntity.self)
+                .filter(NSPredicate(format: "tag == %@", tag))
+                .map { entity -> SongResultViewModel in
+                    let hymnIdentifier = HymnIdentifier(entity.hymnIdentifierEntity)
+                    return SongResultViewModel(title: entity.songTitle, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
         }
-        return realm.objects(TagEntity.self).filter(NSPredicate(format: "tag == %@", specificTag))
+        return songResults
     }
 
-    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity> {
-        return realm.objects(TagEntity.self).filter(NSPredicate(format: "primaryKey CONTAINS[c] %@", ("\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())")))
+    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> [String] {
+        let tags: [String] =
+            realm.objects(TagEntity.self)
+                .filter(NSPredicate(format: "primaryKey CONTAINS[c] %@", ("\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())")))
+                .map { entity -> String in
+            entity.tag
+        }
+        return tags
     }
 
     func getUniqueTags() -> [String] {
         let result = realm.objects(TagEntity.self).distinct(by: ["tag"])
-        var tags = [String]()
-        tags = result.map { (tagEntity) -> Tag in
-            return tagEntity.tag
+        return result.map { (tagEntity) -> Tag in
+            tagEntity.tag
         }
-        return tags
     }
 }
 
