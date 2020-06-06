@@ -67,7 +67,7 @@ class TagStoreRealmImpl: TagStore {
 
     func getUniqueTags() -> [String] {
         let result = realm.objects(TagEntity.self).distinct(by: ["tag"])
-        return result.map { (tagEntity) -> Tag in
+        return result.map { (tagEntity) -> String in
             tagEntity.tag
         }
     }
