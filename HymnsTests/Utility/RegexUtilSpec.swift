@@ -211,5 +211,58 @@ class RegexUtilSpec: QuickSpec {
                 }
             }
         }
+        describe("getting book from reference") {
+            it("should be extract the right book") {
+                expect(RegexUtil.getBookFromReference("2 Chronicles 15:45")).to(equal(.secondChronicles))
+                expect(RegexUtil.getBookFromReference("Psalms 45")).to(equal(.psalms))
+                expect(RegexUtil.getBookFromReference("cf. Psalms 45")).to(equal(.psalms))
+                expect(RegexUtil.getBookFromReference("Psalms")).to(equal(.psalms))
+                expect(RegexUtil.getBookFromReference("1 John 5:12")).to(equal(.firstJohn))
+                expect(RegexUtil.getBookFromReference("3 John 5:1")).to(equal(.thirdJohn))
+                expect(RegexUtil.getBookFromReference("Jude 1:12")).to(equal(.jude))
+                expect(RegexUtil.getBookFromReference("Matthew 17:5-14")).to(equal(.matthew))
+                expect(RegexUtil.getBookFromReference("Song of Songs 4:12")).to(equal(.songOfSongs))
+                expect(RegexUtil.getBookFromReference("cf. Daniel 3:6-7")).to(equal(.daniel))
+                expect(RegexUtil.getBookFromReference("6:19")).to(beNil())
+                expect(RegexUtil.getBookFromReference("80")).to(beNil())
+                expect(RegexUtil.getBookFromReference("cf. 80")).to(beNil())
+            }
+        }
+        describe("getting chapter from reference") {
+            it("should be extract the right chapter") {
+                expect(RegexUtil.getChapterFromReference("2 Chronicles 15:45")).to(equal("15"))
+                expect(RegexUtil.getChapterFromReference("Psalms 45")).to(equal("45"))
+                expect(RegexUtil.getChapterFromReference("cf. Psalms 45")).to(equal("45"))
+                expect(RegexUtil.getChapterFromReference("Psalms")).to(beNil())
+                expect(RegexUtil.getChapterFromReference("1 John 5:12")).to(equal("5"))
+                expect(RegexUtil.getChapterFromReference("3 John 5:1")).to(equal("5"))
+                expect(RegexUtil.getChapterFromReference("Jude 1:12")).to(equal("1"))
+                expect(RegexUtil.getChapterFromReference("Matthew 17:5-14")).to(equal("17"))
+                expect(RegexUtil.getChapterFromReference("Song of Songs 4:12")).to(equal("4"))
+                expect(RegexUtil.getChapterFromReference("cf. Daniel 3:6-7")).to(equal("3"))
+                expect(RegexUtil.getChapterFromReference("6:19")).to(equal("6"))
+                expect(RegexUtil.getChapterFromReference("80")).to(beNil())
+                expect(RegexUtil.getChapterFromReference("cf. 80")).to(equal("80"))
+            }
+        }
+        describe("getting verse from reference") {
+            fit("should be extract the right verse") {
+                expect(RegexUtil.getVerseFromReference("2 Chronicles 15:45")).to(equal("45"))
+                expect(RegexUtil.getVerseFromReference("Psalms 45")).to(beNil())
+                expect(RegexUtil.getVerseFromReference("cf. Psalms 45")).to(beNil())
+                expect(RegexUtil.getVerseFromReference("Psalms")).to(beNil())
+                expect(RegexUtil.getVerseFromReference("1 John 5:12")).to(equal("12"))
+                expect(RegexUtil.getVerseFromReference("3 John 5:1")).to(equal("1"))
+                expect(RegexUtil.getVerseFromReference("Jude 1:12")).to(equal("12"))
+                expect(RegexUtil.getVerseFromReference("Matthew 17:5-14")).to(equal("5-14"))
+                expect(RegexUtil.getVerseFromReference("5-14")).to(equal("5-14"))
+                expect(RegexUtil.getVerseFromReference("Jude 1:12")).to((equal("12")))
+                expect(RegexUtil.getVerseFromReference("Song of Songs 4:12")).to(equal("12"))
+                expect(RegexUtil.getVerseFromReference("cf. Daniel 3:6-7")).to(equal("6-7"))
+                expect(RegexUtil.getVerseFromReference("6:19")).to(equal("19"))
+                expect(RegexUtil.getVerseFromReference("80")).to(equal("80"))
+                expect(RegexUtil.getVerseFromReference("cf. 80")).to(beNil())
+            }
+        }
     }
 }
