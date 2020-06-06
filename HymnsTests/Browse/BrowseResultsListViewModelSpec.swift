@@ -11,7 +11,8 @@ class BrowseResultsListViewModelSpec: QuickSpec {
         describe("BrowseResultsListViewModel") {
             let testQueue = DispatchQueue(label: "test_queue")
             var dataStore: HymnDataStoreMock!
-            var inMemoryRealm: Realm!
+        //    var inMemoryRealm: Realm!
+       //     var tagStore: TagStoreRealmImpl!
             var tagStore: TagStoreMock!
             var target: BrowseResultsListViewModel!
             beforeEach {
@@ -80,15 +81,16 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                     expect(target.songResults).to(beEmpty())
                 }
             }
-            //TEST TAGS
             context("Use different initializer for tag functions") {
                 beforeEach {
-                    // swiftlint:disable:next force_try
-                    inMemoryRealm = try! Realm(configuration: Realm.Configuration(inMemoryIdentifier: "TagStoreRealmImplSpec"))
-                    tagStore = TagStoreMock(realm: inMemoryRealm)
-                    tagStore.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Cheery"))
-                    tagStore.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "fanIntoFlames"))
-                    tagStore.storeTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "fanIntoFlames"))
+                    tagStore = mock(TagStore.self)
+//HELP!!! Do I even need to move the storing? How do I mock something with void returns?! Ughhh also, my getUniqueTags should be working! But it seems I am missing a stub? Thats the error i am getting   Assertions: failed - Missing stubbed implementation for 'getSelectedTags(tagSelected: String?) -> Results<Hymns.TagEntity>' with arguments [fanIntoFlames]
+//File: BrowseResultsListViewModelSpec.swift:86
+//Assertions: Test operation was canceled
+                   given(tagStore.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "fanIntoFlames")))
+                    given(tagStore.getUniqueTags()) ~> ["FanIntoFlames"]
+
+
                 }
                 describe("Should return all the hymns that have this specific tag") {
                     beforeEach {
@@ -101,4 +103,4 @@ class BrowseResultsListViewModelSpec: QuickSpec {
             }
         }
     }
-}
+    }
