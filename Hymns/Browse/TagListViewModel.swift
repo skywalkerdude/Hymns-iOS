@@ -16,10 +16,9 @@ class TagListViewModel: ObservableObject {
     }
 
     func getUniqueTags() {
-        let result: [String] = tagStore.getUniqueTags()
-        tags = result
-        }
+        tags = tagStore.getUniqueTags()
     }
+}
 
 extension Resolver {
     public static func registerTagListViewModel() {
