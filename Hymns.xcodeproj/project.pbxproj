@@ -29,6 +29,7 @@
 		3B1B90222429CF57009FDCC5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B1B90202429CF57009FDCC5 /* LaunchScreen.storyboard */; };
 		3B1B90382429CF57009FDCC5 /* HymnsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B90372429CF57009FDCC5 /* HymnsUITests.swift */; };
 		3B203690248C131B00D90DF5 /* NonFatal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20368F248C131B00D90DF5 /* NonFatal.swift */; };
+		3B20368E248C0E8200D90DF5 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20368D248C0E8200D90DF5 /* ErrorView.swift */; };
 		3B21F3642486CFA200B4AFE0 /* BrowseResultsListViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B21F3632486CFA200B4AFE0 /* BrowseResultsListViewModelSpec.swift */; };
 		3B21F366248720E600B4AFE0 /* SubcategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B21F365248720E500B4AFE0 /* SubcategoryView.swift */; };
 		3B22187F247910C3009202B0 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22187E247910C3009202B0 /* UserDefaultsManager.swift */; };
@@ -216,6 +217,7 @@
 		3B1B90372429CF57009FDCC5 /* HymnsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnsUITests.swift; sourceTree = "<group>"; };
 		3B1B90392429CF57009FDCC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B20368F248C131B00D90DF5 /* NonFatal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonFatal.swift; sourceTree = "<group>"; };
+		3B20368D248C0E8200D90DF5 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		3B21F3632486CFA200B4AFE0 /* BrowseResultsListViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseResultsListViewModelSpec.swift; sourceTree = "<group>"; };
 		3B21F365248720E500B4AFE0 /* SubcategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubcategoryView.swift; sourceTree = "<group>"; };
 		3B22187E247910C3009202B0 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
@@ -599,6 +601,7 @@
 				3B45B901243BEC1C00D38BEF /* SongResultViewModel.swift */,
 				B56305B6244223A5003BC132 /* CustomTitleView.swift */,
 				B56305B8244223D7003BC132 /* FontViewModifier.swift */,
+				3B20368D248C0E8200D90DF5 /* ErrorView.swift */,
 				3B369CEB246D07580068A29C /* PDFViewer.swift */,
 				3BB1DCB4244D55770011169D /* SearchBar.swift */,
 				B5A00F5E245277E300F7E3E1 /* ActivityIndicator.swift */,
@@ -1414,6 +1417,7 @@
 				3B1B90152429CF55009FDCC5 /* SceneDelegate.swift in Sources */,
 				B5809DFC244F614000EF0C63 /* FavoritesViewModel.swift in Sources */,
 				3BB09207244A18F800EAE411 /* BaseSettingViewModel.swift in Sources */,
+				3B20368E248C0E8200D90DF5 /* ErrorView.swift in Sources */,
 				3B25C0E824503B6900C435E1 /* RecentSong.swift in Sources */,
 				3BADB42524822BDB008CEDAB /* BrowseTab.swift in Sources */,
 				3BA4612B24772B250068F269 /* SongInfoDialog.swift in Sources */,
