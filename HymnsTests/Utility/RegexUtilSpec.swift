@@ -246,7 +246,7 @@ class RegexUtilSpec: QuickSpec {
             }
         }
         describe("getting verse from reference") {
-            fit("should be extract the right verse") {
+            it("should be extract the right verse") {
                 expect(RegexUtil.getVerseFromReference("2 Chronicles 15:45")).to(equal("45"))
                 expect(RegexUtil.getVerseFromReference("Psalms 45")).to(beNil())
                 expect(RegexUtil.getVerseFromReference("cf. Psalms 45")).to(beNil())

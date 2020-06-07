@@ -7,7 +7,7 @@ import Quick
 class HomeViewModelSpec: QuickSpec {
 
     override func spec() {
-        xdescribe("HomeViewModelSpec") {
+        describe("HomeViewModelSpec") {
             // https://www.vadimbulavin.com/unit-testing-async-code-in-swift/
             let testQueue = DispatchQueue(label: "test_queue")
             var historyStore: HistoryStoreMock!
@@ -24,7 +24,6 @@ class HomeViewModelSpec: QuickSpec {
             context("empty recent songs") {
                 beforeEach {
                     given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
-                        expect(target.state).to(equal(HomeResultState.loading))
                         onChanged([RecentSong]())
                         return mock(Notification.self)
                     }
