@@ -16,51 +16,47 @@ struct AudioView: View {
     }
 
     var body: some View {
-        VStack {
-            AudioSlider(player: viewModel.player,
-                        timeObserver: PlayerTimeObserver(player: viewModel.player), currentlyPlaying: $currentlyPlaying)
-            HStack(spacing: 30) {
-                // Reset button
-                Button(action: {
-                    self.currentlyPlaying = false
-                    guard let url = self.viewModel.item else {
-                        return
-                    }
-                    let playerItem = AVPlayerItem(url: url)
-                    self.viewModel.player.replaceCurrentItem(with: playerItem)
+        HStack(spacing: 30) {
+            // Reset button
+            Button(action: {
+                self.currentlyPlaying = false
+                guard let url = self.viewModel.item else {
+                    return
+                }
+                let playerItem = AVPlayerItem(url: url)
+                self.viewModel.player.replaceCurrentItem(with: playerItem)
+                self.viewModel.player.play()
+            }, label: {
+                Image(systemName: "backward.end")
+            })
+
+            // Button to rewind
+            Button(action: {
+                let rewoundTime = self.viewModel.convertFloatToCMTime(self.viewModel.playerCurrentTime - self.viewModel.seekDuration)
+                self.viewModel.player.seek(to: rewoundTime, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+            }, label: {
+                Image(systemName: "backward")
+            })
+
+            // Button to toggle play and pause
+            Button(action: {
+                self.currentlyPlaying.toggle()
+                if self.currentlyPlaying {
                     self.viewModel.player.play()
-                }, label: {
-                    Image(systemName: "backward.end")
-                })
+                } else {
+                    self.viewModel.player.pause()
+                }
+            }, label: {Image(systemName: currentlyPlaying ? "pause.circle" : "play.circle")
+                .font(.largeTitle)
+            })
 
-                // Button to rewind
-                Button(action: {
-                    let rewoundTime = self.viewModel.convertFloatToCMTime(self.viewModel.playerCurrentTime - self.viewModel.seekDuration)
-                    self.viewModel.player.seek(to: rewoundTime, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
-                }, label: {
-                    Image(systemName: "backward")
-                })
-
-                // Button to toggle play and pause
-                Button(action: {
-                    self.currentlyPlaying.toggle()
-                    if self.currentlyPlaying {
-                        self.viewModel.player.play()
-                    } else {
-                        self.viewModel.player.pause()
-                    }
-                }, label: {Image(systemName: currentlyPlaying ? "pause.circle" : "play.circle")
-                    .font(.largeTitle)
-                })
-
-                // Button to fast forward
-                Button(action: {
-                    let fastForwardedTime = self.viewModel.convertFloatToCMTime(self.viewModel.playerCurrentTime + self.viewModel.seekDuration)
-                    self.viewModel.player.seek(to: fastForwardedTime, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
-                }, label: {
-                    Image(systemName: "forward")
-                })
-            }
+            // Button to fast forward
+            Button(action: {
+                let fastForwardedTime = self.viewModel.convertFloatToCMTime(self.viewModel.playerCurrentTime + self.viewModel.seekDuration)
+                self.viewModel.player.seek(to: fastForwardedTime, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+            }, label: {
+                Image(systemName: "forward")
+            })
         }.onAppear {
             guard let url = self.viewModel.item else {
                 return
