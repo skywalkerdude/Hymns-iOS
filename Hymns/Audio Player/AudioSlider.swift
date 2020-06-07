@@ -1,7 +1,10 @@
 import AVFoundation
 import SwiftUI
 
-struct AudioPlayerControlsView: View {
+/**
+ * Sliider/scrubber for the audio player.
+ */
+struct AudioSlider: View {
 
     let player: AVPlayer
     let timeObserver: PlayerTimeObserver
@@ -9,30 +12,20 @@ struct AudioPlayerControlsView: View {
     @State private var currentTime: TimeInterval = 0
 
     var body: some View {
-        VStack {
-            Slider(value: $currentTime,
-                   in: 0...60,
-                   onEditingChanged: sliderEditingChanged,
-                   minimumValueLabel: Text("\(formatSecondsToHMS(currentTime))"),
-                   maximumValueLabel: Text("")) {
-                    // I have no idea in what scenario this View is shown...
-                    Text("seek/progress slider")
-            }
-            .disabled(currentlyPlaying != true)
-        }
-        .padding()
-            // Listen out for the time observer publishing changes to the player's time
+        Slider(value: $currentTime,
+               in: 0...60,
+               onEditingChanged: sliderEditingChanged,
+               minimumValueLabel: Text("\(formatSecondsToHMS(currentTime))"),
+               maximumValueLabel: Text(""),
+               label: {
+                Text("Song progress slider")
+        }) // Listen for the time observer publishing changes to the player's time
             .onReceive(timeObserver.publisher) { time in
-                // Update the local var
+                // Update the time
                 self.currentTime = time
-                // And flag that we've started playback
-                if time > 0 {
-                    self.currentlyPlaying = true
-                }
-        }
+        }.padding()
     }
 
-    // MARK: Private functions
     private func sliderEditingChanged(editingStarted: Bool) {
         if editingStarted {
             // Tell the PlayerTimeObserver to stop publishing updates while the user is interacting
@@ -42,8 +35,7 @@ struct AudioPlayerControlsView: View {
         } else {
             // Editing finished, start the seek
             currentlyPlaying = false
-            let targetTime = CMTime(seconds: currentTime,
-                                    preferredTimescale: 600)
+            let targetTime = CMTime(seconds: currentTime, preferredTimescale: 600)
             player.seek(to: targetTime) { _ in
                 // Now the (async) seek is completed, resume normal operation
                 self.timeObserver.pause(false)
@@ -52,16 +44,28 @@ struct AudioPlayerControlsView: View {
         }
     }
 
-    // MARK: Helper functions
-    var timeHMSFormatter: DateComponentsFormatter = {
+    private func formatSecondsToHMS(_ seconds: Double) -> String {
         let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .positional
         formatter.allowedUnits = [.minute, .second]
         formatter.zeroFormattingBehavior = [.pad]
-        return formatter
-    }()
-
-    private func formatSecondsToHMS(_ seconds: Double) -> String {
-        return timeHMSFormatter.string(from: seconds) ?? "00:00"
+        return formatter.string(from: seconds) ?? "00:00"
     }
 }
+
+#if DEBUG
+struct AudioPlayerControlsView_Previews: PreviewProvider {
+    static var previews: some View {
+
+        var bool: Bool = true
+        let currentlyPlaying = Binding<Bool>(
+            get: {bool},
+            set: {bool = $0})
+        let avPlayer = AVPlayer()
+        let observer = PlayerTimeObserver(player: AVPlayer())
+        return Group {
+            AudioSlider(player: avPlayer, timeObserver: observer, currentlyPlaying: currentlyPlaying)
+        }
+    }
+}
+#endif

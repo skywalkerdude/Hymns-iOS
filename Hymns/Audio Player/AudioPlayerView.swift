@@ -2,11 +2,12 @@ import SwiftUI
 import AVFoundation
 import Combine
 
+// https://github.com/ChrisMash/AVPlayer-SwiftUI
+// https://medium.com/flawless-app-stories/avplayer-swiftui-part-2-player-controls-c28b721e7e27
+// TODO For some reason the combine stuff isn't working with our URLS that aren't straight up mp3 urls for example http://www.hymnal.net/en/hymn/h/894/f=mp3 that is coming from musicJson. However, the combine works when the url is a direct mp3 url such as https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3
 struct AudioView: View {
 
-    //A second state variable play button toggle is necessary because currentlyplaying is also in control of graying out the music player and working with seeking. We don't want the music player to be greyed out and unavailable everytime we pause the music.
     @State var currentlyPlaying = false
-    @State var playButtonToggle = true
 
     @ObservedObject private var viewModel: AudioPlayerViewModel
 
@@ -16,12 +17,12 @@ struct AudioView: View {
 
     var body: some View {
         VStack {
-            AudioPlayerControlsView(player: viewModel.player,
-                                    timeObserver: PlayerTimeObserver(player: viewModel.player), currentlyPlaying: $currentlyPlaying)
+            AudioSlider(player: viewModel.player,
+                        timeObserver: PlayerTimeObserver(player: viewModel.player), currentlyPlaying: $currentlyPlaying)
             HStack(spacing: 30) {
-                //Reset button
+                // Reset button
                 Button(action: {
-                    self.playButtonToggle = false
+                    self.currentlyPlaying = false
                     guard let url = self.viewModel.item else {
                         return
                     }
@@ -32,26 +33,27 @@ struct AudioView: View {
                     Image(systemName: "backward.end")
                 })
 
-                //Button to rewind
+                // Button to rewind
                 Button(action: {
                     let rewoundTime = self.viewModel.convertFloatToCMTime(self.viewModel.playerCurrentTime - self.viewModel.seekDuration)
                     self.viewModel.player.seek(to: rewoundTime, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
-                }, label: {Image(systemName: "backward")
+                }, label: {
+                    Image(systemName: "backward")
                 })
 
-                //Button to toggle play and pause
+                // Button to toggle play and pause
                 Button(action: {
-                    if self.playButtonToggle {
+                    self.currentlyPlaying.toggle()
+                    if self.currentlyPlaying {
                         self.viewModel.player.play()
                     } else {
                         self.viewModel.player.pause()
                     }
-                    self.playButtonToggle.toggle()
-                }, label: {Image(systemName: playButtonToggle ? "play.circle" : "pause.circle")
+                }, label: {Image(systemName: currentlyPlaying ? "pause.circle" : "play.circle")
                     .font(.largeTitle)
                 })
 
-                //Button to fast forward
+                // Button to fast forward
                 Button(action: {
                     let fastForwardedTime = self.viewModel.convertFloatToCMTime(self.viewModel.playerCurrentTime + self.viewModel.seekDuration)
                     self.viewModel.player.seek(to: fastForwardedTime, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
@@ -72,3 +74,14 @@ struct AudioView: View {
         }
     }
 }
+
+#if DEBUG
+struct AudioView_Previews: PreviewProvider {
+    static var previews: some View {
+        let viewModel = AudioPlayerViewModel(item: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=mp3")!)
+        return Group {
+            AudioView(viewModel: viewModel)
+        }
+    }
+}
+#endif
