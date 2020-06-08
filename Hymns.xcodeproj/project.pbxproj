@@ -28,8 +28,8 @@
 		3B1B901C2429CF57009FDCC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B1B901B2429CF57009FDCC5 /* Assets.xcassets */; };
 		3B1B90222429CF57009FDCC5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B1B90202429CF57009FDCC5 /* LaunchScreen.storyboard */; };
 		3B1B90382429CF57009FDCC5 /* HymnsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B90372429CF57009FDCC5 /* HymnsUITests.swift */; };
-		3B203690248C131B00D90DF5 /* NonFatal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20368F248C131B00D90DF5 /* NonFatal.swift */; };
 		3B20368E248C0E8200D90DF5 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20368D248C0E8200D90DF5 /* ErrorView.swift */; };
+		3B203690248C131B00D90DF5 /* NonFatal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20368F248C131B00D90DF5 /* NonFatal.swift */; };
 		3B21F3642486CFA200B4AFE0 /* BrowseResultsListViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B21F3632486CFA200B4AFE0 /* BrowseResultsListViewModelSpec.swift */; };
 		3B21F366248720E600B4AFE0 /* SubcategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B21F365248720E500B4AFE0 /* SubcategoryView.swift */; };
 		3B22187F247910C3009202B0 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B22187E247910C3009202B0 /* UserDefaultsManager.swift */; };
@@ -166,6 +166,9 @@
 		B5C0A59E2489F2EB0048FA46 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C0A59D2489F2EB0048FA46 /* TagListView.swift */; };
 		B5C0A5A02489F3220048FA46 /* TagListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C0A59F2489F3220048FA46 /* TagListViewModel.swift */; };
 		B5C35EFA247AA4D600EF6AA9 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C35EF9247AA4D600EF6AA9 /* ShareSheet.swift */; };
+		B5DC935C248EBD1C00BF90A5 /* MailFeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DC935B248EBD1C00BF90A5 /* MailFeedbackView.swift */; };
+		B5DC935E248EC5F800BF90A5 /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DC935D248EC5F800BF90A5 /* FeedbackView.swift */; };
+		B5DC9360248EC6D200BF90A5 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DC935F248EC6D200BF90A5 /* FeedbackViewModel.swift */; };
 		B5E61B34242E613D00EF497D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5E61B36242E613D00EF497D /* Localizable.strings */; };
 		B5FCEBFC248A89FB000DA2DD /* TagListViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FCEBFB248A89FB000DA2DD /* TagListViewModelSpec.swift */; };
 		BB4C7E9E5879F6AF8CCA77D9 /* Pods_HymnsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C052BC4D7D8FB1033B79AAE7 /* Pods_HymnsTests.framework */; };
@@ -216,8 +219,8 @@
 		3B1B90332429CF57009FDCC5 /* HymnsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HymnsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B1B90372429CF57009FDCC5 /* HymnsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnsUITests.swift; sourceTree = "<group>"; };
 		3B1B90392429CF57009FDCC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3B20368F248C131B00D90DF5 /* NonFatal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonFatal.swift; sourceTree = "<group>"; };
 		3B20368D248C0E8200D90DF5 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		3B20368F248C131B00D90DF5 /* NonFatal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonFatal.swift; sourceTree = "<group>"; };
 		3B21F3632486CFA200B4AFE0 /* BrowseResultsListViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseResultsListViewModelSpec.swift; sourceTree = "<group>"; };
 		3B21F365248720E500B4AFE0 /* SubcategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubcategoryView.swift; sourceTree = "<group>"; };
 		3B22187E247910C3009202B0 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
@@ -363,6 +366,9 @@
 		B5C0A59D2489F2EB0048FA46 /* TagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
 		B5C0A59F2489F3220048FA46 /* TagListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListViewModel.swift; sourceTree = "<group>"; };
 		B5C35EF9247AA4D600EF6AA9 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
+		B5DC935B248EBD1C00BF90A5 /* MailFeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailFeedbackView.swift; sourceTree = "<group>"; };
+		B5DC935D248EC5F800BF90A5 /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
+		B5DC935F248EC6D200BF90A5 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
 		B5E61B35242E613D00EF497D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B5E61B37242E62F600EF497D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B5E61B38242E630000EF497D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -760,6 +766,9 @@
 				3B87B82724493F9200AEC7E9 /* SimpleSettingViewModel.swift */,
 				3BE9EE97244AB8650098699E /* PrivacyPolicySettingView.swift */,
 				3BE9EE99244AC22C0098699E /* PrivacyPolicySettingViewModel.swift */,
+				B5DC935B248EBD1C00BF90A5 /* MailFeedbackView.swift */,
+				B5DC935D248EC5F800BF90A5 /* FeedbackView.swift */,
+				B5DC935F248EC6D200BF90A5 /* FeedbackViewModel.swift */,
 				5CA7849B242D14BA00B57903 /* SettingsView.swift */,
 				3B87B8292449497A00AEC7E9 /* SettingsViewModel.swift */,
 				3BB09206244A18F800EAE411 /* BaseSettingViewModel.swift */,
@@ -1330,6 +1339,7 @@
 				3BC1329724385A580082A274 /* HomeContainerView.swift in Sources */,
 				3BA4612524771C460068F269 /* SongInfoViewModel.swift in Sources */,
 				3B877E7E245FCE68004C10DD /* Converter.swift in Sources */,
+				B5DC935E248EC5F800BF90A5 /* FeedbackView.swift in Sources */,
 				3B90969B245F7F14000229A2 /* HymnEntity.swift in Sources */,
 				3B877E882460E1AF004C10DD /* UiHymn.swift in Sources */,
 				3B877E82245FF4B4004C10DD /* Data+Extensions.swift in Sources */,
@@ -1387,7 +1397,9 @@
 				3B50B968243E44B100EABDE4 /* SongResultsPage.swift in Sources */,
 				3BB1DCAE244D03DE0011169D /* TabItem.swift in Sources */,
 				3BE44369248AC12C00763B3C /* ScriptureSongView.swift in Sources */,
+				B5DC935C248EBD1C00BF90A5 /* MailFeedbackView.swift in Sources */,
 				3BE44363248ABBED00763B3C /* Book.swift in Sources */,
+				B5DC9360248EC6D200BF90A5 /* FeedbackViewModel.swift in Sources */,
 				3B87B82624493F7F00AEC7E9 /* SimpleSettingView.swift in Sources */,
 				3B43718124766700000B42AC /* Previews.swift in Sources */,
 				3BC1328D243826280082A274 /* PreviewHymns.swift in Sources */,
@@ -1647,7 +1659,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Hymns/Preview Content\"";
-				DEVELOPMENT_TEAM = VBX3S26MR4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Hymns/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1721,7 +1733,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Hymns/Preview Content\"";
-				DEVELOPMENT_TEAM = VBX3S26MR4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Hymns/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1933,7 +1945,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Hymns/Preview Content\"";
-				DEVELOPMENT_TEAM = VBX3S26MR4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Hymns/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
