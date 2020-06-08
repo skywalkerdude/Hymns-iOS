@@ -29,8 +29,7 @@ struct DisplayHymnBottomBar: View {
     @State private var languageIndexShown: Int?
     @State private var relevantIndexShown: Int?
 
-    @State var mp3PlayerShown = false
-    @State var playButtonOn = false
+    @State var showAudioPlayer = false
 
     @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
 
@@ -38,16 +37,12 @@ struct DisplayHymnBottomBar: View {
 
     var body: some View {
         VStack {
-            if playButtonOn {
+            if showAudioPlayer {
                 viewModel.mp3Path.map { _ in
-                    GeometryReader { geometry in
-                        BottomSheetView(
-                            isOpen: self.$mp3PlayerShown,
-                            maxHeight: geometry.size.height * 1
-                        ) {
-                            AudioView(viewModel: AudioPlayerViewModel(item: self.viewModel.mp3Path))
-                        }
-                    }.frame(minHeight: 120, idealHeight: 120, maxHeight: 120.0)
+                    VStack {
+                        Divider()
+                        AudioPlayer(viewModel: AudioPlayerViewModel(item: self.viewModel.mp3Path)).padding()
+                    }
                 }
             }
             HStack(spacing: 0) {
@@ -109,9 +104,9 @@ struct DisplayHymnBottomBar: View {
                 Group {
                     viewModel.mp3Path.map { _ in
                         Button(action: {
-                            self.playButtonOn.toggle()
+                            self.showAudioPlayer.toggle()
                         }, label: {
-                            playButtonOn ? Image(systemName: "play.fill").accentColor(.accentColor) : Image(systemName: "play").accentColor(.primary)
+                            showAudioPlayer ? Image(systemName: "play.fill").accentColor(.accentColor) : Image(systemName: "play").accentColor(.primary)
                         })
                     }
                     Spacer()
@@ -176,7 +171,7 @@ struct DisplayHymnBottomBar: View {
                     return ShareSheet(activityItems: [self.viewModel.shareableLyrics])
                 }
             }
-        }
+        }.background(Color(.systemBackground))
     }
 }
 
