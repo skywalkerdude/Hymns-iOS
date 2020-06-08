@@ -6,7 +6,6 @@ import Combine
 // https://medium.com/flawless-app-stories/avplayer-swiftui-part-2-player-controls-c28b721e7e27
 // TODO For some reason the combine stuff isn't working with our URLS that aren't straight up mp3 urls for example http://www.hymnal.net/en/hymn/h/894/f=mp3 that is coming from musicJson. However, the combine works when the url is a direct mp3 url such as https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3
 struct AudioPlayer: View {
-
     @State var currentlyPlaying = false
     @State var repeating = false
 
@@ -20,7 +19,7 @@ struct AudioPlayer: View {
         HStack(spacing: 40) {
             // Reset button
             Button(action: {
-                self.currentlyPlaying = false
+                self.currentlyPlaying = true
                 guard let url = self.viewModel.item else {
                     return
                 }
@@ -62,7 +61,7 @@ struct AudioPlayer: View {
             // Repeat button
             Button(action: {
                 self.repeating.toggle()
-                // TODO implement repeating
+                self.viewModel.repeatingOn(audioPlayer: self.viewModel.player, looping: self.repeating)
             }, label: {
                 Image(systemName: "repeat").font(.subheadline).foregroundColor(repeating ? .accentColor : .primary)
             })
