@@ -38,8 +38,13 @@ class TagStoreRealmImplSpec: QuickSpec {
                     }
                     it("should contain a query number matching the number of tags for that hymn") {
                         let resultsOfQuery = target.getTagsForHymn(hymnIdentifier: classic1151)
-                        expect(resultsOfQuery.0).to(equal(["Christ", "Peace", "Life", "Is"]))
-                        expect(resultsOfQuery.1).to(equal([.blue, .blue, .red, .red]))
+                        //https://stackoverflow.com/questions/46043902/opposite-of-swift-zip-split-tuple-into-two-arrays Splitting tuples into two arrays
+                        let (tagName, tagColor) = resultsOfQuery.reduce(into: ([String](), [TagColor]())) {
+                            $0.0.append($1.tagName)
+                            $0.1.append($1.tagColor)
+                        }
+                        expect(tagName).to(equal(["Christ", "Peace", "Life", "Is"]))
+                        expect(tagColor).to(equal([.blue, .blue, .red, .red]))
                     }
                 }
                 describe("deleting a tag") {

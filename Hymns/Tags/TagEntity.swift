@@ -6,7 +6,9 @@ class TagEntity: Object, Identifiable {
     @objc dynamic var hymnIdentifierEntity: HymnIdentifierEntity!
     @objc dynamic var songTitle: String!
     @objc dynamic var tag: String!
-    @objc private dynamic var privateTagColor: Int = TagColor.blue.rawValue
+
+    //https://stackoverflow.com/questions/29123245/using-enum-as-property-of-realm-model
+    @objc private dynamic var privateTagColor: Int = TagColor.none.rawValue
     var tagColor: TagColor {
         get { return TagColor(rawValue: privateTagColor)! }
         set { privateTagColor = newValue.rawValue }
@@ -35,5 +37,5 @@ class TagEntity: Object, Identifiable {
 }
 
 enum TagColor: Int {
-        case blue, green, yellow, red
+    case none, blue, green, yellow, red
 }
