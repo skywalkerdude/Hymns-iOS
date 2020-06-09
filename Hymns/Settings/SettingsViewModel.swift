@@ -9,7 +9,7 @@ struct SettingsViewModel {
 
     init(application: Application = Resolver.resolve()) {
         let privacyPolicy = PrivacyPolicySettingViewModel()
-        settings = [privacyPolicy.eraseToAnySettingViewModel()]
+        settings = [privacyPolicy.eraseToAnySettingViewModel(), FeedbackViewModel().eraseToAnySettingViewModel()]
     }
 }
 

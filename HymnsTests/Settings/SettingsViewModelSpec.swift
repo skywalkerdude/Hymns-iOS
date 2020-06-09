@@ -21,7 +21,7 @@ class SettingsViewModelSpec: QuickSpec {
                     settings = target.settings
                 }
 
-                let settingsSize = 1 // Change this value as we add more settings.
+                let settingsSize = 2 // Change this value as we add more settings.
                 it("should contain exactly \(settingsSize) item") {
                     expect(settings).to(haveCount(settingsSize))
                 }
