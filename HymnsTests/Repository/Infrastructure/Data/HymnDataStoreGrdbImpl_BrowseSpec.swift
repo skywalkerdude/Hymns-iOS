@@ -168,17 +168,18 @@ class HymnDataStoreGrdbImpl_BrowseSpec: QuickSpec {
             }
             describe("save some scripture songs") {
                 beforeEach {
-                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "1"), scriptures: "scripture"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "2"), scriptures: "scripture"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "3"), scriptures: "scripture"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .children, hymnNumber: "1"), scriptures: "scripture"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .children, hymnNumber: "no scripture")))
-                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .children, hymnNumber: "1"), scriptures: "scripture 2")) // replaces the previous children1 song
+                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "1"), title: "classic 1", scriptures: "scripture"))
+                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "2"), title: "classic 2", scriptures: "scripture"))
+                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "3"), title: "classic 3", scriptures: "scripture"))
+                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "no title"), scriptures: "scripture"))
+                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .children, hymnNumber: "1"), title: "children 1", scriptures: "scripture"))
+                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .children, hymnNumber: "no scripture"), title: "classic 1"))
+                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .children, hymnNumber: "1"), title: "children 1", scriptures: "scripture 2")) // replaces the previous children1 song
                 }
-                let expected = [ScriptureEntity(hymnType: .classic, hymnNumber: "1", queryParams: nil, scriptures: "scripture"),
-                                ScriptureEntity(hymnType: .classic, hymnNumber: "2", queryParams: nil, scriptures: "scripture"),
-                                ScriptureEntity(hymnType: .classic, hymnNumber: "3", queryParams: nil, scriptures: "scripture"),
-                                ScriptureEntity(hymnType: .children, hymnNumber: "1", queryParams: nil, scriptures: "scripture 2")]
+                let expected = [ScriptureEntity(title: "classic 1", hymnType: .classic, hymnNumber: "1", queryParams: nil, scriptures: "scripture"),
+                                ScriptureEntity(title: "classic 2", hymnType: .classic, hymnNumber: "2", queryParams: nil, scriptures: "scripture"),
+                                ScriptureEntity(title: "classic 3", hymnType: .classic, hymnNumber: "3", queryParams: nil, scriptures: "scripture"),
+                                ScriptureEntity(title: "children 1", hymnType: .children, hymnNumber: "1", queryParams: nil, scriptures: "scripture 2")]
                 it("should fetch songs with scripture references") {
                     let completion = XCTestExpectation(description: "completion received")
                     let value = XCTestExpectation(description: "value received")
