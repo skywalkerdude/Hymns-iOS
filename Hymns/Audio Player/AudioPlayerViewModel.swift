@@ -4,13 +4,32 @@ import Combine
 
 class AudioPlayerViewModel: ObservableObject {
 
-    init(item: URL?) {
-        self.item = item
-    }
+    @Published var currentlyPlaying = false
+    @Published var shouldRepeat = false
 
     let player = AVPlayer()
-    let item: URL?
-    let seekDuration: Float64 = 15
+    let url: URL?
+    let seekDuration: Float64 = 5
+
+    private var playingFinishedObserver: Any?
+
+    init(url: URL?) {
+        self.url = url
+        self.playingFinishedObserver =
+            NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { _ in
+                self.player.seek(to: CMTime.zero)
+                if self.shouldRepeat {
+                    self.player.play()
+                } else {
+                    self.currentlyPlaying = false
+                }
+        }
+    }
+
+    func toggleRepeat() {
+        shouldRepeat.toggle()
+    }
+
     var playerCurrentTime: Float64 {
         CMTimeGetSeconds(self.player.currentTime())
     }
