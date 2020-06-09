@@ -23,27 +23,7 @@ struct PrivacyPolicySettingView: View {
 #if DEBUG
 struct PrivacyPolicySettingView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            Group {
-                Group {
-                    PrivacyPolicySettingView()
-                }.previewDisplayName("Regular")
-
-                Group {
-                    PrivacyPolicySettingView()
-                }
-                .environment(\.colorScheme, .dark)
-                .previewDisplayName("Dark Mode")
-            }
-            .previewLayout(.fixed(width: 200, height: 50))
-
-            Group {
-                PrivacyPolicySettingView()
-            }
-            .previewLayout(.fixed(width: 450, height: 150))
-            .environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
-            .previewDisplayName("Extra Extra Extra Large")
-        }
+        PrivacyPolicySettingView().toPreviews()
     }
 }
 #endif

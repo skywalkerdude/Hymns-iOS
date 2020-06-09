@@ -3,8 +3,8 @@ import MessageUI
 
 struct FeedbackView: View {
 
-   @State var result: Result<MFMailComposeResult, Error>?
-   @State var isShowingMailView = false
+    @State var result: Result<MFMailComposeResult, Error>?
+    @State var isShowingMailView = false
 
     var body: some View {
         Button(action: {
@@ -12,15 +12,15 @@ struct FeedbackView: View {
         }, label: {
             Text("Send Feedback").font(.callout)
         }).padding().foregroundColor(.primary)
-        .disabled(!MFMailComposeViewController.canSendMail())
-        .sheet(isPresented: $isShowingMailView) {
-            MailFeedbackView(result: self.$result)
+            .disabled(!MFMailComposeViewController.canSendMail())
+            .sheet(isPresented: $isShowingMailView) {
+                MailFeedbackView(result: self.$result)
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        FeedbackView()
+        FeedbackView().toPreviews()
     }
 }
