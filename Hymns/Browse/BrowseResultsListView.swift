@@ -20,9 +20,13 @@ struct BrowseResultsListView: View {
                 Text(viewModel.title).font(.body).fontWeight(.bold)
                 Spacer()
             }
-            List(viewModel.songResults) { songResult in
-                NavigationLink(destination: songResult.destinationView) {
-                    SongResultView(viewModel: songResult)
+            if viewModel.songResults.isEmpty {
+                ErrorView().maxSize()
+            } else {
+                List(viewModel.songResults) { songResult in
+                    NavigationLink(destination: songResult.destinationView) {
+                        SongResultView(viewModel: songResult)
+                    }
                 }
             }
         }.hideNavigationBar()
@@ -38,7 +42,8 @@ struct BrowseResultsListView_Previews: PreviewProvider {
         viewModel.songResults = songResults
 
         return Group {
-            BrowseResultsListView(viewModel: viewModel)
+            BrowseResultsListView(viewModel: BrowseResultsListViewModel(tag: "Best songs")).previewDisplayName("error state")
+            BrowseResultsListView(viewModel: viewModel).previewDisplayName("song results")
         }
     }
 }

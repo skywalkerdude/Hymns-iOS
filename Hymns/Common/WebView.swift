@@ -7,17 +7,13 @@ import WebKit
  */
 struct WebView: UIViewRepresentable {
 
-    let url: URL?
+    let url: URL
 
     func makeUIView(context: Context) -> WKWebView {
         return WKWebView()
     }
 
     func updateUIView(_ uiView: WKWebView, context: Context) {
-        guard let url = url else {
-            // TODO create error state
-            return
-        }
         uiView.load(URLRequest(url: url))
     }
 }
