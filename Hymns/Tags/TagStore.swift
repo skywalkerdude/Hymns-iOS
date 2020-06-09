@@ -62,10 +62,6 @@ class TagStoreRealmImpl: TagStore {
             (tagName: entity.tag, tagColor: entity.tagColor)
         }
         return tags
-//        let colors: [TagColor] = filteredObject.map { entity -> TagColor in
-//            entity.tagColor
-//        }
-//        return (tags, colors)
     }
 
     func getUniqueTags() -> [String] {

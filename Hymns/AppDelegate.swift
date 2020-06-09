@@ -36,11 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // We haven’t migrated anything yet, so oldSchemaVersion == 0
                 if oldSchemaVersion < 1 {
                     migration.enumerateObjects(ofType: TagEntity.className()) { _, newObject in
-                        newObject!["privateTagColor"] = 0
+                        newObject!["privateTagColor"] = TagColor.none.rawValue
                     }
-                    // Nothing to do!
-                    // Realm will automatically detect new properties and removed properties
-                    // And will update the schema on disk automatically
                 }
         })
         // Tell Realm to use this new configuration object for the default Realm
