@@ -22,6 +22,13 @@ struct PDFViewer: UIViewRepresentable {
         } else {
             pdfView.document = PDFDocument(url: url)
         }
+
+        //Display error state
+        if pdfView.document == nil {
+            if let fileURL = Bundle.main.url(forResource: "pdfErrorState", withExtension: "pdf") {
+                pdfView.document = PDFDocument(url: fileURL)
+            }
+        }
         pdfView.sizeToFit()
         pdfView.autoScales = true
     }
