@@ -45,7 +45,6 @@ class HomeViewModelSpec: QuickSpec {
             context("recent songs") {
                 beforeEach {
                     given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
-                        expect(target.state).to(equal(HomeResultState.loading))
                         onChanged(recentSongs)
                         return mock(Notification.self)
                     }
@@ -74,7 +73,6 @@ class HomeViewModelSpec: QuickSpec {
             context("search active") {
                 beforeEach {
                     given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
-                        expect(target.state).to(equal(HomeResultState.loading))
                         onChanged(recentSongs)
                         return mock(Notification.self)
                     }
