@@ -6,8 +6,6 @@ import Combine
 // https://medium.com/flawless-app-stories/avplayer-swiftui-part-2-player-controls-c28b721e7e27
 // TODO For some reason the combine stuff isn't working with our URLS that aren't straight up mp3 urls for example http://www.hymnal.net/en/hymn/h/894/f=mp3 that is coming from musicJson. However, the combine works when the url is a direct mp3 url such as https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3
 struct AudioPlayer: View {
-    @State var currentlyPlaying = false
-    @State var repeating = false
 
     @ObservedObject private var viewModel: AudioPlayerViewModel
 
@@ -19,8 +17,8 @@ struct AudioPlayer: View {
         HStack(spacing: 40) {
             // Reset button
             Button(action: {
-                self.currentlyPlaying = true
-                guard let url = self.viewModel.item else {
+                self.viewModel.currentlyPlaying = true
+                guard let url = self.viewModel.url else {
                     return
                 }
                 let playerItem = AVPlayerItem(url: url)
@@ -40,13 +38,13 @@ struct AudioPlayer: View {
 
             // Play/Pause button
             Button(action: {
-                self.currentlyPlaying.toggle()
-                if self.currentlyPlaying {
+                self.viewModel.currentlyPlaying.toggle()
+                if self.viewModel.currentlyPlaying {
                     self.viewModel.player.play()
                 } else {
                     self.viewModel.player.pause()
                 }
-            }, label: {Image(systemName: currentlyPlaying ? "pause.circle" : "play.circle")
+            }, label: {Image(systemName: viewModel.currentlyPlaying ? "pause.circle" : "play.circle")
                 .font(.largeTitle).foregroundColor(.primary)
             })
 
@@ -60,13 +58,12 @@ struct AudioPlayer: View {
 
             // Repeat button
             Button(action: {
-                self.repeating.toggle()
-                self.viewModel.repeatingOn(audioPlayer: self.viewModel.player, looping: self.repeating)
+                self.viewModel.shouldRepeat.toggle()
             }, label: {
-                Image(systemName: "repeat").font(.subheadline).foregroundColor(repeating ? .accentColor : .primary)
+                Image(systemName: "repeat").font(.subheadline).foregroundColor(viewModel.shouldRepeat ? .accentColor : .primary)
             })
         }.onAppear {
-            guard let url = self.viewModel.item else {
+            guard let url = self.viewModel.url else {
                 return
             }
             let playerItem = AVPlayerItem(url: url)
@@ -81,7 +78,7 @@ struct AudioPlayer: View {
 #if DEBUG
 struct AudioView_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = AudioPlayerViewModel(item: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=mp3")!)
+        let viewModel = AudioPlayerViewModel(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=mp3")!)
         return Group {
             AudioPlayer(viewModel: viewModel).previewLayout(.sizeThatFits)
         }

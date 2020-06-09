@@ -41,7 +41,7 @@ struct DisplayHymnBottomBar: View {
                 viewModel.mp3Path.map { _ in
                     VStack {
                         Divider()
-                        AudioPlayer(viewModel: AudioPlayerViewModel(item: self.viewModel.mp3Path)).padding()
+                        AudioPlayer(viewModel: AudioPlayerViewModel(url: self.viewModel.mp3Path)).padding()
                     }
                 }
             }

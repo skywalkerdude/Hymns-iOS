@@ -3,30 +3,32 @@ import AVFoundation
 import Combine
 
 class AudioPlayerViewModel: ObservableObject {
-    private var observer: Any?
 
-    init(item: URL?) {
-        self.item = item
-    }
+    @Published var currentlyPlaying = false
+    @Published var shouldRepeat = false
 
-    //https://stackoverflow.com/questions/5361145/looping-a-video-with-avfoundation-avplayer
-    //https://stackoverflow.com/questions/33388940/nsnotificationcenter-removeobserver-not-working
-    func repeatingOn(audioPlayer: AVPlayer, looping: Bool) {
-        if looping {
-            observer = NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { _ in
-                audioPlayer.seek(to: CMTime.zero)
-                audioPlayer.play()
-            }} else {
-            guard let observer = observer else {
-                return
+    let player = AVPlayer()
+    let url: URL?
+    let seekDuration: Float64 = 5
+
+    private var playingFinishedObserver: Any?
+
+    init(url: URL?) {
+        self.url = url
+        self.playingFinishedObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { _ in
+            self.player.seek(to: CMTime.zero)
+            if self.shouldRepeat {
+                self.player.play()
+            } else {
+                self.currentlyPlaying = false
             }
-            NotificationCenter.default.removeObserver(observer)
         }
     }
 
-    let player = AVPlayer()
-    let item: URL?
-    let seekDuration: Float64 = 15
+    func toggleRepeat() {
+        shouldRepeat.toggle()
+    }
+
     var playerCurrentTime: Float64 {
         CMTimeGetSeconds(self.player.currentTime())
     }
