@@ -3,7 +3,7 @@ import Resolver
 
 class BrowseScripturesViewModel: ObservableObject {
 
-    @Published var categories: [CategoryViewModel]? = [CategoryViewModel]()
+    @Published var scriptures: [ScriptureViewModel]? = [ScriptureViewModel]()
 
     private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue
