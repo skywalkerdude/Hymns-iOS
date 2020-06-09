@@ -15,13 +15,14 @@ class AudioPlayerViewModel: ObservableObject {
 
     init(url: URL?) {
         self.url = url
-        self.playingFinishedObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { _ in
-            self.player.seek(to: CMTime.zero)
-            if self.shouldRepeat {
-                self.player.play()
-            } else {
-                self.currentlyPlaying = false
-            }
+        self.playingFinishedObserver =
+            NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { _ in
+                self.player.seek(to: CMTime.zero)
+                if self.shouldRepeat {
+                    self.player.play()
+                } else {
+                    self.currentlyPlaying = false
+                }
         }
     }
 
