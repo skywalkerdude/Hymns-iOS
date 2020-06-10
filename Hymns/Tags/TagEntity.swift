@@ -39,3 +39,22 @@ class TagEntity: Object, Identifiable {
 enum TagColor: Int {
     case none, blue, green, yellow, red
 }
+
+extension TagColor {
+    var value: UIColor {
+        get {
+            switch self {
+            case .none:
+                return UIColor(red: 67/255, green: 173/255, blue: 247/255, alpha: 1.0)
+            case .blue:
+                return UIColor.blue
+            case .green:
+                return UIColor.green
+            case .yellow:
+                return UIColor.yellow
+            case .red:
+                return UIColor.red
+            }
+        }
+    }
+}

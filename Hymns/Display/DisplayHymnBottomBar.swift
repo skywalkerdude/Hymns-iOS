@@ -79,7 +79,9 @@ struct DisplayHymnBottomBar: View {
                     }
                 }
                 Group {
-                    Button(action: {}, label: {
+                    Button(action: {
+                            self.sheet = .tags
+                    }, label: {
                         BottomBarLabel(imageName: "tag")
                     })
                     Spacer()
@@ -165,10 +167,12 @@ struct DisplayHymnBottomBar: View {
                                 })
                             }) + [.cancel()])
                 }
-            }.sheet(item: $sheet) { tab -> ShareSheet in
+            }.sheet(item: $sheet) { tab -> AnyView in
                 switch tab {
                 case .share:
-                    return ShareSheet(activityItems: [self.viewModel.shareableLyrics])
+                    return ShareSheet(activityItems: [self.viewModel.shareableLyrics]).eraseToAnyView()
+                case .tags:
+                    return TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: self.viewModel.identifier)).eraseToAnyView()
                 }
             }
         }.background(Color(.systemBackground))
@@ -189,6 +193,7 @@ extension ActionSheetItem: Identifiable {
 
 enum DisplayHymnSheet: String {
     case share = "Share Lyrics"
+    case tags = "Tags"
 }
 
 extension DisplayHymnSheet: Identifiable {

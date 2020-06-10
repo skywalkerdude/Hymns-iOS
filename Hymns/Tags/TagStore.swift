@@ -7,8 +7,10 @@ protocol TagStore {
     func storeTag(_ entity: TagEntity)
     func deleteTag(primaryKey: String, tag: String)
     func getSongsByTag(_ tag: String) -> [SongResultViewModel]
-    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> [(tagName: String, tagColor: TagColor)]
+    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity>
     func getUniqueTags() -> [String]
+//    func observeTagStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
+
 }
 
 class TagStoreRealmImpl: TagStore {
@@ -55,13 +57,13 @@ class TagStoreRealmImpl: TagStore {
         return songResults
     }
 
-    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> [(tagName: String, tagColor: TagColor)] {
+    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity> {
         let filteredObject = realm.objects(TagEntity.self)
             .filter(NSPredicate(format: "primaryKey CONTAINS[c] %@", ("\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())")))
-        let tags: [(tagName: String, tagColor: TagColor)] = filteredObject.map { entity -> (String, TagColor) in
-            (tagName: entity.tag, tagColor: entity.tagColor)
-        }
-        return tags
+//        let tags: [(tagName: String, tagColor: TagColor)] = filteredObject.map { entity -> (String, TagColor) in
+//            (tagName: entity.tag, tagColor: entity.tagColor)
+//        }
+        return filteredObject
     }
 
     func getUniqueTags() -> [String] {
@@ -70,7 +72,14 @@ class TagStoreRealmImpl: TagStore {
             tagEntity.tag
         }
     }
-}
+
+//        func observeTagStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification {
+//            return realm.observe { (_, _) in
+//                let tag = self.getTagsForHymn(hymnIdentifier: hymnIdentifier)
+//                action(tag)
+//            }.toNotification()
+        }
+
 
 extension Resolver {
     public static func registerTagStore() {
