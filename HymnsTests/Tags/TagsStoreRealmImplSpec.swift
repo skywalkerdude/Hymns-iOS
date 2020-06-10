@@ -26,19 +26,25 @@ class TagStoreRealmImplSpec: QuickSpec {
             }
             context("store a few tags") {
                 beforeEach {
-                    target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Christ"))
-                    target.storeTag(TagEntity(hymnIdentifier: newSong145, songTitle: "Hymn: Jesus shall reign where\\u2019er the sun", tag: "Bread and wine"))
-                    target.storeTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "Table"))
+                    target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Christ", tagColor: .blue))
+                    target.storeTag(TagEntity(hymnIdentifier: newSong145, songTitle: "Hymn: Jesus shall reign where\\u2019er the sun", tag: "Bread and wine", tagColor: .yellow))
+                    target.storeTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "Table", tagColor: .blue))
                 }
                 describe("getting one hymn's tags after storing multiple tags for that hymn") {
                     beforeEach {
-                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Is"))
-                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Life"))
-                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Peace"))
+                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Is", tagColor: .red))
+                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Life", tagColor: .red))
+                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Peace", tagColor: .blue))
                     }
                     it("should contain a query number matching the number of tags for that hymn") {
                         let resultsOfQuery = target.getTagsForHymn(hymnIdentifier: classic1151)
-                        expect(resultsOfQuery).to(equal(["Christ", "Peace", "Life", "Is"]))
+                        //https://stackoverflow.com/questions/46043902/opposite-of-swift-zip-split-tuple-into-two-arrays Splitting tuples into two arrays
+                        let (tagName, tagColor) = resultsOfQuery.reduce(into: ([String](), [TagColor]())) {
+                            $0.0.append($1.tagName)
+                            $0.1.append($1.tagColor)
+                        }
+                        expect(tagName).to(equal(["Christ", "Peace", "Life", "Is"]))
+                        expect(tagColor).to(equal([.blue, .blue, .red, .red]))
                     }
                 }
                 describe("deleting a tag") {
@@ -52,9 +58,9 @@ class TagStoreRealmImplSpec: QuickSpec {
                 }
                 describe("getting songs for a tag") {
                     beforeEach {
-                        target.storeTag(TagEntity(hymnIdentifier: classic500, songTitle: "Hymn 500", tag: "Christ"))
-                        target.storeTag(TagEntity(hymnIdentifier: classic1109, songTitle: "Hymn 1109", tag: "Christ"))
-                        target.storeTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Cebuano 123", tag: "Christ"))
+                        target.storeTag(TagEntity(hymnIdentifier: classic500, songTitle: "Hymn 500", tag: "Christ", tagColor: .blue))
+                        target.storeTag(TagEntity(hymnIdentifier: classic1109, songTitle: "Hymn 1109", tag: "Christ", tagColor: .blue))
+                        target.storeTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Cebuano 123", tag: "Christ", tagColor: .red))
                     }
                     it("should return the correctt songs") {
                         let actual = target.getSongsByTag("Christ")
