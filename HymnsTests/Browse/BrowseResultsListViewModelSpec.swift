@@ -9,7 +9,7 @@ import SwiftUI
 class BrowseResultsListViewModelSpec: QuickSpec {
 
     override func spec() {
-        describe("Getting results by category") {
+        describe("getting results by category") {
             let testQueue = DispatchQueue(label: "test_queue")
             var dataStore: HymnDataStoreMock!
             var target: BrowseResultsListViewModel!

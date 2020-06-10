@@ -9,7 +9,7 @@ struct ScriptureView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(viewModel.book.rawValue)
+                Text(viewModel.book.bookName)
                 Spacer()
                 Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
             }.onTapGesture {

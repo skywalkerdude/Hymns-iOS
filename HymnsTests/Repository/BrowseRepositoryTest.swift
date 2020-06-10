@@ -24,11 +24,11 @@ class BrowseRepositoryTest: XCTestCase {
                 }).eraseToAnyPublisher()
         }
 
-        let expected = [ScriptureResult(hymnidentifier: Hymns.HymnIdentifier(hymnType: .classic, hymnNumber: "43"), title: "title", book: Hymns.Book.revelation, chapter: "22", verse: nil),
-                        ScriptureResult(hymnidentifier: Hymns.HymnIdentifier(hymnType: .classic, hymnNumber: "43"), title: "title", book: Hymns.Book.hosea, chapter: "14", verse: "8"),
-                        ScriptureResult(hymnidentifier: Hymns.HymnIdentifier(hymnType: .classic, hymnNumber: "43"), title: "title", book: Hymns.Book.genesis, chapter: "1", verse: "1-6"),
-                        ScriptureResult(hymnidentifier: Hymns.HymnIdentifier(hymnType: .classic, hymnNumber: "43"), title: "title", book: Hymns.Book.genesis, chapter: "7", verse: "9"),
-                        ScriptureResult(hymnidentifier: Hymns.HymnIdentifier(hymnType: .classic, hymnNumber: "43"), title: "title", book: Hymns.Book.genesis, chapter: "7", verse: "12")]
+        let expected = [ScriptureResult(hymnIdentifier: Hymns.HymnIdentifier(hymnType: .classic, hymnNumber: "43"), title: "title", book: Hymns.Book.revelation, chapter: "22", verse: nil),
+                        ScriptureResult(hymnIdentifier: Hymns.HymnIdentifier(hymnType: .classic, hymnNumber: "43"), title: "title", book: Hymns.Book.hosea, chapter: "14", verse: "8"),
+                        ScriptureResult(hymnIdentifier: Hymns.HymnIdentifier(hymnType: .classic, hymnNumber: "43"), title: "title", book: Hymns.Book.genesis, chapter: "1", verse: "1-6"),
+                        ScriptureResult(hymnIdentifier: Hymns.HymnIdentifier(hymnType: .classic, hymnNumber: "43"), title: "title", book: Hymns.Book.genesis, chapter: "7", verse: "9"),
+                        ScriptureResult(hymnIdentifier: Hymns.HymnIdentifier(hymnType: .classic, hymnNumber: "43"), title: "title", book: Hymns.Book.genesis, chapter: "7", verse: "12")]
 
         let completion = expectation(description: "completion received")
         let value = expectation(description: "value received")

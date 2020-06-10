@@ -7,7 +7,7 @@ struct BrowseCategoriesView: View {
     var body: some View {
         Group<AnyView> {
             guard let categories = viewModel.categories else {
-                return Text("error!").maxSize().eraseToAnyView()
+                return ErrorView().maxSize().eraseToAnyView()
             }
 
             guard !categories.isEmpty else {
@@ -25,16 +25,24 @@ struct BrowseCategoriesView: View {
 
 struct BrowseCategoriesView_Previews: PreviewProvider {
     static var previews: some View {
+        let errorViewModel = BrowseCategoriesViewModel(hymnType: .classic)
+        errorViewModel.categories = nil
+        let error = BrowseCategoriesView(viewModel: errorViewModel)
 
-        let viewModel = BrowseCategoriesViewModel(hymnType: nil)
-        viewModel.categories
+        let loadingViewModel = BrowseCategoriesViewModel(hymnType: .classic)
+        let loading = BrowseCategoriesView(viewModel: loadingViewModel)
+
+        let resultsViewModel = BrowseCategoriesViewModel(hymnType: nil)
+        resultsViewModel.categories
             = [CategoryViewModel(category: "Category 1", subcategories: [SubcategoryViewModel(subcategory: "Subcategory 1", count: 15),
                                                                          SubcategoryViewModel(subcategory: "Subcategory 2", count: 2)]),
                CategoryViewModel(category: "Category 2", subcategories: [SubcategoryViewModel(subcategory: "Subcategory 2", count: 12),
                                                                          SubcategoryViewModel(subcategory: "Subcategory 3", count: 1)])]
-
+        let results = BrowseCategoriesView(viewModel: resultsViewModel)
         return Group {
-            BrowseCategoriesView(viewModel: viewModel)
+            error
+            loading
+            results
         }
     }
 }

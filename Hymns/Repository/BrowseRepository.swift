@@ -43,7 +43,7 @@ class BrowseRepositoryImpl: BrowseRepository {
                         if let book = book {
                             chapter = RegexUtil.getChapterFromReference(scriptureReference)
                             verse = RegexUtil.getVerseFromReference(scriptureReference)
-                            results.append(ScriptureResult(hymnidentifier: hymnIdentifier, title: title, book: book, chapter: chapter, verse: verse))
+                            results.append(ScriptureResult(hymnIdentifier: hymnIdentifier, title: title, book: book, chapter: chapter, verse: verse))
                             continue
                         }
 
@@ -66,7 +66,7 @@ class BrowseRepositoryImpl: BrowseRepository {
                                 }
                             }
                             verse = RegexUtil.getVerseFromReference(scriptureReference)
-                            results.append(ScriptureResult(hymnidentifier: hymnIdentifier, title: title, book: lastBook, chapter: chapter, verse: verse))
+                            results.append(ScriptureResult(hymnIdentifier: hymnIdentifier, title: title, book: lastBook, chapter: chapter, verse: verse))
                             continue
                         } else {
                             // This should never happen

@@ -7,6 +7,7 @@ enum BrowseTab {
     case newTunes
     case newSongs
     case children
+    case scripture
     case all
 }
 
@@ -24,6 +25,8 @@ extension BrowseTab {
             return "New Songs"
         case .children:
             return "Children's Songs"
+        case .scripture:
+            return "Scripture Songs"
         case .all:
             return "All Songs"
         }
@@ -46,6 +49,8 @@ extension BrowseTab: TabItem {
             return BrowseCategoriesView(viewModel: BrowseCategoriesViewModel(hymnType: .newSong)).eraseToAnyView()
         case .children:
             return BrowseCategoriesView(viewModel: BrowseCategoriesViewModel(hymnType: .children)).eraseToAnyView()
+        case .scripture:
+            return BrowseScripturesView(viewModel: BrowseScripturesViewModel()).eraseToAnyView()
         case .all:
             return BrowseCategoriesView(viewModel: BrowseCategoriesViewModel(hymnType: nil)).eraseToAnyView()
         }
@@ -75,22 +80,16 @@ struct BrowseTab_Previews: PreviewProvider {
         let newTunesTab: BrowseTab = .newTunes
         let newSongsTab: BrowseTab = .newSongs
         let childrensTab: BrowseTab = .children
-        var allTab: BrowseTab = .all
+        let scripturesTab: BrowseTab = .scripture
+        let allTab: BrowseTab = .all
 
         let currentTabClassic = Binding<BrowseTab>(
             get: {classicTab},
             set: {classicTab = $0})
-        let clasicSelected = TabBar(currentTab: currentTabClassic, tabItems: [classicTab, newTunesTab, newSongsTab, childrensTab, allTab])
-
-        let currentTabAll = Binding<BrowseTab>(
-            get: {allTab},
-            set: {allTab = $0})
-        let allSelected = TabBar(currentTab: currentTabAll, tabItems: [classicTab, newTunesTab, newSongsTab, childrensTab, allTab])
-
+        let clasicSelected = TabBar(currentTab: currentTabClassic, tabItems: [classicTab, newTunesTab, newSongsTab, childrensTab, scripturesTab, allTab])
         return Group {
-            clasicSelected.previewDisplayName("Classic selected")
-            allSelected.previewDisplayName("All selected")
-        }.toPreviews()
+            clasicSelected.toPreviews()
+        }
     }
 }
 #endif
