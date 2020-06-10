@@ -110,7 +110,7 @@ public class RegexUtil {
         let regex = NSRegularExpression(scripturePatternNoVerse, options: .caseInsensitive)
         if let match = regex.firstMatch(in: firstReference, options: [], range: NSRange(location: 0, length: firstReference.utf16.count)) {
             if let hymnTypeRange = Range(match.range(at: 1), in: firstReference) {
-                return Book(rawValue: String(reference[hymnTypeRange]))
+                return Book.from(bookName: String(reference[hymnTypeRange]))
             }
         }
         return nil

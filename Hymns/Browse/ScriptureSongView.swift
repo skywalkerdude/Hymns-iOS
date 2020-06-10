@@ -12,9 +12,8 @@ struct ScriptureSongView: View {
 
     var body: some View {
         HStack {
-            Text(viewModel.reference)
-            Spacer()
-            Text(viewModel.title)
+            Text(self.viewModel.reference).font(.caption).padding(.trailing)
+            Text(self.viewModel.title)
         }
     }
 }
