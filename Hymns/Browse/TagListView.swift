@@ -11,10 +11,17 @@ struct TagListView: View {
 
     var body: some View {
         VStack {
+            if viewModel.tags.isEmpty {
+                VStack {
+                    Image("empty tag illustration")
+                    Text("Create tags by tapping on the tag icon on any hymn").padding().multilineTextAlignment(.center)
+                }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center).background(Color(.systemBackground))
+            } else {
             List(viewModel.tags, id: \.self) { tag in
                 NavigationLink(destination: BrowseResultsListView(viewModel: BrowseResultsListViewModel(tag: tag))) {
                     Text(tag)
                 }
+            }
             }
         }.onAppear {
             self.viewModel.getUniqueTags()
