@@ -7,7 +7,7 @@ protocol TagStore {
     func storeTag(_ entity: TagEntity)
     func deleteTag(primaryKey: String, tag: String)
     func getSongsByTag(_ tag: String) -> [SongResultViewModel]
-    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> [String]
+    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> [(tagName: String, tagColor: TagColor)]
     func getUniqueTags() -> [String]
 }
 
@@ -55,12 +55,11 @@ class TagStoreRealmImpl: TagStore {
         return songResults
     }
 
-    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> [String] {
-        let tags: [String] =
-            realm.objects(TagEntity.self)
-                .filter(NSPredicate(format: "primaryKey CONTAINS[c] %@", ("\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())")))
-                .map { entity -> String in
-            entity.tag
+    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> [(tagName: String, tagColor: TagColor)] {
+        let filteredObject = realm.objects(TagEntity.self)
+            .filter(NSPredicate(format: "primaryKey CONTAINS[c] %@", ("\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())")))
+        let tags: [(tagName: String, tagColor: TagColor)] = filteredObject.map { entity -> (String, TagColor) in
+            (tagName: entity.tag, tagColor: entity.tagColor)
         }
         return tags
     }
@@ -80,9 +79,20 @@ extension Resolver {
             var url = Realm.Configuration.defaultConfiguration.fileURL
             url?.deleteLastPathComponent()
             url?.appendPathComponent("tags.realm")
+            let config = Realm.Configuration(
+                fileURL: url!,
+                // Set the new schema version. This must be greater than the previously used
+                // version (if you've never set a schema version before, the version is 0).
+                schemaVersion: 0,
+
+                // Set the block which will be called automatically when opening a Realm with
+                // a schema version lower than the one set above
+                migrationBlock: { _, _ in
+                    // We haven’t migrated anything yet, so oldSchemaVersion == 0
+            })
             // If the Realm db is unable to be created, that's an unrecoverable error, so crashing the app is appropriate.
             // swiftlint:disable:next force_try
-            let realm = try! Realm(fileURL: url!)
+            let realm = try! Realm(configuration: config)
             return TagStoreRealmImpl(realm: realm) as TagStore
         }.scope(application)
     }

@@ -82,9 +82,20 @@ extension Resolver {
             var url = Realm.Configuration.defaultConfiguration.fileURL
             url?.deleteLastPathComponent()
             url?.appendPathComponent("history.realm")
+            let config = Realm.Configuration(
+                fileURL: url!,
+                // Set the new schema version. This must be greater than the previously used
+                // version (if you've never set a schema version before, the version is 0).
+                schemaVersion: 0,
+
+                // Set the block which will be called automatically when opening a Realm with
+                // a schema version lower than the one set above
+                migrationBlock: { _, _ in
+                    // We haven’t migrated anything yet, so oldSchemaVersion == 0
+            })
             // If the Realm db is unable to be created, that's an unrecoverable error, so crashing the app is appropriate.
             // swiftlint:disable:next force_try
-            let realm = try! Realm(fileURL: url!)
+            let realm = try! Realm(configuration: config)
             return HistoryStoreRealmImpl(realm: realm) as HistoryStore
         }.scope(application)
     }
