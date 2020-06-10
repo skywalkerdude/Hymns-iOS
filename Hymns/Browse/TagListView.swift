@@ -12,16 +12,20 @@ struct TagListView: View {
     var body: some View {
         VStack {
             if viewModel.tags.isEmpty {
-                VStack {
+                VStack(spacing: 5) {
                     Image("empty tag illustration")
-                    Text("Create tags by tapping on the tag icon on any hymn").padding().multilineTextAlignment(.center)
-                }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center).background(Color(.systemBackground))
+                    Text("Create tags by tapping on the")
+                    HStack {
+                        Image(systemName: "tag")
+                        Text("icon on any hymn")
+                    }.multilineTextAlignment(.center)
+                }.maxSize().background(Color(.systemBackground))
             } else {
-            List(viewModel.tags, id: \.self) { tag in
-                NavigationLink(destination: BrowseResultsListView(viewModel: BrowseResultsListViewModel(tag: tag))) {
-                    Text(tag)
+                List(viewModel.tags, id: \.self) { tag in
+                    NavigationLink(destination: BrowseResultsListView(viewModel: BrowseResultsListViewModel(tag: tag))) {
+                        Text(tag)
+                    }
                 }
-            }
             }
         }.onAppear {
             self.viewModel.getUniqueTags()
@@ -31,8 +35,16 @@ struct TagListView: View {
 
 struct TagListView_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = TagListViewModel()
-        viewModel.tags = ["tag 1", "tag 2", "tag 3", "tag 4"]
-        return TagListView(viewModel: viewModel)
+        let withTagsViewModel = TagListViewModel()
+        withTagsViewModel.tags = ["tag 1", "tag 2", "tag 3", "tag 4"]
+        let withTags = TagListView(viewModel: withTagsViewModel)
+
+        let noTagsViewModel = TagListViewModel()
+        let empty = TagListView(viewModel: noTagsViewModel)
+
+        return Group {
+            withTags.previewDisplayName("saved tags")
+            empty.previewDisplayName("no saved tags")
+        }
     }
 }
