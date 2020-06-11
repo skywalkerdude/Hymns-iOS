@@ -44,7 +44,7 @@ struct TagSheetView: View {
                                 self.viewModel.deleteTag(tagTitle: tag.title, tagColor: .blue)
                             }, label: {
                                 HStack {
-                                    Text(tag.title)
+                                    Text(tag.title).font(.body).fontWeight(.bold)
                                     Image(systemName: "xmark.circle")
                                 }
                             })
@@ -62,12 +62,12 @@ struct TagSheetView: View {
                 Button(action: {
                     self.tagOn.toggle()
                 }, label: {
-                    Text("Cancel")
+                    Text("Cancel").foregroundColor(.primary).fontWeight(.light)
                 })
                 Button("Add") {
                     self.viewModel.addTag(tagName: self.tagNames, tagColor: self.tagColor)
-                }.disabled(tagNames.isEmpty || (tagColor == .none))
-            }
+                }.padding(.horizontal).disabled(tagNames.isEmpty || (tagColor == .none))
+            }.padding(.top)
         }.onAppear {
             self.viewModel.fetchHymn()
             self.viewModel.fetchTags()
