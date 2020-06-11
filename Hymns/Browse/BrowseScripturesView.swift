@@ -23,6 +23,7 @@ struct BrowseScripturesView: View {
     }
 }
 
+#if DEBUG
 struct BrowseScripturesView_Previews: PreviewProvider {
     static var previews: some View {
         let errorViewModel = BrowseScripturesViewModel()
@@ -45,3 +46,4 @@ struct BrowseScripturesView_Previews: PreviewProvider {
         }
     }
 }
+#endif
