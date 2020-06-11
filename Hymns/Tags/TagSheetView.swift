@@ -6,6 +6,7 @@ struct TagSheetView: View {
     @ObservedObject private var viewModel: TagSheetViewModel
     @Environment(\.presentationMode) var presentationMode
     @State private var tagNames = ""
+    @State private var tagColor = TagColor.none
     @Binding var tagOn: Bool
 
     init(viewModel: TagSheetViewModel, tagOn: Binding<Bool>) {
@@ -23,7 +24,7 @@ struct TagSheetView: View {
                 TextField("Label it however you like", text: self.$tagNames)
             }
             Divider()
-            SelectLabelView()
+            SelectLabelView(tagColor: self.$tagColor)
             if self.viewModel.tags.isEmpty {
                 EmptyView()
             } else {
@@ -31,7 +32,7 @@ struct TagSheetView: View {
                     HStack {
                         Text("Tags").font(.body).fontWeight(.bold)
                         Spacer()
-                    }.padding()
+                    }.padding(.top)
                     HStack {
                         ForEach(self.viewModel.tags, id: \.self) { tag in
                             Button(action: {
@@ -46,7 +47,7 @@ struct TagSheetView: View {
                                 .padding()
                                 .foregroundColor(Color(tag.color.foreground))
                                 .background(Color(tag.color.background))
-                                .cornerRadius(60)
+                                .cornerRadius(30)
                                 .lineLimit(1)
                         }
                     }
@@ -60,8 +61,8 @@ struct TagSheetView: View {
                     Text("Cancel")
                 })
                 Button("Add") {
-                    self.viewModel.addTag(tagName: self.tagNames, tagColor: .blue)
-                }.disabled(tagNames.isEmpty)
+                    self.viewModel.addTag(tagName: self.tagNames, tagColor: self.tagColor)
+                }.disabled(tagNames.isEmpty || (tagColor == .none))
             }
         }.onAppear {
             self.viewModel.fetchHymn()

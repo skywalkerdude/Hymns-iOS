@@ -28,7 +28,6 @@ struct DisplayHymnBottomBar: View {
     // https://stackoverflow.com/questions/59454407/how-to-navigate-out-of-a-actionsheet
     @State private var languageIndexShown: Int?
     @State private var relevantIndexShown: Int?
-
     @State var showAudioPlayer = false
     @Binding var tagOn: Bool
 
@@ -55,7 +54,7 @@ struct DisplayHymnBottomBar: View {
                         TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: self.viewModel.identifier), tagOn: self.$tagOn).eraseToAnyView()
                     }
                 }.background(Color(.systemBackground))
-                    .frame(minHeight: 280, idealHeight: 280, maxHeight: 280)
+                    .frame(minHeight: 300, idealHeight: 300, maxHeight: 300)
             }
             HStack(spacing: 0) {
                 Group {

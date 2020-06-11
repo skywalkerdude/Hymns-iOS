@@ -25,7 +25,7 @@ struct DisplayHymnView: View {
                         } else {
                             viewModel.currentTab.content
                         }
-                    }.opacity(tagOn ? 0.5 : 1)
+                    }.opacity(tagOn ? 0.9 : 1)
                     viewModel.bottomBar.map { viewModel in
                         DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, tagOn: self.$tagOn, viewModel: viewModel).maxWidth()
                     }
@@ -37,7 +37,7 @@ struct DisplayHymnView: View {
         }.hideNavigationBar()
             .onAppear {
                 self.viewModel.fetchHymn()
-        }.background(Color(.systemBackground))
+        }
     }
 }
 
