@@ -34,6 +34,14 @@ class TagEntity: Object, Identifiable {
     static func createPrimaryKey(hymnIdentifier: HymnIdentifier, tag: String) -> String {
         return ("\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]()):\(tag)")
     }
+
+    override func isEqual(_ object: Any?) -> Bool {
+        return primaryKey == (object as? TagEntity)?.primaryKey
+    }
+
+    override var hash: Int {
+        return primaryKey.hash
+    }
 }
 
 enum TagColor: Int {

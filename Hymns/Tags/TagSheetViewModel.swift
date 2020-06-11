@@ -6,11 +6,9 @@ import Resolver
 class TagSheetViewModel: ObservableObject {
 
     typealias Title = String
-    @Published var tags = [TagMeta]()
+    @Published var tags: [TagMeta]?
     @Published var title: String = ""
 
-    let objectWillChange = ObservableObjectPublisher()
-    private var notificationToken: NotificationToken?
     let tagStore: TagStore
     let identifier: HymnIdentifier
     private let backgroundQueue: DispatchQueue
@@ -24,10 +22,6 @@ class TagSheetViewModel: ObservableObject {
         self.repository = repository
         self.mainQueue = mainQueue
         self.backgroundQueue = backgroundQueue
-    }
-
-    deinit {
-        notificationToken?.invalidate()
     }
 
     func fetchHymn() {
@@ -51,27 +45,25 @@ class TagSheetViewModel: ObservableObject {
     }
 
     func fetchTagsByHymn() {
-        let result = tagStore.getTagsForHymn(hymnIdentifier: self.identifier)
-
-        notificationToken = result.observe { _ in
-            self.objectWillChange.send()
-        }
-
-        tags = result.map { (tag) -> TagMeta in
-            return TagMeta(
-                title: tag.tag,
-                color: tag.tagColor)
-        }
+        tagStore.getTagsForHymn(hymnIdentifier: self.identifier)
+            .map({ entities -> [TagMeta] in
+                entities.map { entity -> TagMeta in
+                    return TagMeta(
+                        title: entity.tag,
+                        color: entity.tagColor)
+                }}).replaceError(with: [TagMeta]())
+            .receive(on: mainQueue)
+            .sink(receiveValue: { results in
+                self.tags = results
+            }).store(in: &disposables)
     }
 
     func addTag(tagName: String, tagColor: TagColor) {
         self.tagStore.storeTag(TagEntity(hymnIdentifier: self.identifier, songTitle: self.title, tag: tagName, tagColor: tagColor))
-        self.fetchTagsByHymn()
     }
 
     func deleteTag(tagTitle: String, tagColor: TagColor) {
         self.tagStore.deleteTag(primaryKey: TagEntity.createPrimaryKey(hymnIdentifier: self.identifier, tag: tagTitle), tag: tagTitle)
-        self.fetchTagsByHymn()
     }
 }
 

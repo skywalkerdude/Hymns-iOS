@@ -25,16 +25,20 @@ struct TagSheetView: View {
             }
             Divider()
             SelectLabelView(tagColor: self.$tagColor)
-            if self.viewModel.tags.isEmpty {
-                EmptyView()
-            } else {
-                Section {
+            Group { () -> AnyView in
+                guard let tags = self.viewModel.tags else {
+                    return ActivityIndicator().maxSize().eraseToAnyView()
+                }
+                guard !tags.isEmpty else {
+                    return EmptyView().eraseToAnyView()
+                }
+                return Section {
                     HStack {
                         Text("Tags").font(.body).fontWeight(.bold)
                         Spacer()
                     }.padding(.top)
                     HStack {
-                        ForEach(self.viewModel.tags, id: \.self) { tag in
+                        ForEach(tags, id: \.self) { tag in
                             Button(action: {
                                 //TODO FIX Delete is deleting all the tags because the button when clicked is clicking all of them.
                                 self.viewModel.deleteTag(tagTitle: tag.title, tagColor: .blue)
@@ -47,11 +51,11 @@ struct TagSheetView: View {
                                 .padding()
                                 .foregroundColor(Color(tag.color.foreground))
                                 .background(Color(tag.color.background))
-                                .cornerRadius(30)
+                                .cornerRadius(25)
                                 .lineLimit(1)
                         }
                     }
-                }
+                }.eraseToAnyView()
             }
             HStack {
                 Spacer()
