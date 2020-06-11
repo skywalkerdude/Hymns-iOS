@@ -119,14 +119,28 @@ class HomeViewModel: ObservableObject {
 
     private func fetchByNumber(hymnNumber: String) {
         label = nil
-        let matchingNumbers = HymnNumberUtil.matchHymnNumbers(hymnNumber: hymnNumber)
-        songResults = matchingNumbers.map({ number -> SongResultViewModel in
-            let identifier = HymnIdentifier(hymnType: .classic, hymnNumber: number)
-            return SongResultViewModel(title: "Hymn \(number)",
-                                       destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier,
-                                                                                                        storeInHistoryStore: true)).eraseToAnyView())
-        })
-        state = songResults.isEmpty ? .empty : .results
+        Just((1...HymnType.classic.maxNumber))
+            .subscribe(on: backgroundQueue)
+            .map { range -> [SongResultViewModel] in
+                guard !hymnNumber.isEmpty else {
+                    return [SongResultViewModel]()
+                }
+                let matchingNumbers = range.map({String($0)}).filter {$0.contains(hymnNumber)}
+                return matchingNumbers.map({ number -> SongResultViewModel in
+                    let title = "Hymn \(number)"
+                    let identifier = HymnIdentifier(hymnType: .classic, hymnNumber: number)
+                    let destination = DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier, storeInHistoryStore: true)).eraseToAnyView()
+                    return SongResultViewModel(title: title, destinationView: destination)
+                })
+        }.receive(on: mainQueue)
+            .sink { songResults in
+                if hymnNumber != self.searchParameter.trim() {
+                    // search parameter has changed by the time the call completed, so just drop this.
+                    return
+                }
+                self.songResults = songResults
+                self.state = songResults.isEmpty ? .empty : .results
+        }.store(in: &disposables)
     }
 
     func loadMore(at songResult: SongResultViewModel) {
