@@ -18,6 +18,7 @@ struct ScriptureSongView: View {
     }
 }
 
+#if DEBUG
 struct ScriptureSongView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = ScriptureSongViewModel(reference: "1:19", title: "And we have the prophetic word",
@@ -25,3 +26,4 @@ struct ScriptureSongView_Previews: PreviewProvider {
         return ScriptureSongView(viewModel: viewModel).previewLayout(.sizeThatFits)
     }
 }
+#endif
