@@ -44,7 +44,7 @@ class TagSheetViewModel: ObservableObject {
             }).store(in: &disposables)
     }
 
-    func fetchTagsByHymn() {
+    func fetchTags() {
         tagStore.getTagsForHymn(hymnIdentifier: self.identifier)
             .map({ entities -> [TagMeta] in
                 entities.map { entity -> TagMeta in

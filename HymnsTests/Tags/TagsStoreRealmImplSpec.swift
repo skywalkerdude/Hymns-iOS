@@ -37,8 +37,28 @@ class TagStoreRealmImplSpec: QuickSpec {
                         target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Peace", tagColor: .blue))
                     }
                     it("should contain a query number matching the number of tags for that hymn") {
-                        let resultsOfQuery = target.getTagsForHymn(hymnIdentifier: classic1151)
-                        expect(resultsOfQuery).to(haveCount(4))
+                            let failure = self.expectation(description: "Invalid.failure")
+                            failure.isInverted = true
+                            let finished = self.expectation(description: "Invalid.finished")
+                            // finished should not be called because this is a self-updating publisher.
+                            finished.isInverted = true
+                            let value = self.expectation(description: "Invalid.receiveValue")
+
+                            let cancellable = target.getTagsForHymn(hymnIdentifier: classic1151)
+                                .sink(receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
+                                    switch completion {
+                                    case .failure:
+                                        failure.fulfill()
+                                    case .finished:
+                                        finished.fulfill()
+                                    }
+                                    return
+                                }, receiveValue: { entities in
+                                    value.fulfill()
+                                    expect(entities).to(contain([TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Christ", tagColor: .blue), TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Is", tagColor: .red), TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Life", tagColor: .red), TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Peace", tagColor: .blue)]))
+                                })
+                            self.wait(for: [failure, finished, value], timeout: testTimeout)
+                            cancellable.cancel()
                     }
                 }
                 describe("deleting a tag") {

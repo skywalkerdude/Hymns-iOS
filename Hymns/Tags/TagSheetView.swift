@@ -70,7 +70,7 @@ struct TagSheetView: View {
             }
         }.onAppear {
             self.viewModel.fetchHymn()
-            self.viewModel.fetchTagsByHymn()
+            self.viewModel.fetchTags()
         }.padding()
     }
 }
