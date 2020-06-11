@@ -9,7 +9,7 @@ class HomeViewModel: ObservableObject {
     @Published var searchParameter = ""
     @Published var songResults: [SongResultViewModel] = [SongResultViewModel]()
     @Published var label: String?
-    @Published var state: HomeResultState = .results
+    @Published var state: HomeResultState = .loading
 
     private var currentPage = 1
     private var hasMorePages = false
