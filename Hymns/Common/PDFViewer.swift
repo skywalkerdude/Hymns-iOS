@@ -13,7 +13,7 @@ struct PDFViewer: UIViewRepresentable {
 
     func updateUIView(_ pdfView: PDFView, context: Context) {
         guard let url = url else {
-            // TODO create error state
+            displayErrorState(pdfView)
             return
         }
         analytics.logDisplayMusicPDF(url: url)
@@ -22,7 +22,18 @@ struct PDFViewer: UIViewRepresentable {
         } else {
             pdfView.document = PDFDocument(url: url)
         }
+
+        //Display error state
+        if pdfView.document == nil {
+            displayErrorState(pdfView)
+        }
         pdfView.sizeToFit()
         pdfView.autoScales = true
+    }
+
+    private func displayErrorState(_ pdfView: PDFView) {
+        if let fileURL = Bundle.main.url(forResource: "pdfErrorState", withExtension: "pdf") {
+            pdfView.document = PDFDocument(url: fileURL)
+        }
     }
 }
