@@ -1,3 +1,4 @@
+import Combine
 import FirebaseCrashlytics
 import Foundation
 import RealmSwift
@@ -7,7 +8,7 @@ protocol TagStore {
     func storeTag(_ entity: TagEntity)
     func deleteTag(primaryKey: String, tag: String)
     func getSongsByTag(_ tag: String) -> [SongResultViewModel]
-    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> [(tagName: String, tagColor: TagColor)]
+    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> AnyPublisher<[TagEntity], ErrorType>
     func getUniqueTags() -> [String]
 }
 
@@ -55,13 +56,15 @@ class TagStoreRealmImpl: TagStore {
         return songResults
     }
 
-    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> [(tagName: String, tagColor: TagColor)] {
-        let filteredObject = realm.objects(TagEntity.self)
-            .filter(NSPredicate(format: "primaryKey CONTAINS[c] %@", ("\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())")))
-        let tags: [(tagName: String, tagColor: TagColor)] = filteredObject.map { entity -> (String, TagColor) in
-            (tagName: entity.tag, tagColor: entity.tagColor)
-        }
-        return tags
+    func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> AnyPublisher<[TagEntity], ErrorType> {
+        realm.objects(TagEntity.self).filter(NSPredicate(format: "primaryKey CONTAINS[c] %@", ("\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())"))).publisher
+            .map({ results -> [TagEntity] in
+                results.map { entity -> TagEntity in
+                    entity
+                }
+            }).mapError({ error -> ErrorType in
+                .data(description: error.localizedDescription)
+            }).eraseToAnyPublisher()
     }
 
     func getUniqueTags() -> [String] {
@@ -71,6 +74,7 @@ class TagStoreRealmImpl: TagStore {
         }
     }
 }
+
 
 extension Resolver {
     public static func registerTagStore() {
