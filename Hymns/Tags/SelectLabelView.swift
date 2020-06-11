@@ -18,7 +18,7 @@ struct SelectLabelView: View {
                     self.tagColor = .blue
                     self.resetForBlue()
                 }, label: {
-                    Text("blue").font(.body).fontWeight(self.blueButton ? .bold : .none)
+                    Text("Blue").font(.body).fontWeight(self.blueButton ? .bold : .none)
                 }).padding(10)
                     .background(Color(CustomColors.backgroundBlue))
                     .foregroundColor(Color(CustomColors.foregroundBlue))
@@ -32,7 +32,7 @@ struct SelectLabelView: View {
                     self.tagColor = .green
                     self.resetForGreen()
                 }, label: {
-                    Text("green").font(.body).fontWeight(self.greenButton ? .bold : .none)
+                    Text("Green").font(.body).fontWeight(self.greenButton ? .bold : .none)
                 }).padding(10)
                     .background(Color(CustomColors.backgroundGreen))
                     .foregroundColor(Color(CustomColors.foregroundGreen))
@@ -46,7 +46,7 @@ struct SelectLabelView: View {
                     self.tagColor = .yellow
                     self.resetForYellow()
                 }, label: {
-                    Text("yellow").font(.body).fontWeight(self.yellowButton ? .bold : .none)
+                    Text("Yellow").font(.body).fontWeight(self.yellowButton ? .bold : .none)
                 }).padding(10)
                     .background(Color(CustomColors.backgroundYellow))
                     .foregroundColor(Color(CustomColors.foregroundYellow))
@@ -60,7 +60,7 @@ struct SelectLabelView: View {
                     self.tagColor = .red
                     self.resetForRed()
                 }, label: {
-                    Text("red").font(.body).fontWeight(self.redButton ? .bold : .none)
+                    Text("Red").font(.body).fontWeight(self.redButton ? .bold : .none)
                 }).padding(10)
                     .background(Color(CustomColors.backgroundRed))
                     .foregroundColor(Color(CustomColors.foregroundRed))
