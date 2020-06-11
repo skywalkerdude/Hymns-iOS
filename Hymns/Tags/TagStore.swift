@@ -1,3 +1,4 @@
+import Combine
 import FirebaseCrashlytics
 import Foundation
 import RealmSwift
@@ -8,7 +9,7 @@ protocol TagStore {
     func deleteTag(primaryKey: String, tag: String)
     func getSongsByTag(_ tag: String) -> [SongResultViewModel]
     func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> [(tagName: String, tagColor: TagColor)]
-    func getUniqueTags() -> [String]
+    func getUniqueTags() -> AnyPublisher<[String], ErrorType>
 }
 
 class TagStoreRealmImpl: TagStore {
@@ -64,11 +65,15 @@ class TagStoreRealmImpl: TagStore {
         return tags
     }
 
-    func getUniqueTags() -> [String] {
-        let result = realm.objects(TagEntity.self).distinct(by: ["tag"])
-        return result.map { (tagEntity) -> String in
-            tagEntity.tag
-        }
+    func getUniqueTags() -> AnyPublisher<[String], ErrorType> {
+        realm.objects(TagEntity.self).distinct(by: ["tag"]).publisher
+            .map({ results -> [String] in
+                results.map { entity -> String in
+                    entity.tag
+                }
+            }).mapError({ error -> ErrorType in
+                .data(description: error.localizedDescription)
+            }).eraseToAnyPublisher()
     }
 }
 

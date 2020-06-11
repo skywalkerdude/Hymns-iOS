@@ -10,41 +10,49 @@ struct TagListView: View {
     }
 
     var body: some View {
-        VStack {
-            if viewModel.tags.isEmpty {
-                VStack(spacing: 5) {
+        Group { () -> AnyView in
+            guard let tags = viewModel.tags else {
+                return ActivityIndicator().maxSize().eraseToAnyView()
+            }
+            guard !tags.isEmpty else {
+                return VStack(spacing: 5) {
                     Image("empty tag illustration")
                     Text("Create tags by tapping on the")
                     HStack {
                         Image(systemName: "tag")
                         Text("icon on any hymn")
                     }.multilineTextAlignment(.center)
-                }.maxSize().background(Color(.systemBackground))
-            } else {
-                List(viewModel.tags, id: \.self) { tag in
-                    NavigationLink(destination: BrowseResultsListView(viewModel: BrowseResultsListViewModel(tag: tag))) {
-                        Text(tag)
-                    }
-                }
+                }.maxSize().background(Color(.systemBackground)).eraseToAnyView()
             }
+            return List(tags, id: \.self) { tag in
+                NavigationLink(destination: BrowseResultsListView(viewModel: BrowseResultsListViewModel(tag: tag))) {
+                    Text(tag)
+                }
+            }.eraseToAnyView()
         }.onAppear {
-            self.viewModel.getUniqueTags()
+            self.viewModel.fetchUniqueTags()
         }
     }
 }
 
 struct TagListView_Previews: PreviewProvider {
     static var previews: some View {
+
+        let loadingViewModel = TagListViewModel()
+        let loading = TagListView(viewModel: loadingViewModel)
+
+        let emptyViewModel = TagListViewModel()
+        emptyViewModel.tags = [String]()
+        let empty = TagListView(viewModel: emptyViewModel)
+
         let withTagsViewModel = TagListViewModel()
         withTagsViewModel.tags = ["tag 1", "tag 2", "tag 3", "tag 4"]
         let withTags = TagListView(viewModel: withTagsViewModel)
 
-        let noTagsViewModel = TagListViewModel()
-        let empty = TagListView(viewModel: noTagsViewModel)
-
         return Group {
-            withTags.previewDisplayName("saved tags")
-            empty.previewDisplayName("no saved tags")
+            loading.previewDisplayName("loading")
+            empty.previewDisplayName("empty")
+            withTags.previewDisplayName("with tags")
         }
     }
 }
