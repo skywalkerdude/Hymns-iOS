@@ -9,8 +9,6 @@ protocol TagStore {
     func getSongsByTag(_ tag: String) -> [SongResultViewModel]
     func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity>
     func getUniqueTags() -> [String]
-//    func observeTagStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
-
 }
 
 class TagStoreRealmImpl: TagStore {
@@ -60,9 +58,6 @@ class TagStoreRealmImpl: TagStore {
     func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> Results<TagEntity> {
         let filteredObject = realm.objects(TagEntity.self)
             .filter(NSPredicate(format: "primaryKey CONTAINS[c] %@", ("\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())")))
-//        let tags: [(tagName: String, tagColor: TagColor)] = filteredObject.map { entity -> (String, TagColor) in
-//            (tagName: entity.tag, tagColor: entity.tagColor)
-//        }
         return filteredObject
     }
 
@@ -72,13 +67,7 @@ class TagStoreRealmImpl: TagStore {
             tagEntity.tag
         }
     }
-
-//        func observeTagStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification {
-//            return realm.observe { (_, _) in
-//                let tag = self.getTagsForHymn(hymnIdentifier: hymnIdentifier)
-//                action(tag)
-//            }.toNotification()
-        }
+}
 
 
 extension Resolver {

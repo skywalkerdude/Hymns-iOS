@@ -3,31 +3,10 @@ import SwiftUI
 import RealmSwift
 import Resolver
 
-class SelfTags: Identifiable {
-
-    let title: String
-    let color: TagColor
-
-    init(title: String, color: TagColor) {
-        self.title = title
-        self.color = color
-    }
-}
-
-extension SelfTags: Hashable {
-    static func == (lhs: SelfTags, rhs: SelfTags) -> Bool {
-        lhs.title == rhs.title
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(title)
-    }
-}
-
 class TagSheetViewModel: ObservableObject {
 
     typealias Title = String
-    @Published var tags = [SelfTags]()
+    @Published var tags = [TagMeta]()
     @Published var title: String = ""
 
     let objectWillChange = ObservableObjectPublisher()
@@ -78,37 +57,12 @@ class TagSheetViewModel: ObservableObject {
             self.objectWillChange.send()
         }
 
-//        (waka) = result.reduce(into: [Tagger]()) {
-//            waka.append(Tagger(tagName: $1.tagName, tagColor: $1.tagColor))
-//
-//     //       $0.0.append($1.tagName)
-//  //          $0.1.append($1.tagColor)
-//        }
-
-        tags = result.map { (tag) -> SelfTags in
-            return SelfTags(
+        tags = result.map { (tag) -> TagMeta in
+            return TagMeta(
                 title: tag.tag,
                 color: tag.tagColor)
         }
     }
-
-//    func fetchFavorites() {
-//        let result: Results<FavoriteEntity> = favoriteStore.favorites()
-//
-//        notificationToken = result.observe { _ in
-//            self.objectWillChange.send()
-//        }
-//
-//        favorites = result.map { (favorite) -> SongResultViewModel in
-//            let identifier = HymnIdentifier(favorite.hymnIdentifierEntity)
-//            return SongResultViewModel(
-//                title: favorite.songTitle,
-//                destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
-//        }
-//    }
-
-
-
 
     func addTag(tagName: String, tagColor: TagColor) {
         self.tagStore.storeTag(TagEntity(hymnIdentifier: self.identifier, songTitle: self.title, tag: tagName, tagColor: tagColor))
@@ -118,6 +72,27 @@ class TagSheetViewModel: ObservableObject {
     func deleteTag(tagTitle: String, tagColor: TagColor) {
         self.tagStore.deleteTag(primaryKey: TagEntity.createPrimaryKey(hymnIdentifier: self.identifier, tag: tagTitle), tag: tagTitle)
         self.fetchTagsByHymn()
+    }
+}
+
+class TagMeta: Identifiable {
+
+    let title: String
+    let color: TagColor
+
+    init(title: String, color: TagColor) {
+        self.title = title
+        self.color = color
+    }
+}
+
+extension TagMeta: Hashable {
+    static func == (lhs: TagMeta, rhs: TagMeta) -> Bool {
+        lhs.title == rhs.title
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(title)
     }
 }
 

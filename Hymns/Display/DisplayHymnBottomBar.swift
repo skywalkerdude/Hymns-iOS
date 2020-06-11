@@ -211,7 +211,6 @@ extension DisplayHymnSheet: Identifiable {
     }
 }
 
-/*
 #if DEBUG
 struct DisplayHymnBottomBar_Previews: PreviewProvider {
     static var previews: some View {
@@ -219,8 +218,7 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
         var dialogBuilder: (() -> AnyView)?
         return DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
             get: {dialogBuilder},
-            set: {dialogBuilder = $0}), viewModel: viewModel).toPreviews()
+            set: {dialogBuilder = $0}), tagOn: .constant(true), viewModel: viewModel).toPreviews()
     }
 }
 #endif
-*/
