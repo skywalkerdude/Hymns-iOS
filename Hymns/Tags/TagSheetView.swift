@@ -74,9 +74,10 @@ struct TagSheetView: View {
         }.padding()
     }
 }
-
+/*
 struct TagSheetView_Previews: PreviewProvider {
     static var previews: some View {
         TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151), tagOn: .constant(true))
     }
 }
+*/

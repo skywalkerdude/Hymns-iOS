@@ -46,16 +46,12 @@ struct DisplayHymnBottomBar: View {
                 }
             }
             if tagOn {
-                GeometryReader { geometry in
-                    BottomSheetView(
-                        isOpen: self.$tagOn,
-                        maxHeight: geometry.size.height * 1
-                    ) {
-                        TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: self.viewModel.identifier), tagOn: self.$tagOn).eraseToAnyView()
-                    }
-                }.background(Color(.systemBackground))
-                    .frame(minHeight: 300, idealHeight: 300, maxHeight: 300)
+                VStack {
+                    Divider()
+                    TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: self.viewModel.identifier), tagOn: self.$tagOn).eraseToAnyView()
+                }
             }
+
             HStack(spacing: 0) {
                 Group {
                     Spacer()
