@@ -1,3 +1,4 @@
+import Combine
 import FirebaseCrashlytics
 import Foundation
 import RealmSwift
@@ -6,7 +7,7 @@ import Resolver
 protocol FavoriteStore {
     func storeFavorite(_ entity: FavoriteEntity)
     func deleteFavorite(primaryKey: String)
-    func favorites() -> Results<FavoriteEntity>
+    func favorites() -> AnyPublisher<[FavoriteEntity], ErrorType>
     func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool
     func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
 }
@@ -46,8 +47,15 @@ class FavoriteStoreRealmImpl: FavoriteStore {
         }
     }
 
-    func favorites() -> Results<FavoriteEntity> {
-        realm.objects(FavoriteEntity.self)
+    func favorites() -> AnyPublisher<[FavoriteEntity], ErrorType> {
+        realm.objects(FavoriteEntity.self).publisher
+            .map({ results -> [FavoriteEntity] in
+                results.map { entity -> FavoriteEntity in
+                    entity
+                }
+            }).mapError({ error -> ErrorType in
+                .data(description: error.localizedDescription)
+            }).eraseToAnyPublisher()
     }
 
     func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool {
