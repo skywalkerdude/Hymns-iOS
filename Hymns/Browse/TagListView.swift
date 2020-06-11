@@ -22,7 +22,7 @@ struct TagListView: View {
                         Image(systemName: "tag")
                         Text("icon on any hymn")
                     }.multilineTextAlignment(.center)
-                }.maxSize().background(Color(.systemBackground)).eraseToAnyView()
+                }.maxSize().eraseToAnyView()
             }
             return List(tags, id: \.self) { tag in
                 NavigationLink(destination: BrowseResultsListView(viewModel: BrowseResultsListViewModel(tag: tag))) {
@@ -31,7 +31,7 @@ struct TagListView: View {
             }.eraseToAnyView()
         }.onAppear {
             self.viewModel.fetchUniqueTags()
-        }
+        }.background(Color(.systemBackground))
     }
 }
 
