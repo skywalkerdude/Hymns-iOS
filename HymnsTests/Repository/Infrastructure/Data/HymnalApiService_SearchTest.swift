@@ -1,4 +1,5 @@
 import Combine
+import Nimble
 import Resolver
 import XCTest
 @testable import Hymns
@@ -28,30 +29,20 @@ class HymnalApiService_SearchTest: XCTestCase {
         // Stub mock to return a network error.
         URLProtocolMock.error = ErrorType.data(description: "network error!")
 
-        let failureExpectation = expectation(description: "Invalid.failure")
-        let finishedExpectation = expectation(description: "Invalid.finished")
-        finishedExpectation.isInverted = true
-        let receiveExpectation = expectation(description: "Invalid.receiveValue")
-        receiveExpectation.isInverted = true
+        let failure = XCTestExpectation(description: "failure received")
+        let value = XCTestExpectation(description: "value received")
+        value.isInverted = true
 
         let cancellable
             = target.search(for: "Drink", onPage: nil)
-                .sink(
-                    receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
-                        switch completion {
-                        case .failure(let error):
-                            XCTAssertEqual(error, .data(description: "The operation couldn’t be completed. (NSURLErrorDomain error -1.)"))
-                            failureExpectation.fulfill()
-                        case .finished:
-                            finishedExpectation.fulfill()
-                        }
-                        return
-                },
-                    receiveValue: { _ in
-                        receiveExpectation.fulfill()
-                        return
+                .sink(receiveCompletion: { state in
+                    failure.fulfill()
+                    expect(state).to(equal(.failure(.data(description: "The operation couldn’t be completed. (NSURLErrorDomain error -1.)"))))
+                }, receiveValue: { _ in
+                    value.fulfill()
+                    return
                 })
-        wait(for: [failureExpectation, finishedExpectation, receiveExpectation], timeout: testTimeout)
+        wait(for: [failure, value], timeout: testTimeout)
         cancellable.cancel()
     }
 
@@ -61,30 +52,19 @@ class HymnalApiService_SearchTest: XCTestCase {
         URLProtocolMock.testURLs = [Self.searchDrink: Data("".utf8)]
         URLProtocolMock.response = createValidResponse(for: Self.searchDrink)
 
-        let failureExpectation = expectation(description: "Invalid.failure")
-        let finishedExpectation = expectation(description: "Invalid.finished")
-        finishedExpectation.isInverted = true
-        let receiveExpectation = expectation(description: "Invalid.receiveValue")
-        receiveExpectation.isInverted = true
+        let failure = XCTestExpectation(description: "failure received")
+        let value = XCTestExpectation(description: "value received")
+        value.isInverted = true
 
         let cancellable
             = target.search(for: "Drink", onPage: nil)
-                .sink(
-                    receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
-                        switch completion {
-                        case .failure(let error):
-                            XCTAssertEqual(error, .parsing(description: "The data couldn’t be read because it isn’t in the correct format."))
-                            failureExpectation.fulfill()
-                        case .finished:
-                            finishedExpectation.fulfill()
-                        }
-                        return
-                },
-                    receiveValue: { _ in
-                        receiveExpectation.fulfill()
-                        return
+                .sink(receiveCompletion: { state in
+                    failure.fulfill()
+                    expect(state).to(equal(.failure(.parsing(description: "The data couldn’t be read because it isn’t in the correct format."))))
+                }, receiveValue: { _ in
+                    value.fulfill()
                 })
-        wait(for: [failureExpectation, finishedExpectation, receiveExpectation], timeout: testTimeout)
+        wait(for: [failure, value], timeout: testTimeout)
         cancellable.cancel()
     }
 
@@ -94,28 +74,20 @@ class HymnalApiService_SearchTest: XCTestCase {
         URLProtocolMock.testURLs = [Self.searchDrink: Data(search_drink_json.utf8)]
         URLProtocolMock.response = createValidResponse(for: Self.searchDrink)
 
-        let failureExpectation = expectation(description: "Invalid.failure")
-        failureExpectation.isInverted = true
-        let finishedExpectation = expectation(description: "Invalid.finished")
-        let receiveExpectation = expectation(description: "Invalid.receiveValue")
+        let finished = XCTestExpectation(description: "finished received")
+        let value = XCTestExpectation(description: "value received")
 
         let cancellable
             = target.search(for: "drink", onPage: nil)
                 .sink(
-                    receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
-                        switch completion {
-                        case .failure:
-                            failureExpectation.fulfill()
-                        case .finished:
-                            finishedExpectation.fulfill()
-                        }
-                },
-                    receiveValue: { resultPage in
-                        receiveExpectation.fulfill()
-                        XCTAssertEqual(search_drink_song_result_page, resultPage)
-                        return
+                    receiveCompletion: { state in
+                        finished.fulfill()
+                        expect(state).to(equal(.finished))
+                }, receiveValue: { resultPage in
+                    value.fulfill()
+                    expect(resultPage).to(equal(search_drink_song_result_page))
                 })
-        wait(for: [failureExpectation, finishedExpectation, receiveExpectation], timeout: testTimeout)
+        wait(for: [finished, value], timeout: testTimeout)
         cancellable.cancel()
     }
 
@@ -125,28 +97,20 @@ class HymnalApiService_SearchTest: XCTestCase {
         URLProtocolMock.testURLs = [Self.searchDrinkPage3: Data(search_drink_page_3_json.utf8)]
         URLProtocolMock.response = createValidResponse(for: Self.searchDrinkPage3)
 
-        let failureExpectation = expectation(description: "Invalid.failure")
-        failureExpectation.isInverted = true
-        let finishedExpectation = expectation(description: "Invalid.finished")
-        let receiveExpectation = expectation(description: "Invalid.receiveValue")
+        let finished = XCTestExpectation(description: "finished received")
+        let value = XCTestExpectation(description: "value received")
 
         let cancellable
             = target.search(for: "drink", onPage: 3)
                 .sink(
-                    receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
-                        switch completion {
-                        case .failure:
-                            failureExpectation.fulfill()
-                        case .finished:
-                            finishedExpectation.fulfill()
-                        }
-                },
-                    receiveValue: { resultPage in
-                        receiveExpectation.fulfill()
-                        XCTAssertEqual(search_drink_page_3_song_result_page, resultPage)
-                        return
+                    receiveCompletion: { state in
+                        finished.fulfill()
+                        expect(state).to(equal(.finished))
+                }, receiveValue: { resultPage in
+                    value.fulfill()
+                    expect(resultPage).to(equal(search_drink_page_3_song_result_page))
                 })
-        wait(for: [failureExpectation, finishedExpectation, receiveExpectation], timeout: testTimeout)
+        wait(for: [finished, value], timeout: testTimeout)
         cancellable.cancel()
     }
 
@@ -156,28 +120,20 @@ class HymnalApiService_SearchTest: XCTestCase {
         URLProtocolMock.testURLs = [Self.searchDrinkPage10: Data(search_drink_page_10_json.utf8)]
         URLProtocolMock.response = createValidResponse(for: Self.searchDrinkPage10)
 
-        let failureExpectation = expectation(description: "Invalid.failure")
-        failureExpectation.isInverted = true
-        let finishedExpectation = expectation(description: "Invalid.finished")
-        let receiveExpectation = expectation(description: "Invalid.receiveValue")
+        let finished = XCTestExpectation(description: "finished received")
+        let value = XCTestExpectation(description: "value received")
 
         let cancellable
             = target.search(for: "drink", onPage: 10)
                 .sink(
-                    receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
-                        switch completion {
-                        case .failure:
-                            failureExpectation.fulfill()
-                        case .finished:
-                            finishedExpectation.fulfill()
-                        }
-                },
-                    receiveValue: { resultPage in
-                        receiveExpectation.fulfill()
-                        XCTAssertEqual(search_drink_page_10_song_result_page, resultPage)
-                        return
+                    receiveCompletion: { state in
+                        finished.fulfill()
+                        expect(state).to(equal(.finished))
+                }, receiveValue: { resultPage in
+                    value.fulfill()
+                    expect(resultPage).to(equal(search_drink_page_10_song_result_page))
                 })
-        wait(for: [failureExpectation, finishedExpectation, receiveExpectation], timeout: testTimeout)
+        wait(for: [finished, value], timeout: testTimeout)
         cancellable.cancel()
     }
 }

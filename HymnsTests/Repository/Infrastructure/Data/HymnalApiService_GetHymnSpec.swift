@@ -27,30 +27,20 @@ class HymnalApiService_GetHymnSpec: QuickSpec {
                     URLProtocolMock.error = ErrorType.data(description: "network error!")
                 }
                 it("only the failure completion callback should be triggered") {
-                    let failureExpectation = self.expectation(description: "Invalid.failure")
-                    let finishedExpectation = self.expectation(description: "Invalid.finished")
-                    finishedExpectation.isInverted = true
-                    let receiveExpectation = self.expectation(description: "Invalid.receiveValue")
-                    receiveExpectation.isInverted = true
+                    let failure = XCTestExpectation(description: "failure received")
+                    let value = XCTestExpectation(description: "value received")
+                    value.isInverted = true
 
                     let cancellable
                         = target.getHymn(children24)
-                            .sink(
-                                receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
-                                    switch completion {
-                                    case .failure(let error):
-                                        expect(error).to(equal(.data(description: "The operation couldn’t be completed. (NSURLErrorDomain error -1.)")))
-                                        failureExpectation.fulfill()
-                                    case .finished:
-                                        finishedExpectation.fulfill()
-                                    }
-                                    return
-                            },
-                                receiveValue: { _ in
-                                    receiveExpectation.fulfill()
-                                    return
+                            .sink(receiveCompletion: { state in
+                                failure.fulfill()
+                                expect(state).to(equal(.failure(.data(description: "The operation couldn’t be completed. (NSURLErrorDomain error -1.)"))))
+                            }, receiveValue: { _ in
+                                value.fulfill()
+                                return
                             })
-                    self.wait(for: [failureExpectation, finishedExpectation, receiveExpectation], timeout: testTimeout)
+                    self.wait(for: [failure, value], timeout: testTimeout)
                     cancellable.cancel()
                 }
             }
@@ -61,30 +51,20 @@ class HymnalApiService_GetHymnSpec: QuickSpec {
                     URLProtocolMock.testURLs = [Self.children24URL: Data("".utf8)]
                 }
                 it("only the failure completion callback should be triggered") {
-                    let failureExpectation = self.expectation(description: "Invalid.failure")
-                    let finishedExpectation = self.expectation(description: "Invalid.finished")
-                    finishedExpectation.isInverted = true
-                    let receiveExpectation = self.expectation(description: "Invalid.receiveValue")
-                    receiveExpectation.isInverted = true
+                    let failure = XCTestExpectation(description: "failure received")
+                    let value = XCTestExpectation(description: "value received")
+                    value.isInverted = true
 
                     let cancellable
                         = target.getHymn(children24)
-                            .sink(
-                                receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
-                                    switch completion {
-                                    case .failure(let error):
-                                        expect(error).to(equal(.parsing(description: "The data couldn’t be read because it isn’t in the correct format.")))
-                                        failureExpectation.fulfill()
-                                    case .finished:
-                                        finishedExpectation.fulfill()
-                                    }
-                                    return
-                            },
-                                receiveValue: { _ in
-                                    receiveExpectation.fulfill()
-                                    return
+                            .sink(receiveCompletion: { state in
+                                failure.fulfill()
+                                expect(state).to(equal(.failure(.parsing(description: "The data couldn’t be read because it isn’t in the correct format."))))
+                            }, receiveValue: { _ in
+                                value.fulfill()
+                                return
                             })
-                    self.wait(for: [failureExpectation, finishedExpectation, receiveExpectation], timeout: testTimeout)
+                    self.wait(for: [failure, value], timeout: testTimeout)
                     cancellable.cancel()
                 }
             }
@@ -95,28 +75,20 @@ class HymnalApiService_GetHymnSpec: QuickSpec {
                     URLProtocolMock.testURLs = [Self.children24URL: Data(children_24_json.utf8)]
                 }
                 it("the finished completion and receive value callbacks should be triggered") {
-                    let failureExpectation = self.expectation(description: "Invalid.failure")
-                    failureExpectation.isInverted = true
-                    let finishedExpectation = self.expectation(description: "Invalid.finished")
-                    let receiveExpectation = self.expectation(description: "Invalid.receiveValue")
+                    let finished = XCTestExpectation(description: "finished received")
+                    let value = XCTestExpectation(description: "value received")
 
                     let cancellable
                         = target.getHymn(children24)
                             .sink(
-                                receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
-                                    switch completion {
-                                    case .failure:
-                                        failureExpectation.fulfill()
-                                    case .finished:
-                                        finishedExpectation.fulfill()
-                                    }
-                            },
-                                receiveValue: { hymn in
-                                    receiveExpectation.fulfill()
-                                    expect(hymn).to(equal(children_24_hymn))
-                                    return
+                                receiveCompletion: { state in
+                                    finished.fulfill()
+                                    expect(state).to(equal(.finished))
+                            }, receiveValue: { hymn in
+                                value.fulfill()
+                                expect(hymn).to(equal(children_24_hymn))
                             })
-                    self.wait(for: [failureExpectation, finishedExpectation, receiveExpectation], timeout: testTimeout)
+                    self.wait(for: [finished, value], timeout: testTimeout)
                     cancellable.cancel()
                 }
             }
@@ -127,29 +99,21 @@ class HymnalApiService_GetHymnSpec: QuickSpec {
                     URLProtocolMock.testURLs = [Self.children24QueryParamsURL: Data(children_24_json.utf8)]
                 }
                 it("the finished completion and receive value callbacks should be triggered") {
-                    let failureExpectation = self.expectation(description: "Invalid.failure")
-                    failureExpectation.isInverted = true
-                    let finishedExpectation = self.expectation(description: "Invalid.finished")
-                    let receiveExpectation = self.expectation(description: "Invalid.receiveValue")
+                    let finished = XCTestExpectation(description: "finished received")
+                    let value = XCTestExpectation(description: "value received")
 
                     let identifier = HymnIdentifier(hymnType: .children, hymnNumber: "24", queryParams: ["key1": "value1"])
                     let cancellable
                         = target.getHymn(identifier)
                             .sink(
-                                receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
-                                    switch completion {
-                                    case .failure:
-                                        failureExpectation.fulfill()
-                                    case .finished:
-                                        finishedExpectation.fulfill()
-                                    }
-                            },
-                                receiveValue: { hymn in
-                                    receiveExpectation.fulfill()
-                                    expect(hymn).to(equal(children_24_hymn))
-                                    return
+                                receiveCompletion: { state in
+                                    finished.fulfill()
+                                    expect(state).to(equal(.finished))
+                            }, receiveValue: { hymn in
+                                value.fulfill()
+                                expect(hymn).to(equal(children_24_hymn))
                             })
-                    self.wait(for: [failureExpectation, finishedExpectation, receiveExpectation], timeout: testTimeout)
+                    self.wait(for: [finished, value], timeout: testTimeout)
                     cancellable.cancel()
                 }
             }
