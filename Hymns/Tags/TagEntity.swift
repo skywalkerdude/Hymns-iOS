@@ -54,13 +54,13 @@ extension TagColor {
         case .none:
             return UIColor.white
         case .blue:
-            return UIColor(red: 2/255, green: 118/255, blue: 254/255, alpha: 0.2)
+            return CustomColors.backgroundBlue
         case .green:
-            return UIColor(red: 80/255, green: 227/255, blue: 194/255, alpha: 0.2)
+            return CustomColors.backgroundGreen
         case .yellow:
-            return UIColor(red: 255/255, green: 209/255, blue: 0/255, alpha: 0.2)
+            return CustomColors.backgroundYellow
         case .red:
-            return UIColor(red: 255/255, green: 0, blue: 31/255, alpha: 0.2)
+            return CustomColors.backgroundRed
         }
     }
 
@@ -69,13 +69,13 @@ extension TagColor {
         case .none:
             return UIColor.white
         case .blue:
-            return UIColor(red: 2/255, green: 118/255, blue: 254/255, alpha: 1.0)
+            return CustomColors.foregroundBlue
         case .green:
-            return UIColor(red: 35/255, green: 190/255, blue: 155/255, alpha: 1.0)
+            return CustomColors.foregroundGreen
         case .yellow:
-            return UIColor(red: 176/255, green: 146/255, blue: 7/255, alpha: 1.0)
+            return CustomColors.foregroundYellow
         case .red:
-            return UIColor(red: 255/255, green: 0, blue: 31/255, alpha: 0.78)
+            return CustomColors.foregroundRed
         }
     }
 }

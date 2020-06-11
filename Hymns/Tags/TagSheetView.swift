@@ -48,10 +48,10 @@ struct TagSheetView: View {
                                     Image(systemName: "xmark.circle")
                                 }
                             })
-                                .padding()
+                                .padding(10)
                                 .foregroundColor(Color(tag.color.foreground))
                                 .background(Color(tag.color.background))
-                                .cornerRadius(25)
+                                .cornerRadius(20)
                                 .lineLimit(1)
                         }
                     }

@@ -19,40 +19,56 @@ struct SelectLabelView: View {
                     self.resetForBlue()
                 }, label: {
                     Text("blue").font(.body).fontWeight(self.blueButton ? .bold : .none)
-                }).padding(6)
-                    .background(Color(UIColor(red: 2/255, green: 118/255, blue: 254/255, alpha: 0.2)))
-                    .foregroundColor(.blue)
-                    .cornerRadius(13)
+                }).padding(10)
+                    .background(Color(CustomColors.backgroundBlue))
+                    .foregroundColor(Color(CustomColors.foregroundBlue))
+                    .cornerRadius(20)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.blue, lineWidth: self.blueButton ? 3 : 0)
+                )
 
                 Button(action: {
                     self.tagColor = .green
                     self.resetForGreen()
                 }, label: {
                     Text("green").font(.body).fontWeight(self.greenButton ? .bold : .none)
-                }).padding(6)
-                    .background(Color(UIColor(red: 80/255, green: 227/255, blue: 194/255, alpha: 0.2)))
-                    .foregroundColor(Color(UIColor(red: 35/255, green: 190/255, blue: 155/255, alpha: 1.0)))
-                    .cornerRadius(13)
+                }).padding(10)
+                    .background(Color(CustomColors.backgroundGreen))
+                    .foregroundColor(Color(CustomColors.foregroundGreen))
+                    .cornerRadius(20)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color(CustomColors.foregroundGreen), lineWidth: self.greenButton ? 3 : 0)
+                    )
 
                 Button(action: {
                     self.tagColor = .yellow
                     self.resetForYellow()
                 }, label: {
                     Text("yellow").font(.body).fontWeight(self.yellowButton ? .bold : .none)
-                }).padding(6)
-                    .background(Color(UIColor(red: 255/255, green: 209/255, blue: 0/255, alpha: 0.2)))
-                    .foregroundColor(Color(UIColor(red: 176/255, green: 146/255, blue: 7/255, alpha: 1.0)))
-                    .cornerRadius(13)
+                }).padding(10)
+                    .background(Color(CustomColors.backgroundYellow))
+                    .foregroundColor(Color(CustomColors.foregroundYellow))
+                    .cornerRadius(20)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color(CustomColors.foregroundYellow), lineWidth: self.yellowButton ? 3 : 0)
+                )
 
                 Button(action: {
                     self.tagColor = .red
                     self.resetForRed()
                 }, label: {
                     Text("red").font(.body).fontWeight(self.redButton ? .bold : .none)
-                }).padding(6)
-                    .background(Color(UIColor(red: 255/255, green: 0, blue: 31/255, alpha: 0.2)))
-                    .foregroundColor(Color(UIColor(red: 255/255, green: 0, blue: 31/255, alpha: 0.78)))
-                    .cornerRadius(13)
+                }).padding(10)
+                    .background(Color(CustomColors.backgroundRed))
+                    .foregroundColor(Color(CustomColors.foregroundRed))
+                    .cornerRadius(20)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color(CustomColors.foregroundRed), lineWidth: self.redButton ? 3 : 0)
+                )
                 Spacer()
             }.padding(.top)
         }
@@ -70,7 +86,6 @@ struct SelectLabelView: View {
         self.redButton = false
         self.yellowButton = false
         self.greenButton.toggle()
-
     }
 
     private func resetForYellow() {
@@ -78,7 +93,6 @@ struct SelectLabelView: View {
         self.greenButton = false
         self.redButton = false
         self.yellowButton.toggle()
-
     }
 
     private func resetForRed() {
