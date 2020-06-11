@@ -26,7 +26,7 @@ class BrowseScripturesViewModelSpec: QuickSpec {
                             }).eraseToAnyPublisher()
                     }
                 }
-                describe("fetching lyrics") {
+                describe("fetching scripture songs") {
                     beforeEach {
                         target.fetchScriptureSongs()
                         testQueue.sync {}
@@ -46,7 +46,7 @@ class BrowseScripturesViewModelSpec: QuickSpec {
                         }).eraseToAnyPublisher()
                     }
                 }
-                describe("fetching lyrics") {
+                describe("fetching scripture songs") {
                     beforeEach {
                         target.fetchScriptureSongs()
                         testQueue.sync {}
@@ -73,7 +73,7 @@ class BrowseScripturesViewModelSpec: QuickSpec {
                         }).eraseToAnyPublisher()
                     }
                 }
-                describe("fetching lyrics") {
+                describe("fetching scripture songs") {
                     beforeEach {
                         target.fetchScriptureSongs()
                         testQueue.sync {}
