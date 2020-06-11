@@ -30,6 +30,7 @@ struct DisplayHymnBottomBar: View {
     @State private var relevantIndexShown: Int?
 
     @State var showAudioPlayer = false
+    @Binding var tagOn: Bool
 
     @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
 
@@ -44,6 +45,17 @@ struct DisplayHymnBottomBar: View {
                         AudioPlayer(viewModel: AudioPlayerViewModel(url: self.viewModel.mp3Path)).padding()
                     }
                 }
+            }
+            if tagOn {
+                GeometryReader { geometry in
+                    BottomSheetView(
+                        isOpen: self.$tagOn,
+                        maxHeight: geometry.size.height * 1
+                    ) {
+                        TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: self.viewModel.identifier), tagOn: self.$tagOn).eraseToAnyView()
+                    }
+                }.background(Color(.systemBackground))
+                    .frame(minHeight: 280, idealHeight: 280, maxHeight: 280)
             }
             HStack(spacing: 0) {
                 Group {
@@ -80,9 +92,9 @@ struct DisplayHymnBottomBar: View {
                 }
                 Group {
                     Button(action: {
-                            self.sheet = .tags
+                        self.tagOn.toggle()
                     }, label: {
-                        BottomBarLabel(imageName: "tag")
+                        tagOn ? Image(systemName: "tag.fill").accentColor(.accentColor) : Image(systemName: "tag").accentColor(.primary)
                     })
                     Spacer()
                 }
@@ -167,12 +179,10 @@ struct DisplayHymnBottomBar: View {
                                 })
                             }) + [.cancel()])
                 }
-            }.sheet(item: $sheet) { tab -> AnyView in
+            }.sheet(item: $sheet) { tab -> ShareSheet in
                 switch tab {
                 case .share:
-                    return ShareSheet(activityItems: [self.viewModel.shareableLyrics]).eraseToAnyView()
-                case .tags:
-                    return TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: self.viewModel.identifier)).eraseToAnyView()
+                    return ShareSheet(activityItems: [self.viewModel.shareableLyrics])
                 }
             }
         }.background(Color(.systemBackground))
@@ -193,7 +203,6 @@ extension ActionSheetItem: Identifiable {
 
 enum DisplayHymnSheet: String {
     case share = "Share Lyrics"
-    case tags = "Tags"
 }
 
 extension DisplayHymnSheet: Identifiable {
@@ -202,6 +211,7 @@ extension DisplayHymnSheet: Identifiable {
     }
 }
 
+/*
 #if DEBUG
 struct DisplayHymnBottomBar_Previews: PreviewProvider {
     static var previews: some View {
@@ -213,3 +223,4 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
     }
 }
 #endif
+*/

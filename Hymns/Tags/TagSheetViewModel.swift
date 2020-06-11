@@ -86,7 +86,6 @@ class TagSheetViewModel: ObservableObject {
 //        }
 
         tags = result.map { (tag) -> SelfTags in
-            let identifier = HymnIdentifier(tag.hymnIdentifierEntity)
             return SelfTags(
                 title: tag.tag,
                 color: tag.tagColor)

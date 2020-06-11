@@ -6,34 +6,32 @@ struct TagSheetView: View {
     @ObservedObject private var viewModel: TagSheetViewModel
     @Environment(\.presentationMode) var presentationMode
     @State private var tagNames = ""
+    @Binding var tagOn: Bool
 
-    init(viewModel: TagSheetViewModel) {
+    init(viewModel: TagSheetViewModel, tagOn: Binding<Bool>) {
         self.viewModel = viewModel
+        self._tagOn = tagOn
     }
 
     var body: some View {
-        Form {
-            Section {
-                HStack {
-                    Text("Label your tag")
-                    Spacer()
-                    Button(action: {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        Image(systemName: "xmark.circle")
-                    })
-                }
-                HStack {
-                    TextField("Add tags", text: self.$tagNames)
-                    Button("Add") {
-                        self.viewModel.addTag(tagName: self.tagNames, tagColor: .blue)
-                    }.disabled(tagNames.isEmpty)
-                }
+        VStack {
+            HStack {
+                Text("Name your tag").font(.body).fontWeight(.bold)
+                Spacer()
             }
+            HStack {
+                TextField("Label it however you like", text: self.$tagNames)
+            }
+            Divider()
+            SelectLabelView()
             if self.viewModel.tags.isEmpty {
                 EmptyView()
             } else {
                 Section {
+                    HStack {
+                        Text("Tags").font(.body).fontWeight(.bold)
+                        Spacer()
+                    }.padding()
                     HStack {
                         ForEach(self.viewModel.tags, id: \.self) { tag in
                             Button(action: {
@@ -46,23 +44,34 @@ struct TagSheetView: View {
                                 }
                             })
                                 .padding()
-                                .foregroundColor(.primary)
-                                .background(Color(tag.color.value))
-                                .cornerRadius(.infinity)
+                                .foregroundColor(Color(tag.color.foreground))
+                                .background(Color(tag.color.background))
+                                .cornerRadius(60)
                                 .lineLimit(1)
                         }
                     }
                 }
             }
+            HStack {
+                Spacer()
+                Button(action: {
+                    self.tagOn.toggle()
+                }, label: {
+                    Text("Cancel")
+                })
+                Button("Add") {
+                    self.viewModel.addTag(tagName: self.tagNames, tagColor: .blue)
+                }.disabled(tagNames.isEmpty)
+            }
         }.onAppear {
             self.viewModel.fetchHymn()
             self.viewModel.fetchTagsByHymn()
-        }
+        }.padding()
     }
 }
 
 struct TagSheetView_Previews: PreviewProvider {
     static var previews: some View {
-        TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
+        TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151), tagOn: .constant(true))
     }
 }
