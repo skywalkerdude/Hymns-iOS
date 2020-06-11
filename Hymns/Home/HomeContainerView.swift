@@ -61,7 +61,7 @@ struct HomeContainerView: View {
 struct HomeContainerView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            // preview all tabs
+            // preview all of the tabs
             HomeContainerView(selectedTab: .home).previewDisplayName("Home tab")
             HomeContainerView(selectedTab: .browse).previewDisplayName("Browse tab")
             HomeContainerView(selectedTab: .favorites).previewDisplayName("Favorites tab")
