@@ -7,16 +7,25 @@ class TagListViewModel: ObservableObject {
 
     typealias Tag = String
 
-    @Published var tags = [Tag]()
+    @Published var tags: [Tag]?
 
+    private let mainQueue: DispatchQueue
     private let tagStore: TagStore
 
-    init(tagStore: TagStore = Resolver.resolve()) {
+    private var disposables = Set<AnyCancellable>()
+
+    init(mainQueue: DispatchQueue = Resolver.resolve(name: "main"), tagStore: TagStore = Resolver.resolve()) {
+        self.mainQueue = mainQueue
         self.tagStore = tagStore
     }
 
-    func getUniqueTags() {
-        tags = tagStore.getUniqueTags()
+    func fetchUniqueTags() {
+        tagStore.getUniqueTags()
+            .replaceError(with: [Tag]())
+            .receive(on: mainQueue)
+            .sink(receiveValue: { tags in
+                self.tags = tags
+            }).store(in: &disposables)
     }
 }
 
