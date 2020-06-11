@@ -5,33 +5,33 @@ import Resolver
 
 class FavoritesViewModel: ObservableObject {
 
-    @Published var favorites = [SongResultViewModel]()
+    @Published var favorites: [SongResultViewModel]?
 
-    let objectWillChange = ObservableObjectPublisher()
-    private var notificationToken: NotificationToken?
     private let favoriteStore: FavoriteStore
+    private let mainQueue: DispatchQueue
+    private var disposables = Set<AnyCancellable>()
 
-    init(favoriteStore: FavoriteStore = Resolver.resolve()) {
+    init(favoriteStore: FavoriteStore = Resolver.resolve(),
+         mainQueue: DispatchQueue = Resolver.resolve(name: "main")) {
         self.favoriteStore = favoriteStore
-    }
-
-    deinit {
-        notificationToken?.invalidate()
+        self.mainQueue = mainQueue
     }
 
     func fetchFavorites() {
-        let result: Results<FavoriteEntity> = favoriteStore.favorites()
-
-        notificationToken = result.observe { _ in
-            self.objectWillChange.send()
-        }
-
-        favorites = result.map { (favorite) -> SongResultViewModel in
-            let identifier = HymnIdentifier(favorite.hymnIdentifierEntity)
-            return SongResultViewModel(
-                title: favorite.songTitle,
-                destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
-        }
+        favoriteStore.favorites()
+            .map({ entities -> [SongResultViewModel] in
+                entities.map { entity -> SongResultViewModel in
+                    let identifier = HymnIdentifier(entity.hymnIdentifierEntity)
+                    return SongResultViewModel(
+                        title: entity.songTitle,
+                        destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
+                }
+            })
+            .replaceError(with: [SongResultViewModel]())
+            .receive(on: mainQueue)
+            .sink(receiveValue: { results in
+                self.favorites = results
+            }).store(in: &disposables)
     }
 }
 
