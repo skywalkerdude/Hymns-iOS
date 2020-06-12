@@ -16,25 +16,16 @@ struct UiHymn: Equatable {
     let music: MetaDatum?
     let relevant: MetaDatum?
     // add more fields as needed
-    /*
-    func computedTitle(hymn: HymnIdentifier) -> String {
-        let title: Title
-        if hymn.hymnType == .classic {
-            title = "Hymn \(hymn.hymnNumber)"
-         } else {
-            title = self.title.replacingOccurrences(of: "Hymn: ", with: "")
-         }
-         return title
-    } */
+
     var computedTitle: String {
         let title: Title
         if hymnIdentifier.hymnType == .classic {
             title = "Hymn \(hymnIdentifier.hymnNumber)"
-         } else {
+        } else {
             title = self.title.replacingOccurrences(of: "Hymn: ", with: "")
-         }
-         return title
-}
+        }
+        return title
+    }
 
     init(hymnIdentifier: HymnIdentifier, title: String, lyrics: [Verse], pdfSheet: MetaDatum? = nil,
          category: String? = nil, subcategory: String? = nil, author: String? = nil, languages: MetaDatum? = nil,
