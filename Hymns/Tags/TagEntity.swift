@@ -44,8 +44,12 @@ class TagEntity: Object, Identifiable {
     }
 }
 
-enum TagColor: Int {
+@objc enum TagColor: Int {
     case none, blue, green, yellow, red
+
+    static var allCases: [TagColor] {
+        return [none, blue, green, yellow, red]
+    }
 }
 
 extension TagColor {
@@ -54,13 +58,13 @@ extension TagColor {
         case .none:
             return Color(.systemBackground)
         case .blue:
-            return CustomColors.backgroundBlue
+            return Color(red: 2/255, green: 118/255, blue: 254/255, opacity: 0.2)
         case .green:
-            return CustomColors.backgroundGreen
+            return Color(red: 80/255, green: 227/255, blue: 194/255, opacity: 0.2)
         case .yellow:
-            return CustomColors.backgroundYellow
+            return Color(red: 255/255, green: 209/255, blue: 0/255, opacity: 0.2)
         case .red:
-            return CustomColors.backgroundRed
+            return Color(red: 255/255, green: 0, blue: 31/255, opacity: 0.2)
         }
     }
 
@@ -69,13 +73,49 @@ extension TagColor {
         case .none:
             return Color.primary
         case .blue:
-            return CustomColors.foregroundBlue
+            return Color(red: 2/255, green: 118/255, blue: 254/255, opacity: 1.0)
         case .green:
-            return CustomColors.foregroundGreen
+            return Color(red: 35/255, green: 190/255, blue: 155/255, opacity: 1.0)
+
         case .yellow:
-            return CustomColors.foregroundYellow
+            return Color(red: 176/255, green: 146/255, blue: 7/255, opacity: 1.0)
         case .red:
-            return CustomColors.foregroundRed
+            return Color(red: 255/255, green: 0, blue: 31/255, opacity: 0.78)
         }
     }
+
+    var abbreviatedValue: String {
+        switch self {
+        case .none:
+            return "none"
+        case .blue:
+            return "blue"
+        case .green:
+            return "green"
+        case .yellow:
+            return "yellow"
+        case .red:
+            return "red"
+        }
+    }
+}
+
+extension TagColor {
+    static func getBackColor(_ abbreviatedValue: String) -> Color? {
+        for tagColor in TagColor.allCases where abbreviatedValue == tagColor.abbreviatedValue {
+            return tagColor.background
+        }
+        return nil
+    }
+
+    static func getFrontColor(_ abbreviatedValue: String) -> Color? {
+        for tagColor in TagColor.allCases where abbreviatedValue == tagColor.abbreviatedValue {
+            return tagColor.background
+        }
+        return nil
+    }
+}
+
+extension TagColor: CustomStringConvertible {
+    var description: String { abbreviatedValue }
 }

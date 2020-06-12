@@ -639,7 +639,6 @@
 				3BB1DCB4244D55770011169D /* SearchBar.swift */,
 				B5A00F5E245277E300F7E3E1 /* ActivityIndicator.swift */,
 				3B369CEF246D0D570068A29C /* WebView.swift */,
-				B582E43E2493216500329DA5 /* CustomColors.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1443,7 +1442,6 @@
 				B5DC935C248EBD1C00BF90A5 /* MailFeedbackView.swift in Sources */,
 				3BE44363248ABBED00763B3C /* Book.swift in Sources */,
 				B5DC9360248EC6D200BF90A5 /* FeedbackViewModel.swift in Sources */,
-				B582E43F2493216500329DA5 /* CustomColors.swift in Sources */,
 				3B87B82624493F7F00AEC7E9 /* SimpleSettingView.swift in Sources */,
 				3B43718124766700000B42AC /* Previews.swift in Sources */,
 				3BC1328D243826280082A274 /* PreviewHymns.swift in Sources */,
