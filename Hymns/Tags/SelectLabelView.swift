@@ -20,12 +20,12 @@ struct SelectLabelView: View {
                 }, label: {
                     Text("Blue").font(.body).fontWeight(self.blueButton ? .bold : .none)
                 }).padding(10)
-                    .background(CustomColors.backgroundBlue)
-                    .foregroundColor(CustomColors.foregroundBlue)
+                    .background(TagColor.getBackColor("blue"))
+                    .foregroundColor(TagColor.getFrontColor("blue"))
                     .cornerRadius(20)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.blue, lineWidth: self.blueButton ? 3 : 0)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.blue, lineWidth: self.blueButton ? 3 : 0)
                 )
 
                 Button(action: {
@@ -34,12 +34,12 @@ struct SelectLabelView: View {
                 }, label: {
                     Text("Green").font(.body).fontWeight(self.greenButton ? .bold : .none)
                 }).padding(10)
-                    .background(CustomColors.backgroundGreen)
-                    .foregroundColor(CustomColors.foregroundGreen)
+                    .background(TagColor.getBackColor("green"))
+                    .foregroundColor(TagColor.getFrontColor("green"))
                     .cornerRadius(20)
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
-                            .stroke(CustomColors.foregroundGreen, lineWidth: self.greenButton ? 3 : 0))
+                            .stroke(Color(red: 35/255, green: 190/255, blue: 155/255, opacity: 1.0), lineWidth: self.greenButton ? 3 : 0))
 
                 Button(action: {
                     self.tagColor = .yellow
@@ -47,12 +47,12 @@ struct SelectLabelView: View {
                 }, label: {
                     Text("Yellow").font(.body).fontWeight(self.yellowButton ? .bold : .none)
                 }).padding(10)
-                    .background(CustomColors.backgroundYellow)
-                    .foregroundColor(CustomColors.foregroundYellow)
+                    .background(TagColor.getBackColor("yellow"))
+                    .foregroundColor(TagColor.getFrontColor("yellow"))
                     .cornerRadius(20)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(CustomColors.foregroundYellow, lineWidth: self.yellowButton ? 3 : 0))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color(red: 176/255, green: 146/255, blue: 7/255, opacity: 1.0), lineWidth: self.yellowButton ? 3 : 0))
 
                 Button(action: {
                     self.tagColor = .red
@@ -60,12 +60,12 @@ struct SelectLabelView: View {
                 }, label: {
                     Text("Red").font(.body).fontWeight(self.redButton ? .bold : .none)
                 }).padding(10)
-                    .background(CustomColors.backgroundRed)
-                    .foregroundColor(CustomColors.foregroundRed)
+                    .background(TagColor.getBackColor("red"))
+                    .foregroundColor(TagColor.getFrontColor("red"))
                     .cornerRadius(20)
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
-                            .stroke(CustomColors.foregroundRed, lineWidth: self.redButton ? 3 : 0))
+                            .stroke(Color(red: 255/255, green: 0, blue: 31/255, opacity: 0.78), lineWidth: self.redButton ? 3 : 0))
                 Spacer()
             }.padding(.top)
         }
