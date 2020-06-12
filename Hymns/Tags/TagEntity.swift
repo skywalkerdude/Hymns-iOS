@@ -49,33 +49,33 @@ enum TagColor: Int {
 }
 
 extension TagColor {
-    var background: UIColor {
+    var background: Color {
         switch self {
         case .none:
-            return UIColor.systemBackground
+            return Color(.systemBackground)
         case .blue:
-            return UIColor(red: 2/255, green: 118/255, blue: 254/255, alpha: 0.2)
+            return Color(red: 2/255, green: 118/255, blue: 254/255, opacity: 0.2)
         case .green:
-            return UIColor(red: 80/255, green: 227/255, blue: 194/255, alpha: 0.2)
+            return Color(red: 80/255, green: 227/255, blue: 194/255, opacity: 0.2)
         case .yellow:
-            return UIColor(red: 255/255, green: 209/255, blue: 0/255, alpha: 0.2)
+            return Color(red: 255/255, green: 209/255, blue: 0/255, opacity: 0.2)
         case .red:
-            return UIColor(red: 255/255, green: 0, blue: 31/255, alpha: 0.2)
+            return Color(red: 255/255, green: 0, blue: 31/255, opacity: 0.2)
         }
     }
 
-    var foreground: UIColor {
+    var foreground: Color {
         switch self {
         case .none:
-            return UIColor.label
+            return Color.primary
         case .blue:
-            return UIColor(red: 2/255, green: 118/255, blue: 254/255, alpha: 1.0)
+            return Color(red: 2/255, green: 118/255, blue: 254/255, opacity: 1.0)
         case .green:
-            return UIColor(red: 35/255, green: 190/255, blue: 155/255, alpha: 1.0)
+            return Color(red: 35/255, green: 190/255, blue: 155/255, opacity: 1.0)
         case .yellow:
-            return UIColor(red: 176/255, green: 146/255, blue: 7/255, alpha: 1.0)
+            return Color(red: 176/255, green: 146/255, blue: 7/255, opacity: 1.0)
         case .red:
-            return UIColor(red: 255/255, green: 0, blue: 31/255, alpha: 0.78)
+            return Color(red: 255/255, green: 0, blue: 31/255, opacity: 0.78)
         }
     }
 }

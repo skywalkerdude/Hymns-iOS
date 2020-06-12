@@ -82,9 +82,3 @@ extension UiTag: Hashable {
         hasher.combine(color)
     }
 }
-
-extension Resolver {
-    public static func registerTagSheetViewModel() {
-        register {TagSheetViewModel(hymnToDisplay: Resolver.resolve())}.scope(graph)
-    }
-}
