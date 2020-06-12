@@ -65,10 +65,8 @@ struct IndicatorTabView_Previews: PreviewProvider {
                             VerseViewModel(verseNumber: "2", verseLines: classic40_preview.lyrics[2].verseContent),
                             VerseViewModel(verseNumber: "3", verseLines: classic40_preview.lyrics[3].verseContent),
                             VerseViewModel(verseNumber: "4", verseLines: classic40_preview.lyrics[4].verseContent)]
-        var selectedTab: HymnLyricsTab = .lyrics(HymnLyricsView(viewModel: viewModel).eraseToAnyView())
-        let selectedTabBinding = Binding<HymnLyricsTab>(
-            get: {selectedTab},
-            set: {selectedTab = $0})
+        let selectedTab: HymnLyricsTab = .lyrics(HymnLyricsView(viewModel: viewModel).eraseToAnyView())
+        let selectedTabBinding: Binding<HymnLyricsTab> = .constant(selectedTab)
         let tabItems: [HymnLyricsTab] = [
             selectedTab,
             .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=gtpdf")!).eraseToAnyView()),

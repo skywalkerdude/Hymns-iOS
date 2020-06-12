@@ -92,6 +92,12 @@ class ConverterImpl: Converter {
         let category = hymnEntity.category
         let subcategory = hymnEntity.subcategory
         let author = hymnEntity.author
+        let composer = hymnEntity.composer
+        let key = hymnEntity.key
+        let time = hymnEntity.time
+        let meter = hymnEntity.meter
+        let scriptures = hymnEntity.scriptures
+        let hymnCode = hymnEntity.hymnCode
 
         let pdfSheet: MetaDatum?
         if let pdfData = hymnEntity.pdfSheetJson?.data(using: .utf8) {
@@ -124,8 +130,9 @@ class ConverterImpl: Converter {
         do {
             let verses = try jsonDecoder.decode([Verse].self, from: lyricsData)
             return UiHymn(hymnIdentifier: hymnIdentifier, title: title, lyrics: verses, pdfSheet: pdfSheet,
-                          category: category, subcategory: subcategory, author: author, languages: languages,
-                          music: music, relevant: relevant)
+                          category: category, subcategory: subcategory, author: author, composer: composer,
+                          key: key, time: time, meter: meter, scriptures: scriptures, hymnCode: hymnCode,
+                          languages: languages, music: music, relevant: relevant)
         } catch {
             throw TypeConversionError(triggeringError: error)
         }
