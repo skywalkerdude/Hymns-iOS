@@ -30,6 +30,7 @@ struct DisplayHymnBottomBar: View {
     @State private var relevantIndexShown: Int?
 
     @State var showAudioPlayer = false
+    @Binding var tagOn: Bool
 
     @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
 
@@ -43,6 +44,12 @@ struct DisplayHymnBottomBar: View {
                         Divider()
                         AudioPlayer(viewModel: AudioPlayerViewModel(url: self.viewModel.mp3Path)).padding()
                     }
+                }
+            }
+            if tagOn {
+                VStack {
+                    Divider()
+                    TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: self.viewModel.identifier), tagOn: self.$tagOn).eraseToAnyView()
                 }
             }
             HStack(spacing: 0) {
@@ -79,8 +86,11 @@ struct DisplayHymnBottomBar: View {
                     }
                 }
                 Group {
-                    Button(action: {}, label: {
+                    Button(action: {
                         BottomBarLabel(imageName: "tag")
+                        self.tagOn.toggle()
+                    }, label: {
+                        tagOn ? Image(systemName: "tag.fill").accentColor(.accentColor) : Image(systemName: "tag").accentColor(.primary)
                     })
                     Spacer()
                 }
@@ -206,7 +216,7 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
         var dialogBuilder: (() -> AnyView)?
         return DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
             get: {dialogBuilder},
-            set: {dialogBuilder = $0}), viewModel: viewModel).previewLayout(.sizeThatFits)
+            set: {dialogBuilder = $0}), tagOn: .constant(true), viewModel: viewModel).toPreviews()
     }
 }
 #endif

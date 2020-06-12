@@ -11,7 +11,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
     @Published var mp3Path: URL?
 
     private let analytics: AnalyticsLogger
-    private let identifier: HymnIdentifier
+    let identifier: HymnIdentifier
     private let backgroundQueue: DispatchQueue
     private let mainQueue: DispatchQueue
     private let repository: HymnsRepository

@@ -54,13 +54,13 @@ extension TagColor {
         case .none:
             return Color(.systemBackground)
         case .blue:
-            return Color(red: 2/255, green: 118/255, blue: 254/255, opacity: 0.2)
+            return CustomColors.backgroundBlue
         case .green:
-            return Color(red: 80/255, green: 227/255, blue: 194/255, opacity: 0.2)
+            return CustomColors.backgroundGreen
         case .yellow:
-            return Color(red: 255/255, green: 209/255, blue: 0/255, opacity: 0.2)
+            return CustomColors.backgroundYellow
         case .red:
-            return Color(red: 255/255, green: 0, blue: 31/255, opacity: 0.2)
+            return CustomColors.backgroundRed
         }
     }
 
@@ -69,13 +69,13 @@ extension TagColor {
         case .none:
             return Color.primary
         case .blue:
-            return Color(red: 2/255, green: 118/255, blue: 254/255, opacity: 1.0)
+            return CustomColors.foregroundBlue
         case .green:
-            return Color(red: 35/255, green: 190/255, blue: 155/255, opacity: 1.0)
+            return CustomColors.foregroundGreen
         case .yellow:
-            return Color(red: 176/255, green: 146/255, blue: 7/255, opacity: 1.0)
+            return CustomColors.foregroundYellow
         case .red:
-            return Color(red: 255/255, green: 0, blue: 31/255, opacity: 0.78)
+            return CustomColors.foregroundRed
         }
     }
 }
