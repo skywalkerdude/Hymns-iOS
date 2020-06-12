@@ -4,7 +4,7 @@ import Danger
 let danger = Danger()
 
 let files = danger.git.modifiedFiles.filter { $0.hasPrefix("Hymns") }
-SwiftLint.lint(.files(files), configFile: ".swiftlint.yml", inline: true)
+SwiftLint.lint(.files(files), inline: true, configFile: ".swiftlint.yml")
 
 // Ensure no copyright header
 let changedFiles = (danger.git.modifiedFiles + danger.git.createdFiles).filter {
