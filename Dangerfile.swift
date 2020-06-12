@@ -2,7 +2,10 @@
 import Danger
 
 let danger = Danger()
-/*
+
+let files = danger.git.modifiedFiles.filter { $0.hasPrefix("Hymns") }
+SwiftLint.lint(.files(files), inline: true, configFile: ".swiftlint.yml")
+
 // Ensure no copyright header
 let changedFiles = (danger.git.modifiedFiles + danger.git.createdFiles).filter {
     $0 != "Dangerfile.swift"
@@ -14,7 +17,7 @@ if swiftFilesWithCopyright.count > 0 {
     let files = swiftFilesWithCopyright.joined(separator: ", ")
     fail("Please remove the copyright header in: \(files)")
 }
-*/
+
 // Encourage smaller PRs
 var bigPRThreshold = 1000;
 if (danger.github.pullRequest.additions! + danger.github.pullRequest.deletions! > bigPRThreshold) {
