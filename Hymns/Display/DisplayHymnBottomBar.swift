@@ -11,7 +11,7 @@ struct BottomBarLabel: View {
 }
 
 #if DEBUG
-struct BottomBarLabel_Previews: PreviewProvider {
+struct BottomBarLabel_Previews : PreviewProvider {
     static var previews: some View {
         BottomBarLabel(imageName: "music.note.list").previewLayout(.sizeThatFits)
     }
