@@ -177,6 +177,8 @@ struct DisplayHymnBottomBar: View {
     }
 }
 
+
+
 private enum ActionSheetItem: String {
     case fontSize = "Lyrics font fize"
     case languages = "Languages"
