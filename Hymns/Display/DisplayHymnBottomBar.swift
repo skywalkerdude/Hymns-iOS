@@ -87,7 +87,6 @@ struct DisplayHymnBottomBar: View {
                 }
                 Group {
                     Button(action: {
-                        BottomBarLabel(imageName: "tag")
                         self.tagOn.toggle()
                     }, label: {
                         tagOn ? Image(systemName: "tag.fill").accentColor(.accentColor) : Image(systemName: "tag").accentColor(.primary)
