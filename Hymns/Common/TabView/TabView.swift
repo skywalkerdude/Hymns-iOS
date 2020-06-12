@@ -19,12 +19,17 @@ public struct IndicatorTabView<TabType: TabItem>: View {
     public var body: some View {
         VStack(alignment: .center, spacing: 0) {
             if tabAlignment == .top {
-                TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment).padding(.bottom, 0.2)
+                VStack(spacing: 0) {
+                    TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment).padding(.bottom, 0.2)
+                    Divider()
+                }
             }
-            Rectangle()
-                .overlay(currentTab.content)
+            Rectangle().overlay(currentTab.content)
             if tabAlignment == .bottom {
-                TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment)
+                VStack(spacing: 0) {
+                    Divider()
+                    TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment)
+                }
             }
         }
     }
@@ -66,9 +71,9 @@ struct IndicatorTabView_Previews: PreviewProvider {
             set: {selectedTab = $0})
         let tabItems: [HymnLyricsTab] = [
             selectedTab,
-            .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=gtpdf")).eraseToAnyView()),
-            .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=pdf")).eraseToAnyView()),
-            .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=ppdf")).eraseToAnyView())]
+            .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=gtpdf")!).eraseToAnyView()),
+            .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=pdf")!).eraseToAnyView()),
+            .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=ppdf")!).eraseToAnyView())]
 
         return Group {
             IndicatorTabView(currentTab: selectedTabBinding, tabItems: tabItems)

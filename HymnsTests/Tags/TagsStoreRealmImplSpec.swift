@@ -24,11 +24,14 @@ class TagStoreRealmImplSpec: QuickSpec {
                 }
                 inMemoryRealm.invalidate()
             }
-            context("store a few tags") {
+            describe("store a few tags") {
                 beforeEach {
                     target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Christ", tagColor: .blue))
                     target.storeTag(TagEntity(hymnIdentifier: newSong145, songTitle: "Hymn: Jesus shall reign where\\u2019er the sun", tag: "Bread and wine", tagColor: .yellow))
                     target.storeTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "Table", tagColor: .blue))
+                    target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Is", tagColor: .red))
+                    target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Life", tagColor: .red))
+                    target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Peace", tagColor: .blue))
                 }
                 describe("getting one hymn's tags after storing multiple tags for that hymn") {
                     beforeEach {
@@ -76,13 +79,39 @@ class TagStoreRealmImplSpec: QuickSpec {
                         target.storeTag(TagEntity(hymnIdentifier: classic1109, songTitle: "Hymn 1109", tag: "Christ", tagColor: .blue))
                         target.storeTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Cebuano 123", tag: "Christ", tagColor: .red))
                     }
-                    it("should return the correctt songs") {
+                    it("should return the correct songs") {
                         let actual = target.getSongsByTag("Christ")
                         expect(actual).to(haveCount(4))
                         expect(actual[0].title).to(equal("Hymn 1151"))
                         expect(actual[1].title).to(equal("Cebuano 123"))
                         expect(actual[2].title).to(equal("Hymn 1109"))
                         expect(actual[3].title).to(equal("Hymn 500"))
+                    }
+                }
+                describe("getting unique tags") {
+                    it("should return all the unique tags") {
+                        let failure = self.expectation(description: "Invalid.failure")
+                        failure.isInverted = true
+                        let finished = self.expectation(description: "Invalid.finished")
+                        // finished should not be called because this is a self-updating publisher.
+                        finished.isInverted = true
+                        let value = self.expectation(description: "Invalid.receiveValue")
+
+                        let cancellable = target.getUniqueTags()
+                            .sink(receiveCompletion: { state in
+                                switch state {
+                                case .failure:
+                                    failure.fulfill()
+                                case .finished:
+                                    finished.fulfill()
+                                }
+                                return
+                            }, receiveValue: { tags in
+                                value.fulfill()
+                                expect(tags).to(equal(["Christ", "Peace", "Bread and wine", "Life", "Is", "Table"]))
+                            })
+                        self.wait(for: [failure, finished, value], timeout: testTimeout)
+                        cancellable.cancel()
                     }
                 }
             }

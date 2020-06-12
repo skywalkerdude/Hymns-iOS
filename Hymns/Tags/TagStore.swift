@@ -67,11 +67,15 @@ class TagStoreRealmImpl: TagStore {
             }).eraseToAnyPublisher()
     }
 
-    func getUniqueTags() -> [String] {
-        let result = realm.objects(TagEntity.self).distinct(by: ["tag"])
-        return result.map { (tagEntity) -> String in
-            tagEntity.tag
-        }
+    func getUniqueTags() -> AnyPublisher<[String], ErrorType> {
+        realm.objects(TagEntity.self).distinct(by: ["tag"]).publisher
+            .map({ results -> [String] in
+                results.map { entity -> String in
+                    entity.tag
+                }
+            }).mapError({ error -> ErrorType in
+                .data(description: error.localizedDescription)
+            }).eraseToAnyPublisher()
     }
 }
 
