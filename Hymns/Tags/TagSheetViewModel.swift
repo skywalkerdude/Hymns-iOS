@@ -74,11 +74,12 @@ class UiTag: Identifiable {
 
 extension UiTag: Hashable {
     static func == (lhs: UiTag, rhs: UiTag) -> Bool {
-        lhs.title == rhs.title
+        (lhs.title == rhs.title) && (lhs.color == rhs.color)
     }
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(title)
+        hasher.combine(color)
     }
 }
 
