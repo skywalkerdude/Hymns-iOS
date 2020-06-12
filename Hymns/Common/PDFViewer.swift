@@ -5,17 +5,13 @@ import PDFKit
 struct PDFViewer: UIViewRepresentable {
     private let preloader: PDFLoader = Resolver.resolve()
     private let analytics: AnalyticsLogger = Resolver.resolve()
-    let url: URL?
+    let url: URL
 
     func makeUIView(context: Context) -> PDFView {
         return PDFView()
     }
 
     func updateUIView(_ pdfView: PDFView, context: Context) {
-        guard let url = url else {
-            displayErrorState(pdfView)
-            return
-        }
         analytics.logDisplayMusicPDF(url: url)
         if let preloadedDoc = preloader.get(url: url) {
             pdfView.document = preloadedDoc
