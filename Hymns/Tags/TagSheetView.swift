@@ -65,7 +65,7 @@ struct TagSheetView: View {
                     Text("Cancel").foregroundColor(.primary).fontWeight(.light)
                 })
                 Button("Add") {
-                    self.viewModel.addTag(tagName: self.tagNames, tagColor: self.tagColor)
+                    self.viewModel.addTag(tagTitle: self.tagNames, tagColor: self.tagColor)
                 }.padding(.horizontal).disabled(tagNames.isEmpty || (tagColor == .none))
             }.padding(.top)
         }.onAppear {
