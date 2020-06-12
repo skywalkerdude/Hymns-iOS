@@ -17,9 +17,6 @@ struct SongInfoDialog: View {
         .padding()
         .cornerRadius(5)
         .background(Color(.secondarySystemBackground))
-        .onAppear {
-            self.viewModel.fetchSongInfo()
-        }
     }
 }
 
