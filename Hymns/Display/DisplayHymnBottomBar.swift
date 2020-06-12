@@ -24,7 +24,7 @@ struct DisplayHymnBottomBar: View {
     @State private var actionSheet: ActionSheetItem?
     @State private var sheet: DisplayHymnSheet?
 
-    // Navigating out of an action sheet requires another state variable
+    // Navigating out of an action sheet requires another state variable.
     // https://stackoverflow.com/questions/59454407/how-to-navigate-out-of-a-actionsheet
     @State private var languageIndexShown: Int?
     @State private var relevantIndexShown: Int?
