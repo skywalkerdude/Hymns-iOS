@@ -253,7 +253,7 @@ class HomeViewModelSearchSpec: QuickSpec {
                     }
                     // add a few results from page1 to ensure that they are deduped.
                     + [UiSongResult(name: "classic1", identifier: HymnIdentifier(hymnType: .classic, hymnNumber: "1")),
-                       UiSongResult(name: "classic2", identifier: HymnIdentifier(hymnType: .classic, hymnNumber: "1"))]
+                       UiSongResult(name: "classic2", identifier: HymnIdentifier(hymnType: .classic, hymnNumber: "2"))]
                 context("first page complete successfully") {
                     beforeEach {
                         given(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)) ~> { searchInput, pageNumber in
@@ -295,7 +295,7 @@ class HomeViewModelSearchSpec: QuickSpec {
                     }
                     describe("load more does not reach threshold") {
                         beforeEach {
-                            target.loadMore(at: SongResultViewModel(title: "classic6", destinationView: EmptyView().eraseToAnyView()))
+                            target.loadMore(at: SongResultViewModel(title: "Hymn 6: classic6", destinationView: EmptyView().eraseToAnyView()))
                         }
                         it("should not fetch the next page") {
                             verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 2)).wasNeverCalled()
@@ -303,17 +303,17 @@ class HomeViewModelSearchSpec: QuickSpec {
                     }
                     describe("load more meets threshold") {
                         beforeEach {
-                            target.loadMore(at: SongResultViewModel(title: "classic7", destinationView: EmptyView().eraseToAnyView()))
+                            target.loadMore(at: SongResultViewModel(title: "Hymn 7: classic7", destinationView: EmptyView().eraseToAnyView()))
                             testQueue.sync {}
                             testQueue.sync {}
                             testQueue.sync {}
                         }
-//                        it("should append the second page onto the first page") {
-//                            expect(target.songResults).to(haveCount(14))
-//                            for (index, num) in (Array(1...10) + Array(20...23)).enumerated() {
-//                                expect(target.songResults[index].title).to(equal("Hymn \(num): classic\(num)"))
-//                            }
-//                        }
+                        it("should append the second page onto the first page") {
+                            expect(target.songResults).to(haveCount(14))
+                            for (index, num) in (Array(1...10) + Array(20...23)).enumerated() {
+                                expect(target.songResults[index].title).to(equal("Hymn \(num): classic\(num)"))
+                            }
+                        }
                         it("should not fetch the recent songs from the history store") {
                             verify(historyStore.recentSongs(onChanged: any())).wasNeverCalled()
                         }
@@ -322,7 +322,7 @@ class HomeViewModelSearchSpec: QuickSpec {
                         }
                         describe("no more pages to load") {
                             beforeEach {
-                                target.loadMore(at: SongResultViewModel(title: "classic23", destinationView: EmptyView().eraseToAnyView()))
+                                target.loadMore(at: SongResultViewModel(title: "Hymn 23: classic23", destinationView: EmptyView().eraseToAnyView()))
                             }
                             it("should not fetch the next page") {
                                 verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 3)).wasNeverCalled()
@@ -361,7 +361,7 @@ class HomeViewModelSearchSpec: QuickSpec {
                     }
                     describe("try to load more") {
                         beforeEach {
-                            target.loadMore(at: SongResultViewModel(title: "classic7", destinationView: EmptyView().eraseToAnyView()))
+                            target.loadMore(at: SongResultViewModel(title: "Hymn 7: classic7", destinationView: EmptyView().eraseToAnyView()))
                             testQueue.sync {}
                         }
                         it("not fetch the next page since previous call is still loading") {
@@ -382,7 +382,7 @@ class HomeViewModelSearchSpec: QuickSpec {
                         }
                         describe("loading more") {
                             beforeEach {
-                                target.loadMore(at: SongResultViewModel(title: "classic7", destinationView: EmptyView().eraseToAnyView()))
+                                target.loadMore(at: SongResultViewModel(title: "Hymn 7: classic7", destinationView: EmptyView().eraseToAnyView()))
                                 testQueue.sync {}
                                 testQueue.sync {}
                                 testQueue.sync {}
