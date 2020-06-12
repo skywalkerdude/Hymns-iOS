@@ -172,7 +172,13 @@ class HomeViewModel: ObservableObject {
             .map({ songResultsPage -> ([SongResultViewModel], Bool) in
                 let hasMorePages = songResultsPage.hasMorePages ?? false
                 let songResults = songResultsPage.results.map { songResult -> SongResultViewModel in
-                    return SongResultViewModel(title: songResult.name,
+                    let hymnNumber: DisplayHymnViewModel.Title
+                    if songResult.identifier.hymnType == .classic {
+                        hymnNumber = "Hymn \(songResult.identifier.hymnNumber): "
+                    } else {
+                        hymnNumber = ""
+                    }
+                    return SongResultViewModel(title: "\(hymnNumber)\(songResult.name)",
                                                destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: songResult.identifier,
                                                                                                                 storeInHistoryStore: true)).eraseToAnyView())
                 }
