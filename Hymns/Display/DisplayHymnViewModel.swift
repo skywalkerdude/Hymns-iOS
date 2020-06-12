@@ -66,13 +66,7 @@ class DisplayHymnViewModel: ObservableObject {
                     self.isLoaded = true
                     guard let hymn = hymn else { return }
 
-                    let title: Title
-                    if self.identifier.hymnType == .classic {
-                        title = "Hymn \(self.identifier.hymnNumber)"
-                    } else {
-                        title = hymn.title.replacingOccurrences(of: "Hymn: ", with: "")
-                    }
-                    self.title = title
+                    self.title = hymn.computedTitle
 
                     self.tabItems = [self.currentTab]
 
@@ -119,7 +113,7 @@ class DisplayHymnViewModel: ObservableObject {
                     self.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: self.identifier)
                     self.fetchFavoriteStatus()
                     if self.storeInHistoryStore {
-                        self.historyStore.storeRecentSong(hymnToStore: self.identifier, songTitle: title)
+                        self.historyStore.storeRecentSong(hymnToStore: self.identifier, songTitle: self.title)
                     }
             }).store(in: &disposables)
     }

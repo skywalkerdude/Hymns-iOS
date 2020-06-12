@@ -52,7 +52,7 @@ extension TagColor {
     var background: UIColor {
         switch self {
         case .none:
-            return UIColor.white
+            return UIColor.systemBackground
         case .blue:
             return UIColor(red: 2/255, green: 118/255, blue: 254/255, alpha: 0.2)
         case .green:
@@ -67,7 +67,7 @@ extension TagColor {
     var foreground: UIColor {
         switch self {
         case .none:
-            return UIColor.white
+            return UIColor.label
         case .blue:
             return UIColor(red: 2/255, green: 118/255, blue: 254/255, alpha: 1.0)
         case .green:

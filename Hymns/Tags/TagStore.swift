@@ -75,7 +75,6 @@ class TagStoreRealmImpl: TagStore {
     }
 }
 
-
 extension Resolver {
     public static func registerTagStore() {
         register(TagStore.self) {

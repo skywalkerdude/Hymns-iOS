@@ -34,6 +34,7 @@ extension Resolver: ResolverRegistering {
         registerRepositories()
         registerHomeViewModel()
         registerTagListViewModel()
+        registerTagSheetViewModel()
         registerFavoritesViewModel()
         registerSettingsViewModel()
     }

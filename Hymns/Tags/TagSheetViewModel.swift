@@ -6,7 +6,7 @@ import Resolver
 class TagSheetViewModel: ObservableObject {
 
     typealias Title = String
-    @Published var tags: [TagMeta]?
+    @Published var tags: [UiTag]?
     @Published var title: String = ""
 
     let tagStore: TagStore
@@ -34,32 +34,26 @@ class TagSheetViewModel: ObservableObject {
                     guard let self = self, let hymn = hymn, !hymn.lyrics.isEmpty else {
                         return
                     }
-                    let title: Title
-                    if self.identifier.hymnType == .classic {
-                        title = "Hymn \(self.identifier.hymnNumber)"
-                    } else {
-                        title = hymn.title.replacingOccurrences(of: "Hymn: ", with: "")
-                    }
-                    self.title = title
+                    self.title = hymn.computedTitle
             }).store(in: &disposables)
     }
 
     func fetchTags() {
         tagStore.getTagsForHymn(hymnIdentifier: self.identifier)
-            .map({ entities -> [TagMeta] in
-                entities.map { entity -> TagMeta in
-                    return TagMeta(
+            .map({ entities -> [UiTag] in
+                entities.map { entity -> UiTag in
+                    return UiTag(
                         title: entity.tag,
                         color: entity.tagColor)
-                }}).replaceError(with: [TagMeta]())
+                }}).replaceError(with: [UiTag]())
             .receive(on: mainQueue)
             .sink(receiveValue: { results in
                 self.tags = results
             }).store(in: &disposables)
     }
 
-    func addTag(tagName: String, tagColor: TagColor) {
-        self.tagStore.storeTag(TagEntity(hymnIdentifier: self.identifier, songTitle: self.title, tag: tagName, tagColor: tagColor))
+    func addTag(tagTitle: String, tagColor: TagColor) {
+        self.tagStore.storeTag(TagEntity(hymnIdentifier: self.identifier, songTitle: self.title, tag: tagTitle, tagColor: tagColor))
     }
 
     func deleteTag(tagTitle: String, tagColor: TagColor) {
@@ -67,7 +61,7 @@ class TagSheetViewModel: ObservableObject {
     }
 }
 
-class TagMeta: Identifiable {
+class UiTag: Identifiable {
 
     let title: String
     let color: TagColor
@@ -78,8 +72,8 @@ class TagMeta: Identifiable {
     }
 }
 
-extension TagMeta: Hashable {
-    static func == (lhs: TagMeta, rhs: TagMeta) -> Bool {
+extension UiTag: Hashable {
+    static func == (lhs: UiTag, rhs: UiTag) -> Bool {
         lhs.title == rhs.title
     }
 
