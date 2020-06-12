@@ -9,7 +9,7 @@ protocol TagStore {
     func deleteTag(primaryKey: String, tag: String)
     func getSongsByTag(_ tag: String) -> [SongResultViewModel]
     func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> AnyPublisher<[TagEntity], ErrorType>
-    func getUniqueTags() -> [String]
+    func getUniqueTags() -> AnyPublisher<[String], ErrorType>
 }
 
 class TagStoreRealmImpl: TagStore {
