@@ -49,10 +49,10 @@ enum TagColor: Int {
 }
 
 extension TagColor {
-    var background: UIColor {
+    var background: Color {
         switch self {
         case .none:
-            return UIColor.white
+            return Color(.systemBackground)
         case .blue:
             return CustomColors.backgroundBlue
         case .green:
@@ -64,10 +64,10 @@ extension TagColor {
         }
     }
 
-    var foreground: UIColor {
+    var foreground: Color {
         switch self {
         case .none:
-            return UIColor.white
+            return Color.primary
         case .blue:
             return CustomColors.foregroundBlue
         case .green:

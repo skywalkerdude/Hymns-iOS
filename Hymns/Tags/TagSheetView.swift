@@ -49,8 +49,8 @@ struct TagSheetView: View {
                                 }
                             })
                                 .padding(10)
-                                .foregroundColor(Color(tag.color.foreground))
-                                .background(Color(tag.color.background))
+                                .foregroundColor(tag.color.foreground)
+                                .background(tag.color.background)
                                 .cornerRadius(20)
                                 .lineLimit(1)
                         }
