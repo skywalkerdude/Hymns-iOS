@@ -106,7 +106,7 @@ struct DisplayHymnBottomBar: View {
                         Button(action: {
                             self.showAudioPlayer.toggle()
                         }, label: {
-                            showAudioPlayer ? Image(systemName: "play.fill").accentColor(.accentColor) : Image(systemName: "play").accentColor(.primary)
+                            (showAudioPlayer ? Image(systemName: "play.fill").accentColor(.accentColor) : Image(systemName: "play").accentColor(.primary)).padding()
                         })
                     }
                     Spacer()
