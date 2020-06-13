@@ -171,7 +171,6 @@ struct DisplayHymnBottomBar: View {
                                 })
                             }) + [.cancel()])
                 }
-
             }.sheet(item: $sheet) { tab -> AnyView in
                 switch tab {
                 case .share:
