@@ -7,11 +7,11 @@ struct TagSheetView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var tagNames = ""
     @State private var tagColor = TagColor.none
-    @Binding var tagOn: Bool
+    var sheet: Binding<DisplayHymnSheet?>
 
-    init(viewModel: TagSheetViewModel, tagOn: Binding<Bool>) {
+    init(viewModel: TagSheetViewModel, sheet: Binding<DisplayHymnSheet?>) {
         self.viewModel = viewModel
-        self._tagOn = tagOn
+        self.sheet = sheet
     }
 
     var body: some View {
@@ -60,7 +60,7 @@ struct TagSheetView: View {
             HStack {
                 Spacer()
                 Button(action: {
-                    self.tagOn.toggle()
+                    self.sheet.wrappedValue = nil
                 }, label: {
                     Text("Cancel").foregroundColor(.primary).fontWeight(.light)
                 })
