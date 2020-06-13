@@ -160,6 +160,9 @@
 		B5809DFC244F614000EF0C63 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5809DFB244F614000EF0C63 /* FavoritesViewModel.swift */; };
 		B582E4412493230F00329DA5 /* ColorSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B582E4402493230F00329DA5 /* ColorSelectorView.swift */; };
 		B582E4432493235E00329DA5 /* TagSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B582E4422493235E00329DA5 /* TagSheetView.swift */; };
+		B582E4452493266700329DA5 /* AboutUsInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B582E4442493266700329DA5 /* AboutUsInfoView.swift */; };
+		B582E4472493267200329DA5 /* AboutUsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B582E4462493267200329DA5 /* AboutUsViewModel.swift */; };
+		B582E449249331A600329DA5 /* AboutUsButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B582E448249331A600329DA5 /* AboutUsButtonView.swift */; };
 		B5838BC4247AEFE9003B85E9 /* AudioSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5838BC3247AEFE9003B85E9 /* AudioSlider.swift */; };
 		B5838BC6247AF009003B85E9 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5838BC5247AF009003B85E9 /* AudioPlayer.swift */; };
 		B5838BCA247AF04B003B85E9 /* PlayerTimeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5838BC9247AF04B003B85E9 /* PlayerTimeObserver.swift */; };
@@ -369,6 +372,9 @@
 		B5809DFB244F614000EF0C63 /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
 		B582E4402493230F00329DA5 /* ColorSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectorView.swift; sourceTree = "<group>"; };
 		B582E4422493235E00329DA5 /* TagSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSheetView.swift; sourceTree = "<group>"; };
+		B582E4442493266700329DA5 /* AboutUsInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsInfoView.swift; sourceTree = "<group>"; };
+		B582E4462493267200329DA5 /* AboutUsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsViewModel.swift; sourceTree = "<group>"; };
+		B582E448249331A600329DA5 /* AboutUsButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsButtonView.swift; sourceTree = "<group>"; };
 		B5838BC3247AEFE9003B85E9 /* AudioSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSlider.swift; sourceTree = "<group>"; };
 		B5838BC5247AF009003B85E9 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		B5838BC9247AF04B003B85E9 /* PlayerTimeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTimeObserver.swift; sourceTree = "<group>"; };
@@ -797,6 +803,9 @@
 				5CA7849B242D14BA00B57903 /* SettingsView.swift */,
 				3B87B8292449497A00AEC7E9 /* SettingsViewModel.swift */,
 				3BB09206244A18F800EAE411 /* BaseSettingViewModel.swift */,
+				B582E4442493266700329DA5 /* AboutUsInfoView.swift */,
+				B582E4462493267200329DA5 /* AboutUsViewModel.swift */,
+				B582E448249331A600329DA5 /* AboutUsButtonView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1430,6 +1439,7 @@
 				3B50B968243E44B100EABDE4 /* SongResultsPage.swift in Sources */,
 				3BB1DCAE244D03DE0011169D /* TabItem.swift in Sources */,
 				3BE44369248AC12C00763B3C /* ScriptureSongView.swift in Sources */,
+				B582E449249331A600329DA5 /* AboutUsButtonView.swift in Sources */,
 				B5DC935C248EBD1C00BF90A5 /* MailFeedbackView.swift in Sources */,
 				3BE44363248ABBED00763B3C /* Book.swift in Sources */,
 				B5DC9360248EC6D200BF90A5 /* FeedbackViewModel.swift in Sources */,
@@ -1437,6 +1447,7 @@
 				3B43718124766700000B42AC /* Previews.swift in Sources */,
 				3BC1328D243826280082A274 /* PreviewHymns.swift in Sources */,
 				3B25C0E32450398F00C435E1 /* String+Extensions.swift in Sources */,
+				B582E4452493266700329DA5 /* AboutUsInfoView.swift in Sources */,
 				3BB1DCAF244D03DE0011169D /* TabBar.swift in Sources */,
 				3BE44361248ABBB000763B3C /* BrowseScripturesViewModel.swift in Sources */,
 				3B58D20824809E9500C66445 /* BrowseCategoriesViewModel.swift in Sources */,
@@ -1474,6 +1485,7 @@
 				3B45B906243BF1C900D38BEF /* PreviewSongResults.swift in Sources */,
 				3B43717F24764BEF000B42AC /* DisplayHymnBottomBar.swift in Sources */,
 				3BF699AF24417921005AFF6A /* VerseView.swift in Sources */,
+				B582E4472493267200329DA5 /* AboutUsViewModel.swift in Sources */,
 				3BD4F51124689E7300352009 /* AnalyticsLogger.swift in Sources */,
 				3B877E7A245FBD31004C10DD /* NetworkBoundPublisher.swift in Sources */,
 				3B5935A62435848F00E6993C /* Datum.swift in Sources */,
