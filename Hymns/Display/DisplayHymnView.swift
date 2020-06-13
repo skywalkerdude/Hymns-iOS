@@ -6,6 +6,7 @@ struct DisplayHymnView: View {
 
     @ObservedObject private var viewModel: DisplayHymnViewModel
     @State var dialogBuilder: (() -> AnyView)?
+    @State var tagOn = false
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
@@ -17,14 +18,16 @@ struct DisplayHymnView: View {
                 ActivityIndicator().maxSize()
             } else {
                 VStack(spacing: 0) {
+                    Group {
                     DisplayHymnToolbar(viewModel: viewModel)
                     if viewModel.tabItems.count > 1 {
                         IndicatorTabView(currentTab: $viewModel.currentTab, tabItems: viewModel.tabItems)
                     } else {
                         viewModel.currentTab.content
                     }
+                    }.blur(radius: tagOn ? 1.0 : 0.0)
                     viewModel.bottomBar.map { viewModel in
-                        DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, viewModel: viewModel).maxWidth()
+                        DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, tagOn: self.$tagOn, viewModel: viewModel).maxWidth()
                     }
                 }
                 dialogBuilder.map { _ in
