@@ -111,15 +111,17 @@ struct DisplayHymnBottomBar: View {
                     }
                     Spacer()
                 }
-                Group {
-                    Button(action: {
-                        self.dialogBuilder = {
-                            SongInfoDialog(viewModel: self.viewModel.songInfo).eraseToAnyView()
-                        }
-                    }, label: {
-                        BottomBarLabel(imageName: "info.circle")
-                    })
-                    Spacer()
+                if !viewModel.songInfo.songInfo.isEmpty {
+                    Group {
+                        Button(action: {
+                            self.dialogBuilder = {
+                                SongInfoDialog(viewModel: self.viewModel.songInfo).eraseToAnyView()
+                            }
+                        }, label: {
+                            BottomBarLabel(imageName: "info.circle")
+                        })
+                        Spacer()
+                    }
                 }
             }.onAppear {
                 self.viewModel.fetchHymn()
@@ -204,7 +206,7 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
         var dialogBuilder: (() -> AnyView)?
         return DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
             get: {dialogBuilder},
-            set: {dialogBuilder = $0}), viewModel: viewModel).toPreviews()
+            set: {dialogBuilder = $0}), viewModel: viewModel).previewLayout(.sizeThatFits)
     }
 }
 #endif

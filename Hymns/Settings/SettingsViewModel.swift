@@ -8,8 +8,10 @@ struct SettingsViewModel {
     let settings: [AnySettingViewModel]
 
     init(application: Application = Resolver.resolve()) {
-        let privacyPolicy = PrivacyPolicySettingViewModel()
-        settings = [privacyPolicy.eraseToAnySettingViewModel(), FeedbackViewModel().eraseToAnySettingViewModel()]
+        let privacyPolicy = PrivacyPolicySettingViewModel().eraseToAnySettingViewModel()
+        let feedback = FeedbackViewModel().eraseToAnySettingViewModel()
+        let aboutUs = AboutUsViewModel().eraseToAnySettingViewModel()
+        settings = [privacyPolicy, feedback, aboutUs]
     }
 }
 

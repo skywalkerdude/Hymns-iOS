@@ -31,4 +31,12 @@ class FavoriteEntity: Object, Identifiable {
     static func createPrimaryKey(hymnIdentifier: HymnIdentifier) -> String {
         return "\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())"
     }
+
+    override func isEqual(_ object: Any?) -> Bool {
+        return primaryKey == (object as? FavoriteEntity)?.primaryKey
+    }
+
+    override var hash: Int {
+        return primaryKey.hash
+    }
 }

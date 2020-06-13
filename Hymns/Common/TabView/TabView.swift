@@ -19,12 +19,17 @@ public struct IndicatorTabView<TabType: TabItem>: View {
     public var body: some View {
         VStack(alignment: .center, spacing: 0) {
             if tabAlignment == .top {
-                TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment).padding(.bottom, 0.2)
+                VStack(spacing: 0) {
+                    TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment).padding(.bottom, 0.2)
+                    Divider()
+                }
             }
-            Rectangle()
-                .overlay(currentTab.content)
+            Rectangle().overlay(currentTab.content)
             if tabAlignment == .bottom {
-                TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment)
+                VStack(spacing: 0) {
+                    Divider()
+                    TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment)
+                }
             }
         }
     }
@@ -60,15 +65,13 @@ struct IndicatorTabView_Previews: PreviewProvider {
                             VerseViewModel(verseNumber: "2", verseLines: classic40_preview.lyrics[2].verseContent),
                             VerseViewModel(verseNumber: "3", verseLines: classic40_preview.lyrics[3].verseContent),
                             VerseViewModel(verseNumber: "4", verseLines: classic40_preview.lyrics[4].verseContent)]
-        var selectedTab: HymnLyricsTab = .lyrics(HymnLyricsView(viewModel: viewModel).eraseToAnyView())
-        let selectedTabBinding = Binding<HymnLyricsTab>(
-            get: {selectedTab},
-            set: {selectedTab = $0})
+        let selectedTab: HymnLyricsTab = .lyrics(HymnLyricsView(viewModel: viewModel).eraseToAnyView())
+        let selectedTabBinding: Binding<HymnLyricsTab> = .constant(selectedTab)
         let tabItems: [HymnLyricsTab] = [
             selectedTab,
-            .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=gtpdf")).eraseToAnyView()),
-            .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=pdf")).eraseToAnyView()),
-            .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=ppdf")).eraseToAnyView())]
+            .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=gtpdf")!).eraseToAnyView()),
+            .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=pdf")!).eraseToAnyView()),
+            .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=ppdf")!).eraseToAnyView())]
 
         return Group {
             IndicatorTabView(currentTab: selectedTabBinding, tabItems: tabItems)

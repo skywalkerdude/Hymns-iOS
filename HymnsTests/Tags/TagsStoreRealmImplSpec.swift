@@ -33,16 +33,35 @@ class TagStoreRealmImplSpec: QuickSpec {
                     target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Life", tagColor: .red))
                     target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Peace", tagColor: .blue))
                 }
-                describe("getting one hymn's tags") {
-                    it("should contain a tags for that hymn") {
-                        let resultsOfQuery = target.getTagsForHymn(hymnIdentifier: classic1151)
-                        //https://stackoverflow.com/questions/46043902/opposite-of-swift-zip-split-tuple-into-two-arrays Splitting tuples into two arrays
-                        let (tagName, tagColor) = resultsOfQuery.reduce(into: ([String](), [TagColor]())) {
-                            $0.0.append($1.tagName)
-                            $0.1.append($1.tagColor)
-                        }
-                        expect(tagName).to(equal(["Christ", "Peace", "Life", "Is"]))
-                        expect(tagColor).to(equal([.blue, .blue, .red, .red]))
+                describe("getting one hymn's tags after storing multiple tags for that hymn") {
+                    beforeEach {
+                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Is", tagColor: .red))
+                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Life", tagColor: .red))
+                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Peace", tagColor: .blue))
+                    }
+                    it("should contain a query number matching the number of tags for that hymn") {
+                        let failure = self.expectation(description: "Invalid.failure")
+                        failure.isInverted = true
+                        let finished = self.expectation(description: "Invalid.finished")
+                        // finished should not be called because this is a self-updating publisher.
+                        finished.isInverted = true
+                        let value = self.expectation(description: "Invalid.receiveValue")
+
+                        let cancellable = target.getTagsForHymn(hymnIdentifier: classic1151)
+                            .sink(receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
+                                switch completion {
+                                case .failure:
+                                    failure.fulfill()
+                                case .finished:
+                                    finished.fulfill()
+                                }
+                                return
+                            }, receiveValue: { entities in
+                                value.fulfill()
+                                expect(entities).to(contain([TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Christ", tagColor: .blue), TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Is", tagColor: .red), TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Life", tagColor: .red), TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Peace", tagColor: .blue)]))
+                            })
+                        self.wait(for: [failure, finished, value], timeout: testTimeout)
+                        cancellable.cancel()
                     }
                 }
                 describe("deleting a tag") {
