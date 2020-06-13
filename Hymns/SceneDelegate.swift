@@ -22,6 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         #if !DEBUG
         let rootView = LaunchRouterView().environment(\.managedObjectContext, context)
         #endif
+
         #if DEBUG
         let rootView = HomeContainerView().environment(\.managedObjectContext, context)
         #endif
