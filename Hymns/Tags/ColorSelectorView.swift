@@ -25,7 +25,7 @@ struct ColorSelectorView: View {
                         .cornerRadius(20)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)
-                                .stroke(Color.blue, lineWidth: self.tagColor == tagColor ? 3 : 0)
+                                .stroke(tagColor.foreground, lineWidth: self.tagColor == tagColor ? 3 : 0)
                     )
                 }
             }.padding(.top)
