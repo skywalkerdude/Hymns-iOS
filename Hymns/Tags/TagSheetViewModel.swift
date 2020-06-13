@@ -44,7 +44,7 @@ class TagSheetViewModel: ObservableObject {
                 entities.map { entity -> UiTag in
                     return UiTag(
                         title: entity.tag,
-                        color: entity.tagColor)
+                        color: entity.color)
                 }}).replaceError(with: [UiTag]())
             .receive(on: mainQueue)
             .sink(receiveValue: { results in
@@ -53,11 +53,11 @@ class TagSheetViewModel: ObservableObject {
     }
 
     func addTag(tagTitle: String, tagColor: TagColor) {
-        self.tagStore.storeTag(TagEntity(hymnIdentifier: self.identifier, songTitle: self.title, tag: tagTitle, tagColor: tagColor))
+        self.tagStore.storeTag(TagEntity(hymnIdentifier: self.identifier, songTitle: self.title, tag: tagTitle, color: tagColor))
     }
 
     func deleteTag(tagTitle: String, tagColor: TagColor) {
-        self.tagStore.deleteTag(primaryKey: TagEntity.createPrimaryKey(hymnIdentifier: self.identifier, tag: tagTitle), tag: tagTitle)
+        self.tagStore.deleteTag(primaryKey: TagEntity.createPrimaryKey(hymnIdentifier: self.identifier, tag: tagTitle, color: tagColor), tag: tagTitle)
     }
 }
 

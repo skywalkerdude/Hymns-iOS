@@ -25,19 +25,15 @@ struct TagSheetView: View {
                     Text("Tags").font(.body).fontWeight(.bold)
                     HStack {
                         ForEach(self.viewModel.tags, id: \.self) { tag in
-
-                            //https://stackoverflow.com/questions/60960077/how-do-i-keep-multiple-button-actions-separate-in-swiftui-foreach-content Can't use a button here
-                            HStack {
-                                Text(tag.title).font(.body).fontWeight(.bold)
-                                Image(systemName: "xmark.circle").onTapGesture {
-                                    self.viewModel.deleteTag(tagTitle: tag.title, tagColor: .blue)
+                            Button(action: {
+                                self.viewModel.deleteTag(tagTitle: tag.title, tagColor: tag.color)
+                            }, label: {
+                                HStack {
+                                    Text(tag.title).font(.body).fontWeight(.bold)
+                                    Image(systemName: "xmark.circle")
                                 }
-                            }
-                            .padding(10)
-                            .foregroundColor(tag.color.foreground)
-                            .background(tag.color.background)
-                            .cornerRadius(20)
-                            .lineLimit(1)
+                            }).padding(10).foregroundColor(tag.color.foreground)
+                              .background(tag.color.background).cornerRadius(20)
                         }
                     }
                 }.padding(.top).eraseToAnyView()
