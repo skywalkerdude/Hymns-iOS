@@ -12,7 +12,7 @@ struct HomeContainerView: View {
                     .tabItem {HomeTab.home.getImage(self.selectedTab == HomeTab.home).imageScale(.large)}
                     .tag(HomeTab.home)
                     .hideNavigationBar()
-                
+
                 BrowseView()
                     .tabItem { HomeTab.browse.getImage(self.selectedTab == HomeTab.browse).imageScale(.large)}
                     .tag(HomeTab.browse)
