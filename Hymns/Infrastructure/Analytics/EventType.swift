@@ -4,6 +4,18 @@ protocol AnalyticsEvent {
     static var name: String { get }
 }
 
+struct BFALinkActive: AnalyticsEvent {
+
+    static let name = "clicked_bfa_link"
+
+    // Allow non-alphanumeric characters for logging params
+    // swiftlint:disable identifier_name
+    enum Params: String {
+        case is_linked
+    }
+    // swiftlint:enable identifier_name
+}
+
 struct SearchActiveChanged: AnalyticsEvent {
 
     static let name = "search_active"
