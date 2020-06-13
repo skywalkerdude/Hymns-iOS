@@ -55,3 +55,20 @@ struct TagSheetView: View {
         }.padding()
     }
 }
+
+#if DEBUG
+struct TagSheetView_Previews: PreviewProvider {
+    static var previews: some View {
+        let viewModel = TagSheetViewModel(hymnToDisplay: PreviewHymnIdentifiers.cupOfChrist)
+        viewModel.tags = [UiTag(title: "Tag 1", color: .blue),
+                          UiTag(title: "Tag 1", color: .green),
+                          UiTag(title: "Tag 1", color: .red),
+                          UiTag(title: "Tag 1", color: .yellow),
+                          UiTag(title: "Tag 2", color: .blue),
+                          UiTag(title: "Tag 3", color: .blue),
+                          UiTag(title: "Tag 4", color: .blue),
+                          UiTag(title: "Tag 5", color: .blue)]
+        return TagSheetView(viewModel: viewModel, sheet: Binding.constant(.tags))
+    }
+}
+#endif
