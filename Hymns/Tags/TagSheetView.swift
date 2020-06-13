@@ -5,7 +5,7 @@ struct TagSheetView: View {
 
     @ObservedObject private var viewModel: TagSheetViewModel
     @Environment(\.presentationMode) var presentationMode
-    @State private var tagNames = ""
+    @State private var tagName = ""
     @State private var tagColor = TagColor.none
     var sheet: Binding<DisplayHymnSheet?>
 
@@ -15,30 +15,16 @@ struct TagSheetView: View {
     }
 
     var body: some View {
-        VStack {
-            HStack {
-                Text("Name your tag").font(.body).fontWeight(.bold)
-                Spacer()
-            }
-            HStack {
-                TextField("Label it however you like", text: self.$tagNames)
-            }
+        VStack(alignment: .leading) {
+            Text("Name your tag").font(.body).fontWeight(.bold)
+            TextField("Label it however you like", text: self.$tagName)
             Divider()
-            SelectLabelView(tagColor: self.$tagColor)
-            Group { () -> AnyView in
-                guard let tags = self.viewModel.tags else {
-                    return ActivityIndicator().maxSize().eraseToAnyView()
-                }
-                guard !tags.isEmpty else {
-                    return EmptyView().eraseToAnyView()
-                }
-                return Section {
+            ColorSelectorView(tagColor: self.$tagColor).padding(.vertical)
+            if !self.viewModel.tags.isEmpty {
+                Section {
+                    Text("Tags").font(.body).fontWeight(.bold)
                     HStack {
-                        Text("Tags").font(.body).fontWeight(.bold)
-                        Spacer()
-                    }.padding(.top)
-                    HStack {
-                        ForEach(tags, id: \.self) { tag in
+                        ForEach(self.viewModel.tags, id: \.self) { tag in
                             Button(action: {
                                 //TODO FIX Delete is deleting all the tags because the button when clicked is clicking all of them.
                                 self.viewModel.deleteTag(tagTitle: tag.title, tagColor: .blue)
@@ -55,7 +41,7 @@ struct TagSheetView: View {
                                 .lineLimit(1)
                         }
                     }
-                }.eraseToAnyView()
+                }.padding(.top).eraseToAnyView()
             }
             HStack {
                 Spacer()
@@ -65,8 +51,8 @@ struct TagSheetView: View {
                     Text("Cancel").foregroundColor(.primary).fontWeight(.light)
                 })
                 Button("Add") {
-                    self.viewModel.addTag(tagTitle: self.tagNames, tagColor: self.tagColor)
-                }.padding(.horizontal).disabled(tagNames.isEmpty || (tagColor == .none))
+                    self.viewModel.addTag(tagTitle: self.tagName, tagColor: self.tagColor)
+                }.padding(.horizontal).disabled(tagName.isEmpty)
             }.padding(.top)
         }.onAppear {
             self.viewModel.fetchHymn()

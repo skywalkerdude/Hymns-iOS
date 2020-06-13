@@ -6,7 +6,7 @@ import Resolver
 class TagSheetViewModel: ObservableObject {
 
     typealias Title = String
-    @Published var tags: [UiTag]?
+    @Published var tags = [UiTag]()
     @Published var title: String = ""
 
     let tagStore: TagStore
