@@ -72,6 +72,20 @@ class TagStoreRealmImplSpec: QuickSpec {
                         let queryAfterDelete = target.getSongsByTag("Table")
                         expect(queryAfterDelete).to(haveCount(0))
                     }
+                    it("should be case sensitive") {
+                        let queryBeforeDelete = target.getSongsByTag("Table")
+                        expect(queryBeforeDelete).to(haveCount(1))
+                        target.deleteTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "table", color: .blue))
+                        let queryAfterDelete = target.getSongsByTag("Table")
+                        expect(queryAfterDelete).to(haveCount(1))
+                    }
+                    it("not delete if the color doesn't match") {
+                        let queryBeforeDelete = target.getSongsByTag("Table")
+                        expect(queryBeforeDelete).to(haveCount(1))
+                        target.deleteTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "Table", color: .green))
+                        let queryAfterDelete = target.getSongsByTag("Table")
+                        expect(queryAfterDelete).to(haveCount(1))
+                    }
                 }
                 describe("getting songs for a tag") {
                     beforeEach {

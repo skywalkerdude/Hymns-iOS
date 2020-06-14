@@ -35,11 +35,11 @@ class TagStoreRealmImpl: TagStore {
     func deleteTag(_ entity: TagEntity) {
         let hymnIdentifier = HymnIdentifier(entity.hymnIdentifierEntity)
         let primaryKey = TagEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tag: entity.tag, color: entity.color)
-        let entityToDelete = realm.objects(TagEntity.self).filter(NSPredicate(format: "tag CONTAINS[c] %@ AND primaryKey CONTAINS[c] %@", entity.tag, primaryKey))
+        let entitiesToDelete = realm.objects(TagEntity.self).filter(NSPredicate(format: "primaryKey == %@", primaryKey))
 
         do {
             try realm.write {
-                realm.delete(entityToDelete)
+                realm.delete(entitiesToDelete)
             }
         } catch {
             analytics.logError(message: "error orccured when deleting tag", error: error, extraParameters: ["primaryKey": primaryKey])
