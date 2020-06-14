@@ -10,8 +10,9 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
     @Published var relevant = [SongResultViewModel]()
     @Published var mp3Path: URL?
 
+    let identifier: HymnIdentifier
+
     private let analytics: AnalyticsLogger
-    private let identifier: HymnIdentifier
     private let backgroundQueue: DispatchQueue
     private let mainQueue: DispatchQueue
     private let repository: HymnsRepository

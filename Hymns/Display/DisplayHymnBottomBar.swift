@@ -79,7 +79,9 @@ struct DisplayHymnBottomBar: View {
                     }
                 }
                 Group {
-                    Button(action: {}, label: {
+                    Button(action: {
+                        self.sheet = .tags
+                    }, label: {
                         BottomBarLabel(imageName: "tag")
                     })
                     Spacer()
@@ -106,7 +108,9 @@ struct DisplayHymnBottomBar: View {
                         Button(action: {
                             self.showAudioPlayer.toggle()
                         }, label: {
-                            showAudioPlayer ? Image(systemName: "play.fill").accentColor(.accentColor) : Image(systemName: "play").accentColor(.primary)
+                            showAudioPlayer ?
+                                BottomBarLabel(imageName: "play.fill").accentColor(.accentColor) :
+                                BottomBarLabel(imageName: "play").accentColor(.primary)
                         })
                     }
                     Spacer()
@@ -167,10 +171,12 @@ struct DisplayHymnBottomBar: View {
                                 })
                             }) + [.cancel()])
                 }
-            }.sheet(item: $sheet) { tab -> ShareSheet in
+            }.sheet(item: $sheet) { tab -> AnyView in
                 switch tab {
                 case .share:
-                    return ShareSheet(activityItems: [self.viewModel.shareableLyrics])
+                    return ShareSheet(activityItems: [self.viewModel.shareableLyrics]).eraseToAnyView()
+                case .tags:
+                    return TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: self.viewModel.identifier), sheet: self.$sheet).eraseToAnyView()
                 }
             }
         }.background(Color(.systemBackground))
@@ -191,6 +197,7 @@ extension ActionSheetItem: Identifiable {
 
 enum DisplayHymnSheet: String {
     case share = "Share Lyrics"
+    case tags = "Tags"
 }
 
 extension DisplayHymnSheet: Identifiable {
@@ -203,6 +210,10 @@ extension DisplayHymnSheet: Identifiable {
 struct DisplayHymnBottomBar_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+        viewModel.songInfo.songInfo = [SongInfoViewModel(label: "label", values: ["values"])]
+        viewModel.languages = [SongResultViewModel(title: "language", destinationView: EmptyView().eraseToAnyView())]
+        viewModel.relevant = [SongResultViewModel(title: "relevant", destinationView: EmptyView().eraseToAnyView())]
+        viewModel.mp3Path = URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!
         var dialogBuilder: (() -> AnyView)?
         return DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
             get: {dialogBuilder},
