@@ -33,6 +33,7 @@ struct AboutUsInfoView: View {
             }.padding().onTapGesture {
                 UIApplication.shared.open(URL(string: "https://biblesforamerica.org/")!)
             }
+            Spacer()
         }
     }
 }
