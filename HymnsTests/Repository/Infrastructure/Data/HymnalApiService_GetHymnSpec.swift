@@ -20,6 +20,7 @@ class HymnalApiService_GetHymnSpec: QuickSpec {
                 URLProtocolMock.response = nil
                 URLProtocolMock.error = nil
                 URLProtocolMock.testURLs = [URL?: Data]()
+                URLSessionConfiguration.ephemeral.protocolClasses = nil
             }
             context("with network error") {
                 beforeEach {
