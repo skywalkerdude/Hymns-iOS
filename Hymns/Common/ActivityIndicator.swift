@@ -8,6 +8,6 @@ struct ActivityIndicator: UIViewRepresentable {
 
     func updateUIView(_ uiView: UIActivityIndicatorView,
                       context: Context) {
-            uiView.startAnimating()
+        uiView.startAnimating()
     }
 }

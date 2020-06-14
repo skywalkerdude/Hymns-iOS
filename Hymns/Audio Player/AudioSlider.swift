@@ -31,14 +31,14 @@ struct AudioSlider: View {
             // Tell the PlayerTimeObserver to stop publishing updates while the user is interacting
             // with the slider (otherwise it would keep jumping from where they've moved it to, back
             // to where the player is currently at)
-            timeObserver.pause(true)
+            timeObserver.pause()
         } else {
             // Editing finished, start the seek
             currentlyPlaying = false
             let targetTime = CMTime(seconds: currentTime, preferredTimescale: 600)
             player.seek(to: targetTime) { _ in
                 // Now the (async) seek is completed, resume normal operation
-                self.timeObserver.pause(false)
+                self.timeObserver.play()
                 self.currentlyPlaying = true
             }
         }
