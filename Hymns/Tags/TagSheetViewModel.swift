@@ -6,7 +6,7 @@ import Resolver
 class TagSheetViewModel: ObservableObject {
 
     typealias Title = String
-    @Published var tags: [UiTag]?
+    @Published var tags = [UiTag]()
     @Published var title: String = ""
 
     let tagStore: TagStore
@@ -44,7 +44,7 @@ class TagSheetViewModel: ObservableObject {
                 entities.map { entity -> UiTag in
                     return UiTag(
                         title: entity.tag,
-                        color: entity.tagColor)
+                        color: entity.color)
                 }}).replaceError(with: [UiTag]())
             .receive(on: mainQueue)
             .sink(receiveValue: { results in
@@ -53,11 +53,13 @@ class TagSheetViewModel: ObservableObject {
     }
 
     func addTag(tagTitle: String, tagColor: TagColor) {
-        self.tagStore.storeTag(TagEntity(hymnIdentifier: self.identifier, songTitle: self.title, tag: tagTitle, tagColor: tagColor))
+        let entity = TagEntity(hymnIdentifier: self.identifier, songTitle: self.title, tag: tagTitle, color: tagColor)
+        self.tagStore.storeTag(entity)
     }
 
     func deleteTag(tagTitle: String, tagColor: TagColor) {
-        self.tagStore.deleteTag(primaryKey: TagEntity.createPrimaryKey(hymnIdentifier: self.identifier, tag: tagTitle), tag: tagTitle)
+        let entity = TagEntity(hymnIdentifier: self.identifier, songTitle: self.title, tag: tagTitle, color: tagColor)
+        self.tagStore.deleteTag(entity)
     }
 }
 
@@ -74,7 +76,7 @@ class UiTag: Identifiable {
 
 extension UiTag: Hashable {
     static func == (lhs: UiTag, rhs: UiTag) -> Bool {
-        (lhs.title == rhs.title) && (lhs.color == rhs.color)
+        lhs.title == rhs.title && lhs.color == rhs.color
     }
 
     func hash(into hasher: inout Hasher) {

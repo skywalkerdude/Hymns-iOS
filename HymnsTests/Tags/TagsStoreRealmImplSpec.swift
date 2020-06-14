@@ -26,18 +26,18 @@ class TagStoreRealmImplSpec: QuickSpec {
             }
             describe("store a few tags") {
                 beforeEach {
-                    target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Christ", tagColor: .blue))
-                    target.storeTag(TagEntity(hymnIdentifier: newSong145, songTitle: "Hymn: Jesus shall reign where\\u2019er the sun", tag: "Bread and wine", tagColor: .yellow))
-                    target.storeTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "Table", tagColor: .blue))
-                    target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Is", tagColor: .red))
-                    target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Life", tagColor: .red))
-                    target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Peace", tagColor: .blue))
+                    target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Christ", color: .blue))
+                    target.storeTag(TagEntity(hymnIdentifier: newSong145, songTitle: "Hymn: Jesus shall reign where\\u2019er the sun", tag: "Bread and wine", color: .yellow))
+                    target.storeTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "Table", color: .blue))
+                    target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Is", color: .red))
+                    target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Life", color: .red))
+                    target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Peace", color: .blue))
                 }
                 describe("getting one hymn's tags after storing multiple tags for that hymn") {
                     beforeEach {
-                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Is", tagColor: .red))
-                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Life", tagColor: .red))
-                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Peace", tagColor: .blue))
+                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Is", color: .red))
+                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Life", color: .red))
+                        target.storeTag(TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Peace", color: .blue))
                     }
                     it("should contain a query number matching the number of tags for that hymn") {
                         let failure = self.expectation(description: "Invalid.failure")
@@ -58,7 +58,7 @@ class TagStoreRealmImplSpec: QuickSpec {
                                 return
                             }, receiveValue: { entities in
                                 value.fulfill()
-                                expect(entities).to(contain([TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Christ", tagColor: .blue), TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Is", tagColor: .red), TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Life", tagColor: .red), TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Peace", tagColor: .blue)]))
+                                expect(entities).to(contain([TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Christ", color: .blue), TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Is", color: .red), TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Life", color: .red), TagEntity(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Peace", color: .blue)]))
                             })
                         self.wait(for: [failure, finished, value], timeout: testTimeout)
                         cancellable.cancel()
@@ -68,24 +68,38 @@ class TagStoreRealmImplSpec: QuickSpec {
                     it("should delete the tag") {
                         let queryBeforeDelete = target.getSongsByTag("Table")
                         expect(queryBeforeDelete).to(haveCount(1))
-                        target.deleteTag(primaryKey: TagEntity.createPrimaryKey(hymnIdentifier: cebuano123, tag: ""), tag: "Table")
+                        target.deleteTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "Table", color: .blue))
                         let queryAfterDelete = target.getSongsByTag("Table")
                         expect(queryAfterDelete).to(haveCount(0))
+                    }
+                    it("should be case sensitive") {
+                        let queryBeforeDelete = target.getSongsByTag("Table")
+                        expect(queryBeforeDelete).to(haveCount(1))
+                        target.deleteTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "table", color: .blue))
+                        let queryAfterDelete = target.getSongsByTag("Table")
+                        expect(queryAfterDelete).to(haveCount(1))
+                    }
+                    it("not delete if the color doesn't match") {
+                        let queryBeforeDelete = target.getSongsByTag("Table")
+                        expect(queryBeforeDelete).to(haveCount(1))
+                        target.deleteTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "Table", color: .green))
+                        let queryAfterDelete = target.getSongsByTag("Table")
+                        expect(queryAfterDelete).to(haveCount(1))
                     }
                 }
                 describe("getting songs for a tag") {
                     beforeEach {
-                        target.storeTag(TagEntity(hymnIdentifier: classic500, songTitle: "Hymn 500", tag: "Christ", tagColor: .blue))
-                        target.storeTag(TagEntity(hymnIdentifier: classic1109, songTitle: "Hymn 1109", tag: "Christ", tagColor: .blue))
-                        target.storeTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Cebuano 123", tag: "Christ", tagColor: .red))
+                        target.storeTag(TagEntity(hymnIdentifier: classic500, songTitle: "Hymn 500", tag: "Christ", color: .blue))
+                        target.storeTag(TagEntity(hymnIdentifier: classic1109, songTitle: "Hymn 1109", tag: "Christ", color: .blue))
+                        target.storeTag(TagEntity(hymnIdentifier: cebuano123, songTitle: "Cebuano 123", tag: "Christ", color: .red))
                     }
                     it("should return the correct songs") {
                         let actual = target.getSongsByTag("Christ")
                         expect(actual).to(haveCount(4))
-                        expect(actual[0].title).to(equal("Hymn 1151"))
-                        expect(actual[1].title).to(equal("Cebuano 123"))
-                        expect(actual[2].title).to(equal("Hymn 1109"))
-                        expect(actual[3].title).to(equal("Hymn 500"))
+                        expect(actual[0].title).to(equal("Hymn 1109"))
+                        expect(actual[1].title).to(equal("Hymn 500"))
+                        expect(actual[2].title).to(equal("Hymn 1151"))
+                        expect(actual[3].title).to(equal("Cebuano 123"))
                     }
                 }
                 describe("getting unique tags") {
@@ -108,7 +122,7 @@ class TagStoreRealmImplSpec: QuickSpec {
                                 return
                             }, receiveValue: { tags in
                                 value.fulfill()
-                                expect(tags).to(equal(["Christ", "Peace", "Bread and wine", "Life", "Is", "Table"]))
+                                expect(tags).to(equal(["Peace", "Life", "Table", "Christ", "Bread and wine", "Is"]))
                             })
                         self.wait(for: [failure, finished, value], timeout: testTimeout)
                         cancellable.cancel()

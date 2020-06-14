@@ -6,7 +6,7 @@ import Resolver
 
 protocol TagStore {
     func storeTag(_ entity: TagEntity)
-    func deleteTag(primaryKey: String, tag: String)
+    func deleteTag(_ entity: TagEntity)
     func getSongsByTag(_ tag: String) -> [SongResultViewModel]
     func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> AnyPublisher<[TagEntity], ErrorType>
     func getUniqueTags() -> AnyPublisher<[String], ErrorType>
@@ -32,12 +32,14 @@ class TagStoreRealmImpl: TagStore {
         }
     }
 
-    func deleteTag(primaryKey: String, tag: String) {
-        let entityToDelete = realm.objects(TagEntity.self).filter(NSPredicate(format: "tag CONTAINS[c] %@ AND primaryKey CONTAINS[c] %@", tag, primaryKey))
+    func deleteTag(_ entity: TagEntity) {
+        let hymnIdentifier = HymnIdentifier(entity.hymnIdentifierEntity)
+        let primaryKey = TagEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier, tag: entity.tag, color: entity.color)
+        let entitiesToDelete = realm.objects(TagEntity.self).filter(NSPredicate(format: "primaryKey == %@", primaryKey))
 
         do {
             try realm.write {
-                realm.delete(entityToDelete)
+                realm.delete(entitiesToDelete)
             }
         } catch {
             analytics.logError(message: "error orccured when deleting tag", error: error, extraParameters: ["primaryKey": primaryKey])
