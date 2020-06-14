@@ -1,6 +1,6 @@
 import RealmSwift
 
-class TagEntity: Object, Identifiable {
+class Tag: Object, Identifiable {
     @objc dynamic var primaryKey: String!
     @objc dynamic var hymnIdentifierEntity: HymnIdentifierEntity!
     @objc dynamic var songTitle: String!
@@ -35,10 +35,31 @@ class TagEntity: Object, Identifiable {
     }
 
     override func isEqual(_ object: Any?) -> Bool {
-        return primaryKey == (object as? TagEntity)?.primaryKey
+        return primaryKey == (object as? Tag)?.primaryKey
     }
 
     override var hash: Int {
         return primaryKey.hash
+    }
+}
+
+class TagEntity: Object {
+    @objc dynamic var primaryKey: String!
+    @objc dynamic var tagObject: Tag!
+    @objc dynamic var created: Date!
+
+    required init() {
+        super.init()
+    }
+
+    init(tagObject: Tag, created: Date) {
+        super.init()
+        self.primaryKey = tagObject.primaryKey
+        self.tagObject = tagObject
+        self.created = created
+    }
+
+    override static func primaryKey() -> String? {
+        return "primaryKey"
     }
 }
