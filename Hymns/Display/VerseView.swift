@@ -8,7 +8,7 @@ struct VerseLineView: View {
 
     var body: some View {
         HStack(alignment: .top) {
-            Text(viewModel.verseNumber ?? "").font(viewModel.fontSize.font).frame(minWidth: viewModel.fontSize.minWidth)
+            Text(viewModel.verseNumber ?? "").font(viewModel.fontSize.font).frame(minWidth: 12)
             VStack(alignment: .leading) {
                 if transliterate {
                     viewModel.transliteration.map { transliteration in
@@ -16,7 +16,7 @@ struct VerseLineView: View {
                     }
                 }
                 Text(viewModel.verseText).font(viewModel.fontSize.font)
-            }.lineSpacing(5).padding(.bottom, 5)
+                }.fixedSize(horizontal: false, vertical: true).padding(.bottom, 5).lineSpacing(5)
         }
     }
 }
