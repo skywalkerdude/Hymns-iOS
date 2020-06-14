@@ -53,11 +53,13 @@ class TagSheetViewModel: ObservableObject {
     }
 
     func addTag(tagTitle: String, tagColor: TagColor) {
-        self.tagStore.storeTag(TagEntity(hymnIdentifier: self.identifier, songTitle: self.title, tag: tagTitle, color: tagColor))
+        let entity = TagEntity(hymnIdentifier: self.identifier, songTitle: self.title, tag: tagTitle, color: tagColor)
+        self.tagStore.storeTag(entity)
     }
 
     func deleteTag(tagTitle: String, tagColor: TagColor) {
-        self.tagStore.deleteTag(primaryKey: TagEntity.createPrimaryKey(hymnIdentifier: self.identifier, tag: tagTitle, color: tagColor), tag: tagTitle)
+        let entity = TagEntity(hymnIdentifier: self.identifier, songTitle: self.title, tag: tagTitle, color: tagColor)
+        self.tagStore.deleteTag(entity)
     }
 }
 
@@ -74,7 +76,7 @@ class UiTag: Identifiable {
 
 extension UiTag: Hashable {
     static func == (lhs: UiTag, rhs: UiTag) -> Bool {
-        (lhs.title == rhs.title) && (lhs.color == rhs.color)
+        lhs.title == rhs.title && lhs.color == rhs.color
     }
 
     func hash(into hasher: inout Hasher) {

@@ -19,14 +19,9 @@ struct ColorSelectorView: View {
                         Text(tagColor.name)
                             .font(.body)
                             .fontWeight(self.tagColor == tagColor ? .bold : .none)
-                    }).padding(10)
-                        .background(tagColor.background)
-                        .foregroundColor(tagColor.foreground)
-                        .cornerRadius(20)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 20)
-                                .stroke(tagColor.foreground, lineWidth: self.tagColor == tagColor ? 3 : 0)
-                    )
+                    }).tagPill(backgroundColor: tagColor.background,
+                               foregroundColor: tagColor.foreground,
+                               showBorder: self.tagColor == tagColor)
                 }
             }.padding(.top)
         }
