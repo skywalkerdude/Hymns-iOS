@@ -9,8 +9,8 @@ class BrowseResultsListViewModel: ObservableObject {
 
     private var disposables = Set<AnyCancellable>()
 
-    init(tag: String, tagStore: TagStore = Resolver.resolve()) {
-        self.title = tag
+    init(tag: UiTag, tagStore: TagStore = Resolver.resolve()) {
+        self.title = tag.title
         songResults = tagStore.getSongsByTag(tag)
     }
 

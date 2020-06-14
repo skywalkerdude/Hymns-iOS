@@ -35,15 +35,19 @@ struct BrowseResultsListView: View {
 
 struct BrowseResultsListView_Previews: PreviewProvider {
     static var previews: some View {
-        let songResults = [SongResultViewModel(title: "Hymn 114", destinationView: EmptyView().eraseToAnyView()),
+        let errorViewModel = BrowseResultsListViewModel(tag: UiTag(title: "Best songs", color: .none))
+        let error = BrowseResultsListView(viewModel: errorViewModel)
+
+        let browseResults = [SongResultViewModel(title: "Hymn 114", destinationView: EmptyView().eraseToAnyView()),
                            SongResultViewModel(title: "Cup of Christ", destinationView: EmptyView().eraseToAnyView()),
                            SongResultViewModel(title: "Avengers - Endgame", destinationView: EmptyView().eraseToAnyView())]
-        let viewModel = BrowseResultsListViewModel(category: "Experience of Christ")
-        viewModel.songResults = songResults
+        let browseViewModel = BrowseResultsListViewModel(category: "Experience of Christ")
+        browseViewModel.songResults = browseResults
+        let browse = BrowseResultsListView(viewModel: browseViewModel)
 
         return Group {
-            BrowseResultsListView(viewModel: BrowseResultsListViewModel(tag: "Best songs")).previewDisplayName("error state")
-            BrowseResultsListView(viewModel: viewModel).previewDisplayName("song results")
+            error.previewDisplayName("error state")
+            browse.previewDisplayName("browse results")
         }
     }
 }

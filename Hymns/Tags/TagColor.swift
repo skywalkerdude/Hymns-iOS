@@ -54,3 +54,11 @@ extension TagColor {
         }
     }
 }
+
+extension TagColor: Identifiable {
+    var id: String { String(rawValue) }
+}
+
+extension TagColor: CustomStringConvertible {
+    var description: String { name }
+}

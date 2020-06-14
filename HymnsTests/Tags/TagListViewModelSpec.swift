@@ -25,8 +25,8 @@ class TagListViewModelSpec: QuickSpec {
             context("data store error") {
                 beforeEach {
                     given(tagStore.getUniqueTags()) ~> {
-                        Just([String]())
-                            .tryMap({ _ -> [String] in
+                        Just([UiTag]())
+                            .tryMap({ _ -> [UiTag] in
                                 throw URLError(.badServerResponse)
                             }).mapError({ _ -> ErrorType in
                                 .data(description: "forced data error")
@@ -42,7 +42,7 @@ class TagListViewModelSpec: QuickSpec {
             context("data store empty") {
                 beforeEach {
                     given(tagStore.getUniqueTags()) ~> {
-                        Just([String]()).mapError({ _ -> ErrorType in
+                        Just([UiTag]()).mapError({ _ -> ErrorType in
                             .data(description: "This will never get called")
                         }).eraseToAnyPublisher()
                     }
@@ -54,7 +54,10 @@ class TagListViewModelSpec: QuickSpec {
                 }
             }
             context("data store results") {
-                let uniqueTags = ["tag 1", "tag 2", "tag 3", "tag 4"]
+                let uniqueTags = [UiTag(title: "tag 1", color: .none),
+                                  UiTag(title: "tag 2", color: .blue),
+                                  UiTag(title: "tag 3", color: .green),
+                                  UiTag(title: "tag 4", color: .none)]
                 beforeEach {
                     given(tagStore.getUniqueTags()) ~> {
                         Just(uniqueTags).mapError({ _ -> ErrorType in
