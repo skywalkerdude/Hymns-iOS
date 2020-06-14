@@ -6,7 +6,7 @@ struct BottomBarLabel: View {
     let imageName: String
 
     var body: some View {
-        Image(systemName: imageName).foregroundColor(.primary).padding()
+        Image(systemName: imageName).padding()
     }
 }
 
@@ -51,13 +51,13 @@ struct DisplayHymnBottomBar: View {
                     Button(action: {
                         self.sheet = .share
                     }, label: {
-                        BottomBarLabel(imageName: "square.and.arrow.up")
+                        BottomBarLabel(imageName: "square.and.arrow.up").foregroundColor(.primary)
                     })
                     Spacer()
                 }
                 Group {
                     Button(action: {self.actionSheet = .fontSize}, label: {
-                        BottomBarLabel(imageName: "textformat.size")
+                        BottomBarLabel(imageName: "textformat.size").foregroundColor(.primary)
                     })
                     Spacer()
                 }
@@ -66,7 +66,7 @@ struct DisplayHymnBottomBar: View {
                         Button(action: {
                             self.actionSheet = .languages
                         }, label: {
-                            BottomBarLabel(imageName: "globe")
+                            BottomBarLabel(imageName: "globe").foregroundColor(.primary)
                         })
                         languageIndexShown.map { index in
                             NavigationLink(destination: self.viewModel.languages[index].destinationView,
@@ -82,7 +82,7 @@ struct DisplayHymnBottomBar: View {
                     Button(action: {
                         self.sheet = .tags
                     }, label: {
-                        BottomBarLabel(imageName: "tag")
+                        BottomBarLabel(imageName: "tag").foregroundColor(.primary)
                     })
                     Spacer()
                 }
@@ -91,7 +91,7 @@ struct DisplayHymnBottomBar: View {
                         Button(action: {
                             self.actionSheet = .relevant
                         }, label: {
-                            BottomBarLabel(imageName: "music.note.list")
+                            BottomBarLabel(imageName: "music.note.list").foregroundColor(.primary)
                         })
                         relevantIndexShown.map { index in
                             NavigationLink(destination: self.viewModel.relevant[index].destinationView,
@@ -109,8 +109,8 @@ struct DisplayHymnBottomBar: View {
                             self.showAudioPlayer.toggle()
                         }, label: {
                             showAudioPlayer ?
-                                BottomBarLabel(imageName: "play.fill").accentColor(.accentColor) :
-                                BottomBarLabel(imageName: "play").accentColor(.primary)
+                                BottomBarLabel(imageName: "play.fill").foregroundColor(.accentColor) :
+                                BottomBarLabel(imageName: "play").foregroundColor(.primary)
                         })
                     }
                     Spacer()
@@ -122,7 +122,7 @@ struct DisplayHymnBottomBar: View {
                                 SongInfoDialog(viewModel: self.viewModel.songInfo).eraseToAnyView()
                             }
                         }, label: {
-                            BottomBarLabel(imageName: "info.circle")
+                            BottomBarLabel(imageName: "info.circle").foregroundColor(.primary)
                         })
                         Spacer()
                     }

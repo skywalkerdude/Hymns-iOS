@@ -64,6 +64,7 @@
 		3B50B968243E44B100EABDE4 /* SongResultsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B50B967243E44B100EABDE4 /* SongResultsPage.swift */; };
 		3B50B96A243E44C900EABDE4 /* SongResultsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B50B969243E44C900EABDE4 /* SongResultsRepository.swift */; };
 		3B50B972243E450500EABDE4 /* RegexUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B50B971243E450500EABDE4 /* RegexUtil.swift */; };
+		3B556EA52496AB800025D12F /* HymnalNetSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B556EA42496AB800025D12F /* HymnalNetSpec.swift */; };
 		3B57568E243E96B1007013FE /* search_drink.json in Resources */ = {isa = PBXBuildFile; fileRef = 3B57568D243E96B1007013FE /* search_drink.json */; };
 		3B575690243E9DAB007013FE /* search_drink_page_3.json in Resources */ = {isa = PBXBuildFile; fileRef = 3B57568F243E9DAB007013FE /* search_drink_page_3.json */; };
 		3B575692243E9DE0007013FE /* search_drink_page_10.json in Resources */ = {isa = PBXBuildFile; fileRef = 3B575691243E9DE0007013FE /* search_drink_page_10.json */; };
@@ -269,6 +270,7 @@
 		3B50B967243E44B100EABDE4 /* SongResultsPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongResultsPage.swift; sourceTree = "<group>"; };
 		3B50B969243E44C900EABDE4 /* SongResultsRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongResultsRepository.swift; sourceTree = "<group>"; };
 		3B50B971243E450500EABDE4 /* RegexUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegexUtil.swift; sourceTree = "<group>"; };
+		3B556EA42496AB800025D12F /* HymnalNetSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnalNetSpec.swift; sourceTree = "<group>"; };
 		3B57568D243E96B1007013FE /* search_drink.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = search_drink.json; sourceTree = "<group>"; };
 		3B57568F243E9DAB007013FE /* search_drink_page_3.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = search_drink_page_3.json; sourceTree = "<group>"; };
 		3B575691243E9DE0007013FE /* search_drink_page_10.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = search_drink_page_10.json; sourceTree = "<group>"; };
@@ -480,6 +482,7 @@
 				3B09F900243D3BDC00252C15 /* HymnalApiService_SearchTest.swift */,
 				3B11E29B2461F93100F27E73 /* HymnDataStoreGrdbImplSpec.swift */,
 				3BC5B15D247F7DDC00F5D63A /* HymnDataStoreGrdbImpl_BrowseSpec.swift */,
+				3B556EA42496AB800025D12F /* HymnalNetSpec.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1539,6 +1542,7 @@
 				3B09F909243D806500252C15 /* TestHymns.swift in Sources */,
 				B5C0A59B2489C0590048FA46 /* FavoriteStoreRealmImplSpec.swift in Sources */,
 				3BDBEAA4247A3FC0007D903A /* HomeViewModelTest.swift in Sources */,
+				3B556EA52496AB800025D12F /* HymnalNetSpec.swift in Sources */,
 				3BF3BDC62467C39A0046228C /* HymnsRepositoryImpl_dbInitialized_dbMissTests.swift in Sources */,
 				3B575699243EA4DB007013FE /* RegexUtilSpec.swift in Sources */,
 			);
