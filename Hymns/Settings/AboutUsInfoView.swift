@@ -34,7 +34,7 @@ struct AboutUsInfoView: View {
                 Text("For a free study Bible tap ") + Text("here.").fontWeight(.bold).underline()
             }.padding().onTapGesture {
                 UIApplication.shared.open(URL(string: "https://biblesforamerica.org/")!)
-                self.analytics.logBFALinkActive()
+                self.analytics.logBFALinkClicked()
             }
         }
     }

@@ -13,11 +13,9 @@ class AnalyticsLogger {
         self.backgroundThread = backgroundThread
     }
 
-    func logBFALinkActive() {
+    func logBFALinkClicked() {
         backgroundThread.async {
-            Analytics.logEvent(BFALinkActive.name, parameters: [
-                BFALinkActive.Params.is_linked.rawValue: "clicked bfa link"
-            ])
+            Analytics.logEvent("bfa_link_clicked", parameters: nil)
         }
     }
 
