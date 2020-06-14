@@ -53,13 +53,13 @@ class TagSheetViewModel: ObservableObject {
     }
 
     func addTag(tagTitle: String, tagColor: TagColor) {
-        let entity = TagEntity(hymnIdentifier: self.identifier, songTitle: self.title, tag: tagTitle, color: tagColor)
-        self.tagStore.storeTag(entity)
+        let tag = Tag(hymnIdentifier: self.identifier, songTitle: self.title, tag: tagTitle, color: tagColor)
+        self.tagStore.storeTag(tag)
     }
 
     func deleteTag(tagTitle: String, tagColor: TagColor) {
-        let entity = TagEntity(hymnIdentifier: self.identifier, songTitle: self.title, tag: tagTitle, color: tagColor)
-        self.tagStore.deleteTag(entity)
+        let tag = Tag(hymnIdentifier: self.identifier, songTitle: self.title, tag: tagTitle, color: tagColor)
+        self.tagStore.deleteTag(tag)
     }
 }
 
