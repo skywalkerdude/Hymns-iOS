@@ -16,7 +16,7 @@ struct VerseLineView: View {
                     }
                 }
                 Text(viewModel.verseText).font(viewModel.fontSize.font)
-            }.lineSpacing(5).padding(.bottom, 5)
+            }.fixedSize(horizontal: false, vertical: true).padding(.bottom, 5).lineSpacing(5)
         }
     }
 }
