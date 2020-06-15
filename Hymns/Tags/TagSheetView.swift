@@ -21,7 +21,6 @@ struct TagSheetView: View {
             Divider()
             ColorSelectorView(tagColor: self.$tagColor).padding(.vertical)
             if self.viewModel.tags.isEmpty {
-
                 HStack {
                     Spacer()
                     Button(action: {
