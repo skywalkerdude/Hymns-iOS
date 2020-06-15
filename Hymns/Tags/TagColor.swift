@@ -35,7 +35,7 @@ extension TagColor {
         case .yellow:
             return Color(red: 255/255, green: 209/255, blue: 0/255, opacity: 0.2)
         case .red:
-            return Color(red: 255/255, green: 0, blue: 31/255, opacity: 0.2)
+            return Color(red: 234/255, green: 77/255, blue: 133/255, opacity: 0.2)
         }
     }
 
@@ -50,7 +50,7 @@ extension TagColor {
         case .yellow:
             return Color(red: 176/255, green: 146/255, blue: 7/255, opacity: 1.0)
         case .red:
-            return Color(red: 255/255, green: 0, blue: 31/255, opacity: 0.78)
+            return Color(red: 234/255, green: 77/255, blue: 133/255, opacity: 1.0)
         }
     }
 }
