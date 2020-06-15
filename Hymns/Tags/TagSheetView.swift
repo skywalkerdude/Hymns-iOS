@@ -20,30 +20,35 @@ struct TagSheetView: View {
             TextField("Label it however you like", text: self.$tagName)
             Divider()
             ColorSelectorView(tagColor: self.$tagColor).padding(.vertical)
-            HStack {
-                Spacer()
-                Button(action: {
-                    self.sheet.wrappedValue = nil
-                }, label: {
-                    Text("Cancel").foregroundColor(.primary).fontWeight(.light)
-                })
-                Button("Add") {
-                    self.viewModel.addTag(tagTitle: self.tagName, tagColor: self.tagColor)
-                }.padding(.horizontal).disabled(tagName.isEmpty)
-            }.padding(.top)
             if !self.viewModel.tags.isEmpty {
-                Section {
-                    Text("Tags").font(.body).fontWeight(.bold)
-                    WrappedHStack(items: self.$viewModel.tags) { tag in
-                        Button(action: {
-                            self.viewModel.deleteTag(tagTitle: tag.title, tagColor: tag.color)
-                        }, label: {
-                            HStack {
-                                Text(tag.title).font(.body).fontWeight(.bold)
-                                Image(systemName: "xmark.circle")
-                            }
-                            .tagPill(backgroundColor: tag.color.background, foregroundColor: tag.color.foreground)
-                            }).padding(5)
+                Text("Tags").font(.body).fontWeight(.bold)
+            }
+            GeometryReader { geometry in
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading) {
+                        WrappedHStack(items: self.$viewModel.tags, geometry: geometry) { tag in
+                            Button(action: {
+                                self.viewModel.deleteTag(tagTitle: tag.title, tagColor: tag.color)
+                            }, label: {
+                                HStack {
+                                    Text(tag.title).font(.body).fontWeight(.bold)
+                                    Image(systemName: "xmark.circle")
+                                }
+                                .tagPill(backgroundColor: tag.color.background, foregroundColor: tag.color.foreground)
+                            }).padding(2)
+                        }
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                self.sheet.wrappedValue = nil
+                            }, label: {
+                                Text("Close").foregroundColor(.primary).fontWeight(.light)
+                            })
+                            Button("Add") {
+                                self.viewModel.addTag(tagTitle: self.tagName, tagColor: self.tagColor)
+                            }.padding(.horizontal).disabled(self.tagName.isEmpty)
+                        }.padding(.top)
+                        Spacer()
                     }
                 }
             }
@@ -67,11 +72,11 @@ struct TagSheetView_Previews: PreviewProvider {
 
         let manyTagsViewModel = TagSheetViewModel(hymnToDisplay: PreviewHymnIdentifiers.cupOfChrist)
         manyTagsViewModel.tags = [UiTag(title: "Long tag name", color: .none),
-                          UiTag(title: "Tag 1", color: .green),
-                          UiTag(title: "Tag 1", color: .red),
-                          UiTag(title: "Tag 1", color: .yellow),
-                          UiTag(title: "Tag 2", color: .blue),
-                          UiTag(title: "Tag 3", color: .blue)]
+                                  UiTag(title: "Tag 1", color: .green),
+                                  UiTag(title: "Tag 1", color: .red),
+                                  UiTag(title: "Tag 1", color: .yellow),
+                                  UiTag(title: "Tag 2", color: .blue),
+                                  UiTag(title: "Tag 3", color: .blue)]
         let manyTags = TagSheetView(viewModel: manyTagsViewModel, sheet: Binding.constant(.tags))
         return Group {
             noTags
