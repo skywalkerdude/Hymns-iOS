@@ -36,6 +36,7 @@ struct AboutUsInfoView: View {
                 UIApplication.shared.open(URL(string: "https://biblesforamerica.org/")!)
                 self.analytics.logBFALinkClicked()
             }
+            Spacer()
         }
     }
 }
