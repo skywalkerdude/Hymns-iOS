@@ -13,11 +13,11 @@ public struct HymnLyricsView: View {
             guard let lyrics = viewModel.lyrics else {
                 return Text("Lyrics are not available for this song").maxSize().eraseToAnyView()
             }
-            
+
             guard !lyrics.isEmpty else {
                 return ActivityIndicator().maxSize().eraseToAnyView()
             }
-            
+
             return
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading, spacing: 15) {
