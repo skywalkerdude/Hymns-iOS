@@ -13,11 +13,11 @@ public struct HymnLyricsView: View {
             guard let lyrics = viewModel.lyrics else {
                 return Text("Lyrics are not available for this song").maxSize().eraseToAnyView()
             }
-
+            
             guard !lyrics.isEmpty else {
                 return ActivityIndicator().maxSize().eraseToAnyView()
             }
-
+            
             return
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading, spacing: 15) {
@@ -36,7 +36,7 @@ public struct HymnLyricsView: View {
                         ForEach(lyrics, id: \.self) { verseViewModel in
                             VerseView(viewModel: verseViewModel, transliterate: self.$transliterate)
                         }
-                    }.padding()
+                    }.frame(minWidth: 0, maxWidth: .infinity, alignment: .leading).padding()
                 }.maxSize(alignment: .leading).eraseToAnyView()
         }.onAppear {
             self.viewModel.fetchLyrics()

@@ -8,15 +8,17 @@ struct VerseLineView: View {
 
     var body: some View {
         HStack(alignment: .top) {
-            Text(viewModel.verseNumber ?? "").font(viewModel.fontSize.font).frame(minWidth: 12)
+            VStack(alignment: .leading) {
+                Text(viewModel.verseNumber ?? "").font(viewModel.fontSize.font).frame(minWidth: 12)
+            }
             VStack(alignment: .leading) {
                 if transliterate {
                     viewModel.transliteration.map { transliteration in
-                        Text(transliteration).font(viewModel.fontSize.font)
+                        Text(transliteration.trimmingCharacters(in: .whitespacesAndNewlines)).font(viewModel.fontSize.font)
                     }
                 }
-                Text(viewModel.verseText).font(viewModel.fontSize.font)
-                }.fixedSize(horizontal: false, vertical: true).padding(.bottom, 5).lineSpacing(5)
+                Text(viewModel.verseText.trimmingCharacters(in: .whitespacesAndNewlines)).font(viewModel.fontSize.font)
+            }.fixedSize(horizontal: false, vertical: true).padding(.bottom, 5).lineSpacing(5)
         }
     }
 }
