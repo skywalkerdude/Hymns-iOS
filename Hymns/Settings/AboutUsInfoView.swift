@@ -1,9 +1,11 @@
 import SwiftUI
 import UIKit
+import Resolver
 
 struct AboutUsInfoView: View {
 
     @Environment(\.presentationMode) var presentationMode
+    private let analytics: AnalyticsLogger = Resolver.resolve()
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -32,6 +34,7 @@ struct AboutUsInfoView: View {
                 Text("For a free study Bible tap ") + Text("here.").fontWeight(.bold).underline()
             }.padding().onTapGesture {
                 UIApplication.shared.open(URL(string: "https://biblesforamerica.org/")!)
+                self.analytics.logBFALinkClicked()
             }
             Spacer()
         }
