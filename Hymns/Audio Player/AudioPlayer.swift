@@ -17,13 +17,12 @@ struct AudioPlayer: View {
         HStack(spacing: 40) {
             // Reset button
             Button(action: {
-                self.viewModel.currentlyPlaying = true
                 guard let url = self.viewModel.url else {
                     return
                 }
                 let playerItem = AVPlayerItem(url: url)
                 self.viewModel.player.replaceCurrentItem(with: playerItem)
-                self.viewModel.player.play()
+                self.viewModel.play()
             }, label: {
                 Image(systemName: "backward.end.fill").font(.subheadline).foregroundColor(.primary)
             })
@@ -38,14 +37,23 @@ struct AudioPlayer: View {
 
             // Play/Pause button
             Button(action: {
-                self.viewModel.currentlyPlaying.toggle()
-                if self.viewModel.currentlyPlaying {
-                    self.viewModel.player.play()
-                } else {
-                    self.viewModel.player.pause()
+                switch self.viewModel.playbackState {
+                case .buffering:
+                    break
+                case .playing:
+                    self.viewModel.pause()
+                case .stopped:
+                    self.viewModel.play()
                 }
-            }, label: {Image(systemName: viewModel.currentlyPlaying ? "pause.circle" : "play.circle")
-                .font(.largeTitle).foregroundColor(.primary)
+            }, label: {
+                if viewModel.playbackState == .buffering {
+                    ActivityIndicator().font(.largeTitle).foregroundColor(.primary)
+                } else if viewModel.playbackState == .playing {
+                    Image(systemName: "pause.circle").font(.largeTitle).foregroundColor(.primary)
+                } else {
+                    // viewModel.playbackState == .stopped
+                    Image(systemName: "play.circle").font(.largeTitle).foregroundColor(.primary)
+                }
             })
 
             // Fast-forward button
@@ -62,6 +70,10 @@ struct AudioPlayer: View {
             }, label: {
                 Image(systemName: "repeat").font(.subheadline).foregroundColor(viewModel.shouldRepeat ? .accentColor : .primary)
             })
+        }.onReceive(viewModel.timeObserver.publisher) { time in
+                if time > 0 {
+                    self.viewModel.playbackState = .playing
+                }
         }.onAppear {
             guard let url = self.viewModel.url else {
                 return
@@ -78,7 +90,7 @@ struct AudioPlayer: View {
 #if DEBUG
 struct AudioView_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = AudioPlayerViewModel(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=mp3")!)
+        let viewModel = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
         return Group {
             AudioPlayer(viewModel: viewModel).previewLayout(.sizeThatFits)
         }

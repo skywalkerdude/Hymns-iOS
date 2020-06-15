@@ -13,6 +13,12 @@ class AnalyticsLogger {
         self.backgroundThread = backgroundThread
     }
 
+    func logBFALinkClicked() {
+        backgroundThread.async {
+            Analytics.logEvent("bfa_link_clicked", parameters: nil)
+        }
+    }
+
     func logSearchActive(isActive: Bool) {
         backgroundThread.async {
             Analytics.logEvent(SearchActiveChanged.name, parameters: [
