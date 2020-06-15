@@ -1,6 +1,7 @@
-import SwiftUI
 import AVFoundation
+import FirebaseCrashlytics
 import Combine
+import SwiftUI
 
 enum PlaybackState: Int {
     case buffering
@@ -29,6 +30,13 @@ class AudioPlayerViewModel: ObservableObject {
         self.url = url
         let playerItem = AVPlayerItem(url: url)
         player.replaceCurrentItem(with: playerItem)
+
+        // https://stackoverflow.com/questions/30832352/swift-keep-playing-sounds-when-the-device-is-locked
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+        } catch {
+            Crashlytics.crashlytics().record(error: NonFatal(errorDescription: "Unable to set AVAudioSession category to \(AVAudioSession.Category.playback.rawValue)"))
+        }
 
         self.timeObserver = PlayerTimeObserver(player: player)
         self.playingFinishedObserver =
