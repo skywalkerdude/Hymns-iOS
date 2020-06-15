@@ -2,25 +2,25 @@ import SwiftUI
 
 // https://stackoverflow.com/a/58876712/1907538
 struct WrappedHStack<Item: Hashable, Content: View>: View {
-    
+
     var view: TagSheetView
     @Binding var items: [Item]
     let viewBuilder: (Item) -> Content
-    
+
     var body: some View {
         GeometryReader { geometry in
             self.generateContent(in: geometry)
         }
     }
-    
+
     private func generateContent(in geometry: GeometryProxy) -> some View {
         guard let lastItem = self.items.last else {
             return EmptyView().eraseToAnyView()
         }
-        
+
         var width = CGFloat.zero
         var height = CGFloat.zero
-        
+
         return VStack {
             ZStack(alignment: .topLeading) {
                 ForEach(self.items, id: \.self) { item in
