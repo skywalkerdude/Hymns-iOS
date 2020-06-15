@@ -62,25 +62,3 @@ class TagSheetViewModel: ObservableObject {
         self.tagStore.deleteTag(tag)
     }
 }
-
-class UiTag: Identifiable {
-
-    let title: String
-    let color: TagColor
-
-    init(title: String, color: TagColor) {
-        self.title = title
-        self.color = color
-    }
-}
-
-extension UiTag: Hashable {
-    static func == (lhs: UiTag, rhs: UiTag) -> Bool {
-        lhs.title == rhs.title && lhs.color == rhs.color
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(title)
-        hasher.combine(color)
-    }
-}

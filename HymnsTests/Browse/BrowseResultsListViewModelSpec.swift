@@ -85,9 +85,9 @@ class BrowseResultsListViewModelSpec: QuickSpec {
             var target: BrowseResultsListViewModel!
             beforeEach {
                 tagStore = mock(TagStore.self)
-                given(tagStore.getSongsByTag("FanIntoFlames")) ~> [SongResultViewModel(title: "title1", destinationView: EmptyView().eraseToAnyView()),
+                given(tagStore.getSongsByTag(UiTag(title: "FanIntoFlames", color: .none))) ~> [SongResultViewModel(title: "title1", destinationView: EmptyView().eraseToAnyView()),
                                                                    SongResultViewModel(title: "title2", destinationView: EmptyView().eraseToAnyView())]
-                target = BrowseResultsListViewModel(tag: "FanIntoFlames", tagStore: tagStore)
+                target = BrowseResultsListViewModel(tag: UiTag(title: "FanIntoFlames", color: .none), tagStore: tagStore)
             }
             it("should set the title to the tag") {
                 expect(target.title).to(equal("FanIntoFlames"))
