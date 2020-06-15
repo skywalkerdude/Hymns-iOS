@@ -12,10 +12,10 @@ struct VerseLineView: View {
             VStack(alignment: .leading) {
                 if transliterate {
                     viewModel.transliteration.map { transliteration in
-                        Text(transliteration.trimmingCharacters(in: .whitespacesAndNewlines)).font(viewModel.fontSize.font)
+                        Text(transliteration).font(viewModel.fontSize.font)
                     }
                 }
-                Text(viewModel.verseText.trimmingCharacters(in: .whitespacesAndNewlines)).font(viewModel.fontSize.font)
+                Text(viewModel.verseText).font(viewModel.fontSize.font)
             }.fixedSize(horizontal: false, vertical: true).padding(.bottom, 5).lineSpacing(5)
         }
     }
