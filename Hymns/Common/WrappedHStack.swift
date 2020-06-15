@@ -4,15 +4,10 @@ import SwiftUI
 struct WrappedHStack<Item: Hashable, Content: View>: View {
 
     @Binding var items: [Item]
+    let geometry: GeometryProxy
     let viewBuilder: (Item) -> Content
 
     var body: some View {
-        GeometryReader { geometry in
-            self.generateContent(in: geometry)
-        }
-    }
-
-    private func generateContent(in geometry: GeometryProxy) -> some View {
         guard let lastItem = self.items.last else {
             return EmptyView().eraseToAnyView()
         }
@@ -20,50 +15,51 @@ struct WrappedHStack<Item: Hashable, Content: View>: View {
         var width = CGFloat.zero
         var height = CGFloat.zero
 
-        return ZStack(alignment: .topLeading) {
-            ForEach(self.items, id: \.self) { item in
-                self.viewBuilder(item).alignmentGuide(.leading, computeValue: { dimension in
-                    if abs(width - dimension.width) > geometry.size.width {
-                        width = 0
-                        height -= dimension.height
-                    }
-                    let result = width
-                    if item == lastItem {
-                        width = 0 //last item
-                    } else {
-                        width -= dimension.width
-                    }
-                    return result
-                }).alignmentGuide(.top, computeValue: { _ in
-                    let result = height
-                    if item == lastItem {
-                        height = 0 // last item
-                    }
-                    return result
-                })
-            }
-        }.eraseToAnyView()
+        return
+            ZStack(alignment: .topLeading) {
+                ForEach(self.items, id: \.self) { item in
+                    self.viewBuilder(item).alignmentGuide(.leading, computeValue: { dimension in
+                        if abs(width - dimension.width) > self.geometry.size.width {
+                            width = 0
+                            height -= dimension.height + 5
+                        }
+                        let result = width
+                        if item == lastItem {
+                            width = 0 //last item
+                        } else {
+                            width -= dimension.width + 5
+                        }
+                        return result
+                    }).alignmentGuide(.top, computeValue: { _ in
+                        let result = height
+                        if item == lastItem {
+                            height = 0 // last item
+                        }
+                        return result
+                    })
+                }
+            }.eraseToAnyView()
     }
 }
 
 struct WrappedHStack_Previews: PreviewProvider {
     static var previews: some View {
-        let empty =
-            WrappedHStack(items: Binding.constant([String]())) { item in
-                Text(item)
-        }
-        let platforms =
-            WrappedHStack(items: Binding.constant(["Nintendo", "XBox", "PlayStation", "Playstation 2", "Playstaition 3", "Stadia", "Oculus"])) { platform in
-                Button(action: {}, label: {
-                    HStack {
-                        Text(platform).font(.body).fontWeight(.bold)
-                        Image(systemName: "xmark.circle")
-                    }.padding(10).cornerRadius(20)
-                })
-        }
         return Group {
-            empty
-            platforms
+            GeometryReader { geometry in
+                WrappedHStack(items: Binding.constant([String]()), geometry: geometry) { item in
+                    Text(item)
+                }
+            }
+            GeometryReader { geometry in
+                WrappedHStack(items: Binding.constant(["Nintendo", "XBox", "PlayStation", "Playstation 2", "Playstaition 3", "Stadia", "Oculus"]), geometry: geometry) { platform in
+                    Button(action: {}, label: {
+                        HStack {
+                            Text(platform).font(.body).fontWeight(.bold)
+                            Image(systemName: "xmark.circle")
+                        }.padding(10).foregroundColor(Color.white).background(Color.purple).cornerRadius(20)
+                    })
+                }
+            }
         }.previewLayout(.sizeThatFits)
     }
 }
