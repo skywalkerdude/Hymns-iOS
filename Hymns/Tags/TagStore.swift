@@ -7,9 +7,9 @@ import Resolver
 protocol TagStore {
     func storeTag(_ tag: Tag)
     func deleteTag(_ tag: Tag)
-    func getSongsByTag(_ tag: String) -> [SongResultViewModel]
+    func getSongsByTag(_ tag: UiTag) -> [SongResultViewModel]
     func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> AnyPublisher<[Tag], ErrorType>
-    func getUniqueTags() -> AnyPublisher<[String], ErrorType>
+    func getUniqueTags() -> AnyPublisher<[UiTag], ErrorType>
 }
 
 class TagStoreRealmImpl: TagStore {
@@ -28,7 +28,7 @@ class TagStoreRealmImpl: TagStore {
                 realm.add(TagEntity(tagObject: tag, created: Date()), update: .modified)
             }
         } catch {
-            analytics.logError(message: "error orccured when storing favorite", error: error, extraParameters: ["primaryKey": tag.primaryKey])
+            analytics.logError(message: "error occurred when storing favorite", error: error, extraParameters: ["primaryKey": tag.primaryKey])
         }
     }
 
@@ -41,15 +41,15 @@ class TagStoreRealmImpl: TagStore {
                 realm.delete(entitiesToDelete)
             }
         } catch {
-            analytics.logError(message: "error orccured when deleting tag", error: error, extraParameters: ["primaryKey": primaryKey])
+            analytics.logError(message: "error occurred when deleting tag", error: error, extraParameters: ["primaryKey": primaryKey])
         }
     }
 
     /** Can be used either with a value to specificially query for one tag or without the optional to query all tags*/
-    func getSongsByTag(_ tag: String) -> [SongResultViewModel] {
+    func getSongsByTag(_ tag: UiTag) -> [SongResultViewModel] {
         let songResults: [SongResultViewModel] =
             realm.objects(TagEntity.self)
-                .filter(NSPredicate(format: "tagObject.tag == %@", tag))
+                .filter(NSPredicate(format: "tagObject.tag == %@ AND tagObject.privateTagColor == %d", tag.title, tag.color.rawValue))
                 .map { entity -> SongResultViewModel in
                     let hymnIdentifier = HymnIdentifier(entity.tagObject.hymnIdentifierEntity)
                     return SongResultViewModel(title: entity.tagObject.songTitle, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
@@ -70,11 +70,11 @@ class TagStoreRealmImpl: TagStore {
             }).eraseToAnyPublisher()
     }
 
-    func getUniqueTags() -> AnyPublisher<[String], ErrorType> {
-        realm.objects(TagEntity.self).distinct(by: ["tagObject.tag"]).publisher
-            .map({ results -> [String] in
-                results.map { entity -> String in
-                    entity.tagObject.tag
+    func getUniqueTags() -> AnyPublisher<[UiTag], ErrorType> {
+        realm.objects(TagEntity.self).distinct(by: ["tagObject.tag", "tagObject.privateTagColor"]).publisher
+            .map({ results -> [UiTag] in
+                results.map { entity -> UiTag in
+                    UiTag(title: entity.tagObject.tag, color: entity.tagObject.color)
                 }
             }).mapError({ error -> ErrorType in
                 .data(description: error.localizedDescription)

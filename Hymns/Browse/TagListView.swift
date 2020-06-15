@@ -26,7 +26,7 @@ struct TagListView: View {
             }
             return List(tags, id: \.self) { tag in
                 NavigationLink(destination: BrowseResultsListView(viewModel: BrowseResultsListViewModel(tag: tag))) {
-                    Text(tag)
+                    Text(tag.title).tagPill(backgroundColor: tag.color.background, foregroundColor: tag.color.foreground)
                 }
             }.eraseToAnyView()
         }.onAppear {
@@ -42,11 +42,13 @@ struct TagListView_Previews: PreviewProvider {
         let loading = TagListView(viewModel: loadingViewModel)
 
         let emptyViewModel = TagListViewModel()
-        emptyViewModel.tags = [String]()
+        emptyViewModel.tags = [UiTag]()
         let empty = TagListView(viewModel: emptyViewModel)
 
         let withTagsViewModel = TagListViewModel()
-        withTagsViewModel.tags = ["tag 1", "tag 2", "tag 3", "tag 4"]
+        withTagsViewModel.tags = [UiTag(title: "tag 1", color: .blue),
+                                  UiTag(title: "tag 2", color: .green),
+                                  UiTag(title: "tag 3", color: .none)]
         let withTags = TagListView(viewModel: withTagsViewModel)
 
         return Group {
