@@ -38,10 +38,10 @@ struct DisplayHymnBottomBar: View {
     var body: some View {
         VStack {
             if showAudioPlayer {
-                viewModel.mp3Path.map { _ in
+                viewModel.audioPlayer.map { audioPlayer in
                     VStack {
                         Divider()
-                        AudioPlayer(viewModel: AudioPlayerViewModel(url: self.viewModel.mp3Path)).padding()
+                        AudioPlayer(viewModel: audioPlayer).padding()
                     }
                 }
             }
@@ -104,7 +104,7 @@ struct DisplayHymnBottomBar: View {
                     }
                 }
                 Group {
-                    viewModel.mp3Path.map { _ in
+                    viewModel.audioPlayer.map { _ in
                         Button(action: {
                             self.showAudioPlayer.toggle()
                         }, label: {
@@ -213,7 +213,7 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
         viewModel.songInfo.songInfo = [SongInfoViewModel(label: "label", values: ["values"])]
         viewModel.languages = [SongResultViewModel(title: "language", destinationView: EmptyView().eraseToAnyView())]
         viewModel.relevant = [SongResultViewModel(title: "relevant", destinationView: EmptyView().eraseToAnyView())]
-        viewModel.mp3Path = URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!
+        viewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
         var dialogBuilder: (() -> AnyView)?
         return DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
             get: {dialogBuilder},

@@ -31,7 +31,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     expect(target.relevant).to(beEmpty())
                 }
                 it("mp3Path should be nil") {
-                    expect(target.mp3Path).to(beNil())
+                    expect(target.audioPlayer).to(beNil())
                 }
             }
             context("with nil repository result") {
@@ -83,7 +83,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     expect(target.relevant).to(beEmpty())
                 }
                 it("mp3Path should be nil") {
-                    expect(target.mp3Path).to(beNil())
+                    expect(target.audioPlayer).to(beNil())
                 }
             }
             context("with valid repository result") {
@@ -128,9 +128,9 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     expect(target.relevant[0].title).to(equal("New Tune"))
                     expect(target.relevant[1].title).to(equal("Cool other song"))
                 }
-                let mp3FilePath = URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=mp3")
+                let mp3FilePath = URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=mp3")!
                 it("mp3Path should be \(String(describing: mp3FilePath))") {
-                    expect(target.mp3Path).to(equal(mp3FilePath))
+                    expect(target.audioPlayer).to(equal(AudioPlayerViewModel(url: mp3FilePath)))
                 }
             }
         }

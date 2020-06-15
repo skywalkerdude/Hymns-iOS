@@ -17,11 +17,7 @@ struct AudioPlayer: View {
         HStack(spacing: 40) {
             // Reset button
             Button(action: {
-                guard let url = self.viewModel.url else {
-                    return
-                }
-                let playerItem = AVPlayerItem(url: url)
-                self.viewModel.player.replaceCurrentItem(with: playerItem)
+                self.viewModel.reset()
                 self.viewModel.play()
             }, label: {
                 Image(systemName: "backward.end.fill").font(.subheadline).foregroundColor(.primary)
@@ -29,8 +25,7 @@ struct AudioPlayer: View {
 
             // Rewind button
             Button(action: {
-                let rewoundTime = self.viewModel.convertFloatToCMTime(self.viewModel.playerCurrentTime - self.viewModel.seekDuration)
-                self.viewModel.player.seek(to: rewoundTime, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+                self.viewModel.rewind()
             }, label: {
                 Image(systemName: "backward.fill").font(.subheadline).foregroundColor(.primary)
             })
@@ -58,8 +53,7 @@ struct AudioPlayer: View {
 
             // Fast-forward button
             Button(action: {
-                let fastForwardedTime = self.viewModel.convertFloatToCMTime(self.viewModel.playerCurrentTime + self.viewModel.seekDuration)
-                self.viewModel.player.seek(to: fastForwardedTime, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+                self.viewModel.fastForward()
             }, label: {
                 Image(systemName: "forward.fill").font(.subheadline).foregroundColor(.primary)
             })
@@ -71,18 +65,12 @@ struct AudioPlayer: View {
                 Image(systemName: "repeat").font(.subheadline).foregroundColor(viewModel.shouldRepeat ? .accentColor : .primary)
             })
         }.onReceive(viewModel.timeObserver.publisher) { time in
-                if time > 0 {
-                    self.viewModel.playbackState = .playing
-                }
-        }.onAppear {
-            guard let url = self.viewModel.url else {
-                return
+            if time > 0 {
+                self.viewModel.playbackState = .playing
             }
-            let playerItem = AVPlayerItem(url: url)
-            self.viewModel.player.replaceCurrentItem(with: playerItem)
         }.onDisappear {
-            // When this View isn't being shown anymore stop the player
-            self.viewModel.player.replaceCurrentItem(with: nil)
+            // when this view isn't being shown anymore stop the player
+            self.viewModel.pause()
         }
     }
 }
