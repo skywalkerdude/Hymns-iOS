@@ -80,7 +80,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                     expect(target.title).to(equal(expectedTitle))
                                 }
                                 it("should store the song into the history store") {
-                                    verify(historyStore.storeRecentSong(hymnToStore: classic1151, songTitle: expectedTitle)).wasCalled(exactly(1))
+                                    verify(historyStore.storeRecentSong(hymnToStore: classic1151, songTitle: "Hymn 1151: title")).wasCalled(exactly(1))
                                 }
                                 it("should call hymnsRepository.getHymn") {
                                     verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
@@ -132,10 +132,10 @@ class DisplayHymnViewModelSpec: QuickSpec {
                             target = DisplayHymnViewModel(backgroundQueue: testQueue, favoriteStore: favoriteStore, hymnToDisplay: newSong145, hymnsRepository: hymnsRepository, historyStore: historyStore,
                                                           mainQueue: testQueue, pdfPreloader: pdfLoader)
                         }
-                        let expectedTitle = "In my spirit, I can see You as You are"
+                        let title = "In my spirit, I can see You as You are"
                         context("title contains 'Hymn: '") {
                             beforeEach {
-                                let hymnWithHymnColonTitle = UiHymn(hymnIdentifier: newSong145, title: "Hymn: In my spirit, I can see You as You are", lyrics: [Verse](), pdfSheet: Hymns.MetaDatum(name: "Lead Sheet", data: [Hymns.Datum(value: "Piano", path: "/en/hymn/c/1151/f=ppdf"), Hymns.Datum(value: "Guitar", path: "/en/hymn/c/1151/f=pdf"), Hymns.Datum(value: "Text", path: "/en/hymn/c/1151/f=gtpdf")]))
+                                let hymnWithHymnColonTitle = UiHymn(hymnIdentifier: newSong145, title: title, lyrics: [Verse](), pdfSheet: Hymns.MetaDatum(name: "Lead Sheet", data: [Hymns.Datum(value: "Piano", path: "/en/hymn/c/1151/f=ppdf"), Hymns.Datum(value: "Guitar", path: "/en/hymn/c/1151/f=pdf"), Hymns.Datum(value: "Text", path: "/en/hymn/c/1151/f=gtpdf")]))
                                 given(hymnsRepository.getHymn(newSong145)) ~> { _ in
                                     Just(hymnWithHymnColonTitle).assertNoFailure().eraseToAnyPublisher()
                                 }
@@ -152,8 +152,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                         testQueue.sync {}
                                         testQueue.sync {}
                                     }
-                                    it("title should be '\(expectedTitle)'") {
-                                        expect(target.title).to(equal(expectedTitle))
+                                    it("title should be '\(title)'") {
+                                        expect(target.title).to(equal(title))
                                     }
                                     it("should store the song into the history store") {
                                         verify(historyStore.storeRecentSong(hymnToStore: any(), songTitle: any())).wasNeverCalled()
@@ -240,8 +240,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                         testQueue.sync {}
                                         testQueue.sync {}
                                     }
-                                    it("title should be '\(expectedTitle)'") {
-                                        expect(target.title).to(equal(expectedTitle))
+                                    it("title should be '\(title)'") {
+                                        expect(target.title).to(equal(title))
                                     }
                                     it("should store the song into the history store") {
                                         verify(historyStore.storeRecentSong(hymnToStore: any(), songTitle: any())).wasNeverCalled()
