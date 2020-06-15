@@ -4,7 +4,6 @@ import Foundation
  * Structure of a Hymn object to be consumed by the UI.
  */
 struct UiHymn: Equatable {
-    typealias Title = String
     let hymnIdentifier: HymnIdentifier
     let title: String
     let lyrics: [Verse]
@@ -24,13 +23,11 @@ struct UiHymn: Equatable {
     // add more fields as needed
 
     var computedTitle: String {
-        let title: Title
+        var title = ""
         if hymnIdentifier.hymnType == .classic {
-            title = "Hymn \(hymnIdentifier.hymnNumber)"
-        } else {
-            title = self.title.replacingOccurrences(of: "Hymn: ", with: "")
+            title = "Hymn \(hymnIdentifier.hymnNumber): "
         }
-        return title
+        return title + self.title
     }
 
     init(hymnIdentifier: HymnIdentifier, title: String, lyrics: [Verse], pdfSheet: MetaDatum? = nil,

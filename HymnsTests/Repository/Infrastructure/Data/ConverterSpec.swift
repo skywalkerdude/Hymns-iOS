@@ -64,7 +64,7 @@ class ConverterSpec: QuickSpec {
                     }
                 }
                 context("invalid json") {
-                    let invalidJson = HymnEntity(hymnIdentifier: classic1151, title: "title", lyricsJson: "invalid json")
+                    let invalidJson = HymnEntity(hymnIdentifier: classic1151, title: "Hymn: title", lyricsJson: "invalid json")
                     // <TypeConversionError(triggeringError: Swift.DecodingError.dataCorrupted(Swift.DecodingError.Context(codingPath: [], debugDescription: "The given data was not valid JSON.", underlyingError: Optional(Error Domain=NSCocoaErrorDomain Code=3840 "Invalid value around character 0." UserInfo={NSDebugDescription=Invalid value around character 0.}))))>
                     it("should throw type conversion error") {
                         expect {
@@ -77,7 +77,7 @@ class ConverterSpec: QuickSpec {
                 context("filled hymn") {
                     let filledHymn
                         = HymnEntity(hymnIdentifier: classic1151,
-                                     title: "title",
+                                     title: "Hymn: title",
                                      lyricsJson: "[{\"verse_type\":\"verse\",\"verse_content\":[\"line 1\",\"line 2\"]}]",
                                      category: "This is my category",
                                      subcategory: "This is my subcategory",

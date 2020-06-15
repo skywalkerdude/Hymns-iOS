@@ -85,7 +85,7 @@ class ConverterImpl: Converter {
             throw TypeConversionError(triggeringError: ErrorType.parsing(description: "lyrics json was empty"))
         }
 
-        guard let title = hymnEntity.title, !title.isEmpty else {
+        guard let title = hymnEntity.title?.replacingOccurrences(of: "Hymn: ", with: ""), !title.isEmpty else {
             throw TypeConversionError(triggeringError: ErrorType.parsing(description: "title was empty"))
         }
 
