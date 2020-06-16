@@ -31,9 +31,6 @@ struct HomeContainerView: View {
                 if self.selectedTab == .none {
                     self.selectedTab = .home
                 }
-                if #available(iOS 13.4, *) {
-                    self.iosAbove134 = true
-                }
                 UITabBar.appearance().unselectedItemTintColor = .label
             }
         }
