@@ -16,8 +16,8 @@ struct DisplayHymnView: View {
             if !viewModel.isLoaded {
                 ActivityIndicator().maxSize()
             } else {
-                VStack(alignment: .leading, spacing: 0) {
-                    DisplayHymnToolbar(viewModel: viewModel).padding(.top, 5)
+                VStack(spacing: 0) {
+                    DisplayHymnToolbar(viewModel: viewModel)
                     if viewModel.tabItems.count > 1 {
                         IndicatorTabView(currentTab: $viewModel.currentTab, tabItems: viewModel.tabItems)
                     } else {

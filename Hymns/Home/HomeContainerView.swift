@@ -4,7 +4,6 @@ import Resolver
 struct HomeContainerView: View {
 
     @State var selectedTab: HomeTab = .none
-    @State var iosAbove134: Bool = false
 
     var body: some View {
         NavigationView {
@@ -28,7 +27,7 @@ struct HomeContainerView: View {
                     .tabItem {HomeTab.settings.getImage(selectedTab == HomeTab.settings).imageScale(.large)}
                     .tag(HomeTab.settings)
                     .hideNavigationBar()
-            }.hideNavigationBar().padding(.top, self.iosAbove134 ? 5 : 0).onAppear {
+            }.onAppear {
                 if self.selectedTab == .none {
                     self.selectedTab = .home
                 }
