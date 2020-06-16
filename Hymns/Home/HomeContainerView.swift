@@ -4,7 +4,7 @@ import Resolver
 struct HomeContainerView: View {
 
     @State var selectedTab: HomeTab = .none
-    @State var above5: Bool = false
+    @State var iosAbove134: Bool = false
 
     var body: some View {
         NavigationView {
@@ -28,12 +28,12 @@ struct HomeContainerView: View {
                     .tabItem {HomeTab.settings.getImage(selectedTab == HomeTab.settings).imageScale(.large)}
                     .tag(HomeTab.settings)
                     .hideNavigationBar()
-            }.hideNavigationBar().padding(.top, self.above5 ? 5 : 0).onAppear {
+            }.hideNavigationBar().padding(.top, self.iosAbove134 ? 5 : 0).onAppear {
                 if self.selectedTab == .none {
                     self.selectedTab = .home
                 }
                 if #available(iOS 13.4, *) {
-                    self.above5 = true
+                    self.iosAbove134 = true
                 }
                 UITabBar.appearance().unselectedItemTintColor = .label
             }
