@@ -9,12 +9,12 @@ struct SearchBar: View {
     @Binding var searchText: String
     @Binding var searchActive: Bool
     let placeholderText: String
-
+    @State var titleFocused = false
     var body: some View {
         HStack {
             HStack {
                 Image(systemName: "magnifyingglass").padding(.leading, 6)
-                TextField(placeholderText, text: $searchText)
+                CustomUIKitTextField(text: self.$searchText, placeholder: self.placeholderText)
                 if !self.searchText.isEmpty {
                     Button(action: {
                         self.searchText = ""
