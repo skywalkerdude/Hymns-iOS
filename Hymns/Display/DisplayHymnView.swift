@@ -17,7 +17,7 @@ struct DisplayHymnView: View {
                 ActivityIndicator().maxSize()
             } else {
                 VStack(spacing: 0) {
-                    DisplayHymnToolbar(viewModel: viewModel).padding(.top, 5)
+                    DisplayHymnToolbar(viewModel: viewModel)
                     if viewModel.tabItems.count > 1 {
                         IndicatorTabView(currentTab: $viewModel.currentTab, tabItems: viewModel.tabItems)
                     } else {
@@ -45,6 +45,7 @@ struct DisplayHymnView_Previews: PreviewProvider {
         let loading = DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
 
         let classic40ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn40)
+        classic40ViewModel.isLoaded = true
         classic40ViewModel.title = "Hymn 40"
         classic40ViewModel.isFavorited = true
         let classic40LyricsViewModel = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn40)
@@ -62,6 +63,7 @@ struct DisplayHymnView_Previews: PreviewProvider {
         let classic40 = DisplayHymnView(viewModel: classic40ViewModel)
 
         let classic1151ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+        classic1151ViewModel.isLoaded = true
         classic1151ViewModel.title = "Hymn 1151"
         classic1151ViewModel.isFavorited = false
         let classic1151LyricsViewModel = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
@@ -80,6 +82,7 @@ struct DisplayHymnView_Previews: PreviewProvider {
         let classic1151 = DisplayHymnView(viewModel: classic1151ViewModel)
 
         let classic1151ChordsViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+        classic1151ChordsViewModel.isLoaded = true
         classic1151ChordsViewModel.title = "Hymn 1151"
         classic1151ChordsViewModel.isFavorited = false
         classic1151ChordsViewModel.currentTab = .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=gtpdf")!).eraseToAnyView())
@@ -92,6 +95,7 @@ struct DisplayHymnView_Previews: PreviewProvider {
         let classic1151Chords = DisplayHymnView(viewModel: classic1151ChordsViewModel)
 
         let classic1151PianoViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+        classic1151ChordsViewModel.isLoaded = true
         classic1151PianoViewModel.title = "Hymn 1151"
         classic1151PianoViewModel.isFavorited = false
         classic1151PianoViewModel.currentTab = .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=ppdf")!).eraseToAnyView())
@@ -104,6 +108,7 @@ struct DisplayHymnView_Previews: PreviewProvider {
         let classic1151Piano = DisplayHymnView(viewModel: classic1151PianoViewModel)
 
         let classic1334ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334)
+        classic1334ViewModel.isLoaded = true
         classic1334ViewModel.title = "Hymn 1334"
         classic1334ViewModel.isFavorited = true
         let classic1334LyricsViewModel = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334)
