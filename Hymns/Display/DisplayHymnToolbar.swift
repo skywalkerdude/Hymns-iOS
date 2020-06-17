@@ -14,7 +14,7 @@ struct DisplayHymnToolbar: View {
             Button(action: {
                 self.presentationMode.wrappedValue.dismiss()
             }, label: {
-                Image(systemName: "chevron.left").accentColor(.primary).frame(minWidth: 0).contentShape(Rectangle())
+                Image(systemName: "chevron.left").accentColor(.primary)
             }).padding()
             Spacer()
             Text(viewModel.title).fontWeight(.bold)

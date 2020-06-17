@@ -16,19 +16,21 @@ struct DisplayHymnView: View {
             if !viewModel.isLoaded {
                 ActivityIndicator().maxSize()
             } else {
-                VStack(spacing: 0) {
-                    DisplayHymnToolbar(viewModel: viewModel)
-                    if viewModel.tabItems.count > 1 {
-                        IndicatorTabView(currentTab: $viewModel.currentTab, tabItems: viewModel.tabItems)
-                    } else {
-                        viewModel.currentTab.content
+                GeometryReader { geometry in
+                    VStack(spacing: 0) {
+                        DisplayHymnToolbar(viewModel: self.viewModel)
+                        if self.viewModel.tabItems.count > 1 {
+                            IndicatorTabView(currentTab: self.$viewModel.currentTab, tabItems: self.viewModel.tabItems)
+                        } else {
+                            self.viewModel.currentTab.content
+                        }
+                        self.viewModel.bottomBar.map { viewModel in
+                            DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, viewModel: viewModel, geometry: geometry).maxWidth()
+                        }
                     }
-                    viewModel.bottomBar.map { viewModel in
-                        DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, viewModel: viewModel).maxWidth()
+                    self.dialogBuilder.map { _ in
+                        Dialog(builder: self.$dialogBuilder)
                     }
-                }
-                dialogBuilder.map { _ in
-                    Dialog(builder: $dialogBuilder)
                 }
             }
         }.hideNavigationBar()
