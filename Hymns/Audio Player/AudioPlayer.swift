@@ -17,41 +17,43 @@ struct AudioPlayer: View {
         HStack(spacing: 40) {
             // Reset button
             Button(action: {
-                self.viewModel.currentlyPlaying = true
-                guard let url = self.viewModel.url else {
-                    return
-                }
-                let playerItem = AVPlayerItem(url: url)
-                self.viewModel.player.replaceCurrentItem(with: playerItem)
-                self.viewModel.player.play()
+                self.viewModel.reset()
+                self.viewModel.play()
             }, label: {
                 Image(systemName: "backward.end.fill").font(.subheadline).foregroundColor(.primary)
             })
 
             // Rewind button
             Button(action: {
-                let rewoundTime = self.viewModel.convertFloatToCMTime(self.viewModel.playerCurrentTime - self.viewModel.seekDuration)
-                self.viewModel.player.seek(to: rewoundTime, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+                self.viewModel.rewind()
             }, label: {
                 Image(systemName: "backward.fill").font(.subheadline).foregroundColor(.primary)
             })
 
             // Play/Pause button
             Button(action: {
-                self.viewModel.currentlyPlaying.toggle()
-                if self.viewModel.currentlyPlaying {
-                    self.viewModel.player.play()
-                } else {
-                    self.viewModel.player.pause()
+                switch self.viewModel.playbackState {
+                case .buffering:
+                    break
+                case .playing:
+                    self.viewModel.pause()
+                case .stopped:
+                    self.viewModel.play()
                 }
-            }, label: {Image(systemName: viewModel.currentlyPlaying ? "pause.circle" : "play.circle")
-                .font(.largeTitle).foregroundColor(.primary)
+            }, label: {
+                if viewModel.playbackState == .buffering {
+                    ActivityIndicator().font(.largeTitle).foregroundColor(.primary)
+                } else if viewModel.playbackState == .playing {
+                    Image(systemName: "pause.circle").font(.largeTitle).foregroundColor(.primary)
+                } else {
+                    // viewModel.playbackState == .stopped
+                    Image(systemName: "play.circle").font(.largeTitle).foregroundColor(.primary)
+                }
             })
 
             // Fast-forward button
             Button(action: {
-                let fastForwardedTime = self.viewModel.convertFloatToCMTime(self.viewModel.playerCurrentTime + self.viewModel.seekDuration)
-                self.viewModel.player.seek(to: fastForwardedTime, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+                self.viewModel.fastForward()
             }, label: {
                 Image(systemName: "forward.fill").font(.subheadline).foregroundColor(.primary)
             })
@@ -62,15 +64,13 @@ struct AudioPlayer: View {
             }, label: {
                 Image(systemName: "repeat").font(.subheadline).foregroundColor(viewModel.shouldRepeat ? .accentColor : .primary)
             })
-        }.onAppear {
-            guard let url = self.viewModel.url else {
-                return
+        }.onReceive(viewModel.timeObserver.publisher) { time in
+            if time > 0 {
+                self.viewModel.playbackState = .playing
             }
-            let playerItem = AVPlayerItem(url: url)
-            self.viewModel.player.replaceCurrentItem(with: playerItem)
         }.onDisappear {
-            // When this View isn't being shown anymore stop the player
-            self.viewModel.player.replaceCurrentItem(with: nil)
+            // when this view isn't being shown anymore stop the player
+            self.viewModel.pause()
         }
     }
 }
@@ -78,7 +78,7 @@ struct AudioPlayer: View {
 #if DEBUG
 struct AudioView_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = AudioPlayerViewModel(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=mp3")!)
+        let viewModel = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
         return Group {
             AudioPlayer(viewModel: viewModel).previewLayout(.sizeThatFits)
         }

@@ -7,10 +7,11 @@ struct HymnalNet {
 
 extension HymnalNet {
     static func url(path: String) -> URL? {
-        var components = URLComponents()
+        guard !path.isEmpty, var components = URLComponents(string: path) else {
+            return nil
+        }
         components.scheme = Self.scheme
         components.host = Self.host
-        components.path = path
         return components.url
     }
 }

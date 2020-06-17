@@ -36,7 +36,7 @@ public struct HymnLyricsView: View {
                         ForEach(lyrics, id: \.self) { verseViewModel in
                             VerseView(viewModel: verseViewModel, transliterate: self.$transliterate)
                         }
-                    }.padding()
+                    }.frame(minWidth: 0, maxWidth: .infinity, alignment: .leading).padding()
                 }.maxSize(alignment: .leading).eraseToAnyView()
         }.onAppear {
             self.viewModel.fetchLyrics()

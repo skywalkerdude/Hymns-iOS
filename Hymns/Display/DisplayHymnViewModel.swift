@@ -26,6 +26,11 @@ class DisplayHymnViewModel: ObservableObject {
     private let repository: HymnsRepository
     private let storeInHistoryStore: Bool
 
+    /**
+     * Computed title for putting in recent songs and favorites. This is required because there is a special case where if the song is a classic song, then the title
+     * is "Hymn X", but when we store it in Favorites/Recents, we want to include the title too. So the computed title, in that case, will be "Hymn X: TITLE"
+     */
+    private var computedTitle: String = ""
     private var favoritesObserver: Notification?
     private var disposables = Set<AnyCancellable>()
 
@@ -66,7 +71,8 @@ class DisplayHymnViewModel: ObservableObject {
                     self.isLoaded = true
                     guard let hymn = hymn else { return }
 
-                    self.title = hymn.computedTitle
+                    self.title = self.identifier.hymnType == .classic ? "Hymn \(self.identifier.hymnNumber)" : hymn.title
+                    self.computedTitle = hymn.computedTitle
 
                     self.tabItems = [self.currentTab]
 
@@ -113,7 +119,7 @@ class DisplayHymnViewModel: ObservableObject {
                     self.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: self.identifier)
                     self.fetchFavoriteStatus()
                     if self.storeInHistoryStore {
-                        self.historyStore.storeRecentSong(hymnToStore: self.identifier, songTitle: self.title)
+                        self.historyStore.storeRecentSong(hymnToStore: self.identifier, songTitle: self.computedTitle)
                     }
             }).store(in: &disposables)
     }
@@ -129,7 +135,7 @@ class DisplayHymnViewModel: ObservableObject {
             if isFavorited {
                 favoriteStore.deleteFavorite(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: self.identifier))
             } else {
-                favoriteStore.storeFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.title))
+                favoriteStore.storeFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.computedTitle))
             }
         }
     }

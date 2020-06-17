@@ -22,9 +22,7 @@ class VerseLineViewModel: Hashable, ObservableObject {
         userDefaultsManager
             .fontSizeSubject
             .sink { fontSize in
-                withAnimation(.easeInOut(duration: 0.5)) {
-                    self.fontSize = fontSize
-                }
+                self.fontSize = fontSize
         }.store(in: &disposables)
     }
 

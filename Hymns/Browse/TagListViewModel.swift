@@ -5,9 +5,7 @@ import Resolver
 
 class TagListViewModel: ObservableObject {
 
-    typealias Tag = String
-
-    @Published var tags: [Tag]?
+    @Published var tags: [UiTag]?
 
     private let mainQueue: DispatchQueue
     private let tagStore: TagStore
@@ -21,7 +19,7 @@ class TagListViewModel: ObservableObject {
 
     func fetchUniqueTags() {
         tagStore.getUniqueTags()
-            .replaceError(with: [Tag]())
+            .replaceError(with: [UiTag]())
             .receive(on: mainQueue)
             .sink(receiveValue: { tags in
                 self.tags = tags
