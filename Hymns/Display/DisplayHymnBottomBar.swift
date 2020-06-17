@@ -20,7 +20,6 @@ struct BottomBarLabel_Previews: PreviewProvider {
 
 struct DisplayHymnBottomBar: View {
 
-    @Binding var dialogBuilder: (() -> AnyView)?
     @State private var actionSheet: ActionSheetItem?
     @State private var sheet: DisplayHymnSheet?
 
@@ -31,7 +30,9 @@ struct DisplayHymnBottomBar: View {
 
     @State var showAudioPlayer = false
 
+    @Binding var dialogBuilder: (() -> AnyView)?
     @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
+    let geometry: GeometryProxy
 
     let userDefaultsManager: UserDefaultsManager = Resolver.resolve()
 
@@ -45,78 +46,59 @@ struct DisplayHymnBottomBar: View {
                     }
                 }
             }
-            HStack(spacing: 0) {
-                Group {
-                    Spacer()
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
                     Button(action: {
                         self.sheet = .share
                     }, label: {
                         BottomBarLabel(imageName: "square.and.arrow.up").foregroundColor(.primary)
                     })
-                    Spacer()
-                }
-                Group {
                     Button(action: {self.actionSheet = .fontSize}, label: {
                         BottomBarLabel(imageName: "textformat.size").foregroundColor(.primary)
                     })
-                    Spacer()
-                }
-                if !viewModel.languages.isEmpty {
-                    Group {
+                    if !self.viewModel.languages.isEmpty {
                         Button(action: {
                             self.actionSheet = .languages
                         }, label: {
                             BottomBarLabel(imageName: "globe").foregroundColor(.primary)
                         })
-                        languageIndexShown.map { index in
+                        self.languageIndexShown.map { index in
                             NavigationLink(destination: self.viewModel.languages[index].destinationView,
                                            tag: index,
-                                           selection: $languageIndexShown) {
+                                           selection: self.$languageIndexShown) {
                                             EmptyView()
                             }
                         }
-                        Spacer()
                     }
-                }
-                Group {
                     Button(action: {
                         self.sheet = .tags
                     }, label: {
                         BottomBarLabel(imageName: "tag").foregroundColor(.primary)
                     })
-                    Spacer()
-                }
-                if !viewModel.relevant.isEmpty {
-                    Group {
+                    if !self.viewModel.relevant.isEmpty {
                         Button(action: {
                             self.actionSheet = .relevant
                         }, label: {
                             BottomBarLabel(imageName: "music.note.list").foregroundColor(.primary)
                         })
-                        relevantIndexShown.map { index in
+                        self.relevantIndexShown.map { index in
                             NavigationLink(destination: self.viewModel.relevant[index].destinationView,
                                            tag: index,
-                                           selection: $relevantIndexShown) {
+                                           selection: self.$relevantIndexShown) {
                                             EmptyView()
                             }
                         }
-                        Spacer()
                     }
-                }
-                Group {
-                    viewModel.audioPlayer.map { _ in
+                    self.viewModel.audioPlayer.map { _ in
                         Button(action: {
                             self.showAudioPlayer.toggle()
                         }, label: {
-                            showAudioPlayer ?
+                            self.showAudioPlayer ?
                                 BottomBarLabel(imageName: "play.fill").foregroundColor(.accentColor) :
                                 BottomBarLabel(imageName: "play").foregroundColor(.primary)
                         })
                     }
-                    Spacer()
-                }
-                if !viewModel.songInfo.songInfo.isEmpty {
-                    Group {
+                    if !self.viewModel.songInfo.songInfo.isEmpty {
                         Button(action: {
                             self.dialogBuilder = {
                                 SongInfoDialog(viewModel: self.viewModel.songInfo).eraseToAnyView()
@@ -124,62 +106,63 @@ struct DisplayHymnBottomBar: View {
                         }, label: {
                             BottomBarLabel(imageName: "info.circle").foregroundColor(.primary)
                         })
-                        Spacer()
                     }
                 }
-            }.onAppear {
-                self.viewModel.fetchHymn()
-            }.actionSheet(item: $actionSheet) { item -> ActionSheet in
-                switch item {
-                case .fontSize:
-                    return
-                        ActionSheet(
-                            title: Text(item.rawValue),
-                            message: Text("Change the song lyrics font size"),
-                            buttons: [
-                                .default(Text(FontSize.normal.rawValue),
-                                         action: {
-                                            self.userDefaultsManager.fontSize = .normal
-                                }),
-                                .default(Text(FontSize.large.rawValue),
-                                         action: {
-                                            self.userDefaultsManager.fontSize = .large
-                                }),
-                                .default(Text(FontSize.xlarge.rawValue),
-                                         action: {
-                                            self.userDefaultsManager.fontSize = .xlarge
-                                }),
-                                .cancel()])
-                case .languages:
-                    return
-                        ActionSheet(
-                            title: Text(item.rawValue),
-                            message: Text("Change to another language"),
-                            buttons: self.viewModel.languages.enumerated().map({ index, viewModel -> Alert.Button in
-                                .default(Text(viewModel.title), action: {
-                                    self.languageIndexShown = index
-                                })
-                            }) + [.cancel()])
-                case .relevant:
-                    return
-                        ActionSheet(
-                            title: Text(item.rawValue),
-                            message: Text("Change to a relevant hymn"),
-                            buttons: self.viewModel.relevant.enumerated().map({ index, viewModel -> Alert.Button in
-                                .default(Text(viewModel.title), action: {
-                                    self.relevantIndexShown = index
-                                })
-                            }) + [.cancel()])
+                .frame(width: geometry.size.width)
+                .onAppear {
+                    self.viewModel.fetchHymn()
+                }.actionSheet(item: self.$actionSheet) { item -> ActionSheet in
+                    switch item {
+                    case .fontSize:
+                        return
+                            ActionSheet(
+                                title: Text(item.rawValue),
+                                message: Text("Change the song lyrics font size"),
+                                buttons: [
+                                    .default(Text(FontSize.normal.rawValue),
+                                             action: {
+                                                self.userDefaultsManager.fontSize = .normal
+                                    }),
+                                    .default(Text(FontSize.large.rawValue),
+                                             action: {
+                                                self.userDefaultsManager.fontSize = .large
+                                    }),
+                                    .default(Text(FontSize.xlarge.rawValue),
+                                             action: {
+                                                self.userDefaultsManager.fontSize = .xlarge
+                                    }),
+                                    .cancel()])
+                    case .languages:
+                        return
+                            ActionSheet(
+                                title: Text(item.rawValue),
+                                message: Text("Change to another language"),
+                                buttons: self.viewModel.languages.enumerated().map({ index, viewModel -> Alert.Button in
+                                    .default(Text(viewModel.title), action: {
+                                        self.languageIndexShown = index
+                                    })
+                                }) + [.cancel()])
+                    case .relevant:
+                        return
+                            ActionSheet(
+                                title: Text(item.rawValue),
+                                message: Text("Change to a relevant hymn"),
+                                buttons: self.viewModel.relevant.enumerated().map({ index, viewModel -> Alert.Button in
+                                    .default(Text(viewModel.title), action: {
+                                        self.relevantIndexShown = index
+                                    })
+                                }) + [.cancel()])
+                    }
+                }.sheet(item: self.$sheet) { tab -> AnyView in
+                    switch tab {
+                    case .share:
+                        return ShareSheet(activityItems: [self.viewModel.shareableLyrics]).eraseToAnyView()
+                    case .tags:
+                        return TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: self.viewModel.identifier), sheet: self.$sheet).eraseToAnyView()
+                    }
                 }
-            }.sheet(item: $sheet) { tab -> AnyView in
-                switch tab {
-                case .share:
-                    return ShareSheet(activityItems: [self.viewModel.shareableLyrics]).eraseToAnyView()
-                case .tags:
-                    return TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: self.viewModel.identifier), sheet: self.$sheet).eraseToAnyView()
-                }
-            }
-        }.background(Color(.systemBackground))
+            }.background(Color(.systemBackground))
+        }
     }
 }
 
@@ -215,9 +198,12 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
         viewModel.relevant = [SongResultViewModel(title: "relevant", destinationView: EmptyView().eraseToAnyView())]
         viewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
         var dialogBuilder: (() -> AnyView)?
-        return DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
-            get: {dialogBuilder},
-            set: {dialogBuilder = $0}), viewModel: viewModel).previewLayout(.sizeThatFits)
+        return
+            GeometryReader { geometry in
+                DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
+                    get: {dialogBuilder},
+                    set: {dialogBuilder = $0}), viewModel: viewModel, geometry: geometry).previewLayout(.sizeThatFits)
+        }
     }
 }
 #endif

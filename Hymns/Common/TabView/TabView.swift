@@ -43,7 +43,6 @@ private struct TabContainer<TabType: TabItem>: View {
 
     fileprivate var body: some View {
         Rectangle()
-            .shadow(radius: 0.2, y: self.tabAlignment == .top ? 0.3 : -0.3)
             .frame(height: 50)
             .overlay(TabBar(currentTab: $currentTab, tabItems: tabItems))
     }

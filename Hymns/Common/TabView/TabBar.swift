@@ -10,10 +10,11 @@ struct TabBar<TabItemType: TabItem>: View {
     let tabItems: [TabItemType]
 
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
+        let width = UIScreen.main.bounds.width / CGFloat(tabItems.count)
+        return
+            ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ForEach(tabItems) { tabItem in
-                    Spacer()
                     Button(
                         action: {
                             withAnimation(.default) {
@@ -28,14 +29,13 @@ struct TabBar<TabItemType: TabItem>: View {
                                     tabItem.unselectedLabel
                                 }
                             }.accessibility(label: tabItem.a11yLabel).padding()
-                    })
+                    }).frame(minWidth: 0, idealWidth: width, maxWidth: .infinity, alignment: .center)
                         .accentColor(self.isSelected(tabItem) ? .accentColor : .primary)
                         .anchorPreference(
                             key: FirstNonNilPreferenceKey<Anchor<CGRect>>.self,
                             value: .bounds,
                             transform: { anchor in self.isSelected(tabItem) ? .some(anchor) : nil }
                     )
-                    Spacer()
                 }
             }
         }.backgroundPreferenceValue(FirstNonNilPreferenceKey<Anchor<CGRect>>.self) { boundsAnchor in
