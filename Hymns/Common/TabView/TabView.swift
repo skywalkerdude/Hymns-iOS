@@ -20,7 +20,7 @@ public struct IndicatorTabView<TabType: TabItem>: View {
         VStack(alignment: .center, spacing: 0) {
             if tabAlignment == .top {
                 VStack(spacing: 0) {
-                    TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment).padding(.bottom, 0.2)
+                    TabBar(currentTab: $currentTab, tabItems: tabItems)
                     Divider()
                 }
             }
@@ -28,24 +28,10 @@ public struct IndicatorTabView<TabType: TabItem>: View {
             if tabAlignment == .bottom {
                 VStack(spacing: 0) {
                     Divider()
-                    TabContainer<TabType>(currentTab: $currentTab, tabItems: tabItems, tabAlignment: tabAlignment)
+                    TabBar(currentTab: $currentTab, tabItems: tabItems)
                 }
             }
         }
-    }
-}
-
-private struct TabContainer<TabType: TabItem>: View {
-
-    @Binding fileprivate var currentTab: TabType
-    fileprivate let tabItems: [TabType]
-    fileprivate let tabAlignment: TabAlignment
-
-    fileprivate var body: some View {
-        Rectangle()
-            .shadow(radius: 0.2, y: self.tabAlignment == .top ? 0.3 : -0.3)
-            .frame(height: 50)
-            .overlay(TabBar(currentTab: $currentTab, tabItems: tabItems))
     }
 }
 
