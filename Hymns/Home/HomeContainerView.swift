@@ -27,7 +27,7 @@ struct HomeContainerView: View {
                     .tabItem {HomeTab.settings.getImage(selectedTab == HomeTab.settings).imageScale(.large)}
                     .tag(HomeTab.settings)
                     .hideNavigationBar()
-            }.onAppear {
+            }.hideNavigationBar().onAppear {
                 if self.selectedTab == .none {
                     self.selectedTab = .home
                 }
