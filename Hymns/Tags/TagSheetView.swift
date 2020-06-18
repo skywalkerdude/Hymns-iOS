@@ -32,7 +32,7 @@ struct TagSheetView: View {
                             }, label: {
                                 HStack {
                                     Text(tag.title).font(.body).fontWeight(.bold)
-                                    Image(systemName: "xmark.circle")
+                                    Image(systemName: "xmark.circle").font(.system(size: 25))
                                 }
                                 .tagPill(backgroundColor: tag.color.background, foregroundColor: tag.color.foreground)
                             }).padding(2)

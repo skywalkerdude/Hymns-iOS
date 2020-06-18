@@ -19,7 +19,7 @@ struct TagListView: View {
                     Image("empty tag illustration")
                     Text("Create tags by tapping on the")
                     HStack {
-                        Image(systemName: "tag")
+                        Image(systemName: "tag").font(.system(size: 25))
                         Text("icon on any hymn")
                     }.multilineTextAlignment(.center)
                 }.maxSize().eraseToAnyView()

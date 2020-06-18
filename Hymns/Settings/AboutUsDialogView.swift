@@ -13,7 +13,7 @@ struct AboutUsDialogView: View {
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
-                    Image(systemName: "xmark")
+                    Image(systemName: "xmark").font(.system(size: 25))
                 })
                 Text("About us").fontWeight(.bold).padding(.leading)
                 Spacer()

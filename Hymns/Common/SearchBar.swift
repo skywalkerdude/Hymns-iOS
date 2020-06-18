@@ -13,13 +13,13 @@ struct SearchBar: View {
     var body: some View {
         HStack {
             HStack {
-                Image(systemName: "magnifyingglass").padding(.leading, 6)
+                Image(systemName: "magnifyingglass").font(.system(size: 25)).padding(.leading, 6)
                 TextField(placeholderText, text: $searchText)
                 if !self.searchText.isEmpty {
                     Button(action: {
                         self.searchText = ""
                     }, label: {
-                        Image(systemName: "xmark.circle.fill")
+                        Image(systemName: "xmark.circle.fill").font(.system(size: 25))
                     })
                 }
             }.onTapGesture {
@@ -44,7 +44,7 @@ struct SearchBar: View {
                     withAnimation {
                         self.searchActive = false
                     }
-                }
+                }.font(.system(size: 25))
                 .foregroundColor(Color(.systemBlue))
                 .transition(.asymmetric(insertion: .opacity, removal: .move(edge: .trailing)))
                 .animation(.easeOut(duration: 0.2))

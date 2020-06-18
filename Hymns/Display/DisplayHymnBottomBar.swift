@@ -6,14 +6,14 @@ struct BottomBarLabel: View {
     let imageName: String
 
     var body: some View {
-        Image(systemName: imageName).padding()
+        Image(systemName: imageName).font(.system(size: 25)).padding()
     }
 }
 
 #if DEBUG
 struct BottomBarLabel_Previews: PreviewProvider {
     static var previews: some View {
-        BottomBarLabel(imageName: "music.note.list").previewLayout(.sizeThatFits)
+        BottomBarLabel(imageName: "music.note.list").font(.system(size: 25)).previewLayout(.sizeThatFits)
     }
 }
 #endif
