@@ -27,6 +27,14 @@
         "identifier" : "3B1B90322429CF57009FDCC5",
         "name" : "HymnsUITests"
       }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Hymns.xcodeproj",
+        "identifier" : "3BE7C918249CAB2700B04A1F",
+        "name" : "HymnsSnapshotTests"
+      }
     }
   ],
   "version" : 1

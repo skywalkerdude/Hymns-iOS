@@ -56,6 +56,16 @@
                ReferencedContainer = "container:Hymns.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3BE7C918249CAB2700B04A1F"
+               BuildableName = "HymnsSnapshotTests.xctest"
+               BlueprintName = "HymnsSnapshotTests"
+               ReferencedContainer = "container:Hymns.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

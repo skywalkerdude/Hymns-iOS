@@ -97,15 +97,6 @@ struct HomeView_Previews: PreviewProvider {
                     .previewDisplayName("Search results")
                 HomeView(viewModel: noResultsViewModel)
                     .previewDisplayName("No results")
-                HomeView(viewModel: defaultViewModel)
-                    .previewDevice(PreviewDevice(rawValue: "iPhone SE"))
-                    .previewDisplayName("iPhone SE")
-                HomeView(viewModel: defaultViewModel)
-                    .previewDevice(PreviewDevice(rawValue: "iPhone XS Max"))
-                    .previewDisplayName("iPhone XS Max")
-                HomeView(viewModel: defaultViewModel)
-                    .previewDevice(PreviewDevice(rawValue: "iPad Air 2"))
-                    .previewDisplayName("iPad Air 2")
         }
     }
 }

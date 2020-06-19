@@ -93,6 +93,7 @@ PODS:
   - RealmSwift (5.0.0):
     - Realm (= 5.0.0)
   - Resolver (1.1.4)
+  - SnapshotTesting (1.7.2)
   - SwiftLint (0.39.2)
 
 DEPENDENCIES:
@@ -105,6 +106,7 @@ DEPENDENCIES:
   - Quick
   - RealmSwift
   - Resolver
+  - SnapshotTesting
   - SwiftLint
 
 SPEC REPOS:
@@ -131,6 +133,7 @@ SPEC REPOS:
     - Realm
     - RealmSwift
     - Resolver
+    - SnapshotTesting
     - SwiftLint
 
 SPEC CHECKSUMS:
@@ -156,8 +159,9 @@ SPEC CHECKSUMS:
   Realm: 76066d333de26f97e9caedaa85ee3ff4a62ca265
   RealmSwift: c1bdff09b422569dc6881410d9ccf712bcdb79b0
   Resolver: 1f4c046255cbadfa97094692e16e940d4329779f
+  SnapshotTesting: 8caa6661fea7c8019d5b46de77c16bab99c36c5c
   SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
 
-PODFILE CHECKSUM: bed7aa7feddf5972c6f8558a365b9aafabc8d4f8
+PODFILE CHECKSUM: c2d50ea0ab79aa382ac13ef74bb7338958403322
 
 COCOAPODS: 1.9.1
