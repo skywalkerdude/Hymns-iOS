@@ -66,7 +66,11 @@ struct HomeView_Previews: PreviewProvider {
         recentSongsViewModel.label = "Recent hymns"
         recentSongsViewModel.songResults = [PreviewSongResults.cupOfChrist, PreviewSongResults.hymn1151, PreviewSongResults.hymn1334]
 
+        let recentSongsEmptyViewModel = HomeViewModel()
+        recentSongsEmptyViewModel.state = .results
+
         let searchActiveViewModel = HomeViewModel()
+        searchActiveViewModel.state = .results
         searchActiveViewModel.searchActive = true
 
         let loadingViewModel = HomeViewModel()
@@ -91,8 +95,10 @@ struct HomeView_Previews: PreviewProvider {
                     .previewDisplayName("Default state")
                 HomeView(viewModel: recentSongsViewModel)
                     .previewDisplayName("Recent songs")
+                HomeView(viewModel: recentSongsEmptyViewModel)
+                    .previewDisplayName("No recent songs")
                 HomeView(viewModel: searchActiveViewModel)
-                    .previewDisplayName("Active search without recent searches")
+                    .previewDisplayName("Active search without recent songs")
                 HomeView(viewModel: loadingViewModel)
                     .previewDisplayName("Active search loading")
                 HomeView(viewModel: searchResults)

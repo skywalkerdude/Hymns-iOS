@@ -24,7 +24,13 @@ class HomeSnapshots: XCTestCase {
         assertSnapshot(matching: HomeView(viewModel: viewModel), as: .image())
     }
 
+    func test_noRecentSongs() {
+        viewModel.state = .results
+        assertSnapshot(matching: HomeView(viewModel: viewModel), as: .image())
+    }
+
     func test_searchActive() {
+        viewModel.state = .results
         viewModel.searchActive = true
         assertSnapshot(matching: HomeView(viewModel: viewModel), as: .image())
     }
