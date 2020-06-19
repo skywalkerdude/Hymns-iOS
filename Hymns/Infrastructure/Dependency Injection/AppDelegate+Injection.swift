@@ -4,6 +4,11 @@ import Foundation
  * Registers dependencies to be injected in the app
  */
 extension Resolver: ResolverRegistering {
+
+    #if DEBUG
+    static let mock = Resolver(parent: main)
+    #endif
+
     public static func registerAllServices() {
         registerApplication()
         register(name: "main") { DispatchQueue.main }
@@ -36,5 +41,12 @@ extension Resolver: ResolverRegistering {
         registerTagListViewModel()
         registerFavoritesViewModel()
         registerSettingsViewModel()
+
+        #if DEBUG
+        if CommandLine.arguments.contains("-UITests") {
+            mock.register { HymnDataStoreTestImpl() as HymnDataStore }.scope(application)
+            root = mock
+        }
+        #endif
     }
 }
