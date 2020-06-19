@@ -62,6 +62,7 @@ struct HomeView_Previews: PreviewProvider {
         let defaultViewModel = HomeViewModel()
 
         let recentSongsViewModel = HomeViewModel()
+        recentSongsViewModel.state = .results
         recentSongsViewModel.label = "Recent hymns"
         recentSongsViewModel.songResults = [PreviewSongResults.cupOfChrist, PreviewSongResults.hymn1151, PreviewSongResults.hymn1334]
 
@@ -74,6 +75,7 @@ struct HomeView_Previews: PreviewProvider {
         loadingViewModel.searchParameter = "She loves me not"
 
         let searchResults = HomeViewModel()
+        searchResults.state = .results
         searchResults.searchActive = true
         searchResults.searchParameter = "Do you love me?"
         searchResults.songResults = [PreviewSongResults.hymn480, PreviewSongResults.hymn1334, PreviewSongResults.hymn1151]

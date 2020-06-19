@@ -10,7 +10,7 @@ extension Snapshotting where Value: SwiftUI.View, Format == UIImage {
         drawHierarchyInKeyWindow: Bool = false,
         precision: Float = 1,
         size: CGSize? = nil,
-        traits: UITraitCollection = UITraitCollection.iPhone8(.portrait)) -> Snapshotting {
+        traits: UITraitCollection = .init()) -> Snapshotting {
         Snapshotting<UIViewController, UIImage>.image(
             drawHierarchyInKeyWindow: drawHierarchyInKeyWindow,
             precision: precision,
