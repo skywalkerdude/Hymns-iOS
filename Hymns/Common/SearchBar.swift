@@ -19,7 +19,7 @@ struct SearchBar: View {
                     Button(action: {
                         self.searchText = ""
                     }, label: {
-                        Image(systemName: "xmark.circle.fill").font(.system(size: 25))
+                        Image(systemName: "xmark.circle.fill").font(.system(size: buttonSize))
                     })
                 }
             }.onTapGesture {
@@ -44,7 +44,7 @@ struct SearchBar: View {
                     withAnimation {
                         self.searchActive = false
                     }
-                }.font(.system(size: 25))
+                }.font(.system(size: buttonSize))
                 .foregroundColor(Color(.systemBlue))
                 .transition(.asymmetric(insertion: .opacity, removal: .move(edge: .trailing)))
                 .animation(.easeOut(duration: 0.2))

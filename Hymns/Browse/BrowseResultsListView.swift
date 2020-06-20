@@ -15,7 +15,7 @@ struct BrowseResultsListView: View {
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
-                    Image(systemName: "chevron.left").font(.system(size: 25)).accentColor(.primary)
+                    Image(systemName: "chevron.left").font(.system(size: buttonSize)).accentColor(.primary)
                 }).padding()
                 Text(viewModel.title).font(.body).fontWeight(.bold)
                 Spacer()

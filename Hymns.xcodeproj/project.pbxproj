@@ -155,6 +155,7 @@
 		3BDD8710249DF6B3006288C8 /* classic_1334.json in Resources */ = {isa = PBXBuildFile; fileRef = 3BDD870F249DF6B3006288C8 /* classic_1334.json */; };
 		3BDD8712249DFC27006288C8 /* classic_1151.json in Resources */ = {isa = PBXBuildFile; fileRef = 3BDD8711249DFC27006288C8 /* classic_1151.json */; };
 		3BE210F2249B3E7C00D4E417 /* HymnDataStoreTestImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE210F1249B3E7C00D4E417 /* HymnDataStoreTestImpl.swift */; };
+		3BE210F2249B3E7C00D4E417 /* TestHymnDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE210F1249B3E7C00D4E417 /* TestHymnDataStore.swift */; };
 		3BE210F4249B41A000D4E417 /* DisplayHymnScenarios.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE210F3249B41A000D4E417 /* DisplayHymnScenarios.swift */; };
 		3BE210F7249B421000D4E417 /* HomeViewCan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE210F6249B421000D4E417 /* HomeViewCan.swift */; };
 		3BE210FA249B592F00D4E417 /* TestHymns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE210F9249B592F00D4E417 /* TestHymns.swift */; };
@@ -196,6 +197,7 @@
 		B595A4AA24438D8E005F7A14 /* HymnLyricsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B595A4A924438D8E005F7A14 /* HymnLyricsViewModel.swift */; };
 		B5A00F5F245277E300F7E3E1 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A00F5E245277E300F7E3E1 /* ActivityIndicator.swift */; };
 		B5A77A57247DA0D900447008 /* AudioPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A77A56247DA0D900447008 /* AudioPlayerViewModel.swift */; };
+		B5B99686249E96FF00EE6C05 /* IconSizeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B99685249E96FF00EE6C05 /* IconSizeConstants.swift */; };
 		B5C0A5962489A76A0048FA46 /* TagsStoreRealmImplSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C0A5952489A7690048FA46 /* TagsStoreRealmImplSpec.swift */; };
 		B5C0A5982489BD140048FA46 /* FavoriteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C0A5972489BD140048FA46 /* FavoriteStore.swift */; };
 		B5C0A59B2489C0590048FA46 /* FavoriteStoreRealmImplSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C0A59A2489C0590048FA46 /* FavoriteStoreRealmImplSpec.swift */; };
@@ -396,6 +398,7 @@
 		3BDD870F249DF6B3006288C8 /* classic_1334.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = classic_1334.json; sourceTree = "<group>"; };
 		3BDD8711249DFC27006288C8 /* classic_1151.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = classic_1151.json; sourceTree = "<group>"; };
 		3BE210F1249B3E7C00D4E417 /* HymnDataStoreTestImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnDataStoreTestImpl.swift; sourceTree = "<group>"; };
+		3BE210F1249B3E7C00D4E417 /* TestHymnDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHymnDataStore.swift; sourceTree = "<group>"; };
 		3BE210F3249B41A000D4E417 /* DisplayHymnScenarios.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnScenarios.swift; sourceTree = "<group>"; };
 		3BE210F6249B421000D4E417 /* HomeViewCan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCan.swift; sourceTree = "<group>"; };
 		3BE210F9249B592F00D4E417 /* TestHymns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHymns.swift; sourceTree = "<group>"; };
@@ -447,6 +450,7 @@
 		B595A4A924438D8E005F7A14 /* HymnLyricsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnLyricsViewModel.swift; sourceTree = "<group>"; };
 		B5A00F5E245277E300F7E3E1 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		B5A77A56247DA0D900447008 /* AudioPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerViewModel.swift; sourceTree = "<group>"; };
+		B5B99685249E96FF00EE6C05 /* IconSizeConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSizeConstants.swift; sourceTree = "<group>"; };
 		B5C0A5952489A7690048FA46 /* TagsStoreRealmImplSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsStoreRealmImplSpec.swift; sourceTree = "<group>"; };
 		B5C0A5972489BD140048FA46 /* FavoriteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStore.swift; sourceTree = "<group>"; };
 		B5C0A59A2489C0590048FA46 /* FavoriteStoreRealmImplSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStoreRealmImplSpec.swift; sourceTree = "<group>"; };
@@ -723,6 +727,7 @@
 				B5A00F5E245277E300F7E3E1 /* ActivityIndicator.swift */,
 				3B369CEF246D0D570068A29C /* WebView.swift */,
 				3B7451C6249535E1008B80BC /* WrappedHStack.swift */,
+				B5B99685249E96FF00EE6C05 /* IconSizeConstants.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1708,6 +1713,7 @@
 				3B7451C7249535E1008B80BC /* WrappedHStack.swift in Sources */,
 				3BD4F51324689F8B00352009 /* EventType.swift in Sources */,
 				3B45B906243BF1C900D38BEF /* PreviewSongResults.swift in Sources */,
+				B5B99686249E96FF00EE6C05 /* IconSizeConstants.swift in Sources */,
 				3B43717F24764BEF000B42AC /* DisplayHymnBottomBar.swift in Sources */,
 				3BF699AF24417921005AFF6A /* VerseView.swift in Sources */,
 				B582E4472493267200329DA5 /* AboutUsViewModel.swift in Sources */,
