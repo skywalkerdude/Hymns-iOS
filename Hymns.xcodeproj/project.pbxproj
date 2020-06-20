@@ -981,11 +981,6 @@
 			path = Actions;
 			sourceTree = "<group>";
 		};
-		3BE7C901249CA4BF00B04A1F /* Test Utilities */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Test Utilities";
 		3BE7C91A249CAB2700B04A1F /* HymnsSnapshotTests */ = {
 			isa = PBXGroup;
 			children = (
