@@ -145,11 +145,16 @@
 		3BE210F7249B421000D4E417 /* HomeViewCan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE210F6249B421000D4E417 /* HomeViewCan.swift */; };
 		3BE210FA249B592F00D4E417 /* TestHymns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE210F9249B592F00D4E417 /* TestHymns.swift */; };
 		3BE210FC249B59A400D4E417 /* DisplayHymnViewCan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE210FB249B59A400D4E417 /* DisplayHymnViewCan.swift */; };
+		3BDD8708249DBD33006288C8 /* FavoritesSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDD8707249DBD33006288C8 /* FavoritesSnapshots.swift */; };
+		3BDD870A249DC337006288C8 /* HymnIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDD8709249DC337006288C8 /* HymnIdentifiers.swift */; };
 		3BE44361248ABBB000763B3C /* BrowseScripturesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE44360248ABBB000763B3C /* BrowseScripturesViewModel.swift */; };
 		3BE44363248ABBED00763B3C /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE44362248ABBED00763B3C /* Book.swift */; };
 		3BE44365248AC08300763B3C /* ScriptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE44364248AC08300763B3C /* ScriptureViewModel.swift */; };
 		3BE44369248AC12C00763B3C /* ScriptureSongView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE44368248AC12C00763B3C /* ScriptureSongView.swift */; };
 		3BE4436B248AC21300763B3C /* ScriptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE4436A248AC21300763B3C /* ScriptureView.swift */; };
+		3BE7C91C249CAB2700B04A1F /* HomeSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE7C91B249CAB2700B04A1F /* HomeSnapshots.swift */; };
+		3BE7C926249CAEAA00B04A1F /* Snapshot+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE7C925249CAEAA00B04A1F /* Snapshot+Extensions.swift */; };
+		3BE7C929249CB16B00B04A1F /* SongResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE7C928249CB16B00B04A1F /* SongResults.swift */; };
 		3BE9EE98244AB8650098699E /* PrivacyPolicySettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE9EE97244AB8650098699E /* PrivacyPolicySettingView.swift */; };
 		3BE9EE9A244AC22C0098699E /* PrivacyPolicySettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE9EE99244AC22C0098699E /* PrivacyPolicySettingViewModel.swift */; };
 		3BF3BDC42467B9F40046228C /* HymnsRepositoryImpl_dbUninitializedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF3BDC32467B9F40046228C /* HymnsRepositoryImpl_dbUninitializedTests.swift */; };
@@ -194,6 +199,7 @@
 		B5FCEBFC248A89FB000DA2DD /* TagListViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FCEBFB248A89FB000DA2DD /* TagListViewModelSpec.swift */; };
 		BB4C7E9E5879F6AF8CCA77D9 /* Pods_HymnsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C052BC4D7D8FB1033B79AAE7 /* Pods_HymnsTests.framework */; };
 		EF9D228545974074AF495E83 /* HymnsMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD96F2BF8386A9E600A9B55C /* HymnsMocks.generated.swift */; };
+		F2D1D05EE7D1C493BB48A738 /* Pods_Hymns_HymnsSnapshotTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6311E11BDBC881086760F30A /* Pods_Hymns_HymnsSnapshotTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -211,9 +217,17 @@
 			remoteGlobalIDString = 3B1B900E2429CF55009FDCC5;
 			remoteInfo = Hymns;
 		};
+		3BE7C91E249CAB2700B04A1F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3B1B90072429CF55009FDCC5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3B1B900E2429CF55009FDCC5;
+			remoteInfo = Hymns;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		29DFF12FB52543925C485AC2 /* Pods-Hymns-HymnsSnapshotTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns-HymnsSnapshotTests.debug.xcconfig"; path = "Target Support Files/Pods-Hymns-HymnsSnapshotTests/Pods-Hymns-HymnsSnapshotTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3B02725924777BF9007348B0 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
 		3B04D2FB24898137008C7E5E /* TagEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEntity.swift; sourceTree = "<group>"; };
 		3B04D2FD2489819A008C7E5E /* TagStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagStore.swift; sourceTree = "<group>"; };
@@ -360,11 +374,18 @@
 		3BE210F6249B421000D4E417 /* HomeViewCan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCan.swift; sourceTree = "<group>"; };
 		3BE210F9249B592F00D4E417 /* TestHymns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHymns.swift; sourceTree = "<group>"; };
 		3BE210FB249B59A400D4E417 /* DisplayHymnViewCan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnViewCan.swift; sourceTree = "<group>"; };
+		3BDD8707249DBD33006288C8 /* FavoritesSnapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesSnapshots.swift; sourceTree = "<group>"; };
+		3BDD8709249DC337006288C8 /* HymnIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnIdentifiers.swift; sourceTree = "<group>"; };
 		3BE44360248ABBB000763B3C /* BrowseScripturesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseScripturesViewModel.swift; sourceTree = "<group>"; };
 		3BE44362248ABBED00763B3C /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		3BE44364248AC08300763B3C /* ScriptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureViewModel.swift; sourceTree = "<group>"; };
 		3BE44368248AC12C00763B3C /* ScriptureSongView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureSongView.swift; sourceTree = "<group>"; };
 		3BE4436A248AC21300763B3C /* ScriptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureView.swift; sourceTree = "<group>"; };
+		3BE7C919249CAB2700B04A1F /* HymnsSnapshotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HymnsSnapshotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BE7C91B249CAB2700B04A1F /* HomeSnapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSnapshots.swift; sourceTree = "<group>"; };
+		3BE7C91D249CAB2700B04A1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3BE7C925249CAEAA00B04A1F /* Snapshot+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Snapshot+Extensions.swift"; sourceTree = "<group>"; };
+		3BE7C928249CB16B00B04A1F /* SongResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongResults.swift; sourceTree = "<group>"; };
 		3BE9EE97244AB8650098699E /* PrivacyPolicySettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicySettingView.swift; sourceTree = "<group>"; };
 		3BE9EE99244AC22C0098699E /* PrivacyPolicySettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicySettingViewModel.swift; sourceTree = "<group>"; };
 		3BF3BDC32467B9F40046228C /* HymnsRepositoryImpl_dbUninitializedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnsRepositoryImpl_dbUninitializedTests.swift; sourceTree = "<group>"; };
@@ -378,7 +399,9 @@
 		5CA7849D242D14C800B57903 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		5CA7849F242D1A3200B57903 /* BrowseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseView.swift; sourceTree = "<group>"; };
 		5CA784A3242D1CF800B57903 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		6311E11BDBC881086760F30A /* Pods_Hymns_HymnsSnapshotTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hymns_HymnsSnapshotTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7901F01049AF1ED5829EDCB0 /* Pods-Hymns-HymnsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns-HymnsUITests.debug.xcconfig"; path = "Target Support Files/Pods-Hymns-HymnsUITests/Pods-Hymns-HymnsUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		7B958DCD7F0A4609C4E2232F /* Pods-Hymns-HymnsSnapshotTests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns-HymnsSnapshotTests.beta.xcconfig"; path = "Target Support Files/Pods-Hymns-HymnsSnapshotTests/Pods-Hymns-HymnsSnapshotTests.beta.xcconfig"; sourceTree = "<group>"; };
 		817FBCF3C63009B1B506C99D /* Pods-Hymns.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns.beta.xcconfig"; path = "Target Support Files/Pods-Hymns/Pods-Hymns.beta.xcconfig"; sourceTree = "<group>"; };
 		A20B833C2BD0F10337016F43 /* Pods-Hymns-HymnsUITests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns-HymnsUITests.beta.xcconfig"; path = "Target Support Files/Pods-Hymns-HymnsUITests/Pods-Hymns-HymnsUITests.beta.xcconfig"; sourceTree = "<group>"; };
 		A995ED4B5658A040650FDDA0 /* Pods_Hymns_HymnsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hymns_HymnsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -421,6 +444,7 @@
 		C5D1C4BA46957DA80ACA7399 /* Pods-HymnsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HymnsTests.release.xcconfig"; path = "Target Support Files/Pods-HymnsTests/Pods-HymnsTests.release.xcconfig"; sourceTree = "<group>"; };
 		DD96F2BF8386A9E600A9B55C /* HymnsMocks.generated.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = HymnsMocks.generated.swift; path = MockingbirdMocks/HymnsMocks.generated.swift; sourceTree = "<group>"; };
 		E6C890CA7449863C0D371419 /* Pods-HymnsTests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HymnsTests.beta.xcconfig"; path = "Target Support Files/Pods-HymnsTests/Pods-HymnsTests.beta.xcconfig"; sourceTree = "<group>"; };
+		EFB5CFFAC308AD62802509E8 /* Pods-Hymns-HymnsSnapshotTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns-HymnsSnapshotTests.release.xcconfig"; path = "Target Support Files/Pods-Hymns-HymnsSnapshotTests/Pods-Hymns-HymnsSnapshotTests.release.xcconfig"; sourceTree = "<group>"; };
 		F9B4F9F2353B4B12A88B91D1 /* Pods-Hymns-HymnsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns-HymnsUITests.release.xcconfig"; path = "Target Support Files/Pods-Hymns-HymnsUITests/Pods-Hymns-HymnsUITests.release.xcconfig"; sourceTree = "<group>"; };
 		FD78D7D8B9016CD4B5F2B114 /* Pods-Hymns.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns.debug.xcconfig"; path = "Target Support Files/Pods-Hymns/Pods-Hymns.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -447,6 +471,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AFE65E42E41270228EDA976 /* Pods_Hymns_HymnsUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3BE7C916249CAB2700B04A1F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2D1D05EE7D1C493BB48A738 /* Pods_Hymns_HymnsSnapshotTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -541,6 +573,7 @@
 			children = (
 				3B1B90112429CF55009FDCC5 /* Hymns */,
 				3B1B902B2429CF57009FDCC5 /* HymnsTests */,
+				3BE7C91A249CAB2700B04A1F /* HymnsSnapshotTests */,
 				3B1B90362429CF57009FDCC5 /* HymnsUITests */,
 				3B1B90102429CF55009FDCC5 /* Products */,
 				8E21761C8B5F357ED0CB6D4E /* Pods */,
@@ -555,6 +588,7 @@
 				3B1B900F2429CF55009FDCC5 /* Hymns.app */,
 				3B1B90282429CF57009FDCC5 /* HymnsTests.xctest */,
 				3B1B90332429CF57009FDCC5 /* HymnsUITests.xctest */,
+				3BE7C919249CAB2700B04A1F /* HymnsSnapshotTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -947,11 +981,33 @@
 			path = Actions;
 			sourceTree = "<group>";
 		};
-		3BE7C901249CA4BF00B04A1F /* Test Utilities */ = {
+		3BE7C91A249CAB2700B04A1F /* HymnsSnapshotTests */ = {
+			isa = PBXGroup;
+			children = (
+				3BE7C924249CAE9800B04A1F /* Test Utilities */,
+				3BE7C91B249CAB2700B04A1F /* HomeSnapshots.swift */,
+				3BDD8707249DBD33006288C8 /* FavoritesSnapshots.swift */,
+				3BE7C91D249CAB2700B04A1F /* Info.plist */,
+			);
+			path = HymnsSnapshotTests;
+			sourceTree = "<group>";
+		};
+		3BE7C924249CAE9800B04A1F /* Test Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				3BE7C927249CB14B00B04A1F /* Test Data */,
+				3BE7C925249CAEAA00B04A1F /* Snapshot+Extensions.swift */,
+				3BDD8709249DC337006288C8 /* HymnIdentifiers.swift */,
+				3BE7C928249CB16B00B04A1F /* SongResults.swift */,
+			);
+			path = "Test Utilities";
+			sourceTree = "<group>";
+		};
+		3BE7C927249CB14B00B04A1F /* Test Data */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = "Test Utilities";
+			path = "Test Data";
 			sourceTree = "<group>";
 		};
 		8E21761C8B5F357ED0CB6D4E /* Pods */ = {
@@ -966,6 +1022,9 @@
 				BE1FD226FF9481BAC9870F7E /* Pods-HymnsTests.debug.xcconfig */,
 				C5D1C4BA46957DA80ACA7399 /* Pods-HymnsTests.release.xcconfig */,
 				E6C890CA7449863C0D371419 /* Pods-HymnsTests.beta.xcconfig */,
+				29DFF12FB52543925C485AC2 /* Pods-Hymns-HymnsSnapshotTests.debug.xcconfig */,
+				EFB5CFFAC308AD62802509E8 /* Pods-Hymns-HymnsSnapshotTests.release.xcconfig */,
+				7B958DCD7F0A4609C4E2232F /* Pods-Hymns-HymnsSnapshotTests.beta.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -1032,6 +1091,7 @@
 				577432E03E7CD9933CB82ECF /* Pods_Hymns.framework */,
 				A995ED4B5658A040650FDDA0 /* Pods_Hymns_HymnsUITests.framework */,
 				C052BC4D7D8FB1033B79AAE7 /* Pods_HymnsTests.framework */,
+				6311E11BDBC881086760F30A /* Pods_Hymns_HymnsSnapshotTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1104,13 +1164,33 @@
 			productReference = 3B1B90332429CF57009FDCC5 /* HymnsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		3BE7C918249CAB2700B04A1F /* HymnsSnapshotTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3BE7C923249CAB2700B04A1F /* Build configuration list for PBXNativeTarget "HymnsSnapshotTests" */;
+			buildPhases = (
+				858CCD2AC967498460348093 /* [CP] Check Pods Manifest.lock */,
+				3BE7C915249CAB2700B04A1F /* Sources */,
+				3BE7C916249CAB2700B04A1F /* Frameworks */,
+				3BE7C917249CAB2700B04A1F /* Resources */,
+				36ADD0331F909924C02B2BCE /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3BE7C91F249CAB2700B04A1F /* PBXTargetDependency */,
+			);
+			name = HymnsSnapshotTests;
+			productName = HymnsSnapshotTests;
+			productReference = 3BE7C919249CAB2700B04A1F /* HymnsSnapshotTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		3B1B90072429CF55009FDCC5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1130;
+				LastSwiftUpdateCheck = 1150;
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = skywalkerdude;
 				TargetAttributes = {
@@ -1123,6 +1203,10 @@
 					};
 					3B1B90322429CF57009FDCC5 = {
 						CreatedOnToolsVersion = 11.3.1;
+						TestTargetID = 3B1B900E2429CF55009FDCC5;
+					};
+					3BE7C918249CAB2700B04A1F = {
+						CreatedOnToolsVersion = 11.5;
 						TestTargetID = 3B1B900E2429CF55009FDCC5;
 					};
 				};
@@ -1145,6 +1229,7 @@
 				3B1B900E2429CF55009FDCC5 /* Hymns */,
 				3B1B90272429CF57009FDCC5 /* HymnsTests */,
 				3B1B90322429CF57009FDCC5 /* HymnsUITests */,
+				3BE7C918249CAB2700B04A1F /* HymnsSnapshotTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1184,6 +1269,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3BE7C917249CAB2700B04A1F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -1207,6 +1299,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		36ADD0331F909924C02B2BCE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Hymns-HymnsSnapshotTests/Pods-Hymns-HymnsSnapshotTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Hymns-HymnsSnapshotTests/Pods-Hymns-HymnsSnapshotTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hymns-HymnsSnapshotTests/Pods-Hymns-HymnsSnapshotTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		3A115107F985DDD10E6D54DC /* Clean Mockingbird Mocks */ = {
@@ -1330,6 +1439,28 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-Hymns-HymnsUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		858CCD2AC967498460348093 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Hymns-HymnsSnapshotTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1604,6 +1735,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3BE7C915249CAB2700B04A1F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BE7C91C249CAB2700B04A1F /* HomeSnapshots.swift in Sources */,
+				3BDD8708249DBD33006288C8 /* FavoritesSnapshots.swift in Sources */,
+				3BE7C929249CB16B00B04A1F /* SongResults.swift in Sources */,
+				3BDD870A249DC337006288C8 /* HymnIdentifiers.swift in Sources */,
+				3BE7C926249CAEAA00B04A1F /* Snapshot+Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1616,6 +1759,11 @@
 			isa = PBXTargetDependency;
 			target = 3B1B900E2429CF55009FDCC5 /* Hymns */;
 			targetProxy = 3B1B90342429CF57009FDCC5 /* PBXContainerItemProxy */;
+		};
+		3BE7C91F249CAB2700B04A1F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3B1B900E2429CF55009FDCC5 /* Hymns */;
+			targetProxy = 3BE7C91E249CAB2700B04A1F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2159,6 +2307,73 @@
 			};
 			name = Beta;
 		};
+		3BE7C920249CAB2700B04A1F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29DFF12FB52543925C485AC2 /* Pods-Hymns-HymnsSnapshotTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = VBX3S26MR4;
+				INFOPLIST_FILE = HymnsSnapshotTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lukelu.HymnsSnapshotTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hymns.app/Hymns";
+			};
+			name = Debug;
+		};
+		3BE7C921249CAB2700B04A1F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EFB5CFFAC308AD62802509E8 /* Pods-Hymns-HymnsSnapshotTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = VBX3S26MR4;
+				INFOPLIST_FILE = HymnsSnapshotTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lukelu.HymnsSnapshotTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hymns.app/Hymns";
+			};
+			name = Release;
+		};
+		3BE7C922249CAB2700B04A1F /* Beta */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7B958DCD7F0A4609C4E2232F /* Pods-Hymns-HymnsSnapshotTests.beta.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = VBX3S26MR4;
+				INFOPLIST_FILE = HymnsSnapshotTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lukelu.HymnsSnapshotTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hymns.app/Hymns";
+			};
+			name = Beta;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2198,6 +2413,16 @@
 				3B1B90432429CF57009FDCC5 /* Debug */,
 				3B1B90442429CF57009FDCC5 /* Release */,
 				3B1D239C245B9F95006C986D /* Beta */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3BE7C923249CAB2700B04A1F /* Build configuration list for PBXNativeTarget "HymnsSnapshotTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3BE7C920249CAB2700B04A1F /* Debug */,
+				3BE7C921249CAB2700B04A1F /* Release */,
+				3BE7C922249CAB2700B04A1F /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

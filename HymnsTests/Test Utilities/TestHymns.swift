@@ -3,7 +3,6 @@ import Resolver
 @testable import Hymns
 
 // swiftlint:disable all
-
 class TestHymns{}
 
 let cebuano123 = HymnIdentifier(hymnType: .cebuano, hymnNumber: "123")

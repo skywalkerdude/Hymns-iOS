@@ -62,10 +62,15 @@ struct HomeView_Previews: PreviewProvider {
         let defaultViewModel = HomeViewModel()
 
         let recentSongsViewModel = HomeViewModel()
+        recentSongsViewModel.state = .results
         recentSongsViewModel.label = "Recent hymns"
         recentSongsViewModel.songResults = [PreviewSongResults.cupOfChrist, PreviewSongResults.hymn1151, PreviewSongResults.hymn1334]
 
+        let recentSongsEmptyViewModel = HomeViewModel()
+        recentSongsEmptyViewModel.state = .results
+
         let searchActiveViewModel = HomeViewModel()
+        searchActiveViewModel.state = .results
         searchActiveViewModel.searchActive = true
 
         let loadingViewModel = HomeViewModel()
@@ -74,6 +79,7 @@ struct HomeView_Previews: PreviewProvider {
         loadingViewModel.searchParameter = "She loves me not"
 
         let searchResults = HomeViewModel()
+        searchResults.state = .results
         searchResults.searchActive = true
         searchResults.searchParameter = "Do you love me?"
         searchResults.songResults = [PreviewSongResults.hymn480, PreviewSongResults.hymn1334, PreviewSongResults.hymn1151]
@@ -89,23 +95,16 @@ struct HomeView_Previews: PreviewProvider {
                     .previewDisplayName("Default state")
                 HomeView(viewModel: recentSongsViewModel)
                     .previewDisplayName("Recent songs")
+                HomeView(viewModel: recentSongsEmptyViewModel)
+                    .previewDisplayName("No recent songs")
                 HomeView(viewModel: searchActiveViewModel)
-                    .previewDisplayName("Active search without recent searches")
+                    .previewDisplayName("Active search without recent songs")
                 HomeView(viewModel: loadingViewModel)
                     .previewDisplayName("Active search loading")
                 HomeView(viewModel: searchResults)
                     .previewDisplayName("Search results")
                 HomeView(viewModel: noResultsViewModel)
                     .previewDisplayName("No results")
-                HomeView(viewModel: defaultViewModel)
-                    .previewDevice(PreviewDevice(rawValue: "iPhone SE"))
-                    .previewDisplayName("iPhone SE")
-                HomeView(viewModel: defaultViewModel)
-                    .previewDevice(PreviewDevice(rawValue: "iPhone XS Max"))
-                    .previewDisplayName("iPhone XS Max")
-                HomeView(viewModel: defaultViewModel)
-                    .previewDevice(PreviewDevice(rawValue: "iPad Air 2"))
-                    .previewDisplayName("iPad Air 2")
         }
     }
 }

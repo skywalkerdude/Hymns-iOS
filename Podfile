@@ -44,6 +44,14 @@ target 'Hymns' do
     pod 'Nimble'
   end
 
+  target 'HymnsSnapshotTests' do
+    # Pods for Snapshot tests
+
+    # https://github.com/pointfreeco/swift-snapshot-testing
+    # https://www.vadimbulavin.com/snapshot-testing-swiftui-views/
+    pod 'SnapshotTesting'
+  end
+
   target 'HymnsUITests' do
     # Pods for testing
   end
