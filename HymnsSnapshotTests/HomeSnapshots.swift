@@ -20,7 +20,7 @@ class HomeSnapshots: XCTestCase {
     func test_recentSongs() {
         viewModel.state = .results
         viewModel.label = "Recent hymns"
-        viewModel.songResults = [cupOfChrist, hymn1151, hymn1334]
+        viewModel.songResults = [cupOfChrist_songResult, hymn1151_songResult, hymn1334_songResult]
         assertSnapshot(matching: HomeView(viewModel: viewModel), as: .image())
     }
 
@@ -46,7 +46,7 @@ class HomeSnapshots: XCTestCase {
         viewModel.state = .results
         viewModel.searchActive = true
         viewModel.searchParameter = "Do you love me?"
-        viewModel.songResults = [hymn480, hymn1334, hymn1151]
+        viewModel.songResults = [hymn480_songResult, hymn1334_songResult, hymn1151_songResult]
         assertSnapshot(matching: HomeView(viewModel: viewModel), as: .image())
     }
 
