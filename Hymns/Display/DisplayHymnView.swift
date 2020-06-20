@@ -121,8 +121,16 @@ struct DisplayHymnView_Previews: PreviewProvider {
             .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=gtpdf")!).eraseToAnyView()),
             .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=pdf")!).eraseToAnyView()),
             .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=ppdf")!).eraseToAnyView())]
+        let classic1334BottomBarViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+        classic1334BottomBarViewModel.shareableLyrics = "Shareable lyrics"
+        classic1334BottomBarViewModel.languages = [SongResultViewModel(title: "language", destinationView: EmptyView().eraseToAnyView())]
+        classic1334BottomBarViewModel.relevant = [SongResultViewModel(title: "relevant", destinationView: EmptyView().eraseToAnyView())]
+        classic1334BottomBarViewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
+        let classic1334SongInfoDialogViewModel = SongInfoDialogViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+        classic1334SongInfoDialogViewModel.songInfo = [SongInfoViewModel(label: "label", values: ["value1", "value2"])]
+        classic1334BottomBarViewModel.songInfo = classic1334SongInfoDialogViewModel
+        classic1334ViewModel.bottomBar = classic1334BottomBarViewModel
         let classic1334 = DisplayHymnView(viewModel: classic1334ViewModel)
-        classic1334ViewModel.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
 
         return Group {
             loading.previewDisplayName("loading")
