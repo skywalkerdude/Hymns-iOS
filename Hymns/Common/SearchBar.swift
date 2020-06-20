@@ -13,7 +13,7 @@ struct SearchBar: View {
     var body: some View {
         HStack {
             HStack {
-                Image(systemName: "magnifyingglass").font(.system(size: 25)).padding(.leading, 6)
+                Image(systemName: "magnifyingglass").font(.system(size: buttonSize)).padding(.leading, 6)
                 TextField(placeholderText, text: $searchText)
                 if !self.searchText.isEmpty {
                     Button(action: {

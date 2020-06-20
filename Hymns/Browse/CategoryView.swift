@@ -11,7 +11,7 @@ struct CategoryView: View {
             HStack {
                 Text(viewModel.category)
                 Spacer()
-                Image(systemName: isExpanded ? "chevron.up" : "chevron.down").font(.system(size: 25))
+                Image(systemName: isExpanded ? "chevron.up" : "chevron.down").font(.system(size: buttonSize))
             }.onTapGesture {
                 self.isExpanded.toggle()
             }.foregroundColor(isExpanded ? .accentColor : .primary)

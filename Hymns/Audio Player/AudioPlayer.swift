@@ -44,10 +44,10 @@ struct AudioPlayer: View {
                 if viewModel.playbackState == .buffering {
                     ActivityIndicator().font(.largeTitle).foregroundColor(.primary)
                 } else if viewModel.playbackState == .playing {
-                    Image(systemName: "pause.circle").font(.system(size: 35)).foregroundColor(.primary)
+                    Image(systemName: "pause.circle").font(.system(size: largeButtonSize)).foregroundColor(.primary)
                 } else {
                     // viewModel.playbackState == .stopped
-                    Image(systemName: "play.circle").font(.system(size: 35)).foregroundColor(.primary)
+                    Image(systemName: "play.circle").font(.system(size: largeButtonSize)).foregroundColor(.primary)
                 }
             })
 
