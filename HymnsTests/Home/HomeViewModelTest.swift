@@ -19,9 +19,10 @@ class HomeViewModelTest: XCTestCase {
     override func setUp() {
         super.setUp()
         historyStore = mock(HistoryStore.self)
-        given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
-            onChanged(self.recentSongs)
-            return mock(Notification.self)
+        given(historyStore.recentSongs()) ~> {
+            Just(self.recentSongs).mapError({ _ -> ErrorType in
+                .data(description: "This will never get called")
+            }).eraseToAnyPublisher()
         }
         songResultsRepository = mock(SongResultsRepository.self)
         target = HomeViewModel(backgroundQueue: testQueue, historyStore: historyStore,
@@ -30,11 +31,12 @@ class HomeViewModelTest: XCTestCase {
 
     func test_defaultState() {
         testQueue.sync {}
+        testQueue.sync {}
 
         expect(self.target.label).toNot(beNil())
         expect(self.target.label).to(equal(recentHymns))
         expect(self.target.state).to(equal(HomeResultState.results))
-        verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
+        verify(historyStore.recentSongs()).wasCalled(exactly(1))
         expect(self.target.songResults).to(haveCount(2))
         expect(self.target.songResults[0].title).to(equal(recentSongs[0].songTitle))
         expect(self.target.songResults[1].title).to(equal(recentSongs[1].songTitle))
@@ -42,31 +44,34 @@ class HomeViewModelTest: XCTestCase {
 
     func test_defaultState_withoutRecentSongs() {
         testQueue.sync {}
+        testQueue.sync {}
         clearInvocations(on: historyStore)
         reset(historyStore)
-        given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
-            expect(self.target.state).to(equal(HomeResultState.loading))
-            onChanged([RecentSong]())
-            return mock(Notification.self)
+        given(historyStore.recentSongs()) ~> {
+            Just([RecentSong]()).mapError({ _ -> ErrorType in
+                .data(description: "This will never get called")
+            }).eraseToAnyPublisher()
         }
         target = HomeViewModel(backgroundQueue: testQueue, historyStore: historyStore,
                                mainQueue: testQueue, repository: songResultsRepository)
         testQueue.sync {}
+        testQueue.sync {}
 
         expect(self.target.label).to(beNil())
         expect(self.target.state).to(equal(HomeResultState.results))
-        verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
+        verify(historyStore.recentSongs()).wasCalled(exactly(1))
         expect(self.target.songResults).to(beEmpty())
     }
 
     func test_searchActive_emptySearchParameter() {
         target.searchActive = true
         testQueue.sync {}
+        testQueue.sync {}
 
         expect(self.target.label).toNot(beNil())
         expect(self.target.label).to(equal(recentHymns))
         expect(self.target.state).to(equal(HomeResultState.results))
-        verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
+        verify(historyStore.recentSongs()).wasCalled(exactly(1))
         expect(self.target.songResults).toEventually(haveCount(2))
         expect(self.target.songResults[0].title).to(equal(recentSongs[0].songTitle))
         expect(self.target.songResults[1].title).to(equal(recentSongs[1].songTitle))
@@ -75,6 +80,7 @@ class HomeViewModelTest: XCTestCase {
 
     func test_searchActive_numericSearchParameter() {
         target.searchActive = true
+        testQueue.sync {}
         testQueue.sync {}
         clearInvocations(on: historyStore) // clear invocations called from activating search
         target.searchParameter = "198 "
@@ -85,12 +91,13 @@ class HomeViewModelTest: XCTestCase {
         expect(self.target.songResults).to(haveCount(2))
         expect(self.target.songResults[0].title).to(equal("Hymn 198"))
         expect(self.target.songResults[1].title).to(equal("Hymn 1198"))
-        verify(historyStore.recentSongs(onChanged: any())).wasNeverCalled()
+        verify(historyStore.recentSongs()).wasNeverCalled()
         verify(songResultsRepository.search(searchParameter: any(), pageNumber: any())).wasNeverCalled()
     }
 
     func test_searchActive_invalidNumericSearchParameter() {
         target.searchActive = true
+        testQueue.sync {}
         testQueue.sync {}
         clearInvocations(on: historyStore) // clear invocations called from activating search
         target.searchParameter = "2000 " // number is larger than any valid song
@@ -99,7 +106,7 @@ class HomeViewModelTest: XCTestCase {
         expect(self.target.label).to(beNil())
         expect(self.target.state).to(equal(HomeResultState.empty))
         expect(self.target.songResults).to(beEmpty())
-        verify(historyStore.recentSongs(onChanged: any())).wasNeverCalled()
+        verify(historyStore.recentSongs()).wasNeverCalled()
         verify(songResultsRepository.search(searchParameter: any(), pageNumber: any())).wasNeverCalled()
     }
 }

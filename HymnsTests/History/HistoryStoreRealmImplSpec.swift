@@ -33,38 +33,68 @@ class HistoryStoreRealmImplSpec: QuickSpec {
                 }
                 describe("getting all recent songs") {
                     it("should contain the stored songs sorted by last-stored") {
-                        let callbackExpectation = XCTestExpectation(description: "callback called")
-                        let notification = target.recentSongs { recentSongs in
-                            expect(recentSongs).to(haveCount(3))
-                            expect(recentSongs[0]).to(equal(RecentSong(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014")))
-                            expect(recentSongs[1]).to(equal(RecentSong(hymnIdentifier: newSong145, songTitle: "Hymn: Jesus shall reign where\\u2019er the sun")))
-                            expect(recentSongs[2]).to(equal(RecentSong(hymnIdentifier: classic1151, songTitle: "Hymn 1151")))
-                            callbackExpectation.fulfill()
-                        }
-                        self.wait(for: [callbackExpectation], timeout: testTimeout)
-                        notification.invalidate()
+                        let failure = self.expectation(description: "Invalid.failure")
+                        failure.isInverted = true
+                        let finished = self.expectation(description: "Invalid.finished")
+                        // finished should not be called because this is a self-updating publisher.
+                        finished.isInverted = true
+                        let value = self.expectation(description: "Invalid.receiveValue")
+
+                        let cancellable = target.recentSongs()
+                            .sink(receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
+                                switch completion {
+                                case .failure:
+                                    failure.fulfill()
+                                case .finished:
+                                    finished.fulfill()
+                                }
+                                return
+                            }, receiveValue: { recentSongs in
+                                value.fulfill()
+                                expect(recentSongs).to(haveCount(3))
+                                expect(recentSongs[0]).to(equal(RecentSong(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014")))
+                                expect(recentSongs[1]).to(equal(RecentSong(hymnIdentifier: newSong145, songTitle: "Hymn: Jesus shall reign where\\u2019er the sun")))
+                                expect(recentSongs[2]).to(equal(RecentSong(hymnIdentifier: classic1151, songTitle: "Hymn 1151")))
+                            })
+                        self.wait(for: [failure, finished, value], timeout: testTimeout)
+                        cancellable.cancel()
                     }
                 }
-            }
-            let numberToStore = 100
-            context("store \(numberToStore) recent songs") {
-                beforeEach {
-                    for num in 1...numberToStore {
-                        target.storeRecentSong(hymnToStore: HymnIdentifier(hymnType: .classic, hymnNumber: "\(num)"), songTitle: "song \(num)")
-                    }
-                }
-                describe("getting all recent songs") {
-                    it("should only contain the 50 last accessed songs") {
-                        let callbackExpectation = XCTestExpectation(description: "callback called")
-                        let notification = target.recentSongs { recentSongs in
-                            expect(recentSongs).to(haveCount(50))
-                            for (index, recentSong) in recentSongs.enumerated() {
-                                expect(recentSong).to(equal(RecentSong(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "\(numberToStore - index)"), songTitle: "song \(numberToStore - index)")))
-                            }
-                            callbackExpectation.fulfill()
+                let numberToStore = 100
+                context("store \(numberToStore) recent songs") {
+                    beforeEach {
+                        for num in 1...numberToStore {
+                            target.storeRecentSong(hymnToStore: HymnIdentifier(hymnType: .classic, hymnNumber: "\(num)"), songTitle: "song \(num)")
                         }
-                        self.wait(for: [callbackExpectation], timeout: testTimeout)
-                        notification.invalidate()
+                    }
+                    describe("getting all recent songs") {
+                        it("should only contain the 50 last accessed songs") {
+                            let failure = self.expectation(description: "Invalid.failure")
+                            failure.isInverted = true
+                            let finished = self.expectation(description: "Invalid.finished")
+                            // finished should not be called because this is a self-updating publisher.
+                            finished.isInverted = true
+                            let value = self.expectation(description: "Invalid.receiveValue")
+
+                            let cancellable = target.recentSongs()
+                                .sink(receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
+                                    switch completion {
+                                    case .failure:
+                                        failure.fulfill()
+                                    case .finished:
+                                        finished.fulfill()
+                                    }
+                                    return
+                                }, receiveValue: { recentSongs in
+                                    value.fulfill()
+                                    expect(recentSongs).to(haveCount(50))
+                                    for (index, recentSong) in recentSongs.enumerated() {
+                                        expect(recentSong).to(equal(RecentSong(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "\(numberToStore - index)"), songTitle: "song \(numberToStore - index)")))
+                                    }
+                                })
+                            self.wait(for: [failure, finished, value], timeout: testTimeout)
+                            cancellable.cancel()
+                        }
                     }
                 }
             }

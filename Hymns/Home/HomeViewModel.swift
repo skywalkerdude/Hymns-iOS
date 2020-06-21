@@ -14,7 +14,6 @@ class HomeViewModel: ObservableObject {
     private var currentPage = 1
     private var hasMorePages = false
     private var isLoading = false
-    private var recentSongsNotification: Notification?
 
     private var disposables = Set<AnyCancellable>()
     private let analytics: AnalyticsLogger
@@ -61,10 +60,6 @@ class HomeViewModel: ObservableObject {
         }.store(in: &disposables)
     }
 
-    deinit {
-        recentSongsNotification?.invalidate()
-    }
-
     private func resetState() {
         currentPage = 1
         hasMorePages = false
@@ -95,26 +90,31 @@ class HomeViewModel: ObservableObject {
     private func fetchRecentSongs() {
         label = nil
         state = .loading
-        recentSongsNotification?.invalidate() // invalidate old notification because we're about to create a new one
-        recentSongsNotification = historyStore.recentSongs { [weak self] recentSongs in
-            guard let self = self else { return }
+        historyStore.recentSongs()
+            .map({ recentSongs -> [SongResultViewModel] in
+                recentSongs.map { recentSong -> SongResultViewModel in
+                    let identifier = HymnIdentifier(recentSong.hymnIdentifierEntity)
+                    return SongResultViewModel(title: recentSong.songTitle,
+                                               destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier,
+                                                                                                                storeInHistoryStore: true)).eraseToAnyView())
+                }
+            })
+            .replaceError(with: [SongResultViewModel]())
+            .receive(on: mainQueue)
+            .sink(receiveValue: { [weak self] songResults in
+                guard let self = self else { return }
 
-            if self.searchActive && !self.searchParameter.isEmpty {
-                // If the recent songs db changes while recent songs shouldn't be shown (there's an active search going on),
-                // we don't want to randomly replace the search results with updated db results.
-                return
-            }
-            self.state = .results
-            self.songResults = recentSongs.map { recentSong in
-                let identifier = HymnIdentifier(recentSong.hymnIdentifierEntity)
-                return SongResultViewModel(title: recentSong.songTitle,
-                                           destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier,
-                                                                                                            storeInHistoryStore: true)).eraseToAnyView())
-            }
-            if !self.songResults.isEmpty {
-                self.label = "Recent hymns"
-            }
-        }
+                if self.searchActive && !self.searchParameter.isEmpty {
+                    // If the recent songs db changes while recent songs shouldn't be shown (there's an active search going on),
+                    // we don't want to randomly replace the search results with updated db results.
+                    return
+                }
+                self.state = .results
+                self.songResults = songResults
+                if !self.songResults.isEmpty {
+                    self.label = "Recent hymns"
+                }
+            }).store(in: &disposables)
     }
 
     private func fetchByNumber(hymnNumber: String) {

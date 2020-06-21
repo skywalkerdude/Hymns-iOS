@@ -18,17 +18,27 @@ class HomeViewModelSpec: QuickSpec {
                                RecentSong(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014")]
             beforeEach {
                 historyStore = mock(HistoryStore.self)
+                given(historyStore.recentSongs()) ~> {
+                    Just(recentSongs).mapError({ _ -> ErrorType in
+                        .data(description: "This will never get called")
+                    }).eraseToAnyPublisher()
+                }
                 songResultsRepository = mock(SongResultsRepository.self)
             }
             let recentHymns = "Recent hymns"
-            context("empty recent songs") {
+            context("data store error") {
                 beforeEach {
-                    given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
-                        onChanged([RecentSong]())
-                        return mock(Notification.self)
+                    given(historyStore.recentSongs()) ~> {
+                        Just([RecentSong]())
+                            .tryMap({ _ -> [RecentSong] in
+                                throw URLError(.badServerResponse)
+                            }).mapError({ _ -> ErrorType in
+                                .data(description: "forced data error")
+                            }).eraseToAnyPublisher()
                     }
                     target = HomeViewModel(backgroundQueue: testQueue, historyStore: historyStore,
                                            mainQueue: testQueue, repository: songResultsRepository)
+                    testQueue.sync {}
                     testQueue.sync {}
                 }
                 it("\"\(recentHymns)\" label should not be showing") {
@@ -39,17 +49,37 @@ class HomeViewModelSpec: QuickSpec {
                     expect(target.songResults).to(beEmpty())
                 }
                 it("should fetch the recent songs from the history store") {
-                    verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
+                    verify(historyStore.recentSongs()).wasCalled(exactly(1))
+                }
+            }
+            context("data store empty") {
+                beforeEach {
+                    given(historyStore.recentSongs()) ~> {
+                        Just([RecentSong]()).mapError({ _ -> ErrorType in
+                            .data(description: "This will never get called")
+                        }).eraseToAnyPublisher()
+                    }
+                    target = HomeViewModel(backgroundQueue: testQueue, historyStore: historyStore,
+                                           mainQueue: testQueue, repository: songResultsRepository)
+                    testQueue.sync {}
+                    testQueue.sync {}
+                }
+                it("\"\(recentHymns)\" label should not be showing") {
+                    expect(target.label).to(beNil())
+                }
+                it("should display empty results") {
+                    expect(target.state).to(equal(HomeResultState.results))
+                    expect(target.songResults).to(beEmpty())
+                }
+                it("should fetch the recent songs from the history store") {
+                    verify(historyStore.recentSongs()).wasCalled(exactly(1))
                 }
             }
             context("recent songs") {
                 beforeEach {
-                    given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
-                        onChanged(recentSongs)
-                        return mock(Notification.self)
-                    }
                     target = HomeViewModel(backgroundQueue: testQueue, historyStore: historyStore,
                                            mainQueue: testQueue, repository: songResultsRepository)
+                    testQueue.sync {}
                     testQueue.sync {}
                 }
                 it("\"\(recentHymns)\" label should be showing") {
@@ -62,7 +92,7 @@ class HomeViewModelSpec: QuickSpec {
                     expect(target.state).to(equal(HomeResultState.results))
                 }
                 it("should fetch the recent songs from the history store") {
-                    verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
+                    verify(historyStore.recentSongs()).wasCalled(exactly(1))
                 }
                 it("should display recent songs") {
                     expect(target.songResults).to(haveCount(2))
@@ -72,13 +102,10 @@ class HomeViewModelSpec: QuickSpec {
             }
             context("search active") {
                 beforeEach {
-                    given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
-                        onChanged(recentSongs)
-                        return mock(Notification.self)
-                    }
                     target = HomeViewModel(backgroundQueue: testQueue, historyStore: historyStore,
                                            mainQueue: testQueue, repository: songResultsRepository)
                     target.searchActive = true
+                    testQueue.sync {}
                     testQueue.sync {}
                 }
                 context("with empty search parameter") {
@@ -90,7 +117,7 @@ class HomeViewModelSpec: QuickSpec {
                         expect(target.state).to(equal(HomeResultState.results))
                     }
                     it("should fetch the recent songs from the history store") {
-                        verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
+                        verify(historyStore.recentSongs()).wasCalled(exactly(1))
                     }
                     it("should display recent songs") {
                         expect(target.songResults).toEventually(haveCount(2))
@@ -122,7 +149,7 @@ class HomeViewModelSpec: QuickSpec {
                             expect(target.songResults[1].title).to(equal("Hymn 1198"))
                         }
                         it("should not fetch the recent songs from the history store") {
-                            verify(historyStore.recentSongs(onChanged: any())).wasNeverCalled()
+                            verify(historyStore.recentSongs()).wasNeverCalled()
                         }
                         it("should not call songResultsRepository.search") {
                             verify(songResultsRepository.search(searchParameter: any(), pageNumber: any())).wasNeverCalled()
@@ -143,7 +170,7 @@ class HomeViewModelSpec: QuickSpec {
                             expect(target.songResults).to(beEmpty())
                         }
                         it("should not fetch the recent songs from the history store") {
-                            verify(historyStore.recentSongs(onChanged: any())).wasNeverCalled()
+                            verify(historyStore.recentSongs()).wasNeverCalled()
                         }
                         it("should not call songResultsRepository.search") {
                             verify(songResultsRepository.search(searchParameter: any(), pageNumber: any())).wasNeverCalled()

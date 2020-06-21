@@ -1,10 +1,11 @@
+import Combine
 import FirebaseCrashlytics
 import Foundation
 import RealmSwift
 import Resolver
 
 protocol HistoryStore {
-    func recentSongs(onChanged: @escaping ([RecentSong]) -> Void) -> Notification
+    func recentSongs() -> AnyPublisher<[RecentSong], ErrorType>
     func storeRecentSong(hymnToStore hymnIdentifier: HymnIdentifier, songTitle: String)
 }
 
@@ -26,38 +27,15 @@ class HistoryStoreRealmImpl: HistoryStore {
     /**
      * Gets a list of `RecentSong`s. but if the list is greater than `numberToStore`, then it will delete the excess `RecentSong`s from the database.
      */
-    func recentSongs(onChanged: @escaping ([RecentSong]) -> Void) -> Notification {
-        let results: Results<RecentSongEntity> = realm.objects(RecentSongEntity.self).sorted(byKeyPath: "created", ascending: false)
-        if results.count > numberToStore {
-            let entitiesToDelete = Array(results).suffix(results.count - numberToStore)
-            do {
-                try realm.write {
-                    realm.delete(entitiesToDelete)
-                }
-            } catch {
-                var extraParameters = [String: String]()
-                for (index, entity) in entitiesToDelete.enumerated() {
-                    extraParameters["primary_key \(index)"] = entity.primaryKey
-                }
-                analytics.logError(message: "error occurred when deleting recent songs", error: error, extraParameters: extraParameters)
-            }
-        }
-
-        return results.observe { change in
-            switch change {
-            case .update(let entities, _, _, _):
-                // single fallthrough statement makes sense here
-                // swiftlint:disable:next no_fallthrough_only
-                fallthrough
-            case .initial(let entities):
-                let recentSongs: [RecentSong] = entities.map { (entity) -> RecentSong in
+    func recentSongs() -> AnyPublisher<[RecentSong], ErrorType> {
+        realm.objects(RecentSongEntity.self).sorted(byKeyPath: "created", ascending: false).publisher
+            .map({ results -> [RecentSong] in
+                results.map { entity -> RecentSong in
                     entity.recentSong
                 }
-                onChanged(recentSongs)
-            case .error(let error):
-                self.analytics.logError(message: "error occurred while observing recent songs", error: error)
-            }
-        }.toNotification()
+            }).mapError({ error -> ErrorType in
+                .data(description: error.localizedDescription)
+            }).eraseToAnyPublisher()
     }
 
     func storeRecentSong(hymnToStore hymnIdentifier: HymnIdentifier, songTitle: String) {
@@ -68,6 +46,21 @@ class HistoryStoreRealmImpl: HistoryStore {
                         RecentSong(hymnIdentifier: hymnIdentifier, songTitle: songTitle),
                                      created: Date()),
                     update: .modified)
+            }
+            let results: Results<RecentSongEntity> = realm.objects(RecentSongEntity.self).sorted(byKeyPath: "created", ascending: false)
+            if results.count > numberToStore {
+                let entitiesToDelete = Array(results).suffix(results.count - numberToStore)
+                do {
+                    try realm.write {
+                        realm.delete(entitiesToDelete)
+                    }
+                } catch {
+                    var extraParameters = [String: String]()
+                    for (index, entity) in entitiesToDelete.enumerated() {
+                        extraParameters["primary_key \(index)"] = entity.primaryKey
+                    }
+                    analytics.logError(message: "error occurred when deleting recent songs", error: error, extraParameters: extraParameters)
+                }
             }
         } catch {
             analytics.logError(message: "error occurred when storing recent song", error: error, extraParameters: ["hymnIdentifier": String(describing: hymnIdentifier), "title": songTitle])

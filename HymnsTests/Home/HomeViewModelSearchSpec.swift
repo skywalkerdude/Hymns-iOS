@@ -24,9 +24,10 @@ class HomeViewModelSearchSpec: QuickSpec {
                                RecentSong(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014")]
             beforeEach {
                 historyStore = mock(HistoryStore.self)
-                given(historyStore.recentSongs(onChanged: any())) ~> { onChanged in
-                    onChanged(recentSongs)
-                    return mock(Notification.self)
+                given(historyStore.recentSongs()) ~> {
+                    Just(recentSongs).mapError({ _ -> ErrorType in
+                        .data(description: "forced data error")
+                    }).eraseToAnyPublisher()
                 }
                 songResultsRepository = mock(SongResultsRepository.self)
                 target = HomeViewModel(backgroundQueue: testQueue, historyStore: historyStore,
@@ -62,7 +63,7 @@ class HomeViewModelSearchSpec: QuickSpec {
                         expect(target.songResults).to(beEmpty())
                     }
                     it("should not fetch the recent songs from the history store") {
-                        verify(historyStore.recentSongs(onChanged: any())).wasNeverCalled()
+                        verify(historyStore.recentSongs()).wasNeverCalled()
                     }
                     it("should fetch the first page") {
                         verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)).wasCalled(exactly(1))
@@ -103,7 +104,7 @@ class HomeViewModelSearchSpec: QuickSpec {
                             expect(target.songResults).to(beEmpty())
                         }
                         it("should not fetch the recent songs from the history store") {
-                            verify(historyStore.recentSongs(onChanged: any())).wasNeverCalled()
+                            verify(historyStore.recentSongs()).wasNeverCalled()
                         }
                         it("should fetch the first page") {
                             verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)).wasCalled(exactly(1))
@@ -124,7 +125,7 @@ class HomeViewModelSearchSpec: QuickSpec {
                             expect(target.songResults).to(beEmpty())
                         }
                         it("should not fetch the recent songs from the history store") {
-                            verify(historyStore.recentSongs(onChanged: any())).wasNeverCalled()
+                            verify(historyStore.recentSongs()).wasNeverCalled()
                         }
                         it("should fetch the first page") {
                             verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)).wasCalled(exactly(1))
@@ -158,7 +159,7 @@ class HomeViewModelSearchSpec: QuickSpec {
                     expect(target.songResults[1].title).to(equal("newTune7"))
                 }
                 it("should not fetch the recent songs from the history store") {
-                    verify(historyStore.recentSongs(onChanged: any())).wasNeverCalled()
+                    verify(historyStore.recentSongs()).wasNeverCalled()
                 }
                 it("should fetch the first page") {
                     verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)).wasCalled(exactly(1))
@@ -166,6 +167,11 @@ class HomeViewModelSearchSpec: QuickSpec {
                 let recentHymns = "Recent hymns"
                 context("search parameter cleared") {
                     beforeEach {
+                        given(historyStore.recentSongs()) ~> {
+                            Just(recentSongs).mapError({ _ -> ErrorType in
+                                .data(description: "forced data error")
+                                }).eraseToAnyPublisher()
+                        }
                         target.searchParameter = ""
                         sleep(1) // allow time for the debouncer to trigger.
                         testQueue.sync {}
@@ -201,7 +207,7 @@ class HomeViewModelSearchSpec: QuickSpec {
                         print("sync 1 done")
                         print("Asserting 'should fetch the recent songs from the history store' on \(Thread.current)")
 
-                        verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
+                        verify(historyStore.recentSongs()).wasCalled(exactly(1))
 
                         print("sync 2")
                         testQueue.sync {}
@@ -235,7 +241,7 @@ class HomeViewModelSearchSpec: QuickSpec {
                         expect(target.state).to(equal(HomeResultState.results))
                     }
                     it("should fetch the recent songs from the history store") {
-                        verify(historyStore.recentSongs(onChanged: any())).wasCalled(exactly(1))
+                        verify(historyStore.recentSongs()).wasCalled(exactly(1))
                     }
                     it("should display recent songs") {
                         expect(target.songResults).to(haveCount(2))
@@ -280,7 +286,7 @@ class HomeViewModelSearchSpec: QuickSpec {
                         }
                     }
                     it("should not fetch the recent songs from the history store") {
-                        verify(historyStore.recentSongs(onChanged: any())).wasNeverCalled()
+                        verify(historyStore.recentSongs()).wasNeverCalled()
                     }
                     it("should fetch the first page") {
                         verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)).wasCalled(exactly(1))
@@ -315,7 +321,7 @@ class HomeViewModelSearchSpec: QuickSpec {
                             }
                         }
                         it("should not fetch the recent songs from the history store") {
-                            verify(historyStore.recentSongs(onChanged: any())).wasNeverCalled()
+                            verify(historyStore.recentSongs()).wasNeverCalled()
                         }
                         it("should fetch the next page") {
                             verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 2)).wasCalled(exactly(1))
@@ -354,7 +360,7 @@ class HomeViewModelSearchSpec: QuickSpec {
                         }
                     }
                     it("should not fetch the recent songs from the history store") {
-                        verify(historyStore.recentSongs(onChanged: any())).wasNeverCalled()
+                        verify(historyStore.recentSongs()).wasNeverCalled()
                     }
                     it("should fetch the first page") {
                         verify(songResultsRepository.search(searchParameter: searchParameter, pageNumber: 1)).wasCalled(exactly(1))
