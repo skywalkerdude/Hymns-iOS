@@ -19,7 +19,7 @@ struct HomeView: View {
             SearchBar(
                 searchText: $viewModel.searchParameter,
                 searchActive: $viewModel.searchActive,
-                placeholderText: "Search by numbers or words")
+                placeholderText: "Search by number or title")
                 .padding(.horizontal)
                 .padding(.top, viewModel.searchActive ? nil : .zero)
 
