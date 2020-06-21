@@ -12,7 +12,7 @@ class HymnsUITests: XCTestCase {
     var app: XCUIApplication!
 
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        super.setUp()
 
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
@@ -24,10 +24,6 @@ class HymnsUITests: XCTestCase {
         // We send a command line argument to our app,
         // to enable it to reset its state. Useful to remove flakiness
         app.launchArguments.append("--uitesting")
-    }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
     func ignore_test_navigateBetweenTabs() {
