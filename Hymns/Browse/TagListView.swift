@@ -15,12 +15,14 @@ struct TagListView: View {
                 return ActivityIndicator().maxSize().eraseToAnyView()
             }
             guard !tags.isEmpty else {
-                return VStack(spacing: 5) {
-                    Image("empty tag illustration")
-                    Text("Create tags by tapping on the")
-                    HStack {
-                        Image(systemName: "tag").font(.system(size: buttonSize))
-                        Text("icon on any hymn")
+                return ScrollView {
+                    VStack(spacing: 5) {
+                        Image("empty tag illustration")
+                        Text("Create tags by tapping on the")
+                        HStack {
+                            Image(systemName: "tag")
+                            Text("icon on any hymn")
+                        }
                     }.multilineTextAlignment(.center)
                 }.maxSize().eraseToAnyView()
             }

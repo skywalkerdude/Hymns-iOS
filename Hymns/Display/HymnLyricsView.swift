@@ -30,7 +30,7 @@ public struct HymnLyricsView: View {
                                     self.transliterate ?
                                         Image(systemName: "a.square.fill").accentColor(.accentColor) :
                                         Image(systemName: "a.square").accentColor(.primary)
-                                }).frame(width: 25, height: 25).font(.system(size: buttonSize))
+                                }).frame(width: 25, height: 25)
                             }
                         }
                         ForEach(lyrics, id: \.self) { verseViewModel in

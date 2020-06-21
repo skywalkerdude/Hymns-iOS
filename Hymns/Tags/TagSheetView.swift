@@ -15,16 +15,16 @@ struct TagSheetView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Name your tag").font(.body).fontWeight(.bold)
-            TextField("Label it however you like", text: self.$tagName)
-            Divider()
-            ColorSelectorView(tagColor: self.$tagColor).padding(.vertical)
-            if !self.viewModel.tags.isEmpty {
-                Text("Tags").font(.body).fontWeight(.bold)
-            }
-            GeometryReader { geometry in
-                ScrollView(showsIndicators: false) {
+        GeometryReader { geometry in
+            ScrollView(showsIndicators: false) {
+                VStack(alignment: .leading) {
+                    Text("Name your tag").font(.body).fontWeight(.bold).lineLimit(2)
+                    TextField("Label it however you like", text: self.$tagName)
+                    Divider()
+                    ColorSelectorView(tagColor: self.$tagColor).padding(.vertical)
+                    if !self.viewModel.tags.isEmpty {
+                        Text("Tags").font(.body).fontWeight(.bold)
+                    }
                     VStack(alignment: .leading) {
                         WrappedHStack(items: self.$viewModel.tags, geometry: geometry) { tag in
                             Button(action: {
@@ -32,7 +32,7 @@ struct TagSheetView: View {
                             }, label: {
                                 HStack {
                                     Text(tag.title).font(.body).fontWeight(.bold)
-                                    Image(systemName: "xmark.circle").font(.system(size: buttonSize))
+                                    Image(systemName: "xmark.circle")
                                 }
                                 .tagPill(backgroundColor: tag.color.background, foregroundColor: tag.color.foreground)
                             }).padding(2)
@@ -50,13 +50,13 @@ struct TagSheetView: View {
                         }.padding(.top)
                         Spacer()
                     }
-                }
+                    Spacer()
+                }.onAppear {
+                    self.viewModel.fetchHymn()
+                    self.viewModel.fetchTags()
+                }.padding()
             }
-            Spacer()
-        }.onAppear {
-            self.viewModel.fetchHymn()
-            self.viewModel.fetchTags()
-        }.padding()
+        }
     }
 }
 

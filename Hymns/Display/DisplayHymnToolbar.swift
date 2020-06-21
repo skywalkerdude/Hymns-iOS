@@ -14,7 +14,7 @@ struct DisplayHymnToolbar: View {
             Button(action: {
                 self.presentationMode.wrappedValue.dismiss()
             }, label: {
-                Image(systemName: "chevron.left").font(.system(size: buttonSize)).accentColor(.primary).frame(minWidth: 0).contentShape(Rectangle())
+                Image(systemName: "chevron.left").accentColor(.primary).frame(minWidth: 0).contentShape(Rectangle())
             }).padding()
             Spacer()
             Text(viewModel.title).fontWeight(.bold)
@@ -24,7 +24,7 @@ struct DisplayHymnToolbar: View {
                     self.viewModel.toggleFavorited()
                 }, label: {
                     isFavorited ? Image(systemName: "heart.fill").accentColor(.accentColor) : Image(systemName: "heart").accentColor(.primary)
-                }).font(.system(size: buttonSize)).padding()
+                }).padding()
             }
         }
     }

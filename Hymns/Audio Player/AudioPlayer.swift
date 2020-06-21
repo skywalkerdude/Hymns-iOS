@@ -20,14 +20,14 @@ struct AudioPlayer: View {
                 self.viewModel.reset()
                 self.viewModel.play()
             }, label: {
-                Image(systemName: "backward.end.fill").font(.system(size: buttonSize)).foregroundColor(.primary)
+                Image(systemName: "backward.end.fill").font(.system(size: smallButtonSize)).foregroundColor(.primary)
             })
 
             // Rewind button
             Button(action: {
                 self.viewModel.rewind()
             }, label: {
-                Image(systemName: "backward.fill").font(.system(size: buttonSize)).foregroundColor(.primary)
+                Image(systemName: "backward.fill").font(.system(size: smallButtonSize)).foregroundColor(.primary)
             })
 
             // Play/Pause button
@@ -55,14 +55,14 @@ struct AudioPlayer: View {
             Button(action: {
                 self.viewModel.fastForward()
             }, label: {
-                Image(systemName: "forward.fill").font(.system(size: buttonSize)).foregroundColor(.primary)
+                Image(systemName: "forward.fill").font(.system(size: smallButtonSize)).foregroundColor(.primary)
             })
 
             // Repeat button
             Button(action: {
                 self.viewModel.shouldRepeat.toggle()
             }, label: {
-                Image(systemName: "repeat").font(.system(size: buttonSize)).foregroundColor(viewModel.shouldRepeat ? .accentColor : .primary)
+                Image(systemName: "repeat").font(.system(size: smallButtonSize)).foregroundColor(viewModel.shouldRepeat ? .accentColor : .primary)
             })
         }.onReceive(viewModel.timeObserver.publisher) { time in
             if time > 0 {
