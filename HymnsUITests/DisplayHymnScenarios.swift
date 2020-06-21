@@ -1,16 +1,16 @@
 import XCTest
 
 class DisplayHymnScenarios: XCTestCase {
-    
+
     var app: XCUIApplication!
-    
+
     override func setUp() {
         continueAfterFailure = false // in UI tests it is usually best to stop immediately when a failure occurs
         app = XCUIApplication()
         app.launchArguments.append("-UITests")
         app.launch()
     }
-    
+
     func test_goToSongFromSearch() {
         _ = HomeViewCan(app, testCase: self)
             .activateSearch()
