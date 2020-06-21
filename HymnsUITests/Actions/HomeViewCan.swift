@@ -1,14 +1,10 @@
 import Foundation
 import XCTest
 
-public struct HomeViewCan {
+public class HomeViewCan: BaseViewCan {
 
-    let app: XCUIApplication
-    let testCase: XCTestCase
-
-    init(_ app: XCUIApplication, testCase: XCTestCase) {
-        self.app = app
-        self.testCase = testCase
+    override init(_ app: XCUIApplication, testCase: XCTestCase) {
+        super.init(app, testCase: testCase)
     }
 
     public func activateSearch() -> HomeViewCan {
@@ -16,12 +12,12 @@ public struct HomeViewCan {
         return self
     }
 
-    public func performSearch(searchParameter: String) -> HomeViewCan {
+    public func performSearch(_ searchParameter: String) -> HomeViewCan {
         app.textFields.element.typeText(searchParameter)
         return self
     }
 
-    public func tapResult(result: String) -> DisplayHymnViewCan {
+    public func tapResult(_ result: String) -> DisplayHymnViewCan {
         app.buttons[result].tap()
         return DisplayHymnViewCan(app, testCase: testCase)
     }

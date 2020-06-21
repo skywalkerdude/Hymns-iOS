@@ -11,11 +11,18 @@ class DisplayHymnScenarios: XCTestCase {
         app.launch()
     }
     
-    func test_goToSong() {
+    func test_goToSongFromSearch() {
         _ = HomeViewCan(app, testCase: self)
             .activateSearch()
-            .performSearch(searchParameter: "1151")
-            .tapResult(result: "Hymn 1151")
-            .waitUntilDisplayed(title: "Hymn 1151")
+            .performSearch("1151")
+            .tapResult("Hymn 1151")
+            .waitUntilDisplayed("verse 1 line 1")
+    }
+
+    func test_goToSongFromRecents() {
+        _ = HomeViewCan(app, testCase: self)
+            .waitUntilDisplayed("classic1151", "classic40", "classic2", "classic")
+            .tapResult("classic1151")
+            .waitUntilDisplayed("verse 1 line 1")
     }
 }
