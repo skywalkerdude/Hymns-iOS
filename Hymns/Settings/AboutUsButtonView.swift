@@ -10,7 +10,7 @@ struct AbousUsButtonView: View {
             Text("About Us").font(.callout)
         }).padding().foregroundColor(.primary)
             .sheet(isPresented: $isShowingInfo) {
-                AboutUsInfoView()
+                AboutUsDialogView()
         }
     }
 }
