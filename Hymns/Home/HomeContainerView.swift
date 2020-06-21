@@ -33,7 +33,7 @@ struct HomeContainerView: View {
                 }
                 UITabBar.appearance().unselectedItemTintColor = .label
             }
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
