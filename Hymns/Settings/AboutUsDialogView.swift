@@ -2,7 +2,7 @@ import SwiftUI
 import UIKit
 import Resolver
 
-struct AboutUsInfoView: View {
+struct AboutUsDialogView: View {
 
     @Environment(\.presentationMode) var presentationMode
     private let analytics: AnalyticsLogger = Resolver.resolve()
@@ -43,6 +43,6 @@ struct AboutUsInfoView: View {
 
 struct AbousInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        AboutUsInfoView()
+        AboutUsDialogView()
     }
 }
