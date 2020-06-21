@@ -3,9 +3,16 @@ import SwiftUI
 import PDFKit
 
 struct PDFViewer: UIViewRepresentable {
-    private let preloader: PDFLoader = Resolver.resolve()
-    private let analytics: AnalyticsLogger = Resolver.resolve()
-    let url: URL
+
+    private let analytics: AnalyticsLogger
+    private let preloader: PDFLoader
+    private let url: URL
+
+    init(analytics: AnalyticsLogger = Resolver.resolve(), preloader: PDFLoader = Resolver.resolve(), url: URL) {
+        self.analytics = analytics
+        self.preloader = preloader
+        self.url = url
+    }
 
     func makeUIView(context: Context) -> PDFView {
         return PDFView()
@@ -19,10 +26,13 @@ struct PDFViewer: UIViewRepresentable {
             pdfView.document = PDFDocument(url: url)
         }
 
-        //Display error state
+        // Display error state
         if pdfView.document == nil {
             displayErrorState(pdfView)
         }
+
+        pdfView.displayMode = .singlePageContinuous
+        pdfView.displayDirection = .vertical
         pdfView.sizeToFit()
         pdfView.autoScales = true
     }
