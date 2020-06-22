@@ -45,6 +45,7 @@ extension Resolver: ResolverRegistering {
         #if DEBUG
         if CommandLine.arguments.contains("-UITests") {
             mock.register { HymnDataStoreTestImpl() as HymnDataStore }.scope(application)
+            mock.register { HistoryStoreTestImpl() as HistoryStore }.scope(application)
             root = mock
         }
         #endif
