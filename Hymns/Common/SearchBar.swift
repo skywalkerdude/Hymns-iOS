@@ -4,20 +4,39 @@ import SwiftUI
  * Custom search bar that will animate in a `Cancel` button when activated/selected.
  * https://stackoverflow.com/questions/56490963/how-to-display-a-search-bar-with-swiftui
  */
+
+struct SearchButton: View {
+    @Binding var text: String
+
+    var body: some View {
+
+    Button(action: {
+        self.text = ""
+    }, label: {
+        Image(systemName: "xmark.circle.fill")
+    })
+}
+}
 struct SearchBar: View {
 
     @Binding var searchText: String
     @Binding var searchActive: Bool
+    @State var UISearchText: String = "" //This is the state var that will get passed in to the uiViewRep
     let placeholderText: String
 
     var body: some View {
-        HStack {
+        if searchText != UISearchText {
+            self.searchText = UISearchText
+        }
+
+        return HStack {
             HStack {
-                Image(systemName: "magnifyingglass").padding(.leading, 6)
-                TextField(placeholderText, text: $searchText)
+                Image(systemName: "magnifyingglass").padding(.leading, 6).onTapGesture {
+                }
+                CustomUIKitTextField(text: self.$UISearchText, placeholder: self.placeholderText)
                 if !self.searchText.isEmpty {
                     Button(action: {
-                        self.searchText = ""
+                        self.UISearchText = ""
                     }, label: {
                         Image(systemName: "xmark.circle.fill")
                     })
@@ -35,19 +54,21 @@ struct SearchBar: View {
             .cornerRadius(CGFloat(integerLiteral: 10))
 
             if searchActive {
-                Button("Cancel") {
-                    // this must be placed before the other commands here
-                    UIApplication.shared.endEditing(true)
-                    if !self.searchText.isEmpty {
-                        self.searchText = ""
+                HStack {
+                    Button("Cancel") {
+                        // this must be placed before the other commands here
+                        UIApplication.shared.endEditing(true)
+                        if !self.searchText.isEmpty {
+                            self.UISearchText = ""
+                        }
+                        withAnimation {
+                            self.searchActive = false
+                        }
                     }
-                    withAnimation {
-                        self.searchActive = false
-                    }
+                    .foregroundColor(Color(.systemBlue))
+                    .transition(.asymmetric(insertion: .opacity, removal: .move(edge: .trailing)))
+                    .animation(.easeOut(duration: 0.2))
                 }
-                .foregroundColor(Color(.systemBlue))
-                .transition(.asymmetric(insertion: .opacity, removal: .move(edge: .trailing)))
-                .animation(.easeOut(duration: 0.2))
             }
         }
     }
