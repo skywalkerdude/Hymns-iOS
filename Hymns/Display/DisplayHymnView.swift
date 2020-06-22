@@ -116,11 +116,7 @@ struct DisplayHymnView_Previews: PreviewProvider {
             = [VerseViewModel(verseNumber: "1", verseLines: classic1334_preview.lyrics[0].verseContent)
         ]
         classic1334ViewModel.currentTab = .lyrics(HymnLyricsView(viewModel: classic1334LyricsViewModel).maxSize().eraseToAnyView())
-        classic1334ViewModel.tabItems = [
-            classic1334ViewModel.currentTab,
-            .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=gtpdf")!).eraseToAnyView()),
-            .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=pdf")!).eraseToAnyView()),
-            .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=ppdf")!).eraseToAnyView())]
+        classic1334ViewModel.tabItems = [HymnLyricsTab]()
         let classic1334BottomBarViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
         classic1334BottomBarViewModel.shareableLyrics = "Shareable lyrics"
         classic1334BottomBarViewModel.languages = [SongResultViewModel(title: "language", destinationView: EmptyView().eraseToAnyView())]
