@@ -42,6 +42,7 @@ class DisplayHymnPdfSnapshots: XCTestCase {
             .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=pdf")!).eraseToAnyView()),
             .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=ppdf")!).eraseToAnyView())]
         viewModel.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn1151_identifier)
+        sleep(2)
         assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .image())
     }
 
@@ -58,10 +59,12 @@ class DisplayHymnPdfSnapshots: XCTestCase {
             viewModel.currentTab,
             .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=ppdf")!).eraseToAnyView())]
         viewModel.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn1151_identifier)
+        sleep(2)
         assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .image())
     }
 
-    func test_classic1151_piano() {        viewModel = DisplayHymnViewModel(hymnToDisplay: hymn1151_identifier, pdfPreloader: SamplePdfLoader())
+    func test_classic1151_piano() {
+        viewModel = DisplayHymnViewModel(hymnToDisplay: hymn1151_identifier, pdfPreloader: SamplePdfLoader())
         viewModel.isLoaded = true
         viewModel.title = "Hymn 1151"
         viewModel.isFavorited = false
@@ -73,6 +76,7 @@ class DisplayHymnPdfSnapshots: XCTestCase {
             .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=pdf")!).eraseToAnyView()),
             viewModel.currentTab]
         viewModel.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn1151_identifier)
+        sleep(2)
         assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .image())
     }
 }
