@@ -1,7 +1,8 @@
 import Foundation
 @testable import Hymns
 
-class Hymns{}
+//swiftlint:disable force_try identifier_name
+class Hymns {}
 
 let hymn1151_hymn = getHymnFromJson(fileName: "classic_1151")
 let hymn1334_hymn = getHymnFromJson(fileName: "classic_1334")
@@ -15,4 +16,3 @@ func getHymnFromJson(fileName: String) -> Hymn {
     let jsonData = jsonString.data(using: .utf8)!
     return try! decoder.decode(Hymn.self, from: jsonData)
 }
-

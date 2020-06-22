@@ -1,5 +1,7 @@
 @testable import Hymns
 
+//swiftlint:disable identifier_name
+
 struct HymnIdentifiers {}
 
 let hymn40_identifier = HymnIdentifier(hymnType: .classic, hymnNumber: "40")
