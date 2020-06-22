@@ -35,9 +35,11 @@ struct BrowseScripturesView_Previews: PreviewProvider {
 
         let resultsViewModel = BrowseScripturesViewModel()
         resultsViewModel.scriptures
-            = [ScriptureViewModel(book: .genesis, scriptureSongs: [ScriptureSongViewModel(reference: "1:1", title: "Tree of life", hymnIdentifier: PreviewHymnIdentifiers.cupOfChrist),
-                                                                   ScriptureSongViewModel(reference: "1:26", title: "God created man", hymnIdentifier: PreviewHymnIdentifiers.hymn1151)]),
-               ScriptureViewModel(book: .revelation, scriptureSongs: [ScriptureSongViewModel(reference: "13:5", title: "White horse?", hymnIdentifier: PreviewHymnIdentifiers.hymn40)])]
+            = [ScriptureViewModel(book: .genesis,
+                                  scriptureSongs: [ScriptureSongViewModel(reference: "1:1", title: "Tree of life", hymnIdentifier: PreviewHymnIdentifiers.cupOfChrist),
+                                                   ScriptureSongViewModel(reference: "1:26", title: "God created man", hymnIdentifier: PreviewHymnIdentifiers.hymn1151)]),
+               ScriptureViewModel(book: .revelation,
+                                  scriptureSongs: [ScriptureSongViewModel(reference: "13:5", title: "White horse?", hymnIdentifier: PreviewHymnIdentifiers.hymn40)])]
         let results = BrowseScripturesView(viewModel: resultsViewModel)
         return Group {
             error
