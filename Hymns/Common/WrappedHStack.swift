@@ -12,29 +12,38 @@ struct WrappedHStack<Item: Hashable, Content: View>: View {
             return EmptyView().eraseToAnyView()
         }
 
-        var width = CGFloat.zero
-        var height = CGFloat.zero
-
+        var topLeftX = CGFloat.zero
+        var topLeftY = CGFloat.zero
+        var bottomRightX = CGFloat.zero
+        var bottomRightY = CGFloat.zero
         return
             ZStack(alignment: .topLeading) {
                 ForEach(self.items, id: \.self) { item in
                     self.viewBuilder(item).alignmentGuide(.leading, computeValue: { dimension in
-                        if abs(width - dimension.width) > self.geometry.size.width {
-                            width = 0
-                            height -= dimension.height + 5
+                        topLeftX = bottomRightX
+                        if abs(topLeftX - dimension.width) > self.geometry.size.width {
+                            topLeftX = 0
+                            topLeftY = bottomRightY
                         }
-                        let result = width
+
+                        let result = topLeftX
                         if item == lastItem {
-                            width = 0 //last item
+                            topLeftX = 0
+                            bottomRightX = 0
                         } else {
-                            width -= dimension.width + 5
+                            bottomRightX = topLeftX - dimension.width - 5
                         }
+
+                        bottomRightY = topLeftY - dimension.height - 5
+                        print("item: \(item), x: \(result)")
                         return result
                     }).alignmentGuide(.top, computeValue: { _ in
-                        let result = height
+                        let result = topLeftY
                         if item == lastItem {
-                            height = 0 // last item
+                            topLeftY = 0 // last item
+                            bottomRightY = 0
                         }
+                        print("item: \(item), y: \(result)")
                         return result
                     })
                 }
@@ -51,13 +60,15 @@ struct WrappedHStack_Previews: PreviewProvider {
                 }
             }
             GeometryReader { geometry in
-                WrappedHStack(items: Binding.constant(["Nintendo", "XBox", "PlayStation", "Playstation 2", "Playstaition 3", "Stadia", "Oculus"]), geometry: geometry) { platform in
-                    Button(action: {}, label: {
-                        HStack {
-                            Text(platform).font(.body).fontWeight(.bold)
-                            Image(systemName: "xmark.circle")
-                        }.padding(10).foregroundColor(Color.white).background(Color.purple).cornerRadius(20)
-                    })
+                WrappedHStack(items: Binding.constant([
+                    "Multiline really relaly long tag name that takes up many lines. So many lines, in fact, that it could be three lines.",
+                    "Nintendo", "XBox", "PlayStation", "Playstation 2", "Playstaition 3", "Stadia", "Oculus"]), geometry: geometry) { platform in
+                        Button(action: {}, label: {
+                            HStack {
+                                Text(platform).font(.body).fontWeight(.bold)
+                                Image(systemName: "xmark.circle")
+                            }.padding(10).foregroundColor(Color.white).background(Color.purple).cornerRadius(20)
+                        })
                 }
             }
         }.previewLayout(.sizeThatFits)
