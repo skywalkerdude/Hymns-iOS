@@ -10,15 +10,14 @@ class DisplayHymnSnapshots: XCTestCase {
 
     override func setUp() {
         super.setUp()
+        viewModel = DisplayHymnViewModel(hymnToDisplay: hymn1334_identifier)
     }
 
     func test_loading() {
-        viewModel = DisplayHymnViewModel(hymnToDisplay: hymn40_identifier)
         assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .image())
     }
 
     func test_classic1334() {
-        viewModel = DisplayHymnViewModel(hymnToDisplay: hymn1334_identifier)
         viewModel.isLoaded = true
         viewModel.title = "Hymn 1334"
         viewModel.isFavorited = true
@@ -37,7 +36,6 @@ class DisplayHymnSnapshots: XCTestCase {
     }
 
     func test_classic1151_noTabs() {
-        viewModel = DisplayHymnViewModel(hymnToDisplay: hymn1151_identifier)
         viewModel.isLoaded = true
         viewModel.title = "Hymn 1151"
         viewModel.isFavorited = false
@@ -54,7 +52,6 @@ class DisplayHymnSnapshots: XCTestCase {
     }
 
     func test_classic1151_oneTab() {
-        viewModel = DisplayHymnViewModel(hymnToDisplay: hymn1151_identifier)
         viewModel.isLoaded = true
         viewModel.title = "Hymn 1151"
         viewModel.isFavorited = false
@@ -71,7 +68,6 @@ class DisplayHymnSnapshots: XCTestCase {
     }
 
     func test_classic1151_twoTabs() {
-        viewModel = DisplayHymnViewModel(hymnToDisplay: hymn1151_identifier)
         viewModel.isLoaded = true
         viewModel.title = "Hymn 1151"
         viewModel.isFavorited = false
@@ -90,7 +86,6 @@ class DisplayHymnSnapshots: XCTestCase {
     }
 
     func test_classic1151_threeTabs() {
-        viewModel = DisplayHymnViewModel(hymnToDisplay: hymn1151_identifier)
         viewModel.isLoaded = true
         viewModel.title = "Hymn 1151"
         viewModel.isFavorited = false
@@ -110,7 +105,6 @@ class DisplayHymnSnapshots: XCTestCase {
     }
 
     func test_classic1151_fourTabs() {
-        viewModel = DisplayHymnViewModel(hymnToDisplay: hymn1151_identifier)
         viewModel.isLoaded = true
         viewModel.title = "Hymn 1151"
         viewModel.isFavorited = false

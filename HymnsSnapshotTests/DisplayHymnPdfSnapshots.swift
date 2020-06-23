@@ -44,10 +44,10 @@ class DisplayHymnPdfSnapshots: XCTestCase {
     override func setUp() {
         super.setUp()
         preloader = SamplePdfLoader()
+        viewModel = DisplayHymnViewModel(hymnToDisplay: hymn1151_identifier, pdfPreloader: preloader)
     }
 
     func test_classic1151_chords() {
-        viewModel = DisplayHymnViewModel(hymnToDisplay: hymn1151_identifier, pdfPreloader: SamplePdfLoader())
         viewModel.isLoaded = true
         viewModel.title = "Hymn 1151"
         viewModel.isFavorited = false
@@ -69,7 +69,7 @@ class DisplayHymnPdfSnapshots: XCTestCase {
         viewModel.title = "Hymn 1151"
         viewModel.isFavorited = false
         viewModel.currentTab = .guitar(PDFViewer(preloader: preloader,
-                                                url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=ppdf")!).eraseToAnyView())
+                                                 url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=ppdf")!).eraseToAnyView())
         viewModel.tabItems = [
             .lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)).maxSize().eraseToAnyView()),
             .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=gtpdf")!).eraseToAnyView()),

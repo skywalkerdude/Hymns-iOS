@@ -10,21 +10,19 @@ class BrowseCategoriesSnapshots: XCTestCase {
 
     override func setUp() {
         super.setUp()
+        viewModel = BrowseCategoriesViewModel(hymnType: .classic)
     }
 
     func test_error() {
-        viewModel = BrowseCategoriesViewModel(hymnType: .classic)
         viewModel.categories = nil
         assertSnapshot(matching: BrowseCategoriesView(viewModel: viewModel), as: .image())
     }
 
     func test_loading() {
-        viewModel = BrowseCategoriesViewModel(hymnType: .classic)
         assertSnapshot(matching: BrowseCategoriesView(viewModel: viewModel), as: .image())
     }
 
     func test_categories() {
-        viewModel = BrowseCategoriesViewModel(hymnType: nil)
         viewModel.categories
             = [CategoryViewModel(category: "Category 1", subcategories: [SubcategoryViewModel(subcategory: "Subcategory 1", count: 15),
                                                                          SubcategoryViewModel(subcategory: "Subcategory 2", count: 2)]),
