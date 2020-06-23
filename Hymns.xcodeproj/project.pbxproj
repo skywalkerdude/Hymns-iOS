@@ -155,7 +155,6 @@
 		3BDD8710249DF6B3006288C8 /* classic_1334.json in Resources */ = {isa = PBXBuildFile; fileRef = 3BDD870F249DF6B3006288C8 /* classic_1334.json */; };
 		3BDD8712249DFC27006288C8 /* classic_1151.json in Resources */ = {isa = PBXBuildFile; fileRef = 3BDD8711249DFC27006288C8 /* classic_1151.json */; };
 		3BE210F2249B3E7C00D4E417 /* HymnDataStoreTestImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE210F1249B3E7C00D4E417 /* HymnDataStoreTestImpl.swift */; };
-		3BE210F2249B3E7C00D4E417 /* TestHymnDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE210F1249B3E7C00D4E417 /* TestHymnDataStore.swift */; };
 		3BE210F4249B41A000D4E417 /* DisplayHymnScenarios.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE210F3249B41A000D4E417 /* DisplayHymnScenarios.swift */; };
 		3BE210F7249B421000D4E417 /* HomeViewCan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE210F6249B421000D4E417 /* HomeViewCan.swift */; };
 		3BE210FA249B592F00D4E417 /* TestHymns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE210F9249B592F00D4E417 /* TestHymns.swift */; };
@@ -398,7 +397,6 @@
 		3BDD870F249DF6B3006288C8 /* classic_1334.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = classic_1334.json; sourceTree = "<group>"; };
 		3BDD8711249DFC27006288C8 /* classic_1151.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = classic_1151.json; sourceTree = "<group>"; };
 		3BE210F1249B3E7C00D4E417 /* HymnDataStoreTestImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnDataStoreTestImpl.swift; sourceTree = "<group>"; };
-		3BE210F1249B3E7C00D4E417 /* TestHymnDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHymnDataStore.swift; sourceTree = "<group>"; };
 		3BE210F3249B41A000D4E417 /* DisplayHymnScenarios.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnScenarios.swift; sourceTree = "<group>"; };
 		3BE210F6249B421000D4E417 /* HomeViewCan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCan.swift; sourceTree = "<group>"; };
 		3BE210F9249B592F00D4E417 /* TestHymns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHymns.swift; sourceTree = "<group>"; };
