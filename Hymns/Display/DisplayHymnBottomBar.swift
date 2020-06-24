@@ -6,7 +6,7 @@ struct BottomBarLabel: View {
     let imageName: String
 
     var body: some View {
-        Image(systemName: imageName).padding()
+        Image(systemName: imageName).font(.system(size: smallButtonSize)).padding()
     }
 }
 
