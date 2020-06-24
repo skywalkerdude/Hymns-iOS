@@ -15,14 +15,20 @@ struct TagListView: View {
                 return ActivityIndicator().maxSize().eraseToAnyView()
             }
             guard !tags.isEmpty else {
-                return VStack(spacing: 5) {
-                    Image("empty tag illustration")
-                    Text("Create tags by tapping on the")
-                    HStack {
-                        Image(systemName: "tag")
-                        Text("icon on any hymn")
-                    }.multilineTextAlignment(.center)
-                }.maxSize().eraseToAnyView()
+                return GeometryReader { geometry in
+                    ScrollView {
+                        VStack(alignment: .center, spacing: 5) {
+                            Spacer()
+                            Image("empty tag illustration")
+                            Text("Create tags by tapping on the").lineLimit(3)
+                            HStack {
+                                Image(systemName: "tag")
+                                Text("icon on any hymn")
+                            }
+                            Spacer()
+                        }.frame(minHeight: geometry.size.height)
+                    }
+                }.eraseToAnyView()
             }
             return List(tags, id: \.self) { tag in
                 NavigationLink(destination: BrowseResultsListView(viewModel: BrowseResultsListViewModel(tag: tag))) {

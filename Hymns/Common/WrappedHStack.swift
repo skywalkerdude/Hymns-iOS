@@ -35,7 +35,6 @@ struct WrappedHStack<Item: Hashable, Content: View>: View {
                         }
 
                         bottomRightY = topLeftY - dimension.height - 5
-                        print("item: \(item), x: \(result)")
                         return result
                     }).alignmentGuide(.top, computeValue: { _ in
                         let result = topLeftY
@@ -43,7 +42,6 @@ struct WrappedHStack<Item: Hashable, Content: View>: View {
                             topLeftY = 0 // last item
                             bottomRightY = 0
                         }
-                        print("item: \(item), y: \(result)")
                         return result
                     })
                 }
