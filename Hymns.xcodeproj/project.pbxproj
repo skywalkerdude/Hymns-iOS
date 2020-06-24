@@ -131,6 +131,7 @@
 		3BADB42524822BDB008CEDAB /* BrowseTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BADB42424822BDB008CEDAB /* BrowseTab.swift */; };
 		3BADB429248461D1008CEDAB /* chineseSupplement216.json in Resources */ = {isa = PBXBuildFile; fileRef = 3BADB428248461D1008CEDAB /* chineseSupplement216.json */; };
 		3BB09207244A18F800EAE411 /* BaseSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB09206244A18F800EAE411 /* BaseSettingViewModel.swift */; };
+		3BB1928324A3EDB600E5F9FA /* SongInfoDialogSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB1928224A3EDB600E5F9FA /* SongInfoDialogSnapshots.swift */; };
 		3BB1DCAE244D03DE0011169D /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB1DCAB244D03DD0011169D /* TabItem.swift */; };
 		3BB1DCAF244D03DE0011169D /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB1DCAC244D03DD0011169D /* TabBar.swift */; };
 		3BB1DCB0244D03DE0011169D /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB1DCAD244D03DE0011169D /* TabView.swift */; };
@@ -371,6 +372,7 @@
 		3BADB42424822BDB008CEDAB /* BrowseTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseTab.swift; sourceTree = "<group>"; };
 		3BADB428248461D1008CEDAB /* chineseSupplement216.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chineseSupplement216.json; sourceTree = "<group>"; };
 		3BB09206244A18F800EAE411 /* BaseSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSettingViewModel.swift; sourceTree = "<group>"; };
+		3BB1928224A3EDB600E5F9FA /* SongInfoDialogSnapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongInfoDialogSnapshots.swift; sourceTree = "<group>"; };
 		3BB1DCAB244D03DD0011169D /* TabItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabItem.swift; path = Hymns/Common/TabView/TabItem.swift; sourceTree = SOURCE_ROOT; };
 		3BB1DCAC244D03DD0011169D /* TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabBar.swift; path = Hymns/Common/TabView/TabBar.swift; sourceTree = SOURCE_ROOT; };
 		3BB1DCAD244D03DE0011169D /* TabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabView.swift; path = Hymns/Common/TabView/TabView.swift; sourceTree = SOURCE_ROOT; };
@@ -1021,6 +1023,7 @@
 				3B52698D24A01E7E006E72E1 /* DisplayHymnPdfSnapshots.swift */,
 				3BDD8707249DBD33006288C8 /* FavoritesSnapshots.swift */,
 				3BE7C91B249CAB2700B04A1F /* HomeSnapshots.swift */,
+				3BB1928224A3EDB600E5F9FA /* SongInfoDialogSnapshots.swift */,
 				3B3DF63824A1CBAF00E60ED9 /* TagSheetSnapshots.swift */,
 				3BE7C91D249CAB2700B04A1F /* Info.plist */,
 			);
@@ -1784,6 +1787,7 @@
 			files = (
 				3BDD870C249DEB42006288C8 /* DisplayHymnSnapshots.swift in Sources */,
 				3B45F01624A14EBE00479FE6 /* BrowseTagsSnapshots.swift in Sources */,
+				3BB1928324A3EDB600E5F9FA /* SongInfoDialogSnapshots.swift in Sources */,
 				3BE7C91C249CAB2700B04A1F /* HomeSnapshots.swift in Sources */,
 				3B3DF63924A1CBAF00E60ED9 /* TagSheetSnapshots.swift in Sources */,
 				3BDD8708249DBD33006288C8 /* FavoritesSnapshots.swift in Sources */,
