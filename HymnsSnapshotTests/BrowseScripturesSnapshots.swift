@@ -27,10 +27,10 @@ class BrowseScripturesSnapshots: XCTestCase {
         viewModel = BrowseScripturesViewModel()
         viewModel.scriptures
             = [ScriptureViewModel(book: .genesis,
-                                  scriptureSongs: [ScriptureSongViewModel(reference: "1:1", title: "Tree of life", hymnIdentifier: PreviewHymnIdentifiers.cupOfChrist),
-                                                   ScriptureSongViewModel(reference: "1:26", title: "God created man", hymnIdentifier: PreviewHymnIdentifiers.hymn1151)]),
+                                  scriptureSongs: [ScriptureSongViewModel(reference: "1:1", title: "Tree of life", hymnIdentifier: cupOfChrist_identifier),
+                                                   ScriptureSongViewModel(reference: "1:26", title: "God created man", hymnIdentifier: hymn1151_identifier)]),
                ScriptureViewModel(book: .revelation,
-                                  scriptureSongs: [ScriptureSongViewModel(reference: "13:5", title: "White horse?", hymnIdentifier: PreviewHymnIdentifiers.hymn40)])]
+                                  scriptureSongs: [ScriptureSongViewModel(reference: "13:5", title: "White horse?", hymnIdentifier: hymn40_identifier)])]
         assertSnapshot(matching: BrowseScripturesView(viewModel: viewModel), as: .image())
     }
 }

@@ -11,7 +11,7 @@ struct ScriptureView: View {
             HStack {
                 Text(viewModel.book.bookName)
                 Spacer()
-                Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                Image(systemName: isExpanded ? "chevron.up" : "chevron.down").font(.system(size: smallButtonSize))
             }.onTapGesture {
                 self.isExpanded.toggle()
             }.foregroundColor(isExpanded ? .accentColor : .primary)
