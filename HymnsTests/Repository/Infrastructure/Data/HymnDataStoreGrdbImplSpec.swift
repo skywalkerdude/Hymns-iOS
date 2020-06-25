@@ -35,6 +35,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                         let value = XCTestExpectation(description: "value received")
                         let publisher = target.getHymn(cebuano123)
                             .print(self.description)
+                            .receive(on: DispatchQueue.main)
                             .sink(receiveCompletion: { state in
                                 completion.fulfill()
                                 expect(state).to(equal(.finished))
@@ -52,6 +53,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                         let value = XCTestExpectation(description: "value received")
                         let publisher = target.getHymn(cebuano123QueryParams)
                             .print(self.description)
+                            .receive(on: DispatchQueue.main)
                             .sink(receiveCompletion: { state in
                                 completion.fulfill()
                                 expect(state).to(equal(.finished))
@@ -69,6 +71,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                         let value = XCTestExpectation(description: "value received")
                         let publisher = target.getHymn(children24)
                             .print(self.description)
+                            .receive(on: DispatchQueue.main)
                             .sink(receiveCompletion: { state in
                                 completion.fulfill()
                                 expect(state).to(equal(.finished))
@@ -94,6 +97,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                         value.isInverted = true
                         let publisher = target.getHymn(children24)
                             .print(self.description)
+                            .receive(on: DispatchQueue.main)
                             .sink(receiveCompletion: { state in
                                 completion.fulfill()
                                 expect(state).to(equal(.failure(.data(description: "SQLite error 1 with statement `SELECT * FROM SONG_DATA WHERE HYMN_TYPE = ? AND HYMN_NUMBER = ? AND QUERY_PARAMS = ?`: no such table: SONG_DATA"))))
@@ -111,6 +115,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                     let value = XCTestExpectation(description: "value received")
                     let publisher = target.searchHymn("Obama")
                         .print(self.description)
+                        .receive(on: DispatchQueue.main)
                         .sink(receiveCompletion: { state in
                             completion.fulfill()
                             expect(state).to(equal(.finished))
@@ -143,6 +148,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                     let value = XCTestExpectation(description: "value received")
                     let publisher = target.searchHymn("summer is coming")
                         .print(self.description)
+                        .receive(on: DispatchQueue.main)
                         .sink(receiveCompletion: { state in
                             completion.fulfill()
                             expect(state).to(equal(.finished))
