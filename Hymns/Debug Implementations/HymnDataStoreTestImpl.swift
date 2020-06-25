@@ -4,7 +4,11 @@ import Foundation
 
 class HymnDataStoreTestImpl: HymnDataStore {
 
-    private var dataStore = [classic1151: classic1151Entity]
+    private var hymnStore = [classic1151: classic1151Entity]
+    private var searchStore
+        = ["search param":
+            [SearchResultEntity(hymnType: .classic, hymnNumber: "1151", queryParams: nil, title: "Click me!", matchInfo: Data(repeating: 0, count: 8)),
+             SearchResultEntity(hymnType: .chinese, hymnNumber: "4", queryParams: nil, title: "Don't click!", matchInfo: Data(repeating: 1, count: 8))]]
 
     var databaseInitializedProperly: Bool = true
 
@@ -13,17 +17,17 @@ class HymnDataStoreTestImpl: HymnDataStore {
             fatalError()
         }
         let hymnIdentifier = HymnIdentifier(hymnType: hymnType, hymnNumber: entity.hymnNumber, queryParams: entity.queryParams.deserializeFromQueryParamString)
-        dataStore[hymnIdentifier] = entity
+        hymnStore[hymnIdentifier] = entity
     }
 
     func getHymn(_ hymnIdentifier: HymnIdentifier) -> AnyPublisher<HymnEntity?, ErrorType> {
-        Just(dataStore[hymnIdentifier]).mapError({ _ -> ErrorType in
+        Just(hymnStore[hymnIdentifier]).mapError({ _ -> ErrorType in
             .data(description: "This will never get called")
         }).eraseToAnyPublisher()
     }
 
     func searchHymn(_ searchParamter: String) -> AnyPublisher<[SearchResultEntity], ErrorType> {
-        Just([SearchResultEntity]()).mapError({ _ -> ErrorType in
+        Just(searchStore[searchParamter] ?? [SearchResultEntity]()).mapError({ _ -> ErrorType in
             .data(description: "This will never get called")
         }).eraseToAnyPublisher()
     }
