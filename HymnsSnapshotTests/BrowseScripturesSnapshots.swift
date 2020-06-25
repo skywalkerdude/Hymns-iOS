@@ -10,21 +10,19 @@ class BrowseScripturesSnapshots: XCTestCase {
 
     override func setUp() {
         super.setUp()
+        viewModel = BrowseScripturesViewModel()
     }
 
     func test_error() {
-        viewModel = BrowseScripturesViewModel()
         viewModel.scriptures = nil
         assertSnapshot(matching: BrowseScripturesView(viewModel: viewModel), as: .image())
     }
 
     func test_loading() {
-        viewModel = BrowseScripturesViewModel()
         assertSnapshot(matching: BrowseScripturesView(viewModel: viewModel), as: .image())
     }
 
     func test_scriptures() {
-        viewModel = BrowseScripturesViewModel()
         viewModel.scriptures
             = [ScriptureViewModel(book: .genesis,
                                   scriptureSongs: [ScriptureSongViewModel(reference: "1:1", title: "Tree of life", hymnIdentifier: cupOfChrist_identifier),
