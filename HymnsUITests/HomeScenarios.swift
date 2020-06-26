@@ -20,6 +20,22 @@ class HomeScenarios: BaseTestCase {
             .verifyHomeTab()
     }
 
+    func test_activateSearch() {
+        _ = HomeViewCan(app, testCase: self)
+            .verifyCancelNotExists()
+            .activateSearch()
+            .verifyCancelExists()
+            .verifyClearTextNotExists()
+            .typeSearchText("1151")
+            .verifySearchText("1151")
+            .verifyClearTextExists()
+            .clearText()
+            .verifyClearTextNotExists()
+            .verifySearchTextNotExists("1151")
+            .cancelSearch()
+            .verifyCancelNotExists()
+    }
+
     func test_launchPerformance() {
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, *) {
             // This measures how long it takes to launch your application.

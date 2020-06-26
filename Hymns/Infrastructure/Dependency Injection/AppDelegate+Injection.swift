@@ -43,7 +43,7 @@ extension Resolver: ResolverRegistering {
         registerSettingsViewModel()
 
         #if DEBUG
-        if CommandLine.arguments.contains("-UITests") {
+        if CommandLine.arguments.contains(AppDelegate.uiTestingFlag) {
             mock.register { HymnDataStoreTestImpl() as HymnDataStore }.scope(application)
             mock.register { HistoryStoreTestImpl() as HistoryStore }.scope(application)
             root = mock
