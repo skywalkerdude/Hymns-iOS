@@ -1,14 +1,9 @@
 import XCTest
 
-class DisplayHymnScenarios: XCTestCase {
-
-    var app: XCUIApplication!
+class DisplayHymnScenarios: BaseTestCase {
 
     override func setUp() {
         super.setUp()
-        continueAfterFailure = false // in UI tests it is usually best to stop immediately when a failure occurs
-        app = XCUIApplication()
-        app.launchArguments.append("-UITests")
         app.launch()
     }
 
