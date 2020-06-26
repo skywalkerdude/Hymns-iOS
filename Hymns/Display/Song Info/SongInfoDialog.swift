@@ -3,6 +3,16 @@ import SwiftUI
 struct SongInfoDialog: View {
 
     @ObservedObject private var viewModel: SongInfoDialogViewModel
+    @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory
+
+    //https://stackoverflow.com/questions/58226892/does-swiftui-support-alternate-layouts-by-preferred-font-size
+    let largeSizeCategories: [ContentSizeCategory] = [.extraExtraLarge,
+                                                      .extraExtraExtraLarge,
+                                                      .accessibilityMedium,
+                                                      .accessibilityLarge,
+                                                      .accessibilityExtraLarge,
+                                                      .accessibilityExtraExtraLarge,
+                                                      .accessibilityExtraExtraExtraLarge]
 
     init(viewModel: SongInfoDialogViewModel) {
         self.viewModel = viewModel
@@ -13,15 +23,28 @@ struct SongInfoDialog: View {
             return ErrorView().eraseToAnyView()
         }
 
-        return VStack(alignment: .leading, spacing: 15) {
-            ForEach(viewModel.songInfo, id: \.self) { songInfo in
-                SongInfoView(viewModel: songInfo)
+        if largeSizeCategories.contains(sizeCategory) {
+            return ScrollView {
+                VStack(alignment: .leading) {
+                    ForEach(viewModel.songInfo, id: \.self) { songInfo in
+                        SongInfoView(viewModel: songInfo)
+                    }
+                }
+            }.padding()
+                .cornerRadius(5)
+                .background(Color(.secondarySystemBackground))
+                .eraseToAnyView()
+        } else {
+            return VStack(alignment: .leading, spacing: 15) {
+                ForEach(viewModel.songInfo, id: \.self) { songInfo in
+                    SongInfoView(viewModel: songInfo)
+                }
             }
+            .padding()
+            .cornerRadius(5)
+            .background(Color(.secondarySystemBackground))
+            .eraseToAnyView()
         }
-        .padding()
-        .cornerRadius(5)
-        .background(Color(.secondarySystemBackground))
-        .eraseToAnyView()
     }
 }
 
