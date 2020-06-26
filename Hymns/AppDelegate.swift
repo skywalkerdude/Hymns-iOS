@@ -5,9 +5,20 @@ import RealmSwift
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    #if DEBUG
+    static let uiTestingFlag = "-UITests"
+    #endif
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+
+        #if DEBUG
+        if CommandLine.arguments.contains(AppDelegate.uiTestingFlag) {
+            UIView.setAnimationsEnabled(false)
+        }
+        #endif
+
         return true
     }
 

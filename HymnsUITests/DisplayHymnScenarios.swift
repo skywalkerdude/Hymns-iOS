@@ -17,7 +17,7 @@ class DisplayHymnScenarios: BaseTestCase {
     func test_goToSongFromNumber() {
         _ = HomeViewCan(app, testCase: self)
             .activateSearch()
-            .performSearch("1151")
+            .typeSearchText("1151")
             .tapResult("Hymn 1151")
             .waitUntilDisplayed("verse 1 line 1")
     }
@@ -25,7 +25,7 @@ class DisplayHymnScenarios: BaseTestCase {
     func test_goToSongFromSearchResults() {
         _ = HomeViewCan(app, testCase: self)
             .activateSearch()
-            .performSearch("search param")
+            .typeSearchText("search param")
             .tapResult("Click me!")
             .waitUntilDisplayed("verse 1 line 1")
     }

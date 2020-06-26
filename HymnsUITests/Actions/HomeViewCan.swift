@@ -9,11 +9,52 @@ public class HomeViewCan: BaseViewCan {
 
     public func activateSearch() -> HomeViewCan {
         app.textFields.element.tap()
+        waitUntilDisplayed("Cancel") // Wait for the Cancel button to be fully displayed before proceeding
         return self
     }
 
-    public func performSearch(_ searchParameter: String) -> HomeViewCan {
-        app.textFields.element.typeText(searchParameter)
+    public func typeSearchText(_ searchText: String) -> HomeViewCan {
+        app.textFields.element.typeText(searchText)
+        return self
+    }
+
+    public func verifySearchText(_ searchText: String) -> HomeViewCan {
+        XCTAssertTrue(app.textFields[searchText].exists)
+        return self
+    }
+
+    public func verifySearchTextNotExists(_ searchText: String) -> HomeViewCan {
+        XCTAssertFalse(app.textFields[searchText].exists)
+        return self
+    }
+
+    public func verifyCancelExists() -> HomeViewCan {
+        XCTAssertTrue(app.buttons["Cancel"].exists)
+        return self
+    }
+
+    public func verifyCancelNotExists() -> HomeViewCan {
+        XCTAssertFalse(app.buttons["Cancel"].exists)
+        return self
+    }
+
+    public func cancelSearch() -> HomeViewCan {
+        app.buttons["Cancel"].tap()
+        return self
+    }
+
+    public func verifyClearTextExists() -> HomeViewCan {
+        XCTAssertTrue(app.buttons["xmark.circle.fill"].exists)
+        return self
+    }
+
+    public func verifyClearTextNotExists() -> HomeViewCan {
+        XCTAssertFalse(app.buttons["xmark.circle.fill"].exists)
+        return self
+    }
+
+    public func clearText() -> HomeViewCan {
+        app.buttons["xmark.circle.fill"].tap()
         return self
     }
 
