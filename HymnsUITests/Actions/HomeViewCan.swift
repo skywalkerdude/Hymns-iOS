@@ -9,7 +9,6 @@ public class HomeViewCan: BaseViewCan {
 
     public func activateSearch() -> HomeViewCan {
         app.textFields.element.tap()
-        waitUntilDisplayed("Cancel") // Wait for the Cancel button to be fully displayed before proceeding
         return self
     }
 
@@ -86,6 +85,11 @@ public class HomeViewCan: BaseViewCan {
     public func tapFavorites() -> HomeViewCan {
         app.tabBars.children(matching: .button).element(boundBy: 2).tap()
         return self
+    }
+
+    public func goToFavorites() -> FavoritesViewCan {
+        _ = tapFavorites()
+        return FavoritesViewCan(app, testCase: testCase)
     }
 
     public func verifyFavoritesTab() -> HomeViewCan {
