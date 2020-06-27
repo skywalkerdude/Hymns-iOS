@@ -8,8 +8,7 @@ protocol FavoriteStore {
     func storeFavorite(_ entity: FavoriteEntity)
     func deleteFavorite(primaryKey: String)
     func favorites() -> AnyPublisher<[FavoriteEntity], ErrorType>
-    func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool
-    func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification
+    func isFavorite(hymnIdentifier: HymnIdentifier) -> AnyPublisher<Bool, ErrorType>
 }
 
 class FavoriteStoreRealmImpl: FavoriteStore {
@@ -58,15 +57,15 @@ class FavoriteStoreRealmImpl: FavoriteStore {
             }).eraseToAnyPublisher()
     }
 
-    func isFavorite(hymnIdentifier: HymnIdentifier) -> Bool {
-        return realm.object(ofType: FavoriteEntity.self, forPrimaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier)) != nil
-    }
-
-    func observeFavoriteStatus(hymnIdentifier: HymnIdentifier, action: @escaping (Bool) -> Void) -> Notification {
-        return realm.observe { (_, _) in
-            let favorite = self.isFavorite(hymnIdentifier: hymnIdentifier)
-            action(favorite)
-        }.toNotification()
+    func isFavorite(hymnIdentifier: HymnIdentifier) -> AnyPublisher<Bool, ErrorType> {
+        realm.objects(FavoriteEntity.self)
+            .filter(NSPredicate(format: "primaryKey == %@", FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier)))
+            .publisher
+            .map({ results -> Bool in
+                !results.isEmpty
+            }).mapError({ error -> ErrorType in
+                .data(description: error.localizedDescription)
+            }).eraseToAnyPublisher()
     }
 }
 

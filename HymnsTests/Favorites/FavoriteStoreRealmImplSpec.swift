@@ -58,10 +58,68 @@ class FavoriteStoreRealmImplSpec: QuickSpec {
                         self.wait(for: [failure, finished, value], timeout: testTimeout)
                         cancellable.cancel()
                     }
-
                     it("cebuano123 should be favorited") {
-                        let queryAllTags = target.isFavorite(hymnIdentifier: cebuano123)
-                        expect(queryAllTags).to(equal(true))
+                        let failure = self.expectation(description: "Invalid.failure")
+                        failure.isInverted = true
+                        let finished = self.expectation(description: "Invalid.finished")
+                        // finished should not be called because this is a self-updating publisher.
+                        finished.isInverted = true
+                        let value = self.expectation(description: "Invalid.receiveValue")
+
+                        let cancellable = target.isFavorite(hymnIdentifier: cebuano123)
+                            .sink(receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
+                                switch completion {
+                                case .failure:
+                                    failure.fulfill()
+                                case .finished:
+                                    finished.fulfill()
+                                }
+                                return
+                            }, receiveValue: { isFavorite in
+                                value.fulfill()
+                                expect(isFavorite).to(beTrue())
+                            })
+                        self.wait(for: [failure, finished, value], timeout: testTimeout)
+                        cancellable.cancel()
+                    }
+                    context("favorites status changes") {
+                        let failure = self.expectation(description: "Invalid.failure")
+                        failure.isInverted = true
+                        let finished = self.expectation(description: "Invalid.finished")
+                        // finished should not be called because this is a self-updating publisher.
+                        finished.isInverted = true
+                        let value = self.expectation(description: "Invalid.receiveValue")
+                        value.expectedFulfillmentCount = 2
+                        var cancellable: AnyCancellable?
+                        var count = 0
+                        beforeEach {
+                            cancellable = target.isFavorite(hymnIdentifier: cebuano123)
+                                .sink(receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
+                                    switch completion {
+                                    case .failure:
+                                        failure.fulfill()
+                                    case .finished:
+                                        finished.fulfill()
+                                    }
+                                    return
+                                }, receiveValue: { isFavorite in
+                                    value.fulfill()
+                                    count += 1
+                                    if count == 1 {
+                                        expect(isFavorite).to(beTrue())
+                                    } else if count == 2 {
+                                        expect(isFavorite).to(beFalse())
+                                    } else {
+                                        fail("count should only be either 1 or 2")
+                                    }
+                                })
+                        }
+                        it("the correct callbacks should be called") {
+                            target.deleteFavorite(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: cebuano123))
+                            self.wait(for: [failure, finished, value], timeout: testTimeout)
+                            expect(cancellable).toNot(beNil())
+                            cancellable!.cancel()
+                        }
                     }
                 }
             }

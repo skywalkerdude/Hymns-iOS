@@ -57,7 +57,7 @@ class DisplayHymnSnapshots: XCTestCase {
         viewModel = DisplayHymnViewModel(hymnToDisplay: hymn1151_identifier)
         viewModel.isLoaded = true
         viewModel.title = "Hymn 1151"
-        viewModel.isFavorited = false
+        viewModel.isFavorited = nil
         let lyricsViewModel = HymnLyricsViewModel(hymnToDisplay: hymn1151_identifier)
         lyricsViewModel.lyrics = [VerseViewModel(verseNumber: "1", verseLines: hymn1151_hymn.lyrics[0].verseContent),
                                   VerseViewModel(verseLines: hymn1151_hymn.lyrics[1].verseContent),
