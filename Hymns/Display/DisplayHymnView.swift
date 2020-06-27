@@ -110,7 +110,7 @@ struct DisplayHymnView_Previews: PreviewProvider {
         let classic1334ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334)
         classic1334ViewModel.isLoaded = true
         classic1334ViewModel.title = "Hymn 1334"
-        classic1334ViewModel.isFavorited = true
+        classic1334ViewModel.isFavorited = nil
         let classic1334LyricsViewModel = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1334)
         classic1334LyricsViewModel.lyrics
             = [VerseViewModel(verseNumber: "1", verseLines: classic1334_preview.lyrics[0].verseContent)

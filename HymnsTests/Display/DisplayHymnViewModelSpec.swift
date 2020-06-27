@@ -27,26 +27,22 @@ class DisplayHymnViewModelSpec: QuickSpec {
                         given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                             Just(nil).assertNoFailure().eraseToAnyPublisher()
                         }
+                        target.fetchHymn()
                     }
-                    describe("performing fetch") {
-                        beforeEach {
-                            target.fetchHymn()
-                        }
-                        it("title should be empty") {
-                            expect(target.title).to(beEmpty())
-                        }
-                        it("should not perform any prefetching") {
-                            verify(pdfLoader.load(url: any())).wasNeverCalled()
-                        }
-                        it("should have no tabs") {
-                            expect(target.tabItems).to(beEmpty())
-                        }
-                        it("should not store any song into the history store") {
-                            verify(historyStore.storeRecentSong(hymnToStore: any(), songTitle: any())).wasNeverCalled()
-                        }
-                        it("should call hymnsRepository.getHymn") {
-                            verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
-                        }
+                    it("title should be empty") {
+                        expect(target.title).to(beEmpty())
+                    }
+                    it("should not perform any prefetching") {
+                        verify(pdfLoader.load(url: any())).wasNeverCalled()
+                    }
+                    it("should have no tabs") {
+                        expect(target.tabItems).to(beEmpty())
+                    }
+                    it("should not store any song into the history store") {
+                        verify(historyStore.storeRecentSong(hymnToStore: any(), songTitle: any())).wasNeverCalled()
+                    }
+                    it("should call hymnsRepository.getHymn") {
+                        verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
                     }
                 }
                 context("with valid repository results") {
@@ -59,71 +55,111 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                 Just(hymn).assertNoFailure().eraseToAnyPublisher()
                             }
                         }
+                        let expectedTitle = "Hymn 1151"
                         context("is favorited") {
                             beforeEach {
-                                given(favoriteStore.isFavorite(hymnIdentifier: classic1151)) ~> true
-                                given(favoriteStore.observeFavoriteStatus(hymnIdentifier: classic1151, action: any())) ~> mock(Notification.self)
+                                given(favoriteStore.isFavorite(hymnIdentifier: classic1151)) ~> { _ in
+                                    Just(true).mapError({ _ -> ErrorType in
+                                        .data(description: "This will never get called")
+                                    }).eraseToAnyPublisher()
+                                }
+
+                                expect(target.isLoaded).to(beFalse())
+                                target.fetchHymn()
+                                testQueue.sync {}
+                                testQueue.sync {}
+                                testQueue.sync {}
+                                testQueue.sync {}
                             }
-                            describe("fetching hymn") {
-                                beforeEach {
-                                    expect(target.isLoaded).to(beFalse())
-                                    target.fetchHymn()
-                                    testQueue.sync {}
-                                    testQueue.sync {}
-                                    testQueue.sync {}
+                            it("should be done loading") {
+                                expect(target.isLoaded).to(beTrue())
+                            }
+                            it("title should be '\(expectedTitle)'") {
+                                expect(target.title).to(equal(expectedTitle))
+                            }
+                            it("should store the song into the history store") {
+                                verify(historyStore.storeRecentSong(hymnToStore: classic1151, songTitle: "Hymn 1151: title")).wasCalled(exactly(1))
+                            }
+                            it("should call hymnsRepository.getHymn") {
+                                verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
+                            }
+                            it("should be favorited") {
+                                expect(target.isFavorited).to(beTrue())
+                            }
+                            it("should call favoriteStore.isFavorite") {
+                                verify(favoriteStore.isFavorite(hymnIdentifier: classic1151)).wasCalled(exactly(1))
+                            }
+                            let chordsUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=gtpdf")!
+                            it("chords url should be prefetched") {
+                                verify(pdfLoader.load(url: chordsUrl)).wasCalled(exactly(1))
+                            }
+                            let guitarUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=pdf")!
+                            it("guitar url should be prefetched") {
+                                verify(pdfLoader.load(url: guitarUrl)).wasCalled(exactly(1))
+                            }
+                            let pianoUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=ppdf")!
+                            it("piano url should be prefetched") {
+                                verify(pdfLoader.load(url: pianoUrl)).wasCalled(exactly(1))
+                            }
+                            it("should have four tabs") {
+                                expect(target.tabItems).to(haveCount(4))
+                            }
+                            it("first tab should be lyrics") {
+                                expect(target.tabItems[0].id).to(equal("Lyrics"))
+                            }
+                            it("second tab should be chords") {
+                                expect(target.tabItems[1].id).to(equal("Chords"))
+                            }
+                            it("third tab should be guitar") {
+                                expect(target.tabItems[2].id).to(equal("Guitar"))
+                            }
+                            it("fourth tab should be piano") {
+                                expect(target.tabItems[3].id).to(equal("Piano"))
+                            }
+                            it("should have a bottom bar") {
+                                expect(target.bottomBar).to(equal(DisplayHymnBottomBarViewModel(hymnToDisplay: classic1151)))
+                            }
+                        }
+                        context("is not favorited") {
+                            beforeEach {
+                                given(favoriteStore.isFavorite(hymnIdentifier: classic1151)) ~> { _ in
+                                    Just(false).mapError({ _ -> ErrorType in
+                                        .data(description: "This will never get called")
+                                    }).eraseToAnyPublisher()
                                 }
-                                it("should be done loading") {
-                                    expect(target.isLoaded).to(beTrue())
+                                target.fetchHymn()
+                                testQueue.sync {}
+                                testQueue.sync {}
+                                testQueue.sync {}
+                                testQueue.sync {}
+                            }
+                            it("should not be favorited") {
+                                expect(target.isFavorited).to(beFalse())
+                            }
+                            it("should call favoriteStore.isFavorite") {
+                                verify(favoriteStore.isFavorite(hymnIdentifier: classic1151)).wasCalled(exactly(1))
+                            }
+                        }
+                        context("favorited throws error") {
+                            beforeEach {
+                                given(favoriteStore.isFavorite(hymnIdentifier: classic1151)) ~> { _ in
+                                    Just(false).tryMap({ _ -> Bool in
+                                        throw URLError(.badServerResponse)
+                                    }).mapError({ _ -> ErrorType in
+                                        .data(description: "Forced error")
+                                    }).eraseToAnyPublisher()
                                 }
-                                let expectedTitle = "Hymn 1151"
-                                it("title should be '\(expectedTitle)'") {
-                                    expect(target.title).to(equal(expectedTitle))
-                                }
-                                it("should store the song into the history store") {
-                                    verify(historyStore.storeRecentSong(hymnToStore: classic1151, songTitle: "Hymn 1151: title")).wasCalled(exactly(1))
-                                }
-                                it("should call hymnsRepository.getHymn") {
-                                    verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
-                                }
-                                it("should be favorited") {
-                                    expect(target.isFavorited).to(beTrue())
-                                }
-                                it("should call favoriteStore.isFavorite") {
-                                    verify(favoriteStore.isFavorite(hymnIdentifier: classic1151)).wasCalled(exactly(1))
-                                }
-                                it("should observe its favorite status") {
-                                    verify(favoriteStore.observeFavoriteStatus(hymnIdentifier: classic1151, action: any())).wasCalled(exactly(1))
-                                }
-                                let chordsUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=gtpdf")!
-                                it("chords url should be prefetched") {
-                                    verify(pdfLoader.load(url: chordsUrl)).wasCalled(exactly(1))
-                                }
-                                let guitarUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=pdf")!
-                                it("guitar url should be prefetched") {
-                                    verify(pdfLoader.load(url: guitarUrl)).wasCalled(exactly(1))
-                                }
-                                let pianoUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=ppdf")!
-                                it("piano url should be prefetched") {
-                                    verify(pdfLoader.load(url: pianoUrl)).wasCalled(exactly(1))
-                                }
-                                it("should have four tabs") {
-                                    expect(target.tabItems).to(haveCount(4))
-                                }
-                                it("first tab should be lyrics") {
-                                    expect(target.tabItems[0].id).to(equal("Lyrics"))
-                                }
-                                it("second tab should be chords") {
-                                    expect(target.tabItems[1].id).to(equal("Chords"))
-                                }
-                                it("third tab should be guitar") {
-                                    expect(target.tabItems[2].id).to(equal("Guitar"))
-                                }
-                                it("fourth tab should be piano") {
-                                    expect(target.tabItems[3].id).to(equal("Piano"))
-                                }
-                                it("should have a bottom bar") {
-                                    expect(target.bottomBar).to(equal(DisplayHymnBottomBarViewModel(hymnToDisplay: classic1151)))
-                                }
+                                target.fetchHymn()
+                                testQueue.sync {}
+                                testQueue.sync {}
+                                testQueue.sync {}
+                                testQueue.sync {}
+                            }
+                            it("should not be favorited") {
+                                expect(target.isFavorited).to(beNil())
+                            }
+                            it("should call favoriteStore.isFavorite") {
+                                verify(favoriteStore.isFavorite(hymnIdentifier: classic1151)).wasCalled(exactly(1))
                             }
                         }
                     }
@@ -139,65 +175,58 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                 given(hymnsRepository.getHymn(newSong145)) ~> { _ in
                                     Just(hymnWithHymnColonTitle).assertNoFailure().eraseToAnyPublisher()
                                 }
+                                given(favoriteStore.isFavorite(hymnIdentifier: newSong145)) ~> { _ in
+                                    Just(false).mapError({ _ -> ErrorType in
+                                        .data(description: "This will never get called")
+                                    }).eraseToAnyPublisher()
+                                }
+                                target.fetchHymn()
+                                testQueue.sync {}
+                                testQueue.sync {}
+                                testQueue.sync {}
+                                testQueue.sync {}
                             }
-                            context("is not favorited") {
-                                beforeEach {
-                                    given(favoriteStore.isFavorite(hymnIdentifier: newSong145)) ~> false
-                                    given(favoriteStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())) ~> mock(Notification.self)
-                                }
-                                describe("fetching hymn") {
-                                    beforeEach {
-                                        target.fetchHymn()
-                                        testQueue.sync {}
-                                        testQueue.sync {}
-                                        testQueue.sync {}
-                                    }
-                                    it("title should be '\(title)'") {
-                                        expect(target.title).to(equal(title))
-                                    }
-                                    it("should store the song into the history store") {
-                                        verify(historyStore.storeRecentSong(hymnToStore: any(), songTitle: any())).wasNeverCalled()
-                                    }
-                                    it("should call hymnsRepository.getHymn") {
-                                        verify(hymnsRepository.getHymn(newSong145)).wasCalled(exactly(1))
-                                    }
-                                    it("should not be favorited") {
-                                        expect(target.isFavorited).to(beFalse())
-                                    }
-                                    it("should call favoriteStore.isFavorite") {
-                                        verify(favoriteStore.isFavorite(hymnIdentifier: newSong145)).wasCalled(exactly(1))
-                                    }
-                                    it("should observe its favorite status") {
-                                        verify(favoriteStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())).wasCalled(exactly(1))
-                                    }
-                                    let chordsUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=gtpdf")!
-                                    it("chords url should be prefetched") {
-                                        verify(pdfLoader.load(url: chordsUrl)).wasCalled(exactly(1))
-                                    }
-                                    let guitarUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=pdf")!
-                                    it("guitar url should be prefetched") {
-                                        verify(pdfLoader.load(url: guitarUrl)).wasCalled(exactly(1))
-                                    }
-                                    let pianoUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=ppdf")!
-                                    it("piano url should be prefetched") {
-                                        verify(pdfLoader.load(url: pianoUrl)).wasCalled(exactly(1))
-                                    }
-                                    it("should have four tabs") {
-                                        expect(target.tabItems).to(haveCount(4))
-                                    }
-                                    it("first tab should be lyrics") {
-                                        expect(target.tabItems[0].id).to(equal("Lyrics"))
-                                    }
-                                    it("second tab should be chords") {
-                                        expect(target.tabItems[1].id).to(equal("Chords"))
-                                    }
-                                    it("third tab should be guitar") {
-                                        expect(target.tabItems[2].id).to(equal("Guitar"))
-                                    }
-                                    it("fourth tab should be piano") {
-                                        expect(target.tabItems[3].id).to(equal("Piano"))
-                                    }
-                                }
+                            it("title should be '\(title)'") {
+                                expect(target.title).to(equal(title))
+                            }
+                            it("should store the song into the history store") {
+                                verify(historyStore.storeRecentSong(hymnToStore: any(), songTitle: any())).wasNeverCalled()
+                            }
+                            it("should call hymnsRepository.getHymn") {
+                                verify(hymnsRepository.getHymn(newSong145)).wasCalled(exactly(1))
+                            }
+                            it("should not be favorited") {
+                                expect(target.isFavorited).to(beFalse())
+                            }
+                            it("should call favoriteStore.isFavorite") {
+                                verify(favoriteStore.isFavorite(hymnIdentifier: newSong145)).wasCalled(exactly(1))
+                            }
+                            let chordsUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=gtpdf")!
+                            it("chords url should be prefetched") {
+                                verify(pdfLoader.load(url: chordsUrl)).wasCalled(exactly(1))
+                            }
+                            let guitarUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=pdf")!
+                            it("guitar url should be prefetched") {
+                                verify(pdfLoader.load(url: guitarUrl)).wasCalled(exactly(1))
+                            }
+                            let pianoUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=ppdf")!
+                            it("piano url should be prefetched") {
+                                verify(pdfLoader.load(url: pianoUrl)).wasCalled(exactly(1))
+                            }
+                            it("should have four tabs") {
+                                expect(target.tabItems).to(haveCount(4))
+                            }
+                            it("first tab should be lyrics") {
+                                expect(target.tabItems[0].id).to(equal("Lyrics"))
+                            }
+                            it("second tab should be chords") {
+                                expect(target.tabItems[1].id).to(equal("Chords"))
+                            }
+                            it("third tab should be guitar") {
+                                expect(target.tabItems[2].id).to(equal("Guitar"))
+                            }
+                            it("fourth tab should be piano") {
+                                expect(target.tabItems[3].id).to(equal("Piano"))
                             }
                         }
                         context("hymn does not contain sheet music") {
@@ -206,16 +235,21 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                 given(hymnsRepository.getHymn(newSong145)) ~> { _ in
                                     Just(hymnWithoutSheetMusic).assertNoFailure().eraseToAnyPublisher()
                                 }
-                                given(favoriteStore.isFavorite(hymnIdentifier: newSong145)) ~> false
-                                given(favoriteStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())) ~> mock(Notification.self)
-                            }
-                            describe("fetching hymn") {
-                                beforeEach {
-                                    target.fetchHymn()
-                                    testQueue.sync {}
-                                    testQueue.sync {}
-                                    testQueue.sync {}
+                                given(favoriteStore.isFavorite(hymnIdentifier: newSong145)) ~> { _ in
+                                    Just(false).mapError({ _ -> ErrorType in
+                                        .data(description: "This will never get called")
+                                    }).eraseToAnyPublisher()
                                 }
+                                target.fetchHymn()
+                                testQueue.sync {}
+                                testQueue.sync {}
+                                testQueue.sync {}
+                            }
+                            it("should have one tab") {
+                                expect(target.tabItems).to(haveCount(1))
+                            }
+                            it("tab should be lyrics") {
+                                expect(target.tabItems[0].id).to(equal("Lyrics"))
                             }
                         }
                         context("title does not contains 'Hymn: '") {
@@ -224,48 +258,19 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                 given(hymnsRepository.getHymn(newSong145)) ~> { _ in
                                     Just(hymnWithOutHymnColonTitle).assertNoFailure().eraseToAnyPublisher()
                                 }
+                                given(favoriteStore.isFavorite(hymnIdentifier: newSong145)) ~> { _ in
+                                    Just(true).mapError({ _ -> ErrorType in
+                                        .data(description: "This will never get called")
+                                    }).eraseToAnyPublisher()
+                                }
+                                target.fetchHymn()
+                                testQueue.sync {}
+                                testQueue.sync {}
+                                testQueue.sync {}
+                                testQueue.sync {}
                             }
-                            context("favorite status updated from true to false") {
-                                beforeEach {
-                                    given(favoriteStore.isFavorite(hymnIdentifier: newSong145)) ~> true
-                                    given(favoriteStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())) ~> { (hymnIdentifier, action) in
-                                        action(false)
-                                        return mock(Notification.self)
-                                    }
-                                }
-                                describe("fetching hymn") {
-                                    beforeEach {
-                                        target.fetchHymn()
-                                        testQueue.sync {}
-                                        testQueue.sync {}
-                                        testQueue.sync {}
-                                    }
-                                    it("title should be '\(title)'") {
-                                        expect(target.title).to(equal(title))
-                                    }
-                                    it("should store the song into the history store") {
-                                        verify(historyStore.storeRecentSong(hymnToStore: any(), songTitle: any())).wasNeverCalled()
-                                    }
-                                    it("should call hymnsRepository.getHymn") {
-                                        verify(hymnsRepository.getHymn(newSong145)).wasCalled(exactly(1))
-                                    }
-                                    it("should not be favorited") {
-                                        expect(target.isFavorited).to(beFalse())
-                                    }
-                                    it("should call favoriteStore.isFavorite") {
-                                        verify(favoriteStore.isFavorite(hymnIdentifier: newSong145)).wasCalled(exactly(1))
-                                    }
-                                    it("should observe its favorite status") {
-                                        verify(favoriteStore.observeFavoriteStatus(hymnIdentifier: newSong145, action: any())).wasCalled(exactly(1))
-                                    }
-                                    it("should have one tab") {
-                                        // tabItems should be one because this call is without sheet music
-                                        expect(target.tabItems).to(haveCount(1))
-                                    }
-                                    it("first tab should be lyrics") {
-                                        expect(target.tabItems[0].id).to(equal("Lyrics"))
-                                    }
-                                }
+                            it("title should be '\(title)'") {
+                                expect(target.title).to(equal(title))
                             }
                         }
                     }

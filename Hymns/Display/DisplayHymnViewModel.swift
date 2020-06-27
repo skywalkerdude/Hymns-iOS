@@ -31,7 +31,6 @@ class DisplayHymnViewModel: ObservableObject {
      * is "Hymn X", but when we store it in Favorites/Recents, we want to include the title too. So the computed title, in that case, will be "Hymn X: TITLE"
      */
     private var computedTitle: String = ""
-    private var favoritesObserver: Notification?
     private var disposables = Set<AnyCancellable>()
 
     init(analytics: AnalyticsLogger = Resolver.resolve(),
@@ -53,10 +52,6 @@ class DisplayHymnViewModel: ObservableObject {
         self.pdfLoader = pdfPreloader
         self.repository = repository
         self.storeInHistoryStore = storeInHistoryStore
-    }
-
-    deinit {
-        favoritesObserver = nil
     }
 
     func fetchHymn() {
@@ -110,11 +105,11 @@ class DisplayHymnViewModel: ObservableObject {
                     }
 
                     let mp3Path = hymn.music?.data.first(where: { datum -> Bool in
-                         datum.value == DatumValue.mp3.rawValue
-                         })?.path
-                     self.mp3Path = mp3Path.flatMap({ path -> URL? in
-                         HymnalNet.url(path: path)
-                     })
+                        datum.value == DatumValue.mp3.rawValue
+                    })?.path
+                    self.mp3Path = mp3Path.flatMap({ path -> URL? in
+                        HymnalNet.url(path: path)
+                    })
 
                     self.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: self.identifier)
                     self.fetchFavoriteStatus()
@@ -125,10 +120,15 @@ class DisplayHymnViewModel: ObservableObject {
     }
 
     func fetchFavoriteStatus() {
-        self.isFavorited = favoriteStore.isFavorite(hymnIdentifier: identifier)
-        favoritesObserver = favoriteStore.observeFavoriteStatus(hymnIdentifier: identifier) { isFavorited in
-            self.isFavorited = isFavorited
-        }
+        favoriteStore.isFavorite(hymnIdentifier: identifier)
+            .compactMap({ isFavorited -> Bool? in
+                isFavorited
+            })
+            .replaceError(with: nil)
+            .receive(on: mainQueue)
+            .sink(receiveValue: { isFavorited in
+                self.isFavorited = isFavorited
+            }).store(in: &disposables)
     }
     func toggleFavorited() {
         isFavorited.map { isFavorited in
