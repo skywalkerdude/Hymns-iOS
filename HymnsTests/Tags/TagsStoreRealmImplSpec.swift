@@ -138,6 +138,56 @@ class TagStoreRealmImplSpec: QuickSpec {
                         cancellable.cancel()
                     }
                 }
+                context("unique tags changes") {
+                    let failure = self.expectation(description: "Invalid.failure")
+                    failure.isInverted = true
+                    let finished = self.expectation(description: "Invalid.finished")
+                    // finished should not be called because this is a self-updating publisher.
+                    finished.isInverted = true
+                    let value = self.expectation(description: "Invalid.receiveValue")
+                    value.expectedFulfillmentCount = 2
+                    var cancellable: AnyCancellable?
+                    var count = 0
+                    beforeEach {
+                        cancellable = target.getUniqueTags()
+                            .sink(receiveCompletion: { state in
+                                switch state {
+                                case .failure:
+                                    failure.fulfill()
+                                case .finished:
+                                    finished.fulfill()
+                                }
+                                return
+                            }, receiveValue: { tags in
+                                value.fulfill()
+                                count += 1
+                                if count == 1 {
+                                    expect(tags).to(equal([UiTag(title: "Peace", color: .yellow),
+                                                           UiTag(title: "Peace", color: .blue),
+                                                           UiTag(title: "Life", color: .red),
+                                                           UiTag(title: "Table", color: .blue),
+                                                           UiTag(title: "Christ", color: .blue),
+                                                           UiTag(title: "Bread and wine", color: .yellow),
+                                                           UiTag(title: "Is", color: .red)]))
+                                } else if count == 2 {
+                                    expect(tags).to(equal([UiTag(title: "Peace", color: .yellow),
+                                                           UiTag(title: "Peace", color: .blue),
+                                                           UiTag(title: "Life", color: .red),
+                                                           UiTag(title: "Table", color: .blue),
+                                                           UiTag(title: "Christ", color: .blue),
+                                                           UiTag(title: "Bread and wine", color: .yellow)]))
+                                } else {
+                                    fail("count should only be either 1 or 2")
+                                }
+                            })
+                    }
+                    it("the correct callbacks should be called") {
+                        target.deleteTag(Tag(hymnIdentifier: classic1151, songTitle: "Hymn 1151", tag: "Is", color: .red))
+                        self.wait(for: [failure, finished, value], timeout: testTimeout)
+                        expect(cancellable).toNot(beNil())
+                        cancellable!.cancel()
+                    }
+                }
             }
         }
     }
