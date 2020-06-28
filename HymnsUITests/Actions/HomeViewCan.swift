@@ -13,7 +13,7 @@ public class HomeViewCan: BaseViewCan {
     }
 
     public func typeSearchText(_ searchText: String) -> HomeViewCan {
-        app.textFields.element.typeText(searchText)
+        app.textFields.element.clearAndEnterText(searchText)
         return self
     }
 
