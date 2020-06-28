@@ -69,7 +69,7 @@ class DisplayHymnViewModel: ObservableObject {
                     self.title = self.identifier.hymnType == .classic ? "Hymn \(self.identifier.hymnNumber)" : hymn.title
                     self.computedTitle = hymn.computedTitle
 
-                    self.tabItems = [self.currentTab]
+                    self.tabItems = [.lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: self.identifier)).maxSize().eraseToAnyView())]
 
                     let chordsPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.text.rawValue
