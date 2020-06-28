@@ -14,9 +14,16 @@ public class BaseViewCan {
         self.testCase = testCase
     }
 
-    public func waitUntilDisplayed(_ strings: String...) -> Self {
+    public func waitForButtons(_ strings: String...) -> Self {
         for string in strings {
-            _ = app.staticTexts[string].waitForExistence(timeout: 2)
+            XCTAssertTrue(app.buttons[string].waitForExistence(timeout: 2))
+        }
+        return self
+    }
+
+    public func waitForStaticTexts(_ strings: String...) -> Self {
+        for string in strings {
+            XCTAssertTrue(app.staticTexts[string].waitForExistence(timeout: 2))
         }
         return self
     }

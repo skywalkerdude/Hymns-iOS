@@ -10,8 +10,8 @@ class FavoritesScenarios: BaseTestCase {
     func test_goToFavorite() {
         _ = HomeViewCan(app, testCase: self)
             .goToFavorites()
-            .waitUntilDisplayed("classic40", "classic2", "classic1151")
+            .waitForButtons("classic40", "classic2", "classic1151")
             .tapFavorite("classic1151")
-            .waitUntilDisplayed("verse 1 line 1")
+            .waitForStaticTexts("verse 1 line 1")
     }
 }

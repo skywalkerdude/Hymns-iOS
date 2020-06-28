@@ -3,13 +3,13 @@ import Foundation
 class CategoryViewModel: ObservableObject {
 
     let category: String
-    var subcategories: [SubcategoryViewModel]
     let hymnType: HymnType?
+    var subcategories: [SubcategoryViewModel]
 
-    init(category: String, subcategories: [SubcategoryViewModel], hymnType: HymnType? = nil) {
+    init(category: String, hymnType: HymnType?, subcategories: [SubcategoryViewModel]) {
         self.category = category
-        self.subcategories = subcategories
         self.hymnType = hymnType
+        self.subcategories = subcategories
     }
 }
 

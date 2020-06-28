@@ -77,6 +77,11 @@ public class HomeViewCan: BaseViewCan {
         return self
     }
 
+    public func goToBrowse() -> BrowseViewCan {
+        _ = tapBrowse()
+        return BrowseViewCan(app, testCase: testCase)
+    }
+
     public func verifyBrowseTab() -> HomeViewCan {
         XCTAssertTrue(app.staticTexts["Browse"].exists)
         return self

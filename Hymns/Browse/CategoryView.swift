@@ -33,6 +33,7 @@ struct CategoryView_Previews: PreviewProvider {
     static var previews: some View {
 
         let viewModel = CategoryViewModel(category: "Category",
+                                          hymnType: nil,
                                           subcategories: [SubcategoryViewModel(subcategory: "Subcategory 1", count: 5),
                                                           SubcategoryViewModel(subcategory: "Subcategory 2", count: 1)])
 

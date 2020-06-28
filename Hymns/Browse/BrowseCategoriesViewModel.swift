@@ -40,6 +40,7 @@ class BrowseCategoriesViewModel: ObservableObject {
                         viewModel.category == entity.category
                     }) else {
                         let viewModel = CategoryViewModel(category: entity.category,
+                                                          hymnType: self.hymnType,
                                                           subcategories: [SubcategoryViewModel(subcategory: entity.subcategory, count: entity.count)])
                         viewModels.append(viewModel)
                         return

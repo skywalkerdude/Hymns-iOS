@@ -23,12 +23,16 @@ class BrowseCategoriesSnapshots: XCTestCase {
     }
 
     func test_categories() {
-        viewModel = BrowseCategoriesViewModel(hymnType: nil)
+        viewModel = BrowseCategoriesViewModel(hymnType: .german)
         viewModel.categories
-            = [CategoryViewModel(category: "Category 1", subcategories: [SubcategoryViewModel(subcategory: "Subcategory 1", count: 15),
-                                                                         SubcategoryViewModel(subcategory: "Subcategory 2", count: 2)]),
-               CategoryViewModel(category: "Category 2", subcategories: [SubcategoryViewModel(subcategory: "Subcategory 2", count: 12),
-                                                                         SubcategoryViewModel(subcategory: "Subcategory 3", count: 1)])]
+            = [CategoryViewModel(category: "Category 1",
+                                 hymnType: .german,
+                                 subcategories: [SubcategoryViewModel(subcategory: "Subcategory 1", count: 15),
+                                                 SubcategoryViewModel(subcategory: "Subcategory 2", count: 2)]),
+               CategoryViewModel(category: "Category 2",
+                                 hymnType: .german,
+                                 subcategories: [SubcategoryViewModel(subcategory: "Subcategory 2", count: 12),
+                                                 SubcategoryViewModel(subcategory: "Subcategory 3", count: 1)])]
         assertSnapshot(matching: BrowseCategoriesView(viewModel: viewModel), as: .image())
     }
 

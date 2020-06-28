@@ -34,10 +34,14 @@ struct BrowseCategoriesView_Previews: PreviewProvider {
 
         let resultsViewModel = BrowseCategoriesViewModel(hymnType: nil)
         resultsViewModel.categories
-            = [CategoryViewModel(category: "Category 1", subcategories: [SubcategoryViewModel(subcategory: "Subcategory 1", count: 15),
-                                                                         SubcategoryViewModel(subcategory: "Subcategory 2", count: 2)]),
-               CategoryViewModel(category: "Category 2", subcategories: [SubcategoryViewModel(subcategory: "Subcategory 2", count: 12),
-                                                                         SubcategoryViewModel(subcategory: "Subcategory 3", count: 1)])]
+            = [CategoryViewModel(category: "Category 1",
+                                 hymnType: nil,
+                                 subcategories: [SubcategoryViewModel(subcategory: "Subcategory 1", count: 15),
+                                                 SubcategoryViewModel(subcategory: "Subcategory 2", count: 2)]),
+               CategoryViewModel(category: "Category 2",
+                                 hymnType: nil,
+                                 subcategories: [SubcategoryViewModel(subcategory: "Subcategory 2", count: 12),
+                                                 SubcategoryViewModel(subcategory: "Subcategory 3", count: 1)])]
         let results = BrowseCategoriesView(viewModel: resultsViewModel)
         return Group {
             error

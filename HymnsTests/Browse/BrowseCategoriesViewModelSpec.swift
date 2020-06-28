@@ -16,7 +16,7 @@ class BrowseCategoriesViewModelSpec: QuickSpec {
         describe("fetching categories") {
             beforeEach {
                 categoriesRepository = mock(CategoriesRepository.self)
-                target = BrowseCategoriesViewModel(hymnType: nil, backgroundQueue: testQueue, categoriesRepository: categoriesRepository, mainQueue: testQueue)
+                target = BrowseCategoriesViewModel(hymnType: .dutch, backgroundQueue: testQueue, categoriesRepository: categoriesRepository, mainQueue: testQueue)
             }
 
             context("with results") {
@@ -28,22 +28,28 @@ class BrowseCategoriesViewModelSpec: QuickSpec {
                                   CategoryEntity(category: "Category 1", subcategory: "Subcategory 2", count: 738)]
                 let currentValue = CurrentValueSubject<[CategoryEntity], ErrorType>(categories)
                 beforeEach {
-                    given(categoriesRepository.categories(by: nil)) ~> {_ in
+                    given(categoriesRepository.categories(by: .dutch)) ~> {_ in
                         currentValue.eraseToAnyPublisher()
                     }
                     target.fetchCategories()
                     testQueue.sync {}
                 }
                 it("should contain returned categories") {
-                    let expected = [CategoryViewModel(category: "Category 1", subcategories: [SubcategoryViewModel(subcategory: nil, count: 750),
-                                                                                              SubcategoryViewModel(subcategory: "Subcategory 1", count: 5),
-                                                                                              SubcategoryViewModel(subcategory: "Subcategory 3", count: 2),
-                                                                                              SubcategoryViewModel(subcategory: "Subcategory 4", count: 5),
-                                                                                              SubcategoryViewModel(subcategory: "Subcategory 2", count: 738)]),
-                                    CategoryViewModel(category: "Category 2", subcategories: [SubcategoryViewModel(subcategory: nil, count: 6),
-                                                                                              SubcategoryViewModel(subcategory: "Subcategory 1", count: 6)]),
-                                    CategoryViewModel(category: "Category 3", subcategories: [SubcategoryViewModel(subcategory: nil, count: 98),
-                                                                                              SubcategoryViewModel(subcategory: "Subcategory 20", count: 98)])]
+                    let expected = [CategoryViewModel(category: "Category 1",
+                                                      hymnType: .dutch,
+                                                      subcategories: [SubcategoryViewModel(subcategory: nil, count: 750),
+                                                                      SubcategoryViewModel(subcategory: "Subcategory 1", count: 5),
+                                                                      SubcategoryViewModel(subcategory: "Subcategory 3", count: 2),
+                                                                      SubcategoryViewModel(subcategory: "Subcategory 4", count: 5),
+                                                                      SubcategoryViewModel(subcategory: "Subcategory 2", count: 738)]),
+                                    CategoryViewModel(category: "Category 2",
+                                                      hymnType: .dutch,
+                                                      subcategories: [SubcategoryViewModel(subcategory: nil, count: 6),
+                                                                      SubcategoryViewModel(subcategory: "Subcategory 1", count: 6)]),
+                                    CategoryViewModel(category: "Category 3",
+                                                      hymnType: .dutch,
+                                                      subcategories: [SubcategoryViewModel(subcategory: nil, count: 98),
+                                                                      SubcategoryViewModel(subcategory: "Subcategory 20", count: 98)])]
                     expect(target.categories).to(equal(expected))
                 }
             }
