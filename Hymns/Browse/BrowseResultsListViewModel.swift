@@ -9,9 +9,23 @@ class BrowseResultsListViewModel: ObservableObject {
 
     private var disposables = Set<AnyCancellable>()
 
-    init(tag: UiTag, tagStore: TagStore = Resolver.resolve()) {
+    init(tag: UiTag, tagStore: TagStore = Resolver.resolve(),
+         mainQueue: DispatchQueue = Resolver.resolve(name: "main")) {
         self.title = tag.title
-        songResults = tagStore.getSongsByTag(tag)
+        tagStore.getSongsByTag(tag)
+            .map({ songResults -> [SongResultViewModel] in
+                songResults.map { songResult -> SongResultViewModel in
+                    let hymnIdentifier = HymnIdentifier(hymnType: songResult.hymnType, hymnNumber: songResult.hymnNumber, queryParams: songResult.queryParams)
+                    let title = songResult.title
+                    return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
+                }
+            })
+            .receive(on: mainQueue)
+            .replaceError(with: [SongResultViewModel]())
+            .sink(receiveValue: { [weak self] viewModels in
+                guard let self = self else { return }
+                self.songResults = viewModels
+            }).store(in: &disposables)
     }
 
     init(category: String, subcategory: String? = nil,

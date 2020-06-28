@@ -7,7 +7,7 @@ import Resolver
 protocol TagStore {
     func storeTag(_ tag: Tag)
     func deleteTag(_ tag: Tag)
-    func getSongsByTag(_ tag: UiTag) -> [SongResultViewModel]
+    func getSongsByTag(_ tag: UiTag) -> AnyPublisher<[SongResultEntity], ErrorType>
     func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> AnyPublisher<[Tag], ErrorType>
     func getUniqueTags() -> AnyPublisher<[UiTag], ErrorType>
 }
@@ -46,15 +46,20 @@ class TagStoreRealmImpl: TagStore {
     }
 
     /** Can be used either with a value to specificially query for one tag or without the optional to query all tags*/
-    func getSongsByTag(_ tag: UiTag) -> [SongResultViewModel] {
-        let songResults: [SongResultViewModel] =
-            realm.objects(TagEntity.self)
-                .filter(NSPredicate(format: "tagObject.tag == %@ AND tagObject.privateTagColor == %d", tag.title, tag.color.rawValue))
-                .map { entity -> SongResultViewModel in
-                    let hymnIdentifier = HymnIdentifier(entity.tagObject.hymnIdentifierEntity)
-                    return SongResultViewModel(title: entity.tagObject.songTitle, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
-        }
-        return songResults
+    func getSongsByTag(_ tag: UiTag) -> AnyPublisher<[SongResultEntity], ErrorType> {
+        realm.objects(TagEntity.self)
+            .filter(NSPredicate(format: "tagObject.tag == %@ AND tagObject.privateTagColor == %d", tag.title, tag.color.rawValue))
+            .publisher
+            .map { entities -> [SongResultEntity] in
+                entities.map { entity -> SongResultEntity in
+                    let hymnType = entity.tagObject.hymnIdentifierEntity.hymnType
+                    let hymnNumber = entity.tagObject.hymnIdentifierEntity.hymnNumber
+                    let queryParams = entity.tagObject.hymnIdentifierEntity.queryParams?.deserializeFromQueryParamString
+                    return SongResultEntity(hymnType: hymnType, hymnNumber: hymnNumber, queryParams: queryParams, title: entity.tagObject.songTitle)
+                }
+        }.mapError({ error -> ErrorType in
+            .data(description: error.localizedDescription)
+        }).eraseToAnyPublisher()
     }
 
     func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> AnyPublisher<[Tag], ErrorType> {

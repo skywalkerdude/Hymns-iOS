@@ -5,6 +5,7 @@ import Nimble
 import RealmSwift
 @testable import Hymns
 
+// swiftlint:disable type_body_length function_body_length cyclomatic_complexity
 class TagStoreRealmImplSpec: QuickSpec {
     override func spec() {
         describe("using an in-memory realm") {
@@ -70,26 +71,79 @@ class TagStoreRealmImplSpec: QuickSpec {
                     }
                 }
                 describe("deleting a tag") {
+                    var failure: XCTestExpectation!
+                    var finished: XCTestExpectation!
+                    var value: XCTestExpectation!
+                    beforeEach {
+                        failure = self.expectation(description: "Invalid.failure")
+                        failure.isInverted = true
+                        finished = self.expectation(description: "Invalid.finished")
+                        // finished should not be called because this is a self-updating publisher.
+                        finished.isInverted = true
+                        value = self.expectation(description: "Invalid.receiveValue")
+                    }
                     it("should delete the tag") {
-                        let queryBeforeDelete = target.getSongsByTag(UiTag(title: "Table", color: .blue))
-                        expect(queryBeforeDelete).to(haveCount(1))
+                        value.expectedFulfillmentCount = 2
+                        var count = 0
+                        let cancellable = target.getSongsByTag(UiTag(title: "Table", color: .blue))
+                            .sink(receiveCompletion: { state in
+                                switch state {
+                                case .failure:
+                                    failure.fulfill()
+                                case .finished:
+                                    finished.fulfill()
+                                }
+                                return
+                            }, receiveValue: { songResults in
+                                value.fulfill()
+                                count += 1
+                                if count == 1 {
+                                    expect(songResults).to(haveCount(1))
+                                } else if count == 2 {
+                                    expect(songResults).to(haveCount(0))
+                                } else {
+                                    fail("count should only be either 1 or 2")
+                                }
+                            })
                         target.deleteTag(Tag(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "Table", color: .blue))
-                        let queryAfterDelete = target.getSongsByTag(UiTag(title: "Table", color: .blue))
-                        expect(queryAfterDelete).to(haveCount(0))
+                        self.wait(for: [failure, finished, value], timeout: testTimeout)
+                        cancellable.cancel()
                     }
                     it("should be case sensitive") {
-                        let queryBeforeDelete = target.getSongsByTag(UiTag(title: "Table", color: .blue))
-                        expect(queryBeforeDelete).to(haveCount(1))
+                        let cancellable = target.getSongsByTag(UiTag(title: "Table", color: .blue))
+                            .sink(receiveCompletion: { state in
+                                switch state {
+                                case .failure:
+                                    failure.fulfill()
+                                case .finished:
+                                    finished.fulfill()
+                                }
+                                return
+                            }, receiveValue: { songResults in
+                                value.fulfill()
+                                expect(songResults).to(haveCount(1))
+                            })
                         target.deleteTag(Tag(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "table", color: .blue))
-                        let queryAfterDelete = target.getSongsByTag(UiTag(title: "Table", color: .blue))
-                        expect(queryAfterDelete).to(haveCount(1))
+                        self.wait(for: [failure, finished, value], timeout: testTimeout)
+                        cancellable.cancel()
                     }
                     it("not delete if the color doesn't match") {
-                        let queryBeforeDelete = target.getSongsByTag(UiTag(title: "Table", color: .blue))
-                        expect(queryBeforeDelete).to(haveCount(1))
+                        let cancellable = target.getSongsByTag(UiTag(title: "Table", color: .blue))
+                            .sink(receiveCompletion: { state in
+                                switch state {
+                                case .failure:
+                                    failure.fulfill()
+                                case .finished:
+                                    finished.fulfill()
+                                }
+                                return
+                            }, receiveValue: { songResults in
+                                value.fulfill()
+                                expect(songResults).to(haveCount(1))
+                            })
                         target.deleteTag(Tag(hymnIdentifier: cebuano123, songTitle: "Naghigda sa lubong\\u2014", tag: "Table", color: .green))
-                        let queryAfterDelete = target.getSongsByTag(UiTag(title: "Table", color: .blue))
-                        expect(queryAfterDelete).to(haveCount(1))
+                        self.wait(for: [failure, finished, value], timeout: testTimeout)
+                        cancellable.cancel()
                     }
                 }
                 describe("getting songs for a tag") {
@@ -99,11 +153,30 @@ class TagStoreRealmImplSpec: QuickSpec {
                         target.storeTag(Tag(hymnIdentifier: cebuano123, songTitle: "Cebuano 123", tag: "Christ", color: .red))
                     }
                     it("should return the correct songs") {
-                        let actual = target.getSongsByTag(UiTag(title: "Christ", color: .blue))
-                        expect(actual).to(haveCount(3))
-                        expect(actual[0].title).to(equal("Hymn 1109"))
-                        expect(actual[1].title).to(equal("Hymn 500"))
-                        expect(actual[2].title).to(equal("Hymn 1151"))
+                        let failure = self.expectation(description: "Invalid.failure")
+                        failure.isInverted = true
+                        let finished = self.expectation(description: "Invalid.finished")
+                        // finished should not be called because this is a self-updating publisher.
+                        finished.isInverted = true
+                        let value = self.expectation(description: "Invalid.receiveValue")
+
+                        let cancellable = target.getSongsByTag(UiTag(title: "Christ", color: .blue))
+                            .sink(receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
+                                switch completion {
+                                case .failure:
+                                    failure.fulfill()
+                                case .finished:
+                                    finished.fulfill()
+                                }
+                                return
+                            }, receiveValue: { songResults in
+                                value.fulfill()
+                                expect(songResults).to(equal([SongResultEntity(hymnType: .classic, hymnNumber: "1109", queryParams: nil, title: "Hymn 1109"),
+                                                              SongResultEntity(hymnType: .classic, hymnNumber: "500", queryParams: nil, title: "Hymn 500"),
+                                                              SongResultEntity(hymnType: .classic, hymnNumber: "1151", queryParams: nil, title: "Hymn 1151")]))
+                            })
+                        self.wait(for: [failure, finished, value], timeout: testTimeout)
+                        cancellable.cancel()
                     }
                 }
                 describe("getting unique tags") {

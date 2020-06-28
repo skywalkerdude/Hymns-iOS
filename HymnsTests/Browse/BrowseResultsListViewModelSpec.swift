@@ -7,7 +7,6 @@ import SwiftUI
 @testable import Hymns
 
 class BrowseResultsListViewModelSpec: QuickSpec {
-
     override func spec() {
         describe("getting results by category") {
             let testQueue = DispatchQueue(label: "test_queue")
@@ -23,7 +22,8 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                             .data(description: "This will never get called")
                         }).eraseToAnyPublisher()
                     }
-                    target = BrowseResultsListViewModel(category: "category", subcategory: nil, hymnType: nil, dataStore: dataStore, backgroundQueue: testQueue, mainQueue: testQueue)
+                    target = BrowseResultsListViewModel(category: "category", subcategory: nil, hymnType: nil,
+                                                        dataStore: dataStore, backgroundQueue: testQueue, mainQueue: testQueue)
                     testQueue.sync {}
                     testQueue.sync {}
                     testQueue.sync {}
@@ -43,7 +43,8 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                             .mapError({ _ -> ErrorType in
                                 .data(description: "This will never get called")
                             }).eraseToAnyPublisher()
-                    target = BrowseResultsListViewModel(category: "category", subcategory: "subcategory", hymnType: nil, dataStore: dataStore, backgroundQueue: testQueue, mainQueue: testQueue)
+                    target = BrowseResultsListViewModel(category: "category", subcategory: "subcategory", hymnType: nil,
+                                                        dataStore: dataStore, backgroundQueue: testQueue, mainQueue: testQueue)
                     testQueue.sync {}
                     testQueue.sync {}
                     testQueue.sync {}
@@ -67,7 +68,8 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                             .mapError({ _ -> ErrorType in
                                 ErrorType.data(description: "forced data error")
                             }).eraseToAnyPublisher()
-                    target = BrowseResultsListViewModel(category: "category", subcategory: "subcategory", hymnType: .newTune, dataStore: dataStore, backgroundQueue: testQueue, mainQueue: testQueue)
+                    target = BrowseResultsListViewModel(category: "category", subcategory: "subcategory", hymnType: .newTune,
+                                                        dataStore: dataStore, backgroundQueue: testQueue, mainQueue: testQueue)
                     testQueue.sync {}
                     testQueue.sync {}
                     testQueue.sync {}
@@ -81,21 +83,73 @@ class BrowseResultsListViewModelSpec: QuickSpec {
             }
         }
         describe("getting results by tag") {
+            let testQueue = DispatchQueue(label: "test_queue")
             var tagStore: TagStoreMock!
             var target: BrowseResultsListViewModel!
             beforeEach {
                 tagStore = mock(TagStore.self)
-                given(tagStore.getSongsByTag(UiTag(title: "FanIntoFlames", color: .none))) ~> [SongResultViewModel(title: "title1", destinationView: EmptyView().eraseToAnyView()),
-                                                                   SongResultViewModel(title: "title2", destinationView: EmptyView().eraseToAnyView())]
-                target = BrowseResultsListViewModel(tag: UiTag(title: "FanIntoFlames", color: .none), tagStore: tagStore)
             }
-            it("should set the title to the tag") {
-                expect(target.title).to(equal("FanIntoFlames"))
+            context("empty results") {
+                beforeEach {
+                    given(tagStore.getSongsByTag(UiTag(title: "FanIntoFlames", color: .none))) ~> { _ in
+                        Just([SongResultEntity]()).mapError({ _ -> ErrorType in
+                            .data(description: "This will never get called")
+                        }).eraseToAnyPublisher()
+                    }
+                    target = BrowseResultsListViewModel(tag: UiTag(title: "FanIntoFlames", color: .none), tagStore: tagStore, mainQueue: testQueue)
+                }
+                it("should set the title to the tag") {
+                    expect(target.title).to(equal("FanIntoFlames"))
+                }
+                it("should have no results") {
+                    expect(target.songResults).to(beEmpty())
+                }
             }
-            it("should set the title using only the category") {
-                expect(target.songResults).to(haveCount(2))
-                expect(target.songResults[0].title).to(equal("title1"))
-                expect(target.songResults[1].title).to(equal("title2"))
+            context("has results") {
+                beforeEach {
+                    given(tagStore.getSongsByTag(UiTag(title: "FanIntoFlames", color: .none))) ~> { _ in
+                        Just([SongResultEntity(hymnType: .classic, hymnNumber: "123", queryParams: nil, title: "classic123"),
+                              SongResultEntity(hymnType: .scripture, hymnNumber: "55", queryParams: nil, title: "scripture55")])
+                            .mapError({ _ -> ErrorType in
+                                .data(description: "This will never get called")
+                            }).eraseToAnyPublisher()
+                    }
+                    target = BrowseResultsListViewModel(tag: UiTag(title: "FanIntoFlames", color: .none), tagStore: tagStore, mainQueue: testQueue)
+                    testQueue.sync {}
+                    testQueue.sync {}
+                    testQueue.sync {}
+                }
+                it("should set the title to the tag") {
+                    expect(target.title).to(equal("FanIntoFlames"))
+                }
+                it("should set the correct results") {
+                    expect(target.songResults).to(haveCount(2))
+                    expect(target.songResults[0].title).to(equal("classic123"))
+                    expect(target.songResults[1].title).to(equal("scripture55"))
+                }
+            }
+            context("data store error") {
+                beforeEach {
+                    given(tagStore.getSongsByTag(UiTag(title: "FanIntoFlames", color: .none))) ~> { _ in
+                        Just([SongResultEntity]())
+                            .tryMap({ _ -> [SongResultEntity] in
+                                throw URLError(.badServerResponse)
+                            })
+                            .mapError({ _ -> ErrorType in
+                                ErrorType.data(description: "forced data error")
+                            }).eraseToAnyPublisher()
+                    }
+                    target = BrowseResultsListViewModel(tag: UiTag(title: "FanIntoFlames", color: .none), tagStore: tagStore, mainQueue: testQueue)
+                    testQueue.sync {}
+                    testQueue.sync {}
+                    testQueue.sync {}
+                }
+                it("should set the title to the tag") {
+                    expect(target.title).to(equal("FanIntoFlames"))
+                }
+                it("should have no results") {
+                    expect(target.songResults).to(beEmpty())
+                }
             }
         }
     }

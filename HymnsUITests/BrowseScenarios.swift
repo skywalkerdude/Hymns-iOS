@@ -7,6 +7,17 @@ class BrowseScenarios: BaseTestCase {
         app.launch()
     }
 
+    func test_browseTags() {
+        _ = HomeViewCan(app, testCase: self)
+            .goToBrowse()
+            .goToTags()
+            .waitForButtons("tag1", "tag2")
+            .tapTag("tag1")
+            .waitForButtons("Click me!", "Don't click me!")
+            .tapResult("Click me!")
+            .waitForStaticTexts("verse 1 line 1")
+    }
+
     func test_browseCategory() {
         _ = HomeViewCan(app, testCase: self)
             .goToBrowse()

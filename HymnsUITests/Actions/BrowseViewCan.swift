@@ -7,6 +7,16 @@ public class BrowseViewCan: BaseViewCan {
         super.init(app, testCase: testCase)
     }
 
+    public func goToTags() -> BrowseViewCan {
+        app.buttons["Tags"].tap()
+        return self
+    }
+
+    public func tapTag(_ tag: String) -> BrowseResultsViewCan {
+        app.buttons[tag].tap()
+        return BrowseResultsViewCan(app, testCase: testCase)
+    }
+
     public func tapCategory(_ category: String) -> BrowseViewCan {
         app.staticTexts[category].tap()
         return self
