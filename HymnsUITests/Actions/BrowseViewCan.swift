@@ -43,4 +43,34 @@ public class BrowseViewCan: BaseViewCan {
         testCase.recordFailure(withDescription: "unable to find subcategory \(subcategory) with count \(count)", inFile: #file, atLine: #line, expected: false)
         return self
     }
+
+    public func goToScriptureSongs() -> BrowseViewCan {
+        while !app.buttons["Scripture Songs"].exists {
+            app.scrollViews.element.swipeLeft()
+        }
+        app.buttons["Scripture Songs"].tap()
+        return self
+    }
+
+    public func tapBook(_ book: String) -> BrowseViewCan {
+        app.staticTexts[book].tap()
+        return self
+    }
+
+    public func assertBook(_ book: String, chevronUp: Bool) -> BrowseViewCan {
+        for index in 0..<app.cells.count {
+            let cell = app.cells.element(boundBy: index)
+            if cell.descendants(matching: .staticText).element.label == book {
+                XCTAssertEqual(cell.descendants(matching: .image).element.label, chevronUp ? "chevron.up" : "chevron.down")
+                return self
+            }
+        }
+        testCase.recordFailure(withDescription: "unable to find book \(book) with chevron \(chevronUp ? "up" : "down")", inFile: #file, atLine: #line, expected: false)
+        return self
+    }
+
+    public func tapReference(_ reference: String) -> BrowseResultsViewCan {
+        app.buttons["\(reference)"].tap()
+        return BrowseResultsViewCan(app, testCase: testCase)
+    }
 }
