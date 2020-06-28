@@ -102,6 +102,11 @@ public class HomeViewCan: BaseViewCan {
         return self
     }
 
+    public func goToSettings() -> SettingsHymnViewCan {
+        _ = tapSettings()
+        return SettingsHymnViewCan(app, testCase: testCase)
+    }
+
     public func verifySettingsTab() -> HomeViewCan {
         XCTAssertTrue(app.staticTexts["Settings"].exists)
         return self
