@@ -14,10 +14,10 @@ struct SubcategoryView: View {
     var body: some View {
         Group {
             if sizeCategory.isAccessibilityCategory() {
-                Text((viewModel.subcategory != nil ? viewModel.subcategory! : "All subcategories") + " (\(viewModel.count))").fixedSize(horizontal: false, vertical: true)
+                Text("\(viewModel.subcategory != nil ? viewModel.subcategory! : "All subcategories") (\(viewModel.count))").fixedSize(horizontal: false, vertical: true)
             } else {
                 HStack {
-                    Text(viewModel.subcategory != nil ? viewModel.subcategory! : "All subcategories")//.fixedSize(horizontal: false, vertical: true)
+                    Text(viewModel.subcategory != nil ? viewModel.subcategory! : "All subcategories")
                     Spacer()
                     Text("\(viewModel.count)")
                 }
