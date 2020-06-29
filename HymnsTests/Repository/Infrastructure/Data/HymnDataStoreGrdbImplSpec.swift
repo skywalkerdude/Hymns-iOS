@@ -7,6 +7,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
 
     override func spec() {
         describe("using an in-memory database queue") {
+            let testQueue = DispatchQueue(label: "test_queue")
             var inMemoryDBQueue: DatabaseQueue!
             var target: HymnDataStoreGrdbImpl!
             beforeEach {
@@ -35,7 +36,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                         let value = XCTestExpectation(description: "value received")
                         let publisher = target.getHymn(cebuano123)
                             .print(self.description)
-                            .receive(on: DispatchQueue.main)
+                            .receive(on: testQueue)
                             .sink(receiveCompletion: { state in
                                 completion.fulfill()
                                 expect(state).to(equal(.finished))
@@ -43,6 +44,9 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                                 value.fulfill()
                                 expect(entity).to(equal(HymnEntity(hymnIdentifier: cebuano123, title: "new cebuano title")))
                             })
+                        testQueue.sync {}
+                        testQueue.sync {}
+                        testQueue.sync {}
                         self.wait(for: [completion, value], timeout: testTimeout)
                         publisher.cancel()
                     }
@@ -53,7 +57,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                         let value = XCTestExpectation(description: "value received")
                         let publisher = target.getHymn(cebuano123QueryParams)
                             .print(self.description)
-                            .receive(on: DispatchQueue.main)
+                            .receive(on: testQueue)
                             .sink(receiveCompletion: { state in
                                 completion.fulfill()
                                 expect(state).to(equal(.finished))
@@ -61,6 +65,9 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                                 value.fulfill()
                                 expect(entity).to(equal(HymnEntity(hymnIdentifier: cebuano123QueryParams, title: "cebuano 123 with query params")))
                             })
+                        testQueue.sync {}
+                        testQueue.sync {}
+                        testQueue.sync {}
                         self.wait(for: [completion, value], timeout: testTimeout)
                         publisher.cancel()
                     }
@@ -71,7 +78,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                         let value = XCTestExpectation(description: "value received")
                         let publisher = target.getHymn(children24)
                             .print(self.description)
-                            .receive(on: DispatchQueue.main)
+                            .receive(on: testQueue)
                             .sink(receiveCompletion: { state in
                                 completion.fulfill()
                                 expect(state).to(equal(.finished))
@@ -79,6 +86,9 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                                 value.fulfill()
                                 expect(entity).to(beNil())
                             })
+                        testQueue.sync {}
+                        testQueue.sync {}
+                        testQueue.sync {}
                         self.wait(for: [completion, value], timeout: testTimeout)
                         publisher.cancel()
                     }
@@ -97,13 +107,16 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                         value.isInverted = true
                         let publisher = target.getHymn(children24)
                             .print(self.description)
-                            .receive(on: DispatchQueue.main)
+                            .receive(on: testQueue)
                             .sink(receiveCompletion: { state in
                                 completion.fulfill()
                                 expect(state).to(equal(.failure(.data(description: "SQLite error 1 with statement `SELECT * FROM SONG_DATA WHERE HYMN_TYPE = ? AND HYMN_NUMBER = ? AND QUERY_PARAMS = ?`: no such table: SONG_DATA"))))
                             }, receiveValue: { _ in
                                 value.fulfill()
                             })
+                        testQueue.sync {}
+                        testQueue.sync {}
+                        testQueue.sync {}
                         self.wait(for: [completion, value], timeout: testTimeout)
                         publisher.cancel()
                     }
@@ -115,7 +128,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                     let value = XCTestExpectation(description: "value received")
                     let publisher = target.searchHymn("Obama")
                         .print(self.description)
-                        .receive(on: DispatchQueue.main)
+                        .receive(on: testQueue)
                         .sink(receiveCompletion: { state in
                             completion.fulfill()
                             expect(state).to(equal(.finished))
@@ -123,6 +136,9 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                             value.fulfill()
                             expect(entities).to(beEmpty())
                         })
+                    testQueue.sync {}
+                    testQueue.sync {}
+                    testQueue.sync {}
                     self.wait(for: [completion, value], timeout: testTimeout)
                     publisher.cancel()
                 }
@@ -148,7 +164,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                     let value = XCTestExpectation(description: "value received")
                     let publisher = target.searchHymn("summer is coming")
                         .print(self.description)
-                        .receive(on: DispatchQueue.main)
+                        .receive(on: testQueue)
                         .sink(receiveCompletion: { state in
                             completion.fulfill()
                             print("completion fulfilled on \(Thread.current)")
@@ -158,6 +174,9 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                             print("value fulfilled on \(Thread.current)")
                             searchResults = entities
                         })
+                    testQueue.sync {}
+                    testQueue.sync {}
+                    testQueue.sync {}
                     self.wait(for: [completion, value], timeout: testTimeout)
                     publisher.cancel()
                 }

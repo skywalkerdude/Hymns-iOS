@@ -17,6 +17,7 @@ class DisplayHymnScenarios: BaseTestCase {
     func test_goToSongFromNumber() {
         _ = HomeViewCan(app, testCase: self)
             .activateSearch()
+            .waitForButtons("Cancel")
             .typeSearchText("1151")
             .waitForButtons("Hymn 1151")
             .tapResult("Hymn 1151")
