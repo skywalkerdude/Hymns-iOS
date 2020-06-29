@@ -59,7 +59,7 @@ struct TabBar<TabItemType: TabItem>: View {
                                     } else {
                                         tabItem.unselectedLabel
                                     }
-                                }.accessibility(label: tabItem.a11yLabel).padding()
+                                }.minimumScaleFactor(.leastNonzeroMagnitude).accessibility(label: tabItem.a11yLabel).padding(.vertical)
                         })
                             .accentColor(self.isSelected(tabItem) ? .accentColor : .primary)
                             .anchorPreference(
