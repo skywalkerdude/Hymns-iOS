@@ -24,7 +24,7 @@ class HomeScenarios: BaseTestCase {
         _ = HomeViewCan(app, testCase: self)
             .verifyCancelNotExists()
             .activateSearch()
-            .verifyCancelExists()
+            .waitForButtons("Cancel")
             .verifyClearTextNotExists()
             .typeSearchText("1151")
             .verifySearchText("1151")
