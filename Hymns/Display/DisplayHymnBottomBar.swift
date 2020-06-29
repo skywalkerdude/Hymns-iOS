@@ -34,14 +34,6 @@ struct DisplayHymnBottomBar: View {
     @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
     @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory
 
-    let largeSizeCategories: [ContentSizeCategory] = [.extraExtraLarge,
-                                                      .extraExtraExtraLarge,
-                                                      .accessibilityMedium,
-                                                      .accessibilityLarge,
-                                                      .accessibilityExtraLarge,
-                                                      .accessibilityExtraExtraLarge,
-                                                      .accessibilityExtraExtraExtraLarge]
-
     let userDefaultsManager: UserDefaultsManager = Resolver.resolve()
 
     var body: some View {
@@ -127,11 +119,11 @@ struct DisplayHymnBottomBar: View {
                 if !viewModel.songInfo.songInfo.isEmpty {
                     Group {
                         Button(action: {
-                            if self.largeSizeCategories.contains(self.sizeCategory) {
+                            if self.sizeCategory.isAccessibilityCategory() {
                                 self.sheet = .songInfo
                             } else {
                                 self.dialogBuilder = {
-                                    SongInfoDialog(viewModel: self.viewModel.songInfo).eraseToAnyView()
+                                    SongInfoDialogView(viewModel: self.viewModel.songInfo).eraseToAnyView()
                                 }
                             }
                         }, label: {
@@ -192,7 +184,7 @@ struct DisplayHymnBottomBar: View {
                     return TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: self.viewModel.identifier), sheet: self.$sheet).eraseToAnyView()
                 //Case only used for large accesability
                 case .songInfo:
-                    return SongInfoDialog(viewModel: self.viewModel.songInfo).eraseToAnyView()
+                    return SongInfoSheetView(viewModel: self.viewModel.songInfo).eraseToAnyView()
                 }
             }
         }.background(Color(.systemBackground))

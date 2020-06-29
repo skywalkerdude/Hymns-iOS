@@ -5,17 +5,9 @@ struct SongInfoView: View {
     @ObservedObject var viewModel: SongInfoViewModel
     @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory
 
-    let largeSizeCategories: [ContentSizeCategory] = [.extraExtraLarge,
-                                                      .extraExtraExtraLarge,
-                                                      .accessibilityMedium,
-                                                      .accessibilityLarge,
-                                                      .accessibilityExtraLarge,
-                                                      .accessibilityExtraExtraLarge,
-                                                      .accessibilityExtraExtraExtraLarge]
-
     var body: some View {
         Group {
-            if largeSizeCategories.contains(sizeCategory) {
+            if sizeCategory.isAccessibilityCategory() {
                 VStack(alignment: .leading) {
                     Text(viewModel.label).font(.callout).bold()
                     VStack(alignment: .leading) {
