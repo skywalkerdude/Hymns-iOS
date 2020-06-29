@@ -8,13 +8,20 @@ struct SubcategoryViewModel: Equatable, Hashable {
 
 struct SubcategoryView: View {
 
+    @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory
     let viewModel: SubcategoryViewModel
 
     var body: some View {
-        HStack {
-            Text(viewModel.subcategory != nil ? viewModel.subcategory! : "All subcategories")
-            Spacer()
-            Text("\(viewModel.count)")
+        Group {
+            if sizeCategory.isAccessibilityCategory() {
+                Text((viewModel.subcategory != nil ? viewModel.subcategory! : "All subcategories") + " (\(viewModel.count))").fixedSize(horizontal: false, vertical: true)
+            } else {
+                HStack {
+                    Text(viewModel.subcategory != nil ? viewModel.subcategory! : "All subcategories")//.fixedSize(horizontal: false, vertical: true)
+                    Spacer()
+                    Text("\(viewModel.count)")
+                }
+            }
         }
     }
 }
