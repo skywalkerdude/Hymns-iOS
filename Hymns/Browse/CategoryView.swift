@@ -9,7 +9,7 @@ struct CategoryView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(viewModel.category)
+                Text(viewModel.category).fixedSize(horizontal: false, vertical: true)
                 Spacer()
                 Image(systemName: isExpanded ? "chevron.up" : "chevron.down").font(.system(size: smallButtonSize))
             }.onTapGesture {
