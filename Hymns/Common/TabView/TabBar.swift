@@ -6,39 +6,73 @@ import SwiftUI
  */
 struct TabBar<TabItemType: TabItem>: View {
 
+    @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory
     @Binding var currentTab: TabItemType
     let tabItems: [TabItemType]
 
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
-                ForEach(tabItems) { tabItem in
-                    Spacer()
-                    Button(
-                        action: {
-                            withAnimation(.default) {
-                                self.currentTab = tabItem
-                            }
-                    },
-                        label: {
-                            Group {
-                                if self.isSelected(tabItem) {
-                                    tabItem.selectedLabel
-                                } else {
-                                    tabItem.unselectedLabel
+        Group {
+            if sizeCategory.isAccessibilityCategory() {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        ForEach(tabItems) { tabItem in
+                            Spacer()
+                            Button(
+                                action: {
+                                    withAnimation(.default) {
+                                        self.currentTab = tabItem
+                                    }
+                            },
+                                label: {
+                                    Group {
+                                        if self.isSelected(tabItem) {
+                                            tabItem.selectedLabel
+                                        } else {
+                                            tabItem.unselectedLabel
+                                        }
+                                    }.accessibility(label: tabItem.a11yLabel).padding()
+                            })
+                                .accentColor(self.isSelected(tabItem) ? .accentColor : .primary)
+                                .anchorPreference(
+                                    key: FirstNonNilPreferenceKey<Anchor<CGRect>>.self,
+                                    value: .bounds,
+                                    transform: { anchor in self.isSelected(tabItem) ? .some(anchor) : nil }
+                            )
+                            Spacer()
+                        }
+                    }
+                }
+            } else {
+                HStack {
+                    ForEach(tabItems) { tabItem in
+                        Spacer()
+                        Button(
+                            action: {
+                                withAnimation(.default) {
+                                    self.currentTab = tabItem
                                 }
-                            }.accessibility(label: tabItem.a11yLabel).padding()
-                    })
-                        .accentColor(self.isSelected(tabItem) ? .accentColor : .primary)
-                        .anchorPreference(
-                            key: FirstNonNilPreferenceKey<Anchor<CGRect>>.self,
-                            value: .bounds,
-                            transform: { anchor in self.isSelected(tabItem) ? .some(anchor) : nil }
-                    )
+                        },
+                            label: {
+                                Group {
+                                    if self.isSelected(tabItem) {
+                                        tabItem.selectedLabel
+                                    } else {
+                                        tabItem.unselectedLabel
+                                    }
+                                }.accessibility(label: tabItem.a11yLabel).padding()
+                        })
+                            .accentColor(self.isSelected(tabItem) ? .accentColor : .primary)
+                            .anchorPreference(
+                                key: FirstNonNilPreferenceKey<Anchor<CGRect>>.self,
+                                value: .bounds,
+                                transform: { anchor in self.isSelected(tabItem) ? .some(anchor) : nil }
+                        )
+                    }
                     Spacer()
                 }
             }
-        }.backgroundPreferenceValue(FirstNonNilPreferenceKey<Anchor<CGRect>>.self) { boundsAnchor in
+        }
+        .backgroundPreferenceValue(FirstNonNilPreferenceKey<Anchor<CGRect>>.self) { boundsAnchor in
             GeometryReader { proxy in
                 boundsAnchor.map { anchor in
                     indicator(
