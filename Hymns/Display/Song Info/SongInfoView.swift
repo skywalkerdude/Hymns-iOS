@@ -3,13 +3,27 @@ import SwiftUI
 struct SongInfoView: View {
 
     @ObservedObject var viewModel: SongInfoViewModel
+    @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory
 
     var body: some View {
-        HStack {
-            Text(viewModel.label).font(.callout).bold()
-            VStack(alignment: .leading) {
-                ForEach(viewModel.values, id: \.self) { value in
-                    Text(value).font(.callout)
+        Group {
+            if sizeCategory.isAccessibilityCategory() {
+                VStack(alignment: .leading) {
+                    Text(viewModel.label).font(.callout).bold()
+                    VStack(alignment: .leading) {
+                        ForEach(viewModel.values, id: \.self) { value in
+                            Text(value).font(.callout)
+                        }
+                    }
+                }
+            } else {
+                HStack {
+                    Text(viewModel.label).font(.callout).bold()
+                    VStack(alignment: .leading) {
+                        ForEach(viewModel.values, id: \.self) { value in
+                            Text(value).font(.callout)
+                        }
+                    }
                 }
             }
         }

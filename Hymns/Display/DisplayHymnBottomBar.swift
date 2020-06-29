@@ -32,6 +32,7 @@ struct DisplayHymnBottomBar: View {
     @State var showAudioPlayer = false
 
     @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
+    @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory
 
     let userDefaultsManager: UserDefaultsManager = Resolver.resolve()
 
@@ -118,8 +119,12 @@ struct DisplayHymnBottomBar: View {
                 if !viewModel.songInfo.songInfo.isEmpty {
                     Group {
                         Button(action: {
-                            self.dialogBuilder = {
-                                SongInfoDialog(viewModel: self.viewModel.songInfo).eraseToAnyView()
+                            if self.sizeCategory.isAccessibilityCategory() {
+                                self.sheet = .songInfo
+                            } else {
+                                self.dialogBuilder = {
+                                    SongInfoDialogView(viewModel: self.viewModel.songInfo).eraseToAnyView()
+                                }
                             }
                         }, label: {
                             BottomBarLabel(imageName: "info.circle").foregroundColor(.primary)
@@ -177,6 +182,9 @@ struct DisplayHymnBottomBar: View {
                     return ShareSheet(activityItems: [self.viewModel.shareableLyrics]).eraseToAnyView()
                 case .tags:
                     return TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: self.viewModel.identifier), sheet: self.$sheet).eraseToAnyView()
+                //Case only used for large accesability
+                case .songInfo:
+                    return SongInfoSheetView(viewModel: self.viewModel.songInfo).eraseToAnyView()
                 }
             }
         }.background(Color(.systemBackground))
@@ -198,6 +206,7 @@ extension ActionSheetItem: Identifiable {
 enum DisplayHymnSheet: String {
     case share = "Share Lyrics"
     case tags = "Tags"
+    case songInfo = "Song Info"
 }
 
 extension DisplayHymnSheet: Identifiable {
