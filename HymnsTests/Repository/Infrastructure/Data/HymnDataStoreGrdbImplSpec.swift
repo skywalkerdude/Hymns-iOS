@@ -151,15 +151,18 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                         .receive(on: DispatchQueue.main)
                         .sink(receiveCompletion: { state in
                             completion.fulfill()
+                            print("completion fulfilled on \(Thread.current)")
                             expect(state).to(equal(.finished))
                         }, receiveValue: { entities in
                             value.fulfill()
+                            print("value fulfilled on \(Thread.current)")
                             searchResults = entities
                         })
                     self.wait(for: [completion, value], timeout: testTimeout)
                     publisher.cancel()
                 }
                 it("should return three results") {
+                    print("expect(\(searchResults)).to(haveCount(3))")
                     expect(searchResults).to(haveCount(3))
                 }
                 describe("first result") {
