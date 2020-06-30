@@ -71,8 +71,7 @@ struct TabBar<TabItemType: TabItem>: View {
                     Spacer()
                 }
             }
-        }
-        .backgroundPreferenceValue(FirstNonNilPreferenceKey<Anchor<CGRect>>.self) { boundsAnchor in
+        }.backgroundPreferenceValue(FirstNonNilPreferenceKey<Anchor<CGRect>>.self) { boundsAnchor in
             GeometryReader { proxy in
                 boundsAnchor.map { anchor in
                     indicator(
