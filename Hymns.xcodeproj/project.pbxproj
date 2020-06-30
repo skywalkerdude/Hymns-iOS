@@ -144,6 +144,7 @@
 		3BB1DCB0244D03DE0011169D /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB1DCAD244D03DE0011169D /* TabView.swift */; };
 		3BB1DCB5244D55770011169D /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB1DCB4244D55770011169D /* SearchBar.swift */; };
 		3BB7877A24550686003CBEED /* StringExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB7877924550686003CBEED /* StringExtensionsSpec.swift */; };
+		3BB971F624AB2898004F0B5D /* Snapshot+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB971F524AB2898004F0B5D /* Snapshot+Extensions.swift */; };
 		3BC1328D243826280082A274 /* PreviewHymns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC1328C243826270082A274 /* PreviewHymns.swift */; };
 		3BC1329724385A580082A274 /* HomeContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC1329624385A580082A274 /* HomeContainerView.swift */; };
 		3BC1329924385C420082A274 /* HomeTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC1329824385C420082A274 /* HomeTab.swift */; };
@@ -399,6 +400,7 @@
 		3BB1DCAD244D03DE0011169D /* TabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabView.swift; path = Hymns/Common/TabView/TabView.swift; sourceTree = SOURCE_ROOT; };
 		3BB1DCB4244D55770011169D /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		3BB7877924550686003CBEED /* StringExtensionsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensionsSpec.swift; sourceTree = "<group>"; };
+		3BB971F524AB2898004F0B5D /* Snapshot+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Snapshot+Extensions.swift"; sourceTree = "<group>"; };
 		3BC1328C243826270082A274 /* PreviewHymns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewHymns.swift; sourceTree = "<group>"; };
 		3BC13291243850B90082A274 /* classic1151.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = classic1151.json; sourceTree = "<group>"; };
 		3BC13293243852C00082A274 /* classic1334.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = classic1334.json; sourceTree = "<group>"; };
@@ -714,6 +716,7 @@
 				3BE31A4424A6D78A00B1A038 /* FavoritesScenarios.swift */,
 				3BE31A4024A5BFF700B1A038 /* HomeScenarios.swift */,
 				3B6DA63E24A87B3400A9277F /* SettingsScenarios.swift */,
+				3BB971F524AB2898004F0B5D /* Snapshot+Extensions.swift */,
 				3B1B90392429CF57009FDCC5 /* Info.plist */,
 			);
 			path = HymnsUITests;
@@ -1825,6 +1828,7 @@
 				3BE210F7249B421000D4E417 /* HomeViewCan.swift in Sources */,
 				3BE210FC249B59A400D4E417 /* DisplayHymnViewCan.swift in Sources */,
 				3B6DA64124A87BC400A9277F /* SettingsViewCan.swift in Sources */,
+				3BB971F624AB2898004F0B5D /* Snapshot+Extensions.swift in Sources */,
 				3BE31A4324A5C03600B1A038 /* BaseTestCase.swift in Sources */,
 				3BE31A4124A5BFF700B1A038 /* HomeScenarios.swift in Sources */,
 				3B73973324A0057200A2A63F /* BaseViewCan.swift in Sources */,
