@@ -1,5 +1,4 @@
 import Foundation
-import SnapshotTesting
 import XCTest
 
 /**
@@ -35,15 +34,6 @@ public class BaseViewCan {
         attachment.name = name
         attachment.lifetime = .keepAlways
         testCase.add(attachment)
-        return self
-    }
-
-    public func checkScreenshot() -> Self {
-        sleep(5)
-        let screenshot = app.screenshot()
-        // Need precision to be 80% because of potential diffs in battery life, time, and wifi signal influencing the
-        // screenshots.
-        assertSnapshot(matching: screenshot.image, as: .image(precision: 0.7))
         return self
     }
 }
