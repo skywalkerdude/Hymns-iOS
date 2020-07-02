@@ -39,6 +39,7 @@ public class BaseViewCan {
     }
 
     public func checkScreenshot() -> Self {
+        sleep(5)
         let screenshot = app.screenshot()
         // Need precision to be 80% because of potential diffs in battery life, time, and wifi signal influencing the
         // screenshots.
