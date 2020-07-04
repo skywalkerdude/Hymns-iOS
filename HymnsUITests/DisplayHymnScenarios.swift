@@ -37,5 +37,6 @@ class DisplayHymnScenarios: BaseTestCase {
             .tapResult("classic1151")
             .openFontPicker()
             .waitForButtons("Normal")
+            .checkFontPickerScreenshot()
     }
 }

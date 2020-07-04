@@ -47,6 +47,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                         testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
+                        testQueue.sync {}
                         self.wait(for: [completion, value], timeout: testTimeout)
                         publisher.cancel()
                     }
@@ -68,6 +69,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                         testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
+                        testQueue.sync {}
                         self.wait(for: [completion, value], timeout: testTimeout)
                         publisher.cancel()
                     }
@@ -86,6 +88,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                                 value.fulfill()
                                 expect(entity).to(beNil())
                             })
+                        testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
@@ -117,6 +120,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                         testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
+                        testQueue.sync {}
                         self.wait(for: [completion, value], timeout: testTimeout)
                         publisher.cancel()
                     }
@@ -136,6 +140,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                             value.fulfill()
                             expect(entities).to(beEmpty())
                         })
+                    testQueue.sync {}
                     testQueue.sync {}
                     testQueue.sync {}
                     testQueue.sync {}
@@ -174,6 +179,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                             print("value fulfilled on \(Thread.current)")
                             searchResults = entities
                         })
+                    testQueue.sync {}
                     testQueue.sync {}
                     testQueue.sync {}
                     testQueue.sync {}
