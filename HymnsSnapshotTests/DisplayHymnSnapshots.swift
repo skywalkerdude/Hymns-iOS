@@ -105,7 +105,11 @@ class DisplayHymnSnapshots: XCTestCase {
             viewModel.currentTab,
             .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=gtpdf")!).eraseToAnyView()),
             .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=ppdf")!).eraseToAnyView())]
-        viewModel.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn1151_identifier)
+        let bottomBarViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn1151_identifier)
+        bottomBarViewModel.shareableLyrics = "Shareable lyrics"
+        bottomBarViewModel.languages = [cupOfChrist_songResult]
+        bottomBarViewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
+        viewModel.bottomBar = bottomBarViewModel
         assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .image())
     }
 
