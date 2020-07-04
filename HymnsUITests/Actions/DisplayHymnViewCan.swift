@@ -1,5 +1,4 @@
 import Foundation
-import SnapshotTesting
 import XCTest
 
 public class DisplayHymnViewCan: BaseViewCan {
@@ -9,30 +8,30 @@ public class DisplayHymnViewCan: BaseViewCan {
     }
 
     public func openShareSheet() -> DisplayHymnViewCan {
-        app.buttons["square.and.arrow.up"].tap()
-        return self
+        return pressButton("square.and.arrow.up")
     }
 
     public func openFontPicker() -> DisplayHymnViewCan {
-        app.buttons["textformat.size"].tap()
-        return self
+        return pressButton("textformat.size")
     }
 
-    public func checkFontPickerScreenshot() -> DisplayHymnViewCan {
-        let screenshot = app.screenshot()
-        // Need precision to be 95% because of potential diffs in battery life, time, and wifi signal influencing the
-        // screenshots.
-        assertSnapshot(matching: screenshot.image, as: .image(precision: 0.95))
-        return self
+    public func openLanguages() -> DisplayHymnViewCan {
+        return pressButton("globe")
     }
 
     public func openTagSheet() -> DisplayHymnViewCan {
-        app.buttons["tag"].tap()
-        return self
+        return pressButton("tag")
+    }
+
+    public func openRelevant() -> DisplayHymnViewCan {
+        return pressButton("music.note.list")
     }
 
     public func openSongInfo() -> DisplayHymnViewCan {
-        app.buttons["info.circle"].tap()
-        return self
+        return pressButton("info.circle")
+    }
+
+    public func pressCancel() -> DisplayHymnViewCan {
+        return pressButton("Cancel")
     }
 }

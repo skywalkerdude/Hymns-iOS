@@ -16,14 +16,26 @@ public class BaseViewCan {
 
     public func waitForButtons(_ strings: String...) -> Self {
         for string in strings {
-            XCTAssertTrue(app.buttons[string].waitForExistence(timeout: 2))
+            XCTAssertTrue(app.buttons[string].waitForExistence(timeout: 1))
         }
+        return self
+    }
+
+    public func pressButton(_ buttonText: String) -> Self {
+        app.buttons[buttonText].tap()
         return self
     }
 
     public func waitForStaticTexts(_ strings: String...) -> Self {
         for string in strings {
-            XCTAssertTrue(app.staticTexts[string].waitForExistence(timeout: 2))
+            XCTAssertTrue(app.staticTexts[string].waitForExistence(timeout: 1))
+        }
+        return self
+    }
+
+    public func verifyStaticTextsNotExists(_ strings: String...) -> Self {
+        for string in strings {
+            XCTAssertFalse(app.staticTexts[string].exists)
         }
         return self
     }

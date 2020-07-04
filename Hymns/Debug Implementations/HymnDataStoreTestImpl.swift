@@ -4,7 +4,7 @@ import Foundation
 
 class HymnDataStoreTestImpl: HymnDataStore {
 
-    private var hymnStore = [classic1151: classic1151Entity]
+    private var hymnStore = [classic1151: classic1151Entity, chinese216: chinese216Entity, classic2: classic2Entity]
     private var searchStore =
         ["search param":
             [SearchResultEntity(hymnType: .classic, hymnNumber: "1151", queryParams: nil, title: "Click me!", matchInfo: Data(repeating: 0, count: 8)),
