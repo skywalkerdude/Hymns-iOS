@@ -53,6 +53,8 @@ target 'Hymns' do
   end
 
   target 'HymnsUITests' do
-    # Pods for testing
+    # https://github.com/pointfreeco/swift-snapshot-testing
+    # https://www.vadimbulavin.com/snapshot-testing-swiftui-views/
+    pod 'SnapshotTesting'
   end
 end
