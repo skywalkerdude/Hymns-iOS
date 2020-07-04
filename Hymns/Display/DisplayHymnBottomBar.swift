@@ -182,7 +182,7 @@ struct DisplayHymnBottomBar: View {
                     return ShareSheet(activityItems: [self.viewModel.shareableLyrics]).eraseToAnyView()
                 case .tags:
                     return TagSheetView(viewModel: TagSheetViewModel(hymnToDisplay: self.viewModel.identifier), sheet: self.$sheet).eraseToAnyView()
-                //Case only used for large accesability
+                // Case only used for large accesability
                 case .songInfo:
                     return SongInfoSheetView(viewModel: self.viewModel.songInfo).eraseToAnyView()
                 }
