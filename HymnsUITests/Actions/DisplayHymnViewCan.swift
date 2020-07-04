@@ -21,4 +21,9 @@ public class DisplayHymnViewCan: BaseViewCan {
         app.buttons["tag"].tap()
         return self
     }
+
+    public func openSongInfo() -> DisplayHymnViewCan {
+        app.buttons["info.circle"].tap()
+        return self
+    }
 }
