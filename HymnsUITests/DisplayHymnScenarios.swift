@@ -14,7 +14,6 @@ class DisplayHymnScenarios: BaseTestCase {
             .tapResult("classic1151")
             .openShareSheet()
             .waitForButtons("Edit Actions…")
-            .checkShareSheetScreenshot()
     }
 
     func test_changeFontSize() {

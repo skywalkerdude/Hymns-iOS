@@ -13,15 +13,6 @@ public class DisplayHymnViewCan: BaseViewCan {
         return self
     }
 
-    public func checkShareSheetScreenshot() -> DisplayHymnViewCan {
-        sleep(5)
-        let screenshot = app.screenshot()
-        // Need precision to be 80% because of potential diffs in battery life, time, and wifi signal influencing the
-        // screenshots.
-        assertSnapshot(matching: screenshot.image, as: .image(precision: 0.7))
-        return self
-    }
-
     public func openFontPicker() -> DisplayHymnViewCan {
         app.buttons["textformat.size"].tap()
         return self
