@@ -8,7 +8,7 @@ struct HomeContainerView: View {
     var body: some View {
         NavigationView {
             TabView(selection: $selectedTab) {
-                HomeView(viewModel: Resolver.resolve())
+                HomeView()
                     .tabItem {HomeTab.home.getImage(selectedTab == HomeTab.home).font(.system(size: buttonSize))}
                     .tag(HomeTab.home)
                     .hideNavigationBar()

@@ -16,9 +16,15 @@ class CategoryViewModel: ObservableObject {
 extension CategoryViewModel: Identifiable {
 }
 
-extension CategoryViewModel: Equatable {
+extension CategoryViewModel: Hashable {
     static func == (lhs: CategoryViewModel, rhs: CategoryViewModel) -> Bool {
         lhs.category == rhs.category && lhs.subcategories == rhs.subcategories && lhs.hymnType == rhs.hymnType
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(category)
+        hasher.combine(hymnType)
+        hasher.combine(subcategories)
     }
 }
 
