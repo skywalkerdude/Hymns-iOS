@@ -31,7 +31,7 @@ struct TagListView: View {
                 }.eraseToAnyView()
             }
             return List(tags, id: \.self) { tag in
-                NavigationLink(destination: BrowseResultsListView(viewModel: BrowseResultsListViewModel(tag: tag))) {
+                PushView(destination: BrowseResultsListView(viewModel: BrowseResultsListViewModel(tag: tag))) {
                     Text(tag.title).tagPill(backgroundColor: tag.color.background, foregroundColor: tag.color.foreground)
                 }
             }.padding(.top).eraseToAnyView()

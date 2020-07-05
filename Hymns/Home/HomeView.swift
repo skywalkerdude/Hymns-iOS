@@ -42,7 +42,7 @@ struct HomeView: View {
                     Spacer()
                 } else {
                     List(viewModel.songResults) { songResult in
-                        NavigationLink(destination: songResult.destinationView) {
+                        PushView(destination: songResult.destinationView) {
                             SongResultView(viewModel: songResult)
                         }.onAppear {
                             self.viewModel.loadMore(at: songResult)

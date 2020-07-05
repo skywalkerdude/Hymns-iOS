@@ -12,11 +12,14 @@ struct BrowseResultsListView: View {
     var body: some View {
         VStack {
             HStack {
-                Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
-                }, label: {
+                PopView {
                     Image(systemName: "chevron.left").accentColor(.primary)
-                }).padding()
+                }.padding()
+//                Button(action: {
+//                    self.presentationMode.wrappedValue.dismiss()
+//                }, label: {
+//                    Image(systemName: "chevron.left").accentColor(.primary)
+//                }).padding()
                 Text(viewModel.title).font(.body).fontWeight(.bold)
                 Spacer()
             }
@@ -24,7 +27,7 @@ struct BrowseResultsListView: View {
                 ErrorView().maxSize()
             } else {
                 List(viewModel.songResults) { songResult in
-                    NavigationLink(destination: songResult.destinationView) {
+                    PushView(destination: songResult.destinationView) {
                         SongResultView(viewModel: songResult)
                     }
                 }
