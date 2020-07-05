@@ -34,7 +34,7 @@ struct TagListView: View {
                 NavigationLink(destination: BrowseResultsListView(viewModel: BrowseResultsListViewModel(tag: tag))) {
                     Text(tag.title).tagPill(backgroundColor: tag.color.background, foregroundColor: tag.color.foreground)
                 }
-            }.eraseToAnyView()
+            }.padding(.top).eraseToAnyView()
         }.onAppear {
             self.viewModel.fetchUniqueTags()
         }.background(Color(.systemBackground))

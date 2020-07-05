@@ -8,10 +8,10 @@ struct TagPill: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .padding(10)
+            .padding(7)
             .background(backgroundColor)
             .foregroundColor(foregroundColor)
-            .cornerRadius(20)
+            .cornerRadius(15)
             .overlay(RoundedRectangle(cornerRadius: 20).stroke(foregroundColor, lineWidth: showBorder ? 3 : 0))
     }
 }
