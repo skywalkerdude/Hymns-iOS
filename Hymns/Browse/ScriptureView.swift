@@ -16,11 +16,9 @@ struct ScriptureView: View {
                 self.isExpanded.toggle()
             }.foregroundColor(isExpanded ? .accentColor : .primary)
             if isExpanded {
-                List {
-                    ForEach(viewModel.scriptureSongs, id: \.self) { scriptureSong in
-                        NavigationLink(destination: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: scriptureSong.hymnIdentifier))) {
-                            ScriptureSongView(viewModel: scriptureSong)
-                        }
+                List(viewModel.scriptureSongs, id: \.self) { scriptureSong in
+                    NavigationLink(destination: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: scriptureSong.hymnIdentifier))) {
+                        ScriptureSongView(viewModel: scriptureSong)
                     }
                 }.frame(height: CGFloat(viewModel.scriptureSongs.count * 45))
             }
