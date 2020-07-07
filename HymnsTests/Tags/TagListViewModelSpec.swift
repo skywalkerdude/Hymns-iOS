@@ -21,7 +21,6 @@ class TagListViewModelSpec: QuickSpec {
                     expect(target.tags).to(beNil())
                 }
             }
-
             context("data store error") {
                 beforeEach {
                     given(tagStore.getUniqueTags()) ~> {
