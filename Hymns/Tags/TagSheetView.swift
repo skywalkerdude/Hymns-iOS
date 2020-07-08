@@ -47,7 +47,7 @@ struct TagSheetView: View {
                             Button("Add") {
                                 self.viewModel.addTag(tagTitle: self.tagName, tagColor: self.tagColor)
                             }.padding(.horizontal).disabled(self.tagName.isEmpty)
-                        }.padding(.top)
+                        }
                         Spacer()
                     }
                 }
@@ -79,9 +79,9 @@ struct TagSheetView_Previews: PreviewProvider {
                                   UiTag(title: "Tag 3", color: .blue)]
         let manyTags = TagSheetView(viewModel: manyTagsViewModel, sheet: Binding.constant(.tags))
         return Group {
-            noTags
-            oneTag
-            manyTags
+            noTags.previewDisplayName("no tags")
+            oneTag.previewDisplayName("one tag")
+            manyTags.previewDisplayName("many tags")
         }.previewLayout(.sizeThatFits)
     }
 }
