@@ -8,7 +8,7 @@ struct TagPill: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .padding(7)
+            .padding(8)
             .background(backgroundColor)
             .foregroundColor(foregroundColor)
             .cornerRadius(15)

@@ -65,7 +65,7 @@ struct WrappedHStack_Previews: PreviewProvider {
                             HStack {
                                 Text(platform).font(.body).fontWeight(.bold)
                                 Image(systemName: "xmark.circle")
-                            }.padding(10).foregroundColor(Color.white).background(Color.purple).cornerRadius(20)
+                            }.padding(7).foregroundColor(Color.white).background(Color.purple).cornerRadius(15)
                         })
                 }
             }
