@@ -47,7 +47,7 @@ struct TagSheetView: View {
                             Button("Add") {
                                 self.viewModel.addTag(tagTitle: self.tagName, tagColor: self.tagColor)
                             }.padding(.horizontal).disabled(self.tagName.isEmpty)
-                        }
+                        }.padding(.top)
                         Spacer()
                     }
                 }
