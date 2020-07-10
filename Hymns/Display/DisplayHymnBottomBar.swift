@@ -71,9 +71,9 @@ struct DisplayHymnBottomBar: View {
                         })
                         languageIndexShown.map { index in
                             PushView(destination: self.viewModel.languages[index].destinationView,
-                                           tag: index,
-                                           selection: $languageIndexShown) {
-                                            EmptyView()
+                                     tag: index,
+                                     selection: $languageIndexShown) {
+                                        EmptyView()
                             }
                         }
                         Spacer()
@@ -96,9 +96,9 @@ struct DisplayHymnBottomBar: View {
                         })
                         relevantIndexShown.map { index in
                             PushView(destination: self.viewModel.relevant[index].destinationView,
-                                           tag: index,
-                                           selection: $relevantIndexShown) {
-                                            EmptyView()
+                                     tag: index,
+                                     selection: $relevantIndexShown) {
+                                        EmptyView()
                             }
                         }
                         Spacer()

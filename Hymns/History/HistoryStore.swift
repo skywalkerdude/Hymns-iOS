@@ -17,10 +17,14 @@ class HistoryStoreRealmImpl: HistoryStore {
     let numberToStore = 50
 
     private let analytics: AnalyticsLogger
+    private let backgroundQueue: DispatchQueue
     private let realm: Realm
 
-    init(analytics: AnalyticsLogger = Resolver.resolve(), realm: Realm) {
+    init(analytics: AnalyticsLogger = Resolver.resolve(),
+         backgroundQueue: DispatchQueue = Resolver.resolve(name: "main"),
+         realm: Realm) {
         self.analytics = analytics
+        self.backgroundQueue = backgroundQueue
         self.realm = realm
     }
 
@@ -39,31 +43,33 @@ class HistoryStoreRealmImpl: HistoryStore {
     }
 
     func storeRecentSong(hymnToStore hymnIdentifier: HymnIdentifier, songTitle: String) {
-        do {
-            try realm.write {
-                realm.add(
-                    RecentSongEntity(recentSong:
-                        RecentSong(hymnIdentifier: hymnIdentifier, songTitle: songTitle),
-                                     created: Date()),
-                    update: .modified)
-            }
-            let results: Results<RecentSongEntity> = realm.objects(RecentSongEntity.self).sorted(byKeyPath: "created", ascending: false)
-            if results.count > numberToStore {
-                let entitiesToDelete = Array(results).suffix(results.count - numberToStore)
-                do {
-                    try realm.write {
-                        realm.delete(entitiesToDelete)
-                    }
-                } catch {
-                    var extraParameters = [String: String]()
-                    for (index, entity) in entitiesToDelete.enumerated() {
-                        extraParameters["primary_key \(index)"] = entity.primaryKey
-                    }
-                    analytics.logError(message: "error occurred when deleting recent songs", error: error, extraParameters: extraParameters)
+        backgroundQueue.async {
+            do {
+                try self.realm.write {
+                    self.realm.add(
+                        RecentSongEntity(recentSong:
+                            RecentSong(hymnIdentifier: hymnIdentifier, songTitle: songTitle),
+                                         created: Date()),
+                        update: .modified)
                 }
+                let results: Results<RecentSongEntity> = self.realm.objects(RecentSongEntity.self).sorted(byKeyPath: "created", ascending: false)
+                if results.count > self.numberToStore {
+                    let entitiesToDelete = Array(results).suffix(results.count - self.numberToStore)
+                    do {
+                        try self.realm.write {
+                            self.realm.delete(entitiesToDelete)
+                        }
+                    } catch {
+                        var extraParameters = [String: String]()
+                        for (index, entity) in entitiesToDelete.enumerated() {
+                            extraParameters["primary_key \(index)"] = entity.primaryKey
+                        }
+                        self.analytics.logError(message: "error occurred when deleting recent songs", error: error, extraParameters: extraParameters)
+                    }
+                }
+            } catch {
+                self.analytics.logError(message: "error occurred when storing recent song", error: error, extraParameters: ["hymnIdentifier": String(describing: hymnIdentifier), "title": songTitle])
             }
-        } catch {
-            analytics.logError(message: "error occurred when storing recent song", error: error, extraParameters: ["hymnIdentifier": String(describing: hymnIdentifier), "title": songTitle])
         }
     }
 }
