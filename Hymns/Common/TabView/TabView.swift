@@ -7,11 +7,14 @@ import SwiftUI
  */
 public struct IndicatorTabView<TabType: TabItem>: View {
     @Binding private var currentTab: TabType
+
+    private let geometry: GeometryProxy
     private let tabItems: [TabType]
     private let tabAlignment: TabAlignment
 
-    init(currentTab: Binding<TabType>, tabItems: [TabType], tabAlignment: TabAlignment = .top) {
+    init(geometry: GeometryProxy, currentTab: Binding<TabType>, tabItems: [TabType], tabAlignment: TabAlignment = .top) {
         self._currentTab = currentTab
+        self.geometry = geometry
         self.tabItems = tabItems
         self.tabAlignment = tabAlignment
     }
@@ -20,15 +23,15 @@ public struct IndicatorTabView<TabType: TabItem>: View {
         VStack(alignment: .center, spacing: 0) {
             if tabAlignment == .top {
                 VStack(spacing: 0) {
-                    TabBar(currentTab: $currentTab, tabItems: tabItems)
+                    TabBar(currentTab: $currentTab, geometry: geometry, tabItems: tabItems)
                     Divider()
                 }
             }
-            Rectangle().overlay(currentTab.content)
+            currentTab.content
             if tabAlignment == .bottom {
                 VStack(spacing: 0) {
                     Divider()
-                    TabBar(currentTab: $currentTab, tabItems: tabItems)
+                    TabBar(currentTab: $currentTab, geometry: geometry, tabItems: tabItems)
                 }
             }
         }
@@ -60,18 +63,26 @@ struct IndicatorTabView_Previews: PreviewProvider {
             .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=ppdf")!).eraseToAnyView())]
 
         return Group {
-            IndicatorTabView(currentTab: selectedTabBinding, tabItems: tabItems)
-                .previewDevice(PreviewDevice(rawValue: "iPhone XS Max"))
-                .previewDisplayName("iPhone XS Max")
-            IndicatorTabView(currentTab: selectedTabBinding, tabItems: tabItems, tabAlignment: .bottom)
-                .previewDevice(PreviewDevice(rawValue: "iPhone XS Max"))
-                .previewDisplayName("iPhone XS Max bottom tabs")
-            IndicatorTabView(currentTab: selectedTabBinding, tabItems: tabItems)
-                .previewDevice(PreviewDevice(rawValue: "iPhone SE"))
-                .previewDisplayName("iPhone SE")
-            IndicatorTabView(currentTab: selectedTabBinding, tabItems: tabItems)
-                .previewDevice(PreviewDevice(rawValue: "iPad Air 2"))
-                .previewDisplayName("iPad Air 2")
+            GeometryReader { geometry in
+                IndicatorTabView(geometry: geometry, currentTab: selectedTabBinding, tabItems: tabItems)
+                    .previewDevice(PreviewDevice(rawValue: "iPhone XS Max"))
+                    .previewDisplayName("iPhone XS Max")
+            }
+            GeometryReader { geometry in
+                IndicatorTabView(geometry: geometry, currentTab: selectedTabBinding, tabItems: tabItems, tabAlignment: .bottom)
+                    .previewDevice(PreviewDevice(rawValue: "iPhone XS Max"))
+                    .previewDisplayName("iPhone XS Max bottom tabs")
+            }
+            GeometryReader { geometry in
+                IndicatorTabView(geometry: geometry, currentTab: selectedTabBinding, tabItems: tabItems)
+                    .previewDevice(PreviewDevice(rawValue: "iPhone SE"))
+                    .previewDisplayName("iPhone SE")
+            }
+            GeometryReader { geometry in
+                IndicatorTabView(geometry: geometry, currentTab: selectedTabBinding, tabItems: tabItems)
+                    .previewDevice(PreviewDevice(rawValue: "iPad Air 2"))
+                    .previewDisplayName("iPad Air 2")
+            }
         }
     }
 }

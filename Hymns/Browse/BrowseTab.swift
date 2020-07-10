@@ -2,13 +2,13 @@ import Foundation
 import SwiftUI
 
 enum BrowseTab {
-    case tags
-    case classic
-    case newTunes
-    case newSongs
-    case children
-    case scripture
-    case all
+    case tags(AnyView)
+    case classic(AnyView)
+    case newTunes(AnyView)
+    case newSongs(AnyView)
+    case children(AnyView)
+    case scripture(AnyView)
+    case all(AnyView)
 }
 
 extension BrowseTab {
@@ -39,20 +39,20 @@ extension BrowseTab: TabItem {
 
     var content: AnyView {
         switch self {
-        case .tags:
-            return TagListView().eraseToAnyView()
-        case .classic:
-            return BrowseCategoriesView(viewModel: BrowseCategoriesViewModel(hymnType: .classic)).eraseToAnyView()
-        case .newTunes:
-            return BrowseCategoriesView(viewModel: BrowseCategoriesViewModel(hymnType: .newTune)).eraseToAnyView()
-        case .newSongs:
-            return BrowseCategoriesView(viewModel: BrowseCategoriesViewModel(hymnType: .newSong)).eraseToAnyView()
-        case .children:
-            return BrowseCategoriesView(viewModel: BrowseCategoriesViewModel(hymnType: .children)).eraseToAnyView()
-        case .scripture:
-            return BrowseScripturesView(viewModel: BrowseScripturesViewModel()).eraseToAnyView()
-        case .all:
-            return BrowseCategoriesView(viewModel: BrowseCategoriesViewModel(hymnType: nil)).eraseToAnyView()
+        case .tags(let content):
+            return content
+        case .classic(let content):
+            return content
+        case .newTunes(let content):
+            return content
+        case .newSongs(let content):
+            return content
+        case .children(let content):
+            return content
+        case .scripture(let content):
+            return content
+        case .all(let content):
+            return content
         }
     }
 
@@ -76,19 +76,22 @@ extension BrowseTab: TabItem {
 #if DEBUG
 struct BrowseTab_Previews: PreviewProvider {
     static var previews: some View {
-        var classicTab: BrowseTab = .classic
-        let newTunesTab: BrowseTab = .newTunes
-        let newSongsTab: BrowseTab = .newSongs
-        let childrensTab: BrowseTab = .children
-        let scripturesTab: BrowseTab = .scripture
-        let allTab: BrowseTab = .all
+        var classicTab: BrowseTab = .classic(EmptyView().eraseToAnyView())
+        let newTunesTab: BrowseTab = .newTunes(EmptyView().eraseToAnyView())
+        let newSongsTab: BrowseTab = .newSongs(EmptyView().eraseToAnyView())
+        let childrensTab: BrowseTab = .children(EmptyView().eraseToAnyView())
+        let scripturesTab: BrowseTab = .scripture(EmptyView().eraseToAnyView())
+        let allTab: BrowseTab = .all(EmptyView().eraseToAnyView())
 
         let currentTabClassic = Binding<BrowseTab>(
             get: {classicTab},
             set: {classicTab = $0})
-        let clasicSelected = TabBar(currentTab: currentTabClassic, tabItems: [classicTab, newTunesTab, newSongsTab, childrensTab, scripturesTab, allTab])
         return Group {
-            clasicSelected.toPreviews()
+            GeometryReader { geometry in
+                TabBar(currentTab: currentTabClassic,
+                       geometry: geometry,
+                       tabItems: [classicTab, newTunesTab, newSongsTab, childrensTab, scripturesTab, allTab]).toPreviews()
+            }
         }
     }
 }

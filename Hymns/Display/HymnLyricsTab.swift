@@ -69,30 +69,45 @@ struct HymnLyricsTab_Previews: PreviewProvider {
         let currentTabLyrics = Binding<HymnLyricsTab>(
             get: {lyricsTab},
             set: {lyricsTab = $0})
-        let missingChords = TabBar(currentTab: currentTabLyrics, tabItems: [lyricsTab, guitarTab, pianoTab])
-        let lyricsSelected = TabBar(currentTab: currentTabLyrics, tabItems: [lyricsTab, chordsTab, guitarTab, pianoTab])
 
         let currentTabChords = Binding<HymnLyricsTab>(
             get: {chordsTab},
             set: {chordsTab = $0})
-        let chordsSelected = TabBar(currentTab: currentTabChords, tabItems: [lyricsTab, chordsTab, guitarTab, pianoTab])
 
         let currentTabGuitar = Binding<HymnLyricsTab>(
             get: {guitarTab},
             set: {guitarTab = $0})
-        let guitarSelected = TabBar(currentTab: currentTabGuitar, tabItems: [lyricsTab, chordsTab, guitarTab, pianoTab])
 
         let currentTabPiano = Binding<HymnLyricsTab>(
             get: {pianoTab},
             set: {pianoTab = $0})
-        let pianoSelected = TabBar(currentTab: currentTabPiano, tabItems: [lyricsTab, chordsTab, guitarTab, pianoTab])
 
         return Group {
-            missingChords.previewDisplayName("missing chords")
-            lyricsSelected.previewDisplayName("lyrics selected")
-            chordsSelected.previewDisplayName("chords selected")
-            guitarSelected.previewDisplayName("guitar selected")
-            pianoSelected.previewDisplayName("piano selected")
+            GeometryReader { geometry in
+                TabBar(currentTab: currentTabLyrics,
+                       geometry: geometry,
+                       tabItems: [lyricsTab, guitarTab, pianoTab])
+            }.previewDisplayName("missing chords")
+            GeometryReader { geometry in
+                TabBar(currentTab: currentTabLyrics,
+                       geometry: geometry,
+                       tabItems: [lyricsTab, chordsTab, guitarTab, pianoTab])
+            }.previewDisplayName("lyrics selected")
+            GeometryReader { geometry in
+                TabBar(currentTab: currentTabChords,
+                       geometry: geometry,
+                       tabItems: [lyricsTab, chordsTab, guitarTab, pianoTab])
+            }.previewDisplayName("chords selected")
+            GeometryReader { geometry in
+                TabBar(currentTab: currentTabGuitar,
+                       geometry: geometry,
+                       tabItems: [lyricsTab, chordsTab, guitarTab, pianoTab])
+            }.previewDisplayName("guitar selected")
+            GeometryReader { geometry in
+                TabBar(currentTab: currentTabPiano,
+                       geometry: geometry,
+                       tabItems: [lyricsTab, chordsTab, guitarTab, pianoTab])
+            }.previewDisplayName("piano selected")
         }.previewLayout(.fixed(width: 450, height: 50))
     }
 }

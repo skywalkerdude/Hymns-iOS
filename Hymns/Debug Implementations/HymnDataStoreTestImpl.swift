@@ -19,11 +19,11 @@ class HymnDataStoreTestImpl: HymnDataStore {
              SongResultEntity(hymnType: .newTune, hymnNumber: "37", queryParams: nil, title: "Don't click!"),
              SongResultEntity(hymnType: .classic, hymnNumber: "883", queryParams: nil, title: "Don't click either!")]]
     private var scriptureSongs =
-        [ScriptureEntity(title: "booyah1", hymnType: .chinese, hymnNumber: "155", queryParams: nil, scriptures: "Hosea 14:8"),
+        [ScriptureEntity(title: "chinese1151", hymnType: .chinese, hymnNumber: "155", queryParams: nil, scriptures: "Hosea 14:8"),
          ScriptureEntity(title: "Click me!", hymnType: .classic, hymnNumber: "1151", queryParams: nil, scriptures: "Revelation 22"),
          ScriptureEntity(title: "Don't click me!", hymnType: .spanish, hymnNumber: "1151", queryParams: nil, scriptures: "Revelation"),
-         ScriptureEntity(title: "booyah2", hymnType: .chinese, hymnNumber: "24", queryParams: nil, scriptures: "Genesis 1:26"),
-         ScriptureEntity(title: "booyah3", hymnType: .chinese, hymnNumber: "33", queryParams: nil, scriptures: "Genesis 1:1")]
+         ScriptureEntity(title: "chinese24", hymnType: .chinese, hymnNumber: "24", queryParams: nil, scriptures: "Genesis 1:26"),
+         ScriptureEntity(title: "chinese33", hymnType: .chinese, hymnNumber: "33", queryParams: nil, scriptures: "Genesis 1:1")]
 
     var databaseInitializedProperly: Bool = true
 

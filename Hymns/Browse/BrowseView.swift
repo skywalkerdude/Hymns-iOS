@@ -1,15 +1,22 @@
+import Resolver
 import SwiftUI
 
 struct BrowseView: View {
 
-    @State private var currentTab: BrowseTab = .classic
+    @ObservedObject private var viewModel: BrowseViewModel
 
-    let tabItems: [BrowseTab] = [.tags, .classic, .newTunes, .newSongs, .children, .scripture, .all]
+    init(viewModel: BrowseViewModel = Resolver.resolve()) {
+        self.viewModel = viewModel
+    }
 
     var body: some View {
         VStack {
             CustomTitle(title: "Browse")
-            IndicatorTabView(currentTab: $currentTab, tabItems: tabItems)
+            GeometryReader { geometry in
+                IndicatorTabView(geometry: geometry,
+                                 currentTab: self.$viewModel.currentTab,
+                                 tabItems: self.viewModel.tabItems)
+            }
         }
     }
 }
