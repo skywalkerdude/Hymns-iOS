@@ -38,7 +38,9 @@ struct DisplayHymnView: View {
                 }
             }.eraseToAnyView()
         }.onAppear {
-            self.viewModel.fetchHymn()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { //<-- dispatch after here
+                self.viewModel.fetchHymn()
+            }
         }.background(Color(.systemBackground))
     }
 }
