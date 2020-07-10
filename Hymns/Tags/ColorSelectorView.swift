@@ -24,7 +24,7 @@ struct ColorSelectorView: View {
                                    foregroundColor: tagColor.foreground,
                                    showBorder: self.tagColor == tagColor)
                     }
-                }
+                }.padding(.leading, 2)
             }
         }
     }

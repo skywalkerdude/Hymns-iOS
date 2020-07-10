@@ -33,4 +33,12 @@ class TagSheetSnapshots: XCTestCase {
                           UiTag(title: "Tag 3", color: .blue)]
         assertSnapshot(matching: TagSheetView(viewModel: viewModel, sheet: Binding.constant(.tags)), as: .image())
     }
+
+    func test_colorSeletor_unselected() {
+        assertSnapshot(matching: ColorSelectorView(tagColor: .constant(.none)), as: .image())
+    }
+
+    func test_colorSeletor_blueSelected() {
+        assertSnapshot(matching: ColorSelectorView(tagColor: .constant(.blue)), as: .image())
+    }
 }
