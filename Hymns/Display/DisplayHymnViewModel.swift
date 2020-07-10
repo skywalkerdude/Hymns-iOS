@@ -14,7 +14,6 @@ class DisplayHymnViewModel: ObservableObject {
     @Published var tabItems: [HymnLyricsTab] = [HymnLyricsTab]()
     @Published var isFavorited: Bool?
     @Published var bottomBar: DisplayHymnBottomBarViewModel?
-    @Published var mp3Path: URL?
 
     private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue
@@ -103,13 +102,6 @@ class DisplayHymnViewModel: ObservableObject {
                         self.pdfLoader.load(url: pianoUrl)
                         self.tabItems.append(.piano(PDFViewer(url: pianoUrl).eraseToAnyView()))
                     }
-
-                    let mp3Path = hymn.music?.data.first(where: { datum -> Bool in
-                        datum.value == DatumValue.mp3.rawValue
-                    })?.path
-                    self.mp3Path = mp3Path.flatMap({ path -> URL? in
-                        HymnalNet.url(path: path)
-                    })
 
                     self.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: self.identifier)
                     self.fetchFavoriteStatus()

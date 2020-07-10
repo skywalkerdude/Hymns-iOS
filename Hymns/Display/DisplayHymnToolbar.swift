@@ -11,11 +11,14 @@ struct DisplayHymnToolbar: View {
 
     var body: some View {
         HStack {
-            Button(action: {
-                self.presentationMode.wrappedValue.dismiss()
-            }, label: {
+            PopView {
                 Image(systemName: "chevron.left").accentColor(.primary).frame(minWidth: 0).contentShape(Rectangle())
-            }).padding()
+            }.padding()
+//            Button(action: {
+//                self.presentationMode.wrappedValue.dismiss()
+//            }, label: {
+//                Image(systemName: "chevron.left").accentColor(.primary).frame(minWidth: 0).contentShape(Rectangle())
+//            }).padding()
             Spacer()
             Text(viewModel.title).fontWeight(.bold)
             Spacer()

@@ -70,10 +70,10 @@ struct DisplayHymnBottomBar: View {
                             BottomBarLabel(imageName: "globe").foregroundColor(.primary)
                         })
                         languageIndexShown.map { index in
-                            NavigationLink(destination: self.viewModel.languages[index].destinationView,
-                                           tag: index,
-                                           selection: $languageIndexShown) {
-                                            EmptyView()
+                            PushView(destination: self.viewModel.languages[index].destinationView,
+                                     tag: index,
+                                     selection: $languageIndexShown) {
+                                        EmptyView()
                             }
                         }
                         Spacer()
@@ -95,10 +95,10 @@ struct DisplayHymnBottomBar: View {
                             BottomBarLabel(imageName: "music.note.list").foregroundColor(.primary)
                         })
                         relevantIndexShown.map { index in
-                            NavigationLink(destination: self.viewModel.relevant[index].destinationView,
-                                           tag: index,
-                                           selection: $relevantIndexShown) {
-                                            EmptyView()
+                            PushView(destination: self.viewModel.relevant[index].destinationView,
+                                     tag: index,
+                                     selection: $relevantIndexShown) {
+                                        EmptyView()
                             }
                         }
                         Spacer()

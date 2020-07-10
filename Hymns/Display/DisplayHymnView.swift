@@ -12,10 +12,12 @@ struct DisplayHymnView: View {
     }
 
     var body: some View {
-        ZStack {
-            if !viewModel.isLoaded {
-                ActivityIndicator().maxSize()
-            } else {
+        Group<AnyView> {
+            guard viewModel.isLoaded else {
+                return ActivityIndicator().maxSize().eraseToAnyView()
+            }
+
+            return ZStack {
                 VStack(spacing: 0) {
                     DisplayHymnToolbar(viewModel: viewModel)
                     if viewModel.tabItems.count > 1 {
@@ -34,10 +36,11 @@ struct DisplayHymnView: View {
                 dialogBuilder.map { _ in
                     Dialog(builder: $dialogBuilder)
                 }
-            }
-        }.hideNavigationBar()
-            .onAppear {
+            }.eraseToAnyView()
+        }.onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { //<-- dispatch after here
                 self.viewModel.fetchHymn()
+            }
         }.background(Color(.systemBackground))
     }
 }

@@ -24,7 +24,7 @@ struct FavoritesView: View {
                     }.maxSize().offset(y: -25).eraseToAnyView()
                 }
                 return List(favorites) { favorite in
-                    NavigationLink(destination: favorite.destinationView) {
+                    PushView(destination: favorite.destinationView) {
                         SongResultView(viewModel: favorite)
                     }
                 }.resignKeyboardOnDragGesture().eraseToAnyView()

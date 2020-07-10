@@ -6,7 +6,7 @@ struct HomeContainerView: View {
     @State var selectedTab: HomeTab = .none
 
     var body: some View {
-        NavigationView {
+        NavigationStackView {
             TabView(selection: $selectedTab) {
                 HomeView()
                     .tabItem {HomeTab.home.getImage(selectedTab == HomeTab.home).font(.system(size: buttonSize))}
