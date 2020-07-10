@@ -2,7 +2,7 @@ import SwiftUI
 
 struct DisplayHymnToolbar: View {
 
-    @Environment(\.presentationMode) var presentationMode
+ //   @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var viewModel: DisplayHymnViewModel
 
     init(viewModel: DisplayHymnViewModel) {
