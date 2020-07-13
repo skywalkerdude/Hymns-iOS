@@ -17,6 +17,28 @@ class DisplayHymnSnapshots: XCTestCase {
         assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .image())
     }
 
+    func test_classic40() {
+        viewModel = DisplayHymnViewModel(hymnToDisplay: hymn40_identifier)
+        viewModel.isLoaded = true
+        viewModel.title = "Hymn 40"
+        viewModel.isFavorited = false
+        let lyricsViewModel = HymnLyricsViewModel(hymnToDisplay: hymn40_identifier)
+        lyricsViewModel.lyrics
+            = [VerseViewModel(verseNumber: "1", verseLines: hymn40_hymn.lyrics[0].verseContent),
+               VerseViewModel(verseNumber: "2", verseLines: hymn40_hymn.lyrics[1].verseContent),
+               VerseViewModel(verseNumber: "3", verseLines: hymn40_hymn.lyrics[2].verseContent),
+               VerseViewModel(verseNumber: "4", verseLines: hymn40_hymn.lyrics[3].verseContent),
+               VerseViewModel(verseNumber: "5", verseLines: hymn40_hymn.lyrics[4].verseContent)]
+        viewModel.currentTab = .lyrics(HymnLyricsView(viewModel: lyricsViewModel).maxSize().eraseToAnyView())
+        viewModel.tabItems = [
+            viewModel.currentTab,
+            .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=gtpdf")!).eraseToAnyView()),
+            .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=pdf")!).eraseToAnyView()),
+            .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=ppdf")!).eraseToAnyView())]
+        viewModel.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn40_identifier)
+        assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .image())
+    }
+
     func test_classic1334() {
         viewModel = DisplayHymnViewModel(hymnToDisplay: hymn1334_identifier)
         viewModel.isLoaded = true

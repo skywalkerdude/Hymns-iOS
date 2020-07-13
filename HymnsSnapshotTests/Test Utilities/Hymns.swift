@@ -6,6 +6,7 @@ class Hymns {}
 
 let hymn1151_hymn = getHymnFromJson(fileName: "classic_1151")
 let hymn1334_hymn = getHymnFromJson(fileName: "classic_1334")
+let hymn40_hymn = getHymnFromJson(fileName: "classic_40")
 
 func getHymnFromJson(fileName: String) -> Hymn {
     let decoder = JSONDecoder()
