@@ -27,13 +27,13 @@ struct HomeContainerView: View {
                     .tabItem {HomeTab.settings.getImage(selectedTab == HomeTab.settings).font(.system(size: buttonSize))}
                     .tag(HomeTab.settings)
                     .hideNavigationBar()
-            }.hideNavigationBar().onAppear {
+            }.onAppear {
                 if self.selectedTab == .none {
                     self.selectedTab = .home
                 }
                 UITabBar.appearance().unselectedItemTintColor = .label
-            }
-        }
+            }.hideNavigationBar()
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
