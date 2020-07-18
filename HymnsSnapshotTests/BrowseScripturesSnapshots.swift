@@ -31,4 +31,13 @@ class BrowseScripturesSnapshots: XCTestCase {
                                   scriptureSongs: [ScriptureSongViewModel(reference: "13:5", title: "White horse?", hymnIdentifier: hymn40_identifier)])]
         assertSnapshot(matching: BrowseScripturesView(viewModel: viewModel), as: .image())
     }
+
+    func test_scripture_song() {
+        let viewModel = ScriptureSongViewModel(reference: "1:19", title: "And we have the prophetic word",
+                                               hymnIdentifier: PreviewHymnIdentifiers.cupOfChrist)
+        assertSnapshot(matching: ScriptureSongView(viewModel: viewModel).environment(\.sizeCategory, .medium), as: .image())
+        assertSnapshot(matching: ScriptureSongView(viewModel: viewModel).environment(\.sizeCategory, .extraExtraExtraLarge), as: .image())
+        assertSnapshot(matching: ScriptureSongView(viewModel: viewModel).environment(\.sizeCategory, .accessibilityMedium), as: .image())
+        assertSnapshot(matching: ScriptureSongView(viewModel: viewModel).environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge), as: .image())
+    }
 }
