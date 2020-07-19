@@ -6,7 +6,7 @@ import SwiftUI
 protocol BaseSettingViewModel: Identifiable where ID == UUID {
 
     /**
-     * Implementations should return the view assocaited with its partcilar setting here.
+     * Implementations should return the view associated with its particular setting here.
      */
     var view: AnyView { get }
 }
