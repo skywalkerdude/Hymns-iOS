@@ -8,22 +8,18 @@ class SettingsViewModelSpec: QuickSpec {
 
     override func spec() {
         describe("SettingsViewModel") {
-            var application: ApplicationMock!
             var target: SettingsViewModel!
             beforeEach {
-                application = mock(Application.self)
-                target = SettingsViewModel(application: application)
+                target = SettingsViewModel()
             }
-
-            describe("settings array") {
-                var settings: [AnySettingViewModel]!
+            describe("populating settings") {
                 beforeEach {
-                    settings = target.settings
+                    target.populateSettings(result: .constant(nil))
                 }
 
                 let settingsSize = 3 // Change this value as we add more settings.
                 it("should contain exactly \(settingsSize) item") {
-                    expect(settings).to(haveCount(settingsSize))
+                    expect(target.settings).to(haveCount(settingsSize))
                 }
             }
         }

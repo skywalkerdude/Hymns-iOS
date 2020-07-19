@@ -1,15 +1,16 @@
 import Foundation
+import MessageUI
 import Resolver
 import SwiftUI
 import UIKit
 
-struct SettingsViewModel {
+class SettingsViewModel: ObservableObject {
 
-    let settings: [AnySettingViewModel]
+    @Published var settings: [AnySettingViewModel]? = [AnySettingViewModel]()
 
-    init(application: Application = Resolver.resolve()) {
+    func populateSettings(result: Binding<Result<MFMailComposeResult, Error>?>) {
         let privacyPolicy = PrivacyPolicySettingViewModel().eraseToAnySettingViewModel()
-        let feedback = FeedbackViewModel().eraseToAnySettingViewModel()
+        let feedback = FeedbackViewModel(result: result).eraseToAnySettingViewModel()
         let aboutUs = AboutUsViewModel().eraseToAnySettingViewModel()
         settings = [privacyPolicy, feedback, aboutUs]
     }

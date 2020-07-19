@@ -34,8 +34,7 @@ struct MailFeedbackView: UIViewControllerRepresentable {
     }
 
     func makeCoordinator() -> Coordinator {
-        return Coordinator(presentation: presentation,
-                           result: $result)
+        return Coordinator(presentation: presentation, result: $result)
     }
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<MailFeedbackView>) -> MFMailComposeViewController {
