@@ -4,7 +4,7 @@ import SwiftUI
 // https://www.avanderlee.com/swiftui/previews-different-states/
 struct UIElementPreview<Value: View>: View {
 
-    private let dynamicTypeSizes: [ContentSizeCategory] = [.extraSmall, .large, .extraExtraExtraLarge]
+    private let dynamicTypeSizes: [ContentSizeCategory] = [.extraSmall, .large, .extraExtraExtraLarge, .accessibilityMedium, .accessibilityExtraExtraExtraLarge]
 
     /// Filter out "base" to prevent a duplicate preview.
     private let localizations = Bundle.main.localizations.map(Locale.init).filter { $0.identifier != "base" }

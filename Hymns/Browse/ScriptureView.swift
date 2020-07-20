@@ -26,11 +26,14 @@ struct ScriptureView: View {
     }
 }
 
+#if DEBUG
 struct ScriptureView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = ScriptureViewModel(book: .malachi,
                                            scriptureSongs: [ScriptureSongViewModel(reference: "4:2", title: "But unto you who fear My name", hymnIdentifier: HymnIdentifier(hymnType: .newSong, hymnNumber: "410")),
                                                             ScriptureSongViewModel(reference: "5:1", title: "totally made up song", hymnIdentifier: HymnIdentifier(hymnType: .cebuano, hymnNumber: "98"))])
+        viewModel.scriptureSongs = [ScriptureSongViewModel(reference: "General", title: "here is the title", hymnIdentifier: PreviewHymnIdentifiers.cupOfChrist)]
         return ScriptureView(viewModel: viewModel).previewLayout(.sizeThatFits)
     }
 }
+#endif
