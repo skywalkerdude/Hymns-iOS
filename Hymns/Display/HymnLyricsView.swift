@@ -47,7 +47,6 @@ public struct HymnLyricsView: View {
 #if DEBUG
 struct HymnLyricsView_Previews: PreviewProvider {
     static var previews: some View {
-
         let loadingViewModel = HymnLyricsViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn40)
         let loading = HymnLyricsView(viewModel: loadingViewModel)
 

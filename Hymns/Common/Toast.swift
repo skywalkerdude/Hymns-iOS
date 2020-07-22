@@ -34,13 +34,11 @@ struct SimpleToast<Item, ToastContent>: ViewModifier where Item: Identifiable, T
         return content.overlay(
             item.map { item in
                 self.content(item)
-                    .offset(x: 0, y: offset.height)
+                    .maxWidth(alignment: .leading)
+                    .background(options.backdrop ? Color(.tertiarySystemBackground) : .clear)
+                    .cornerRadius(10)
+                    .shadow(radius: 5)
                     .padding()
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(Color(.systemGray).opacity(0.6))
-                            .opacity(options.backdrop ? 1 : 0)
-                            .blur(radius: 20))
                     .gesture(TapGesture().onEnded { self.hide() })
         }, alignment: options.alignment)
     }
@@ -58,6 +56,78 @@ struct SimpleToast<Item, ToastContent>: ViewModifier where Item: Identifiable, T
         }
     }
 }
+
+#if DEBUG
+struct Toast_Previews: PreviewProvider {
+    static var previews: some View {
+        let top =
+            Text("Content here")
+                .maxSize()
+                .toast(item: .constant(TagColor.blue), options: ToastOptions(alignment: .top)) { _ -> AnyView in
+                    Text("Toast text").padding()
+                        .eraseToAnyView()
+        }
+        let center =
+            Text("Content here")
+                .maxSize()
+                .toast(item: .constant(TagColor.blue), options: ToastOptions(alignment: .center)) { _ -> AnyView in
+                    VStack {
+                        Text("Toast line 1")
+                        Text("Toast line 2")
+                    }.padding()
+                        .eraseToAnyView()
+        }
+        let bottom =
+            Text("Content here")
+                .maxSize()
+                .toast(item: .constant(TagColor.blue), options: ToastOptions(alignment: .bottom)) { _ -> AnyView in
+                    HStack {
+                        Image(systemName: "checkmark").foregroundColor(.green).padding()
+                        Text("Toast text").padding(.trailing)
+                    }
+                    .eraseToAnyView()
+        }
+        let bottomWithOutBackdrop =
+            Text("Content here")
+                .maxSize()
+                .toast(item: .constant(TagColor.blue), options: ToastOptions(alignment: .bottom, backdrop: false)) { _ -> AnyView in
+                    HStack {
+                        Image(systemName: "checkmark").foregroundColor(.green).padding()
+                        Text("Toast text").padding(.trailing)
+                    }
+                    .eraseToAnyView()
+        }
+        let darkMode =
+            Text("Content here")
+                .maxSize()
+                .toast(item: .constant(TagColor.blue), options: ToastOptions(alignment: .bottom)) { _ -> AnyView in
+                    HStack {
+                        Image(systemName: "checkmark").foregroundColor(.green).padding()
+                        Text("Toast text").padding(.trailing)
+                    }
+                    .eraseToAnyView()
+            }.background(Color(.systemBackground)).environment(\.colorScheme, .dark)
+        let darkModeWithoutBackdrop =
+            Text("Content here")
+                .maxSize()
+                .toast(item: .constant(TagColor.blue), options: ToastOptions(alignment: .bottom, backdrop: false)) { _ -> AnyView in
+                    HStack {
+                        Image(systemName: "checkmark").foregroundColor(.green).padding()
+                        Text("Toast text").padding(.trailing)
+                    }
+                    .eraseToAnyView()
+            }.background(Color(.systemBackground)).environment(\.colorScheme, .dark)
+        return Group {
+            top.previewDisplayName("top")
+            center.previewDisplayName("center")
+            bottom.previewDisplayName("bottom")
+            bottomWithOutBackdrop.previewDisplayName("bottom without backdrop")
+            darkMode.previewDisplayName("dark mode")
+            darkModeWithoutBackdrop.previewDisplayName("dark mode without backdrop")
+        }
+    }
+}
+#endif
 
 extension View {
     public func toast<Item, ToastContent>(item: Binding<Item?>, options: ToastOptions = ToastOptions(),
