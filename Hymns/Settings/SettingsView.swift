@@ -22,7 +22,6 @@ struct SettingsView: View {
             guard !settings.isEmpty else {
                 return ActivityIndicator().maxSize().eraseToAnyView()
             }
-
             return
                 VStack(alignment: .leading) {
                     CustomTitle(title: "Settings")
@@ -31,27 +30,30 @@ struct SettingsView: View {
                             setting.view
                         }
                     }
-            }.eraseToAnyView()
+                }.eraseToAnyView()
         }.onAppear {
             self.viewModel.populateSettings(result: self.$result)
             Analytics.setScreenName("SettingsView", screenClass: "SettingsViewModel")
-        }.toast(item: $result, options: ToastOptions(alignment: .center, disappearAfter: 2)) { result -> Text in
+        }.toast(item: $result, options: ToastOptions(alignment: .bottom, disappearAfter: 5)) { result -> AnyView in
             switch result {
             case .success(let success):
                 switch success {
                 case .sent:
-                    return Text("Feedback sent!")
+                    return HStack {
+                        Image(systemName: "checkmark").foregroundColor(.green).padding()
+                        Text("Feedback sent").padding(.trailing)
+                    }.eraseToAnyView()
                 case .saved:
-                    return Text("Feedback not sent but was saved to drafts")
+                    return Text("Feedback not sent but was saved to drafts").padding().eraseToAnyView()
                 case .cancelled:
-                    return Text("Feedback not sent")
+                    return Text("Feedback not sent").padding().eraseToAnyView()
                 case .failed:
-                    return Text("Feedback failed to send")
+                    return Text("Feedback failed to send").padding().eraseToAnyView()
                 @unknown default:
-                    return Text("Feedback failed to send")
+                    return Text("Feedback failed to send").padding().eraseToAnyView()
                 }
             case .failure:
-                return Text("Email failed to send")
+                return Text("Feedback failed to send").padding().eraseToAnyView()
             }
         }
     }
@@ -60,18 +62,24 @@ struct SettingsView: View {
 #if DEBUG
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            SettingsView()
-                .previewDevice(PreviewDevice(rawValue: "iPhone SE"))
-                .previewDisplayName("iPhone SE")
 
-            SettingsView()
-                .previewDevice(PreviewDevice(rawValue: "iPhone XS Max"))
-                .previewDisplayName("iPhone XS Max")
+        let loadingViewModel = SettingsViewModel()
+        let loading = SettingsView(viewModel: loadingViewModel)
 
-            SettingsView()
-                .previewDevice(PreviewDevice(rawValue: "iPad Air 2"))
-                .previewDisplayName("iPad Air 2")
+        let errorViewModel = SettingsViewModel()
+        errorViewModel.settings = nil
+        let error = SettingsView(viewModel: errorViewModel)
+
+        let settingsViewModel = SettingsViewModel()
+        settingsViewModel.settings = [PrivacyPolicySettingViewModel().eraseToAnySettingViewModel(),
+                                      FeedbackViewModel(result: .constant(nil)).eraseToAnySettingViewModel(),
+                                      AboutUsViewModel().eraseToAnySettingViewModel()]
+        let settings = SettingsView(viewModel: settingsViewModel)
+
+        return Group {
+            loading.previewDisplayName("loading")
+            error.previewDisplayName("error")
+            settings.previewDisplayName("settings")
         }
     }
 }

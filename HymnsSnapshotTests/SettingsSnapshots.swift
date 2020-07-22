@@ -13,7 +13,19 @@ class SettingsSnapshots: XCTestCase {
         viewModel = SettingsViewModel()
     }
 
+    func test_error() {
+        viewModel.settings = nil
+        assertSnapshot(matching: SettingsView(viewModel: viewModel), as: .image())
+    }
+
+    func test_loading() {
+        assertSnapshot(matching: SettingsView(viewModel: viewModel), as: .image())
+    }
+
     func test_settings() {
+        viewModel.settings = [PrivacyPolicySettingViewModel().eraseToAnySettingViewModel(),
+                              FeedbackViewModel(result: .constant(nil)).eraseToAnySettingViewModel(),
+                              AboutUsViewModel().eraseToAnySettingViewModel()]
         assertSnapshot(matching: SettingsView(viewModel: viewModel), as: .image())
     }
 }
