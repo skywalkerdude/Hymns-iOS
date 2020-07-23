@@ -57,11 +57,11 @@ extension BrowseTab: TabItem {
     }
 
     var selectedLabel: some View {
-        Text(label).font(.body).foregroundColor(.accentColor)
+        Text(label).font(.body).foregroundColor(.accentColor).padding(.horizontal)
     }
 
     var unselectedLabel: some View {
-        Text(label).font(.body).foregroundColor(.primary)
+        Text(label).font(.body).foregroundColor(.primary).padding(.horizontal)
     }
 
     var a11yLabel: Text {
