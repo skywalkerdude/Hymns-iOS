@@ -28,6 +28,7 @@
 "Privacy Policy" = "Privacy Policy";
 "Search" = "Search";
 "Search by numbers or words" = "Search by numbers or words";
+"Search by number or title" = "Search by number or title";
 "Search tab" = "Search tab";
 "Select a color" = "Select a color";
 "Send Feedback" = "Send Feedback";
@@ -41,3 +42,9 @@
 "here." = "here.";
 "icon on any hymn" = "icon on any hymn";
 "loading..." = "loading...";
+"Classic Hymns" = "Classic Hymns";
+"New Tunes" = "New Tunes";
+"New Songs" = "New Songs";
+"Children's Songs" = "Children's Songs";
+"Scripture Songs" = "Scripture Songs";
+"All Songs" = "All Songs";

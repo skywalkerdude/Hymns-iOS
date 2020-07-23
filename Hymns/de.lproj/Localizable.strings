@@ -28,6 +28,7 @@
 "Privacy Policy" = "Datenschutzerklärung";
 "Search" = "Suche";
 "Search by numbers or words" = "Suche nach Zahlen oder Wörtern";
+"Search by number or title" = "Suche nach Nummer oder Titel";
 "Search tab" = "Suche tab";
 "Select a color" = "Wählen Sie eine Farbe";
 "Send Feedback" = "Rückmeldung senden";
@@ -41,3 +42,9 @@
 "here." = "hier.";
 "icon on any hymn" = "Symbol auf jeder Hymne";
 "loading..." = "laden...";
+"Classic Hymns" = "Klassische Hymnen";
+"New Tunes" = "Neue Melodien";
+"New Songs" = "Neue Lieder";
+"Children's Songs" = "Kinderlieder";
+"Scripture Songs" = "Schriften-Lieder";
+"All Songs" = "Alle Lieder";

@@ -24,7 +24,7 @@ struct SettingsView: View {
             }
             return
                 VStack(alignment: .leading) {
-                    CustomTitle(title: "Settings")
+                    CustomTitle(title: NSLocalizedString("Settings", comment: ""))
                     List {
                         ForEach(settings) { setting in
                             setting.view

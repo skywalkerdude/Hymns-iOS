@@ -16,19 +16,19 @@ extension BrowseTab {
     var label: String {
         switch self {
         case .tags:
-            return "Tags"
+        return NSLocalizedString("Tags", comment: "")
         case .classic:
-            return "Classic Hymns"
+            return NSLocalizedString("Classic Hymns", comment: "")
         case .newTunes:
-            return "New Tunes"
+            return NSLocalizedString("New Tunes", comment: "")
         case .newSongs:
-            return "New Songs"
+            return NSLocalizedString("New Songs", comment: "")
         case .children:
-            return "Children's Songs"
+            return NSLocalizedString("Children's Songs", comment: "")
         case .scripture:
-            return "Scripture Songs"
+            return NSLocalizedString("Scripture Songs", comment: "")
         case .all:
-            return "All Songs"
+            return NSLocalizedString("All Songs", comment: "")
         }
     }
 }
