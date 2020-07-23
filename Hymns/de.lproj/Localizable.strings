@@ -1,19 +1,43 @@
-/* 
-  Localizable.strings
-  Hymns
-
-  Created by Benjamin Findeisen on 3/27/20.
-  Copyright © 2020 skywalkerdude. All rights reserved.
-*/
-
-"Look up any hymn" = "Suche alle Lieder";
-"Search by numbers or words" = "Suche nach Zahlen oder Wörtern";
-"error!" = "Fehler!";
-"loading..." = "Wird geladen...";
-"Search" = "Suche";
-"Favorites" = "Günstlinge";
-"Browse" = "Durchsuche";
-"Settings" = "Einstellung";
-"Lyrics" = "Liedtext";
+"- Col. 3:16" = "- Kol. 3:16";
+"About Us" = "Über Uns";
+"An error has occurred. Please try again. You can also send feedback and we’ll look into the issue." = "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut. Sie können auch eine Rückmeldung senden, und wir werden das Problem untersuchen.";
+"Browse" = "Durchsuchen";
+"Browse tab" = "Durchsuchen Tab";
+"Change the song lyrics font size" = "Ändern der Schriftgröße der Liedtexte";
+"Change to a relevant hymn" = "Zu einer relevanten Hymne wechseln";
+"Change to another language" = "Zu einer anderen Sprache wechseln";
+"Close" = "Schließen";
+"Create tags by tapping on the" = "Erstellen Sie Tags durch Tippen auf die";
+"Destination" = "Reiseziel";
+"Did not find any songs matching:" = "Es wurden keine passenden Lieder gefunden:";
+"Please try a different request" = "Bitte versuchen Sie eine andere Anfrage";
+"Example Text" = "Beispiel-Text";
+"Favorites" = "Favoriten";
+"Favorites tab" = "Favoriten Tab";
+"For a free study Bible tap " = "Für ein kostenloses Bibelstudium zapfen Sie die Bibel an ";
 "Guitar" = "Gitarre";
+"Hello There 👋" = "Hallo 👋";
+"Label it however you like" = "Beschriften Sie es wie Sie wollen";
+"Let the word of Christ dwell in you richly in all wisdom, teaching and admonishing one another with psalms and hymns and spiritual songs, singing with grace in your hearts to God." = "Lasst das Wort Christi reichlich in aller Weisheit in euch wohnen, lehrt und ermahnt einander mit Psalmen und Hymnen und geistlichen Liedern und singt Gott mit Gnade in euren Herzen.";
+"Look up any hymn" = "Jede Hymne nachschlagen";
+"Lyrics" = "Liedtexte";
+"Lyrics are not available for this song" = "Für dieses Lied ist der Text nicht verfügbar";
+"Name your tag" = "Benennen Sie Ihren Tag";
 "Piano" = "Klavier";
+"Please try a different request" = "Bitte versuchen Sie eine andere Anfrage";
+"Privacy Policy" = "Datenschutzerklärung";
+"Search" = "Suche";
+"Search by numbers or words" = "Suche nach Zahlen oder Wörtern";
+"Search tab" = "Suche tab";
+"Select a color" = "Wählen Sie eine Farbe";
+"Send Feedback" = "Rückmeldung senden";
+"Settings" = "Einstellungen";
+"Settings tab" = "Einstellungen Tab";
+"Tags" = "Tags";
+"Tap the heart on any hymn to add as a favorite" = "Tippen Sie auf das Herz jeder Hymne, die Sie als Favorit hinzufügen möchten";
+"We're the team behind this hymnal app. We love Jesus, and we created this app as a free resource to help other believers access the thousands of hymns available on the internet. We also built in support for the hymns indexed by the Living Stream Ministry hymnal." = "Wir sind das Team hinter dieser hymnischen App. Wir lieben Jesus, und wir haben diese App als eine kostenlose Ressource geschaffen, um anderen Gläubigen den Zugang zu den Tausenden von Hymnen im Internet zu erleichtern. Wir haben auch Unterstützung für die Hymnen eingebaut, die im Gesangbuch des Lebenstrom indiziert sind.";
+"Well, this is unexpected" = "Nun, das ist unerwartet.";
+"error!" = "Fehler!";
+"here." = "hier.";
+"icon on any hymn" = "Symbol auf jeder Hymne";
+"loading..." = "laden...";
