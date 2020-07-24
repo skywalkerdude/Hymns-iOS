@@ -16,7 +16,7 @@ class AudioPlayerViewModel: ObservableObject {
     @Published var shouldRepeat = false
 
     @Published var timer = Timer.publish(every: 1, on: .main, in: .common)
-
+    @Published var player: AVAudioPlayer?
     /**
      * Number of seconds to seek forward or backwards when rewind/fast-forward is triggered.
      */
@@ -28,7 +28,6 @@ class AudioPlayerViewModel: ObservableObject {
     private let service: HymnalNetService
 
     private var disposables = Set<AnyCancellable>()
-    @Published var player: AVAudioPlayer?
     private var playingFinishedObserver: Any?
 
     init(url: URL,
@@ -95,7 +94,6 @@ class AudioPlayerViewModel: ObservableObject {
                         Crashlytics.crashlytics().record(error: NonFatal(errorDescription: "Failed to initialize audio player"))
                         return
                     }
-
                     self.timer = Timer.publish(every: 1, on: .main, in: .common)
                     self.timer.connect()
                     self.playingFinishedObserver =
