@@ -4,6 +4,7 @@ struct DisplayHymnToolbar: View {
 
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var viewModel: DisplayHymnViewModel
+    @State private var showSoundCloud = false
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
@@ -19,6 +20,21 @@ struct DisplayHymnToolbar: View {
             Spacer()
             Text(viewModel.title).fontWeight(.bold)
             Spacer()
+            Button(action: {
+                self.showSoundCloud.toggle()
+                print("bbug title is ", self.viewModel.searchTitle)
+
+            }, label: {
+                Image(systemName: "cloud").accentColor(.primary)
+            }).sheet(isPresented: self.$showSoundCloud, content: { () -> AnyView in
+                guard let url = URL(string:
+                    "https://soundcloud.com/search?q=\(self.viewModel.searchTitle)")                    else {
+                        return ErrorView().eraseToAnyView()
+                }
+                return WebView(url: url).eraseToAnyView()
+            })
+
+
             viewModel.isFavorited.map { isFavorited in
                 Button(action: {
                     self.viewModel.toggleFavorited()
