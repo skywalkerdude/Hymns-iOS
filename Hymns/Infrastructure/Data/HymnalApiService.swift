@@ -66,6 +66,12 @@ class HymnalApiServiceImpl: HymnalApiService {
     }
 }
 
+extension Resolver {
+    static func registerHymnalApiService() {
+        register {HymnalApiServiceImpl() as HymnalApiService}.scope(application)
+    }
+}
+
 private struct HymnalApi {
     private static let scheme = "http"
     private static let host = "hymnalnetapi.herokuapp.com"
@@ -95,11 +101,5 @@ private extension HymnalApi {
             components.path = "/v2/search/\(searchInput)"
         }
         return components.url
-    }
-}
-
-extension Resolver {
-    static func registerHymnalApiService() {
-        register {HymnalApiServiceImpl() as HymnalApiService}.scope(application)
     }
 }
