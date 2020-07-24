@@ -28,11 +28,11 @@ class BrowseCategoriesViewModel: ObservableObject {
     func fetchCategories() {
         categoriesRepository
             .categories(by: hymnType)
-            .sink(receiveCompletion: { _ in
-            }, receiveValue: { categories in
+            .subscribe(on: backgroundQueue)
+            .replaceError(with: [CategoryEntity]())
+            .map({ categories -> [CategoryViewModel]? in
                 guard !categories.isEmpty else {
-                    self.categories = nil
-                    return
+                    return nil
                 }
 
                 let categoryViewModels = categories.reduce(into: [CategoryViewModel]()) { viewModels, entity in
@@ -49,13 +49,19 @@ class BrowseCategoriesViewModel: ObservableObject {
                 }
 
                 // Add the "All subcategories" section to each categoryViewModel
-                self.categories = categoryViewModels.map({ categoryViewModel -> CategoryViewModel in
+                return categoryViewModels.map({ categoryViewModel -> CategoryViewModel in
                     let total = categoryViewModel.subcategories.reduce(0) { (totalSoFar, subcategory) -> Int in
                         return totalSoFar + subcategory.count
                     }
                     categoryViewModel.subcategories.insert(SubcategoryViewModel(subcategory: nil, count: total), at: 0)
                     return categoryViewModel
                 })
+            }).sink(receiveValue: { categories in
+                self.categories = categories
             }).store(in: &disposables)
+    }
+
+    func clearCategories() {
+        categories = [CategoryViewModel]()
     }
 }

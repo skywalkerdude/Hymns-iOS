@@ -33,6 +33,8 @@ class BrowseCategoriesViewModelSpec: QuickSpec {
                     }
                     target.fetchCategories()
                     testQueue.sync {}
+                    testQueue.sync {}
+                    testQueue.sync {}
                 }
                 it("should contain returned categories") {
                     let expected = [CategoryViewModel(category: "Category 1",

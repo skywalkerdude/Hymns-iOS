@@ -23,18 +23,9 @@ class BrowseScripturesViewModel: ObservableObject {
     func fetchScriptureSongs() {
         repository.scriptureSongs()
             .subscribe(on: backgroundQueue)
-            .receive(on: mainQueue)
-            .sink(receiveCompletion: { state in
-                switch state {
-                case .failure :
-                    self.scriptures = nil
-                case .finished:
-                    break
-                }
-            }, receiveValue: { results in
+            .map({ results -> [ScriptureViewModel]? in
                 guard !results.isEmpty else {
-                    self.scriptures = nil
-                    return
+                    return nil
                 }
                 let sorted = results.sorted { result1, result2 -> Bool in
                     if result1.book != result2.book {
@@ -69,7 +60,7 @@ class BrowseScripturesViewModel: ObservableObject {
 
                 var previousBook: Book?
                 var songs = [ScriptureSongViewModel]()
-                self.scriptures = sorted.reduce(into: [ScriptureViewModel]()) { results, result in
+                return sorted.reduce(into: [ScriptureViewModel]()) { results, result in
                     let hymnIdentifier = result.hymnIdentifier
                     let title = result.title.replacingOccurrences(of: "Hymn: ", with: "")
                     let book = result.book
@@ -106,6 +97,21 @@ class BrowseScripturesViewModel: ObservableObject {
                         results.append(viewModel)
                     }
                 }
+            })
+            .receive(on: mainQueue)
+            .sink(receiveCompletion: { state in
+                switch state {
+                case .failure :
+                    self.scriptures = nil
+                case .finished:
+                    break
+                }
+            }, receiveValue: { scriptures in
+                self.scriptures = scriptures
             }).store(in: &disposables)
+    }
+
+    func clearScriptureSongs() {
+        self.scriptures = [ScriptureViewModel]()
     }
 }
