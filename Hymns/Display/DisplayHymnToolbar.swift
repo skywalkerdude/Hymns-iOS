@@ -23,17 +23,15 @@ struct DisplayHymnToolbar: View {
             Button(action: {
                 self.showSoundCloud.toggle()
                 print("bbug title is ", self.viewModel.searchTitle)
-
             }, label: {
                 Image(systemName: "cloud").accentColor(.primary)
             }).sheet(isPresented: self.$showSoundCloud, content: { () -> AnyView in
                 guard let url = URL(string:
-                    "https://soundcloud.com/search?q=\(self.viewModel.searchTitle)")                    else {
+                    "https://soundcloud.com/search?q=\(self.viewModel.searchTitle)") else {
                         return ErrorView().eraseToAnyView()
                 }
                 return WebView(url: url).eraseToAnyView()
             })
-
 
             viewModel.isFavorited.map { isFavorited in
                 Button(action: {
