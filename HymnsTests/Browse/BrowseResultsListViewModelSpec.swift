@@ -136,7 +136,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                                 throw URLError(.badServerResponse)
                             })
                             .mapError({ _ -> ErrorType in
-                                ErrorType.data(description: "forced data error")
+                                .data(description: "forced data error")
                             }).eraseToAnyPublisher()
                     }
                     target = BrowseResultsListViewModel(tag: UiTag(title: "FanIntoFlames", color: .none), tagStore: tagStore, mainQueue: testQueue)

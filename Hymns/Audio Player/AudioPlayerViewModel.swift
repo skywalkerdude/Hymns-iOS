@@ -1,6 +1,7 @@
 import AVFoundation
 import FirebaseCrashlytics
 import Combine
+import Resolver
 import SwiftUI
 
 enum PlaybackState: Int {
@@ -14,22 +15,28 @@ class AudioPlayerViewModel: ObservableObject {
     @Published var playbackState: PlaybackState = .stopped
     @Published var shouldRepeat = false
 
-    let timeObserver: PlayerTimeObserver
-
-    private let player = AVPlayer()
-    private let url: URL
-
     /**
      * Number of seconds to seek forward or backwards when rewind/fast-forward is triggered.
      */
     private let seekDuration: Float64 = 5
 
+    private let backgroundQueue: DispatchQueue
+    private let mainQueue: DispatchQueue
+    private let url: URL
+    private let service: HymnalNetService
+
+    private var disposables = Set<AnyCancellable>()
+    private var player: AVAudioPlayer?
     private var playingFinishedObserver: Any?
 
-    init(url: URL) {
+    init(url: URL,
+         backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
+         mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
+         service: HymnalNetService = Resolver.resolve()) {
         self.url = url
-        let playerItem = AVPlayerItem(url: url)
-        player.replaceCurrentItem(with: playerItem)
+        self.mainQueue = mainQueue
+        self.backgroundQueue = backgroundQueue
+        self.service = service
 
         // https://stackoverflow.com/questions/30832352/swift-keep-playing-sounds-when-the-device-is-locked
         do {
@@ -37,56 +44,74 @@ class AudioPlayerViewModel: ObservableObject {
         } catch {
             Crashlytics.crashlytics().record(error: NonFatal(errorDescription: "Unable to set AVAudioSession category to \(AVAudioSession.Category.playback.rawValue)"))
         }
-
-        self.timeObserver = PlayerTimeObserver(player: player)
-        self.playingFinishedObserver =
-            NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { _ in
-                self.player.seek(to: CMTime.zero)
-                if self.shouldRepeat {
-                    self.player.play()
-                } else {
-                    self.playbackState = .stopped
-                }
-        }
     }
 
     func toggleRepeat() {
         shouldRepeat.toggle()
     }
 
-    var playerCurrentTime: Float64 {
-        CMTimeGetSeconds(self.player.currentTime())
-    }
-
-    private func convertFloatToCMTime(_ floatTime: Float64) -> CMTime {
-        CMTimeMake(value: Int64(floatTime * 1000 as Float64), timescale: 1000)
-    }
-
     func reset() {
-        let playerItem = AVPlayerItem(url: url)
-        player.replaceCurrentItem(with: playerItem)
+        playbackState = .stopped
+        player?.stop()
+        player = nil
+        playingFinishedObserver = nil
     }
 
     func rewind() {
-        let rewoundTime = convertFloatToCMTime(playerCurrentTime - seekDuration)
-        player.seek(to: rewoundTime, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+        guard let player = player else {
+            return
+        }
+        let rewoundTime = player.currentTime - seekDuration
+        player.currentTime = rewoundTime >= TimeInterval.zero ? rewoundTime : TimeInterval.zero
     }
 
     func fastForward() {
-        let fastForwardedTime = convertFloatToCMTime(playerCurrentTime + seekDuration)
-        player.seek(to: fastForwardedTime, toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero)
+        guard let player = player else {
+            return
+        }
+        let fastForwardedTime = player.currentTime + seekDuration
+        player.currentTime = fastForwardedTime <= player.duration ? fastForwardedTime : TimeInterval.zero
     }
 
     func play() {
         playbackState = .buffering
-        timeObserver.play()
+        guard let player = player else {
+            service.getData(url)
+                .subscribe(on: backgroundQueue)
+                .tryMap({ data -> AVAudioPlayer in
+                    try AVAudioPlayer(data: data)
+                })
+                .replaceError(with: nil)
+                .receive(on: mainQueue)
+                .sink { [weak self] audioPlayer in
+                    guard let self = self else { return }
+                    self.player = audioPlayer
+                    guard let player = self.player else {
+                        self.playbackState = .stopped
+                        Crashlytics.crashlytics().record(error: NonFatal(errorDescription: "Failed to initialize audio player"))
+                        return
+                    }
+                    self.playingFinishedObserver =
+                        NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { _ in
+                            player.currentTime = TimeInterval.zero
+                            if self.shouldRepeat {
+                                player.play()
+                            } else {
+                                self.playbackState = .stopped
+                            }
+                    }
+                    self.playbackState = .playing
+                    player.play()
+            }.store(in: &disposables)
+            return
+        }
+        playbackState = .playing
         player.play()
     }
 
     func pause() {
         playbackState = .stopped
-        timeObserver.pause()
-        player.pause()
+        player?.pause()
     }
 }
 

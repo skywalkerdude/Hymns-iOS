@@ -19,7 +19,7 @@ class HymnLyricsViewModelSpec: QuickSpec {
             context("with nil repository result") {
                 context("result is completed") {
                     beforeEach {
-                        given(hymnsRepository.getHymn(classic1151)) ~> {_ in
+                        given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                             Just(nil).assertNoFailure().eraseToAnyPublisher()
                         }
                     }
@@ -40,7 +40,7 @@ class HymnLyricsViewModelSpec: QuickSpec {
                     var currentValue: CurrentValueSubject<UiHymn?, Never>!
                     beforeEach {
                         currentValue = CurrentValueSubject<UiHymn?, Never>(nil)
-                        given(hymnsRepository.getHymn(classic1151)) ~> {_ in
+                        given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                             currentValue.eraseToAnyPublisher()
                         }
                     }
@@ -76,7 +76,7 @@ class HymnLyricsViewModelSpec: QuickSpec {
             context("with empty repository result") {
                 beforeEach {
                     let emptyHymn = UiHymn(hymnIdentifier: classic1151, title: "Empty Hymn", lyrics: [Verse]())
-                    given(hymnsRepository.getHymn(classic1151)) ~> {_ in Just(emptyHymn).assertNoFailure().eraseToAnyPublisher()}
+                    given(hymnsRepository.getHymn(classic1151)) ~> { _ in Just(emptyHymn).assertNoFailure().eraseToAnyPublisher()}
                 }
                 describe("fetching lyrics") {
                     beforeEach {

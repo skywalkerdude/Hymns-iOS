@@ -64,10 +64,6 @@ struct AudioPlayer: View {
             }, label: {
                 Image(systemName: "repeat").font(.system(size: smallButtonSize)).foregroundColor(viewModel.shouldRepeat ? .accentColor : .primary)
             })
-        }.onReceive(viewModel.timeObserver.publisher) { time in
-            if time > 0 {
-                self.viewModel.playbackState = .playing
-            }
         }.onDisappear {
             // when this view isn't being shown anymore stop the player
             self.viewModel.pause()
