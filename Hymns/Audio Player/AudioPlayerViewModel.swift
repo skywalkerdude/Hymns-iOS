@@ -15,10 +15,12 @@ class AudioPlayerViewModel: ObservableObject {
     @Published var playbackState: PlaybackState = .stopped
     @Published var shouldRepeat = false
 
+    @Published var timer = Timer.publish(every: 1, on: .main, in: .common)
+
     /**
      * Number of seconds to seek forward or backwards when rewind/fast-forward is triggered.
      */
-    private let seekDuration: Float64 = 5
+    let seekDuration: Float64 = 5
 
     private let backgroundQueue: DispatchQueue
     private let mainQueue: DispatchQueue
@@ -26,7 +28,7 @@ class AudioPlayerViewModel: ObservableObject {
     private let service: HymnalNetService
 
     private var disposables = Set<AnyCancellable>()
-    private var player: AVAudioPlayer?
+    @Published var player: AVAudioPlayer?
     private var playingFinishedObserver: Any?
 
     init(url: URL,
@@ -57,20 +59,22 @@ class AudioPlayerViewModel: ObservableObject {
         playingFinishedObserver = nil
     }
 
-    func rewind() {
+    func rewind() -> Double {
         guard let player = player else {
-            return
+            return 0
         }
         let rewoundTime = player.currentTime - seekDuration
         player.currentTime = rewoundTime >= TimeInterval.zero ? rewoundTime : TimeInterval.zero
+        return player.currentTime
     }
 
-    func fastForward() {
+    func fastForward() -> Double {
         guard let player = player else {
-            return
+            return 0
         }
         let fastForwardedTime = player.currentTime + seekDuration
         player.currentTime = fastForwardedTime <= player.duration ? fastForwardedTime : TimeInterval.zero
+        return player.currentTime
     }
 
     func play() {
@@ -91,6 +95,9 @@ class AudioPlayerViewModel: ObservableObject {
                         Crashlytics.crashlytics().record(error: NonFatal(errorDescription: "Failed to initialize audio player"))
                         return
                     }
+
+                    self.timer = Timer.publish(every: 1, on: .main, in: .common)
+                    self.timer.connect()
                     self.playingFinishedObserver =
                         NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { _ in
                             player.currentTime = TimeInterval.zero
@@ -107,10 +114,13 @@ class AudioPlayerViewModel: ObservableObject {
         }
         playbackState = .playing
         player.play()
+        self.timer = Timer.publish(every: 1, on: .main, in: .common)
+        self.timer.connect()
     }
 
     func pause() {
         playbackState = .stopped
+        self.timer.connect().cancel()
         player?.pause()
     }
 }

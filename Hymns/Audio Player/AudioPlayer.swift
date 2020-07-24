@@ -9,14 +9,41 @@ struct AudioPlayer: View {
 
     @ObservedObject private var viewModel: AudioPlayerViewModel
 
+    @State private var currentTime: Double = 0
+
     init(viewModel: AudioPlayerViewModel) {
         self.viewModel = viewModel
+        self.viewModel.timer.connect().cancel()
     }
 
     var body: some View {
-        HStack(spacing: 40) {
+        VStack {
+            HStack {
+                viewModel.player.map { _ in
+                    Slider(value: $currentTime,
+                           in: 0...Double(self.viewModel.player?.duration ?? 0),
+                           onEditingChanged: sliderEditingChanged,
+                           minimumValueLabel: Text("\(TimeFormating.formatSecondsToHMS(currentTime))").foregroundColor(.accentColor),
+                           maximumValueLabel: Text("\(TimeFormating.formatSecondsToHMS(self.viewModel.player?.duration ?? 0))")) {
+                            // I have no idea in what scenario this View is shown...
+                            Text("seek/progress slider")
+                    }
+                }
+            }
+            .onReceive(self.viewModel.timer) { _ in
+                if self.currentTime < ((self.viewModel.player?.duration ?? 0) - 1) {
+                    self.currentTime += 1
+                } else {
+                    self.viewModel.timer.connect().cancel()
+                    print("bbug hithit cancel", self.viewModel.timer)
+                }
+            }
+
+            HStack(spacing: 40) {
             // Reset button
             Button(action: {
+                self.currentTime = 0
+                self.viewModel.timer.connect().cancel()
                 self.viewModel.reset()
                 self.viewModel.play()
             }, label: {
@@ -25,7 +52,7 @@ struct AudioPlayer: View {
 
             // Rewind button
             Button(action: {
-                self.viewModel.rewind()
+                self.currentTime = self.viewModel.rewind()
             }, label: {
                 Image(systemName: "backward.fill").font(.system(size: smallButtonSize)).foregroundColor(.primary)
             })
@@ -53,7 +80,7 @@ struct AudioPlayer: View {
 
             // Fast-forward button
             Button(action: {
-                self.viewModel.fastForward()
+                self.currentTime = self.viewModel.fastForward()
             }, label: {
                 Image(systemName: "forward.fill").font(.system(size: smallButtonSize)).foregroundColor(.primary)
             })
@@ -64,11 +91,27 @@ struct AudioPlayer: View {
             }, label: {
                 Image(systemName: "repeat").font(.system(size: smallButtonSize)).foregroundColor(viewModel.shouldRepeat ? .accentColor : .primary)
             })
+            }
         }.onDisappear {
             // when this view isn't being shown anymore stop the player
             self.viewModel.pause()
         }
     }
+
+        private func sliderEditingChanged(editingStarted: Bool) {
+            if editingStarted {
+                // Tell the PlayerTimeObserver to stop publishing updates while the user is interacting
+                // with the slider (otherwise it would keep jumping from where they've moved it to, back
+                // to where the player is currently at)
+                self.viewModel.timer.connect().cancel()
+            } else {
+                // Editing finished, start the seek
+                self.viewModel.timer = Timer.publish(every: 1, on: .main, in: .common)
+                self.viewModel.timer.connect()
+                let targetTime = currentTime
+                self.viewModel.player?.currentTime = targetTime
+            }
+        }
 }
 
 #if DEBUG

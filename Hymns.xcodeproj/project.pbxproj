@@ -232,6 +232,7 @@
 		B5DC935E248EC5F800BF90A5 /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DC935D248EC5F800BF90A5 /* FeedbackView.swift */; };
 		B5DC9360248EC6D200BF90A5 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DC935F248EC6D200BF90A5 /* FeedbackViewModel.swift */; };
 		B5E61B34242E613D00EF497D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5E61B36242E613D00EF497D /* Localizable.strings */; };
+		B5EC7CEF24CB42E50037A28D /* TimeFormating.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EC7CEE24CB42E50037A28D /* TimeFormating.swift */; };
 		B5F8C50C249288E900F22ED0 /* TagSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F8C50B249288E900F22ED0 /* TagSheetViewModel.swift */; };
 		B5F8C50E2492B12200F22ED0 /* pdfErrorState.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B5F8C50D2492B12200F22ED0 /* pdfErrorState.pdf */; };
 		B5FCEBFC248A89FB000DA2DD /* TagListViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FCEBFB248A89FB000DA2DD /* TagListViewModelSpec.swift */; };
@@ -511,6 +512,7 @@
 		B5E61B35242E613D00EF497D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B5E61B37242E62F600EF497D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B5E61B38242E630000EF497D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B5EC7CEE24CB42E50037A28D /* TimeFormating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFormating.swift; sourceTree = "<group>"; };
 		B5F8C50B249288E900F22ED0 /* TagSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSheetViewModel.swift; sourceTree = "<group>"; };
 		B5F8C50D2492B12200F22ED0 /* pdfErrorState.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pdfErrorState.pdf; sourceTree = "<group>"; };
 		B5FCEBFB248A89FB000DA2DD /* TagListViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListViewModelSpec.swift; sourceTree = "<group>"; };
@@ -1175,6 +1177,7 @@
 				B5838BC5247AF009003B85E9 /* AudioPlayer.swift */,
 				B5A77A56247DA0D900447008 /* AudioPlayerViewModel.swift */,
 				B5838BC9247AF04B003B85E9 /* PlayerTimeObserver.swift */,
+				B5EC7CEE24CB42E50037A28D /* TimeFormating.swift */,
 			);
 			path = "Audio Player";
 			sourceTree = "<group>";
@@ -1801,6 +1804,7 @@
 				3B25C0E824503B6900C435E1 /* RecentSong.swift in Sources */,
 				3B2DA3212494C38000F5F5B1 /* TagColor.swift in Sources */,
 				3BADB42524822BDB008CEDAB /* BrowseTab.swift in Sources */,
+				B5EC7CEF24CB42E50037A28D /* TimeFormating.swift in Sources */,
 				3BA4612B24772B250068F269 /* SongInfoDialogView.swift in Sources */,
 				5CA7849E242D14C800B57903 /* FavoritesView.swift in Sources */,
 				3B203684248B859500D90DF5 /* BrowseRepository.swift in Sources */,
