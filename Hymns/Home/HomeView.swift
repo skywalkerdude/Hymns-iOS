@@ -13,13 +13,13 @@ struct HomeView: View {
     var body: some View {
         VStack(alignment: .leading) {
             if !viewModel.searchActive {
-                CustomTitle(title: NSLocalizedString("Look up any hymn", comment: "")).transition(AnyTransition.move(edge: .top).combined(with: .opacity))
+                CustomTitle(title: NSLocalizedString("Look up any hymn", comment: "Look up any hymn")).transition(AnyTransition.move(edge: .top).combined(with: .opacity))
             }
 
             SearchBar(
                 searchText: $viewModel.searchParameter,
                 searchActive: $viewModel.searchActive,
-                placeholderText: NSLocalizedString("Search by number or title", comment: ""))
+                placeholderText: NSLocalizedString("Search by number or title", comment: "Search by number or title"))
                 .padding(.horizontal)
                 .padding(.top, viewModel.searchActive ? nil : .zero)
 

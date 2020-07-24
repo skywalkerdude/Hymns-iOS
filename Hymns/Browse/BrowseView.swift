@@ -11,7 +11,7 @@ struct BrowseView: View {
 
     var body: some View {
         VStack {
-            CustomTitle(title: NSLocalizedString("Browse", comment: ""))
+            CustomTitle(title: NSLocalizedString("Browse", comment: "Browse"))
             GeometryReader { geometry in
                 IndicatorTabView(geometry: geometry,
                                  currentTab: self.$viewModel.currentTab,
