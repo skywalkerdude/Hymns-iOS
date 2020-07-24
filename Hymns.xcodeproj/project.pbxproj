@@ -215,9 +215,7 @@
 		B582E4452493266700329DA5 /* AboutUsDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B582E4442493266700329DA5 /* AboutUsDialogView.swift */; };
 		B582E4472493267200329DA5 /* AboutUsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B582E4462493267200329DA5 /* AboutUsViewModel.swift */; };
 		B582E449249331A600329DA5 /* AboutUsButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B582E448249331A600329DA5 /* AboutUsButtonView.swift */; };
-		B5838BC4247AEFE9003B85E9 /* AudioSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5838BC3247AEFE9003B85E9 /* AudioSlider.swift */; };
 		B5838BC6247AF009003B85E9 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5838BC5247AF009003B85E9 /* AudioPlayer.swift */; };
-		B5838BCA247AF04B003B85E9 /* PlayerTimeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5838BC9247AF04B003B85E9 /* PlayerTimeObserver.swift */; };
 		B595A4A824438CC2005F7A14 /* DisplayHymnViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B595A4A724438CC2005F7A14 /* DisplayHymnViewModel.swift */; };
 		B595A4AA24438D8E005F7A14 /* HymnLyricsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B595A4A924438D8E005F7A14 /* HymnLyricsViewModel.swift */; };
 		B5A00F5F245277E300F7E3E1 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A00F5E245277E300F7E3E1 /* ActivityIndicator.swift */; };
@@ -493,9 +491,7 @@
 		B582E4442493266700329DA5 /* AboutUsDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsDialogView.swift; sourceTree = "<group>"; };
 		B582E4462493267200329DA5 /* AboutUsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsViewModel.swift; sourceTree = "<group>"; };
 		B582E448249331A600329DA5 /* AboutUsButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsButtonView.swift; sourceTree = "<group>"; };
-		B5838BC3247AEFE9003B85E9 /* AudioSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSlider.swift; sourceTree = "<group>"; };
 		B5838BC5247AF009003B85E9 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
-		B5838BC9247AF04B003B85E9 /* PlayerTimeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTimeObserver.swift; sourceTree = "<group>"; };
 		B595A4A724438CC2005F7A14 /* DisplayHymnViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnViewModel.swift; sourceTree = "<group>"; };
 		B595A4A924438D8E005F7A14 /* HymnLyricsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HymnLyricsViewModel.swift; sourceTree = "<group>"; };
 		B5A00F5E245277E300F7E3E1 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
@@ -1173,10 +1169,8 @@
 		B5838BC2247AEFAE003B85E9 /* Audio Player */ = {
 			isa = PBXGroup;
 			children = (
-				B5838BC3247AEFE9003B85E9 /* AudioSlider.swift */,
 				B5838BC5247AF009003B85E9 /* AudioPlayer.swift */,
 				B5A77A56247DA0D900447008 /* AudioPlayerViewModel.swift */,
-				B5838BC9247AF04B003B85E9 /* PlayerTimeObserver.swift */,
 				B5EC7CEE24CB42E50037A28D /* TimeFormating.swift */,
 			);
 			path = "Audio Player";
@@ -1690,7 +1684,6 @@
 				B595A4AA24438D8E005F7A14 /* HymnLyricsViewModel.swift in Sources */,
 				3B11E2A62465211200F27E73 /* DisplayHymnToolbar.swift in Sources */,
 				3B877E7C245FC122004C10DD /* Resource.swift in Sources */,
-				B5838BC4247AEFE9003B85E9 /* AudioSlider.swift in Sources */,
 				3BC1329724385A580082A274 /* HomeContainerView.swift in Sources */,
 				3BA4612524771C460068F269 /* SongInfoViewModel.swift in Sources */,
 				3B877E7E245FCE68004C10DD /* Converter.swift in Sources */,
@@ -1749,7 +1742,6 @@
 				3B1B90132429CF55009FDCC5 /* AppDelegate.swift in Sources */,
 				3BC5B15C247F7B0400F5D63A /* CategoryEntity.swift in Sources */,
 				B582E4432493235E00329DA5 /* TagSheetView.swift in Sources */,
-				B5838BCA247AF04B003B85E9 /* PlayerTimeObserver.swift in Sources */,
 				3B1AF92B24C38B1D0082C27B /* Toast.swift in Sources */,
 				3BE210F2249B3E7C00D4E417 /* HymnDataStoreTestImpl.swift in Sources */,
 				3B203686248B85D100D90DF5 /* ScriptureEntity.swift in Sources */,
