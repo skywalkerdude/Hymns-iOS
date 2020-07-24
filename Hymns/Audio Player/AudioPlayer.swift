@@ -4,7 +4,6 @@ import Combine
 
 // https://github.com/ChrisMash/AVPlayer-SwiftUI
 // https://medium.com/flawless-app-stories/avplayer-swiftui-part-2-player-controls-c28b721e7e27
-// TODO For some reason the combine stuff isn't working with our URLS that aren't straight up mp3 urls for example http://www.hymnal.net/en/hymn/h/894/f=mp3 that is coming from musicJson. However, the combine works when the url is a direct mp3 url such as https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3
 struct AudioPlayer: View {
 
     @ObservedObject private var viewModel: AudioPlayerViewModel
@@ -25,8 +24,7 @@ struct AudioPlayer: View {
                            onEditingChanged: sliderEditingChanged,
                            minimumValueLabel: Text("\(TimeFormating.formatSecondsToHMS(currentTime))").foregroundColor(.accentColor),
                            maximumValueLabel: Text("\(TimeFormating.formatSecondsToHMS(self.viewModel.player?.duration ?? 0))")) {
-                            // I have no idea in what scenario this View is shown...
-                            Text("seek/progress slider")
+                            Text("")
                     }
                 }
             }
@@ -34,8 +32,7 @@ struct AudioPlayer: View {
                 if self.currentTime < ((self.viewModel.player?.duration ?? 0) - 1) {
                     self.currentTime += 1
                 } else {
-                    self.viewModel.timer.connect().cancel()
-                    print("bbug hithit cancel", self.viewModel.timer)
+                    self.currentTime = self.viewModel.toZero()
                 }
             }
 

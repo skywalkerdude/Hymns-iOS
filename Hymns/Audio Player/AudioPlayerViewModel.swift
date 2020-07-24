@@ -58,6 +58,19 @@ class AudioPlayerViewModel: ObservableObject {
         playingFinishedObserver = nil
     }
 
+    func toZero() -> Double {
+        guard let player = player else {
+            return 0
+        }
+        player.currentTime = 0
+        if shouldRepeat {
+            play()
+        } else {
+            pause()
+        }
+        return 0
+    }
+
     func rewind() -> Double {
         guard let player = player else {
             return 0
