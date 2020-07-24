@@ -10,7 +10,7 @@ enum PlaybackState: Int {
     case stopped
 }
 
-class AudioPlayerViewModel: ObservableObject {
+class AudioPlayerViewModel: NSObject, ObservableObject {
 
     @Published var playbackState: PlaybackState = .stopped
     @Published var shouldRepeat = false
@@ -25,9 +25,8 @@ class AudioPlayerViewModel: ObservableObject {
     private let url: URL
     private let service: HymnalNetService
 
-    private var disposables = Set<AnyCancellable>()
-    private var player: AVAudioPlayer?
-    private var playingFinishedObserver: Any?
+    private var cancellable: AnyCancellable?
+    /* VISIBLE FOR UNIT TESTS. DO NOT USE OUTSIDE OF THIS CLASS */ var player: AVAudioPlayer?
 
     init(url: URL,
          backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
@@ -52,9 +51,10 @@ class AudioPlayerViewModel: ObservableObject {
 
     func reset() {
         playbackState = .stopped
+        shouldRepeat = false
         player?.stop()
         player = nil
-        playingFinishedObserver = nil
+        load()
     }
 
     func rewind() {
@@ -70,43 +70,51 @@ class AudioPlayerViewModel: ObservableObject {
             return
         }
         let fastForwardedTime = player.currentTime + seekDuration
-        player.currentTime = fastForwardedTime <= player.duration ? fastForwardedTime : TimeInterval.zero
+        player.currentTime = fastForwardedTime <= player.duration ? fastForwardedTime : player.duration
     }
 
     func play() {
         playbackState = .buffering
         guard let player = player else {
-            service.getData(url)
-                .subscribe(on: backgroundQueue)
-                .tryMap({ data -> AVAudioPlayer in
-                    try AVAudioPlayer(data: data)
-                })
-                .replaceError(with: nil)
-                .receive(on: mainQueue)
-                .sink { [weak self] audioPlayer in
-                    guard let self = self else { return }
-                    self.player = audioPlayer
-                    guard let player = self.player else {
-                        self.playbackState = .stopped
-                        Crashlytics.crashlytics().record(error: NonFatal(errorDescription: "Failed to initialize audio player"))
-                        return
-                    }
-                    self.playingFinishedObserver =
-                        NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil, queue: nil) { _ in
-                            player.currentTime = TimeInterval.zero
-                            if self.shouldRepeat {
-                                player.play()
-                            } else {
-                                self.playbackState = .stopped
-                            }
-                    }
-                    self.playbackState = .playing
-                    player.play()
-            }.store(in: &disposables)
+            load(completion: { player in
+                self.playbackState = .playing
+                player.play()
+            }, failed: {
+                self.playbackState = .stopped
+            })
             return
         }
         playbackState = .playing
         player.play()
+    }
+
+    func load(completion: ((_ player: AVAudioPlayer) -> Void)? = nil, failed: (() -> Void)? = nil) {
+        if let cancellable = cancellable {
+            cancellable.cancel()
+        }
+        cancellable = service.getData(url)
+            .subscribe(on: backgroundQueue)
+            .tryMap({ data -> AVAudioPlayer in
+                try AVAudioPlayer(data: data)
+            })
+            .replaceError(with: nil)
+            .receive(on: mainQueue)
+            .sink { [weak self] audioPlayer in
+                guard let self = self else { return }
+                self.player = audioPlayer
+                guard let player = self.player else {
+                    if let failed = failed {
+                        failed()
+                    }
+                    Crashlytics.crashlytics().record(error: NonFatal(errorDescription: "Failed to initialize audio player"))
+                    return
+                }
+
+                player.delegate = self
+                if let completion = completion {
+                    completion(player)
+                }
+        }
     }
 
     func pause() {
@@ -115,8 +123,25 @@ class AudioPlayerViewModel: ObservableObject {
     }
 }
 
-extension AudioPlayerViewModel: Equatable {
-    static func == (lhs: AudioPlayerViewModel, rhs: AudioPlayerViewModel) -> Bool {
-        lhs.url == rhs.url
+extension AudioPlayerViewModel: AVAudioPlayerDelegate {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        player.currentTime = TimeInterval.zero
+        if self.shouldRepeat {
+            player.play()
+        } else {
+            self.playbackState = .stopped
+            player.stop()
+        }
+    }
+}
+
+extension AudioPlayerViewModel {
+
+    override func isEqual(_ object: Any?) -> Bool {
+        return url == (object as? AudioPlayerViewModel)?.url
+    }
+
+    override var hash: Int {
+        return url.hashValue
     }
 }
