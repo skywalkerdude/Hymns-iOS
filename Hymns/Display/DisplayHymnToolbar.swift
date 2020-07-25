@@ -24,12 +24,18 @@ struct DisplayHymnToolbar: View {
             Spacer()
             Text(viewModel.title).fontWeight(.bold)
             Spacer()
+            if initiatedSoundCloud {
+                Button(action: {
+                    self.initiatedSoundCloud = false
+                }, label: {
+                    Image(systemName: "stop.circle").accentColor(.primary)
+                })
+            }
             Button(action: {
                 self.showSoundCloud.toggle()
                 self.initiatedSoundCloud = true
-                print("bbug title is ", self.viewModel.searchTitle)
             }, label: {
-                showSoundCloud ?
+                initiatedSoundCloud ?
                 Image(systemName: "cloud.fill").accentColor(.accentColor) :
                 Image(systemName: "cloud").accentColor(.primary)
             })
