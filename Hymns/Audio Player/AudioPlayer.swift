@@ -18,7 +18,6 @@ struct AudioPlayer: View {
             // Reset button
             Button(action: {
                 self.viewModel.reset()
-                self.viewModel.play()
             }, label: {
                 Image(systemName: "backward.end.fill").font(.system(size: smallButtonSize)).foregroundColor(.primary)
             })
@@ -60,10 +59,12 @@ struct AudioPlayer: View {
 
             // Repeat button
             Button(action: {
-                self.viewModel.shouldRepeat.toggle()
+                self.viewModel.toggleRepeat()
             }, label: {
                 Image(systemName: "repeat").font(.system(size: smallButtonSize)).foregroundColor(viewModel.shouldRepeat ? .accentColor : .primary)
             })
+        }.onAppear {
+            self.viewModel.load()
         }.onDisappear {
             // when this view isn't being shown anymore stop the player
             self.viewModel.pause()
