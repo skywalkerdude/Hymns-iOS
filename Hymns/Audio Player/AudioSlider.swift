@@ -6,41 +6,30 @@ import SwiftUI
  */
 struct AudioSlider: View {
 
-    let player: AVPlayer
-    let timeObserver: PlayerTimeObserver
-    @Binding var currentlyPlaying: Bool
-    @State private var currentTime: TimeInterval = 0
+    @ObservedObject var viewModel: AudioPlayerViewModel
 
     var body: some View {
-        Slider(value: $currentTime,
-               in: 0...60,
-               onEditingChanged: sliderEditingChanged,
-               minimumValueLabel: Text("\(formatSecondsToHMS(currentTime))"),
-               maximumValueLabel: Text(""),
-               label: {
-                Text("Song progress slider")
-        }) // Listen for the time observer publishing changes to the player's time
-            .onReceive(timeObserver.publisher) { time in
-                // Update the time
-                self.currentTime = time
-        }.padding()
+        Slider(value: Binding(
+            get: {
+                self.viewModel.currentTime
+        }, set: {
+            self.viewModel.currentTime = $0
+        }), in: 0...(viewModel.songDuration ?? 0),
+            onEditingChanged: sliderEditingChanged,
+            minimumValueLabel: Text("\(formatSecondsToHMS(viewModel.currentTime))").foregroundColor(.accentColor),
+            maximumValueLabel: Text("\(formatSecondsToHMS(viewModel.songDuration ?? 0))"),
+            label: {Text("Song progress slider")})
     }
 
     private func sliderEditingChanged(editingStarted: Bool) {
         if editingStarted {
-            // Tell the PlayerTimeObserver to stop publishing updates while the user is interacting
-            // with the slider (otherwise it would keep jumping from where they've moved it to, back
-            // to where the player is currently at)
-            timeObserver.pause()
+            // Stop the timers from publishing updates while the user is interacting with the slider (otherwise it would
+            // keep jumping from where they've moved it to, back  to where the player is currently at)
+            viewModel.stopTimer()
         } else {
             // Editing finished, start the seek
-            currentlyPlaying = false
-            let targetTime = CMTime(seconds: currentTime, preferredTimescale: 600)
-            player.seek(to: targetTime) { _ in
-                // Now the (async) seek is completed, resume normal operation
-                self.timeObserver.play()
-                self.currentlyPlaying = true
-            }
+            viewModel.seek(to: viewModel.currentTime)
+            viewModel.startTimer()
         }
     }
 
@@ -56,16 +45,10 @@ struct AudioSlider: View {
 #if DEBUG
 struct AudioPlayerControlsView_Previews: PreviewProvider {
     static var previews: some View {
-
-        var bool: Bool = true
-        let currentlyPlaying = Binding<Bool>(
-            get: {bool},
-            set: {bool = $0})
-        let avPlayer = AVPlayer()
-        let observer = PlayerTimeObserver(player: AVPlayer())
-        return Group {
-            AudioSlider(player: avPlayer, timeObserver: observer, currentlyPlaying: currentlyPlaying)
-        }
+        let viewModel = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
+        viewModel.currentTime = 12
+        viewModel.songDuration = 100
+        return AudioSlider(viewModel: viewModel)
     }
 }
 #endif

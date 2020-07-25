@@ -31,6 +31,15 @@ class DisplayHymnScenarios: BaseTestCase {
             .waitForStaticTexts("Category", "song's category", "Subcategory", "song's subcategory")
     }
 
+    func test_audioPlayer() {
+        _ = HomeViewCan(app, testCase: self)
+            .waitForButtons("classic1151", "classic40", "classic2", "classic3")
+            .tapResult("classic1151")
+            .openAudioPlayer()
+            .waitForButtons("play.fill", "play.circle")
+            .verifyButtonsNotExist("play")
+    }
+
     func test_changeFontSize() {
         _ = HomeViewCan(app, testCase: self)
             .waitForButtons("classic1151", "classic40", "classic2", "classic3")

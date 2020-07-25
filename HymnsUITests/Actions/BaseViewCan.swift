@@ -26,6 +26,13 @@ public class BaseViewCan {
         return self
     }
 
+    public func verifyButtonsNotExist(_ strings: String...) -> Self {
+        for string in strings {
+            XCTAssertFalse(app.buttons[string].exists)
+        }
+        return self
+    }
+
     public func waitForStaticTexts(_ strings: String...) -> Self {
         for string in strings {
             XCTAssertTrue(app.staticTexts[string].waitForExistence(timeout: 1))
