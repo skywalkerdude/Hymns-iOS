@@ -47,7 +47,7 @@ class FavoriteStoreRealmImpl: FavoriteStore {
     }
 
     func favorites() -> AnyPublisher<[FavoriteEntity], ErrorType> {
-        realm.objects(FavoriteEntity.self).publisher
+        realm.objects(FavoriteEntity.self).collectionPublisher
             .map({ results -> [FavoriteEntity] in
                 results.map { entity -> FavoriteEntity in
                     entity
@@ -60,7 +60,7 @@ class FavoriteStoreRealmImpl: FavoriteStore {
     func isFavorite(hymnIdentifier: HymnIdentifier) -> AnyPublisher<Bool, ErrorType> {
         realm.objects(FavoriteEntity.self)
             .filter(NSPredicate(format: "primaryKey == %@", FavoriteEntity.createPrimaryKey(hymnIdentifier: hymnIdentifier)))
-            .publisher
+            .collectionPublisher
             .map({ results -> Bool in
                 !results.isEmpty
             }).mapError({ error -> ErrorType in
