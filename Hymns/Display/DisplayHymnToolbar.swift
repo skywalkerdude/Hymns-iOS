@@ -4,14 +4,14 @@ struct DisplayHymnToolbar: View {
 
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var viewModel: DisplayHymnViewModel
-    @State private var showSoundCloud = false
-    @Binding var showModally: Bool
-    @Binding var clickedOnce: Bool
+ //   @State private var showSoundCloud = false
+    @Binding var showSoundCloud: Bool
+    @Binding var initiatedSoundCloud: Bool
 
-    init(viewModel: DisplayHymnViewModel, showModally: Binding<Bool>, clickedOnce: Binding<Bool>) {
+    init(viewModel: DisplayHymnViewModel, showSoundCloud: Binding<Bool>, initiatedSoundCloud: Binding<Bool>) {
         self.viewModel = viewModel
-        self._showModally = showModally
-        self._clickedOnce = clickedOnce
+        self._showSoundCloud = showSoundCloud
+        self._initiatedSoundCloud = initiatedSoundCloud
     }
 
     var body: some View {
@@ -26,11 +26,10 @@ struct DisplayHymnToolbar: View {
             Spacer()
             Button(action: {
                 self.showSoundCloud.toggle()
-                self.showModally.toggle()
-                self.clickedOnce = true
+                self.initiatedSoundCloud = true
                 print("bbug title is ", self.viewModel.searchTitle)
             }, label: {
-                clickedOnce ?
+                showSoundCloud ?
                 Image(systemName: "cloud.fill").accentColor(.accentColor) :
                 Image(systemName: "cloud").accentColor(.primary)
             })

@@ -205,6 +205,7 @@
 		5CA7849E242D14C800B57903 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7849D242D14C800B57903 /* FavoritesView.swift */; };
 		5CA784A0242D1A3200B57903 /* BrowseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA7849F242D1A3200B57903 /* BrowseView.swift */; };
 		5CA784A4242D1CF800B57903 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA784A3242D1CF800B57903 /* HomeView.swift */; };
+		B50FE80124CCD033004096FF /* SoundCloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50FE80024CCD033004096FF /* SoundCloudView.swift */; };
 		B51BA5C92430075300CA52F7 /* DisplayHymnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51BA5C82430075300CA52F7 /* DisplayHymnView.swift */; };
 		B548A94B24CBD84900342AED /* SoundCloudWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B548A94A24CBD84900342AED /* SoundCloudWebView.swift */; };
 		B56305B7244223A5003BC132 /* CustomTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56305B6244223A5003BC132 /* CustomTitleView.swift */; };
@@ -482,6 +483,7 @@
 		817FBCF3C63009B1B506C99D /* Pods-Hymns.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns.beta.xcconfig"; path = "Target Support Files/Pods-Hymns/Pods-Hymns.beta.xcconfig"; sourceTree = "<group>"; };
 		A20B833C2BD0F10337016F43 /* Pods-Hymns-HymnsUITests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns-HymnsUITests.beta.xcconfig"; path = "Target Support Files/Pods-Hymns-HymnsUITests/Pods-Hymns-HymnsUITests.beta.xcconfig"; sourceTree = "<group>"; };
 		A995ED4B5658A040650FDDA0 /* Pods_Hymns_HymnsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hymns_HymnsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B50FE80024CCD033004096FF /* SoundCloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundCloudView.swift; sourceTree = "<group>"; };
 		B51BA5C82430075300CA52F7 /* DisplayHymnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnView.swift; sourceTree = "<group>"; };
 		B548A94A24CBD84900342AED /* SoundCloudWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SoundCloudWebView.swift; path = Hymns/Common/SoundCloudWebView.swift; sourceTree = SOURCE_ROOT; };
 		B560B615243F978D00FD5867 /* MasterTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MasterTestPlan.xctestplan; sourceTree = SOURCE_ROOT; };
@@ -843,6 +845,7 @@
 				5C45E09824512E9000872369 /* VerseViewModel.swift */,
 				B595A4A724438CC2005F7A14 /* DisplayHymnViewModel.swift */,
 				B51BA5C82430075300CA52F7 /* DisplayHymnView.swift */,
+				B50FE80024CCD033004096FF /* SoundCloudView.swift */,
 				3B43717E24764BEF000B42AC /* DisplayHymnBottomBar.swift */,
 				3BA4612E24773A040068F269 /* DisplayHymnBottomBarViewModel.swift */,
 				B5C35EF9247AA4D600EF6AA9 /* ShareSheet.swift */,
@@ -1769,6 +1772,7 @@
 				3BE44363248ABBED00763B3C /* Book.swift in Sources */,
 				3BE210FA249B592F00D4E417 /* TestHymns.swift in Sources */,
 				B5DC9360248EC6D200BF90A5 /* FeedbackViewModel.swift in Sources */,
+				B50FE80124CCD033004096FF /* SoundCloudView.swift in Sources */,
 				3B87B82624493F7F00AEC7E9 /* SimpleSettingView.swift in Sources */,
 				3B43718124766700000B42AC /* Previews.swift in Sources */,
 				3BC1328D243826280082A274 /* PreviewHymns.swift in Sources */,

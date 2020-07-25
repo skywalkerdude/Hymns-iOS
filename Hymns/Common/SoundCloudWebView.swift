@@ -2,6 +2,8 @@ import SwiftUI
 import WebKit
 
 struct SoundCloudWebView: UIViewRepresentable {
+    @Binding var isLoading: Bool  //Used for activity indicator
+
     var url: URL
     var loadStatusChanged: ((Bool, Error?) -> Void)? = nil
 
@@ -38,11 +40,13 @@ struct SoundCloudWebView: UIViewRepresentable {
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
 
+            parent.isLoading = false  //Used for activity indicator
+
             webView.evaluateJavaScript("document.querySelector('.app__upsell').remove();", completionHandler: { (_, _) -> Void in
             })
 
-            webView.evaluateJavaScript("document.querySelector('.app__header').remove();", completionHandler: { (_, _) -> Void in
-            })
+//            webView.evaluateJavaScript("document.querySelector('.app__header').remove();", completionHandler: { (_, _) -> Void in
+//            })
 
             webView.evaluateJavaScript("document.querySelector('.app__footerPanel').remove();", completionHandler: { (_, _) -> Void in
             })

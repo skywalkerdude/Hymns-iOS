@@ -6,8 +6,8 @@ struct DisplayHymnView: View {
 
     @ObservedObject private var viewModel: DisplayHymnViewModel
     @State var dialogBuilder: (() -> AnyView)?
-    @State var showModally = false
-    @State var clickedOnce = false
+    @State var showSoundCloud = false
+    @State var initiatedSoundCloud = false
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
@@ -19,34 +19,11 @@ struct DisplayHymnView: View {
                 ActivityIndicator().maxSize()
             } else {
                 ZStack {
-                    if self.clickedOnce {
-                        Group<AnyView> {
-                            guard let url = URL(string:
-                                "https://soundcloud.com/search?q=\(self.viewModel.searchTitle)") else {
-                                    return ErrorView().eraseToAnyView()
-                            }
-                            return VStack {
-                                HStack(spacing: 20) {
-                                    Button(action: {
-                                        self.showModally = false
-                                        self.clickedOnce = false
-                                    }, label: {
-                                        Image(systemName: "x.circle").accentColor(.primary)
-                                    })
-                                    Button(action: {
-                                        self.showModally.toggle()
-                                    }, label: {
-                                        Image(systemName: "minus.circle").accentColor(.primary)
-                                    })
-                                    Spacer()
-                                    }.padding()
-                                SoundCloudWebView(url: url)
-                            }
-                            .eraseToAnyView()
-                        }.opacity(showModally ? 1 : 0).animation(.spring())
+                    if self.initiatedSoundCloud {
+                        SoundCloudView(showSoundCloud: self.$showSoundCloud, searchTitle: self.viewModel.searchTitle).opacity(showSoundCloud ? 1 : 0).animation(.spring())
                     }
                     VStack(spacing: 0) {
-                        DisplayHymnToolbar(viewModel: viewModel, showModally: $showModally, clickedOnce: $clickedOnce)
+                        DisplayHymnToolbar(viewModel: viewModel, showSoundCloud: $showSoundCloud, initiatedSoundCloud: $initiatedSoundCloud)
                         if viewModel.tabItems.count > 1 {
                             GeometryReader { geometry in
                             IndicatorTabView(geometry: geometry,
@@ -59,7 +36,7 @@ struct DisplayHymnView: View {
                     viewModel.bottomBar.map { viewModel in
                         DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, viewModel: viewModel).maxWidth()
                     }
-                }.opacity(showModally ? 0 : 1)
+                }.opacity(showSoundCloud ? 0 : 1)
                 dialogBuilder.map { _ in
                     Dialog(builder: $dialogBuilder)
                 }
