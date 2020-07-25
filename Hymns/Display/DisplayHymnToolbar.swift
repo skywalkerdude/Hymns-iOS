@@ -28,7 +28,7 @@ struct DisplayHymnToolbar: View {
                 Button(action: {
                     self.initiatedSoundCloud = false
                 }, label: {
-                    Image(systemName: "stop.circle").accentColor(.primary)
+                    Image(systemName: "stop.circle")//.accentColor(.)
                 })
             }
             Button(action: {
@@ -36,7 +36,7 @@ struct DisplayHymnToolbar: View {
                 self.initiatedSoundCloud = true
             }, label: {
                 initiatedSoundCloud ?
-                Image(systemName: "cloud.fill").accentColor(.accentColor) :
+                Image(systemName: "cloud.fill").accentColor(.primary) :
                 Image(systemName: "cloud").accentColor(.primary)
             })
 
