@@ -6,6 +6,8 @@ struct DisplayHymnView: View {
 
     @ObservedObject private var viewModel: DisplayHymnViewModel
     @State var dialogBuilder: (() -> AnyView)?
+    @State var showModally = false
+    @State var clickedOnce = false
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
@@ -16,10 +18,37 @@ struct DisplayHymnView: View {
             if !viewModel.isLoaded {
                 ActivityIndicator().maxSize()
             } else {
-                VStack(spacing: 0) {
-                    DisplayHymnToolbar(viewModel: viewModel)
-                    if viewModel.tabItems.count > 1 {
-                        GeometryReader { geometry in
+                ZStack {
+                    if self.clickedOnce {
+                        Group<AnyView> {
+                            guard let url = URL(string:
+                                "https://soundcloud.com/search?q=\(self.viewModel.searchTitle)") else {
+                                    return ErrorView().eraseToAnyView()
+                            }
+                            return VStack {
+                                HStack(spacing: 20) {
+                                    Button(action: {
+                                        self.showModally = false
+                                        self.clickedOnce = false
+                                    }, label: {
+                                        Image(systemName: "x.circle").accentColor(.primary)
+                                    })
+                                    Button(action: {
+                                        self.showModally.toggle()
+                                    }, label: {
+                                        Image(systemName: "minus.circle").accentColor(.primary)
+                                    })
+                                    Spacer()
+                                    }.padding()
+                                SoundCloudWebView(url: url)
+                            }
+                            .eraseToAnyView()
+                        }.opacity(showModally ? 1 : 0).animation(.spring())
+                    }
+                    VStack(spacing: 0) {
+                        DisplayHymnToolbar(viewModel: viewModel, showModally: $showModally, clickedOnce: $clickedOnce)
+                        if viewModel.tabItems.count > 1 {
+                            GeometryReader { geometry in
                             IndicatorTabView(geometry: geometry,
                                              currentTab: self.$viewModel.currentTab,
                                              tabItems: self.viewModel.tabItems)
@@ -30,11 +59,12 @@ struct DisplayHymnView: View {
                     viewModel.bottomBar.map { viewModel in
                         DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, viewModel: viewModel).maxWidth()
                     }
-                }
+                }.opacity(showModally ? 0 : 1)
                 dialogBuilder.map { _ in
                     Dialog(builder: $dialogBuilder)
                 }
             }
+        }
         }.hideNavigationBar()
             .onAppear {
                 self.viewModel.fetchHymn()

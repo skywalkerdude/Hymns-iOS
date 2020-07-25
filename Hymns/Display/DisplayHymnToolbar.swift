@@ -5,9 +5,13 @@ struct DisplayHymnToolbar: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var viewModel: DisplayHymnViewModel
     @State private var showSoundCloud = false
+    @Binding var showModally: Bool
+    @Binding var clickedOnce: Bool
 
-    init(viewModel: DisplayHymnViewModel) {
+    init(viewModel: DisplayHymnViewModel, showModally: Binding<Bool>, clickedOnce: Binding<Bool>) {
         self.viewModel = viewModel
+        self._showModally = showModally
+        self._clickedOnce = clickedOnce
     }
 
     var body: some View {
@@ -22,16 +26,13 @@ struct DisplayHymnToolbar: View {
             Spacer()
             Button(action: {
                 self.showSoundCloud.toggle()
+                self.showModally.toggle()
+                self.clickedOnce = true
                 print("bbug title is ", self.viewModel.searchTitle)
             }, label: {
+                clickedOnce ?
+                Image(systemName: "cloud.fill").accentColor(.accentColor) :
                 Image(systemName: "cloud").accentColor(.primary)
-            }).sheet(isPresented: self.$showSoundCloud, content: { () -> AnyView in
-                guard let url = URL(string:
-                    "https://soundcloud.com/search?q=\(self.viewModel.searchTitle)") else {
-                        return ErrorView().eraseToAnyView()
-                }
-                
-                return SoundCloudWebView(url: url).eraseToAnyView()
             })
 
             viewModel.isFavorited.map { isFavorited in
@@ -46,7 +47,7 @@ struct DisplayHymnToolbar: View {
         }
     }
 }
-
+/*
 #if DEBUG
 struct DisplayHymnToolbar_Previews: PreviewProvider {
     static var previews: some View {
@@ -75,3 +76,4 @@ struct DisplayHymnToolbar_Previews: PreviewProvider {
     }
 }
 #endif
+*/
