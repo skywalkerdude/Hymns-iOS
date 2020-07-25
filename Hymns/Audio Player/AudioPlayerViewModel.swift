@@ -26,6 +26,7 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
     private let service: HymnalNetService
 
     private var cancellable: AnyCancellable?
+    private var interruptedObserver: Any?
     /* VISIBLE FOR UNIT TESTS. DO NOT USE OUTSIDE OF THIS CLASS */ var player: AVAudioPlayer?
 
     init(url: URL,
@@ -54,6 +55,7 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
         shouldRepeat = false
         player?.stop()
         player = nil
+        interruptedObserver = nil
         load()
     }
 
@@ -109,7 +111,10 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
                     Crashlytics.crashlytics().record(error: NonFatal(errorDescription: "Failed to initialize audio player"))
                     return
                 }
-
+                self.interruptedObserver
+                    = NotificationCenter.default.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: nil, using: { _ in
+                        self.pause()
+                    })
                 player.delegate = self
                 if let completion = completion {
                     completion(player)
