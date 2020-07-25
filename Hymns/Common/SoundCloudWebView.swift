@@ -38,32 +38,24 @@ struct SoundCloudWebView: UIViewRepresentable {
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
 
-            webView.evaluateJavaScript("document.querySelector('.app__upsell').remove();", completionHandler: { (response, error) -> Void in
-                print("bbug yip", response)
-
+            webView.evaluateJavaScript("document.querySelector('.app__upsell').remove();", completionHandler: { (_, _) -> Void in
             })
 
-            webView.evaluateJavaScript("document.querySelector('.app__header').remove();", completionHandler: { (response, error) -> Void in
-                print("bbug yip", response)
-
+            webView.evaluateJavaScript("document.querySelector('.app__header').remove();", completionHandler: { (_, _) -> Void in
             })
 
-
-            webView.evaluateJavaScript("document.querySelector('.app__footerPanel').remove();", completionHandler: { (response, error) -> Void in
-                print("bbug yip", response)
-
+            webView.evaluateJavaScript("document.querySelector('.app__footerPanel').remove();", completionHandler: { (_, _) -> Void in
             })
 
-
-            webView.evaluateJavaScript("document.querySelector('.footer.show').remove();", completionHandler: { (response, error) -> Void in
-                print("bbug yip", response)
-
+            webView.evaluateJavaScript("document.querySelector('.footer.show').remove();", completionHandler: { (_, _) -> Void in
             })
 
-            webView.evaluateJavaScript("document.querySelector('.footer').remove();", completionHandler: { (response, error) -> Void in
-                print("bbug yip", response)
-
+            webView.evaluateJavaScript("document.querySelector('.footer').remove();", completionHandler: { (_, _) -> Void in
             })
+
+            webView.evaluateJavaScript("document.querySelector('.categories').remove();", completionHandler: { (_, _) -> Void in
+            })
+
             parent.loadStatusChanged?(false, nil)
         }
 
