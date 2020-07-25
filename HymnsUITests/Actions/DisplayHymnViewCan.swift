@@ -31,6 +31,10 @@ public class DisplayHymnViewCan: BaseViewCan {
         return pressButton("info.circle")
     }
 
+    public func openAudioPlayer() -> DisplayHymnViewCan {
+        return pressButton("play")
+    }
+
     public func pressCancel() -> DisplayHymnViewCan {
         return pressButton("Cancel")
     }

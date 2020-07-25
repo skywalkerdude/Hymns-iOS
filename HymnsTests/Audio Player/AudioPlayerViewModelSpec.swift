@@ -46,6 +46,9 @@ class AudioPlayerViewModelSpec: QuickSpec {
                 it("should set the delegate to itself") {
                     expect(target.player!.delegate).to(be(target))
                 }
+                it("should set the song duration") {
+                    expect(target.songDuration).to(beGreaterThan(16))
+                }
                 describe("playing the music") {
                     beforeEach {
                         clearInvocations(on: service)
@@ -81,10 +84,14 @@ class AudioPlayerViewModelSpec: QuickSpec {
                     }
                     describe("reset") {
                         beforeEach {
+                            target.seek(to: 5)
                             target.reset()
                             testQueue.sync {}
                             testQueue.sync {}
                             testQueue.sync {}
+                        }
+                        it("should set the current time to 0") {
+                            expect(target.currentTime).to(equal(0))
                         }
                         it("should set repeat to false") {
                             expect(target.shouldRepeat).to(beFalse())
@@ -107,6 +114,47 @@ class AudioPlayerViewModelSpec: QuickSpec {
                             it("should play the music") {
                                 expect(target.playbackState).to(equal(.playing))
                                 expect(target.player!.isPlaying).to(beTrue())
+                            }
+                        }
+                    }
+                    describe("seek to a time") {
+                        beforeEach {
+                            target.seek(to: 10)
+                        }
+                        it("should set current time to the seek time") {
+                            expect(target.currentTime).to(equal(10))
+                            expect(target.player!.currentTime).to(equal(10))
+                        }
+                    }
+                    describe("rewind") {
+                        context("rewound time becomes negative") {
+                            it("should rewind to 0") {
+                                target.seek(to: 0)
+                                target.rewind()
+                                expect(target.player!.currentTime).to(equal(0))
+                            }
+                        }
+                        context("rewound time is positive") {
+                            it("should rewind by \(AudioPlayerViewModel.seekDuration) seconds") {
+                                target.seek(to: 5)
+                                target.rewind()
+                                expect(target.player!.currentTime).to(equal(5 - AudioPlayerViewModel.seekDuration))
+                            }
+                        }
+                    }
+                    describe("fast forward") {
+                        context("fast forwarded time goves over song duration") {
+                            it("should fast forward to song duration") {
+                                target.seek(to: 16)
+                                target.fastForward()
+                                expect(target.player!.currentTime).to(equal(target.songDuration))
+                            }
+                        }
+                        context("fast forwarded time stays song duration") {
+                            it("should fast forward by \(AudioPlayerViewModel.seekDuration) seconds") {
+                                target.seek(to: 5)
+                                target.fastForward()
+                                expect(target.player!.currentTime).to(equal(5 + AudioPlayerViewModel.seekDuration))
                             }
                         }
                     }

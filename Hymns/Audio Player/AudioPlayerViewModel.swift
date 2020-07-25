@@ -14,19 +14,22 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
 
     @Published var playbackState: PlaybackState = .stopped
     @Published var shouldRepeat = false
+    @Published var currentTime: TimeInterval
+    @Published var songDuration: TimeInterval?
 
     /**
      * Number of seconds to seek forward or backwards when rewind/fast-forward is triggered.
      */
-    private let seekDuration: Float64 = 5
+    public static let seekDuration: Float64 = 2
 
     private let backgroundQueue: DispatchQueue
     private let mainQueue: DispatchQueue
     private let url: URL
     private let service: HymnalNetService
 
-    private var cancellable: AnyCancellable?
+    private var dataFetchCall: Cancellable?
     private var interruptedObserver: Any?
+    private var timerConnection: Cancellable?
     /* VISIBLE FOR UNIT TESTS. DO NOT USE OUTSIDE OF THIS CLASS */ var player: AVAudioPlayer?
 
     init(url: URL,
@@ -37,6 +40,7 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
         self.mainQueue = mainQueue
         self.backgroundQueue = backgroundQueue
         self.service = service
+        self.currentTime = TimeInterval.zero
 
         // https://stackoverflow.com/questions/30832352/swift-keep-playing-sounds-when-the-device-is-locked
         do {
@@ -46,55 +50,11 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
         }
     }
 
-    func toggleRepeat() {
-        shouldRepeat.toggle()
-    }
-
-    func reset() {
-        playbackState = .stopped
-        shouldRepeat = false
-        player?.stop()
-        player = nil
-        interruptedObserver = nil
-        load()
-    }
-
-    func rewind() {
-        guard let player = player else {
-            return
-        }
-        let rewoundTime = player.currentTime - seekDuration
-        player.currentTime = rewoundTime >= TimeInterval.zero ? rewoundTime : TimeInterval.zero
-    }
-
-    func fastForward() {
-        guard let player = player else {
-            return
-        }
-        let fastForwardedTime = player.currentTime + seekDuration
-        player.currentTime = fastForwardedTime <= player.duration ? fastForwardedTime : player.duration
-    }
-
-    func play() {
-        playbackState = .buffering
-        guard let player = player else {
-            load(completion: { player in
-                self.playbackState = .playing
-                player.play()
-            }, failed: {
-                self.playbackState = .stopped
-            })
-            return
-        }
-        playbackState = .playing
-        player.play()
-    }
-
     func load(completion: ((_ player: AVAudioPlayer) -> Void)? = nil, failed: (() -> Void)? = nil) {
-        if let cancellable = cancellable {
-            cancellable.cancel()
+        if let dataFetchCall = dataFetchCall {
+            dataFetchCall.cancel()
         }
-        cancellable = service.getData(url)
+        dataFetchCall = service.getData(url)
             .subscribe(on: backgroundQueue)
             .tryMap({ data -> AVAudioPlayer in
                 try AVAudioPlayer(data: data)
@@ -111,20 +71,93 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
                     Crashlytics.crashlytics().record(error: NonFatal(errorDescription: "Failed to initialize audio player"))
                     return
                 }
+                player.delegate = self
+                self.songDuration = player.duration
                 self.interruptedObserver
                     = NotificationCenter.default.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: nil, using: { _ in
                         self.pause()
                     })
-                player.delegate = self
                 if let completion = completion {
                     completion(player)
                 }
         }
     }
 
+    func play() {
+        playbackState = .buffering
+        guard let player = player else {
+            load(completion: { player in
+                self.playInternal(player)
+            }, failed: {
+                self.playbackState = .stopped
+            })
+            return
+        }
+        playInternal(player)
+    }
+
+    /**
+     * Internal function to actually perform the play command.
+     */
+    private func playInternal(_ player: AVAudioPlayer) {
+        playbackState = .playing
+        timerConnection = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect().sink(receiveValue: { [weak self ]_ in
+            guard let self = self else { return }
+            self.currentTime = player.currentTime
+        })
+        player.play()
+    }
+
     func pause() {
         playbackState = .stopped
+        stopTimer()
         player?.pause()
+    }
+
+    func rewind() {
+        guard let player = player else {
+            return
+        }
+        let rewoundTime = player.currentTime - AudioPlayerViewModel.seekDuration
+        player.currentTime = rewoundTime >= TimeInterval.zero ? rewoundTime : TimeInterval.zero
+    }
+
+    func fastForward() {
+        guard let player = player else {
+            return
+        }
+        let fastForwardedTime = player.currentTime + AudioPlayerViewModel.seekDuration
+        player.currentTime = fastForwardedTime <= player.duration ? fastForwardedTime : player.duration
+    }
+
+    func toggleRepeat() {
+        shouldRepeat.toggle()
+    }
+
+    func reset() {
+        playbackState = .stopped
+        shouldRepeat = false
+        player?.stop()
+        player = nil
+        currentTime = TimeInterval.zero
+        interruptedObserver = nil
+        timerConnection = nil
+        load()
+    }
+
+    func seek(to time: TimeInterval) {
+        currentTime = time
+        player?.currentTime = time
+    }
+
+    func stopTimer() {
+        timerConnection?.cancel()
+    }
+
+    func startTimer() {
+        timerConnection = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect().sink(receiveValue: { _ in
+            self.currentTime = self.player?.currentTime ?? 0
+        })
     }
 }
 
