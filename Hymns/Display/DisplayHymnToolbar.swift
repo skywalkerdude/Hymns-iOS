@@ -30,7 +30,8 @@ struct DisplayHymnToolbar: View {
                     "https://soundcloud.com/search?q=\(self.viewModel.searchTitle)") else {
                         return ErrorView().eraseToAnyView()
                 }
-                return WebView(url: url).eraseToAnyView()
+                
+                return SoundCloudWebView(url: url).eraseToAnyView()
             })
 
             viewModel.isFavorited.map { isFavorited in
