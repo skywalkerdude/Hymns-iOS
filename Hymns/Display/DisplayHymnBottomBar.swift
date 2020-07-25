@@ -104,8 +104,8 @@ struct DisplayHymnBottomBar: View {
                         Spacer()
                     }
                 }
-                Group {
-                    viewModel.audioPlayer.map { _ in
+                viewModel.audioPlayer.map { _ in
+                    Group {
                         Button(action: {
                             self.showAudioPlayer.toggle()
                         }, label: {
@@ -113,8 +113,8 @@ struct DisplayHymnBottomBar: View {
                                 BottomBarLabel(imageName: "play.fill").foregroundColor(.accentColor) :
                                 BottomBarLabel(imageName: "play").foregroundColor(.primary)
                         })
+                        Spacer()
                     }
-                    Spacer()
                 }
                 if !viewModel.songInfo.songInfo.isEmpty {
                     Group {
@@ -218,15 +218,26 @@ extension DisplayHymnSheet: Identifiable {
 #if DEBUG
 struct DisplayHymnBottomBar_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
-        viewModel.songInfo.songInfo = [SongInfoViewModel(label: "label", values: ["values"])]
-        viewModel.languages = [SongResultViewModel(title: "language", destinationView: EmptyView().eraseToAnyView())]
-        viewModel.relevant = [SongResultViewModel(title: "relevant", destinationView: EmptyView().eraseToAnyView())]
-        viewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
         var dialogBuilder: (() -> AnyView)?
-        return DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
+
+        let minimumViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+        let minimum = DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
             get: {dialogBuilder},
-            set: {dialogBuilder = $0}), viewModel: viewModel).previewLayout(.sizeThatFits)
+            set: {dialogBuilder = $0}), viewModel: minimumViewModel)
+
+        let maximumViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+        maximumViewModel.songInfo.songInfo = [SongInfoViewModel(label: "label", values: ["values"])]
+        maximumViewModel.languages = [SongResultViewModel(title: "language", destinationView: EmptyView().eraseToAnyView())]
+        maximumViewModel.relevant = [SongResultViewModel(title: "relevant", destinationView: EmptyView().eraseToAnyView())]
+        maximumViewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
+        let maximum = DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
+            get: {dialogBuilder},
+            set: {dialogBuilder = $0}), viewModel: maximumViewModel)
+
+        return Group {
+            minimum.previewDisplayName("minimum number of buttons")
+            maximum.previewDisplayName("maximum number of buttons")
+        }
     }
 }
 #endif
