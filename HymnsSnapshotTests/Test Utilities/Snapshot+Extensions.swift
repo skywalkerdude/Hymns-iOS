@@ -7,7 +7,7 @@ extension Snapshotting where Value: SwiftUI.View, Format == UIImage {
      * Allows for Snapshot testing for SwiftUI views.
      * https://github.com/V8tr/SnapshotTestingSwiftUI/blob/master/SnapshotTestingSwiftUITests/SnapshotTesting%2BSwiftUI.swift
      */
-    static func image(
+    static func swiftUiImage(
         drawHierarchyInKeyWindow: Bool = false,
         precision: Float = 1,
         size: CGSize? = nil,

@@ -15,17 +15,17 @@ class SettingsSnapshots: XCTestCase {
 
     func test_error() {
         viewModel.settings = nil
-        assertSnapshot(matching: SettingsView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: SettingsView(viewModel: viewModel), as: .swiftUiImage())
     }
 
     func test_loading() {
-        assertSnapshot(matching: SettingsView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: SettingsView(viewModel: viewModel), as: .swiftUiImage())
     }
 
     func test_settings() {
         viewModel.settings = [PrivacyPolicySettingViewModel().eraseToAnySettingViewModel(),
                               FeedbackViewModel(result: .constant(nil)).eraseToAnySettingViewModel(),
                               AboutUsViewModel().eraseToAnySettingViewModel()]
-        assertSnapshot(matching: SettingsView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: SettingsView(viewModel: viewModel), as: .swiftUiImage())
     }
 }

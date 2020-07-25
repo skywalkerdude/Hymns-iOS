@@ -14,7 +14,7 @@ class DisplayHymnSnapshots: XCTestCase {
 
     func test_loading() {
         viewModel = DisplayHymnViewModel(hymnToDisplay: hymn40_identifier)
-        assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .swiftUiImage())
     }
 
     func test_classic40() {
@@ -36,7 +36,7 @@ class DisplayHymnSnapshots: XCTestCase {
             .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=pdf")!).eraseToAnyView()),
             .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=ppdf")!).eraseToAnyView())]
         viewModel.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn40_identifier)
-        assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .swiftUiImage())
     }
 
     func test_classic1334() {
@@ -55,7 +55,7 @@ class DisplayHymnSnapshots: XCTestCase {
             .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=pdf")!).eraseToAnyView()),
             .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=ppdf")!).eraseToAnyView())]
         viewModel.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn1334_identifier)
-        assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .swiftUiImage())
     }
 
     func test_classic1151_noTabs() {
@@ -72,7 +72,7 @@ class DisplayHymnSnapshots: XCTestCase {
         viewModel.currentTab = .lyrics(HymnLyricsView(viewModel: lyricsViewModel).maxSize().eraseToAnyView())
         viewModel.tabItems = [HymnLyricsTab]()
         viewModel.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn1151_identifier)
-        assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .swiftUiImage())
     }
 
     func test_classic1151_oneTab() {
@@ -89,7 +89,7 @@ class DisplayHymnSnapshots: XCTestCase {
         viewModel.currentTab = .lyrics(HymnLyricsView(viewModel: lyricsViewModel).maxSize().eraseToAnyView())
         viewModel.tabItems = [viewModel.currentTab]
         viewModel.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn1151_identifier)
-        assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .swiftUiImage())
     }
 
     func test_classic1151_twoTabs() {
@@ -108,7 +108,7 @@ class DisplayHymnSnapshots: XCTestCase {
             viewModel.currentTab,
             .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=gtpdf")!).eraseToAnyView())]
         viewModel.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn1151_identifier)
-        assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .swiftUiImage())
     }
 
     func test_classic1151_threeTabs() {
@@ -132,7 +132,7 @@ class DisplayHymnSnapshots: XCTestCase {
         bottomBarViewModel.languages = [cupOfChrist_songResult]
         bottomBarViewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
         viewModel.bottomBar = bottomBarViewModel
-        assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .swiftUiImage())
     }
 
     func test_classic1151_fourTabs() {
@@ -162,6 +162,6 @@ class DisplayHymnSnapshots: XCTestCase {
         songInfoDialogViewModel.songInfo = [SongInfoViewModel(label: "label", values: ["value1", "value2"])]
         bottomBarViewModel.songInfo = songInfoDialogViewModel
         viewModel.bottomBar = bottomBarViewModel
-        assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .swiftUiImage())
     }
 }

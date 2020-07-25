@@ -14,16 +14,16 @@ class FavoritesSnapshots: XCTestCase {
     }
 
     func test_loading() {
-        assertSnapshot(matching: FavoritesView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: FavoritesView(viewModel: viewModel), as: .swiftUiImage())
     }
 
     func test_noFavorites() {
         viewModel.favorites = [SongResultViewModel]()
-        assertSnapshot(matching: FavoritesView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: FavoritesView(viewModel: viewModel), as: .swiftUiImage())
     }
 
     func test_searchActive() {
         viewModel.favorites = [cupOfChrist_songResult, hymn1151_songResult, joyUnspeakable_songResult, sinfulPast_songResult]
-        assertSnapshot(matching: FavoritesView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: FavoritesView(viewModel: viewModel), as: .swiftUiImage())
     }
 }
