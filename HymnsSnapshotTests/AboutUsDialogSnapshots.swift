@@ -11,6 +11,6 @@ class AboutUsDialogSnapshots: XCTestCase {
     }
 
     func test_dialog() {
-        assertSnapshot(matching: AboutUsDialogView(), as: .image())
+        assertSnapshot(matching: AboutUsDialogView(), as: .swiftUiImage())
     }
 }

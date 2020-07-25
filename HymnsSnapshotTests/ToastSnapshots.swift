@@ -18,7 +18,7 @@ class ToastSnapshots: XCTestCase {
                     Text("Toast text").padding()
                         .eraseToAnyView()
         }
-        assertSnapshot(matching: toast, as: .image())
+        assertSnapshot(matching: toast, as: .swiftUiImage())
     }
 
     func test_center() {
@@ -32,7 +32,7 @@ class ToastSnapshots: XCTestCase {
                     }.padding()
                         .eraseToAnyView()
         }
-        assertSnapshot(matching: toast, as: .image())
+        assertSnapshot(matching: toast, as: .swiftUiImage())
     }
 
     func test_bottom() {
@@ -46,7 +46,7 @@ class ToastSnapshots: XCTestCase {
                     }
                     .eraseToAnyView()
         }
-        assertSnapshot(matching: toast, as: .image())
+        assertSnapshot(matching: toast, as: .swiftUiImage())
     }
 
     func test_bottomWithoutBackdrop() {
@@ -60,7 +60,7 @@ class ToastSnapshots: XCTestCase {
                     }
                     .eraseToAnyView()
         }
-        assertSnapshot(matching: toast, as: .image())
+        assertSnapshot(matching: toast, as: .swiftUiImage())
     }
 
     func test_darkMode() {
@@ -74,7 +74,7 @@ class ToastSnapshots: XCTestCase {
                     }
                     .eraseToAnyView()
         }.background(Color(.systemBackground)).environment(\.colorScheme, .dark)
-        assertSnapshot(matching: toast, as: .image())
+        assertSnapshot(matching: toast, as: .swiftUiImage())
     }
 
     func test_darkModeWithoutBackdrop() {
@@ -88,6 +88,6 @@ class ToastSnapshots: XCTestCase {
                     }
                     .eraseToAnyView()
             }.background(Color(.systemBackground)).environment(\.colorScheme, .dark)
-        assertSnapshot(matching: toast, as: .image())
+        assertSnapshot(matching: toast, as: .swiftUiImage())
     }
 }

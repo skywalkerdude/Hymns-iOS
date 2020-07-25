@@ -15,11 +15,11 @@ class BrowseCategoriesSnapshots: XCTestCase {
 
     func test_error() {
         viewModel.categories = nil
-        assertSnapshot(matching: BrowseCategoriesView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: BrowseCategoriesView(viewModel: viewModel), as: .swiftUiImage())
     }
 
     func test_loading() {
-        assertSnapshot(matching: BrowseCategoriesView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: BrowseCategoriesView(viewModel: viewModel), as: .swiftUiImage())
     }
 
     func test_categories() {
@@ -33,10 +33,10 @@ class BrowseCategoriesSnapshots: XCTestCase {
                                  hymnType: .german,
                                  subcategories: [SubcategoryViewModel(subcategory: "Subcategory 2", count: 12),
                                                  SubcategoryViewModel(subcategory: "Subcategory 3", count: 1)])]
-        assertSnapshot(matching: BrowseCategoriesView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: BrowseCategoriesView(viewModel: viewModel), as: .swiftUiImage())
     }
 
     func test_browseView() {
-        assertSnapshot(matching: BrowseView(), as: .image())
+        assertSnapshot(matching: BrowseView(), as: .swiftUiImage())
     }
 }

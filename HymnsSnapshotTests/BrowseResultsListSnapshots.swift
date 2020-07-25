@@ -14,7 +14,7 @@ class BrowseResultsListSnapshots: XCTestCase {
 
     func test_empty() {
         viewModel = BrowseResultsListViewModel(tag: UiTag(title: "Best songs", color: .none))
-        assertSnapshot(matching: BrowseResultsListView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: BrowseResultsListView(viewModel: viewModel), as: .swiftUiImage())
     }
 
     func test_results() {
@@ -23,6 +23,6 @@ class BrowseResultsListSnapshots: XCTestCase {
                        SongResultViewModel(title: "Avengers - Endgame", destinationView: EmptyView().eraseToAnyView())]
         viewModel = BrowseResultsListViewModel(category: "Experience of Christ")
         viewModel.songResults = results
-        assertSnapshot(matching: BrowseResultsListView(viewModel: viewModel), as: .image())
+        assertSnapshot(matching: BrowseResultsListView(viewModel: viewModel), as: .swiftUiImage())
     }
 }

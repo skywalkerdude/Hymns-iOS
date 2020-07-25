@@ -14,13 +14,13 @@ class TagSheetSnapshots: XCTestCase {
 
     func test_noTags() {
         viewModel = TagSheetViewModel(hymnToDisplay: cupOfChrist_identifier)
-        assertSnapshot(matching: TagSheetView(viewModel: viewModel, sheet: Binding.constant(.tags)), as: .image())
+        assertSnapshot(matching: TagSheetView(viewModel: viewModel, sheet: Binding.constant(.tags)), as: .swiftUiImage())
     }
 
     func test_oneTag() {
         viewModel = TagSheetViewModel(hymnToDisplay: cupOfChrist_identifier)
         viewModel.tags = [UiTag(title: "Lord's table", color: .green)]
-        assertSnapshot(matching: TagSheetView(viewModel: viewModel, sheet: Binding.constant(.tags)), as: .image())
+        assertSnapshot(matching: TagSheetView(viewModel: viewModel, sheet: Binding.constant(.tags)), as: .swiftUiImage())
     }
 
     func test_manyTags() {
@@ -31,14 +31,14 @@ class TagSheetSnapshots: XCTestCase {
                           UiTag(title: "Tag 1", color: .yellow),
                           UiTag(title: "Tag 2", color: .blue),
                           UiTag(title: "Tag 3", color: .blue)]
-        assertSnapshot(matching: TagSheetView(viewModel: viewModel, sheet: Binding.constant(.tags)), as: .image())
+        assertSnapshot(matching: TagSheetView(viewModel: viewModel, sheet: Binding.constant(.tags)), as: .swiftUiImage())
     }
 
     func test_colorSeletor_unselected() {
-        assertSnapshot(matching: ColorSelectorView(tagColor: .constant(.none)), as: .image())
+        assertSnapshot(matching: ColorSelectorView(tagColor: .constant(.none)), as: .swiftUiImage())
     }
 
     func test_colorSeletor_blueSelected() {
-        assertSnapshot(matching: ColorSelectorView(tagColor: .constant(.blue)), as: .image())
+        assertSnapshot(matching: ColorSelectorView(tagColor: .constant(.blue)), as: .swiftUiImage())
     }
 }
