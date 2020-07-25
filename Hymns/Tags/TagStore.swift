@@ -49,7 +49,7 @@ class TagStoreRealmImpl: TagStore {
     func getSongsByTag(_ tag: UiTag) -> AnyPublisher<[SongResultEntity], ErrorType> {
         realm.objects(TagEntity.self)
             .filter(NSPredicate(format: "tagObject.tag == %@ AND tagObject.privateTagColor == %d", tag.title, tag.color.rawValue))
-            .publisher
+            .collectionPublisher
             .map { entities -> [SongResultEntity] in
                 entities.map { entity -> SongResultEntity in
                     let hymnType = entity.tagObject.hymnIdentifierEntity.hymnType
@@ -65,7 +65,7 @@ class TagStoreRealmImpl: TagStore {
     func getTagsForHymn(hymnIdentifier: HymnIdentifier) -> AnyPublisher<[Tag], ErrorType> {
         realm.objects(TagEntity.self)
             .filter(NSPredicate(format: "primaryKey CONTAINS[c] %@", ("\(hymnIdentifier.hymnType):\(hymnIdentifier.hymnNumber):\(hymnIdentifier.queryParams ?? [String: String]())")))
-            .sorted(byKeyPath: "created", ascending: false).publisher
+            .sorted(byKeyPath: "created", ascending: false).collectionPublisher
             .map({ results -> [Tag] in
                 results.map { entity -> Tag in
                     entity.tagObject
@@ -76,7 +76,7 @@ class TagStoreRealmImpl: TagStore {
     }
 
     func getUniqueTags() -> AnyPublisher<[UiTag], ErrorType> {
-        realm.objects(TagEntity.self).distinct(by: ["tagObject.tag", "tagObject.privateTagColor"]).publisher
+        realm.objects(TagEntity.self).distinct(by: ["tagObject.tag", "tagObject.privateTagColor"]).collectionPublisher
             .map({ results -> [UiTag] in
                 results.map { entity -> UiTag in
                     UiTag(title: entity.tagObject.tag, color: entity.tagObject.color)

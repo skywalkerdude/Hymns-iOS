@@ -28,7 +28,7 @@ class HistoryStoreRealmImpl: HistoryStore {
      * Gets a list of `RecentSong`s. but if the list is greater than `numberToStore`, then it will delete the excess `RecentSong`s from the database.
      */
     func recentSongs() -> AnyPublisher<[RecentSong], ErrorType> {
-        realm.objects(RecentSongEntity.self).sorted(byKeyPath: "created", ascending: false).publisher
+        realm.objects(RecentSongEntity.self).sorted(byKeyPath: "created", ascending: false).collectionPublisher
             .map({ results -> [RecentSong] in
                 results.map { entity -> RecentSong in
                     entity.recentSong
