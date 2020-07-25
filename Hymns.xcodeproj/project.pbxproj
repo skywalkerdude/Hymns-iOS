@@ -151,7 +151,7 @@
 		3BB1DCB5244D55770011169D /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB1DCB4244D55770011169D /* SearchBar.swift */; };
 		3BB7877A24550686003CBEED /* StringExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB7877924550686003CBEED /* StringExtensionsSpec.swift */; };
 		3BBA15E824CC99850010EEC8 /* AudioPlayerSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBA15E724CC99850010EEC8 /* AudioPlayerSnapshots.swift */; };
-                3BBA15EA24CCBCD00010EEC8 /* BottomBarSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBA15E924CCBCD00010EEC8 /* BottomBarSnapshots.swift */; };
+		3BBA15EA24CCBCD00010EEC8 /* BottomBarSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBA15E924CCBCD00010EEC8 /* BottomBarSnapshots.swift */; };
 		3BC1328D243826280082A274 /* PreviewHymns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC1328C243826270082A274 /* PreviewHymns.swift */; };
 		3BC1329724385A580082A274 /* HomeContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC1329624385A580082A274 /* HomeContainerView.swift */; };
 		3BC1329924385C420082A274 /* HomeTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC1329824385C420082A274 /* HomeTab.swift */; };
@@ -1906,7 +1906,7 @@
 				3B6DA64F24A96A4F00A9277F /* SongInfoSheetSnapshots.swift in Sources */,
 				3B52698E24A01E7E006E72E1 /* DisplayHymnPdfSnapshots.swift in Sources */,
 				3BBA15E824CC99850010EEC8 /* AudioPlayerSnapshots.swift in Sources */,
-        3BBA15EA24CCBCD00010EEC8 /* BottomBarSnapshots.swift in Sources */,
+				3BBA15EA24CCBCD00010EEC8 /* BottomBarSnapshots.swift in Sources */,
 				3B52698C24A00919006E72E1 /* AboutUsDialogSnapshots.swift in Sources */,
 				3B77655424B05D260081D917 /* BottomSheetSnapshots.swift in Sources */,
 				3B3DF63724A156D800E60ED9 /* BrowseScripturesSnapshots.swift in Sources */,
