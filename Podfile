@@ -6,6 +6,9 @@ target 'Hymns' do
   use_frameworks!
 
   # Pods for Hymns
+
+  #Lottie for launch animations
+  pod 'lottie-ios'
   
   #Needed for Realm database 
   pod 'RealmSwift'
