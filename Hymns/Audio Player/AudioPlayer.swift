@@ -64,15 +64,27 @@ struct AudioPlayer: View {
                 }, label: {
                     Image(systemName: "repeat").font(.system(size: smallButtonSize)).foregroundColor(viewModel.shouldRepeat ? .accentColor : .primary)
                 })
-
-                Button(action: {
-                    if let url = URL(string: "https://www.youtube.com/results?search_query=\(self.viewModel.searchTitle)") {
-                       UIApplication.shared.open(url)
-                   }
-                }, label: {
-                    Image(systemName: "play.rectangle")
-                })
             }
+                HStack {
+                    Button(action: {
+                        guard let url = URL(string: "https://www.youtube.com/results?search_query=\(self.viewModel.searchTitle)") else {
+                            return
+                        }
+                        UIApplication.shared.open(url)
+                    }, label: {
+                        Image(systemName: "play.rectangle").accentColor(.primary)
+                    })
+                    Spacer()
+
+                    Button(action: {
+                        guard let url = URL(string: "https://soundcloud.com/search?q=\(self.viewModel.searchTitle)") else {
+                            return
+                        }
+                        UIApplication.shared.open(url)
+                    }, label: {
+                        Image(systemName: "cloud").accentColor(.primary)
+                    })
+                }.padding(.horizontal)
         }.onAppear {
             self.viewModel.load()
         }.onDisappear {
@@ -81,6 +93,17 @@ struct AudioPlayer: View {
         }
     }
 }
+
+/*
+
+ guard let url = URL(string:
+     "https://soundcloud.com/search?q=\(self.searchTitle)") else {
+         return ErrorView().eraseToAnyView()
+
+
+  "https://www.youtube.com/results?search_query=\(self.viewModel.searchTitle)"
+ }
+ */
 
 #if DEBUG
 struct AudioView_Previews: PreviewProvider {

@@ -130,7 +130,7 @@ class DisplayHymnSnapshots: XCTestCase {
         let bottomBarViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn1151_identifier)
         bottomBarViewModel.shareableLyrics = "Shareable lyrics"
         bottomBarViewModel.languages = [cupOfChrist_songResult]
-        bottomBarViewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
+        bottomBarViewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!, searchTitle: "Many weary years I vainly sought a spring")
         viewModel.bottomBar = bottomBarViewModel
         assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .swiftUiImage())
     }
@@ -157,7 +157,7 @@ class DisplayHymnSnapshots: XCTestCase {
         bottomBarViewModel.shareableLyrics = "Shareable lyrics"
         bottomBarViewModel.languages = [cupOfChrist_songResult]
         bottomBarViewModel.relevant = [hymn480_songResult]
-        bottomBarViewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
+        bottomBarViewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!, searchTitle: "Many weary years I vainly sought a spring")
         let songInfoDialogViewModel = SongInfoDialogViewModel(hymnToDisplay: hymn1151_identifier)
         songInfoDialogViewModel.songInfo = [SongInfoViewModel(label: "label", values: ["value1", "value2"])]
         bottomBarViewModel.songInfo = songInfoDialogViewModel

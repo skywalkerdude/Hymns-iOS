@@ -130,7 +130,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                 }
                 let mp3FilePath = URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=mp3")!
                 it("mp3Path should be \(String(describing: mp3FilePath))") {
-                    expect(target.audioPlayer).to(equal(AudioPlayerViewModel(url: mp3FilePath)))
+                    expect(target.audioPlayer).to(equal(AudioPlayerViewModel(url: mp3FilePath, searchTitle: "Many weary years I vainly sought a spring")))
                 }
             }
         }

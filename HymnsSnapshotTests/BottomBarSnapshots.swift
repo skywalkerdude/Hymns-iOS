@@ -26,7 +26,7 @@ class BottomBarSnapshots: XCTestCase {
         viewModel.songInfo.songInfo = [SongInfoViewModel(label: "label", values: ["values"])]
         viewModel.languages = [SongResultViewModel(title: "language", destinationView: EmptyView().eraseToAnyView())]
         viewModel.relevant = [SongResultViewModel(title: "relevant", destinationView: EmptyView().eraseToAnyView())]
-        viewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
+        viewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!, searchTitle: "Many Weary ")
 
         let bottomBar = DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
             get: {self.dialogBuilder},

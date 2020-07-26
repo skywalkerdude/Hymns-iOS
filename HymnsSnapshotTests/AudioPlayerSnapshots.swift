@@ -10,7 +10,7 @@ class AudioPlayerSnapshots: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        viewModel = AudioPlayerViewModel(url: URL(string: "url")!)
+        viewModel = AudioPlayerViewModel(url: URL(string: "url")!, searchTitle: "Many weary years I vainly sought a spring")
     }
 
     func test_currentlyPlaying() {

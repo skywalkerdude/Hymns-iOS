@@ -15,7 +15,7 @@ class AudioPlayerViewModelSpec: QuickSpec {
             var target: AudioPlayerViewModel!
             beforeEach {
                 service = mock(HymnalNetService.self)
-                target = AudioPlayerViewModel(url: url, backgroundQueue: testQueue, mainQueue: testQueue, service: service)
+                target = AudioPlayerViewModel(url: url, searchTitle: "Many weary years I vainly sought a spring", backgroundQueue: testQueue, mainQueue: testQueue, service: service)
             }
             describe("toggle repeat") {
                 it("should toggle the shouldRepeat variable") {
