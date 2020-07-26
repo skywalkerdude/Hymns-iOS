@@ -4,11 +4,7 @@ import Resolver
 
 class DisplayHymnBottomBarViewModel: ObservableObject {
 
-    @Published var songInfo: SongInfoDialogViewModel
-    @Published var shareableLyrics: String = ""
-    @Published var languages = [SongResultViewModel]()
-    @Published var relevant = [SongResultViewModel]()
-    @Published var audioPlayer: AudioPlayerViewModel?
+    @Published var buttons: [BottomBarButton]
 
     let identifier: HymnIdentifier
 
@@ -26,10 +22,10 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
          backgroundQueue: DispatchQueue = Resolver.resolve(name: "background")) {
         self.analytics = analytics
         self.identifier = identifier
-        self.songInfo = SongInfoDialogViewModel(hymnToDisplay: identifier)
         self.mainQueue = mainQueue
         self.repository = repository
         self.backgroundQueue = backgroundQueue
+        self.buttons = [.fontSize, .tags]
     }
 
     func fetchHymn() {
@@ -43,19 +39,34 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                         return
                     }
 
-                    self.shareableLyrics = self.convertToOneString(verses: hymn.lyrics)
-                    self.languages = self.convertToSongResults(hymn.languages)
-                    self.relevant = self.convertToSongResults(hymn.relevant)
+                    self.buttons = [BottomBarButton]()
+
+                    self.buttons.append(.share(self.convertToOneString(verses: hymn.lyrics)))
+
+                    self.buttons.append(.fontSize)
+
+                    let languages = self.convertToSongResults(hymn.languages)
+                    if !languages.isEmpty {
+                        self.buttons.append(.languages(languages))
+                    }
 
                     let mp3Path = hymn.music?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.mp3.rawValue
                     })?.path
-
                     if let mp3Url = mp3Path.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     }) {
-                        self.audioPlayer = AudioPlayerViewModel(url: mp3Url)
+                        self.buttons.append(.musicPlayback(AudioPlayerViewModel(url: mp3Url)))
                     }
+
+                    let relevant = self.convertToSongResults(hymn.relevant)
+                    if !relevant.isEmpty {
+                        self.buttons.append(.relevant(relevant))
+                    }
+
+                    self.buttons.append(.tags)
+
+                    self.buttons.append(.songInfo(SongInfoDialogViewModel(hymnToDisplay: self.identifier)))
             }).store(in: &disposables)
     }
 

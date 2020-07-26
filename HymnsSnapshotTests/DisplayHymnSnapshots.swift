@@ -36,6 +36,7 @@ class DisplayHymnSnapshots: XCTestCase {
             .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=pdf")!).eraseToAnyView()),
             .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=ppdf")!).eraseToAnyView())]
         viewModel.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn40_identifier)
+        viewModel.bottomBar!.buttons = [.share("lyrics"), .fontSize, .tags]
         assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .swiftUiImage())
     }
 
@@ -55,6 +56,7 @@ class DisplayHymnSnapshots: XCTestCase {
             .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=pdf")!).eraseToAnyView()),
             .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1334/f=ppdf")!).eraseToAnyView())]
         viewModel.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn1334_identifier)
+        viewModel.bottomBar!.buttons = [.share("lyrics"), .fontSize, .tags]
         assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .swiftUiImage())
     }
 
@@ -72,6 +74,7 @@ class DisplayHymnSnapshots: XCTestCase {
         viewModel.currentTab = .lyrics(HymnLyricsView(viewModel: lyricsViewModel).maxSize().eraseToAnyView())
         viewModel.tabItems = [HymnLyricsTab]()
         viewModel.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn1151_identifier)
+        viewModel.bottomBar!.buttons = [.share("lyrics"), .fontSize, .tags]
         assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .swiftUiImage())
     }
 
@@ -89,6 +92,7 @@ class DisplayHymnSnapshots: XCTestCase {
         viewModel.currentTab = .lyrics(HymnLyricsView(viewModel: lyricsViewModel).maxSize().eraseToAnyView())
         viewModel.tabItems = [viewModel.currentTab]
         viewModel.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn1151_identifier)
+        viewModel.bottomBar!.buttons = [.share("lyrics"), .fontSize, .tags]
         assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .swiftUiImage())
     }
 
@@ -108,6 +112,7 @@ class DisplayHymnSnapshots: XCTestCase {
             viewModel.currentTab,
             .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=gtpdf")!).eraseToAnyView())]
         viewModel.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn1151_identifier)
+        viewModel.bottomBar!.buttons = [.share("lyrics"), .fontSize, .tags]
         assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .swiftUiImage())
     }
 
@@ -128,9 +133,13 @@ class DisplayHymnSnapshots: XCTestCase {
             .chords(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=gtpdf")!).eraseToAnyView()),
             .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=ppdf")!).eraseToAnyView())]
         let bottomBarViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn1151_identifier)
-        bottomBarViewModel.shareableLyrics = "Shareable lyrics"
-        bottomBarViewModel.languages = [cupOfChrist_songResult]
-        bottomBarViewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
+        bottomBarViewModel.buttons = [
+            .share("Shareable lyrics"),
+            .fontSize,
+            .languages([cupOfChrist_songResult]),
+            .tags,
+            .musicPlayback(AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!))
+        ]
         viewModel.bottomBar = bottomBarViewModel
         assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .swiftUiImage())
     }
@@ -153,14 +162,15 @@ class DisplayHymnSnapshots: XCTestCase {
             .guitar(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=pdf")!).eraseToAnyView()),
             .piano(PDFViewer(url: URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=ppdf")!).eraseToAnyView())]
         let bottomBarViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: hymn1151_identifier)
-        bottomBarViewModel.songInfo = SongInfoDialogViewModel(hymnToDisplay: hymn1151_identifier)
-        bottomBarViewModel.shareableLyrics = "Shareable lyrics"
-        bottomBarViewModel.languages = [cupOfChrist_songResult]
-        bottomBarViewModel.relevant = [hymn480_songResult]
-        bottomBarViewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
-        let songInfoDialogViewModel = SongInfoDialogViewModel(hymnToDisplay: hymn1151_identifier)
-        songInfoDialogViewModel.songInfo = [SongInfoViewModel(label: "label", values: ["value1", "value2"])]
-        bottomBarViewModel.songInfo = songInfoDialogViewModel
+        bottomBarViewModel.buttons = [
+            .share("Shareable lyrics"),
+            .fontSize,
+            .languages([cupOfChrist_songResult]),
+            .tags,
+            .relevant([hymn480_songResult]),
+            .musicPlayback(AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)),
+            .songInfo(SongInfoDialogViewModel(hymnToDisplay: hymn1151_identifier))
+        ]
         viewModel.bottomBar = bottomBarViewModel
         assertSnapshot(matching: DisplayHymnView(viewModel: viewModel), as: .swiftUiImage())
     }

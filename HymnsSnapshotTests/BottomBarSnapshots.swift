@@ -23,10 +23,15 @@ class BottomBarSnapshots: XCTestCase {
     }
 
     func test_maximumButtons() {
-        viewModel.songInfo.songInfo = [SongInfoViewModel(label: "label", values: ["values"])]
-        viewModel.languages = [SongResultViewModel(title: "language", destinationView: EmptyView().eraseToAnyView())]
-        viewModel.relevant = [SongResultViewModel(title: "relevant", destinationView: EmptyView().eraseToAnyView())]
-        viewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
+        viewModel.buttons = [
+            .share("lyrics"),
+            .fontSize,
+            .languages([SongResultViewModel(title: "language", destinationView: EmptyView().eraseToAnyView())]),
+            .musicPlayback(AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)),
+            .relevant([SongResultViewModel(title: "relevant", destinationView: EmptyView().eraseToAnyView())]),
+            .tags,
+            .songInfo(SongInfoDialogViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
+        ]
 
         let bottomBar = DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
             get: {self.dialogBuilder},
