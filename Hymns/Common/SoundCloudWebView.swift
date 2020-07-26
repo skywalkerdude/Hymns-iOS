@@ -42,8 +42,6 @@ struct SoundCloudWebView: UIViewRepresentable {
             parent.isLoading = false  //Used for activity indicator
             webView.evaluateJavaScript("document.querySelector('.app__upsell').remove();", completionHandler: { (_, _) -> Void in
             })
-//            webView.evaluateJavaScript("document.querySelector('.app__header').remove();", completionHandler: { (_, _) -> Void in
-//            })
             webView.evaluateJavaScript("document.querySelector('.app__footerPanel').remove();", completionHandler: { (_, _) -> Void in
             })
 
