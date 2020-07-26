@@ -80,7 +80,7 @@ extension BottomBarButton {
         case .soundCloud:
             return BottomBarLabel(imageName: "cloud", a11yLabel: label).foregroundColor(.primary)
         case .youTube:
-            return BottomBarLabel(imageName: "play.rectangle.fill", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(imageName: "play.rectangle", a11yLabel: label).foregroundColor(.primary)
         }
     }
 }
