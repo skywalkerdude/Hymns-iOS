@@ -30,12 +30,6 @@ struct UiHymn: Equatable {
         return title + self.title
     }
 
-    var searchableTitle: String {
-        var title = self.title
-        title = title.replacingOccurrences(of: " ", with: "+", options: .literal, range: nil)
-        return title
-    }
-
     init(hymnIdentifier: HymnIdentifier, title: String, lyrics: [Verse], pdfSheet: MetaDatum? = nil,
          category: String? = nil, subcategory: String? = nil, author: String? = nil, composer: String? = nil,
          key: String? = nil, time: String? = nil, meter: String? = nil, scriptures: String? = nil,
