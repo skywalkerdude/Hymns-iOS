@@ -52,4 +52,3 @@ struct AudioPlayerControlsView_Previews: PreviewProvider {
     }
 }
 #endif
-

@@ -241,4 +241,3 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
     }
 }
 #endif
-

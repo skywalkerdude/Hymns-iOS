@@ -143,4 +143,3 @@ struct DisplayHymnView_Previews: PreviewProvider {
     }
 }
 #endif
-
