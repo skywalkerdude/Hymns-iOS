@@ -1,7 +1,8 @@
-import Quick
-import Nimble
-import Mockingbird
 import Combine
+import Mockingbird
+import Nimble
+import Quick
+import SwiftUI
 @testable import Hymns
 
 // swiftlint:disable:next type_name
@@ -18,20 +19,10 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                 target = DisplayHymnBottomBarViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, mainQueue: testQueue, backgroundQueue: testQueue)
             }
             describe("init") {
-                it("should set up the info dialog") {
-                    expect(target.songInfo).to(equal(SongInfoDialogViewModel(hymnToDisplay: classic1151)))
-                }
-                it("shareable lyrics should be an empty string") {
-                    expect(target.shareableLyrics).to(equal(""))
-                }
-                it("languages should be empty") {
-                    expect(target.languages).to(beEmpty())
-                }
-                it("relevant songs should be empty") {
-                    expect(target.relevant).to(beEmpty())
-                }
-                it("mp3Path should be nil") {
-                    expect(target.audioPlayer).to(beNil())
+                it("should only contain font size and tags") {
+                    expect(target.buttons).to(haveCount(2))
+                    expect(target.buttons[0]).to(equal(.fontSize))
+                    expect(target.buttons[1]).to(equal(.tags))
                 }
             }
             context("with nil repository result") {
@@ -48,14 +39,10 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                 it("should call hymnsRepository.getHymn") {
                     verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
                 }
-                it("shareable lyrics should be an empty string") {
-                    expect(target.shareableLyrics).to(equal(""))
-                }
-                it("languages should be empty") {
-                    expect(target.languages).to(beEmpty())
-                }
-                it("relevant songs should be empty") {
-                    expect(target.relevant).to(beEmpty())
+                it("should only contain font size and tags") {
+                    expect(target.buttons).to(haveCount(2))
+                    expect(target.buttons[0]).to(equal(.fontSize))
+                    expect(target.buttons[1]).to(equal(.tags))
                 }
             }
             context("with empty repository result") {
@@ -73,17 +60,10 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                 it("should call hymnsRepository.getHymn") {
                     verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
                 }
-                it("shareable lyrics should be an empty string") {
-                    expect(target.shareableLyrics).to(equal(""))
-                }
-                it("languages should be empty") {
-                    expect(target.languages).to(beEmpty())
-                }
-                it("relevant songs should be empty") {
-                    expect(target.relevant).to(beEmpty())
-                }
-                it("mp3Path should be nil") {
-                    expect(target.audioPlayer).to(beNil())
+                it("should only contain font size and tags") {
+                    expect(target.buttons).to(haveCount(2))
+                    expect(target.buttons[0]).to(equal(.fontSize))
+                    expect(target.buttons[1]).to(equal(.tags))
                 }
             }
             context("with valid repository result") {
@@ -115,22 +95,20 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                 it("should call hymnsRepository.getHymn") {
                     verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
                 }
-                it("shareable lyrics should be Drink a river") {
-                    expect(target.shareableLyrics).to(equal("Drink! a river pure and clear that's flowing from the throne;\nEat! the tree of life with fruits abundant, richly grown\n\nDo come, oh, do come,\nSays Spirit and the Bride:\n\n"))
-                }
-                it("languages should have two items") {
-                    expect(target.languages).to(haveCount(2))
-                    expect(target.languages[0].title).to(equal("Tagalog"))
-                    expect(target.languages[1].title).to(equal("诗歌(简)"))
-                }
-                it("relevant songs should have two items") {
-                    expect(target.relevant).to(haveCount(2))
-                    expect(target.relevant[0].title).to(equal("New Tune"))
-                    expect(target.relevant[1].title).to(equal("Cool other song"))
-                }
-                let mp3FilePath = URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=mp3")!
-                it("mp3Path should be \(String(describing: mp3FilePath))") {
-                    expect(target.audioPlayer).to(equal(AudioPlayerViewModel(url: mp3FilePath)))
+                let mp3Url = URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=mp3")!
+                it("should have all the buttons") {
+                    expect(target.buttons).to(haveCount(7))
+                    expect(target.buttons[0]).to(equal(.share("Drink! a river pure and clear that's flowing from the throne;\nEat! the tree of life with fruits abundant, richly grown\n\nDo come, oh, do come,\nSays Spirit and the Bride:\n\n")))
+                    expect(target.buttons[1]).to(equal(.fontSize))
+                    expect(target.buttons[2]).to(equal(.languages([
+                        SongResultViewModel(title: "Tagalog", destinationView: EmptyView().eraseToAnyView()),
+                        SongResultViewModel(title: "诗歌(简)", destinationView: EmptyView().eraseToAnyView())])))
+                    expect(target.buttons[3]).to(equal(.musicPlayback(AudioPlayerViewModel(url: mp3Url))))
+                    expect(target.buttons[4]).to(equal(.relevant([
+                        SongResultViewModel(title: "New Tune", destinationView: EmptyView().eraseToAnyView()),
+                        SongResultViewModel(title: "Cool other song", destinationView: EmptyView().eraseToAnyView())])))
+                    expect(target.buttons[5]).to(equal(.tags))
+                    expect(target.buttons[6]).to(equal(.songInfo(SongInfoDialogViewModel(hymnToDisplay: classic1151))))
                 }
             }
         }
