@@ -14,6 +14,8 @@ class DisplayHymnViewModel: ObservableObject {
     @Published var tabItems: [HymnLyricsTab] = [HymnLyricsTab]()
     @Published var isFavorited: Bool?
     @Published var bottomBar: DisplayHymnBottomBarViewModel?
+    @Published var mp3Path: URL?
+    @Published var searchTitle: String = ""
 
     private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue
@@ -70,6 +72,7 @@ class DisplayHymnViewModel: ObservableObject {
 
                     self.title = self.identifier.hymnType == .classic ? "Hymn \(self.identifier.hymnNumber)" : hymn.title
                     self.computedTitle = hymn.computedTitle
+                    self.searchTitle = hymn.searchableTitle
 
                     self.tabItems = [.lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: self.identifier)).maxSize().eraseToAnyView())]
 

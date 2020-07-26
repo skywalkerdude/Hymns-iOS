@@ -6,6 +6,8 @@ struct DisplayHymnView: View {
 
     @ObservedObject private var viewModel: DisplayHymnViewModel
     @State var dialogBuilder: (() -> AnyView)?
+    @State var showSoundCloud = false
+    @State var initiatedSoundCloud = false
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
@@ -16,6 +18,10 @@ struct DisplayHymnView: View {
             if !viewModel.isLoaded {
                 ActivityIndicator().maxSize()
             } else {
+                ZStack {
+                    if self.initiatedSoundCloud {
+                        SoundCloudView(showSoundCloud: self.$showSoundCloud, soundCloudinitiated: self.$initiatedSoundCloud, searchTitle: self.viewModel.searchTitle).opacity(showSoundCloud ? 1 : 0).animation(.spring())
+                    }
                 VStack(spacing: 0) {
                     DisplayHymnToolbar(viewModel: viewModel)
                     if viewModel.tabItems.count > 1 {
@@ -28,8 +34,9 @@ struct DisplayHymnView: View {
                         viewModel.currentTab.content
                     }
                     viewModel.bottomBar.map { viewModel in
-                        DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, viewModel: viewModel).maxWidth()
+                        DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, toggleSoundCloud: self.$showSoundCloud, initiatedSoundCloud: self.$initiatedSoundCloud, viewModel: viewModel).maxWidth()
                     }
+                }.opacity(showSoundCloud ? 0 : 1)
                 }
                 dialogBuilder.map { _ in
                     Dialog(builder: $dialogBuilder)
