@@ -20,7 +20,7 @@ struct DisplayHymnView: View {
             } else {
                 ZStack {
                     if self.initiatedSoundCloud {
-                        SoundCloudView(showSoundCloud: self.$showSoundCloud, soundCloudinitiated: self.$initiatedSoundCloud, searchTitle: self.viewModel.searchTitle).opacity(showSoundCloud ? 1 : 0).animation(.spring())
+                        SoundCloudView(showSoundCloud: self.$showSoundCloud, soundCloudinitiated: self.$initiatedSoundCloud, searchTitle: self.viewModel.title).opacity(showSoundCloud ? 1 : 0).animation(.spring())
                     }
                 VStack(spacing: 0) {
                     DisplayHymnToolbar(viewModel: viewModel)

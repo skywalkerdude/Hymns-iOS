@@ -8,10 +8,14 @@ struct SoundCloudView: View {
 
     var body: some View {
         Group<AnyView> {
-            guard let url = URL(string:
-                "https://soundcloud.com/search?q=\(self.searchTitle)") else {
+            guard let url =
+                "https://soundcloud.com/search?q=\(self.searchTitle)".toEncodedUrl else {
                     return ErrorView().eraseToAnyView()
             }
+//            if let url = "https://soundcloud.com/search?q=\(hymn.title)".toEncodedUrl {
+//                buttons.append(.soundCloud(url))
+//            }
+
             return VStack {
                 HStack(spacing: 20) {
                     Button(action: {
@@ -36,9 +40,10 @@ struct SoundCloudView: View {
         }
     }
 }
-
+/*
 struct SoundCloudView_Previews: PreviewProvider {
     static var previews: some View {
         SoundCloudView(showSoundCloud: .constant(true), soundCloudinitiated: .constant(true), searchTitle: "Jesus is Lord")
     }
 }
+*/
