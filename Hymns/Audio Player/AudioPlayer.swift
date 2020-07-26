@@ -64,6 +64,14 @@ struct AudioPlayer: View {
                 }, label: {
                     Image(systemName: "repeat").font(.system(size: smallButtonSize)).foregroundColor(viewModel.shouldRepeat ? .accentColor : .primary)
                 })
+
+                Button(action: {
+                    if let url = URL(string: "https://www.youtube.com/results?search_query=\(self.viewModel.searchTitle)") {
+                       UIApplication.shared.open(url)
+                   }
+                }, label: {
+                    Image(systemName: "play.rectangle")
+                })
             }
         }.onAppear {
             self.viewModel.load()
@@ -78,19 +86,19 @@ struct AudioPlayer: View {
 struct AudioView_Previews: PreviewProvider {
     static var previews: some View {
 
-        let playingViewModel = AudioPlayerViewModel(url: URL(string: "url")!)
+        let playingViewModel = AudioPlayerViewModel(url: URL(string: "url")!, searchTitle: "Many weary years I vainly sought a spring")
         playingViewModel.playbackState = .playing
         playingViewModel.songDuration = 100
         playingViewModel.currentTime = 50
         let currentlyPlaying = AudioPlayer(viewModel: playingViewModel)
 
-        let stoppedViewModel = AudioPlayerViewModel(url: URL(string: "url")!)
+        let stoppedViewModel = AudioPlayerViewModel(url: URL(string: "url")!, searchTitle: "Many weary years I vainly sought a spring")
         stoppedViewModel.playbackState = .stopped
         stoppedViewModel.songDuration = 500
         stoppedViewModel.shouldRepeat = true
         let stopped = AudioPlayer(viewModel: stoppedViewModel)
 
-        let bufferingViewModel = AudioPlayerViewModel(url: URL(string: "url")!)
+        let bufferingViewModel = AudioPlayerViewModel(url: URL(string: "url")!, searchTitle: "Many weary years I vainly sought a spring")
         bufferingViewModel.playbackState = .buffering
         bufferingViewModel.songDuration = 20
         let buffering = AudioPlayer(viewModel: bufferingViewModel)

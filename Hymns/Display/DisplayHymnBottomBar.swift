@@ -229,7 +229,7 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
         maximumViewModel.songInfo.songInfo = [SongInfoViewModel(label: "label", values: ["values"])]
         maximumViewModel.languages = [SongResultViewModel(title: "language", destinationView: EmptyView().eraseToAnyView())]
         maximumViewModel.relevant = [SongResultViewModel(title: "relevant", destinationView: EmptyView().eraseToAnyView())]
-        maximumViewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
+        maximumViewModel.audioPlayer = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!, searchTitle: "Many weary years I vainly sought a spring")
         let maximum = DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
             get: {dialogBuilder},
             set: {dialogBuilder = $0}), viewModel: maximumViewModel)
@@ -241,3 +241,4 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
     }
 }
 #endif
+

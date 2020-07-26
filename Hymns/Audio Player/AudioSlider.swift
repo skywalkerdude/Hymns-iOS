@@ -45,10 +45,11 @@ struct AudioSlider: View {
 #if DEBUG
 struct AudioPlayerControlsView_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)
+        let viewModel = AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!, searchTitle: "Many weary years I vainly sought a spring")
         viewModel.currentTime = 12
         viewModel.songDuration = 100
         return AudioSlider(viewModel: viewModel)
     }
 }
 #endif
+

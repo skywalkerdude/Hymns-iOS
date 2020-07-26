@@ -25,6 +25,7 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
     private let backgroundQueue: DispatchQueue
     private let mainQueue: DispatchQueue
     private let url: URL
+    let searchTitle: String
     private let service: HymnalNetService
 
     private var dataFetchCall: Cancellable?
@@ -32,11 +33,12 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
     private var timerConnection: Cancellable?
     /* VISIBLE FOR UNIT TESTS. DO NOT USE OUTSIDE OF THIS CLASS */ var player: AVAudioPlayer?
 
-    init(url: URL,
+    init(url: URL, searchTitle: String,
          backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
          service: HymnalNetService = Resolver.resolve()) {
         self.url = url
+        self.searchTitle = searchTitle
         self.mainQueue = mainQueue
         self.backgroundQueue = backgroundQueue
         self.service = service

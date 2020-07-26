@@ -9,6 +9,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
     @Published var languages = [SongResultViewModel]()
     @Published var relevant = [SongResultViewModel]()
     @Published var audioPlayer: AudioPlayerViewModel?
+    @Published var searchTitle: String = ""
 
     let identifier: HymnIdentifier
 
@@ -46,6 +47,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                     self.shareableLyrics = self.convertToOneString(verses: hymn.lyrics)
                     self.languages = self.convertToSongResults(hymn.languages)
                     self.relevant = self.convertToSongResults(hymn.relevant)
+                    self.searchTitle = hymn.searchableTitle
 
                     let mp3Path = hymn.music?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.mp3.rawValue
@@ -54,7 +56,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                     if let mp3Url = mp3Path.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     }) {
-                        self.audioPlayer = AudioPlayerViewModel(url: mp3Url)
+                        self.audioPlayer = AudioPlayerViewModel(url: mp3Url, searchTitle: self.searchTitle)
                     }
             }).store(in: &disposables)
     }
