@@ -18,7 +18,7 @@ class BottomBarSnapshots: XCTestCase {
     func test_minimumButtons() {
         let bottomBar = DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
             get: {self.dialogBuilder},
-            set: {self.dialogBuilder = $0}), viewModel: viewModel)
+            set: {self.dialogBuilder = $0}), viewModel: viewModel).padding()
         assertSnapshot(matching: bottomBar, as: .image())
     }
 
@@ -30,7 +30,7 @@ class BottomBarSnapshots: XCTestCase {
 
         let bottomBar = DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
             get: {self.dialogBuilder},
-            set: {self.dialogBuilder = $0}), viewModel: viewModel)
+            set: {self.dialogBuilder = $0}), viewModel: viewModel).padding()
         assertSnapshot(matching: bottomBar, as: .image())
     }
 }
