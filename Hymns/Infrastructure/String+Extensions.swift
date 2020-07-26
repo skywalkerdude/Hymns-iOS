@@ -15,4 +15,11 @@ extension String {
     func trim() -> String {
         trimmingCharacters(in: .whitespacesAndNewlines)
     }
+
+    var toEncodedUrl: URL? {
+        guard let urlString = self.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            return nil
+        }
+        return URL(string: urlString)
+    }
 }
