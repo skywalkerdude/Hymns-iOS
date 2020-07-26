@@ -27,6 +27,9 @@ class DisplayHymnScenarios: BaseTestCase {
         _ = HomeViewCan(app, testCase: self)
             .waitForButtons("classic1151", "classic40", "classic2", "classic3")
             .tapResult("classic1151")
+            .openOverflowMenu()
+            .waitForStaticTexts("Additional options")
+            .waitForButtons("Song Info", "Search in SoundCloud", "Search in YouTube")
             .openSongInfo()
             .waitForStaticTexts("Category", "song's category", "Subcategory", "song's subcategory")
     }
@@ -36,8 +39,7 @@ class DisplayHymnScenarios: BaseTestCase {
             .waitForButtons("classic1151", "classic40", "classic2", "classic3")
             .tapResult("classic1151")
             .openAudioPlayer()
-            .waitForButtons("play.fill", "play.circle")
-            .verifyButtonsNotExist("play")
+            .waitForButtons("play.circle")
     }
 
     func test_changeFontSize() {

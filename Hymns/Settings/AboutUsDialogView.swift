@@ -6,6 +6,7 @@ struct AboutUsDialogView: View {
 
     @Environment(\.presentationMode) var presentationMode
     private let analytics: AnalyticsLogger = Resolver.resolve()
+    private let application: Application = Resolver.resolve()
 
     var body: some View {
         ScrollView {
@@ -33,8 +34,8 @@ struct AboutUsDialogView: View {
                 Group {
                     Text("For a free study Bible tap ") + Text("here.").fontWeight(.bold).underline()
                 }.font(.callout).padding().onTapGesture {
-                    UIApplication.shared.open(URL(string: "https://biblesforamerica.org/")!)
                     self.analytics.logBFALinkClicked()
+                    self.application.open(URL(string: "https://biblesforamerica.org/")!)
                 }
                 Spacer()
             }

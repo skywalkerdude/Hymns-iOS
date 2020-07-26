@@ -8,31 +8,35 @@ public class DisplayHymnViewCan: BaseViewCan {
     }
 
     public func openShareSheet() -> DisplayHymnViewCan {
-        return pressButton("square.and.arrow.up")
+        return pressButton("Share lyrics")
     }
 
     public func openFontPicker() -> DisplayHymnViewCan {
-        return pressButton("textformat.size")
+        return pressButton("Change lyrics font size")
     }
 
     public func openLanguages() -> DisplayHymnViewCan {
-        return pressButton("globe")
-    }
-
-    public func openTagSheet() -> DisplayHymnViewCan {
-        return pressButton("tag")
-    }
-
-    public func openRelevant() -> DisplayHymnViewCan {
-        return pressButton("music.note.list")
-    }
-
-    public func openSongInfo() -> DisplayHymnViewCan {
-        return pressButton("info.circle")
+        return pressButton("Show languages")
     }
 
     public func openAudioPlayer() -> DisplayHymnViewCan {
-        return pressButton("play")
+        return pressButton("Play music")
+    }
+
+    public func openRelevant() -> DisplayHymnViewCan {
+        return pressButton("Relevant songs")
+    }
+
+    public func openTagSheet() -> DisplayHymnViewCan {
+        return pressButton("Tags")
+    }
+
+    public func openSongInfo() -> DisplayHymnViewCan {
+        return pressButton("Song Info")
+    }
+
+    public func openOverflowMenu() -> DisplayHymnViewCan {
+        return pressButton("More options")
     }
 
     public func pressCancel() -> DisplayHymnViewCan {

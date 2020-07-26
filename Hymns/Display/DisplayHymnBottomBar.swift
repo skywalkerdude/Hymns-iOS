@@ -16,6 +16,7 @@ struct DisplayHymnBottomBar: View {
     @ObservedObject var viewModel: DisplayHymnBottomBarViewModel
     @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory
 
+    let application: Application = Resolver.resolve()
     let userDefaultsManager: UserDefaultsManager = Resolver.resolve()
 
     var body: some View {
@@ -30,28 +31,7 @@ struct DisplayHymnBottomBar: View {
                 Spacer()
                 ForEach(viewModel.buttons) { button in
                     Button<AnyView>(action: {
-                        switch button {
-                        case .share(let lyrics):
-                            self.sheet = .share(lyrics)
-                        case .fontSize:
-                            self.actionSheet = .fontSize
-                        case .languages(let viewModels):
-                            self.actionSheet = .languages(viewModels)
-                        case .musicPlayback(let audioPlayer):
-                            if self.audioPlayer == nil {
-                                self.audioPlayer = audioPlayer
-                            } else {
-                                self.audioPlayer = nil
-                            }
-                        case .relevant(let viewModels):
-                            self.actionSheet = .relevant(viewModels)
-                        case .tags:
-                            self.sheet = .tags
-                        case .songInfo(let songInfoDialogViewModel):
-                            self.dialogBuilder = {
-                                SongInfoDialogView(viewModel: songInfoDialogViewModel).eraseToAnyView()
-                            }
-                        }
+                        self.performAction(button: button)
                     }, label: {
                         switch button {
                         case .musicPlayback:
@@ -64,11 +44,20 @@ struct DisplayHymnBottomBar: View {
                     })
                     Spacer()
                 }
-                resultToShow.map { viewModel in
-                    NavigationLink(destination: viewModel.destinationView,
-                                   tag: viewModel,
-                                   selection: $resultToShow) { EmptyView() }
+                viewModel.overflowButtons.map { buttons in
+                    Button(action: {
+                        self.actionSheet = .overflow(buttons)
+                    }, label: {
+                        BottomBarLabel(imageName: "ellipsis",
+                                       a11yLabel: NSLocalizedString("More options", comment: "Bottom bar overflow button"))
+                        .foregroundColor(.primary)
+                    })
                 }
+            }
+            resultToShow.map { viewModel in
+                NavigationLink(destination: viewModel.destinationView,
+                               tag: viewModel,
+                               selection: $resultToShow) { EmptyView() }
             }
         }.onAppear {
             self.viewModel.fetchHymn()
@@ -118,6 +107,16 @@ struct DisplayHymnBottomBar: View {
                                 self.resultToShow = viewModel
                             })
                         }) + [.cancel()])
+            case .overflow(let buttons):
+                return
+                    ActionSheet(
+                        title: Text(NSLocalizedString("Additional options",
+                                                      comment: "Title for the overflow menu action sheet")),
+                        buttons: buttons.map({ button -> Alert.Button in
+                            .default(Text(button.label), action: {
+                                self.performAction(button: button)
+                            })
+                        }) + [.cancel()])
             }
         }.sheet(item: $sheet) { tab -> AnyView in
             switch tab {
@@ -130,12 +129,40 @@ struct DisplayHymnBottomBar: View {
             }
         }.background(Color(.systemBackground))
     }
+
+    private func performAction(button: BottomBarButton) {
+        switch button {
+        case .share(let lyrics):
+            self.sheet = .share(lyrics)
+        case .fontSize:
+            self.actionSheet = .fontSize
+        case .languages(let viewModels):
+            self.actionSheet = .languages(viewModels)
+        case .musicPlayback(let audioPlayer):
+            if self.audioPlayer == nil {
+                self.audioPlayer = audioPlayer
+            } else {
+                self.audioPlayer = nil
+            }
+        case .relevant(let viewModels):
+            self.actionSheet = .relevant(viewModels)
+        case .tags:
+            self.sheet = .tags
+        case .songInfo(let songInfoDialogViewModel):
+            self.dialogBuilder = {
+                SongInfoDialogView(viewModel: songInfoDialogViewModel).eraseToAnyView()
+            }
+        case .soundCloud(let url), .youTube(let url):
+            self.application.open(url)
+        }
+    }
 }
 
 private enum ActionSheetItem {
     case fontSize
     case languages([SongResultViewModel])
     case relevant([SongResultViewModel])
+    case overflow([BottomBarButton])
 }
 
 extension ActionSheetItem: Identifiable {
@@ -147,6 +174,8 @@ extension ActionSheetItem: Identifiable {
             return 1
         case .relevant:
             return 2
+        case .overflow:
+            return 3
         }
     }
 }
@@ -182,8 +211,8 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
 
         let maximumViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
         maximumViewModel.buttons = [
-            .share("lyrics"),
-            .fontSize,
+            .soundCloud(URL(string: "https://soundcloud.com/search?q=query")!),
+            .youTube(URL(string: "https://www.youtube.com/results?search_query=search")!),
             .languages([SongResultViewModel(title: "language", destinationView: EmptyView().eraseToAnyView())]),
             .musicPlayback(AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)),
             .relevant([SongResultViewModel(title: "relevant", destinationView: EmptyView().eraseToAnyView())]),
@@ -194,9 +223,28 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
             get: {dialogBuilder},
             set: {dialogBuilder = $0}), viewModel: maximumViewModel)
 
+        let overflowViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+        overflowViewModel.buttons = [
+            .share("lyrics"),
+            .fontSize,
+            .languages([SongResultViewModel(title: "language", destinationView: EmptyView().eraseToAnyView())]),
+            .musicPlayback(AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)),
+            .relevant([SongResultViewModel(title: "relevant", destinationView: EmptyView().eraseToAnyView())]),
+            .tags
+        ]
+        overflowViewModel.overflowButtons = [
+            .soundCloud(URL(string: "https://soundcloud.com/search?q=query")!),
+            .youTube(URL(string: "https://www.youtube.com/results?search_query=search")!),
+            .songInfo(SongInfoDialogViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
+        ]
+        let overflow = DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
+            get: {dialogBuilder},
+            set: {dialogBuilder = $0}), viewModel: overflowViewModel)
+
         return Group {
             minimum.previewDisplayName("minimum number of buttons")
             maximum.previewDisplayName("maximum number of buttons")
+            overflow.previewDisplayName("overflow menu")
         }
     }
 }

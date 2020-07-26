@@ -4,7 +4,13 @@ import Resolver
 
 class DisplayHymnBottomBarViewModel: ObservableObject {
 
+    /**
+     * Threshold for determining if there should be an overflow menu or not
+     */
+    public static let overflowThreshold = 7
+
     @Published var buttons: [BottomBarButton]
+    @Published var overflowButtons: [BottomBarButton]?
 
     let identifier: HymnIdentifier
 
@@ -39,15 +45,15 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                         return
                     }
 
-                    self.buttons = [BottomBarButton]()
+                    var buttons = [BottomBarButton]()
 
-                    self.buttons.append(.share(self.convertToOneString(verses: hymn.lyrics)))
+                    buttons.append(.share(self.convertToOneString(verses: hymn.lyrics)))
 
-                    self.buttons.append(.fontSize)
+                    buttons.append(.fontSize)
 
                     let languages = self.convertToSongResults(hymn.languages)
                     if !languages.isEmpty {
-                        self.buttons.append(.languages(languages))
+                        buttons.append(.languages(languages))
                     }
 
                     let mp3Path = hymn.music?.data.first(where: { datum -> Bool in
@@ -56,17 +62,36 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                     if let mp3Url = mp3Path.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     }) {
-                        self.buttons.append(.musicPlayback(AudioPlayerViewModel(url: mp3Url)))
+                        buttons.append(.musicPlayback(AudioPlayerViewModel(url: mp3Url)))
                     }
 
                     let relevant = self.convertToSongResults(hymn.relevant)
                     if !relevant.isEmpty {
-                        self.buttons.append(.relevant(relevant))
+                        buttons.append(.relevant(relevant))
                     }
 
-                    self.buttons.append(.tags)
+                    buttons.append(.tags)
 
-                    self.buttons.append(.songInfo(SongInfoDialogViewModel(hymnToDisplay: self.identifier)))
+                    buttons.append(.songInfo(SongInfoDialogViewModel(hymnToDisplay: self.identifier)))
+
+                    if let url = "https://soundcloud.com/search?q=\(hymn.title)".toEncodedUrl {
+                        buttons.append(.soundCloud(url))
+                    }
+
+                    if let url = "https://www.youtube.com/results?search_query=\(hymn.title)".toEncodedUrl {
+                        buttons.append(.youTube(url))
+                    }
+
+                    self.buttons = [BottomBarButton]()
+                    if buttons.count > Self.overflowThreshold {
+                        self.buttons.append(contentsOf: buttons[0..<(Self.overflowThreshold - 1)])
+                        var overflowButtons = [BottomBarButton]()
+                        overflowButtons.append(contentsOf: buttons[(Self.overflowThreshold - 1)..<buttons.count])
+                        self.overflowButtons = overflowButtons
+                    } else {
+                        self.buttons.append(contentsOf: buttons)
+                        self.overflowButtons = nil
+                    }
             }).store(in: &disposables)
     }
 

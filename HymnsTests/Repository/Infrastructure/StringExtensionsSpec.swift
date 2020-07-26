@@ -35,5 +35,17 @@ class StringExtensionsSpec: QuickSpec {
                 }
             }
         }
+        describe("toEncodedUrl") {
+            context("url encoding failed") {
+                it("should return nil") {
+                    expect("".toEncodedUrl).to(beNil())
+                }
+            }
+            context("url encoded successfully") {
+                it("should return a valid url") {
+                    expect("https://soundcloud.com/search?q=Arise, my soul, arise!".toEncodedUrl).toNot(beNil())
+                }
+            }
+        }
     }
 }
