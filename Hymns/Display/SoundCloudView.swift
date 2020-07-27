@@ -14,7 +14,7 @@ struct SoundCloudView: View {
                     return ErrorView().eraseToAnyView()
             }
             return VStack {
-                HStack(spacing: 20) {
+                HStack(spacing: 10) {
                     Button(action: {
                         self.showSoundCloud = false
                         self.soundCloudinitiated = false

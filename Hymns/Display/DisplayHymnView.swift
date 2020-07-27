@@ -46,17 +46,15 @@ struct DisplayHymnView: View {
                                     Image(systemName: "xmark.square.fill")
                                         .foregroundColor(.red)
                                 })
+                                Spacer()
                                 Button(action: {
                                     self.shrink = false
                                     self.showSoundCloud = true
                                 }, label: {
-                                    Image(systemName: "arrow.up.left.square.fill")
-                                        .foregroundColor(.accentColor)
-                                })
+                                    Image("SoundCloudIcon")
+                                }).foregroundColor(Color(red: 255/255, green: 119/255, blue: 0/255, opacity: 1))
+                                Spacer()
                             }
-                            Spacer()
-                            Image("SoundCloudIcon")
-                            Spacer()
                         }.padding()
                     }
                     viewModel.bottomBar.map { viewModel in

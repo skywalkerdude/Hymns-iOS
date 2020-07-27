@@ -40,7 +40,7 @@ struct SoundCloudWebView: UIViewRepresentable {
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
 
             parent.isLoading = false  //Used for activity indicator
-            webView.evaluateJavaScript("document.querySelector('.app__upsell').remove();", completionHandler: { (_, _) -> Void in
+            webView.evaluateJavaScript("document.querySelector('.upsellBanner__appButton').innerHTML = 'SoundCloud Results';", completionHandler: { (_, _) -> Void in
             })
             webView.evaluateJavaScript("document.querySelector('.app__footerPanel').remove();", completionHandler: { (_, _) -> Void in
             })
