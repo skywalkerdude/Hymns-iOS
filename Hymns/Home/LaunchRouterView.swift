@@ -1,13 +1,13 @@
 import SwiftUI
 
 struct LaunchRouterView: View {
-    @State var showSplash: Bool = false
+    @State var showSplash: Bool = FirstLaunch.showSplash
 
     var body: some View {
         Group { () -> AnyView in
             if showSplash {
+                FirstLaunch.showSplash = false
                 return SplashScreenView()
-                    .opacity(showSplash ? 1 : 0)
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2.7) {
                             self.showSplash = false
@@ -15,11 +15,6 @@ struct LaunchRouterView: View {
                 }.eraseToAnyView()
             } else {
                 return HomeContainerView().eraseToAnyView()
-            }
-        }.onAppear {
-            if !UserDefaults.standard.bool(forKey: "didLaunchBefore") {
-                UserDefaults.standard.set(true, forKey: "didLaunchBefore")
-                self.showSplash = true
             }
         }
     }
