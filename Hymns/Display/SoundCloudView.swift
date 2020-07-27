@@ -4,6 +4,7 @@ struct SoundCloudView: View {
     @State private var isLoading = true
     @Binding var showSoundCloud: Bool
     @Binding var soundCloudinitiated: Bool
+    @Binding var shrink: Bool
     var searchTitle: String
 
     var body: some View {
@@ -12,22 +13,20 @@ struct SoundCloudView: View {
                 "https://soundcloud.com/search?q=\(self.searchTitle)".toEncodedUrl else {
                     return ErrorView().eraseToAnyView()
             }
-//            if let url = "https://soundcloud.com/search?q=\(hymn.title)".toEncodedUrl {
-//                buttons.append(.soundCloud(url))
-//            }
-
             return VStack {
                 HStack(spacing: 20) {
                     Button(action: {
                         self.showSoundCloud = false
                         self.soundCloudinitiated = false
                     }, label: {
-                        Image(systemName: "xmark.icloud").accentColor(.primary)
+                        Image(systemName: "xmark.square.fill").accentColor(.red)
                     })
                     Button(action: {
                         self.showSoundCloud.toggle()
+                        self.shrink = true
+                        print("bbug shrink", self.shrink)
                     }, label: {
-                        Image(systemName: "icloud.and.arrow.down").accentColor(.primary)
+                        Image(systemName: "minus.square.fill").accentColor(.accentColor)
                     })
                     Spacer()
                 }.padding()
@@ -40,10 +39,9 @@ struct SoundCloudView: View {
         }
     }
 }
-/*
+
 struct SoundCloudView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundCloudView(showSoundCloud: .constant(true), soundCloudinitiated: .constant(true), searchTitle: "Jesus is Lord")
+        SoundCloudView(showSoundCloud: .constant(true), soundCloudinitiated: .constant(true), shrink: .constant(true), searchTitle: "Jesus is Lord")
     }
 }
-*/

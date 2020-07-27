@@ -1,6 +1,7 @@
 import FirebaseAnalytics
 import SwiftUI
 import Resolver
+import AVFoundation
 
 struct DisplayHymnView: View {
 
@@ -8,6 +9,7 @@ struct DisplayHymnView: View {
     @State var dialogBuilder: (() -> AnyView)?
     @State var showSoundCloud = false
     @State var initiatedSoundCloud = false
+    @State var shrink = false
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
@@ -20,7 +22,8 @@ struct DisplayHymnView: View {
             } else {
                 ZStack {
                     if self.initiatedSoundCloud {
-                        SoundCloudView(showSoundCloud: self.$showSoundCloud, soundCloudinitiated: self.$initiatedSoundCloud, searchTitle: self.viewModel.title).opacity(showSoundCloud ? 1 : 0).animation(.spring())
+                        SoundCloudView(showSoundCloud: self.$showSoundCloud, soundCloudinitiated: self.$initiatedSoundCloud, shrink: self.$shrink, searchTitle: self.viewModel.searchTitle)
+                            .opacity(showSoundCloud ? 1 : 0).animation(.spring())
                     }
                 VStack(spacing: 0) {
                     DisplayHymnToolbar(viewModel: viewModel)
@@ -32,6 +35,29 @@ struct DisplayHymnView: View {
                         }
                     } else {
                         viewModel.currentTab.content
+                    }
+                    if self.shrink && self.initiatedSoundCloud {
+                        HStack {
+                            Group {
+                                Button(action: {
+                                    self.initiatedSoundCloud = false
+                                    self.shrink = false
+                                }, label: {
+                                    Image(systemName: "xmark.square.fill")
+                                        .foregroundColor(.red)
+                                })
+                                Button(action: {
+                                    self.shrink = false
+                                    self.showSoundCloud = true
+                                }, label: {
+                                    Image(systemName: "arrow.up.left.square.fill")
+                                        .foregroundColor(.accentColor)
+                                })
+                            }
+                            Spacer()
+                            Image("SoundCloudIcon")
+                            Spacer()
+                        }.padding()
                     }
                     viewModel.bottomBar.map { viewModel in
                         DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, toggleSoundCloud: self.$showSoundCloud, initiatedSoundCloud: self.$initiatedSoundCloud, viewModel: viewModel).maxWidth()
