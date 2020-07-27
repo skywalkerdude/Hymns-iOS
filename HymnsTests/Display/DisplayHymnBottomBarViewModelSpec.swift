@@ -174,8 +174,8 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     expect(target.buttons[2]).to(equal(.tags))
                     expect(target.buttons[3]).to(equal(.soundCloud(URL(string: "https://soundcloud.com/search?q=title")!)))
                     expect(target.buttons[4]).to(equal(.youTube(URL(string: "https://www.youtube.com/results?search_query=title")!)))
-                    expect(target.overflowButtons).to(beNil())
                     expect(target.buttons[5]).to(equal(.songInfo(SongInfoDialogViewModel(hymnToDisplay: classic1151))))
+                    expect(target.overflowButtons).to(beNil())
                 }
             }
         }
