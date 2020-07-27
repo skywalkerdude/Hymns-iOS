@@ -142,22 +142,22 @@ class AudioPlayerViewModelSpec: QuickSpec {
                             }
                         }
                     }
-                    describe("fast forward") {
-                        context("fast forwarded time goves over song duration") {
-                            it("should fast forward to song duration") {
-                                target.seek(to: 16)
-                                target.fastForward()
-                                expect(target.player!.currentTime).to(equal(target.songDuration))
-                            }
-                        }
-                        context("fast forwarded time stays song duration") {
-                            it("should fast forward by \(AudioPlayerViewModel.seekDuration) seconds") {
-                                target.seek(to: 5)
-                                target.fastForward()
-                                expect(target.player!.currentTime).to(equal(5 + AudioPlayerViewModel.seekDuration))
-                            }
-                        }
-                    }
+//                    describe("fast forward") {
+//                        context("fast forwarded time goves over song duration") {
+//                            it("should fast forward to song duration") {
+//                                target.seek(to: 16)
+//                                target.fastForward()
+//                                expect(target.player!.currentTime).to(equal(target.songDuration))
+//                            }
+//                        }
+//                        context("fast forwarded time stays song duration") {
+//                            it("should fast forward by \(AudioPlayerViewModel.seekDuration) seconds") {
+//                                target.seek(to: 5)
+//                                target.fastForward()
+//                                expect(target.player!.currentTime).to(equal(5 + AudioPlayerViewModel.seekDuration))
+//                            }
+//                        }
+//                    }
                 }
             }
             describe("do not preload music") {
