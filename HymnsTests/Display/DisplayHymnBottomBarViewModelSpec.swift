@@ -118,36 +118,6 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     expect(target.overflowButtons![3]).to(equal(.songInfo(SongInfoDialogViewModel(hymnToDisplay: classic1151))))
                 }
             }
-            context("with \(DisplayHymnBottomBarViewModel.overflowThreshold) options") {
-                beforeEach {
-                    let lyricsWithoutTransliteration = [
-                        Verse(verseType: .verse, verseContent: ["Drink! a river pure and clear that's flowing from the throne;", "Eat! the tree of life with fruits abundant, richly grown"], transliteration: nil),
-                        Verse(verseType: .chorus, verseContent: ["Do come, oh, do come,", "Says Spirit and the Bride:"], transliteration: nil)
-                    ]
-                    let music = MetaDatum(name: "music", data: [Datum(value: "mp3", path: "/en/hymn/h/1151/f=mp3")])
-                    let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: lyricsWithoutTransliteration, music: music)
-                    given(hymnsRepository.getHymn(classic1151)) ~> { _ in
-                        Just(hymn).assertNoFailure().eraseToAnyPublisher()
-                    }
-
-                    target.fetchHymn()
-                    testQueue.sync {}
-                    testQueue.sync {}
-                    testQueue.sync {}
-                }
-                it("should call hymnsRepository.getHymn") {
-                    verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
-                }
-                let mp3Url = URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=mp3")!
-                it("should have \(DisplayHymnBottomBarViewModel.overflowThreshold) buttons in the buttons list and nothing in the overflow") {
-                    expect(target.buttons).to(haveCount(5))
-                    expect(target.buttons[0]).to(equal(.share("Drink! a river pure and clear that's flowing from the throne;\nEat! the tree of life with fruits abundant, richly grown\n\nDo come, oh, do come,\nSays Spirit and the Bride:\n\n")))
-                    expect(target.buttons[1]).to(equal(.fontSize))
-                    expect(target.buttons[2]).to(equal(.musicPlayback(AudioPlayerViewModel(url: mp3Url))))
-                    expect(target.buttons[3]).to(equal(.tags))
-                    expect(target.buttons[4]).to(equal(.soundCloud(URL(string: "https://soundcloud.com/search?q=title")!)))
-                }
-            }
             context("with the least number of options in repository result") {
                 beforeEach {
                     let lyricsWithoutTransliteration = [
