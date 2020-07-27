@@ -9,16 +9,21 @@ struct AudioSlider: View {
     @ObservedObject var viewModel: AudioPlayerViewModel
 
     var body: some View {
-        Slider(value: Binding(
-            get: {
-                self.viewModel.currentTime
-        }, set: {
-            self.viewModel.currentTime = $0
-        }), in: 0...(viewModel.songDuration ?? 0),
-            onEditingChanged: sliderEditingChanged,
-            minimumValueLabel: Text("\(formatSecondsToHMS(viewModel.currentTime))").foregroundColor(.accentColor),
-            maximumValueLabel: Text("\(formatSecondsToHMS(viewModel.songDuration ?? 0))"),
-            label: {Text("Song progress slider")})
+        VStack(spacing: 0) {
+            Slider(value: Binding(
+                get: {
+                    self.viewModel.currentTime
+            }, set: {
+                self.viewModel.currentTime = $0
+            }), in: 0...(viewModel.songDuration ?? 0),
+                onEditingChanged: sliderEditingChanged,
+                label: {Text("Song progress slider")})
+            HStack {
+                Text("\(formatSecondsToHMS(viewModel.currentTime))").font(.subheadline).foregroundColor(.accentColor)
+                Spacer()
+                Text("\(formatSecondsToHMS(viewModel.songDuration ?? 0))").font(.subheadline)
+            }
+        }
     }
 
     private func sliderEditingChanged(editingStarted: Bool) {
