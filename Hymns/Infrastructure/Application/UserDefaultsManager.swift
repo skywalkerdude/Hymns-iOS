@@ -44,6 +44,14 @@ struct UserDefault<T> {
 }
 
 /**
+ Checks if the app has launched the first time
+ */
+struct FirstLaunch {
+    @UserDefault("enable_auto_login_key", defaultValue: true)
+    static var showSplash: Bool
+}
+
+/**
  * Possible font sizes for the song lyrics.
  */
 public enum FontSize: String {
