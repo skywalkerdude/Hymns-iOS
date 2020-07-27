@@ -1,16 +1,28 @@
+import Resolver
 import SwiftUI
 
 struct LaunchRouterView: View {
-    @State var showSplash: Bool = FirstLaunch.showSplash
+
+    private let userDefaultsManager: UserDefaultsManager
+
+    @State var showSplashAnimation: Bool {
+        willSet {
+            userDefaultsManager.showSplashAnimation = newValue
+        }
+    }
+
+    init(userDefaultsManager: UserDefaultsManager = Resolver.resolve()) {
+        self.userDefaultsManager = userDefaultsManager
+        self._showSplashAnimation = .init(initialValue: userDefaultsManager.showSplashAnimation)
+    }
 
     var body: some View {
         Group { () -> AnyView in
-            if showSplash {
-                FirstLaunch.showSplash = false
+            if showSplashAnimation {
                 return SplashScreenView()
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2.7) {
-                            self.showSplash = false
+                            self.showSplashAnimation = false
                         }
                 }.eraseToAnyView()
             } else {

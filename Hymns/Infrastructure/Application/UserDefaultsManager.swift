@@ -16,6 +16,8 @@ class UserDefaultsManager {
         }
     }
 
+    @UserDefault("show_splash_animation", defaultValue: true) var showSplashAnimation: Bool
+
     init() {
         let initialFontSize = FontSize(rawValue: UserDefaults.standard.string(forKey: "fontSize") ?? FontSize.normal.rawValue) ?? .normal
         self.fontSize = initialFontSize
@@ -41,14 +43,6 @@ struct UserDefault<T> {
             UserDefaults.standard.set(newValue, forKey: key)
         }
     }
-}
-
-/**
- Checks if the app has launched the first time
- */
-struct FirstLaunch {
-    @UserDefault("enable_auto_login_key", defaultValue: true)
-    static var showSplash: Bool
 }
 
 /**

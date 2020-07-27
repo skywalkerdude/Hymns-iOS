@@ -1,9 +1,10 @@
 import SwiftUI
 import Lottie
 
-//Implemented using https://www.raywenderlich.com/4503153-how-to-create-a-splash-screen-with-swiftui
-//And the help from https://www.youtube.com/watch?v=fVehE3Jf7K0
+// Implemented using https://www.raywenderlich.com/4503153-how-to-create-a-splash-screen-with-swiftui
+// And the help from https://www.youtube.com/watch?v=fVehE3Jf7K0
 struct SplashScreenView: UIViewRepresentable {
+
     let filename = "firstLaunchAnimation"
 
     func makeUIView(context: UIViewRepresentableContext<SplashScreenView>) -> UIView {

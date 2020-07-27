@@ -1,4 +1,4 @@
-import FirebaseCore
+import Firebase
 import CoreData
 import RealmSwift
 
