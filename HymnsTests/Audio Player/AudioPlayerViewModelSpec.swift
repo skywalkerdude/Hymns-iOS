@@ -147,7 +147,7 @@ class AudioPlayerViewModelSpec: QuickSpec {
                             it("should fast forward to song duration") {
                                 target.seek(to: 16)
                                 target.fastForward()
-                                expect(target.player!.currentTime).to(equal(0))
+                                expect(target.player!.currentTime).to(equal(target.songDuration))
                             }
                         }
                         context("fast forwarded time stays song duration") {
