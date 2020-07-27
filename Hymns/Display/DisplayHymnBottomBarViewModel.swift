@@ -7,7 +7,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
     /**
      * Threshold for determining if there should be an overflow menu or not
      */
-    public static let overflowThreshold = 7
+    public static let overflowThreshold = 6
 
     @Published var buttons: [BottomBarButton]
     @Published var overflowButtons: [BottomBarButton]?
@@ -72,8 +72,6 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
 
                     buttons.append(.tags)
 
-                    buttons.append(.songInfo(SongInfoDialogViewModel(hymnToDisplay: self.identifier)))
-
                     if let url = "https://m.soundcloud.com/search/sounds?q=\(hymn.title)".toEncodedUrl {
                         buttons.append(.soundCloud(url))
                     }
@@ -81,6 +79,8 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                     if let url = "https://www.youtube.com/results?search_query=\(hymn.title)".toEncodedUrl {
                         buttons.append(.youTube(url))
                     }
+
+                    buttons.append(.songInfo(SongInfoDialogViewModel(hymnToDisplay: self.identifier)))
 
                     self.buttons = [BottomBarButton]()
                     if buttons.count > Self.overflowThreshold {

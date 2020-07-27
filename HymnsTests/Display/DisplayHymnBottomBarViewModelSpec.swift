@@ -100,7 +100,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                 }
                 let mp3Url = URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=mp3")!
                 it("should have \(DisplayHymnBottomBarViewModel.overflowThreshold - 1) buttons in the buttons list and the rest in the overflow") {
-                    expect(target.buttons).to(haveCount(6))
+                    expect(target.buttons).to(haveCount(5))
                     expect(target.buttons[0]).to(equal(.share("Drink! a river pure and clear that's flowing from the throne;\nEat! the tree of life with fruits abundant, richly grown\n\nDo come, oh, do come,\nSays Spirit and the Bride:\n\n")))
                     expect(target.buttons[1]).to(equal(.fontSize))
                     expect(target.buttons[2]).to(equal(.languages([
@@ -110,45 +110,11 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     expect(target.buttons[4]).to(equal(.relevant([
                         SongResultViewModel(title: "New Tune", destinationView: EmptyView().eraseToAnyView()),
                         SongResultViewModel(title: "Cool other song", destinationView: EmptyView().eraseToAnyView())])))
-                    expect(target.buttons[5]).to(equal(.tags))
-
-                    expect(target.overflowButtons!).to(haveCount(3))
-                    expect(target.overflowButtons![0]).to(equal(.songInfo(SongInfoDialogViewModel(hymnToDisplay: classic1151))))
+                    expect(target.overflowButtons!).to(haveCount(4))
+                    expect(target.overflowButtons![0]).to(equal(.tags))
                     expect(target.overflowButtons![1]).to(equal(.soundCloud(URL(string: "https://m.soundcloud.com/search/sounds?q=title")!)))
                     expect(target.overflowButtons![2]).to(equal(.youTube(URL(string: "https://www.youtube.com/results?search_query=title")!)))
-                }
-            }
-            context("with \(DisplayHymnBottomBarViewModel.overflowThreshold) options") {
-                beforeEach {
-                    let lyricsWithoutTransliteration = [
-                        Verse(verseType: .verse, verseContent: ["Drink! a river pure and clear that's flowing from the throne;", "Eat! the tree of life with fruits abundant, richly grown"], transliteration: nil),
-                        Verse(verseType: .chorus, verseContent: ["Do come, oh, do come,", "Says Spirit and the Bride:"], transliteration: nil)
-                    ]
-                    let music = MetaDatum(name: "music", data: [Datum(value: "mp3", path: "/en/hymn/h/1151/f=mp3")])
-                    let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: lyricsWithoutTransliteration, music: music)
-                    given(hymnsRepository.getHymn(classic1151)) ~> { _ in
-                        Just(hymn).assertNoFailure().eraseToAnyPublisher()
-                    }
-
-                    target.fetchHymn()
-                    testQueue.sync {}
-                    testQueue.sync {}
-                    testQueue.sync {}
-                }
-                it("should call hymnsRepository.getHymn") {
-                    verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
-                }
-                let mp3Url = URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=mp3")!
-                it("should have \(DisplayHymnBottomBarViewModel.overflowThreshold) buttons in the buttons list and nothing in the overflow") {
-                    expect(target.buttons).to(haveCount(7))
-                    expect(target.buttons[0]).to(equal(.share("Drink! a river pure and clear that's flowing from the throne;\nEat! the tree of life with fruits abundant, richly grown\n\nDo come, oh, do come,\nSays Spirit and the Bride:\n\n")))
-                    expect(target.buttons[1]).to(equal(.fontSize))
-                    expect(target.buttons[2]).to(equal(.musicPlayback(AudioPlayerViewModel(url: mp3Url))))
-                    expect(target.buttons[3]).to(equal(.tags))
-                    expect(target.buttons[4]).to(equal(.songInfo(SongInfoDialogViewModel(hymnToDisplay: classic1151))))
-                    expect(target.buttons[5]).to(equal(.soundCloud(URL(string: "https://m.soundcloud.com/search/sounds?q=title")!)))
-                    expect(target.buttons[6]).to(equal(.youTube(URL(string: "https://www.youtube.com/results?search_query=title")!)))
-                    expect(target.overflowButtons).to(beNil())
+                    expect(target.overflowButtons![3]).to(equal(.songInfo(SongInfoDialogViewModel(hymnToDisplay: classic1151))))
                 }
             }
             context("with the least number of options in repository result") {
@@ -175,9 +141,9 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     expect(target.buttons[0]).to(equal(.share("Drink! a river pure and clear that's flowing from the throne;\nEat! the tree of life with fruits abundant, richly grown\n\nDo come, oh, do come,\nSays Spirit and the Bride:\n\n")))
                     expect(target.buttons[1]).to(equal(.fontSize))
                     expect(target.buttons[2]).to(equal(.tags))
-                    expect(target.buttons[3]).to(equal(.songInfo(SongInfoDialogViewModel(hymnToDisplay: classic1151))))
-                    expect(target.buttons[4]).to(equal(.soundCloud(URL(string: "https://m.soundcloud.com/search/sounds?q=title")!)))
-                    expect(target.buttons[5]).to(equal(.youTube(URL(string: "https://www.youtube.com/results?search_query=title")!)))
+                    expect(target.buttons[3]).to(equal(.soundCloud(URL(string: "https://m.soundcloud.com/search/sounds?q=title")!)))
+                    expect(target.buttons[4]).to(equal(.youTube(URL(string: "https://www.youtube.com/results?search_query=title")!)))
+                    expect(target.buttons[5]).to(equal(.songInfo(SongInfoDialogViewModel(hymnToDisplay: classic1151))))
                     expect(target.overflowButtons).to(beNil())
                 }
             }

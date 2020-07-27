@@ -19,6 +19,7 @@ class DisplayHymnScenarios: BaseTestCase {
         _ = HomeViewCan(app, testCase: self)
             .waitForButtons("classic1151", "classic40", "classic2", "classic3")
             .tapResult("classic1151")
+            .openOverflowMenu()
             .openTagSheet()
             .waitForStaticTexts("Name your tag")
     }
