@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Add `@Environment(\.managedObjectContext)` in the views that will need the context.
 
         #if DEBUG
-        let isTesting = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+        let isTesting = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil || CommandLine.arguments.contains(AppDelegate.uiTestingFlag)
 
         let rootView = isTesting  ? HomeContainerView().environment(\.managedObjectContext, context).eraseToAnyView() : LaunchRouterView().environment(\.managedObjectContext, context).eraseToAnyView()
         #else
