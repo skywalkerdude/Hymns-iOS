@@ -19,7 +19,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Create the SwiftUI view and set the context as the value for the managedObjectContext environment keyPath.
         // Add `@Environment(\.managedObjectContext)` in the views that will need the context.
-        let rootView = HomeContainerView().environment(\.managedObjectContext, context)
+
+        #if DEBUG
+        let isTesting = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil || CommandLine.arguments.contains(AppDelegate.uiTestingFlag)
+
+        let rootView = isTesting  ? HomeContainerView().environment(\.managedObjectContext, context).eraseToAnyView() : LaunchRouterView().environment(\.managedObjectContext, context).eraseToAnyView()
+        #else
+        let rootView = LaunchRouterView().environment(\.managedObjectContext, context).eraseToAnyView()
+        #endif
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

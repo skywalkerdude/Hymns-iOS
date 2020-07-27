@@ -70,6 +70,7 @@ PODS:
   - GRDB.swift/standard (4.14.0)
   - GRDBCombine (0.8.1):
     - GRDB.swift (~> 4.1)
+  - lottie-ios (3.1.8)
   - MockingbirdFramework (0.14.0)
   - nanopb (1.30905.0):
     - nanopb/decode (= 1.30905.0)
@@ -93,6 +94,7 @@ DEPENDENCIES:
   - Firebase/Crashlytics
   - GRDB.swift
   - GRDBCombine
+  - lottie-ios
   - MockingbirdFramework
   - Nimble
   - Quick
@@ -114,6 +116,7 @@ SPEC REPOS:
     - GoogleUtilities
     - GRDB.swift
     - GRDBCombine
+    - lottie-ios
     - MockingbirdFramework
     - nanopb
     - Nimble
@@ -137,6 +140,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: e121a3867449ce16b0e35ddf1797ea7a389ffdf2
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
   GRDBCombine: 1f01bb894c0e00afc5c12fd8a173c50de59ed02b
+  lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
   MockingbirdFramework: 4a162b835e38d4fd83109bf8c9f9c9660c3d87a7
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   Nimble: 5f8a2fb6fa343a7242dfdd9d42f7267419d464b2
@@ -148,6 +152,6 @@ SPEC CHECKSUMS:
   SnapshotTesting: 0bf562bd74d3e9d053cd8f1123bd7b8913304df4
   SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
 
-PODFILE CHECKSUM: c2d50ea0ab79aa382ac13ef74bb7338958403322
+PODFILE CHECKSUM: 970b22027515de204b1065367e7dfbb359d3f468
 
 COCOAPODS: 1.9.1

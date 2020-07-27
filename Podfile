@@ -26,6 +26,8 @@ target 'Hymns' do
   # Crash reporting
   pod 'Firebase/Crashlytics'
 
+  pod 'lottie-ios'
+
   # SQLite wrapper
   pod 'GRDB.swift'
   pod 'GRDBCombine'
