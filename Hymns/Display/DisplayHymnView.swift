@@ -22,7 +22,7 @@ struct DisplayHymnView: View {
             } else {
                 ZStack {
                     if self.initiatedSoundCloud {
-                        SoundCloudView(showSoundCloud: self.$showSoundCloud, soundCloudinitiated: self.$initiatedSoundCloud, shrink: self.$shrink, searchTitle: self.viewModel.searchTitle)
+                        SoundCloudView(showSoundCloud: self.$showSoundCloud, soundCloudinitiated: self.$initiatedSoundCloud, searchTitle: self.viewModel.searchTitle)
                             .opacity(showSoundCloud ? 1 : 0).animation(.spring())
                     }
                 VStack(spacing: 0) {
@@ -36,19 +36,17 @@ struct DisplayHymnView: View {
                     } else {
                         viewModel.currentTab.content
                     }
-                    if self.shrink && self.initiatedSoundCloud {
+                    if !self.showSoundCloud && self.initiatedSoundCloud && AVAudioSession.sharedInstance().isOtherAudioPlaying {
                         HStack {
                             Group {
                                 Button(action: {
                                     self.initiatedSoundCloud = false
-                                    self.shrink = false
                                 }, label: {
                                     Image(systemName: "xmark.square.fill")
                                         .foregroundColor(.red)
                                 })
                                 Spacer()
                                 Button(action: {
-                                    self.shrink = false
                                     self.showSoundCloud = true
                                 }, label: {
                                     Image("SoundCloudIcon")

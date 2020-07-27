@@ -4,7 +4,6 @@ struct SoundCloudView: View {
     @State private var isLoading = true
     @Binding var showSoundCloud: Bool
     @Binding var soundCloudinitiated: Bool
-    @Binding var shrink: Bool
     var searchTitle: String
 
     var body: some View {
@@ -23,8 +22,6 @@ struct SoundCloudView: View {
                     })
                     Button(action: {
                         self.showSoundCloud.toggle()
-                        self.shrink = true
-                        print("bbug shrink", self.shrink)
                     }, label: {
                         Image(systemName: "minus.square.fill").accentColor(.accentColor)
                     })
@@ -42,6 +39,6 @@ struct SoundCloudView: View {
 
 struct SoundCloudView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundCloudView(showSoundCloud: .constant(true), soundCloudinitiated: .constant(true), shrink: .constant(true), searchTitle: "Jesus is Lord")
+        SoundCloudView(showSoundCloud: .constant(true), soundCloudinitiated: .constant(true), searchTitle: "Jesus is Lord")
     }
 }
