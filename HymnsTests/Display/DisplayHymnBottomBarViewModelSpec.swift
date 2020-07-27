@@ -114,7 +114,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
 
                     expect(target.overflowButtons!).to(haveCount(3))
                     expect(target.overflowButtons![0]).to(equal(.songInfo(SongInfoDialogViewModel(hymnToDisplay: classic1151))))
-                    expect(target.overflowButtons![1]).to(equal(.soundCloud(URL(string: "https://soundcloud.com/search?q=title")!)))
+                    expect(target.overflowButtons![1]).to(equal(.soundCloud(URL(string: "https://m.soundcloud.com/search/sounds?q=title")!)))
                     expect(target.overflowButtons![2]).to(equal(.youTube(URL(string: "https://www.youtube.com/results?search_query=title")!)))
                 }
             }
@@ -146,7 +146,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     expect(target.buttons[2]).to(equal(.musicPlayback(AudioPlayerViewModel(url: mp3Url))))
                     expect(target.buttons[3]).to(equal(.tags))
                     expect(target.buttons[4]).to(equal(.songInfo(SongInfoDialogViewModel(hymnToDisplay: classic1151))))
-                    expect(target.buttons[5]).to(equal(.soundCloud(URL(string: "https://soundcloud.com/search?q=title")!)))
+                    expect(target.buttons[5]).to(equal(.soundCloud(URL(string: "https://m.soundcloud.com/search/sounds?q=title")!)))
                     expect(target.buttons[6]).to(equal(.youTube(URL(string: "https://www.youtube.com/results?search_query=title")!)))
                     expect(target.overflowButtons).to(beNil())
                 }
@@ -176,7 +176,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     expect(target.buttons[1]).to(equal(.fontSize))
                     expect(target.buttons[2]).to(equal(.tags))
                     expect(target.buttons[3]).to(equal(.songInfo(SongInfoDialogViewModel(hymnToDisplay: classic1151))))
-                    expect(target.buttons[4]).to(equal(.soundCloud(URL(string: "https://soundcloud.com/search?q=title")!)))
+                    expect(target.buttons[4]).to(equal(.soundCloud(URL(string: "https://m.soundcloud.com/search/sounds?q=title")!)))
                     expect(target.buttons[5]).to(equal(.youTube(URL(string: "https://www.youtube.com/results?search_query=title")!)))
                     expect(target.overflowButtons).to(beNil())
                 }
