@@ -71,45 +71,47 @@ class DisplayHymnViewModel: ObservableObject {
 
                     self.tabItems = [.lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: self.identifier)).maxSize().eraseToAnyView())]
 
-                    let chordsPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
-                        datum.value == DatumValue.text.rawValue
-                    })?.path
-                    let chordsUrl = chordsPath.flatMap({ path -> URL? in
-                        HymnalNet.url(path: path)
-                    })
-                    if let chordsUrl = chordsUrl {
-                        self.pdfLoader.load(url: chordsUrl)
-                        self.tabItems.append(.chords(PDFViewer(url: chordsUrl).eraseToAnyView()))
-                    }
+                    if AppDelegate.networkMonitor.currentPath.status == .satisfied {
+                        let chordsPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
+                            datum.value == DatumValue.text.rawValue
+                        })?.path
+                        let chordsUrl = chordsPath.flatMap({ path -> URL? in
+                            HymnalNet.url(path: path)
+                        })
+                        if let chordsUrl = chordsUrl {
+                            self.pdfLoader.load(url: chordsUrl)
+                            self.tabItems.append(.chords(PDFViewer(url: chordsUrl).eraseToAnyView()))
+                        }
 
-                    let guitarPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
-                        datum.value == DatumValue.guitar.rawValue
-                    })?.path
-                    let guitarUrl = guitarPath.flatMap({ path -> URL? in
-                        HymnalNet.url(path: path)
-                    })
-                    if let guitarUrl = guitarUrl {
-                        self.pdfLoader.load(url: guitarUrl)
-                        self.tabItems.append(.guitar(PDFViewer(url: guitarUrl).eraseToAnyView()))
-                    }
+                        let guitarPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
+                            datum.value == DatumValue.guitar.rawValue
+                        })?.path
+                        let guitarUrl = guitarPath.flatMap({ path -> URL? in
+                            HymnalNet.url(path: path)
+                        })
+                        if let guitarUrl = guitarUrl {
+                            self.pdfLoader.load(url: guitarUrl)
+                            self.tabItems.append(.guitar(PDFViewer(url: guitarUrl).eraseToAnyView()))
+                        }
 
-                    let pianoPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
-                        datum.value == DatumValue.piano.rawValue
-                    })?.path
-                    let pianoUrl = pianoPath.flatMap({ path -> URL? in
-                        HymnalNet.url(path: path)
-                    })
-                    if let pianoUrl = pianoUrl {
-                        self.pdfLoader.load(url: pianoUrl)
-                        self.tabItems.append(.piano(PDFViewer(url: pianoUrl).eraseToAnyView()))
-                    }
+                        let pianoPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
+                            datum.value == DatumValue.piano.rawValue
+                        })?.path
+                        let pianoUrl = pianoPath.flatMap({ path -> URL? in
+                            HymnalNet.url(path: path)
+                        })
+                        if let pianoUrl = pianoUrl {
+                            self.pdfLoader.load(url: pianoUrl)
+                            self.tabItems.append(.piano(PDFViewer(url: pianoUrl).eraseToAnyView()))
+                        }
 
-                    let mp3Path = hymn.music?.data.first(where: { datum -> Bool in
-                        datum.value == DatumValue.mp3.rawValue
-                    })?.path
-                    self.mp3Path = mp3Path.flatMap({ path -> URL? in
-                        HymnalNet.url(path: path)
-                    })
+                        let mp3Path = hymn.music?.data.first(where: { datum -> Bool in
+                            datum.value == DatumValue.mp3.rawValue
+                        })?.path
+                        self.mp3Path = mp3Path.flatMap({ path -> URL? in
+                            HymnalNet.url(path: path)
+                        })
+                    }
 
                     self.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: self.identifier)
                     self.fetchFavoriteStatus()

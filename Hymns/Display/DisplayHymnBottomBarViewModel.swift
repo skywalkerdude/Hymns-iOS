@@ -72,12 +72,14 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
 
                     buttons.append(.tags)
 
-                    if let url = "https://m.soundcloud.com/search/sounds?q=\(hymn.title)".toEncodedUrl {
-                        buttons.append(.soundCloud(url))
-                    }
+                    if AppDelegate.networkMonitor.currentPath.status == .satisfied {
+                        if let url = "https://m.soundcloud.com/search/sounds?q=\(hymn.title)".toEncodedUrl {
+                            buttons.append(.soundCloud(url))
+                        }
 
-                    if let url = "https://www.youtube.com/results?search_query=\(hymn.title)".toEncodedUrl {
-                        buttons.append(.youTube(url))
+                        if let url = "https://www.youtube.com/results?search_query=\(hymn.title)".toEncodedUrl {
+                            buttons.append(.youTube(url))
+                        }
                     }
 
                     buttons.append(.songInfo(SongInfoDialogViewModel(hymnToDisplay: self.identifier)))
