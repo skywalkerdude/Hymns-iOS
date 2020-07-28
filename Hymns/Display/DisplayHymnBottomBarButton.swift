@@ -41,46 +41,46 @@ extension BottomBarButton {
     var selectedLabel: some View {
         switch self {
         case .share:
-            return BottomBarLabel(imageName: "square.and.arrow.up", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image(systemName: "square.and.arrow.up"), a11yLabel: label).foregroundColor(.primary)
         case .fontSize:
-            return BottomBarLabel(imageName: "textformat.size", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image(systemName: "textformat.size"), a11yLabel: label).foregroundColor(.primary)
         case .languages:
-            return BottomBarLabel(imageName: "globe", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image(systemName: "globe"), a11yLabel: label).foregroundColor(.primary)
         case .musicPlayback:
-            return BottomBarLabel(imageName: "play.fill", a11yLabel: label).foregroundColor(.accentColor)
+            return BottomBarLabel(image: Image(systemName: "play.fill"), a11yLabel: label).foregroundColor(.accentColor)
         case .relevant:
-            return BottomBarLabel(imageName: "music.note.list", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image(systemName: "music.note.list"), a11yLabel: label).foregroundColor(.primary)
         case .tags:
-            return BottomBarLabel(imageName: "tag", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image(systemName: "tag"), a11yLabel: label).foregroundColor(.primary)
         case .songInfo:
-            return BottomBarLabel(imageName: "info.circle", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image(systemName: "info.circle"), a11yLabel: label).foregroundColor(.primary)
         case .soundCloud:
-            return BottomBarLabel(imageName: "cloud", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image("soundcloud.logo"), a11yLabel: label).foregroundColor(.primary)
         case .youTube:
-            return BottomBarLabel(imageName: "play.rectangle.fill", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image("youtube.logo"), a11yLabel: label).foregroundColor(.primary)
         }
     }
 
     var unselectedLabel: some View {
         switch self {
         case .share:
-            return BottomBarLabel(imageName: "square.and.arrow.up", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image(systemName: "square.and.arrow.up"), a11yLabel: label).foregroundColor(.primary)
         case .fontSize:
-            return BottomBarLabel(imageName: "textformat.size", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image(systemName: "textformat.size"), a11yLabel: label).foregroundColor(.primary)
         case .languages:
-            return BottomBarLabel(imageName: "globe", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image(systemName: "globe"), a11yLabel: label).foregroundColor(.primary)
         case .musicPlayback:
-            return BottomBarLabel(imageName: "play", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image(systemName: "play"), a11yLabel: label).foregroundColor(.primary)
         case .relevant:
-            return BottomBarLabel(imageName: "music.note.list", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image(systemName: "music.note.list"), a11yLabel: label).foregroundColor(.primary)
         case .tags:
-            return BottomBarLabel(imageName: "tag", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image(systemName: "tag"), a11yLabel: label).foregroundColor(.primary)
         case .songInfo:
-            return BottomBarLabel(imageName: "info.circle", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image(systemName: "info.circle"), a11yLabel: label).foregroundColor(.primary)
         case .soundCloud:
-            return BottomBarLabel(imageName: "cloud", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image("soundcloud.logo"), a11yLabel: label).foregroundColor(.primary)
         case .youTube:
-            return BottomBarLabel(imageName: "play.rectangle.fill", a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image("youtube.logo"), a11yLabel: label).foregroundColor(.primary)
         }
     }
 }
@@ -97,7 +97,7 @@ extension BottomBarButton: Equatable {
         case (.fontSize, .fontSize):
             return true
         case (.languages(let viewModels1), .languages(let viewModels2)):
-                return viewModels1 == viewModels2
+            return viewModels1 == viewModels2
         case (.musicPlayback, .musicPlayback):
             return true
         case (.relevant(let viewModels1), .relevant(let viewModels2)):
@@ -118,18 +118,18 @@ extension BottomBarButton: Equatable {
 
 struct BottomBarLabel: View {
 
-    let imageName: String
+    let image: Image
     let a11yLabel: String
 
     var body: some View {
-        Image(systemName: imageName).accessibility(label: Text(a11yLabel)).font(.system(size: smallButtonSize)).padding()
+        image.accessibility(label: Text(a11yLabel)).font(.system(size: smallButtonSize)).padding()
     }
 }
 
 #if DEBUG
 struct BottomBarLabel_Previews: PreviewProvider {
     static var previews: some View {
-        BottomBarLabel(imageName: "music.note.list", a11yLabel: "Accessibility label here").previewLayout(.sizeThatFits)
+        BottomBarLabel(image: Image("soundcloud.logo"), a11yLabel: "a11y label").previewLayout(.sizeThatFits)
     }
 }
 #endif

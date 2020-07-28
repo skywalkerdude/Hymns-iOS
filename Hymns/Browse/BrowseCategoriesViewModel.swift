@@ -56,7 +56,7 @@ class BrowseCategoriesViewModel: ObservableObject {
                     categoryViewModel.subcategories.insert(SubcategoryViewModel(subcategory: nil, count: total), at: 0)
                     return categoryViewModel
                 })
-            }).sink(receiveValue: { categories in
+            }).receive(on: mainQueue).sink(receiveValue: { categories in
                 self.categories = categories
             }).store(in: &disposables)
     }

@@ -22,12 +22,10 @@ struct DisplayHymnBottomBar: View {
     let userDefaultsManager: UserDefaultsManager = Resolver.resolve()
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
+            Divider()
             audioPlayer.map { audioPlayer in
-                VStack {
-                    Divider()
-                    AudioPlayer(viewModel: audioPlayer).padding()
-                }
+                AudioPlayer(viewModel: audioPlayer).padding()
             }
             HStack(spacing: 0) {
                 Spacer()
@@ -50,9 +48,9 @@ struct DisplayHymnBottomBar: View {
                     Button(action: {
                         self.actionSheet = .overflow(buttons)
                     }, label: {
-                        BottomBarLabel(imageName: "ellipsis",
+                        BottomBarLabel(image: Image(systemName: "ellipsis"),
                                        a11yLabel: NSLocalizedString("More options", comment: "Bottom bar overflow button"))
-                        .foregroundColor(.primary)
+                            .foregroundColor(.primary)
                     })
                 }
             }
