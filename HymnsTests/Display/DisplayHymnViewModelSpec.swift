@@ -14,16 +14,19 @@ class DisplayHymnViewModelSpec: QuickSpec {
             var historyStore: HistoryStoreMock!
             var target: DisplayHymnViewModel!
             var pdfLoader: PDFLoaderMock!
+            var systemUtil: SystemUtilMock!
             beforeEach {
                 hymnsRepository = mock(HymnsRepository.self)
                 favoriteStore = mock(FavoriteStore.self)
                 historyStore = mock(HistoryStore.self)
                 pdfLoader = mock(PDFLoader.self)
+                systemUtil = mock(SystemUtil.self)
             }
             describe("fetching hymn") {
                 context("with nil repository result") {
                     beforeEach {
-                        target = DisplayHymnViewModel(backgroundQueue: testQueue, favoriteStore: favoriteStore, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore, pdfPreloader: pdfLoader)
+                        target = DisplayHymnViewModel(backgroundQueue: testQueue, favoriteStore: favoriteStore, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore, pdfPreloader: pdfLoader, systemUtil: systemUtil)
+                        given(systemUtil.isNetworkAvailable()) ~> true
                         given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                             Just(nil).assertNoFailure().eraseToAnyPublisher()
                         }
@@ -49,8 +52,9 @@ class DisplayHymnViewModelSpec: QuickSpec {
                     context("for a classic hymn 1151 and store in recent songs") {
                         beforeEach {
                             target = DisplayHymnViewModel(backgroundQueue: testQueue, favoriteStore: favoriteStore, hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, historyStore: historyStore,
-                                                          mainQueue: testQueue, pdfPreloader: pdfLoader, storeInHistoryStore: true)
+                                                          mainQueue: testQueue, pdfPreloader: pdfLoader, systemUtil: systemUtil, storeInHistoryStore: true)
                             let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: [Verse](), pdfSheet: Hymns.MetaDatum(name: "Lead Sheet", data: [Hymns.Datum(value: "Piano", path: "/en/hymn/c/1151/f=ppdf"), Hymns.Datum(value: "Guitar", path: "/en/hymn/c/1151/f=pdf"), Hymns.Datum(value: "Text", path: "/en/hymn/c/1151/f=gtpdf")]))
+                            given(systemUtil.isNetworkAvailable()) ~> true
                             given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                                 Just(hymn).assertNoFailure().eraseToAnyPublisher()
                             }
@@ -63,6 +67,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                         .data(description: "This will never get called")
                                     }).eraseToAnyPublisher()
                                 }
+                                given(systemUtil.isNetworkAvailable()) ~> true
+
 
                                 expect(target.isLoaded).to(beFalse())
                                 target.fetchHymn()
@@ -120,13 +126,43 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                 expect(target.bottomBar).to(equal(DisplayHymnBottomBarViewModel(hymnToDisplay: classic1151)))
                             }
                         }
-                        context("is not favorited") {
+                        context("is not connected to the internet") {
                             beforeEach {
                                 given(favoriteStore.isFavorite(hymnIdentifier: classic1151)) ~> { _ in
                                     Just(false).mapError({ _ -> ErrorType in
                                         .data(description: "This will never get called")
                                     }).eraseToAnyPublisher()
                                 }
+                                given(systemUtil.isNetworkAvailable()) ~> false
+
+                                target.fetchHymn()
+                                testQueue.sync {}
+                                testQueue.sync {}
+                                testQueue.sync {}
+                                testQueue.sync {}
+                            }
+//                            let chordsUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=gtpdf")!
+//                            it("chords url should be prefetched") {
+//                                verify(pdfLoader.load(url: chordsUrl)).wasCalled(exactly(0))
+//                            }
+//                            let guitarUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=pdf")!
+//                            it("guitar url should be prefetched") {
+//                                verify(pdfLoader.load(url: guitarUrl)).wasCalled(exactly(0))
+//                            }
+//                            let pianoUrl = URL(string: "http://www.hymnal.net/en/hymn/c/1151/f=ppdf")!
+//                            it("piano url should be prefetched") {
+//                                verify(pdfLoader.load(url: pianoUrl)).wasCalled(exactly(0))
+//                            }
+//                            it("should have four tabs") {
+//                                expect(target.tabItems).to(haveCount(0))
+//                            }
+//                            it("first tab should be lyrics") {
+//                                expect(target.tabItems[0].id).to(equal("Lyrics"))
+//                            }
+                        }
+                        context("is not favorited") {
+                            beforeEach {
+                                given(systemUtil.isNetworkAvailable()) ~> true
                                 target.fetchHymn()
                                 testQueue.sync {}
                                 testQueue.sync {}
@@ -142,6 +178,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                         }
                         context("favorited throws error") {
                             beforeEach {
+                                given(systemUtil.isNetworkAvailable()) ~> true
                                 given(favoriteStore.isFavorite(hymnIdentifier: classic1151)) ~> { _ in
                                     Just(false).tryMap({ _ -> Bool in
                                         throw URLError(.badServerResponse)
@@ -165,13 +202,13 @@ class DisplayHymnViewModelSpec: QuickSpec {
                     }
                     context("for new song 145") {
                         beforeEach {
-                            target = DisplayHymnViewModel(backgroundQueue: testQueue, favoriteStore: favoriteStore, hymnToDisplay: newSong145, hymnsRepository: hymnsRepository, historyStore: historyStore,
-                                                          mainQueue: testQueue, pdfPreloader: pdfLoader)
+                            target = DisplayHymnViewModel(backgroundQueue: testQueue, favoriteStore: favoriteStore, hymnToDisplay: newSong145, hymnsRepository: hymnsRepository, historyStore: historyStore, mainQueue: testQueue, pdfPreloader: pdfLoader, systemUtil: systemUtil)
                         }
                         let title = "In my spirit, I can see You as You are"
                         context("title contains 'Hymn: '") {
                             beforeEach {
                                 let hymnWithHymnColonTitle = UiHymn(hymnIdentifier: newSong145, title: title, lyrics: [Verse](), pdfSheet: Hymns.MetaDatum(name: "Lead Sheet", data: [Hymns.Datum(value: "Piano", path: "/en/hymn/c/1151/f=ppdf"), Hymns.Datum(value: "Guitar", path: "/en/hymn/c/1151/f=pdf"), Hymns.Datum(value: "Text", path: "/en/hymn/c/1151/f=gtpdf")]))
+                                given(systemUtil.isNetworkAvailable()) ~> true
                                 given(hymnsRepository.getHymn(newSong145)) ~> { _ in
                                     Just(hymnWithHymnColonTitle).assertNoFailure().eraseToAnyPublisher()
                                 }
@@ -180,6 +217,7 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                         .data(description: "This will never get called")
                                     }).eraseToAnyPublisher()
                                 }
+
                                 target.fetchHymn()
                                 testQueue.sync {}
                                 testQueue.sync {}

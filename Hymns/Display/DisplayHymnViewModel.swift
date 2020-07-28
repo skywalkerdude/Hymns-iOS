@@ -24,6 +24,7 @@ class DisplayHymnViewModel: ObservableObject {
     private let mainQueue: DispatchQueue
     private let pdfLoader: PDFLoader
     private let repository: HymnsRepository
+    private let systemUtil: SystemUtil
     private let storeInHistoryStore: Bool
 
     /**
@@ -41,6 +42,7 @@ class DisplayHymnViewModel: ObservableObject {
          historyStore: HistoryStore = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
          pdfPreloader: PDFLoader = Resolver.resolve(),
+         systemUtil: SystemUtil = Resolver.resolve(),
          storeInHistoryStore: Bool = false) {
         self.analytics = analytics
         self.backgroundQueue = backgroundQueue
@@ -51,6 +53,7 @@ class DisplayHymnViewModel: ObservableObject {
         self.mainQueue = mainQueue
         self.pdfLoader = pdfPreloader
         self.repository = repository
+        self.systemUtil = systemUtil
         self.storeInHistoryStore = storeInHistoryStore
     }
 
@@ -71,7 +74,7 @@ class DisplayHymnViewModel: ObservableObject {
 
                     self.tabItems = [.lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: self.identifier)).maxSize().eraseToAnyView())]
 
-                    if AppDelegate.networkMonitor.currentPath.status == .satisfied {
+                    if self.systemUtil.isNetworkAvailable() {
                         let chordsPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
                             datum.value == DatumValue.text.rawValue
                         })?.path

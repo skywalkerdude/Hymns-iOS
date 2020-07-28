@@ -18,6 +18,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
     private let backgroundQueue: DispatchQueue
     private let mainQueue: DispatchQueue
     private let repository: HymnsRepository
+    private let systemUtil: SystemUtil
 
     private var disposables = Set<AnyCancellable>()
 
@@ -25,12 +26,14 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
          analytics: AnalyticsLogger = Resolver.resolve(),
          hymnsRepository repository: HymnsRepository = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
-         backgroundQueue: DispatchQueue = Resolver.resolve(name: "background")) {
+         backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
+         systemUtil: SystemUtil = Resolver.resolve()) {
         self.analytics = analytics
         self.identifier = identifier
         self.mainQueue = mainQueue
         self.repository = repository
         self.backgroundQueue = backgroundQueue
+        self.systemUtil = systemUtil
         self.buttons = [.fontSize, .tags]
     }
 
@@ -72,7 +75,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
 
                     buttons.append(.tags)
 
-                    if AppDelegate.networkMonitor.currentPath.status == .satisfied {
+                    if self.systemUtil.isNetworkAvailable() {
                         if let url = "https://m.soundcloud.com/search/sounds?q=\(hymn.title)".toEncodedUrl {
                             buttons.append(.soundCloud(url))
                         }
