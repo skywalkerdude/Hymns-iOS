@@ -39,11 +39,9 @@ struct TagSheetView: View {
                                 } else {
                                     Button(action: {
                                         self.viewModel.addTag(tagTitle: tag.title, tagColor: tag.color)
-                                        // self.viewModel.deleteTag(tagTitle: tag.title, tagColor: tag.color)
                                     }, label: {
                                         HStack {
-                                            Text(tag.title).font(.body)//.fontWeight(.no)
-                                            //   Image(systemName: "xmark.circle")
+                                            Text(tag.title).font(.body)
                                         }
                                         .tagPill(backgroundColor: tag.color.background, foregroundColor: tag.color.foreground, showBorder: false)
                                     }).padding(2)

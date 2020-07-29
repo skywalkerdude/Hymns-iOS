@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct ColorSelectorView: View {
+
     @Binding var tagColor: TagColor
 
     var body: some View {
