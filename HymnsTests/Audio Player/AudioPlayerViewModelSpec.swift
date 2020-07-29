@@ -127,11 +127,21 @@ class AudioPlayerViewModelSpec: QuickSpec {
                         }
                     }
                     describe("rewind") {
+                        context("playback is paused") {
+                            it("should still work") {
+                                target.pause()
+                                target.seek(to: AudioPlayerViewModel.seekDuration)
+                                target.rewind()
+                                expect(target.player!.currentTime).to(equal(0))
+                                expect(target.currentTime).to(equal(0))
+                            }
+                        }
                         context("rewound time becomes negative") {
                             it("should rewind to 0") {
                                 target.seek(to: 0)
                                 target.rewind()
                                 expect(target.player!.currentTime).to(equal(0))
+                                expect(target.currentTime).to(equal(0))
                             }
                         }
                         context("rewound time is positive") {
@@ -139,15 +149,18 @@ class AudioPlayerViewModelSpec: QuickSpec {
                                 target.seek(to: 5)
                                 target.rewind()
                                 expect(target.player!.currentTime).to(equal(5 - AudioPlayerViewModel.seekDuration))
+                                expect(target.currentTime).to(equal(5 - AudioPlayerViewModel.seekDuration))
                             }
                         }
                     }
                     describe("fast forward") {
-                        context("fast forwarded time goves over song duration") {
-                            it("should fast forward to song duration") {
-                                target.seek(to: 16)
+                        context("playback is paused") {
+                            it("should still work") {
+                                target.pause()
+                                target.seek(to: 0)
                                 target.fastForward()
-                                expect(target.player!.currentTime).to(equal(target.songDuration))
+                                expect(target.player!.currentTime).to(equal(AudioPlayerViewModel.seekDuration))
+                                expect(target.currentTime).to(equal(AudioPlayerViewModel.seekDuration))
                             }
                         }
                         context("fast forwarded time stays song duration") {
@@ -155,6 +168,7 @@ class AudioPlayerViewModelSpec: QuickSpec {
                                 target.seek(to: 5)
                                 target.fastForward()
                                 expect(target.player!.currentTime).to(equal(5 + AudioPlayerViewModel.seekDuration))
+                                expect(target.currentTime).to(equal(5 + AudioPlayerViewModel.seekDuration))
                             }
                         }
                     }

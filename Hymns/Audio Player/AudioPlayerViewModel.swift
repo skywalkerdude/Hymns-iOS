@@ -101,10 +101,7 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
      */
     private func playInternal(_ player: AVAudioPlayer) {
         playbackState = .playing
-        timerConnection = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect().sink(receiveValue: { [weak self ]_ in
-            guard let self = self else { return }
-            self.currentTime = player.currentTime
-        })
+        startTimer()
         player.play()
     }
 
@@ -120,6 +117,7 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
         }
         let rewoundTime = player.currentTime - AudioPlayerViewModel.seekDuration
         player.currentTime = rewoundTime >= TimeInterval.zero ? rewoundTime : TimeInterval.zero
+        self.currentTime = player.currentTime
     }
 
     func fastForward() {
@@ -128,6 +126,7 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
         }
         let fastForwardedTime = player.currentTime + AudioPlayerViewModel.seekDuration
         player.currentTime = fastForwardedTime <= player.duration ? fastForwardedTime : player.duration
+        self.currentTime = player.currentTime
     }
 
     func toggleRepeat() {
@@ -155,7 +154,8 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
     }
 
     func startTimer() {
-        timerConnection = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect().sink(receiveValue: { _ in
+        timerConnection = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect().sink(receiveValue: { [weak self ]_ in
+            guard let self = self else { return }
             self.currentTime = self.player?.currentTime ?? 0
         })
     }
@@ -164,11 +164,13 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
 extension AudioPlayerViewModel: AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         player.currentTime = TimeInterval.zero
+        currentTime = player.currentTime
         if self.shouldRepeat {
             player.play()
         } else {
             self.playbackState = .stopped
             player.stop()
+            stopTimer()
         }
     }
 }
