@@ -16,10 +16,6 @@ struct TagSheetView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Name your tag").font(.body).fontWeight(.bold)
-            TextField("Label it however you like", text: self.$tagName)
-            Divider()
-            ColorSelectorView(tagColor: self.$tagColor).padding(.vertical)
             if !self.viewModel.tags.isEmpty {
                 Text("Tags").font(.body).fontWeight(.bold)
             }
@@ -37,6 +33,10 @@ struct TagSheetView: View {
                                 .tagPill(backgroundColor: tag.color.background, foregroundColor: tag.color.foreground)
                             }).padding(2)
                         }
+                        Text("Create a new tag").font(.body).fontWeight(.bold)
+                        TextField("Label it however you like", text: self.$tagName)
+                        Divider()
+                        ColorSelectorView(tagColor: self.$tagColor).padding(.vertical)
                         HStack {
                             Spacer()
                             Button(action: {
@@ -45,10 +45,10 @@ struct TagSheetView: View {
                                 Text("Close").foregroundColor(.primary).fontWeight(.light)
                             })
                             Button("Add") {
+                                self.viewModel2.fetchUniqueTags()
                                 self.viewModel.addTag(tagTitle: self.tagName, tagColor: self.tagColor)
                             }.padding(.horizontal).disabled(self.tagName.isEmpty)
                         }.padding(.top)
-                        Spacer()
                     }
                 }
             }
