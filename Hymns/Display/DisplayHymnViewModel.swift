@@ -15,6 +15,7 @@ class DisplayHymnViewModel: ObservableObject {
     @Published var isFavorited: Bool?
     @Published var bottomBar: DisplayHymnBottomBarViewModel?
     @Published var mp3Path: URL?
+    @Published var commentPath: URL?
 
     private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue
@@ -109,6 +110,16 @@ class DisplayHymnViewModel: ObservableObject {
                     })?.path
                     self.mp3Path = mp3Path.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
+                    })
+
+
+                    self.commentPath = mp3Path.flatMap({ path -> URL? in
+                        let start = path.index(path.startIndex, offsetBy: 0)
+                        let end = path.index(path.endIndex, offsetBy: -5)
+                        let range = start..<end
+                        let substring = path[range]
+                        let commentPath = String(substring)
+                        return HymnalNet.url(path: commentPath)
                     })
 
                     self.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: self.identifier)

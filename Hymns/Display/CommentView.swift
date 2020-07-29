@@ -4,12 +4,12 @@ struct CommentView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var isLoading = true
 
-    var searchTitle: String
+    var searchTitle: URL?
 
     var body: some View {
         Group<AnyView> {
             guard let url =
-                searchTitle.toEncodedUrl else {
+                searchTitle else {
                     return ErrorView().eraseToAnyView()
             }
             return NavigationView {
@@ -30,6 +30,6 @@ struct CommentView: View {
 
 struct CommentView_Previews: PreviewProvider {
     static var previews: some View {
-        CommentView(searchTitle: "https://www.hymnal.net/en/hymn/h/1019")
+        CommentView(searchTitle: URL(string: "https://www.hymnal.net/en/hymn/h/1019"))
     }
 }

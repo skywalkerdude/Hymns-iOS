@@ -37,7 +37,7 @@ struct DisplayHymnView: View {
                 }
             }
         }.hideNavigationBar().sheet(isPresented: $showingComments) {
-            CommentView(searchTitle: "https://www.hymnal.net/en/hymn/h/1019")
+            CommentView(searchTitle: self.viewModel.commentPath)
         }
             .onAppear {
                 self.viewModel.fetchHymn()
