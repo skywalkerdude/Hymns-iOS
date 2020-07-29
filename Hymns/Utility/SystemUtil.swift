@@ -1,8 +1,17 @@
 import Foundation
-import SystemConfiguration
+import Network
+import Resolver
 
 class SystemUtil {
+
+    private let networkMonitor: NWPathMonitor
+
+    init(backgroundQueue: DispatchQueue = Resolver.resolve(name: "background")) {
+        networkMonitor = NWPathMonitor()
+        networkMonitor.start(queue: backgroundQueue)
+    }
+
     func isNetworkAvailable() -> Bool {
-        return AppDelegate.networkMonitor.currentPath.status == .satisfied
+        return networkMonitor.currentPath.status == .satisfied
     }
 }

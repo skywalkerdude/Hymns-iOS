@@ -1,7 +1,6 @@
 import Firebase
 import CoreData
 import RealmSwift
-import Network
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -10,12 +9,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     static let uiTestingFlag = "-UITests"
     #endif
 
-    static let networkMonitor = NWPathMonitor()
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
-        AppDelegate.networkMonitor.start(queue: DispatchQueue.global(qos: .background))
 
         #if DEBUG
         if CommandLine.arguments.contains(AppDelegate.uiTestingFlag) {
