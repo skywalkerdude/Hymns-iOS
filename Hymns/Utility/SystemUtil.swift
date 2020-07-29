@@ -3,10 +3,6 @@ import SystemConfiguration
 
 class SystemUtil {
     func isNetworkAvailable() -> Bool {
-        if AppDelegate.networkMonitor.currentPath.status == .satisfied {
-            return true
-        } else {
-            return false
-        }
+        return AppDelegate.networkMonitor.currentPath.status == .satisfied
     }
 }

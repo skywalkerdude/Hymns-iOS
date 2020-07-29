@@ -12,11 +12,14 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
         describe("DisplayHymnBottomBarViewModel") {
             let testQueue = DispatchQueue(label: "test_queue")
             var hymnsRepository: HymnsRepositoryMock!
+            var systemUtil: SystemUtilMock!
             var target: DisplayHymnBottomBarViewModel!
 
             beforeEach {
                 hymnsRepository = mock(HymnsRepository.self)
-                target = DisplayHymnBottomBarViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, mainQueue: testQueue, backgroundQueue: testQueue)
+                systemUtil = mock(SystemUtil.self)
+                target = DisplayHymnBottomBarViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository,
+                                                       mainQueue: testQueue, backgroundQueue: testQueue, systemUtil: systemUtil)
             }
             describe("init") {
                 it("should only contain font size and tags") {
@@ -89,6 +92,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                         Just(hymn).assertNoFailure().eraseToAnyPublisher()
                     }
+                    given(systemUtil.isNetworkAvailable()) ~> true
 
                     target.fetchHymn()
                     testQueue.sync {}
@@ -116,6 +120,29 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     expect(target.overflowButtons![2]).to(equal(.youTube(URL(string: "https://www.youtube.com/results?search_query=title")!)))
                     expect(target.overflowButtons![3]).to(equal(.songInfo(SongInfoDialogViewModel(hymnToDisplay: classic1151))))
                 }
+                context("while network is unavailable") {
+                    beforeEach {
+                        given(systemUtil.isNetworkAvailable()) ~> false
+                        target.fetchHymn()
+                        testQueue.sync {}
+                        testQueue.sync {}
+                        testQueue.sync {}
+                    }
+                    it("should not contain the buttons that require network connectivity") {
+                        expect(target.buttons).to(haveCount(6))
+                        expect(target.buttons[0]).to(equal(.share("Drink! a river pure and clear that's flowing from the throne;\nEat! the tree of life with fruits abundant, richly grown\n\nDo come, oh, do come,\nSays Spirit and the Bride:\n\n")))
+                        expect(target.buttons[1]).to(equal(.fontSize))
+                        expect(target.buttons[2]).to(equal(.languages([
+                            SongResultViewModel(title: "Tagalog", destinationView: EmptyView().eraseToAnyView()),
+                            SongResultViewModel(title: "诗歌(简)", destinationView: EmptyView().eraseToAnyView())])))
+                        expect(target.buttons[3]).to(equal(.relevant([
+                            SongResultViewModel(title: "New Tune", destinationView: EmptyView().eraseToAnyView()),
+                            SongResultViewModel(title: "Cool other song", destinationView: EmptyView().eraseToAnyView())])))
+                        expect(target.buttons[4]).to(equal(.tags))
+                        expect(target.buttons[5]).to(equal(.songInfo(SongInfoDialogViewModel(hymnToDisplay: classic1151))))
+                        expect(target.overflowButtons).to(beNil())
+                    }
+                }
             }
             context("with the least number of options in repository result") {
                 beforeEach {
@@ -127,6 +154,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                         Just(hymn).assertNoFailure().eraseToAnyPublisher()
                     }
+                    given(systemUtil.isNetworkAvailable()) ~> true
 
                     target.fetchHymn()
                     testQueue.sync {}

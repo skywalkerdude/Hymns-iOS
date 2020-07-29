@@ -64,7 +64,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                     })?.path
                     if let mp3Url = mp3Path.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
-                    }) {
+                    }), self.systemUtil.isNetworkAvailable() {
                         buttons.append(.musicPlayback(AudioPlayerViewModel(url: mp3Url)))
                     }
 
@@ -75,14 +75,14 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
 
                     buttons.append(.tags)
 
-                    if self.systemUtil.isNetworkAvailable() {
-                        if let url = "https://m.soundcloud.com/search/sounds?q=\(hymn.title)".toEncodedUrl {
-                            buttons.append(.soundCloud(url))
-                        }
+                    if let url = "https://m.soundcloud.com/search/sounds?q=\(hymn.title)".toEncodedUrl,
+                        self.systemUtil.isNetworkAvailable() {
+                        buttons.append(.soundCloud(url))
+                    }
 
-                        if let url = "https://www.youtube.com/results?search_query=\(hymn.title)".toEncodedUrl {
-                            buttons.append(.youTube(url))
-                        }
+                    if let url = "https://www.youtube.com/results?search_query=\(hymn.title)".toEncodedUrl,
+                        self.systemUtil.isNetworkAvailable() {
+                        buttons.append(.youTube(url))
                     }
 
                     buttons.append(.songInfo(SongInfoDialogViewModel(hymnToDisplay: self.identifier)))
