@@ -11,6 +11,7 @@ enum BottomBarButton {
     case songInfo(SongInfoDialogViewModel)
     case soundCloud(URL)
     case youTube(URL)
+    case comment
 }
 
 extension BottomBarButton {
@@ -31,6 +32,8 @@ extension BottomBarButton {
             return NSLocalizedString("Tags", comment: "Browse or add tags for this song")
         case .songInfo:
             return NSLocalizedString("Song Info", comment: "See information for this song")
+        case .comment:
+            return NSLocalizedString("Comments", comment: "Comments")
         case .soundCloud:
             return NSLocalizedString("Search in SoundCloud", comment: "Search for this song on SoundCloud")
         case .youTube:
@@ -54,6 +57,8 @@ extension BottomBarButton {
             return BottomBarLabel(image: Image(systemName: "tag"), a11yLabel: label).foregroundColor(.primary)
         case .songInfo:
             return BottomBarLabel(image: Image(systemName: "info.circle"), a11yLabel: label).foregroundColor(.primary)
+        case .comment:
+            return BottomBarLabel(image: Image(systemName: "bubble.left"), a11yLabel: label).foregroundColor(.primary)
         case .soundCloud:
             return BottomBarLabel(image: Image("soundcloud.logo"), a11yLabel: label).foregroundColor(.primary)
         case .youTube:
@@ -77,6 +82,8 @@ extension BottomBarButton {
             return BottomBarLabel(image: Image(systemName: "tag"), a11yLabel: label).foregroundColor(.primary)
         case .songInfo:
             return BottomBarLabel(image: Image(systemName: "info.circle"), a11yLabel: label).foregroundColor(.primary)
+        case .comment:
+            return BottomBarLabel(image: Image(systemName: "bubble.left"), a11yLabel: label).foregroundColor(.primary)
         case .soundCloud:
             return BottomBarLabel(image: Image("soundcloud.logo"), a11yLabel: label).foregroundColor(.primary)
         case .youTube:
@@ -106,6 +113,8 @@ extension BottomBarButton: Equatable {
             return true
         case (songInfo(let viewModel1), songInfo(let viewModel2)):
             return viewModel1.songInfo.count == viewModel2.songInfo.count
+        case (.comment, .comment):
+            return true
         case (soundCloud(let url1), soundCloud(let url2)):
             return url1 == url2
         case (youTube(let url1), youTube(let url2)):

@@ -6,6 +6,7 @@ struct DisplayHymnView: View {
 
     @ObservedObject private var viewModel: DisplayHymnViewModel
     @State var dialogBuilder: (() -> AnyView)?
+    @State var showingComments: Bool = false
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
@@ -28,14 +29,16 @@ struct DisplayHymnView: View {
                         viewModel.currentTab.content
                     }
                     viewModel.bottomBar.map { viewModel in
-                        DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, viewModel: viewModel).maxWidth()
+                        DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, showingComments: self.$showingComments, viewModel: viewModel).maxWidth()
                     }
                 }
                 dialogBuilder.map { _ in
                     Dialog(builder: $dialogBuilder)
                 }
             }
-        }.hideNavigationBar()
+        }.hideNavigationBar().sheet(isPresented: $showingComments) {
+            CommentView(searchTitle: "https://www.hymnal.net/en/hymn/h/1019")
+        }
             .onAppear {
                 self.viewModel.fetchHymn()
         }.background(Color(.systemBackground))

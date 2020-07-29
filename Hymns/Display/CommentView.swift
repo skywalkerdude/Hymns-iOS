@@ -1,0 +1,35 @@
+import SwiftUI
+
+struct CommentView: View {
+    @Environment(\.presentationMode) var presentationMode
+    @State private var isLoading = true
+
+    var searchTitle: String
+
+    var body: some View {
+        Group<AnyView> {
+            guard let url =
+                searchTitle.toEncodedUrl else {
+                    return ErrorView().eraseToAnyView()
+            }
+            return NavigationView {
+                ZStack {
+                    ActivityIndicator().maxSize().opacity(isLoading ? 1 : 0)
+                    CommentWebView(isLoading: self.$isLoading, url: url).opacity(isLoading ? 0 : 1)       .navigationBarTitle(Text("Comments"), displayMode: .inline)
+                        .navigationBarItems(trailing: Button(action: {
+                            print("Dismissing sheet view...")
+                            self.presentationMode.wrappedValue.dismiss()
+                        }) {
+                            Text("Done").bold()
+                        })
+                }
+            }.eraseToAnyView()
+        }
+    }
+}
+
+struct CommentView_Previews: PreviewProvider {
+    static var previews: some View {
+        CommentView(searchTitle: "https://www.hymnal.net/en/hymn/h/1019")
+    }
+}

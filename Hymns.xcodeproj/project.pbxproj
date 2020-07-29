@@ -210,6 +210,8 @@
 		8C0BB6584AA9056C70C7A5C7 /* Pods_Hymns.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11F26982D66F9E324CE149EA /* Pods_Hymns.framework */; };
 		A3EF35F89042AB2A5C924C7F /* Pods_HymnsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67ADCB07060C6AB8C103B9CA /* Pods_HymnsTests.framework */; };
 		B51BA5C92430075300CA52F7 /* DisplayHymnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51BA5C82430075300CA52F7 /* DisplayHymnView.swift */; };
+		B561385E24D20E530003F618 /* CommentWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B561385D24D20E530003F618 /* CommentWebView.swift */; };
+		B561386024D20ECB0003F618 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B561385F24D20ECB0003F618 /* CommentView.swift */; };
 		B56305B7244223A5003BC132 /* CustomTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56305B6244223A5003BC132 /* CustomTitleView.swift */; };
 		B56305B9244223D7003BC132 /* FontViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56305B8244223D7003BC132 /* FontViewModifier.swift */; };
 		B5809DFA244F60FD00EF0C63 /* FavoriteEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5809DF9244F60FD00EF0C63 /* FavoriteEntity.swift */; };
@@ -496,6 +498,8 @@
 		AE0D8C0D9FB516C812A20ECD /* Pods-HymnsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HymnsTests.release.xcconfig"; path = "Target Support Files/Pods-HymnsTests/Pods-HymnsTests.release.xcconfig"; sourceTree = "<group>"; };
 		B51BA5C82430075300CA52F7 /* DisplayHymnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnView.swift; sourceTree = "<group>"; };
 		B560B615243F978D00FD5867 /* MasterTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MasterTestPlan.xctestplan; sourceTree = SOURCE_ROOT; };
+		B561385D24D20E530003F618 /* CommentWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentWebView.swift; sourceTree = "<group>"; };
+		B561385F24D20ECB0003F618 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		B56305B6244223A5003BC132 /* CustomTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTitleView.swift; sourceTree = "<group>"; };
 		B56305B8244223D7003BC132 /* FontViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontViewModifier.swift; sourceTree = "<group>"; };
 		B5809DF9244F60FD00EF0C63 /* FavoriteEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteEntity.swift; sourceTree = "<group>"; };
@@ -795,6 +799,7 @@
 				B5A00F5E245277E300F7E3E1 /* ActivityIndicator.swift */,
 				3B369CEF246D0D570068A29C /* WebView.swift */,
 				3B7451C6249535E1008B80BC /* WrappedHStack.swift */,
+				B561385D24D20E530003F618 /* CommentWebView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -860,6 +865,7 @@
 				3B5935B52435A07000E6993C /* HymnLyricsView.swift */,
 				3BF699AE24417921005AFF6A /* VerseView.swift */,
 				B5915C5F24CE8F6200342D7E /* SplashScreenView.swift */,
+				B561385F24D20ECB0003F618 /* CommentView.swift */,
 			);
 			path = Display;
 			sourceTree = "<group>";
@@ -1766,6 +1772,7 @@
 				3BC5B15C247F7B0400F5D63A /* CategoryEntity.swift in Sources */,
 				B582E4432493235E00329DA5 /* TagSheetView.swift in Sources */,
 				3B1AF92B24C38B1D0082C27B /* Toast.swift in Sources */,
+				B561386024D20ECB0003F618 /* CommentView.swift in Sources */,
 				3BE210F2249B3E7C00D4E417 /* HymnDataStoreTestImpl.swift in Sources */,
 				3B203686248B85D100D90DF5 /* ScriptureEntity.swift in Sources */,
 				3B5935C02435C6A300E6993C /* HymnsRepository.swift in Sources */,
@@ -1801,6 +1808,7 @@
 				3B0B39AF243931B3003C5161 /* ErrorType.swift in Sources */,
 				3B7B55A724AE863B00566808 /* BrowseViewModel.swift in Sources */,
 				3B5935A22435685400E6993C /* Verse.swift in Sources */,
+				B561385E24D20E530003F618 /* CommentWebView.swift in Sources */,
 				3B87B82A2449497A00AEC7E9 /* SettingsViewModel.swift in Sources */,
 				3B7A1816246A748E005540F7 /* HymnLyricsTab.swift in Sources */,
 				B5A77A57247DA0D900447008 /* AudioPlayerViewModel.swift in Sources */,
