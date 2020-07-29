@@ -112,7 +112,6 @@ class DisplayHymnViewModel: ObservableObject {
                         HymnalNet.url(path: path)
                     })
 
-
                     self.commentPath = mp3Path.flatMap({ path -> URL? in
                         let start = path.index(path.startIndex, offsetBy: 0)
                         let end = path.index(path.endIndex, offsetBy: -5)

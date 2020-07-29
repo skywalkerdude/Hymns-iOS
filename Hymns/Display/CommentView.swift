@@ -19,9 +19,9 @@ struct CommentView: View {
                         .navigationBarItems(trailing: Button(action: {
                             print("Dismissing sheet view...")
                             self.presentationMode.wrappedValue.dismiss()
-                        }) {
+                        }, label: {
                             Text("Done").bold()
-                        })
+                        }))
                 }
             }.eraseToAnyView()
         }
