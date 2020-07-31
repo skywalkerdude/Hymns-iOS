@@ -1,28 +1,21 @@
 import Foundation
-import SystemConfiguration
+import Network
+import Resolver
 
-class SystemUtil {
+protocol SystemUtil {
+    func isNetworkAvailable() -> Bool
+}
+
+class SystemUtilImpl: SystemUtil {
+
+    private let networkMonitor: NWPathMonitor
+
+    init(backgroundQueue: DispatchQueue = Resolver.resolve(name: "background")) {
+        networkMonitor = NWPathMonitor()
+        networkMonitor.start(queue: backgroundQueue)
+    }
+
     func isNetworkAvailable() -> Bool {
-        var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
-        zeroAddress.sin_family = sa_family_t(AF_INET)
-
-        guard let defaultRouteReachability = withUnsafePointer(to: &zeroAddress, {
-            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
-                SCNetworkReachabilityCreateWithAddress(nil, $0)
-            }
-        }) else {
-            return false
-        }
-
-        var flags: SCNetworkReachabilityFlags = []
-        if !SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
-            return false
-        }
-
-        let isReachable = flags.contains(.reachable)
-        let needsConnection = flags.contains(.connectionRequired)
-
-        return (isReachable && !needsConnection)
+        return networkMonitor.currentPath.status == .satisfied
     }
 }

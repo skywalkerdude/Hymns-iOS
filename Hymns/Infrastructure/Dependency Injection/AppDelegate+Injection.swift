@@ -28,7 +28,7 @@ extension Resolver: ResolverRegistering {
         register {URLSession.shared}.scope(application)
         register {UserDefaultsManager()}.scope(application)
         register {AnalyticsLogger()}
-        register {SystemUtil()}
+        register {SystemUtilImpl() as SystemUtil}
         registerPDFLoader()
         registerConverters()
         registerHymnDataStore()
