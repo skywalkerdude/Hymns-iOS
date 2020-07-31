@@ -23,9 +23,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
             }
             describe("init") {
                 it("should only contain font size and tags") {
-                    expect(target.buttons).to(haveCount(2))
-                    expect(target.buttons[0]).to(equal(.fontSize))
-                    expect(target.buttons[1]).to(equal(.tags))
+                    expect(target.buttons).to(beEmpty())
                     expect(target.overflowButtons).to(beNil())
                 }
             }
@@ -44,9 +42,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
                 }
                 it("should only contain font size and tags") {
-                    expect(target.buttons).to(haveCount(2))
-                    expect(target.buttons[0]).to(equal(.fontSize))
-                    expect(target.buttons[1]).to(equal(.tags))
+                    expect(target.buttons).to(beEmpty())
                     expect(target.overflowButtons).to(beNil())
                 }
             }
@@ -66,9 +62,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
                 }
                 it("should only contain font size and tags") {
-                    expect(target.buttons).to(haveCount(2))
-                    expect(target.buttons[0]).to(equal(.fontSize))
-                    expect(target.buttons[1]).to(equal(.tags))
+                    expect(target.buttons).to(beEmpty())
                     expect(target.overflowButtons).to(beNil())
                 }
             }

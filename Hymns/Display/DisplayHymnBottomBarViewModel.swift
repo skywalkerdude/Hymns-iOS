@@ -34,7 +34,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
         self.repository = repository
         self.backgroundQueue = backgroundQueue
         self.systemUtil = systemUtil
-        self.buttons = [.fontSize, .tags]
+        self.buttons = [BottomBarButton]()
     }
 
     func fetchHymn() {
