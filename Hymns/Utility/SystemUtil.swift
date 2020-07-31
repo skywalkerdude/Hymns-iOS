@@ -2,7 +2,11 @@ import Foundation
 import Network
 import Resolver
 
-class SystemUtil {
+protocol SystemUtil {
+    func isNetworkAvailable() -> Bool
+}
+
+class SystemUtilImpl: SystemUtil {
 
     private let networkMonitor: NWPathMonitor
 

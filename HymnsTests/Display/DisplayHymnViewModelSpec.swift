@@ -178,7 +178,9 @@ class DisplayHymnViewModelSpec: QuickSpec {
                         beforeEach {
                             target = DisplayHymnViewModel(backgroundQueue: testQueue, favoriteStore: favoriteStore,
                                                           hymnToDisplay: newSong145, hymnsRepository: hymnsRepository,
-                                                          historyStore: historyStore, mainQueue: testQueue, pdfPreloader: pdfLoader)
+                                                          historyStore: historyStore, mainQueue: testQueue,
+                                                          pdfPreloader: pdfLoader, systemUtil: systemUtil)
+                             given(systemUtil.isNetworkAvailable()) ~> true
                         }
                         let title = "In my spirit, I can see You as You are"
                         context("title contains 'Hymn: '") {
@@ -289,6 +291,35 @@ class DisplayHymnViewModelSpec: QuickSpec {
                             }
                             it("title should be '\(title)'") {
                                 expect(target.title).to(equal(title))
+                            }
+                        }
+                        context("network unavailable") {
+                            beforeEach {
+                                let hymn = UiHymn(hymnIdentifier: newSong145, title: "title'",
+                                                  lyrics: [Verse](),
+                                                  pdfSheet: Hymns.MetaDatum(name: "Lead Sheet",
+                                                                            data: [Hymns.Datum(value: "Piano", path: "/en/hymn/c/1151/f=ppdf"),
+                                                                                   Hymns.Datum(value: "Guitar", path: "/en/hymn/c/1151/f=pdf"),
+                                                                                   Hymns.Datum(value: "Text", path: "/en/hymn/c/1151/f=gtpdf")]))
+                                given(systemUtil.isNetworkAvailable()) ~> false
+                                given(hymnsRepository.getHymn(newSong145)) ~> { _ in
+                                    Just(hymn).assertNoFailure().eraseToAnyPublisher()
+                                }
+                                given(favoriteStore.isFavorite(hymnIdentifier: newSong145)) ~> { _ in
+                                    Just(false).mapError({ _ -> ErrorType in
+                                        .data(description: "This will never get called")
+                                    }).eraseToAnyPublisher()
+                                }
+
+                                target.fetchHymn()
+                                testQueue.sync {}
+                                testQueue.sync {}
+                                testQueue.sync {}
+                                testQueue.sync {}
+                            }
+                            it("should have one tab") {
+                                expect(target.tabItems).to(haveCount(1))
+                                expect(target.tabItems[0].id).to(equal("Lyrics"))
                             }
                         }
                     }
