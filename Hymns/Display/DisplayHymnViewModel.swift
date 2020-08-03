@@ -14,7 +14,6 @@ class DisplayHymnViewModel: ObservableObject {
     @Published var tabItems: [HymnLyricsTab] = [HymnLyricsTab]()
     @Published var isFavorited: Bool?
     @Published var bottomBar: DisplayHymnBottomBarViewModel?
-    @Published var mp3Path: URL?
 
     private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue
