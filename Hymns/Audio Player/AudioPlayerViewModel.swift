@@ -46,7 +46,7 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
         } catch {
-            Crashlytics.crashlytics().record(error: NonFatal(errorDescription: "Unable to set AVAudioSession category to \(AVAudioSession.Category.playback.rawValue)"))
+            Crashlytics.crashlytics().record(error: NonFatal(localizedDescription: "Unable to set AVAudioSession category to \(AVAudioSession.Category.playback.rawValue)"))
         }
     }
 
@@ -68,7 +68,7 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
                     if let failed = failed {
                         failed()
                     }
-                    Crashlytics.crashlytics().record(error: NonFatal(errorDescription: "Failed to initialize audio player"))
+                    Crashlytics.crashlytics().record(error: NonFatal(localizedDescription: "Failed to initialize audio player"))
                     return
                 }
                 player.delegate = self
