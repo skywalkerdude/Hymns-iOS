@@ -61,7 +61,7 @@ class BrowseRepositoryImpl: BrowseRepository {
                                         references.append(scriptureReference)
                                         references.append(" ")
                                     }
-                                    Crashlytics.crashlytics().record(error: NonFatal(errorDescription: "Chapter in reference was nil: \(references)"))
+                                    Crashlytics.crashlytics().record(error: NonFatal(localizedDescription: "Chapter in reference was nil: \(references)"))
                                     continue
                                 }
                             }

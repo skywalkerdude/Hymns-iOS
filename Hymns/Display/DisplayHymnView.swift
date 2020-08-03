@@ -9,7 +9,6 @@ struct DisplayHymnView: View {
     @State var dialogBuilder: (() -> AnyView)?
     @State var showSoundCloud = false
     @State var initiatedSoundCloud = false
-    @State var shrink = false
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel

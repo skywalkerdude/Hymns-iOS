@@ -12,7 +12,7 @@ struct PrivacyPolicySettingView: View {
             .sheet(isPresented: self.$showPrivacyPolicy, content: { () -> AnyView in
                 guard let url = URL(string: "https://app.termly.io/document/privacy-policy/4b9dd46b-aca9-40ae-ac97-58b47e4b4cac") else {
                     Crashlytics.crashlytics().log("Privacy policy url: 'https://app.termly.io/document/privacy-policy/4b9dd46b-aca9-40ae-ac97-58b47e4b4cac'")
-                    Crashlytics.crashlytics().record(error: NonFatal(errorDescription: "Privacy policy url malformed"))
+                    Crashlytics.crashlytics().record(error: NonFatal(localizedDescription: "Privacy policy url malformed"))
                     return ErrorView().eraseToAnyView()
                 }
                 return WebView(url: url).eraseToAnyView()
