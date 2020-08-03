@@ -1,50 +1,184 @@
+/* No comment provided by engineer. */
 "- Col. 3:16" = "- Col. 3:16";
-"About Us" = "About Us";
-"An error has occurred. Please try again. You can also send feedback and we’ll look into the issue." = "An error has occurred. Please try again. You can also send feedback and we’ll look into the issue.";
-"Browse" = "Browse";
-"Browse tab" = "Browse tab";
-"Change the song lyrics font size" = "Change the song lyrics font size";
-"Change to a relevant hymn" = "Change to a relevant hymn";
-"Change to another language" = "Change to another language";
-"Close" = "Close";
-"Create tags by tapping on the" = "Create tags by tapping on the";
-"Destination" = "Destination";
-"Did not find any songs matching:" = "Did not find any songs matching:";
-"Please try a different request" = "Please try a different request";
-"Example Text" = "Example Text";
-"Favorites" = "Favorites";
-"Favorites tab" = "Favorites tab";
-"For a free study Bible tap " = "For a free study Bible tap ";
-"Guitar" = "Guitar";
-"Hello There 👋" = "Hello There 👋";
-"Label it however you like" = "Label it however you like";
-"Let the word of Christ dwell in you richly in all wisdom, teaching and admonishing one another with psalms and hymns and spiritual songs, singing with grace in your hearts to God." = "Let the word of Christ dwell in you richly in all wisdom, teaching and admonishing one another with psalms and hymns and spiritual songs, singing with grace in your hearts to God.";
-"Look up any hymn" = "Look up any hymn";
-"Lyrics" = "Lyrics";
-"Lyrics are not available for this song" = "Lyrics are not available for this song";
-"Name your tag" = "Name your tag";
-"Piano" = "Piano";
-"Please try a different request" = "Please try a different request";
-"Privacy Policy" = "Privacy Policy";
-"Search" = "Search";
-"Search by numbers or words" = "Search by numbers or words";
-"Search by number or title" = "Search by number or title";
-"Search tab" = "Search tab";
-"Select a color" = "Select a color";
-"Send Feedback" = "Send Feedback";
-"Settings" = "Settings";
-"Settings tab" = "Settings tab";
-"Tags" = "Tags";
-"Tap the heart on any hymn to add as a favorite" = "Tap the heart on any hymn to add as a favorite";
-"We're the team behind this hymnal app. We love Jesus, and we created this app as a free resource to help other believers access the thousands of hymns available on the internet. We also built in support for the hymns indexed by the Living Stream Ministry hymnal." = "We're the team behind this hymnal app. We love Jesus, and we created this app as a free resource to help other believers access the thousands of hymns available on the internet. We also built in support for the hymns indexed by the Living Stream Ministry hymnal.";
-"Well, this is unexpected" = "Well, this is unexpected";
-"error!" = "error!";
-"here." = "here.";
-"icon on any hymn" = "icon on any hymn";
-"loading..." = "loading...";
-"Classic Hymns" = "Classic Hymns";
-"New Tunes" = "New Tunes";
-"New Songs" = "New Songs";
-"Children's Songs" = "Children's Songs";
-"Scripture Songs" = "Scripture Songs";
+
+/* No comment provided by engineer. */
+"About us" = "About us";
+
+/* Title for the overflow menu action sheet */
+"Additional options" = "Additional options";
+
+/* Browse all songs */
 "All Songs" = "All Songs";
+
+/* No comment provided by engineer. */
+"An error has occurred. Please try again. You can also send feedback and we’ll look into the issue." = "An error has occurred. Please try again. You can also send feedback and we’ll look into the issue.";
+
+/* Browse tab title */
+"Browse" = "Browse";
+
+/* Change the lyrics font size */
+"Change lyrics font size" = "Change lyrics font size";
+
+/* Message for the lyrics font size action sheet */
+"Change the song lyrics font size" = "Change the song lyrics font size";
+
+/* Message for the relevant songs action sheet */
+"Change to a relevant hymn" = "Change to a relevant hymn";
+
+/* Message for the languages action sheet */
+"Change to another language" = "Change to another language";
+
+/* Browse children's songs */
+"Children's Songs" = "Children's Songs";
+
+/* Hymn chords tab */
+"Chords" = "Chords";
+
+/* Browse classic hymns */
+"Classic Hymns" = "Classic Hymns";
+
+/* Close button on the tag sheet */
+"Close" = "Close";
+
+/* Former part of the empty tag state text */
+"Create tags by tapping on the" = "Create tags by tapping on the";
+
+/* No comment provided by engineer. */
+"Did not find any songs matching:\n\"%@\".\nPlease try a different request" = "Did not find any songs matching:\n\"%@\".\nPlease try a different request";
+
+/* Favorites tab title */
+"Favorites" = "Favorites";
+
+/* No comment provided by engineer. */
+"Feedback failed to send" = "Feedback failed to send";
+
+/* No comment provided by engineer. */
+"Feedback not sent" = "Feedback not sent";
+
+/* No comment provided by engineer. */
+"Feedback not sent but was saved to drafts" = "Feedback not sent but was saved to drafts";
+
+/* No comment provided by engineer. */
+"Feedback sent" = "Feedback sent";
+
+/* No comment provided by engineer. */
+"For a free study Bible tap " = "For a free study Bible tap ";
+
+/* a11y label for the back button on the display hymn view. */
+"Go back" = "Go back";
+
+/* Hymn guitar tab */
+"Guitar" = "Guitar";
+
+/* No comment provided by engineer. */
+"Hello There 👋" = "Hello There 👋";
+
+/* The 'here' in 'tap here' that links to BFA to get a free Bible */
+"here." = "here.";
+
+/* Latter part of the empty tag state text */
+"icon on any hymn" = "icon on any hymn";
+
+/* No comment provided by engineer. */
+"Label it however you like" = "Label it however you like";
+
+/* Title for the languages action sheet */
+"Languages" = "Languages";
+
+/* No comment provided by engineer. */
+"Let the word of Christ dwell in you richly in all wisdom, teaching and admonishing one another with psalms and hymns and spiritual songs, singing with grace in your hearts to God." = "Let the word of Christ dwell in you richly in all wisdom, teaching and admonishing one another with psalms and hymns and spiritual songs, singing with grace in your hearts to God.";
+
+/* Home tab title */
+"Look up any hymn" = "Look up any hymn";
+
+/* Hymn lyrics tab */
+"Lyrics" = "Lyrics";
+
+/* No comment provided by engineer. */
+"Lyrics are not available for this song" = "Lyrics are not available for this song";
+
+/* Title for the lyrics font size action sheet */
+"Lyrics font size" = "Lyrics font size";
+
+/* No comment provided by engineer. */
+"Mark as favorite" = "Mark as favorite";
+
+/* Bottom bar overflow button */
+"More options" = "More options";
+
+/* No comment provided by engineer. */
+"Name your tag" = "Name your tag";
+
+/* Browse new songs */
+"New Songs" = "New Songs";
+
+/* Browse new tunes */
+"New Tunes" = "New Tunes";
+
+/* Hymn piano tab */
+"Piano" = "Piano";
+
+/* Play the tune of the song */
+"Play music" = "Play music";
+
+/* No comment provided by engineer. */
+"Privacy policy" = "Privacy policy";
+
+/* Recent hymns label */
+"Recent hymns" = "Recent hymns";
+
+/* Songs relevant to this song (alternate tunes, etc)
+ Title for the relevant songs action sheet */
+"Relevant songs" = "Relevant songs";
+
+/* Browse scripture songs */
+"Scripture Songs" = "Scripture Songs";
+
+/* Search tab a11y label */
+"Search" = "Search";
+
+/* Search bar hint text */
+"Search by number or keyword" = "Search by number or keyword";
+
+/* Search for this song on SoundCloud */
+"Search in SoundCloud" = "Search in SoundCloud";
+
+/* Search for this song on YouTube */
+"Search in YouTube" = "Search in YouTube";
+
+/* No comment provided by engineer. */
+"Select a color" = "Select a color";
+
+/* No comment provided by engineer. */
+"Send feedback" = "Send feedback";
+
+/* Settings tab title */
+"Settings" = "Settings";
+
+/* Share lyrics externally to another app */
+"Share lyrics" = "Share lyrics";
+
+/* Show different languages for this song */
+"Show languages" = "Show languages";
+
+/* See information for this song */
+"Song Info" = "Song Info";
+
+/* No comment provided by engineer. */
+"Song progress slider" = "Song progress slider";
+
+/* Browse or add tags for this song
+ Browse tags */
+"Tags" = "Tags";
+
+/* No comment provided by engineer. */
+"Tap the heart on any hymn to add as a favorite" = "Tap the heart on any hymn to add as a favorite";
+
+/* No comment provided by engineer. */
+"Unmark as favorite" = "Unmark as favorite";
+
+/* No comment provided by engineer. */
+"We're the team behind this hymnal app. We love Jesus, and we created this app as a free resource to help other believers access the thousands of hymns available on the internet. We also built in support for the hymns indexed by the Living Stream Ministry hymnal." = "We're the team behind this hymnal app. We love Jesus, and we created this app as a free resource to help other believers access the thousands of hymns available on the internet. We also built in support for the hymns indexed by the Living Stream Ministry hymnal.";
+
+/* No comment provided by engineer. */
+"Well, this is unexpected" = "Well, this is unexpected";

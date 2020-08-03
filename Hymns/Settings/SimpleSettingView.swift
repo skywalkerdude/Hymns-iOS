@@ -34,12 +34,12 @@ struct SimpleSettingView_Previews: PreviewProvider {
             Group {
                 Group {
                     SimpleSettingView(title: "Theme", subtitle: "Using system theme", action: {})
-                    SimpleSettingView(title: "Privacy Policy", action: {})
+                    SimpleSettingView(title: "Privacy policy", action: {})
                 }.previewDisplayName("Regular")
 
                 Group {
                     SimpleSettingView(title: "Theme", subtitle: "Using system theme", action: {})
-                    SimpleSettingView(title: "Privacy Policy", action: {})
+                    SimpleSettingView(title: "Privacy policy", action: {})
                 }
                 .environment(\.colorScheme, .dark)
                 .previewDisplayName("Dark Mode")
@@ -48,7 +48,7 @@ struct SimpleSettingView_Previews: PreviewProvider {
 
             Group {
                 SimpleSettingView(title: "Theme", subtitle: "Using system theme", action: {})
-                SimpleSettingView(title: "Privacy Policy", action: {})
+                SimpleSettingView(title: "Privacy policy", action: {})
             }
             .previewLayout(.fixed(width: 450, height: 150))
             .environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)

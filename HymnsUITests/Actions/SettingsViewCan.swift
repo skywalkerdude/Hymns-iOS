@@ -8,7 +8,7 @@ public class SettingsHymnViewCan: BaseViewCan {
     }
 
     public func tapAboutUs() -> SettingsHymnViewCan {
-        app.buttons["About Us"].tap()
+        app.buttons["About us"].tap()
         return self
     }
 

@@ -1,50 +1,185 @@
+/* No comment provided by engineer. */
 "- Col. 3:16" = "- Kol. 3:16";
-"About Us" = "Über Uns";
-"An error has occurred. Please try again. You can also send feedback and we’ll look into the issue." = "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut. Sie können auch eine Rückmeldung senden, und wir werden das Problem untersuchen.";
-"Browse" = "Durchsuchen";
-"Browse tab" = "Durchsuchen Tab";
-"Change the song lyrics font size" = "Ändern der Schriftgröße der Liedtexte";
-"Change to a relevant hymn" = "Zu einer relevanten Hymne wechseln";
-"Change to another language" = "Zu einer anderen Sprache wechseln";
-"Close" = "Schließen";
-"Create tags by tapping on the" = "Erstellen Sie Tags durch Tippen auf die";
-"Destination" = "Reiseziel";
-"Did not find any songs matching:" = "Es wurden keine passenden Lieder gefunden:";
-"Please try a different request" = "Bitte versuchen Sie eine andere Anfrage";
-"Example Text" = "Beispiel-Text";
-"Favorites" = "Favoriten";
-"Favorites tab" = "Favoriten Tab";
-"For a free study Bible tap " = "Für ein kostenloses Bibelstudium zapfen Sie die Bibel an ";
-"Guitar" = "Gitarre";
-"Hello There 👋" = "Hallo 👋";
-"Label it however you like" = "Beschriften Sie es wie Sie wollen";
-"Let the word of Christ dwell in you richly in all wisdom, teaching and admonishing one another with psalms and hymns and spiritual songs, singing with grace in your hearts to God." = "Lasst das Wort Christi reichlich in aller Weisheit in euch wohnen, lehrt und ermahnt einander mit Psalmen und Hymnen und geistlichen Liedern und singt Gott mit Gnade in euren Herzen.";
-"Look up any hymn" = "Jede Hymne nachschlagen";
-"Lyrics" = "Liedtexte";
-"Lyrics are not available for this song" = "Für dieses Lied ist der Text nicht verfügbar";
-"Name your tag" = "Benennen Sie Ihren Tag";
-"Piano" = "Klavier";
-"Please try a different request" = "Bitte versuchen Sie eine andere Anfrage";
-"Privacy Policy" = "Datenschutzerklärung";
-"Search" = "Suche";
-"Search by numbers or words" = "Suche nach Zahlen oder Wörtern";
-"Search by number or title" = "Suche nach Nummer oder Titel";
-"Search tab" = "Suche tab";
-"Select a color" = "Wählen Sie eine Farbe";
-"Send Feedback" = "Rückmeldung senden";
-"Settings" = "Einstellungen";
-"Settings tab" = "Einstellungen Tab";
-"Tags" = "Tags";
-"Tap the heart on any hymn to add as a favorite" = "Tippen Sie auf das Herz jeder Hymne, die Sie als Favorit hinzufügen möchten";
-"We're the team behind this hymnal app. We love Jesus, and we created this app as a free resource to help other believers access the thousands of hymns available on the internet. We also built in support for the hymns indexed by the Living Stream Ministry hymnal." = "Wir sind das Team hinter dieser hymnischen App. Wir lieben Jesus, und wir haben diese App als eine kostenlose Ressource geschaffen, um anderen Gläubigen den Zugang zu den Tausenden von Hymnen im Internet zu erleichtern. Wir haben auch Unterstützung für die Hymnen eingebaut, die im Gesangbuch des Lebenstrom indiziert sind.";
-"Well, this is unexpected" = "Nun, das ist unerwartet.";
-"error!" = "Fehler!";
-"here." = "hier.";
-"icon on any hymn" = "Symbol auf jeder Hymne";
-"loading..." = "laden...";
-"Classic Hymns" = "Klassische Hymnen";
-"New Tunes" = "Neue Melodien";
-"New Songs" = "Neue Lieder";
-"Children's Songs" = "Kinderlieder";
-"Scripture Songs" = "Schriften-Lieder";
+
+/* No comment provided by engineer. */
+"About us" = "TRANSLATE ME";
+
+/* Title for the overflow menu action sheet */
+"Additional options" = "TRANSLATE ME";
+
+/* Browse all songs */
 "All Songs" = "Alle Lieder";
+
+/* No comment provided by engineer. */
+"An error has occurred. Please try again. You can also send feedback and we’ll look into the issue." = "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut. Sie können auch eine Rückmeldung senden, und wir werden das Problem untersuchen.";
+
+/* Browse tab title */
+"Browse" = "Durchsuchen";
+
+/* Change the lyrics font size */
+"Change lyrics font size" = "Ändern der Schriftgröße der Liedtexte";
+
+/* Message for the lyrics font size action sheet */
+"Change the song lyrics font size" = "Ändern der Schriftgröße der Liedtexte";
+
+/* Message for the relevant songs action sheet */
+"Change to a relevant hymn" = "Zu einer relevanten Hymne wechseln";
+
+/* Message for the languages action sheet */
+"Change to another language" = "Zu einer anderen Sprache wechseln";
+
+/* Browse children's songs */
+"Children's Songs" = "Kinderlieder";
+
+/* Hymn chords tab */
+"Chords" = "TRANSLATE ME";
+
+/* Browse classic hymns */
+"Classic Hymns" = "Klassische Hymnen";
+
+/* Close button on the tag sheet */
+"Close" = "Schließen";
+
+/* Former part of the empty tag state text */
+"Create tags by tapping on the" = "Erstellen Sie Tags durch Tippen auf die";
+
+/* No comment provided by engineer. */
+"Did not find any songs matching:\n\"%@\".\nPlease try a different request" = "TRANSLATE ME";
+
+/* Favorites tab title */
+"Favorites" = "Favoriten";
+
+/* No comment provided by engineer. */
+"Feedback failed to send" = "TRANSLATE ME";
+
+/* No comment provided by engineer. */
+"Feedback not sent" = "TRANSLATE ME";
+
+/* No comment provided by engineer. */
+"Feedback not sent but was saved to drafts" = "TRANSLATE ME";
+
+/* No comment provided by engineer. */
+"Feedback sent" = "TRANSLATE ME";
+
+/* No comment provided by engineer. */
+"For a free study Bible tap " = "Für ein kostenloses Bibelstudium zapfen Sie die Bibel an ";
+
+/* a11y label for the back button on the display hymn view. */
+"Go back" = "TRANSLATE ME";
+
+/* Hymn guitar tab */
+"Guitar" = "Gitarre";
+
+/* No comment provided by engineer. */
+"Hello There 👋" = "Hallo There 👋";
+
+/* The 'here' in 'tap here' that links to BFA to get a free Bible */
+"here." = "TRANSLATE ME";
+
+/* Latter part of the empty tag state text */
+"icon on any hymn" = "TRANSLATE ME";
+
+/* No comment provided by engineer. */
+"Label it however you like" = "Beschriften Sie es wie Sie wollen";
+
+/* Title for the languages action sheet */
+"Languages" = "TRANSLATE ME";
+
+/* No comment provided by engineer. */
+"Let the word of Christ dwell in you richly in all wisdom, teaching and admonishing one another with psalms and hymns and spiritual songs, singing with grace in your hearts to God." = "Lasst das Wort Christi reichlich in aller Weisheit in euch wohnen, lehrt und ermahnt einander mit Psalmen und Hymnen und geistlichen Liedern und singt Gott mit Gnade in euren Herzen.";
+
+/* Home tab title */
+"Look up any hymn" = "Jede Hymne nachschlagen";
+
+/* Hymn lyrics tab */
+"Lyrics" = "Liedtexte";
+
+/* No comment provided by engineer. */
+"Lyrics are not available for this song" = "Für dieses Lied ist der Text nicht verfügbar";
+
+/* Title for the lyrics font size action sheet */
+"Lyrics font size" = "TRANSLATE ME";
+
+/* No comment provided by engineer. */
+"Mark as favorite" = "TRANSLATE ME";
+
+/* Bottom bar overflow button */
+"More options" = "TRANSLATE ME";
+
+/* No comment provided by engineer. */
+"Name your tag" = "Benennen Sie Ihren Tag";
+
+/* Browse new songs */
+"New Songs" = "Neue Lieder";
+
+/* Browse new tunes */
+"New Tunes" = "Neue Melodien";
+
+/* Hymn piano tab */
+"Piano" = "Klavier";
+
+/* Play the tune of the song */
+"Play music" = "TRANSLATE ME";
+
+/* No comment provided by engineer. */
+"Privacy policy" = "Datenschutzerklärung";
+
+/* Recent hymns label */
+"Recent hymns" = "TRANSLATE ME";
+
+/* Songs relevant to this song (alternate tunes, etc)
+ Title for the relevant songs action sheet */
+"Relevant songs" = "TRANSLATE ME";
+
+/* Browse scripture songs */
+"Scripture Songs" = "Schriften-Lieder";
+
+/* Search tab a11y label */
+"Search" = "Suche";
+
+/* Search bar hint text */
+"Search by number or keyword" = "TRANSLATE ME";
+
+/* Search for this song on SoundCloud */
+"Search in SoundCloud" = "TRANSLATE ME";
+
+/* Search for this song on YouTube */
+"Search in YouTube" = "TRANSLATE ME";
+
+/* No comment provided by engineer. */
+"Select a color" = "Wählen Sie eine Farbe";
+
+/* No comment provided by engineer. */
+"Send feedback" = "Rückmeldung senden";
+
+/* Settings tab title */
+"Settings" = "Einstellungen";
+
+/* Share lyrics externally to another app */
+"Share lyrics" = "TRANSLATE ME";
+
+/* Show different languages for this song */
+"Show languages" = "TRANSLATE ME";
+
+/* See information for this song */
+"Song Info" = "TRANSLATE ME";
+
+/* No comment provided by engineer. */
+"Song progress slider" = "TRANSLATE ME";
+
+/* Browse or add tags for this song
+ Browse tags */
+"Tags" = "TRANSLATE ME";
+
+/* No comment provided by engineer. */
+"Tap the heart on any hymn to add as a favorite" = "Tippen Sie auf das Herz jeder Hymne, die Sie als Favorit hinzufügen möchten";
+
+/* No comment provided by engineer. */
+"Unmark as favorite" = "TRANSLATE ME";
+
+/* No comment provided by engineer. */
+"We're the team behind this hymnal app. We love Jesus, and we created this app as a free resource to help other believers access the thousands of hymns available on the internet. We also built in support for the hymns indexed by the Living Stream Ministry hymnal." = "Wir sind das Team hinter dieser hymnischen App. Wir lieben Jesus, und wir haben diese App als eine kostenlose Ressource geschaffen, um anderen Gläubigen den Zugang zu den Tausenden von Hymnen im Internet zu erleichtern. Wir haben auch Unterstützung für die Hymnen eingebaut, die im Gesangbuch des Lebenstrom indiziert sind.";
+
+/* No comment provided by engineer. */
+"Well, this is unexpected" = "Nun, das ist unerwartet.";
+

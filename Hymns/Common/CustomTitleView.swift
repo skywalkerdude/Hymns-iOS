@@ -18,7 +18,7 @@ struct CustomTitle: View {
 #if DEBUG
 struct CustomTitle_Previews: PreviewProvider {
     static var previews: some View {
-        CustomTitle(title: NSLocalizedString("Favorites", comment: "Favorites")).previewLayout(.fixed(width: 200, height: 50))
+        CustomTitle(title: "Favorites").previewLayout(.fixed(width: 200, height: 50))
     }
 }
 #endif
