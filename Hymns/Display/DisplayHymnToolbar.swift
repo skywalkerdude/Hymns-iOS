@@ -14,7 +14,9 @@ struct DisplayHymnToolbar: View {
             Button(action: {
                 self.presentationMode.wrappedValue.dismiss()
             }, label: {
-                Image(systemName: "chevron.left").accentColor(.primary).padding()
+                Image(systemName: "chevron.left")
+                    .accessibility(label: Text(NSLocalizedString("Go back", comment: "a11y label for the back button on the display hymn view")))
+                    .accentColor(.primary).padding()
             })
             Spacer()
             Text(viewModel.title).fontWeight(.bold)
@@ -24,8 +26,10 @@ struct DisplayHymnToolbar: View {
                     self.viewModel.toggleFavorited()
                 }, label: {
                     isFavorited ?
-                        Image(systemName: "heart.fill").accentColor(.accentColor).padding() :
-                        Image(systemName: "heart").accentColor(.primary).padding()
+                        Image(systemName: "heart.fill")
+                            .accessibility(label: Text("Mark as favorite")).accentColor(.accentColor).padding() :
+                        Image(systemName: "heart")
+                            .accessibility(label: Text("Unmark as favorite")).accentColor(.primary).padding()
                 })
             }
         }
