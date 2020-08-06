@@ -38,17 +38,14 @@ struct SoundCloudWebView: UIViewRepresentable {
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
 
-            webView.evaluateJavaScript("document.querySelector('.upsellBanner__appButton').innerHTML = 'SoundCloud Results';", completionHandler: { (_, _) -> Void in
+            //Change the text from listen on the soundcloud app to SoundCloud Results
+            webView.evaluateJavaScript("document.querySelector('.upsellBanner__appButton').innerHTML = 'SoundCloud Search Results';", completionHandler: { (_, _) -> Void in
             })
-            webView.evaluateJavaScript("document.querySelector('.app__footerPanel').remove();", completionHandler: { (_, _) -> Void in
-            })
-
-            webView.evaluateJavaScript("document.querySelector('.footer.show').remove();", completionHandler: { (_, _) -> Void in
-            })
-
+            //Removes the footer with the Apple store logo
             webView.evaluateJavaScript("document.querySelector('.footer').remove();", completionHandler: { (_, _) -> Void in
             })
 
+            //Removes the category tab like all, songs, playlists, and artists. I am actually not sure if we want to show this or not. I'll leave the code here until we decide.
             webView.evaluateJavaScript("document.querySelector('.categories').remove();", completionHandler: { (_, _) -> Void in
             })
 
