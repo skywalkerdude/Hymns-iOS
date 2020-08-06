@@ -2,7 +2,7 @@ import SwiftUI
 
 struct SoundCloudView: View {
     @Binding var showSoundCloud: Bool
-    @Binding var soundCloudinitiated: Bool
+    @Binding var isSoundCloudBackgrounded: Bool
     var searchTitle: String
 
     var body: some View {
@@ -15,7 +15,7 @@ struct SoundCloudView: View {
                 HStack(spacing: 10) {
                     Button(action: {
                         self.showSoundCloud = false
-                        self.soundCloudinitiated = false
+                        self.isSoundCloudBackgrounded = false
                     }, label: {
                         Image(systemName: "xmark.square.fill").accentColor(.red)
                     })
@@ -37,6 +37,6 @@ struct SoundCloudView: View {
 
 struct SoundCloudView_Previews: PreviewProvider {
     static var previews: some View {
-        SoundCloudView(showSoundCloud: .constant(true), soundCloudinitiated: .constant(true), searchTitle: "Jesus is Lord")
+        SoundCloudView(showSoundCloud: .constant(true), isSoundCloudBackgrounded: .constant(true), searchTitle: "Jesus is Lord")
     }
 }

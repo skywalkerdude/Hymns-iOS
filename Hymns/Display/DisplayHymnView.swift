@@ -8,7 +8,7 @@ struct DisplayHymnView: View {
     @ObservedObject private var viewModel: DisplayHymnViewModel
     @State var dialogBuilder: (() -> AnyView)?
     @State var showSoundCloud = false
-    @State var initiatedSoundCloud = false
+    @State var isSoundCloudBackgrounded = false
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
@@ -20,8 +20,8 @@ struct DisplayHymnView: View {
                 ActivityIndicator().maxSize()
             } else {
                 ZStack {
-                    if self.initiatedSoundCloud {
-                        SoundCloudView(showSoundCloud: self.$showSoundCloud, soundCloudinitiated: self.$initiatedSoundCloud, searchTitle: self.viewModel.searchTitle)
+                    if self.isSoundCloudBackgrounded {
+                        SoundCloudView(showSoundCloud: self.$showSoundCloud, isSoundCloudBackgrounded: self.$isSoundCloudBackgrounded, searchTitle: self.viewModel.searchTitle)
                             .opacity(showSoundCloud ? 1 : 0).animation(.spring())
                     }
                 VStack(spacing: 0) {
@@ -35,11 +35,11 @@ struct DisplayHymnView: View {
                     } else {
                         viewModel.currentTab.content
                     }
-                    if !self.showSoundCloud && self.initiatedSoundCloud && AVAudioSession.sharedInstance().isOtherAudioPlaying {
+                    if !self.showSoundCloud && self.isSoundCloudBackgrounded && AVAudioSession.sharedInstance().isOtherAudioPlaying {
                         HStack {
                             Group {
                                 Button(action: {
-                                    self.initiatedSoundCloud = false
+                                    self.isSoundCloudBackgrounded = false
                                 }, label: {
                                     Image(systemName: "xmark.square.fill")
                                         .foregroundColor(.red)
@@ -55,7 +55,7 @@ struct DisplayHymnView: View {
                         }.padding()
                     }
                     viewModel.bottomBar.map { viewModel in
-                        DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, toggleSoundCloud: self.$showSoundCloud, initiatedSoundCloud: self.$initiatedSoundCloud, viewModel: viewModel).maxWidth()
+                        DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, toggleSoundCloud: self.$showSoundCloud, isSoundCloudBackgrounded: self.$isSoundCloudBackgrounded, viewModel: viewModel).maxWidth()
                     }
                 }.opacity(showSoundCloud ? 0 : 1)
                 }

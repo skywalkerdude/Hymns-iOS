@@ -5,7 +5,7 @@ struct DisplayHymnBottomBar: View {
 
     @Binding var dialogBuilder: (() -> AnyView)?
     @Binding var toggleSoundCloud: Bool
-    @Binding var initiatedSoundCloud: Bool
+    @Binding var isSoundCloudBackgrounded: Bool
     @State private var actionSheet: ActionSheetItem?
     @State private var sheet: DisplayHymnSheet?
 
@@ -144,7 +144,7 @@ struct DisplayHymnBottomBar: View {
             } else {
                 self.audioPlayer = nil
             }
-            initiatedSoundCloud = false
+            isSoundCloudBackgrounded = false
         case .relevant(let viewModels):
             self.actionSheet = .relevant(viewModels)
         case .tags:
@@ -155,7 +155,7 @@ struct DisplayHymnBottomBar: View {
             }
         case .soundCloud:
             toggleSoundCloud = true
-            initiatedSoundCloud = true
+            isSoundCloudBackgrounded = true
 
         case .youTube(let url):
             self.application.open(url)
@@ -212,7 +212,7 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
         let minimumViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
         let minimum = DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
             get: {dialogBuilder},
-            set: {dialogBuilder = $0}), toggleSoundCloud: .constant(true), initiatedSoundCloud: .constant(true), viewModel: minimumViewModel)
+            set: {dialogBuilder = $0}), toggleSoundCloud: .constant(true), isSoundCloudBackgrounded: .constant(true), viewModel: minimumViewModel)
 
         let maximumViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
         maximumViewModel.buttons = [
@@ -226,7 +226,7 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
         ]
         let maximum = DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
             get: {dialogBuilder},
-            set: {dialogBuilder = $0}), toggleSoundCloud: .constant(true), initiatedSoundCloud: .constant(true), viewModel: maximumViewModel)
+            set: {dialogBuilder = $0}), toggleSoundCloud: .constant(true), isSoundCloudBackgrounded: .constant(true), viewModel: maximumViewModel)
 
         let overflowViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
         overflowViewModel.buttons = [
@@ -244,7 +244,7 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
         ]
         let overflow = DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
             get: {dialogBuilder},
-            set: {dialogBuilder = $0}), toggleSoundCloud: .constant(true), initiatedSoundCloud: .constant(true), viewModel: overflowViewModel)
+            set: {dialogBuilder = $0}), toggleSoundCloud: .constant(true), isSoundCloudBackgrounded: .constant(true), viewModel: overflowViewModel)
 
         return Group {
             minimum.previewDisplayName("minimum number of buttons")
