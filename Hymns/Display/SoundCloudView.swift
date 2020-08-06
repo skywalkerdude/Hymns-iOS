@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct SoundCloudView: View {
-    @State private var isLoading = true
     @Binding var showSoundCloud: Bool
     @Binding var soundCloudinitiated: Bool
     var searchTitle: String
@@ -28,8 +27,7 @@ struct SoundCloudView: View {
                     Spacer()
                 }.padding()
                 ZStack {
-                    SoundCloudWebView(isLoading: self.$isLoading, url: url).eraseToAnyView().opacity(isLoading ? 0 : 1)
-                    ActivityIndicator().maxSize().eraseToAnyView().opacity(isLoading ? 1 : 0)
+                    SoundCloudWebView(url: url).eraseToAnyView()
                 }
             }
             .eraseToAnyView()
