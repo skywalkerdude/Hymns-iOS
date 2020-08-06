@@ -10,7 +10,7 @@ struct FeedbackView: View {
         Button(action: {
             self.isShowingMailView.toggle()
         }, label: {
-            Text("Send Feedback").font(.callout)
+            Text("Send feedback").font(.callout)
         }).sheet(isPresented: $isShowingMailView) {
                 MailFeedbackView(result: self.$result)
         }.padding().foregroundColor(.primary).disabled(!MFMailComposeViewController.canSendMail())

@@ -20,10 +20,10 @@ struct TagListView: View {
                         VStack(alignment: .center, spacing: 5) {
                             Spacer()
                             Image("empty tag illustration")
-                            Text("Create tags by tapping on the").lineLimit(3)
+                            Text(NSLocalizedString("Create tags by tapping on the", comment: "Former part of the empty tag state text")).lineLimit(3)
                             HStack {
                                 Image(systemName: "tag")
-                                Text("icon on any hymn")
+                                Text(NSLocalizedString("icon on any hymn", comment: "Latter part of the empty tag state text"))
                             }
                             Spacer()
                         }.frame(minHeight: geometry.size.height)
