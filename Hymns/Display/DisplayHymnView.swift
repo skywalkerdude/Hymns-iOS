@@ -22,9 +22,10 @@ struct DisplayHymnView: View {
                 ZStack {
                     if self.isSoundCloudBackgrounded {
                         SoundCloudView(showSoundCloud: self.$showSoundCloud, isSoundCloudBackgrounded: self.$isSoundCloudBackgrounded, searchTitle: self.viewModel.searchTitle)
-                            .opacity(showSoundCloud ? 1 : 0).animation(.spring())
+                            .opacity(showSoundCloud && isSoundCloudBackgrounded ? 1 : 0).animation(.spring())
                     }
                 VStack(spacing: 0) {
+                    Group {
                     DisplayHymnToolbar(viewModel: viewModel)
                     if viewModel.tabItems.count > 1 {
                         GeometryReader { geometry in
@@ -54,10 +55,11 @@ struct DisplayHymnView: View {
                             }
                         }.padding()
                     }
+                    }.opacity(showSoundCloud && isSoundCloudBackgrounded ? 0 : 1)
                     viewModel.bottomBar.map { viewModel in
                         DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, toggleSoundCloud: self.$showSoundCloud, isSoundCloudBackgrounded: self.$isSoundCloudBackgrounded, viewModel: viewModel).maxWidth()
                     }
-                }.opacity(showSoundCloud ? 0 : 1)
+                }
                 }
                 dialogBuilder.map { _ in
                     Dialog(builder: $dialogBuilder)
