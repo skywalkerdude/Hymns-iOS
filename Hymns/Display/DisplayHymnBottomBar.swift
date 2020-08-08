@@ -3,7 +3,7 @@ import SwiftUI
 
 struct DisplayHymnBottomBar: View {
 
-    @Binding var dialogBuilder: (() -> AnyView)?
+    @Binding var dialog: DialogViewModel<AnyView>?
     @State private var actionSheet: ActionSheetItem?
     @State private var sheet: DisplayHymnSheet?
 
@@ -147,9 +147,9 @@ struct DisplayHymnBottomBar: View {
         case .tags:
             self.sheet = .tags
         case .songInfo(let songInfoDialogViewModel):
-            self.dialogBuilder = {
+            self.dialog = DialogViewModel(contentBuilder: {
                 SongInfoDialogView(viewModel: songInfoDialogViewModel).eraseToAnyView()
-            }
+            })
         case .soundCloud(let url), .youTube(let url):
             self.application.open(url)
         }
@@ -200,12 +200,12 @@ extension DisplayHymnSheet: Identifiable {
 #if DEBUG
 struct DisplayHymnBottomBar_Previews: PreviewProvider {
     static var previews: some View {
-        var dialogBuilder: (() -> AnyView)?
+        var dialogViewModel: DialogViewModel<AnyView>?
 
         let minimumViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
-        let minimum = DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
-            get: {dialogBuilder},
-            set: {dialogBuilder = $0}), viewModel: minimumViewModel)
+        let minimum = DisplayHymnBottomBar(dialog: Binding<DialogViewModel<AnyView>?>(
+            get: {dialogViewModel},
+            set: {dialogViewModel = $0}), viewModel: minimumViewModel)
 
         let maximumViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
         maximumViewModel.buttons = [
@@ -217,9 +217,9 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
             .tags,
             .songInfo(SongInfoDialogViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
         ]
-        let maximum = DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
-            get: {dialogBuilder},
-            set: {dialogBuilder = $0}), viewModel: maximumViewModel)
+        let maximum = DisplayHymnBottomBar(dialog: Binding<DialogViewModel<AnyView>?>(
+            get: {dialogViewModel},
+            set: {dialogViewModel = $0}), viewModel: maximumViewModel)
 
         let overflowViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
         overflowViewModel.buttons = [
@@ -235,9 +235,9 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
             .youTube(URL(string: "https://www.youtube.com/results?search_query=search")!),
             .songInfo(SongInfoDialogViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
         ]
-        let overflow = DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
-            get: {dialogBuilder},
-            set: {dialogBuilder = $0}), viewModel: overflowViewModel)
+        let overflow = DisplayHymnBottomBar(dialog: Binding<DialogViewModel<AnyView>?>(
+            get: {dialogViewModel},
+            set: {dialogViewModel = $0}), viewModel: overflowViewModel)
 
         return Group {
             minimum.previewDisplayName("minimum number of buttons")

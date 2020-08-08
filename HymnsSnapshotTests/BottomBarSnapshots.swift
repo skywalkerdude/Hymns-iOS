@@ -7,7 +7,7 @@ import XCTest
 // https://troz.net/post/2020/swiftui_snapshots/
 class BottomBarSnapshots: XCTestCase {
 
-    var dialogBuilder: (() -> AnyView)?
+    var dialog: DialogViewModel<AnyView>?
     var viewModel: DisplayHymnBottomBarViewModel!
 
     override func setUp() {
@@ -16,9 +16,9 @@ class BottomBarSnapshots: XCTestCase {
     }
 
     func test_minimumButtons() {
-        let bottomBar = DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
-            get: {self.dialogBuilder},
-            set: {self.dialogBuilder = $0}), viewModel: viewModel).padding()
+        let bottomBar = DisplayHymnBottomBar(dialog: Binding<DialogViewModel<AnyView>?>(
+            get: {self.dialog},
+            set: {self.dialog = $0}), viewModel: viewModel).padding()
         assertSnapshot(matching: bottomBar, as: .image())
     }
 
@@ -33,9 +33,9 @@ class BottomBarSnapshots: XCTestCase {
             .songInfo(SongInfoDialogViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
         ]
 
-        let bottomBar = DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
-            get: {self.dialogBuilder},
-            set: {self.dialogBuilder = $0}), viewModel: viewModel).padding()
+        let bottomBar = DisplayHymnBottomBar(dialog: Binding<DialogViewModel<AnyView>?>(
+            get: {self.dialog},
+            set: {self.dialog = $0}), viewModel: viewModel).padding()
         assertSnapshot(matching: bottomBar, as: .image())
     }
 
@@ -54,9 +54,9 @@ class BottomBarSnapshots: XCTestCase {
             .songInfo(SongInfoDialogViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
         ]
 
-        let bottomBar = DisplayHymnBottomBar(dialogBuilder: Binding<(() -> AnyView)?>(
-            get: {self.dialogBuilder},
-            set: {self.dialogBuilder = $0}), viewModel: viewModel).padding()
+        let bottomBar = DisplayHymnBottomBar(dialog: Binding<DialogViewModel<AnyView>?>(
+            get: {self.dialog},
+            set: {self.dialog = $0}), viewModel: viewModel).padding()
         assertSnapshot(matching: bottomBar, as: .image())
     }
 }
