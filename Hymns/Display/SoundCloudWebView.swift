@@ -37,15 +37,14 @@ struct SoundCloudWebView: UIViewRepresentable {
         }
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            // Remove the header banner if we aren't on the search page so we don't have two SoundCloud logos on top of each other
-            webView.evaluateJavaScript("if (window.location.pathname != '/search') { $('.app__header').remove() }",
+            // Remove the header banner so we don't have two SoundCloud logos on top of each other
+            webView.evaluateJavaScript("$('.app__header').remove()",
                                        completionHandler: { (_, _) -> Void in })
             // Remove the upsell banner (which doesn't really work)
             webView.evaluateJavaScript("$('.app__upsell').remove()",
                                        completionHandler: { (_, _) -> Void in })
-            // If we are on the search screen, make the top padding 45px to make up for the upsell banner disappearing.
-            // If we are not on the search screen, then make the top padding 0px because we are also removing the header
-            webView.evaluateJavaScript("document.getElementById('content').style.paddingTop = window.location.pathname == '/search' ? '45px' : '0px'",
+            // Make the top padding 0px because we are removing the upsell and the header
+            webView.evaluateJavaScript("document.getElementById('content').style.paddingTop = '0px'",
                                        completionHandler: { (_, _) -> Void in })
             parent.loadStatusChanged?(false, nil)
         }
