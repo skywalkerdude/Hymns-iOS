@@ -25,7 +25,7 @@ struct DisplayHymnBottomBar: View {
             Divider()
 
             soundCloudPlayer.map { soundCloudPlayer in
-                SoundCloudPlayer(viewModel: soundCloudPlayer).padding()
+                SoundCloudPlayer(viewModel: soundCloudPlayer)
             }
 
             audioPlayer.map { audioPlayer in
@@ -154,15 +154,13 @@ struct DisplayHymnBottomBar: View {
         case .songInfo(let songInfoDialogViewModel):
             self.dialogModel = DialogViewModel(contentBuilder: {
                 SongInfoDialogView(viewModel: songInfoDialogViewModel).eraseToAnyView()
-            })
+            }, options: DialogOptions(transition: .opacity))
         case .soundCloud(let url):
             self.dialogModel = DialogViewModel(contentBuilder: {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .center, spacing: 0) {
                         Button(action: {
-                            withAnimation(.default) {
-                                self.dialogModel = nil
-                            }
+                            self.dialogModel = nil
                         }, label: {
                             Text("Close").padding()
                         })
@@ -171,17 +169,14 @@ struct DisplayHymnBottomBar: View {
                         Spacer()
                         Button(action: {
                             self.soundCloudPlayer = SoundCloudPlayerViewModel(dialogModel: self.$dialogModel)
-                            withAnimation(.default) {
-                                self.dialogModel?.opacity = 0
-                            }
+                            self.dialogModel?.opacity = 0
                         }, label: {
-                            Image("chevron.down")
-                                .accessibility(label: Text("Minimize SoundCloud"))
+                            Image(systemName: "chevron.down").accessibility(label: Text("Minimize SoundCloud")).padding()
                         })
                     }
                     SoundCloudWebView(url: url)
                 }.eraseToAnyView()
-            }, options: DialogOptions(dimBackground: false))
+            }, options: DialogOptions(dimBackground: false, transition: .move(edge: .bottom)))
         case .youTube(let url):
             self.application.open(url)
         }

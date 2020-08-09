@@ -17,10 +17,10 @@ struct SongInfoDialogView: View {
                 ForEach(viewModel.songInfo, id: \.self) { songInfo in
                     SongInfoView(viewModel: songInfo)
                 }
-        }.padding()
-            .cornerRadius(5)
-            .background(Color(.secondarySystemBackground))
-            .eraseToAnyView()
+            }.padding()
+                .cornerRadius(5)
+                .background(Color(.secondarySystemBackground))
+                .eraseToAnyView()
     }
 }
 

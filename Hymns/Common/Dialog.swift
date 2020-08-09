@@ -31,7 +31,7 @@ struct Dialog<Content: View>: View {
                 }
             }
             viewModel.contentBuilder().background(Color(UIColor.systemBackground))
-        }.opacity(viewModel.opacity).eraseToAnyView()
+        }.opacity(viewModel.opacity).transition(self.viewModel.options.transition ?? .identity).animation(.easeInOut)
     }
 }
 

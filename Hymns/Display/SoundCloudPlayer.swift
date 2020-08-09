@@ -13,17 +13,21 @@ struct SoundCloudPlayer: View {
         if viewModel.showPlayer {
             return HStack {
                 if !sizeCategory.isAccessibilityCategory() {
-                    Image("soundcloud_logo")
+                    Image("soundcloud_logo").padding()
                 }
-                Text(NSLocalizedString("Now playing from SoundCloud",
-                                       comment: "Indicator that a song from SoundCloud is currently playing"))
-                    .foregroundColor(.secondary).maxWidth()
                 Button(action: {
-                    self.viewModel.stopPlayer()
+                    self.viewModel.openPlayer()
                 }, label: {
-                    Image(systemName: "xmark").accessibility(label: Text("Close"))
+                    Text(NSLocalizedString("Now playing from SoundCloud",
+                                           comment: "Indicator that a song from SoundCloud is currently playing"))
+                        .foregroundColor(.secondary).maxWidth()
                 })
-            }.eraseToAnyView()
+                Button(action: {
+                    self.viewModel.dismissPlayer()
+                }, label: {
+                    Image(systemName: "xmark").accessibility(label: Text("Close")).padding()
+                })
+            }.transition(.opacity).animation(.easeOut).eraseToAnyView()
         } else {
             return EmptyView().eraseToAnyView()
         }

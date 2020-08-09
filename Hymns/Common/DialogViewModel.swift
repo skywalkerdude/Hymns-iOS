@@ -4,9 +4,11 @@ import SwiftUI
 public struct DialogOptions {
 
     let dimBackground: Bool
+    let transition: AnyTransition?
 
-    init(dimBackground: Bool = true) {
+    init(dimBackground: Bool = true, transition: AnyTransition? = nil) {
         self.dimBackground = dimBackground
+        self.transition = transition
     }
 }
 

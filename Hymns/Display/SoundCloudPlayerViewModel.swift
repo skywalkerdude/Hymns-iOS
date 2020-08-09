@@ -25,7 +25,11 @@ class SoundCloudPlayerViewModel: ObservableObject {
         timerConnection = nil
     }
 
-    func stopPlayer() {
+    func openPlayer() {
+        dialogModel?.opacity = 1
+    }
+
+    func dismissPlayer() {
         self.timerConnection?.cancel()
         self.showPlayer = false
         self.dialogModel = nil

@@ -32,7 +32,7 @@ struct DisplayHymnView: View {
                     }
                 }
                 Dialog(viewModel: $dialogModel).map { dialog in
-                    dialog
+                    dialog.zIndex(1)
                 }
             }
         }.hideNavigationBar()
