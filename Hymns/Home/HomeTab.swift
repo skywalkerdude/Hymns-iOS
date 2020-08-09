@@ -41,13 +41,13 @@ extension HomeTab: TabItem {
         case .none:
             return Text("")
         case .home:
-            return Text(NSLocalizedString("Search", comment: "Search tab a11y label"))
+            return Text("Search")
         case .browse:
-            return Text(NSLocalizedString("Favorites", comment: "Favorites tab a11y label"))
+            return Text("Favorites")
         case .favorites:
-            return Text(NSLocalizedString("Browse", comment: "Browse tab a11y label"))
+            return Text("Browse")
         case .settings:
-            return Text(NSLocalizedString("Settings", comment: "Settings tab a11y label"))
+            return Text("Settings")
         }
     }
 

@@ -21,9 +21,7 @@ struct SoundCloudPlayer: View {
                 Button(action: {
                     self.viewModel.stopPlayer()
                 }, label: {
-                    Image(systemName: "xmark")
-                        .accessibility(label: Text(NSLocalizedString("Close",
-                                                                     comment: "Close button on the SoundCloud player")))
+                    Image(systemName: "xmark").accessibility(label: Text("Close"))
                 })
             }.eraseToAnyView()
         } else {

@@ -28,7 +28,7 @@ extension BottomBarButton {
         case .relevant:
             return NSLocalizedString("Relevant songs", comment: "Songs relevant to this song (alternate tunes, etc)")
         case .tags:
-            return NSLocalizedString("Tags", comment: "Browse or add tags for this song")
+            return NSLocalizedString("Tags", comment: "Browse tags")
         case .songInfo:
             return NSLocalizedString("Song Info", comment: "See information for this song")
         case .soundCloud:

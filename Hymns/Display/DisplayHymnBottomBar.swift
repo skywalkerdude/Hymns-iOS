@@ -102,8 +102,7 @@ struct DisplayHymnBottomBar: View {
             case .relevant(let viewModels):
                 return
                     ActionSheet(
-                        title: Text(NSLocalizedString("Relevant songs",
-                                                      comment: "Title for the relevant songs action sheet")),
+                        title: Text("Relevant songs"),
                         message: Text(NSLocalizedString("Change to a relevant hymn",
                                                         comment: "Message for the relevant songs action sheet")),
                         buttons: viewModels.map({ viewModel -> Alert.Button in
@@ -157,28 +156,32 @@ struct DisplayHymnBottomBar: View {
                 SongInfoDialogView(viewModel: songInfoDialogViewModel).eraseToAnyView()
             })
         case .soundCloud(let url):
-            let closeHandler = {
-                self.soundCloudPlayer = SoundCloudPlayerViewModel(dialogModel: self.$dialogModel)
-                withAnimation(.default) {
-                    self.dialogModel?.opacity = 0
-                }
-            }
             self.dialogModel = DialogViewModel(contentBuilder: {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .center, spacing: 0) {
                         Button(action: {
-                            closeHandler()
+                            withAnimation(.default) {
+                                self.dialogModel = nil
+                            }
                         }, label: {
-                            Text(NSLocalizedString("Close", comment: "Close button on the SoundCloud web view"))
-                                .padding()
+                            Text("Close").padding()
                         })
                         Spacer()
                         Image("soundcloud_banner")
                         Spacer()
+                        Button(action: {
+                            self.soundCloudPlayer = SoundCloudPlayerViewModel(dialogModel: self.$dialogModel)
+                            withAnimation(.default) {
+                                self.dialogModel?.opacity = 0
+                            }
+                        }, label: {
+                            Image("chevron.down")
+                                .accessibility(label: Text("Minimize SoundCloud"))
+                        })
                     }
                     SoundCloudWebView(url: url)
                 }.eraseToAnyView()
-            }, closeHandler: closeHandler, options: DialogOptions(dimBackground: false))
+            }, options: DialogOptions(dimBackground: false))
         case .youTube(let url):
             self.application.open(url)
         }
