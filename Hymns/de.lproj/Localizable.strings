@@ -37,6 +37,12 @@
 /* Browse classic hymns */
 "Classic Hymns" = "Klassische Hymnen";
 
+/* Close button on the SoundCloud player */
+"Close" = "Schließen";
+
+/* Close button on the SoundCloud web view */
+"Close" = "Schließen";
+
 /* Close button on the tag sheet */
 "Close" = "Schließen";
 
@@ -114,6 +120,9 @@
 
 /* Browse new tunes */
 "New Tunes" = "Neue Melodien";
+
+/* Indicator that a song from SoundCloud is currently playing */
+"Now playing from SoundCloud" = "TRANSLATE ME";
 
 /* Hymn piano tab */
 "Piano" = "Klavier";
