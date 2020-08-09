@@ -13,13 +13,14 @@ struct HomeView: View {
     var body: some View {
         VStack(alignment: .leading) {
             if !viewModel.searchActive {
-                CustomTitle(title: "Look up any hymn").transition(AnyTransition.move(edge: .top).combined(with: .opacity))
+                CustomTitle(title: NSLocalizedString("Look up any hymn", comment: "Home tab title"))
+                    .transition(AnyTransition.move(edge: .top).combined(with: .opacity))
             }
 
             SearchBar(
                 searchText: $viewModel.searchParameter,
                 searchActive: $viewModel.searchActive,
-                placeholderText: "Search by number or title")
+                placeholderText: NSLocalizedString("Search by number or keyword", comment: "Search bar hint text"))
                 .padding(.horizontal)
                 .padding(.top, viewModel.searchActive ? nil : .zero)
 
@@ -30,7 +31,8 @@ struct HomeView: View {
             if viewModel.state == .loading {
                 ActivityIndicator().maxSize()
             } else if viewModel.state == .empty {
-                Text("Did not find any songs matching:\n\"\(viewModel.searchParameter)\".\nPlease try a different request").padding().multilineTextAlignment(.center).maxSize(alignment: .center)
+                Text("Did not find any songs matching:\n\"\(viewModel.searchParameter)\".\nPlease try a different request")
+                    .padding().multilineTextAlignment(.center).maxSize(alignment: .center)
             } else {
                 if viewModel.songResults.isEmpty {
                     Spacer()

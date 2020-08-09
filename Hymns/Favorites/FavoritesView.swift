@@ -12,7 +12,7 @@ struct FavoritesView: View {
 
     var body: some View {
         VStack {
-            CustomTitle(title: "Favorites")
+            CustomTitle(title: NSLocalizedString("Favorites", comment: "Favorites tab title"))
             Group { () -> AnyView in
                 guard let favorites = self.viewModel.favorites else {
                     return ActivityIndicator().maxSize().eraseToAnyView()

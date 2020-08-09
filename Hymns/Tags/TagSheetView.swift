@@ -42,7 +42,8 @@ struct TagSheetView: View {
                             Button(action: {
                                 self.sheet.wrappedValue = nil
                             }, label: {
-                                Text("Close").foregroundColor(.primary).fontWeight(.light)
+                                Text(NSLocalizedString("Close", comment: "Close button on the tag sheet"))
+                                    .foregroundColor(.primary).fontWeight(.light)
                             })
                             Button("Add") {
                                 self.viewModel.addTag(tagTitle: self.tagName, tagColor: self.tagColor)

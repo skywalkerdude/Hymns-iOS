@@ -7,7 +7,7 @@ struct AbousUsButtonView: View {
         Button(action: {
             self.isShowingInfo.toggle()
         }, label: {
-            Text("About Us").font(.callout)
+            Text("About us").font(.callout)
         }).padding().foregroundColor(.primary)
             .sheet(isPresented: $isShowingInfo) {
                 AboutUsDialogView()

@@ -32,7 +32,7 @@ struct AboutUsDialogView: View {
                 // Right now the whole sentence will link you.
                 // https://stackoverflow.com/questions/59359730/is-it-possible-to-add-an-in-line-button-within-a-text
                 Group {
-                    Text("For a free study Bible tap ") + Text("here.").fontWeight(.bold).underline()
+                    Text("For a free study Bible tap ") + Text(NSLocalizedString("here.", comment: "The 'here' in 'tap here' that links to BFA to get a free Bible")).fontWeight(.bold).underline()
                 }.font(.callout).padding().onTapGesture {
                     self.analytics.logBFALinkClicked()
                     self.application.open(URL(string: "https://biblesforamerica.org/")!)

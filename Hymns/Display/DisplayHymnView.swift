@@ -5,7 +5,7 @@ import Resolver
 struct DisplayHymnView: View {
 
     @ObservedObject private var viewModel: DisplayHymnViewModel
-    @State var dialogBuilder: (() -> AnyView)?
+    @State var dialogViewModel: DialogViewModel<AnyView>?
 
     init(viewModel: DisplayHymnViewModel) {
         self.viewModel = viewModel
@@ -28,11 +28,11 @@ struct DisplayHymnView: View {
                         viewModel.currentTab.content
                     }
                     viewModel.bottomBar.map { viewModel in
-                        DisplayHymnBottomBar(dialogBuilder: self.$dialogBuilder, viewModel: viewModel).maxWidth()
+                        DisplayHymnBottomBar(dialog: self.$dialogViewModel, viewModel: viewModel).maxWidth()
                     }
                 }
-                dialogBuilder.map { _ in
-                    Dialog(builder: $dialogBuilder)
+                dialogViewModel.map { _ in
+                    Dialog(viewModel: $dialogViewModel)
                 }
             }
         }.hideNavigationBar()
