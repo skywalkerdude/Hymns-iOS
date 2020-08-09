@@ -15,7 +15,14 @@ struct PrivacyPolicySettingView: View {
                     Crashlytics.crashlytics().record(error: NonFatal(localizedDescription: "Privacy policy url malformed"))
                     return ErrorView().eraseToAnyView()
                 }
-                return WebView(url: url).eraseToAnyView()
+                return HStack {
+                    Button(action: {
+                        self.showPrivacyPolicy = false
+                    }, label: {
+                        Text("Close") // TODO localize
+                    })
+                    WebView(url: url)
+                }.eraseToAnyView()
             })
     }
 }
