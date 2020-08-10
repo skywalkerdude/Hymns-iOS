@@ -69,9 +69,9 @@ struct SoundCloudView: View {
             ToolTipView(tapAction: {
                 self.viewModel.dismissToolTip()
             }).background(ToolTip(cornerRadius: 10,
-                                  toolTipMidX: toolTipSize.width - (indicatorPoint.maxX - indicatorPoint.minX)/2,
+                                  toolTipMidX: toolTipSize.width - (indicatorPoint.maxX - indicatorPoint.minX)/2 + 7,
                                   toolTipHeight: 7).fill(Color.blue))
-                .offset(x: indicatorPoint.maxX - toolTipSize.width, y: indicatorPoint.maxY + 7)
+                .offset(x: indicatorPoint.maxX - toolTipSize.width - 7, y: indicatorPoint.maxY + 7)
                 .eraseToAnyView()
     }
 }
@@ -127,7 +127,9 @@ struct SoundCloudView_Previews: PreviewProvider {
         let noToolTip = SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: noToolTipViewModel,
                                        url: URL(string: "https://soundcloud.com/anthonyjohntunes/broken-vessels-amazing-grace-hillsong-live-cover")!)
 
-        let toolTip = SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil),
+        let toolTipViewModel = SoundCloudViewModel()
+        toolTipViewModel.showSoundCloudMinimizeTooltip = true
+        let toolTip = SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: toolTipViewModel,
                                      url: URL(string: "https://soundcloud.com/anthonyjohntunes/broken-vessels-amazing-grace-hillsong-live-cover")!)
 
         return
