@@ -157,25 +157,7 @@ struct DisplayHymnBottomBar: View {
             }, options: DialogOptions(transition: .opacity))
         case .soundCloud(let url):
             self.dialogModel = DialogViewModel(contentBuilder: {
-                VStack(alignment: .leading, spacing: 0) {
-                    HStack(alignment: .center, spacing: 0) {
-                        Button(action: {
-                            self.dialogModel = nil
-                        }, label: {
-                            Text("Close").padding()
-                        })
-                        Spacer()
-                        Image("soundcloud_banner")
-                        Spacer()
-                        Button(action: {
-                            self.soundCloudPlayer = SoundCloudPlayerViewModel(dialogModel: self.$dialogModel)
-                            self.dialogModel?.opacity = 0
-                        }, label: {
-                            Image(systemName: "chevron.down").accessibility(label: Text("Minimize SoundCloud")).padding()
-                        })
-                    }
-                    SoundCloudWebView(url: url)
-                }.eraseToAnyView()
+                SoundCloudView(dialogModel: self.$dialogModel, soundCloudPlayer: self.$soundCloudPlayer, url: url).eraseToAnyView()
             }, options: DialogOptions(dimBackground: false, transition: .move(edge: .bottom)))
         case .youTube(let url):
             self.application.open(url)
