@@ -42,21 +42,23 @@ struct TagSheetView: View {
                             }, label: {
                                 HStack {
                                     Text(tag.title).font(.body).fontWeight(.bold)
-                                    Image(systemName: "checkmark.circle.fill")
+                                    Image(systemName: "xmark.circle.fill")
                                 }
                                 .tagPill(backgroundColor: tag.color.background, foregroundColor: tag.color.foreground)
                             }).padding(2)
                         }
                     }
+                    if self.viewModel.tagsForHymn.isEmpty && !self.viewModel.otherTags.isEmpty {
+                        Text("Tags").font(.headline).fontWeight(.bold)
+                        Text("\n ")
+                    }
                     if !self.viewModel.otherTags.isEmpty {
-                        Text("Your other tags").font(.headline).fontWeight(.bold)
+                        Text("Add existing tags?").font(.headline).fontWeight(.bold)
                         WrappedHStack(items: self.$viewModel.otherTags, geometry: geometry) { tag in
                             Button(action: {
                                 self.viewModel.addTag(tagTitle: tag.title, tagColor: tag.color)
                             }, label: {
-                                Text(tag.title)
-                                    .font(.body)
-                                    .fontWeight(.bold)
+                                Text(tag.title).font(.body).fontWeight(.bold)
                                     .tagPill(backgroundColor: tag.color.background, foregroundColor: tag.color.foreground)
                             }).padding(2)
                         }
@@ -66,8 +68,8 @@ struct TagSheetView: View {
                     }, label: {
                         HStack {
                             Text("Create a new tag").font(.headline).fontWeight(.bold)
-                            Image(systemName: self.viewModel.showNewTagCreation ? "chevron.down" : "chevron.up")
-                        }.foregroundColor(.primary).padding(.vertical)
+                            Image(systemName: self.viewModel.showNewTagCreation ? "chevron.up" : "square.and.pencil")
+                        }.foregroundColor(self.viewModel.showNewTagCreation ? .primary : .accentColor).padding(.vertical)
                     })
 
                     if self.viewModel.showNewTagCreation {
@@ -88,7 +90,7 @@ struct TagSheetView: View {
                         }.padding(.top)
                     }
                     Spacer()
-                }.offset(y: self.kGuardian.slide).animation(.easeInOut(duration: 1.0))
+                }.offset(y: self.kGuardian.slide)//.animation(.easeInOut(duration: 1.0))
             }
         }.onAppear {
             self.viewModel.fetchHymn()

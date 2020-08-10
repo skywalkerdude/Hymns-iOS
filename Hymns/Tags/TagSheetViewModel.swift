@@ -63,7 +63,7 @@ class TagSheetViewModel: ObservableObject {
                 self.otherTags = allTags.filter({ tag -> Bool in
                     return !tagsForHymn.contains(tag)
                 })
-                if self.tagsForHymn.isEmpty || self.otherTags.isEmpty {
+                if self.tagsForHymn.isEmpty || self.otherTags.count < 5 {
                     self.showNewTagCreation = true
                 }
             }).store(in: &disposables)

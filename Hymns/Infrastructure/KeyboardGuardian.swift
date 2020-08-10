@@ -19,7 +19,6 @@ final class KeyboardGuardian: ObservableObject {
 
     init(textFieldCount: Int) {
         self.rects = Array<CGRect>(repeating: CGRect(), count: textFieldCount)
-
     }
 
     func addObserver() {
@@ -34,7 +33,6 @@ final class KeyboardGuardian: ObservableObject {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-
 
 
     @objc func keyBoardWillShow(notification: Notification) {
@@ -64,7 +62,6 @@ final class KeyboardGuardian: ObservableObject {
             } else {
                 slide += min(diff, 0)
             }
-
         }
     }
 }
