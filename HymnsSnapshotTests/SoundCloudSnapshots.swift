@@ -16,6 +16,13 @@ class SoundCloudSnapshots: XCTestCase {
         assertSnapshot(matching: SoundCloudPlayer(viewModel: viewModel), as: .image(layout: .fixed(width: 400, height: 200)))
     }
 
+    func test_soundCloudPlayer_a11ySize() {
+        let viewModel = SoundCloudPlayerViewModel(dialogModel: .constant(nil))
+        viewModel.showPlayer = true
+        let player = SoundCloudPlayer(viewModel: viewModel).environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
+        assertSnapshot(matching: player, as: .image(layout: .fixed(width: 400, height: 200)))
+    }
+
     func test_soundCloudView() {
         let viewModel = SoundCloudViewModel()
         viewModel.showSoundCloudMinimizeTooltip = false
