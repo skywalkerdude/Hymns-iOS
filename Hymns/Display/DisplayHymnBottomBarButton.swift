@@ -28,7 +28,7 @@ extension BottomBarButton {
         case .relevant:
             return NSLocalizedString("Relevant songs", comment: "Songs relevant to this song (alternate tunes, etc)")
         case .tags:
-            return NSLocalizedString("Tags", comment: "Browse or add tags for this song")
+            return NSLocalizedString("Tags", comment: "Browse tags")
         case .songInfo:
             return NSLocalizedString("Song Info", comment: "See information for this song")
         case .soundCloud:
@@ -55,9 +55,9 @@ extension BottomBarButton {
         case .songInfo:
             return BottomBarLabel(image: Image(systemName: "info.circle"), a11yLabel: label).foregroundColor(.primary)
         case .soundCloud:
-            return BottomBarLabel(image: Image("soundcloud.logo"), a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image("soundcloud"), a11yLabel: label).foregroundColor(.primary)
         case .youTube:
-            return BottomBarLabel(image: Image("youtube.logo"), a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image("youtube"), a11yLabel: label).foregroundColor(.primary)
         }
     }
 
@@ -78,9 +78,9 @@ extension BottomBarButton {
         case .songInfo:
             return BottomBarLabel(image: Image(systemName: "info.circle"), a11yLabel: label).foregroundColor(.primary)
         case .soundCloud:
-            return BottomBarLabel(image: Image("soundcloud.logo"), a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image("soundcloud"), a11yLabel: label).foregroundColor(.primary)
         case .youTube:
-            return BottomBarLabel(image: Image("youtube.logo"), a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image("youtube"), a11yLabel: label).foregroundColor(.primary)
         }
     }
 }
@@ -129,7 +129,7 @@ struct BottomBarLabel: View {
 #if DEBUG
 struct BottomBarLabel_Previews: PreviewProvider {
     static var previews: some View {
-        BottomBarLabel(image: Image("soundcloud.logo"), a11yLabel: "a11y label").previewLayout(.sizeThatFits)
+        BottomBarLabel(image: Image("soundcloud"), a11yLabel: "a11y label").previewLayout(.sizeThatFits)
     }
 }
 #endif

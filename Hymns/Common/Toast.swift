@@ -61,59 +61,59 @@ struct SimpleToast<Item, ToastContent>: ViewModifier where Item: Identifiable, T
 struct Toast_Previews: PreviewProvider {
     static var previews: some View {
         let top =
-            Text("Content here")
+            Text("__PREVIEW__ Content here")
                 .maxSize()
                 .toast(item: .constant(TagColor.blue), options: ToastOptions(alignment: .top)) { _ -> AnyView in
-                    Text("Toast text").padding()
+                    Text("__PREVIEW__ Toast text").padding()
                         .eraseToAnyView()
         }
         let center =
-            Text("Content here")
+            Text("__PREVIEW__ Content here")
                 .maxSize()
                 .toast(item: .constant(TagColor.blue), options: ToastOptions(alignment: .center)) { _ -> AnyView in
                     VStack {
-                        Text("Toast line 1")
-                        Text("Toast line 2")
+                        Text("__PREVIEW__ Toast line 1")
+                        Text("__PREVIEW__ Toast line 2")
                     }.padding()
                         .eraseToAnyView()
         }
         let bottom =
-            Text("Content here")
+            Text("__PREVIEW__ Content here")
                 .maxSize()
                 .toast(item: .constant(TagColor.blue), options: ToastOptions(alignment: .bottom)) { _ -> AnyView in
                     HStack {
                         Image(systemName: "checkmark").foregroundColor(.green).padding()
-                        Text("Toast text").padding(.trailing)
+                        Text("__PREVIEW__ Toast text").padding(.trailing)
                     }
                     .eraseToAnyView()
         }
         let bottomWithOutBackdrop =
-            Text("Content here")
+            Text("__PREVIEW__ Content here")
                 .maxSize()
                 .toast(item: .constant(TagColor.blue), options: ToastOptions(alignment: .bottom, backdrop: false)) { _ -> AnyView in
                     HStack {
                         Image(systemName: "checkmark").foregroundColor(.green).padding()
-                        Text("Toast text").padding(.trailing)
+                        Text("__PREVIEW__ Toast text").padding(.trailing)
                     }
                     .eraseToAnyView()
         }
         let darkMode =
-            Text("Content here")
+            Text("__PREVIEW__ Content here")
                 .maxSize()
                 .toast(item: .constant(TagColor.blue), options: ToastOptions(alignment: .bottom)) { _ -> AnyView in
                     HStack {
                         Image(systemName: "checkmark").foregroundColor(.green).padding()
-                        Text("Toast text").padding(.trailing)
+                        Text("__PREVIEW__ Toast text").padding(.trailing)
                     }
                     .eraseToAnyView()
             }.background(Color(.systemBackground)).environment(\.colorScheme, .dark)
         let darkModeWithoutBackdrop =
-            Text("Content here")
+            Text("__PREVIEW__ Content here")
                 .maxSize()
                 .toast(item: .constant(TagColor.blue), options: ToastOptions(alignment: .bottom, backdrop: false)) { _ -> AnyView in
                     HStack {
                         Image(systemName: "checkmark").foregroundColor(.green).padding()
-                        Text("Toast text").padding(.trailing)
+                        Text("__PREVIEW__ Toast text").padding(.trailing)
                     }
                     .eraseToAnyView()
             }.background(Color(.systemBackground)).environment(\.colorScheme, .dark)
