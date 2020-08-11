@@ -148,10 +148,18 @@
 		3BB1DCB0244D03DE0011169D /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB1DCAD244D03DE0011169D /* TabView.swift */; };
 		3BB1DCB5244D55770011169D /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB1DCB4244D55770011169D /* SearchBar.swift */; };
 		3BB7877A24550686003CBEED /* StringExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB7877924550686003CBEED /* StringExtensionsSpec.swift */; };
+		3BB9319F24E1E65D00E0C873 /* ToolTipSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB9319E24E1E65D00E0C873 /* ToolTipSnapshots.swift */; };
 		3BBA15E824CC99850010EEC8 /* AudioPlayerSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBA15E724CC99850010EEC8 /* AudioPlayerSnapshots.swift */; };
 		3BBA15EA24CCBCD00010EEC8 /* BottomBarSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBA15E924CCBCD00010EEC8 /* BottomBarSnapshots.swift */; };
 		3BBA15EE24CCF8900010EEC8 /* DisplayHymnBottomBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBA15ED24CCF88F0010EEC8 /* DisplayHymnBottomBarButton.swift */; };
 		3BBCC20924DE4C6C00977961 /* DialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBCC20824DE4C6C00977961 /* DialogViewModel.swift */; };
+		3BBCC20D24DE75F500977961 /* SoundCloudPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBCC20C24DE75F500977961 /* SoundCloudPlayer.swift */; };
+		3BBCC20F24DF21FF00977961 /* SoundCloudPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBCC20E24DF21FF00977961 /* SoundCloudPlayerViewModel.swift */; };
+		3BBCC21124DFBDE100977961 /* SoundCloudWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBCC21024DFBDE100977961 /* SoundCloudWebView.swift */; };
+		3BBCC21324DFDF6400977961 /* SoundCloudSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBCC21224DFDF6400977961 /* SoundCloudSnapshots.swift */; };
+		3BBCC21724E0D3FD00977961 /* SoundCloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBCC21624E0D3FD00977961 /* SoundCloudView.swift */; };
+		3BBCC21B24E1048400977961 /* ToolTipShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBCC21A24E1048300977961 /* ToolTipShape.swift */; };
+		3BBCC21D24E1C51A00977961 /* SoundCloudViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBCC21C24E1C51900977961 /* SoundCloudViewModel.swift */; };
 		3BC1328D243826280082A274 /* PreviewHymns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC1328C243826270082A274 /* PreviewHymns.swift */; };
 		3BC1329724385A580082A274 /* HomeContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC1329624385A580082A274 /* HomeContainerView.swift */; };
 		3BC1329924385C420082A274 /* HomeTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC1329824385C420082A274 /* HomeTab.swift */; };
@@ -423,10 +431,18 @@
 		3BB1DCAD244D03DE0011169D /* TabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabView.swift; path = Hymns/Common/TabView/TabView.swift; sourceTree = SOURCE_ROOT; };
 		3BB1DCB4244D55770011169D /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		3BB7877924550686003CBEED /* StringExtensionsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensionsSpec.swift; sourceTree = "<group>"; };
+		3BB9319E24E1E65D00E0C873 /* ToolTipSnapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolTipSnapshots.swift; sourceTree = "<group>"; };
 		3BBA15E724CC99850010EEC8 /* AudioPlayerSnapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerSnapshots.swift; sourceTree = "<group>"; };
 		3BBA15E924CCBCD00010EEC8 /* BottomBarSnapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBarSnapshots.swift; sourceTree = "<group>"; };
 		3BBA15ED24CCF88F0010EEC8 /* DisplayHymnBottomBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnBottomBarButton.swift; sourceTree = "<group>"; };
 		3BBCC20824DE4C6C00977961 /* DialogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogViewModel.swift; sourceTree = "<group>"; };
+		3BBCC20C24DE75F500977961 /* SoundCloudPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundCloudPlayer.swift; sourceTree = "<group>"; };
+		3BBCC20E24DF21FF00977961 /* SoundCloudPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundCloudPlayerViewModel.swift; sourceTree = "<group>"; };
+		3BBCC21024DFBDE100977961 /* SoundCloudWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundCloudWebView.swift; sourceTree = "<group>"; };
+		3BBCC21224DFDF6400977961 /* SoundCloudSnapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundCloudSnapshots.swift; sourceTree = "<group>"; };
+		3BBCC21624E0D3FD00977961 /* SoundCloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundCloudView.swift; sourceTree = "<group>"; };
+		3BBCC21A24E1048300977961 /* ToolTipShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolTipShape.swift; sourceTree = "<group>"; };
+		3BBCC21C24E1C51900977961 /* SoundCloudViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundCloudViewModel.swift; sourceTree = "<group>"; };
 		3BC1328C243826270082A274 /* PreviewHymns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewHymns.swift; sourceTree = "<group>"; };
 		3BC13291243850B90082A274 /* classic1151.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = classic1151.json; sourceTree = "<group>"; };
 		3BC13293243852C00082A274 /* classic1334.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = classic1334.json; sourceTree = "<group>"; };
@@ -794,6 +810,7 @@
 				3B20368D248C0E8200D90DF5 /* ErrorView.swift */,
 				3B369CEB246D07580068A29C /* PDFViewer.swift */,
 				3B3DF63C24A280D100E60ED9 /* IconSizeConstants.swift */,
+				3BBCC21A24E1048300977961 /* ToolTipShape.swift */,
 				3BB1DCB4244D55770011169D /* SearchBar.swift */,
 				B5A00F5E245277E300F7E3E1 /* ActivityIndicator.swift */,
 				3B369CEF246D0D570068A29C /* WebView.swift */,
@@ -860,6 +877,11 @@
 				3B11E2A52465211200F27E73 /* DisplayHymnToolbar.swift */,
 				3B7A1815246A748E005540F7 /* HymnLyricsTab.swift */,
 				B595A4A924438D8E005F7A14 /* HymnLyricsViewModel.swift */,
+				3BBCC20C24DE75F500977961 /* SoundCloudPlayer.swift */,
+				3BBCC20E24DF21FF00977961 /* SoundCloudPlayerViewModel.swift */,
+				3BBCC21024DFBDE100977961 /* SoundCloudWebView.swift */,
+				3BBCC21624E0D3FD00977961 /* SoundCloudView.swift */,
+				3BBCC21C24E1C51900977961 /* SoundCloudViewModel.swift */,
 				3B5935B52435A07000E6993C /* HymnLyricsView.swift */,
 				3BF699AE24417921005AFF6A /* VerseView.swift */,
 				B5915C5F24CE8F6200342D7E /* SplashScreenView.swift */,
@@ -1127,8 +1149,10 @@
 				3BE31A3E24A468E400B1A038 /* SettingsSnapshots.swift */,
 				3BB1928224A3EDB600E5F9FA /* SongInfoDialogSnapshots.swift */,
 				3B6DA64E24A96A4F00A9277F /* SongInfoSheetSnapshots.swift */,
+				3BBCC21224DFDF6400977961 /* SoundCloudSnapshots.swift */,
 				3B3DF63824A1CBAF00E60ED9 /* TagSheetSnapshots.swift */,
 				3BCC54CA24C80B2100F0D6FC /* ToastSnapshots.swift */,
+				3BB9319E24E1E65D00E0C873 /* ToolTipSnapshots.swift */,
 				3BE7C91D249CAB2700B04A1F /* Info.plist */,
 			);
 			path = HymnsSnapshotTests;
@@ -1705,10 +1729,12 @@
 				3B877E80245FE0FE004C10DD /* SystemUtil.swift in Sources */,
 				B595A4AA24438D8E005F7A14 /* HymnLyricsViewModel.swift in Sources */,
 				3B11E2A62465211200F27E73 /* DisplayHymnToolbar.swift in Sources */,
+				3BBCC20D24DE75F500977961 /* SoundCloudPlayer.swift in Sources */,
 				3B877E7C245FC122004C10DD /* Resource.swift in Sources */,
 				B5838BC4247AEFE9003B85E9 /* AudioSlider.swift in Sources */,
 				3BC1329724385A580082A274 /* HomeContainerView.swift in Sources */,
 				3BA4612524771C460068F269 /* SongInfoViewModel.swift in Sources */,
+				3BBCC21124DFBDE100977961 /* SoundCloudWebView.swift in Sources */,
 				3B877E7E245FCE68004C10DD /* Converter.swift in Sources */,
 				B5915C6024CE8F6200342D7E /* SplashScreenView.swift in Sources */,
 				B5F8C50C249288E900F22ED0 /* TagSheetViewModel.swift in Sources */,
@@ -1727,7 +1753,9 @@
 				3B2E84B5246FA88800EA4329 /* SongResultEntity.swift in Sources */,
 				3B25C0EA24503B7E00C435E1 /* HistoryStore.swift in Sources */,
 				3B5935A424357CA000E6993C /* HymnType.swift in Sources */,
+				3BBCC21B24E1048400977961 /* ToolTipShape.swift in Sources */,
 				3B203688248B864E00D90DF5 /* ScriptureResult.swift in Sources */,
+				3BBCC21724E0D3FD00977961 /* SoundCloudView.swift in Sources */,
 				3B9ED1C02486296000BD004E /* BrowseResultsListViewModel.swift in Sources */,
 				3B58D20E2480A01100C66445 /* CategoryView.swift in Sources */,
 				5CA7849C242D14BA00B57903 /* SettingsView.swift in Sources */,
@@ -1791,9 +1819,11 @@
 				3BC1328D243826280082A274 /* PreviewHymns.swift in Sources */,
 				3B25C0E32450398F00C435E1 /* String+Extensions.swift in Sources */,
 				B582E4452493266700329DA5 /* AboutUsDialogView.swift in Sources */,
+				3BBCC21D24E1C51A00977961 /* SoundCloudViewModel.swift in Sources */,
 				3BB1DCAF244D03DE0011169D /* TabBar.swift in Sources */,
 				3B3DF63D24A280D100E60ED9 /* IconSizeConstants.swift in Sources */,
 				3BE44361248ABBB000763B3C /* BrowseScripturesViewModel.swift in Sources */,
+				3BBCC20F24DF21FF00977961 /* SoundCloudPlayerViewModel.swift in Sources */,
 				3B58D20824809E9500C66445 /* BrowseCategoriesViewModel.swift in Sources */,
 				3B2E84B7246FA8A200EA4329 /* UiSongResultsPage.swift in Sources */,
 				3B3A2A10244D7C65001BF689 /* Application+Extensions.swift in Sources */,
@@ -1916,6 +1946,7 @@
 			files = (
 				3BDD870C249DEB42006288C8 /* DisplayHymnSnapshots.swift in Sources */,
 				3BE31A3D24A4674900B1A038 /* BrowseResultsListSnapshots.swift in Sources */,
+				3BBCC21324DFDF6400977961 /* SoundCloudSnapshots.swift in Sources */,
 				3B45F01624A14EBE00479FE6 /* BrowseTagsSnapshots.swift in Sources */,
 				3BB1928324A3EDB600E5F9FA /* SongInfoDialogSnapshots.swift in Sources */,
 				3BCC54CB24C80B2100F0D6FC /* ToastSnapshots.swift in Sources */,
@@ -1927,6 +1958,7 @@
 				3B52698E24A01E7E006E72E1 /* DisplayHymnPdfSnapshots.swift in Sources */,
 				3BBA15E824CC99850010EEC8 /* AudioPlayerSnapshots.swift in Sources */,
 				3BBA15EA24CCBCD00010EEC8 /* BottomBarSnapshots.swift in Sources */,
+				3BB9319F24E1E65D00E0C873 /* ToolTipSnapshots.swift in Sources */,
 				3B52698C24A00919006E72E1 /* AboutUsDialogSnapshots.swift in Sources */,
 				3B77655424B05D260081D917 /* BottomSheetSnapshots.swift in Sources */,
 				3B3DF63724A156D800E60ED9 /* BrowseScripturesSnapshots.swift in Sources */,

@@ -15,7 +15,7 @@ struct DisplayHymnToolbar: View {
                 self.presentationMode.wrappedValue.dismiss()
             }, label: {
                 Image(systemName: "chevron.left")
-                    .accessibility(label: Text(NSLocalizedString("Go back", comment: "a11y label for the back button on the display hymn view")))
+                    .accessibility(label: Text("Go back"))
                     .accentColor(.primary).padding()
             })
             Spacer()

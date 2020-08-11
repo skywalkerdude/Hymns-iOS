@@ -19,7 +19,7 @@ struct PrivacyPolicySettingView: View {
                     Button(action: {
                         self.showPrivacyPolicy = false
                     }, label: {
-                        Text("Close") // TODO localize
+                        Text("Close")
                     })
                     WebView(url: url)
                 }.eraseToAnyView()
