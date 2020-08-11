@@ -149,6 +149,7 @@
 		3BB1DCB5244D55770011169D /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB1DCB4244D55770011169D /* SearchBar.swift */; };
 		3BB7877A24550686003CBEED /* StringExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB7877924550686003CBEED /* StringExtensionsSpec.swift */; };
 		3BB9319F24E1E65D00E0C873 /* ToolTipSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB9319E24E1E65D00E0C873 /* ToolTipSnapshots.swift */; };
+		3BB931A524E23DF200E0C873 /* ClearUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB931A424E23DF200E0C873 /* ClearUserDefaults.swift */; };
 		3BBA15E824CC99850010EEC8 /* AudioPlayerSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBA15E724CC99850010EEC8 /* AudioPlayerSnapshots.swift */; };
 		3BBA15EA24CCBCD00010EEC8 /* BottomBarSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBA15E924CCBCD00010EEC8 /* BottomBarSnapshots.swift */; };
 		3BBA15EE24CCF8900010EEC8 /* DisplayHymnBottomBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBA15ED24CCF88F0010EEC8 /* DisplayHymnBottomBarButton.swift */; };
@@ -436,6 +437,7 @@
 		3BB1DCB4244D55770011169D /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		3BB7877924550686003CBEED /* StringExtensionsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensionsSpec.swift; sourceTree = "<group>"; };
 		3BB9319E24E1E65D00E0C873 /* ToolTipSnapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolTipSnapshots.swift; sourceTree = "<group>"; };
+		3BB931A424E23DF200E0C873 /* ClearUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearUserDefaults.swift; sourceTree = "<group>"; };
 		3BBA15E724CC99850010EEC8 /* AudioPlayerSnapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerSnapshots.swift; sourceTree = "<group>"; };
 		3BBA15E924CCBCD00010EEC8 /* BottomBarSnapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBarSnapshots.swift; sourceTree = "<group>"; };
 		3BBA15ED24CCF88F0010EEC8 /* DisplayHymnBottomBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnBottomBarButton.swift; sourceTree = "<group>"; };
@@ -996,6 +998,7 @@
 				B582E4442493266700329DA5 /* AboutUsDialogView.swift */,
 				B582E4462493267200329DA5 /* AboutUsViewModel.swift */,
 				B582E448249331A600329DA5 /* AboutUsButtonView.swift */,
+				3BB931A424E23DF200E0C873 /* ClearUserDefaults.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1829,6 +1832,7 @@
 				3B3A2A10244D7C65001BF689 /* Application+Extensions.swift in Sources */,
 				3B5935B124358D1B00E6993C /* Hymn.swift in Sources */,
 				3B58D20C2480A00100C66445 /* CategoryViewModel.swift in Sources */,
+				3BB931A524E23DF200E0C873 /* ClearUserDefaults.swift in Sources */,
 				B5A00F5F245277E300F7E3E1 /* ActivityIndicator.swift in Sources */,
 				3B5935BB2435B7A400E6993C /* AppDelegate+Injection.swift in Sources */,
 				3B0B39AF243931B3003C5161 /* ErrorType.swift in Sources */,
