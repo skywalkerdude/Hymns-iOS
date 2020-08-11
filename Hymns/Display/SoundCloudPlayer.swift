@@ -20,12 +20,12 @@ struct SoundCloudPlayer: View {
                 }, label: {
                     Text(NSLocalizedString("Now playing from SoundCloud",
                                            comment: "Indicator that a song from SoundCloud is currently playing"))
-                        .foregroundColor(.secondary).maxWidth()
+                        .foregroundColor(.accentColor).maxWidth()
                 })
                 Button(action: {
                     self.viewModel.dismissPlayer()
                 }, label: {
-                    Image(systemName: "xmark").accessibility(label: Text("Close")).padding()
+                    Image(systemName: "xmark").accessibility(label: Text("Close")).padding().foregroundColor(.primary)
                 })
             }.transition(.opacity).animation(.easeOut).eraseToAnyView()
         } else {

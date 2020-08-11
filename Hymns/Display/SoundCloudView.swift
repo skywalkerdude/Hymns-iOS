@@ -25,9 +25,7 @@ struct SoundCloudView: View {
                         Text("Close").padding()
                     })
                     Spacer()
-                    Image("soundcloud_banner")
-                    Spacer()
-                    if viewModel.showMinimizeCaret {
+                    if self.viewModel.showMinimizeCaret {
                         Button(action: {
                             self.soundCloudPlayer = SoundCloudPlayerViewModel(dialogModel: self.$dialogModel)
                             self.dialogModel?.opacity = 0
@@ -39,8 +37,8 @@ struct SoundCloudView: View {
                                                         value.indicatorAnchor = anchor
                         })
                     }
-                }
-                SoundCloudWebView(viewModel: viewModel)
+                }.overlay(Image("soundcloud_banner"))
+                SoundCloudWebView(viewModel: viewModel).maxSize()
             }
             ToolTipView(tapAction: {})
                 .transformAnchorPreference(key: ToolTipPreferenceKey.self,
