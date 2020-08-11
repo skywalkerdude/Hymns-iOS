@@ -1,9 +1,11 @@
 import SwiftUI
+import AVFoundation
 
 struct SoundCloudView: View {
 
     @Binding private var dialogModel: DialogViewModel<AnyView>?
     @Binding private var soundCloudPlayer: SoundCloudPlayerViewModel?
+    @State private var nowShowToolTip = false
 
     @ObservedObject private var viewModel: SoundCloudViewModel = SoundCloudViewModel()
     private let url: URL
@@ -41,7 +43,11 @@ struct SoundCloudView: View {
                                                     value.indicatorAnchor = anchor
                     })
                 }
-                SoundCloudWebView(url: self.url)
+                SoundCloudWebView(url: self.url).onReceive(self.viewModel.activeTimer) { _ in
+                    if AVAudioSession.sharedInstance().secondaryAudioShouldBeSilencedHint {
+                        self.nowShowToolTip = true
+                    }
+                }
             }
             ToolTipView(tapAction: {})
                 .transformAnchorPreference(key: ToolTipPreferenceKey.self,
@@ -50,7 +56,7 @@ struct SoundCloudView: View {
                                             value.toolTipAnchor = anchor
                 }).opacity(0) // Create an invisible tool tip view in order to calculate the size.
         }.overlayPreferenceValue(ToolTipPreferenceKey.self) { toolTipPreferenceData in
-            if self.viewModel.showSoundCloudMinimizeTooltip {
+            if self.viewModel.showSoundCloudMinimizeTooltip && self.nowShowToolTip {
                 GeometryReader { geometry in
                     self.createToolTip(geometry, toolTipPreferenceData)
                 }
