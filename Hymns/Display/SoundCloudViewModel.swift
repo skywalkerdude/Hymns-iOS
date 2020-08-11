@@ -1,28 +1,39 @@
+import Combine
 import Resolver
+import WebKit
 
 class SoundCloudViewModel: ObservableObject {
 
-    private let userDefaultsManager: UserDefaultsManager
+    @UserDefault("has_seen_soundcloud_minimize_tooltip", defaultValue: false) var hasSeenSoundCloudMinimizeTooltip: Bool
 
-    @Published var showSoundCloudMinimizeTooltip: Bool {
-        willSet {
-            userDefaultsManager.hasSeenSoundCloudMinimizeTooltip = true
+    @Published var url: URL
+    @Published var showMinimizeCaret: Bool = false
+    @Published var showMinimizeToolTip: Bool = false
+
+    var urlObserveration: NSKeyValueObservation?
+
+    var urlObserver: ((WKWebView, NSKeyValueObservedChange<URL?>) -> Void) { { (webView, change) in
+        guard let urlOptional = change.newValue, let url = urlOptional else {
+            return
         }
+
+        let path = url.path
+        if path.starts(with: "/search") {
+            self.showMinimizeCaret = false
+        } else {
+            self.showMinimizeCaret = true
+            if !self.hasSeenSoundCloudMinimizeTooltip {
+                self.showMinimizeToolTip = true
+            }
+        } }
     }
 
-    @Published var activeTimer: Timer.TimerPublisher
-
-    init(userDefaultsManager: UserDefaultsManager = Resolver.resolve()) {
-        self.userDefaultsManager = userDefaultsManager
-        self.showSoundCloudMinimizeTooltip = false
-        self.activeTimer = Timer.publish(every: 1, on: .main, in: .common)
-        if !userDefaultsManager.hasSeenSoundCloudMinimizeTooltip {
-            self.activeTimer.connect()
-        }
+    init(url: URL) {
+        self.url = url
     }
 
     func dismissToolTip() {
-        showSoundCloudMinimizeTooltip = false
-        self.activeTimer.connect().cancel()
+        showMinimizeToolTip = false
+        hasSeenSoundCloudMinimizeTooltip = true
     }
 }

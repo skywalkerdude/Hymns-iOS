@@ -156,8 +156,12 @@ struct DisplayHymnBottomBar: View {
                 SongInfoDialogView(viewModel: songInfoDialogViewModel).eraseToAnyView()
             }, options: DialogOptions(transition: .opacity))
         case .soundCloud(let url):
+            let soundCloudViewModel = SoundCloudViewModel(url: url)
             self.dialogModel = DialogViewModel(contentBuilder: {
-                SoundCloudView(dialogModel: self.$dialogModel, soundCloudPlayer: self.$soundCloudPlayer, url: url).eraseToAnyView()
+                SoundCloudView(dialogModel: self.$dialogModel,
+                               soundCloudPlayer: self.$soundCloudPlayer,
+                               viewModel: soundCloudViewModel)
+                    .eraseToAnyView()
             }, options: DialogOptions(dimBackground: false, transition: .move(edge: .bottom)))
         case .youTube(let url):
             self.application.open(url)

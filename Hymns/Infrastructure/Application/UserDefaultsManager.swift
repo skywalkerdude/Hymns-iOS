@@ -17,7 +17,6 @@ class UserDefaultsManager {
     }
 
     @UserDefault("show_splash_animation", defaultValue: true) var showSplashAnimation: Bool
-    @UserDefault("has_seen_soundcloud_minimize_tooltip", defaultValue: false) var hasSeenSoundCloudMinimizeTooltip: Bool
 
     init() {
         let initialFontSize = FontSize(rawValue: UserDefaults.standard.string(forKey: "fontSize") ?? FontSize.normal.rawValue) ?? .normal

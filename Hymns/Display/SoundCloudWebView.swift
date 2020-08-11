@@ -2,17 +2,30 @@ import SwiftUI
 import WebKit
 
 struct SoundCloudWebView: UIViewRepresentable {
-    var url: URL
+
+    @ObservedObject var viewModel: SoundCloudViewModel
 
     func makeCoordinator() -> SoundCloudWebView.Coordinator {
         Coordinator()
     }
 
     func makeUIView(context: Context) -> WKWebView {
-        let view = WKWebView()
-        view.navigationDelegate = context.coordinator
-        view.load(URLRequest(url: url))
-        return view
+        // Enable javascript in WKWebView to interact with the web app
+        let preferences = WKPreferences()
+        preferences.javaScriptEnabled = true
+
+        let configuration = WKWebViewConfiguration()
+        configuration.preferences = preferences
+
+        let webView = WKWebView(frame: CGRect.zero, configuration: configuration)
+        webView.scrollView.isScrollEnabled = true
+
+        webView.navigationDelegate = context.coordinator
+
+        viewModel.urlObserveration = webView.observe(\WKWebView.url, options: .new, changeHandler: viewModel.urlObserver)
+
+        webView.load(URLRequest(url: viewModel.url))
+        return webView
     }
 
     func updateUIView(_ uiView: WKWebView, context: Context) {
