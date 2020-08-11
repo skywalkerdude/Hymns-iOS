@@ -5,7 +5,6 @@ struct SoundCloudView: View {
 
     @Binding private var dialogModel: DialogViewModel<AnyView>?
     @Binding private var soundCloudPlayer: SoundCloudPlayerViewModel?
-    @State private var nowShowToolTip = false
 
     @ObservedObject private var viewModel: SoundCloudViewModel = SoundCloudViewModel()
     private let url: URL
@@ -45,7 +44,7 @@ struct SoundCloudView: View {
                 }
                 SoundCloudWebView(url: self.url).onReceive(self.viewModel.activeTimer) { _ in
                     if AVAudioSession.sharedInstance().secondaryAudioShouldBeSilencedHint {
-                        self.nowShowToolTip = true
+                        self.viewModel.showSoundCloudMinimizeTooltip = true
                     }
                 }
             }
@@ -56,7 +55,7 @@ struct SoundCloudView: View {
                                             value.toolTipAnchor = anchor
                 }).opacity(0) // Create an invisible tool tip view in order to calculate the size.
         }.overlayPreferenceValue(ToolTipPreferenceKey.self) { toolTipPreferenceData in
-            if self.viewModel.showSoundCloudMinimizeTooltip && self.nowShowToolTip {
+            if self.viewModel.showSoundCloudMinimizeTooltip {
                 GeometryReader { geometry in
                     self.createToolTip(geometry, toolTipPreferenceData)
                 }
