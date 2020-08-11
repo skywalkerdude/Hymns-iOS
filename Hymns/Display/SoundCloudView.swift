@@ -5,17 +5,14 @@ struct SoundCloudView: View {
     @Binding private var dialogModel: DialogViewModel<AnyView>?
     @Binding private var soundCloudPlayer: SoundCloudPlayerViewModel?
 
-    @ObservedObject private var viewModel: SoundCloudViewModel = SoundCloudViewModel()
-    private let url: URL
+    @ObservedObject private var viewModel: SoundCloudViewModel
 
     init(dialogModel: Binding<DialogViewModel<AnyView>?>,
          soundCloudPlayer: Binding<SoundCloudPlayerViewModel?>,
-         viewModel: SoundCloudViewModel = SoundCloudViewModel(),
-         url: URL) {
+         viewModel: SoundCloudViewModel) {
         self._dialogModel = dialogModel
         self._soundCloudPlayer = soundCloudPlayer
         self.viewModel = viewModel
-        self.url = url
     }
 
     var body: some View {
@@ -30,18 +27,20 @@ struct SoundCloudView: View {
                     Spacer()
                     Image("soundcloud_banner")
                     Spacer()
-                    Button(action: {
-                        self.soundCloudPlayer = SoundCloudPlayerViewModel(dialogModel: self.$dialogModel)
-                        self.dialogModel?.opacity = 0
-                    }, label: {
-                        Image(systemName: "chevron.down").accessibility(label: Text("Minimize SoundCloud")).padding(.horizontal)
-                    }).transformAnchorPreference(key: ToolTipPreferenceKey.self,
-                                                 value: .bounds,
-                                                 transform: { (value: inout ToolTipPreferenceData, anchor: Anchor<CGRect>) in
-                                                    value.indicatorAnchor = anchor
-                    })
+                    if viewModel.showMinimizeCaret {
+                        Button(action: {
+                            self.soundCloudPlayer = SoundCloudPlayerViewModel(dialogModel: self.$dialogModel)
+                            self.dialogModel?.opacity = 0
+                        }, label: {
+                            Image(systemName: "chevron.down").accessibility(label: Text("Minimize SoundCloud")).padding(.horizontal)
+                        }).transformAnchorPreference(key: ToolTipPreferenceKey.self,
+                                                     value: .bounds,
+                                                     transform: { (value: inout ToolTipPreferenceData, anchor: Anchor<CGRect>) in
+                                                        value.indicatorAnchor = anchor
+                        })
+                    }
                 }
-                SoundCloudWebView(url: self.url)
+                SoundCloudWebView(viewModel: viewModel)
             }
             ToolTipView(tapAction: {})
                 .transformAnchorPreference(key: ToolTipPreferenceKey.self,
@@ -50,7 +49,7 @@ struct SoundCloudView: View {
                                             value.toolTipAnchor = anchor
                 }).opacity(0) // Create an invisible tool tip view in order to calculate the size.
         }.overlayPreferenceValue(ToolTipPreferenceKey.self) { toolTipPreferenceData in
-            if self.viewModel.showSoundCloudMinimizeTooltip {
+            if self.viewModel.showMinimizeToolTip {
                 GeometryReader { geometry in
                     self.createToolTip(geometry, toolTipPreferenceData)
                 }
@@ -122,20 +121,15 @@ struct ToolTipPreferenceKey: PreferenceKey {
 #if DEBUG
 struct SoundCloudView_Previews: PreviewProvider {
     static var previews: some View {
-        let noToolTipViewModel = SoundCloudViewModel()
-        noToolTipViewModel.showSoundCloudMinimizeTooltip = false
-        let noToolTip = SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: noToolTipViewModel,
-                                       url: URL(string: "https://soundcloud.com/anthonyjohntunes/broken-vessels-amazing-grace-hillsong-live-cover")!)
+        let searchPathViewModel = SoundCloudViewModel(url: URL(string: "https://soundcloud.com/search/path")!)
+        let serachPath = SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: searchPathViewModel)
 
-        let toolTipViewModel = SoundCloudViewModel()
-        toolTipViewModel.showSoundCloudMinimizeTooltip = true
-        let toolTip = SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: toolTipViewModel,
-                                     url: URL(string: "https://soundcloud.com/anthonyjohntunes/broken-vessels-amazing-grace-hillsong-live-cover")!)
-
+        let nonSearchPathViewModel = SoundCloudViewModel(url: URL(string: "https://soundcloud.com/anthonyjohntunes/broken-vessels-amazing-grace-hillsong-live-cover")!)
+        let nonSearchPath = SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: nonSearchPathViewModel)
         return
             Group {
-                noToolTip.previewDisplayName("no tool tip")
-                toolTip.previewDisplayName("tool tip")
+                serachPath.previewDisplayName("search path")
+                nonSearchPath.previewDisplayName("non search path")
         }
     }
 }

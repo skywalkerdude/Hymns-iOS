@@ -23,23 +23,19 @@ class SoundCloudSnapshots: XCTestCase {
         assertSnapshot(matching: player, as: .image(layout: .fixed(width: 400, height: 200)))
     }
 
-    func test_soundCloudView() {
-        let viewModel = SoundCloudViewModel()
-        viewModel.showSoundCloudMinimizeTooltip = false
+    func test_searchPath_withNoToolTipOrCaret() {
+        let viewModel = SoundCloudViewModel(url: URL(string: "http://www.example.com/search/path")!)
         assertSnapshot(matching: SoundCloudView(dialogModel: .constant(nil),
                                                 soundCloudPlayer: .constant(nil),
-                                                viewModel: viewModel,
-                                                url: URL(string: "http://www.example.com")!),
+                                                viewModel: viewModel),
                        as: .swiftUiImage(precision: 0.99))
     }
 
-    func test_soundCloudView_withToolTip() {
-        let viewModel = SoundCloudViewModel()
-        viewModel.showSoundCloudMinimizeTooltip = true
+    func test_nonSearchPath_withToolTipAndCaret() {
+        let viewModel = SoundCloudViewModel(url: URL(string: "http://www.example.com")!)
         assertSnapshot(matching: SoundCloudView(dialogModel: .constant(nil),
                                                 soundCloudPlayer: .constant(nil),
-                                                viewModel: viewModel,
-                                                url: URL(string: "http://www.example.com")!),
+                                                viewModel: viewModel),
                        as: .swiftUiImage(precision: 0.99))
     }
 }
