@@ -12,7 +12,13 @@ class SettingsViewModel: ObservableObject {
         let privacyPolicy = PrivacyPolicySettingViewModel().eraseToAnySettingViewModel()
         let feedback = FeedbackViewModel(result: result).eraseToAnySettingViewModel()
         let aboutUs = AboutUsViewModel().eraseToAnySettingViewModel()
+
+        #if DEBUG
+        let clearUserDefaults = ClearUserDefaultsViewModel().eraseToAnySettingViewModel()
+        settings = [privacyPolicy, feedback, aboutUs, clearUserDefaults]
+        #else
         settings = [privacyPolicy, feedback, aboutUs]
+        #endif
     }
 }
 
