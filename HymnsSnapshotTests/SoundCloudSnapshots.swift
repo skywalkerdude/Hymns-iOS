@@ -20,7 +20,7 @@ class SoundCloudSnapshots: XCTestCase {
         let viewModel = SoundCloudPlayerViewModel(dialogModel: .constant(nil))
         viewModel.showPlayer = true
         let player = SoundCloudPlayer(viewModel: viewModel).environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
-        assertSnapshot(matching: player, as: .image(layout: .fixed(width: 400, height: 200)))
+        assertSnapshot(matching: player, as: .image(layout: .fixed(width: 600, height: 200)))
     }
 
     func test_searchPath_withNoToolTipOrCaret() {
