@@ -11,7 +11,7 @@ struct SoundCloudPlayer: View {
 
     var body: some View {
         if viewModel.showPlayer {
-            return HStack {
+            return HStack(spacing: 0) {
                 if !sizeCategory.isAccessibilityCategory() {
                     Image("soundcloud_logo").padding()
                 }
@@ -20,7 +20,7 @@ struct SoundCloudPlayer: View {
                 }, label: {
                     Text(NSLocalizedString("Now playing from SoundCloud",
                                            comment: "Indicator that a song from SoundCloud is currently playing"))
-                        .foregroundColor(.accentColor).maxWidth()
+                        .foregroundColor(.accentColor).padding([.vertical, .trailing]).maxWidth(alignment: .leading)
                 })
                 Button(action: {
                     self.viewModel.dismissPlayer()
