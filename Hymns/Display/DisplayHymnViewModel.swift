@@ -25,6 +25,8 @@ class DisplayHymnViewModel: ObservableObject {
     private let repository: HymnsRepository
     private let systemUtil: SystemUtil
     private let storeInHistoryStore: Bool
+    private let workingMP3: URL?
+
 
     /**
      * Computed title for putting in recent songs and favorites. This is required because there is a special case where if the song is a classic song, then the title
@@ -42,7 +44,7 @@ class DisplayHymnViewModel: ObservableObject {
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
          pdfPreloader: PDFLoader = Resolver.resolve(),
          systemUtil: SystemUtil = Resolver.resolve(),
-         storeInHistoryStore: Bool = false) {
+         storeInHistoryStore: Bool = false, workingMP3: URL? = nil) {
         self.analytics = analytics
         self.backgroundQueue = backgroundQueue
         self.currentTab = .lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: identifier)).maxSize().eraseToAnyView())
@@ -54,6 +56,7 @@ class DisplayHymnViewModel: ObservableObject {
         self.repository = repository
         self.systemUtil = systemUtil
         self.storeInHistoryStore = storeInHistoryStore
+        self.workingMP3 = workingMP3
     }
 
     func fetchHymn() {
@@ -108,7 +111,7 @@ class DisplayHymnViewModel: ObservableObject {
                         }
                     }
 
-                    self.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: self.identifier)
+                    self.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: self.identifier, workingURL: self.workingMP3)
                     self.fetchFavoriteStatus()
                     if self.storeInHistoryStore {
                         self.historyStore.storeRecentSong(hymnToStore: self.identifier, songTitle: self.computedTitle)

@@ -19,6 +19,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
     private let mainQueue: DispatchQueue
     private let repository: HymnsRepository
     private let systemUtil: SystemUtil
+    private var workingMP3: URL?
 
     private var disposables = Set<AnyCancellable>()
 
@@ -27,7 +28,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
          hymnsRepository repository: HymnsRepository = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
          backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
-         systemUtil: SystemUtil = Resolver.resolve()) {
+         systemUtil: SystemUtil = Resolver.resolve(), workingURL: URL? = nil) {
         self.analytics = analytics
         self.identifier = identifier
         self.mainQueue = mainQueue
@@ -35,6 +36,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
         self.backgroundQueue = backgroundQueue
         self.systemUtil = systemUtil
         self.buttons = [BottomBarButton]()
+        self.workingMP3 = workingURL
     }
 
     func fetchHymn() {
@@ -54,18 +56,23 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
 
                     buttons.append(.fontSize)
 
-                    let languages = self.convertToSongResults(hymn.languages)
-                    if !languages.isEmpty {
-                        buttons.append(.languages(languages))
-                    }
-
                     let mp3Path = hymn.music?.data.first(where: { datum -> Bool in
                         datum.value == DatumValue.mp3.rawValue
                     })?.path
                     if let mp3Url = mp3Path.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     }), self.systemUtil.isNetworkAvailable() {
-                        buttons.append(.musicPlayback(AudioPlayerViewModel(url: mp3Url)))
+                        self.workingMP3 = mp3Url
+                    //    buttons.append(.musicPlayback(AudioPlayerViewModel(url: mp3Url)))
+                    }
+
+                    let languages = self.convertToSongResults(hymn.languages)
+                    if !languages.isEmpty {
+                        buttons.append(.languages(languages))
+                    }
+
+                    if let worker = self.workingMP3 {
+                        buttons.append(.musicPlayback(AudioPlayerViewModel(url: worker)))
                     }
 
                     let relevant = self.convertToSongResults(hymn.relevant)
@@ -110,7 +117,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                 let queryParams = RegexUtil.getQueryParams(path: datum.path)
                 let title = datum.value
                 let hymnIdentifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber, queryParams: queryParams)
-                return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
+                return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier, workingMP3: self.workingMP3)).eraseToAnyView())
             }
         }  ?? [SongResultViewModel]()
     }
