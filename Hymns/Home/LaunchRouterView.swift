@@ -19,8 +19,9 @@ struct LaunchRouterView: View {
     var body: some View {
         Group { () -> AnyView in
             if showSplashAnimation {
-                return SplashScreenView()
+                return LottieView(fileName: "firstLaunchAnimation")
                     .onAppear {
+                        // inspiration: https://www.raywenderlich.com/4503153-how-to-create-a-splash-screen-with-swiftui
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2.7) {
                             self.showSplashAnimation = false
                         }

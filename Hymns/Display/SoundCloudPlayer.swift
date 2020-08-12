@@ -1,3 +1,4 @@
+import Lottie
 import SwiftUI
 
 struct SoundCloudPlayer: View {
@@ -13,7 +14,8 @@ struct SoundCloudPlayer: View {
         if viewModel.showPlayer {
             return HStack(spacing: 0) {
                 if !sizeCategory.isAccessibilityCategory() {
-                    Image("soundcloud_logo").padding()
+                    LottieView(fileName: "soundCloudPlayingAnimation", shouldLoop: true)
+                        .frame(width: 30, height: 20, alignment: .center).padding()
                 }
                 Button(action: {
                     self.viewModel.openPlayer()
