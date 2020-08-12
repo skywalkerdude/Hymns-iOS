@@ -24,7 +24,7 @@ class BottomBarSnapshots: XCTestCase {
 
     func test_maximumButtons() {
         viewModel.buttons = [
-            .soundCloud(URL(string: "https://soundcloud.com/search?q=query")!),
+            .soundCloud(SoundCloudViewModel(url: URL(string: "https://soundcloud.com/search?q=query")!)),
             .youTube(URL(string: "https://www.youtube.com/results?search_query=search")!),
             .languages([SongResultViewModel(title: "language", destinationView: EmptyView().eraseToAnyView())]),
             .musicPlayback(AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)),
@@ -49,7 +49,7 @@ class BottomBarSnapshots: XCTestCase {
             .tags
         ]
         viewModel.overflowButtons = [
-            .soundCloud(URL(string: "https://soundcloud.com/search?q=query")!),
+            .soundCloud(SoundCloudViewModel(url: URL(string: "https://soundcloud.com/search?q=query")!)),
             .youTube(URL(string: "https://www.youtube.com/results?search_query=search")!),
             .songInfo(SongInfoDialogViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
         ]

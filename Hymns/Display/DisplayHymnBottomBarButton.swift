@@ -9,7 +9,7 @@ enum BottomBarButton {
     case relevant([SongResultViewModel])
     case tags
     case songInfo(SongInfoDialogViewModel)
-    case soundCloud(URL)
+    case soundCloud(SoundCloudViewModel)
     case youTube(URL)
 }
 
@@ -106,8 +106,8 @@ extension BottomBarButton: Equatable {
             return true
         case (songInfo(let viewModel1), songInfo(let viewModel2)):
             return viewModel1.songInfo.count == viewModel2.songInfo.count
-        case (soundCloud(let url1), soundCloud(let url2)):
-            return url1 == url2
+        case (soundCloud(let viewModel1), soundCloud(let viewModel2)):
+            return viewModel1.url == viewModel2.url
         case (youTube(let url1), youTube(let url2)):
             return url1 == url2
         default:
