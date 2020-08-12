@@ -19,7 +19,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
     private let mainQueue: DispatchQueue
     private let repository: HymnsRepository
     private let systemUtil: SystemUtil
-    private var workingMP3: URL?
+    private var storedMP3Path: URL?
 
     private var disposables = Set<AnyCancellable>()
 
@@ -36,7 +36,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
         self.backgroundQueue = backgroundQueue
         self.systemUtil = systemUtil
         self.buttons = [BottomBarButton]()
-        self.workingMP3 = workingURL
+        self.storedMP3Path = workingURL
     }
 
     func fetchHymn() {
@@ -62,8 +62,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                     if let mp3Url = mp3Path.flatMap({ path -> URL? in
                         HymnalNet.url(path: path)
                     }), self.systemUtil.isNetworkAvailable() {
-                        self.workingMP3 = mp3Url
-                    //    buttons.append(.musicPlayback(AudioPlayerViewModel(url: mp3Url)))
+                        self.storedMP3Path = mp3Url
                     }
 
                     let languages = self.convertToSongResults(hymn.languages)
@@ -71,8 +70,8 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                         buttons.append(.languages(languages))
                     }
 
-                    if let worker = self.workingMP3 {
-                        buttons.append(.musicPlayback(AudioPlayerViewModel(url: worker)))
+                    if let mp3URL = self.storedMP3Path {
+                        buttons.append(.musicPlayback(AudioPlayerViewModel(url: mp3URL)))
                     }
 
                     let relevant = self.convertToSongResults(hymn.relevant)
@@ -117,7 +116,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                 let queryParams = RegexUtil.getQueryParams(path: datum.path)
                 let title = datum.value
                 let hymnIdentifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber, queryParams: queryParams)
-                return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier, workingMP3: self.workingMP3)).eraseToAnyView())
+                return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier, workingMP3: self.storedMP3Path)).eraseToAnyView())
             }
         }  ?? [SongResultViewModel]()
     }
