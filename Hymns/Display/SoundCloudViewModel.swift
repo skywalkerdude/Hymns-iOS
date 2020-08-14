@@ -17,19 +17,28 @@ class SoundCloudViewModel: ObservableObject {
             return
         }
 
-        let path = url.path
-        if path.starts(with: "/search") {
-            self.showMinimizeCaret = false
-        } else {
-            self.showMinimizeCaret = true
-            if !self.hasSeenSoundCloudMinimizeTooltip {
-                self.showMinimizeToolTip = true
+        if UIDevice.current.userInterfaceIdiom != .pad {
+            let path = url.path
+            if path.starts(with: "/search") {
+                self.showMinimizeCaret = false
+            } else {
+                self.showMinimizeCaret = true
+                if !self.hasSeenSoundCloudMinimizeTooltip {
+                    self.showMinimizeToolTip = true
+                }
             }
-        } }
+        }
+        }
     }
 
     init(url: URL) {
         self.url = url
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            self.showMinimizeCaret = true
+            if !self.hasSeenSoundCloudMinimizeTooltip {
+                self.showMinimizeToolTip = true
+            }
+        }
     }
 
     func dismissToolTip() {
