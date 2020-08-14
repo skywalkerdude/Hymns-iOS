@@ -27,8 +27,14 @@ struct DisplayHymnView: View {
                     } else {
                         viewModel.currentTab.content
                     }
-                    viewModel.bottomBar.map { viewModel in
-                        DisplayHymnBottomBar(dialogModel: self.$dialogModel, viewModel: viewModel).maxWidth()
+                    if dialogModel != nil {
+                        viewModel.bottomBar.map { viewModel in
+                            DisplayHymnBottomBar(dialogModel: self.$dialogModel, viewModel: viewModel).maxWidth()
+                        }
+                    } else {
+                        viewModel.bottomBar.map { viewModel in
+                            DisplayHymnBottomBar(dialogModel: self.$dialogModel, viewModel: viewModel).maxWidth()
+                        }
                     }
                 }
                 Dialog(viewModel: $dialogModel).map { dialog in
