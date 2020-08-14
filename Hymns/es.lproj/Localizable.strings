@@ -1,19 +1,191 @@
-/* 
-  Localizable.strings
-  Hymns
+/* No comment provided by engineer. */
+"- Col. 3:16" = "- Col. 3:16";
 
-  Created by Benjamin Findeisen on 3/27/20.
-  Copyright © 2020 skywalkerdude. All rights reserved.
-*/
+/* No comment provided by engineer. */
+"About us" = "Sobre nosotros";
 
-"Look up any hymn" = "Busca un himno";
-"Settings" = "Configuracion";
-"Search by numbers or words" = "Búsqueda por números o palabras";
-"error!" = "falta!";
-"loading..." = "cargando...";
-"Search" = "Buscar";
+/* Title for the overflow menu action sheet */
+"Additional options" = "Opciones adicionales";
+
+/* Browse all songs */
+"All Songs" = "Todas las canciones";
+
+/* No comment provided by engineer. */
+"An error has occurred. Please try again. You can also send feedback and we’ll look into the issue." = "Se ha producido un error. Por favor, inténtelo de nuevo. También puede enviarnos sus comentarios y nosotros investigaremos el problema.";
+
+/* Browse tab title */
+"Browse" = "Navegue";
+
+/* Change the lyrics font size */
+"Change lyrics font size" = "Cambiar el tamaño de la letra";
+
+/* Message for the lyrics font size action sheet */
+"Change the song lyrics font size" = "Cambiar el tamaño de la letra de la canción";
+
+/* Message for the relevant songs action sheet */
+"Change to a relevant hymn" = "Cambio de un himno relevante";
+
+/* Message for the languages action sheet */
+"Change to another language" = "Cambiar a otro idioma";
+
+/* Browse children's songs */
+"Children's Songs" = "Canciones Para Niños";
+
+/* Hymn chords tab */
+"Chords" = "Acordes";
+
+/* Browse classic hymns */
+"Classic Hymns" = "Himnos Clásicos";
+
+/* No comment provided by engineer. */
+"Close" = "Cerrar";
+
+/* Former part of the empty tag state text */
+"Create tags by tapping on the" = "Crear etiquetas tocando en el";
+
+/* No comment provided by engineer. */
+"Did not find any songs matching:\n\"%@\".\nPlease try a different request" = "No encontré ninguna canción que coincidiera:\n\"%@\".\nPor favor, intente una petición diferente";
+
+/* Favorites tab title */
 "Favorites" = "Favoritos";
-"Browse" = "Ramonear";
-"Lyrics" = "Letra";
+
+/* No comment provided by engineer. */
+"Feedback failed to send" = "La retroalimentación falló al enviar";
+
+/* No comment provided by engineer. */
+"Feedback not sent" = "No se ha enviado la información";
+
+/* No comment provided by engineer. */
+"Feedback not sent but was saved to drafts" = "Los comentarios no se enviaron pero se guardaron en los borradores";
+
+/* No comment provided by engineer. */
+"Feedback sent" = "Se ha enviado un mensaje";
+
+/* No comment provided by engineer. */
+"For a free study Bible tap " = "Para un estudio gratis de la Biblia ";
+
+/* No comment provided by engineer. */
+"Go back" = "Regresa";
+
+/* Hymn guitar tab */
 "Guitar" = "Guitarra";
+
+/* No comment provided by engineer. */
+"Hello There 👋" = "Hola 👋";
+
+/* The 'here' in 'tap here' that links to BFA to get a free Bible */
+"here." = "aquí.";
+
+/* Latter part of the empty tag state text */
+"icon on any hymn" = "en cualquier himno";
+
+/* No comment provided by engineer. */
+"Label it however you like" = "Label it however you like";
+
+/* Title for the languages action sheet */
+"Languages" = "Etiquételo como quiera";
+
+/* No comment provided by engineer. */
+"Let the word of Christ dwell in you richly in all wisdom, teaching and admonishing one another with psalms and hymns and spiritual songs, singing with grace in your hearts to God." = "La palabra de Cristo more ricamente en vosotros en toda sabiduría, enseñándoos, y exhortándoos unos a ortros con salmos e himnos y cánticos espirituales, catando con gracia en vuestros corazones a Dios.";
+
+/* Home tab title */
+"Look up any hymn" = "Busca cualquier himno";
+
+/* Hymn lyrics tab */
+"Lyrics" = "Letra";
+
+/* No comment provided by engineer. */
+"Lyrics are not available for this song" = "La letra no está disponible para esta canción";
+
+/* Title for the lyrics font size action sheet */
+"Lyrics font size" = "Tamaño de letra de la letra";
+
+/* No comment provided by engineer. */
+"Mark as favorite" = "Marcar como favorito";
+
+/* No comment provided by engineer. */
+"Minimize SoundCloud" = "Minimizar SoundCloud";
+
+/* Bottom bar overflow button */
+"More options" = "Más opciones";
+
+/* No comment provided by engineer. */
+"Name your tag" = "Nombra tu etiqueta";
+
+/* Browse new songs */
+"New Songs" = "Nuevas canciones";
+
+/* Browse new tunes */
+"New Tunes" = "Nuevas melodías";
+
+/* Indicator that a song from SoundCloud is currently playing */
+"Now playing from SoundCloud" = "Ahora tocando desde SoundCloud";
+
+/* Hymn piano tab */
 "Piano" = "Piano";
+
+/* Play the tune of the song */
+"Play music" = "Toca música";
+
+/* No comment provided by engineer. */
+"Privacy policy" = "Política de privacidad";
+
+/* Recent hymns label */
+"Recent hymns" = "Himnos recientes";
+
+/* Songs relevant to this song (alternate tunes, etc) */
+"Relevant songs" = "Canciones relevantes";
+
+/* Browse scripture songs */
+"Scripture Songs" = "Canciones de la Escritura";
+
+/* No comment provided by engineer. */
+"Search" = "Buscar";
+
+/* Search bar hint text */
+"Search by number or keyword" = "Buscar por número o palabra clave";
+
+/* Search for this song on SoundCloud */
+"Search in SoundCloud" = "Buscar en SoundCloud";
+
+/* Search for this song on YouTube */
+"Search in YouTube" = "Buscar en YouTube";
+
+/* No comment provided by engineer. */
+"Select a color" = "Seleccione un color";
+
+/* No comment provided by engineer. */
+"Send feedback" = "Envíe sus comentarios.";
+
+/* Settings tab title */
+"Settings" = "Configuración";
+
+/* Share lyrics externally to another app */
+"Share lyrics" = "Comparte la letra";
+
+/* Show different languages for this song */
+"Show languages" = "Mostrar idiomas";
+
+/* See information for this song */
+"Song Info" = "Información de la canción";
+
+/* No comment provided by engineer. */
+"Song progress slider" = "Deslizador de progreso de la canción";
+
+/* Browse tags */
+"Tags" = "Etiquetas";
+
+/* No comment provided by engineer. */
+"Tap the heart on any hymn to add as a favorite" = "Toca el corazón en cualquier himno para añadirlo como favorito";
+
+/* No comment provided by engineer. */
+"Tap to keep playing song in background" = "Toca para seguir tocando la canción de fondo";
+
+/* No comment provided by engineer. */
+"Unmark as favorite" = "Desmarcarse como favorito";
+
+/* No comment provided by engineer. */
+"We're the team behind this hymnal app. We love Jesus, and we created this app as a free resource to help other believers access the thousands of hymns available on the internet. We also built in support for the hymns indexed by the Living Stream Ministry hymnal." = "Somos el equipo detrás de esta aplicación de himnos. Amamos a Jesús, y creamos esta aplicación como un recurso gratuito para ayudar a otros creyentes a acceder a los miles de himnos disponibles en Internet. También construimos en apoyo de los himnos indexados por el himnario de Living Stream Ministry.";
+
+/* No comment provided by engineer. */
+"Well, this is unexpected" = "Esto es inesperado";
