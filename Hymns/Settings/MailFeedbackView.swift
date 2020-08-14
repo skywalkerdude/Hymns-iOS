@@ -6,15 +6,15 @@ import MessageUI
 struct MailFeedbackView: UIViewControllerRepresentable {
 
     @Environment(\.presentationMode) var presentation
-    @Binding var result: Result<MFMailComposeResult, Error>?
+    @Binding var result: Result<SettingsToastItem, Error>?
 
     class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
 
         @Binding var presentation: PresentationMode
-        @Binding var result: Result<MFMailComposeResult, Error>?
+        @Binding var result: Result<SettingsToastItem, Error>?
 
         init(presentation: Binding<PresentationMode>,
-             result: Binding<Result<MFMailComposeResult, Error>?>) {
+             result: Binding<Result<SettingsToastItem, Error>?>) {
             _presentation = presentation
             _result = result
         }
@@ -29,7 +29,7 @@ struct MailFeedbackView: UIViewControllerRepresentable {
                 self.result = .failure(error!)
                 return
             }
-            self.result = .success(result)
+            self.result = .success(.feedback(result))
         }
     }
 

@@ -5,6 +5,7 @@ import RealmSwift
 import Resolver
 
 protocol HistoryStore {
+    func clearHistory() throws
     func recentSongs() -> AnyPublisher<[RecentSong], ErrorType>
     func storeRecentSong(hymnToStore hymnIdentifier: HymnIdentifier, songTitle: String)
 }
@@ -64,6 +65,12 @@ class HistoryStoreRealmImpl: HistoryStore {
             }
         } catch {
             analytics.logError(message: "error occurred when storing recent song", error: error, extraParameters: ["hymnIdentifier": String(describing: hymnIdentifier), "title": songTitle])
+        }
+    }
+
+    func clearHistory() throws {
+        try realm.write {
+            self.realm.deleteAll()
         }
     }
 }

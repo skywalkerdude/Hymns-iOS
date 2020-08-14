@@ -7,6 +7,11 @@ public class SettingsHymnViewCan: BaseViewCan {
         super.init(app, testCase: testCase)
     }
 
+    public func tapClearHistory() -> SettingsHymnViewCan {
+        app.buttons["Clear recent songs"].tap()
+        return self
+    }
+
     public func tapAboutUs() -> SettingsHymnViewCan {
         app.buttons["About us"].tap()
         return self
@@ -25,5 +30,9 @@ public class SettingsHymnViewCan: BaseViewCan {
     public func verifyAboutUsDialogNotExists() -> SettingsHymnViewCan {
         XCTAssertFalse(app.staticTexts["Hello There 👋"].exists)
         return self
+    }
+
+    public func returnToHome() -> HomeViewCan {
+        return HomeViewCan(app, testCase: testCase)
     }
 }

@@ -9,6 +9,10 @@ class HistoryStoreTestImpl: HistoryStore {
                    RecentSong(hymnIdentifier: classic2, songTitle: "classic2"),
                    RecentSong(hymnIdentifier: classic3, songTitle: "classic3")]
 
+    func clearHistory() throws {
+        results = [RecentSong]()
+    }
+
     func recentSongs() -> AnyPublisher<[RecentSong], ErrorType> {
         Just(results).mapError({ _ -> ErrorType in
             .data(description: "This will never get called")

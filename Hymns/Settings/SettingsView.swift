@@ -7,7 +7,7 @@ struct SettingsView: View {
 
     @ObservedObject private var viewModel: SettingsViewModel
 
-    @State var result: Result<MFMailComposeResult, Error>?
+    @State var result: Result<SettingsToastItem, Error>?
 
     init(viewModel: SettingsViewModel = Resolver.resolve()) {
         self.viewModel = viewModel
@@ -38,25 +38,35 @@ struct SettingsView: View {
             switch result {
             case .success(let success):
                 switch success {
-                case .sent:
-                    return HStack {
-                        Image(systemName: "checkmark").foregroundColor(.green).padding()
-                        Text("Feedback sent").padding(.trailing)
-                    }.eraseToAnyView()
-                case .saved:
-                    return Text("Feedback not sent but was saved to drafts").padding().eraseToAnyView()
-                case .cancelled:
-                    return Text("Feedback not sent").padding().eraseToAnyView()
-                case .failed:
-                    return Text("Feedback failed to send").padding().eraseToAnyView()
-                @unknown default:
-                    return Text("Feedback failed to send").padding().eraseToAnyView()
+                case .feedback(let mailComposeResult):
+                    switch mailComposeResult {
+                    case .sent:
+                        return HStack {
+                            Image(systemName: "checkmark").foregroundColor(.green).padding()
+                            Text("Feedback sent").padding(.trailing)
+                        }.eraseToAnyView()
+                    case .saved:
+                        return Text("Feedback not sent but was saved to drafts").padding().eraseToAnyView()
+                    case .cancelled:
+                        return Text("Feedback not sent").padding().eraseToAnyView()
+                    case .failed:
+                        return Text("Feedback failed to send").padding().eraseToAnyView()
+                    @unknown default:
+                        return Text("Feedback failed to send").padding().eraseToAnyView()
+                    }
+                case .clearHistory:
+                    return Text("Recent songs cleared").padding().eraseToAnyView()
                 }
             case .failure:
-                return Text("Feedback failed to send").padding().eraseToAnyView()
+                return Text("Oops! Something went wrong. Please try again").padding().eraseToAnyView()
             }
         }
     }
+}
+
+public enum SettingsToastItem {
+    case clearHistory
+    case feedback(MFMailComposeResult)
 }
 
 #if DEBUG

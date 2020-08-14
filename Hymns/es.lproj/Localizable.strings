@@ -38,6 +38,12 @@
 "Classic Hymns" = "Himnos Clásicos";
 
 /* No comment provided by engineer. */
+"Clear recent songs" = "TRANSLATE ME";
+
+/* No comment provided by engineer. */
+"Clear user defaults" = "TRANSLATE ME";
+
+/* No comment provided by engineer. */
 "Close" = "Cerrar";
 
 /* Former part of the empty tag state text */
@@ -121,6 +127,9 @@
 /* Indicator that a song from SoundCloud is currently playing */
 "Now playing from SoundCloud" = "Ahora tocando desde SoundCloud";
 
+/* No comment provided by engineer. */
+"Oops! Something went wrong. Please try again" = "TRANSLATE ME";
+
 /* Hymn piano tab */
 "Piano" = "Piano";
 
@@ -132,6 +141,9 @@
 
 /* Recent hymns label */
 "Recent hymns" = "Himnos recientes";
+
+/* No comment provided by engineer. */
+"Recent songs cleared" = "TRANSLATE ME";
 
 /* Songs relevant to this song (alternate tunes, etc) */
 "Relevant songs" = "Canciones relevantes";

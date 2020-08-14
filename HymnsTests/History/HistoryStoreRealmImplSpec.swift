@@ -60,6 +60,39 @@ class HistoryStoreRealmImplSpec: QuickSpec {
                         cancellable.cancel()
                     }
                 }
+                describe("clear recent songs") {
+                    beforeEach {
+                        do {
+                            try target.clearHistory()
+                        } catch let error {
+                            fail("clear history threw an error: \(error)")
+                        }
+                    }
+                    it("getting all recent songs should contain nothing") {
+                        let failure = self.expectation(description: "Invalid.failure")
+                        failure.isInverted = true
+                        let finished = self.expectation(description: "Invalid.finished")
+                        // finished should not be called because this is a self-updating publisher.
+                        finished.isInverted = true
+                        let value = self.expectation(description: "Invalid.receiveValue")
+
+                        let cancellable = target.recentSongs()
+                            .sink(receiveCompletion: { (completion: Subscribers.Completion<ErrorType>) -> Void in
+                                switch completion {
+                                case .failure:
+                                    failure.fulfill()
+                                case .finished:
+                                    finished.fulfill()
+                                }
+                                return
+                            }, receiveValue: { recentSongs in
+                                value.fulfill()
+                                expect(recentSongs).to(beEmpty())
+                            })
+                        self.wait(for: [failure, finished, value], timeout: testTimeout)
+                        cancellable.cancel()
+                    }
+                }
                 let numberToStore = 100
                 context("store \(numberToStore) recent songs") {
                     beforeEach {
