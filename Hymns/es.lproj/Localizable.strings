@@ -38,10 +38,10 @@
 "Classic Hymns" = "Himnos Clásicos";
 
 /* No comment provided by engineer. */
-"Clear recent songs" = "TRANSLATE ME";
+"Clear recent songs" = "Claros cantos recientes";
 
 /* No comment provided by engineer. */
-"Clear user defaults" = "TRANSLATE ME";
+"Clear user defaults" = "Restablecer los ajustes";
 
 /* No comment provided by engineer. */
 "Close" = "Cerrar";
@@ -128,7 +128,7 @@
 "Now playing from SoundCloud" = "Ahora tocando desde SoundCloud";
 
 /* No comment provided by engineer. */
-"Oops! Something went wrong. Please try again" = "TRANSLATE ME";
+"Oops! Something went wrong. Please try again" = "Algo salió mal. Por favor, inténtalo de nuevo";
 
 /* Hymn piano tab */
 "Piano" = "Piano";
@@ -143,7 +143,7 @@
 "Recent hymns" = "Himnos recientes";
 
 /* No comment provided by engineer. */
-"Recent songs cleared" = "TRANSLATE ME";
+"Recent songs cleared" = "Las canciones recientes se han borrado";
 
 /* Songs relevant to this song (alternate tunes, etc) */
 "Relevant songs" = "Canciones relevantes";
