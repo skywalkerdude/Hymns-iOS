@@ -155,12 +155,11 @@ struct DisplayHymnBottomBar: View {
             self.dialogModel = DialogViewModel(contentBuilder: {
                 SongInfoDialogView(viewModel: songInfoDialogViewModel).eraseToAnyView()
             }, options: DialogOptions(transition: .opacity))
-        case .soundCloud(let url):
-            let soundCloudViewModel = SoundCloudViewModel(url: url)
+        case .soundCloud(let viewModel):
             self.dialogModel = DialogViewModel(contentBuilder: {
                 SoundCloudView(dialogModel: self.$dialogModel,
                                soundCloudPlayer: self.$soundCloudPlayer,
-                               viewModel: soundCloudViewModel)
+                               viewModel: viewModel)
                     .eraseToAnyView()
             }, options: DialogOptions(dimBackground: false, transition: .move(edge: .bottom)))
         case .youTube(let url):
@@ -222,7 +221,7 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
 
         let maximumViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
         maximumViewModel.buttons = [
-            .soundCloud(URL(string: "https://soundcloud.com/search?q=query")!),
+            .soundCloud(SoundCloudViewModel(url: URL(string: "https://soundcloud.com/search?q=query")!)),
             .youTube(URL(string: "https://www.youtube.com/results?search_query=search")!),
             .languages([SongResultViewModel(title: "language", destinationView: EmptyView().eraseToAnyView())]),
             .musicPlayback(AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)),
@@ -244,7 +243,7 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
             .tags
         ]
         overflowViewModel.overflowButtons = [
-            .soundCloud(URL(string: "https://soundcloud.com/search?q=query")!),
+            .soundCloud(SoundCloudViewModel(url: URL(string: "https://soundcloud.com/search?q=query")!)),
             .youTube(URL(string: "https://www.youtube.com/results?search_query=search")!),
             .songInfo(SongInfoDialogViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
         ]

@@ -110,7 +110,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                         SongResultViewModel(title: "Cool other song", destinationView: EmptyView().eraseToAnyView())])))
                     expect(target.overflowButtons!).to(haveCount(4))
                     expect(target.overflowButtons![0]).to(equal(.tags))
-                    expect(target.overflowButtons![1]).to(equal(.soundCloud(URL(string: "https://m.soundcloud.com/search/sounds?q=title")!)))
+                    expect(target.overflowButtons![1]).to(equal(.soundCloud(SoundCloudViewModel(url: URL(string: "https://m.soundcloud.com/search/sounds?q=title")!))))
                     expect(target.overflowButtons![2]).to(equal(.youTube(URL(string: "https://www.youtube.com/results?search_query=title")!)))
                     expect(target.overflowButtons![3]).to(equal(.songInfo(SongInfoDialogViewModel(hymnToDisplay: classic1151))))
                 }
@@ -163,7 +163,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     expect(target.buttons[0]).to(equal(.share("Drink! a river pure and clear that's flowing from the throne;\nEat! the tree of life with fruits abundant, richly grown\n\nDo come, oh, do come,\nSays Spirit and the Bride:\n\n")))
                     expect(target.buttons[1]).to(equal(.fontSize))
                     expect(target.buttons[2]).to(equal(.tags))
-                    expect(target.buttons[3]).to(equal(.soundCloud(URL(string: "https://m.soundcloud.com/search/sounds?q=title")!)))
+                    expect(target.buttons[3]).to(equal(.soundCloud(SoundCloudViewModel(url: URL(string: "https://m.soundcloud.com/search/sounds?q=title")!))))
                     expect(target.buttons[4]).to(equal(.youTube(URL(string: "https://www.youtube.com/results?search_query=title")!)))
                     expect(target.buttons[5]).to(equal(.songInfo(SongInfoDialogViewModel(hymnToDisplay: classic1151))))
                     expect(target.overflowButtons).to(beNil())
