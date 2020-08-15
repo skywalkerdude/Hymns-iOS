@@ -12,7 +12,7 @@ struct SimpleSettingView: View {
                 Text(title).font(.callout)
                 subtitle.map { Text($0).font(.caption) }
             }
-        }).padding().foregroundColor(.black)
+        }).padding().foregroundColor(.primary)
     }
 }
 

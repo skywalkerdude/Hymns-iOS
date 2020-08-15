@@ -3,7 +3,7 @@ import MessageUI
 
 struct FeedbackView: View {
 
-    @Binding var result: Result<MFMailComposeResult, Error>?
+    @Binding var result: Result<SettingsToastItem, Error>?
     @State var isShowingMailView = false
 
     var body: some View {
