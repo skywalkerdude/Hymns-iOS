@@ -70,7 +70,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                         buttons.append(.languages(languages))
                     }
 
-                    if let mp3URL = self.storedMP3Path {
+                    if let mp3URL = self.storedMP3Path, self.systemUtil.isNetworkAvailable() {
                         buttons.append(.musicPlayback(AudioPlayerViewModel(url: mp3URL)))
                     }
 
