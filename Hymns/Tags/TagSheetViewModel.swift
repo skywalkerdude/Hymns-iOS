@@ -6,22 +6,28 @@ import Resolver
 class TagSheetViewModel: ObservableObject {
 
     typealias Title = String
-    @Published var tags = [UiTag]()
-    @Published var title: String = ""
+    @Published var tagsForHymn = [UiTag]()
+    @Published var otherTags = [UiTag]()
+    @Published var showNewTagCreation = false
 
     let tagStore: TagStore
     let identifier: HymnIdentifier
     private let backgroundQueue: DispatchQueue
     private let mainQueue: DispatchQueue
     private let repository: HymnsRepository
+    private var title: String = ""
     private var disposables = Set<AnyCancellable>()
 
-    init(hymnToDisplay identifier: HymnIdentifier, tagStore: TagStore = Resolver.resolve(), hymnsRepository repository: HymnsRepository = Resolver.resolve(), mainQueue: DispatchQueue = Resolver.resolve(name: "main"), backgroundQueue: DispatchQueue = Resolver.resolve(name: "background")) {
-        self.identifier = identifier
-        self.tagStore = tagStore
-        self.repository = repository
-        self.mainQueue = mainQueue
+    init(hymnToDisplay identifier: HymnIdentifier,
+         backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
+         hymnsRepository repository: HymnsRepository = Resolver.resolve(),
+         mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
+         tagStore: TagStore = Resolver.resolve()) {
         self.backgroundQueue = backgroundQueue
+        self.identifier = identifier
+        self.mainQueue = mainQueue
+        self.repository = repository
+        self.tagStore = tagStore
     }
 
     func fetchHymn() {
@@ -39,16 +45,27 @@ class TagSheetViewModel: ObservableObject {
     }
 
     func fetchTags() {
-        tagStore.getTagsForHymn(hymnIdentifier: self.identifier)
+        let tagsForHymn = tagStore.getTagsForHymn(hymnIdentifier: self.identifier)
             .map({ entities -> [UiTag] in
                 entities.map { entity -> UiTag in
                     return UiTag(
                         title: entity.tag,
                         color: entity.color)
-                }}).replaceError(with: [UiTag]())
+                }}).replaceError(with: [UiTag]()).eraseToAnyPublisher()
+        let uniqueTags = tagStore.getUniqueTags()
+            .map({ uiTags -> [UiTag] in
+                return uiTags
+            }).replaceError(with: [UiTag]()).eraseToAnyPublisher()
+        Publishers.CombineLatest(tagsForHymn, uniqueTags)
             .receive(on: mainQueue)
-            .sink(receiveValue: { results in
-                self.tags = results
+            .sink(receiveValue: { (tagsForHymn, allTags) in
+                self.tagsForHymn = tagsForHymn
+                self.otherTags = allTags.filter({ tag -> Bool in
+                    return !tagsForHymn.contains(tag)
+                })
+                if self.tagsForHymn.isEmpty || self.otherTags.count < 5 {
+                    self.showNewTagCreation = true
+                }
             }).store(in: &disposables)
     }
 
