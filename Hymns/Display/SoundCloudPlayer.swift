@@ -20,14 +20,12 @@ struct SoundCloudPlayer: View {
                 Button(action: {
                     self.viewModel.openPlayer()
                 }, label: {
-                    Text(NSLocalizedString("Now playing from SoundCloud",
-                                           comment: "Indicator that a song from SoundCloud is currently playing"))
-                        .foregroundColor(.accentColor).padding([.vertical, .trailing]).maxWidth(alignment: .leading)
+                    MarqueeText(self.viewModel.title ?? NSLocalizedString("Now playing from SoundCloud", comment: "Indicator that a song from SoundCloud is currently playing"))
                 })
                 Button(action: {
                     self.viewModel.dismissPlayer()
                 }, label: {
-                    Image(systemName: "xmark").accessibility(label: Text("Close")).padding().foregroundColor(.primary)
+                    Image(systemName: "xmark").accessibility(label: Text("Close")).foregroundColor(.primary).padding()
                 })
             }.transition(.opacity).animation(.easeOut).eraseToAnyView()
         } else {
@@ -39,7 +37,8 @@ struct SoundCloudPlayer: View {
 #if DEBUG
 struct SoundCloudPlayer_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = SoundCloudPlayerViewModel(dialogModel: .constant(nil))
+        var published = Published<String?>(initialValue: nil)
+        let viewModel = SoundCloudPlayerViewModel(dialogModel: .constant(nil), title: published.projectedValue)
         viewModel.showPlayer = true
         return SoundCloudPlayer(viewModel: viewModel).toPreviews()
     }

@@ -10,8 +10,18 @@ class SoundCloudViewModel: ObservableObject {
     @Published var url: URL
     @Published var showMinimizeCaret: Bool = false
     @Published var showMinimizeToolTip: Bool = false
+    @Published var title: String?
 
     private var timerConnection: Cancellable?
+
+    var titleObservation: NSKeyValueObservation?
+
+    var titleObserver: ((WKWebView, NSKeyValueObservedChange<String?>) -> Void) { { (webView, change) in
+        guard let title = change.newValue else {
+            return
+        }
+        self.title = title
+        }}
 
     init(url: URL) {
         self.url = url
@@ -32,6 +42,7 @@ class SoundCloudViewModel: ObservableObject {
     deinit {
         timerConnection?.cancel()
         timerConnection = nil
+        titleObservation = nil
     }
 
     func dismissToolTip() {

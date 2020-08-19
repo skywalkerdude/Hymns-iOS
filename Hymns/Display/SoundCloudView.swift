@@ -27,7 +27,7 @@ struct SoundCloudView: View {
                     Spacer()
                     if self.viewModel.showMinimizeCaret {
                         Button(action: {
-                            self.soundCloudPlayer = SoundCloudPlayerViewModel(dialogModel: self.$dialogModel)
+                            self.soundCloudPlayer = SoundCloudPlayerViewModel(dialogModel: self.$dialogModel, title: self.viewModel.$title)
                             self.dialogModel?.opacity = 0
                         }, label: {
                             Image(systemName: "chevron.down").accessibility(label: Text("Minimize SoundCloud")).padding(.horizontal)
@@ -119,15 +119,24 @@ struct ToolTipPreferenceKey: PreferenceKey {
 #if DEBUG
 struct SoundCloudView_Previews: PreviewProvider {
     static var previews: some View {
-        let searchPathViewModel = SoundCloudViewModel(url: URL(string: "https://soundcloud.com/search/path")!)
-        let serachPath = SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: searchPathViewModel)
 
-        let nonSearchPathViewModel = SoundCloudViewModel(url: URL(string: "https://soundcloud.com/anthonyjohntunes/broken-vessels-amazing-grace-hillsong-live-cover")!)
-        let nonSearchPath = SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: nonSearchPathViewModel)
+        let defaultStateViewModel = SoundCloudViewModel(url: URL(string: "https://soundcloud.com/anthonyjohntunes/broken-vessels-amazing-grace-hillsong-live-cover")!)
+        let defaultState = SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: defaultStateViewModel)
+
+        let minimizeCaretViewModel = SoundCloudViewModel(url: URL(string: "https://www.example.com")!)
+        minimizeCaretViewModel.showMinimizeCaret = true
+        let minimizeCaret = SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: minimizeCaretViewModel)
+
+        let minimizeCaretAndToolTipViewModel = SoundCloudViewModel(url: URL(string: "https://www.example.com")!)
+        minimizeCaretAndToolTipViewModel.showMinimizeCaret = true
+        minimizeCaretAndToolTipViewModel.showMinimizeToolTip = true
+        let minimizeCaretAndToolTip = SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: minimizeCaretAndToolTipViewModel)
+
         return
             Group {
-                serachPath.previewDisplayName("search path")
-                nonSearchPath.previewDisplayName("non search path")
+                defaultState.previewDisplayName("default state")
+                minimizeCaret.previewDisplayName("minimize caret is shown")
+                minimizeCaretAndToolTip.previewDisplayName("minimize caret and tooltip is shown")
         }
     }
 }

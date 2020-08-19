@@ -11,31 +11,40 @@ class SoundCloudSnapshots: XCTestCase {
     }
 
     func test_soundCloudPlayer() {
-        let viewModel = SoundCloudPlayerViewModel(dialogModel: .constant(nil))
+        var published = Published<String?>(initialValue: nil)
+        let viewModel = SoundCloudPlayerViewModel(dialogModel: .constant(nil), title: published.projectedValue)
         viewModel.showPlayer = true
         assertSnapshot(matching: SoundCloudPlayer(viewModel: viewModel), as: .image(layout: .fixed(width: 400, height: 200)))
     }
 
     func test_soundCloudPlayer_a11ySize() {
-        let viewModel = SoundCloudPlayerViewModel(dialogModel: .constant(nil))
+        var published = Published<String?>(initialValue: nil)
+        let viewModel = SoundCloudPlayerViewModel(dialogModel: .constant(nil), title: published.projectedValue)
         viewModel.showPlayer = true
         let player = SoundCloudPlayer(viewModel: viewModel).environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
         assertSnapshot(matching: player, as: .image(layout: .fixed(width: 600, height: 200)))
     }
 
-    func test_searchPath_withNoToolTipOrCaret() {
-        let viewModel = SoundCloudViewModel(url: URL(string: "http://www.example.com/search/path")!)
-        assertSnapshot(matching: SoundCloudView(dialogModel: .constant(nil),
-                                                soundCloudPlayer: .constant(nil),
-                                                viewModel: viewModel),
-                       as: .swiftUiImage(precision: 0.99))
+    func test_defaultState() {
+        let viewModel = SoundCloudViewModel(url: URL(string: "http://www.example.com")!)
+        assertSnapshot(matching: SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: viewModel),
+                       as: .swiftUiImage(precision: 0.99), timeout: 10)
     }
 
-    func test_nonSearchPath_withToolTipAndCaret() {
-        let viewModel = SoundCloudViewModel(url: URL(string: "http://www.example.com")!)
-        assertSnapshot(matching: SoundCloudView(dialogModel: .constant(nil),
-                                                soundCloudPlayer: .constant(nil),
-                                                viewModel: viewModel),
-                       as: .swiftUiImage(precision: 0.99))
+    // TODO not working right... for some reason the caret shows up fine in the preview in SoundCloudPlayer but doesn't work in the snapshot tests...
+    func test_minimizeCaret() {
+        let viewModel = SoundCloudViewModel(url: URL(string: "https://www.example.com")!)
+        viewModel.showMinimizeCaret = true
+        assertSnapshot(matching: SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: viewModel),
+                       as: .swiftUiImage(precision: 0.99), timeout: 10)
+    }
+
+    // TODO not working right... for some reason the caret/tooltip show up fine in the preview in SoundCloudPlayer but doesn't work in the snapshot tests...
+    func test_minimizeCaretAndToolTip() {
+        let viewModel = SoundCloudViewModel(url: URL(string: "https://www.example.com")!)
+        viewModel.showMinimizeCaret = true
+        viewModel.showMinimizeToolTip = true
+        assertSnapshot(matching: SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: viewModel),
+                       as: .swiftUiImage(precision: 0.99), timeout: 10)
     }
 }
