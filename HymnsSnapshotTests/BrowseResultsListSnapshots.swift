@@ -12,8 +12,14 @@ class BrowseResultsListSnapshots: XCTestCase {
         super.setUp()
     }
 
+    func test_loading() {
+        viewModel = BrowseResultsListViewModel(tag: UiTag(title: "Best songs", color: .none))
+        assertSnapshot(matching: BrowseResultsListView(viewModel: viewModel), as: .swiftUiImage())
+    }
+
     func test_empty() {
         viewModel = BrowseResultsListViewModel(tag: UiTag(title: "Best songs", color: .none))
+        viewModel.songResults = [SongResultViewModel]()
         assertSnapshot(matching: BrowseResultsListView(viewModel: viewModel), as: .swiftUiImage())
     }
 

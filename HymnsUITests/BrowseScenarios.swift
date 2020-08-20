@@ -50,4 +50,15 @@ class BrowseScenarios: BaseTestCase {
             .tapReference("22\nClick me!")
             .waitForStaticTexts("verse 1 line 1")
     }
+
+    func test_browseAllSongs() {
+        _ = HomeViewCan(app, testCase: self)
+            .goToBrowse()
+            .goToAllSongs()
+            .waitForButtons("Classic hymns", "New songs", "Children's songs", "Howard Higashi songs")
+            .tapHymnType("Classic hymns")
+            .waitForButtons("1151. Title of Hymn 1151")
+            .tapResult("1151. Title of Hymn 1151")
+            .waitForStaticTexts("verse 1 line 1")
+    }
 }

@@ -41,6 +41,8 @@ extension Resolver: ResolverRegistering {
         registerHomeViewModel()
         registerBrowseViewModel()
         registerTagListViewModel()
+        registerBrowseScripturesViewModel()
+        registerAllSongsViewModel()
         registerFavoritesViewModel()
         registerSettingsViewModel()
 

@@ -9,6 +9,10 @@ extension String {
         return !isEmpty && self.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil
     }
 
+    var toInteger: Int? {
+        return Int(self)
+    }
+
     /**
      * - Returns: string with leading whitespace and new lines trimmed out.
      */

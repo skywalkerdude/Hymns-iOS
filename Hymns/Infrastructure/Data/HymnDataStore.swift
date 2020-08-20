@@ -22,6 +22,7 @@ protocol HymnDataStore {
     func getCategories(by hymnType: HymnType) -> AnyPublisher<[CategoryEntity], ErrorType>
     func getResultsBy(category: String, hymnType: HymnType?, subcategory: String?) -> AnyPublisher<[SongResultEntity], ErrorType>
     func getScriptureSongs() -> AnyPublisher<[ScriptureEntity], ErrorType>
+    func getAllSongs(hymnType: HymnType) -> AnyPublisher<[SongResultEntity], ErrorType>
 }
 
 /**
@@ -226,6 +227,16 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
     func getScriptureSongs() -> AnyPublisher<[ScriptureEntity], ErrorType> {
         databaseQueue.readPublisher { database in
             try ScriptureEntity.fetchAll(database, sql: "SELECT SONG_TITLE, HYMN_TYPE, HYMN_NUMBER, QUERY_PARAMS, SONG_META_DATA_SCRIPTURES FROM SONG_DATA WHERE SONG_META_DATA_SCRIPTURES IS NOT NULL AND SONG_TITLE IS NOT NULL")
+        }.mapError({error -> ErrorType in
+            .data(description: error.localizedDescription)
+        }).eraseToAnyPublisher()
+    }
+
+    func getAllSongs(hymnType: HymnType) -> AnyPublisher<[SongResultEntity], ErrorType> {
+        databaseQueue.readPublisher { database in
+            try SongResultEntity.fetchAll(database,
+                                          sql: "SELECT SONG_TITLE, HYMN_TYPE, HYMN_NUMBER, QUERY_PARAMS FROM SONG_DATA WHERE HYMN_TYPE = ?",
+                                          arguments: [hymnType.abbreviatedValue])
         }.mapError({error -> ErrorType in
             .data(description: error.localizedDescription)
         }).eraseToAnyPublisher()

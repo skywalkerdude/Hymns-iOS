@@ -25,6 +25,11 @@ class HymnDataStoreTestImpl: HymnDataStore {
          ScriptureEntity(title: "chinese24", hymnType: .chinese, hymnNumber: "24", queryParams: nil, scriptures: "Genesis 1:26"),
          ScriptureEntity(title: "chinese33", hymnType: .chinese, hymnNumber: "33", queryParams: nil, scriptures: "Genesis 1:1")]
 
+    private var classicSongs =
+        [SongResultEntity(hymnType: .classic, hymnNumber: "22", queryParams: nil, title: "Title of Hymn 22"),
+         SongResultEntity(hymnType: .classic, hymnNumber: "8000", queryParams: nil, title: "Title of Hymn 8000"),
+         SongResultEntity(hymnType: .classic, hymnNumber: "1151", queryParams: nil, title: "Title of Hymn 1151")]
+
     var databaseInitializedProperly: Bool = true
 
     func saveHymn(_ entity: HymnEntity) {
@@ -68,6 +73,17 @@ class HymnDataStoreTestImpl: HymnDataStore {
 
     func getScriptureSongs() -> AnyPublisher<[ScriptureEntity], ErrorType> {
         Just(scriptureSongs).mapError({ _ -> ErrorType in
+            .data(description: "This will never get called")
+        }).eraseToAnyPublisher()
+    }
+    func getAllSongs(hymnType: HymnType) -> AnyPublisher<[SongResultEntity], ErrorType> {
+        if hymnType == .classic {
+            return Just(classicSongs).mapError({ _ -> ErrorType in
+                .data(description: "This will never get called")
+            }).eraseToAnyPublisher()
+        }
+
+        return Just([SongResultEntity]()).mapError({ _ -> ErrorType in
             .data(description: "This will never get called")
         }).eraseToAnyPublisher()
     }
