@@ -62,6 +62,7 @@ class BrowseResultsListViewModel: ObservableObject {
         switch resultsType {
         case .tag(let tag):
             tagStore.getSongsByTag(tag)
+                .receive(on: backgroundQueue)
                 .map({ songResults -> [SongResultViewModel] in
                     songResults.map { songResult -> SongResultViewModel in
                         let hymnIdentifier = HymnIdentifier(hymnType: songResult.hymnType, hymnNumber: songResult.hymnNumber, queryParams: songResult.queryParams)
@@ -78,6 +79,7 @@ class BrowseResultsListViewModel: ObservableObject {
         case .category(let category, let subcategory, let hymnType):
             dataStore.getResultsBy(category: category, hymnType: hymnType, subcategory: subcategory)
                 .subscribe(on: backgroundQueue)
+                .receive(on: backgroundQueue)
                 .map({ songResults -> [SongResultViewModel] in
                     songResults.map { songResult -> SongResultViewModel in
                         let hymnIdentifier = HymnIdentifier(hymnType: songResult.hymnType, hymnNumber: songResult.hymnNumber, queryParams: songResult.queryParams)
@@ -94,6 +96,7 @@ class BrowseResultsListViewModel: ObservableObject {
         case .allSongs(let hymnType):
             dataStore.getAllSongs(hymnType: hymnType)
                 .subscribe(on: backgroundQueue)
+                .receive(on: backgroundQueue)
                 .map({ songResults -> [SongResultViewModel] in
                     songResults
                         .compactMap({ songResult -> SongResultEntity? in
