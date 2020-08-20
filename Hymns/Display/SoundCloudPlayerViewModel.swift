@@ -7,17 +7,28 @@ import SwiftUI
 class SoundCloudPlayerViewModel: ObservableObject {
 
     @Published var showPlayer: Bool = false
+    @Published var title: String?
 
     @Binding var dialogModel: DialogViewModel<AnyView>?
 
     private var timerConnection: Cancellable?
 
-    init(dialogModel: Binding<DialogViewModel<AnyView>?>) {
+    private var disposables = Set<AnyCancellable>()
+
+    init(dialogModel: Binding<DialogViewModel<AnyView>?>, title: Published<String?>.Publisher,
+         mainQueue: DispatchQueue = Resolver.resolve(name: "main")) {
         self._dialogModel = dialogModel
         timerConnection = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect().sink(receiveValue: { [weak self ]_ in
             guard let self = self else { return }
             self.showPlayer = AVAudioSession.sharedInstance().secondaryAudioShouldBeSilencedHint
         })
+        title.receive(on: mainQueue)
+            .sink { title in
+                guard let title = title else {
+                    return
+                }
+                self.title = title
+        }.store(in: &disposables)
     }
 
     deinit {

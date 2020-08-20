@@ -1,3 +1,4 @@
+import AVFoundation
 import Combine
 import Resolver
 import WebKit
@@ -9,27 +10,39 @@ class SoundCloudViewModel: ObservableObject {
     @Published var url: URL
     @Published var showMinimizeCaret: Bool = false
     @Published var showMinimizeToolTip: Bool = false
+    @Published var title: String?
 
-    var urlObserveration: NSKeyValueObservation?
+    private var timerConnection: Cancellable?
 
-    var urlObserver: ((WKWebView, NSKeyValueObservedChange<URL?>) -> Void) { { (webView, change) in
-        guard let urlOptional = change.newValue, let url = urlOptional else {
+    var titleObservation: NSKeyValueObservation?
+
+    var titleObserver: ((WKWebView, NSKeyValueObservedChange<String?>) -> Void) { { (webView, change) in
+        guard let title = change.newValue else {
             return
         }
-
-        let path = url.path
-        if path.starts(with: "/search") {
-            self.showMinimizeCaret = false
-        } else {
-            self.showMinimizeCaret = true
-            if !self.hasSeenSoundCloudMinimizeTooltip {
-                self.showMinimizeToolTip = true
-            }
-        } }
-    }
+        self.title = title
+        }}
 
     init(url: URL) {
         self.url = url
+        timerConnection = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect().sink(receiveValue: { [weak self ]_ in
+            guard let self = self else { return }
+            if AVAudioSession.sharedInstance().secondaryAudioShouldBeSilencedHint {
+                // Media is playing
+                self.showMinimizeCaret = true
+                if !self.hasSeenSoundCloudMinimizeTooltip {
+                    self.showMinimizeToolTip = true
+                }
+            } else {
+                self.showMinimizeCaret = false
+            }
+        })
+    }
+
+    deinit {
+        timerConnection?.cancel()
+        timerConnection = nil
+        titleObservation = nil
     }
 
     func dismissToolTip() {

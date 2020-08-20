@@ -22,7 +22,7 @@ struct SoundCloudWebView: UIViewRepresentable {
 
         webView.navigationDelegate = context.coordinator
 
-        viewModel.urlObserveration = webView.observe(\WKWebView.url, options: .new, changeHandler: viewModel.urlObserver)
+        viewModel.titleObservation = webView.observe(\WKWebView.title, options: .new, changeHandler: viewModel.titleObserver)
 
         webView.load(URLRequest(url: viewModel.url))
         return webView

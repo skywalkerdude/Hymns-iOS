@@ -10,7 +10,7 @@ struct TabBar<TabItemType: TabItem>: View {
     let geometry: GeometryProxy
     let tabItems: [TabItemType]
 
-    @State private var width: CGFloat = 0
+    @State private var width = CGFloat.zero
 
     var body: some View {
         if width <= 0 {
@@ -34,10 +34,10 @@ struct TabBar<TabItemType: TabItem>: View {
                                     }
                                 }.accessibility(label: tabItem.a11yLabel).padding(.vertical)
                         })
-                    }.anchorPreference(key: WidthPreferenceKey.self, value: .bounds) { anchor in
+                    }.anchorPreference(key: TabWidthPreferenceKey.self, value: .bounds) { anchor in
                         return self.geometry[anchor].width
                     }
-                }.onPreferenceChange(WidthPreferenceKey.self) { width in
+                }.onPreferenceChange(TabWidthPreferenceKey.self) { width in
                     self.width = width
                 }.eraseToAnyView()
         } else {
@@ -106,11 +106,11 @@ struct FirstNonNilPreferenceKey<T>: PreferenceKey {
 }
 
 /**
- * Preference key to calculate the cumulative width of all the views.
+ * Preference key to calculate the cumulative width of all the tabs.
  *
  * This is used to determine if we need to scroll off-screen or not and is used to set the frame width for the tab's HStack.
  */
-struct WidthPreferenceKey: PreferenceKey {
+struct TabWidthPreferenceKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
 
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
