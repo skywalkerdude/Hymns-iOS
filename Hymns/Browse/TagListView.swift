@@ -41,6 +41,7 @@ struct TagListView: View {
     }
 }
 
+#if DEBUG
 struct TagListView_Previews: PreviewProvider {
     static var previews: some View {
 
@@ -64,3 +65,4 @@ struct TagListView_Previews: PreviewProvider {
         }
     }
 }
+#endif

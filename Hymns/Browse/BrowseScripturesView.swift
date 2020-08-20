@@ -1,8 +1,13 @@
+import Resolver
 import SwiftUI
 
 struct BrowseScripturesView: View {
 
-    @ObservedObject var viewModel: BrowseScripturesViewModel
+    @ObservedObject private var viewModel: BrowseScripturesViewModel
+
+    init(viewModel: BrowseScripturesViewModel = Resolver.resolve()) {
+        self.viewModel = viewModel
+    }
 
     var body: some View {
         Group<AnyView> {

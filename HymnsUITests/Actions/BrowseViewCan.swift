@@ -83,4 +83,17 @@ public class BrowseViewCan: BaseViewCan {
         app.buttons["\(reference)"].tap()
         return BrowseResultsViewCan(app, testCase: testCase)
     }
+
+    public func goToAllSongs() -> BrowseViewCan {
+        while !app.buttons["All Songs"].exists {
+            app.scrollViews.element.swipeLeft()
+        }
+        app.buttons["All Songs"].tap()
+        return self
+    }
+
+    public func tapHymnType(_ hymnType: String) -> BrowseResultsViewCan {
+        app.buttons[hymnType].tap()
+        return BrowseResultsViewCan(app, testCase: testCase)
+    }
 }

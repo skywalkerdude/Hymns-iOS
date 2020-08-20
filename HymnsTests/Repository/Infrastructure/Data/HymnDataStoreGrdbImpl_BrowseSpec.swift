@@ -165,6 +165,27 @@ class HymnDataStoreGrdbImpl_BrowseSpec: QuickSpec {
                         publisher.cancel()
                     }
                 }
+                describe("getting all clasic songs") {
+                    it("should contain all the classic songs") {
+                        let completion = XCTestExpectation(description: "completion received")
+                        let value = XCTestExpectation(description: "value received")
+                        let publisher = target.getAllSongs(hymnType: .classic)
+                            .print(self.description)
+                            .sink(receiveCompletion: { state in
+                                completion.fulfill()
+                                expect(state).to(equal(.finished))
+                            }, receiveValue: { songs in
+                                value.fulfill()
+                                expect(songs).to(haveCount(4))
+                                expect(songs[0]).to(equal(SongResultEntity(hymnType: .classic, hymnNumber: "1109", queryParams: nil, title: "classic 1109")))
+                                expect(songs[1]).to(equal(SongResultEntity(hymnType: .classic, hymnNumber: "1151", queryParams: nil, title: "classic 1151")))
+                                expect(songs[2]).to(equal(SongResultEntity(hymnType: .classic, hymnNumber: "2", queryParams: ["q2": "v2", "q1": "v1"], title: "classic 2")))
+                                expect(songs[3]).to(equal(SongResultEntity(hymnType: .classic, hymnNumber: "500", queryParams: nil, title: "classic 500")))
+                            })
+                        self.wait(for: [completion, value], timeout: testTimeout)
+                        publisher.cancel()
+                    }
+                }
             }
             describe("save some scripture songs") {
                 beforeEach {

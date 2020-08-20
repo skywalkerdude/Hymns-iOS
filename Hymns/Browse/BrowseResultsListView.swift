@@ -3,7 +3,7 @@ import SwiftUI
 struct BrowseResultsListView: View {
 
     @Environment(\.presentationMode) var presentationMode
-    private let viewModel: BrowseResultsListViewModel
+    @ObservedObject private var viewModel: BrowseResultsListViewModel
 
     init(viewModel: BrowseResultsListViewModel) {
         self.viewModel = viewModel
@@ -15,20 +15,27 @@ struct BrowseResultsListView: View {
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
-                    Image(systemName: "chevron.left").accentColor(.primary)
-                }).padding()
+                    Image(systemName: "chevron.left").accentColor(.primary).padding()
+                })
                 Text(viewModel.title).font(.body).fontWeight(.bold)
                 Spacer()
             }
-            if viewModel.songResults.isEmpty {
-                ErrorView().maxSize()
-            } else {
-                List(viewModel.songResults) { songResult in
+
+            Group { () -> AnyView in
+                guard let songResults = self.viewModel.songResults else {
+                    return ActivityIndicator().maxSize().eraseToAnyView()
+                }
+                guard !songResults.isEmpty else {
+                    return ErrorView().maxSize().eraseToAnyView()
+                }
+                return List(songResults) { songResult in
                     NavigationLink(destination: songResult.destinationView) {
                         SongResultView(viewModel: songResult)
                     }
-                }
+                }.resignKeyboardOnDragGesture().eraseToAnyView()
             }
+        }.onAppear {
+            self.viewModel.fetchResults()
         }.hideNavigationBar()
     }
 }
@@ -39,8 +46,8 @@ struct BrowseResultsListView_Previews: PreviewProvider {
         let empty = BrowseResultsListView(viewModel: emptyViewModel)
 
         let resultObjects = [SongResultViewModel(title: "Hymn 114", destinationView: EmptyView().eraseToAnyView()),
-                           SongResultViewModel(title: "Cup of Christ", destinationView: EmptyView().eraseToAnyView()),
-                           SongResultViewModel(title: "Avengers - Endgame", destinationView: EmptyView().eraseToAnyView())]
+                             SongResultViewModel(title: "Cup of Christ", destinationView: EmptyView().eraseToAnyView()),
+                             SongResultViewModel(title: "Avengers - Endgame", destinationView: EmptyView().eraseToAnyView())]
         let resultsViewModel = BrowseResultsListViewModel(category: "Experience of Christ")
         resultsViewModel.songResults = resultObjects
         let results = BrowseResultsListView(viewModel: resultsViewModel)

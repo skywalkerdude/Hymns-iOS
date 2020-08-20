@@ -15,7 +15,8 @@ class BrowseViewModel: ObservableObject {
                          .newTunes(BrowseCategoriesView(viewModel: BrowseCategoriesViewModel(hymnType: .newTune)).eraseToAnyView()),
                          .newSongs(BrowseCategoriesView(viewModel: BrowseCategoriesViewModel(hymnType: .newSong)).eraseToAnyView()),
                          .children(BrowseCategoriesView(viewModel: BrowseCategoriesViewModel(hymnType: .children)).eraseToAnyView()),
-                         .scripture(BrowseScripturesView(viewModel: BrowseScripturesViewModel()).eraseToAnyView())]
+                         .scripture(BrowseScripturesView().eraseToAnyView()),
+                         .all(AllSongsView().eraseToAnyView())]
     }
 }
 
