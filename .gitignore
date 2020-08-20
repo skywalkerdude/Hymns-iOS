@@ -95,3 +95,6 @@ iOSInjectionProject/
 # Mockingbird generated code
 **/MockingbirdCache/Hymns.lock
 **/*.generated.swift
+
+# So I have a place to put my commands without having to check them in
+commands.txt
