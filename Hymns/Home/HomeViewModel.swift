@@ -121,7 +121,7 @@ class HomeViewModel: ObservableObject {
         label = nil
         Just((1...HymnType.classic.maxNumber))
             .subscribe(on: backgroundQueue)
-            .map { range -> [SongResultViewModel] in
+            .map({ range -> [SongResultViewModel] in
                 guard !hymnNumber.isEmpty else {
                     return [SongResultViewModel]()
                 }
@@ -132,7 +132,7 @@ class HomeViewModel: ObservableObject {
                     let destination = DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier, storeInHistoryStore: true)).eraseToAnyView()
                     return SongResultViewModel(title: title, destinationView: destination)
                 })
-        }.receive(on: mainQueue)
+            }).receive(on: mainQueue)
             .sink { songResults in
                 if hymnNumber != self.searchParameter.trim() {
                     // search parameter has changed by the time the call completed, so just drop this.
