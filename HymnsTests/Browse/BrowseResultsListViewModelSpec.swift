@@ -33,6 +33,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                         testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
+                        testQueue.sync {}
                     }
                     it("should set the title using only the category") {
                         expect(target.title).to(equal("category"))
@@ -53,6 +54,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                                                             backgroundQueue: testQueue, dataStore: dataStore,
                                                             mainQueue: testQueue, tagStore: tagStore)
                         target.fetchResults()
+                        testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
@@ -84,6 +86,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                         testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
+                        testQueue.sync {}
                     }
                     it("should set the title using only the subcategory") {
                         expect(target.title).to(equal("subcategory"))
@@ -101,8 +104,11 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                                 .data(description: "This will never get called")
                             }).eraseToAnyPublisher()
                         }
-                        target = BrowseResultsListViewModel(tag: UiTag(title: "FanIntoFlames", color: .none), mainQueue: testQueue, tagStore: tagStore)
+                        target = BrowseResultsListViewModel(tag: UiTag(title: "FanIntoFlames", color: .none),
+                                                            backgroundQueue: testQueue, mainQueue: testQueue,
+                                                            tagStore: tagStore)
                         target.fetchResults()
+                        testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
@@ -123,8 +129,11 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                                     .data(description: "This will never get called")
                                 }).eraseToAnyPublisher()
                         }
-                        target = BrowseResultsListViewModel(tag: UiTag(title: "FanIntoFlames", color: .none), mainQueue: testQueue, tagStore: tagStore)
+                        target = BrowseResultsListViewModel(tag: UiTag(title: "FanIntoFlames", color: .none),
+                                                            backgroundQueue: testQueue, dataStore: dataStore,
+                                                            mainQueue: testQueue, tagStore: tagStore)
                         target.fetchResults()
+                        testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
@@ -150,8 +159,11 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                                     .data(description: "forced data error")
                                 }).eraseToAnyPublisher()
                         }
-                        target = BrowseResultsListViewModel(tag: UiTag(title: "FanIntoFlames", color: .none), mainQueue: testQueue, tagStore: tagStore)
+                        target = BrowseResultsListViewModel(tag: UiTag(title: "FanIntoFlames", color: .none),
+                                                            backgroundQueue: testQueue, dataStore: dataStore,
+                                                            mainQueue: testQueue, tagStore: tagStore)
                         target.fetchResults()
+                        testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
@@ -173,8 +185,10 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                             }).eraseToAnyPublisher()
                         }
                         target = BrowseResultsListViewModel(hymnType: .classic, backgroundQueue: testQueue,
-                                                            dataStore: dataStore, mainQueue: testQueue, tagStore: tagStore)
+                                                            dataStore: dataStore, mainQueue: testQueue,
+                                                            tagStore: tagStore)
                         target.fetchResults()
+                        testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
@@ -197,6 +211,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                         target = BrowseResultsListViewModel(hymnType: .classic, backgroundQueue: testQueue,
                                                             dataStore: dataStore, mainQueue: testQueue, tagStore: tagStore)
                         target.fetchResults()
+                        testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
@@ -224,6 +239,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                         target = BrowseResultsListViewModel(hymnType: .newTune, backgroundQueue: testQueue,
                                                             dataStore: dataStore, mainQueue: testQueue, tagStore: tagStore)
                         target.fetchResults()
+                        testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
                         testQueue.sync {}
