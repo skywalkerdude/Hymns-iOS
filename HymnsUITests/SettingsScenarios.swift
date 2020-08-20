@@ -16,6 +16,7 @@ class SettingsScenarios: BaseTestCase {
             .returnToHome()
             .tapHome()
             .verifyButtonsNotExist("classic1151")
+            .waitForImages("empty search illustration")
     }
 
     func test_goToAboutUs() {

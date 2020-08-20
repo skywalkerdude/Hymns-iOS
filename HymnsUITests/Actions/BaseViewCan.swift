@@ -47,6 +47,13 @@ public class BaseViewCan {
         return self
     }
 
+    public func waitForImages(_ strings: String...) -> Self {
+        for string in strings {
+            XCTAssertTrue(app.images[string].waitForExistence(timeout: 1))
+        }
+        return self
+    }
+
     public func takeScreenshot(name: String) -> Self {
         let screenshot = app.screenshot()
         let attachment = XCTAttachment(screenshot: screenshot)
