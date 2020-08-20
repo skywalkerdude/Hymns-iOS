@@ -30,6 +30,7 @@ class SettingsSnapshots: XCTestCase {
     }
 
     func test_privacyPolicy() {
-        assertSnapshot(matching: PrivacyPolicyView(showPrivacyPolicy: .constant(true)), as: .swiftUiImage())
+        assertSnapshot(matching: PrivacyPolicyView(showPrivacyPolicy: .constant(true)), as: .swiftUiImage(),
+                       timeout: 60)
     }
 }
