@@ -7,6 +7,16 @@ public class DisplayHymnViewCan: BaseViewCan {
         super.init(app, testCase: testCase)
     }
 
+    public func goBackToBrowse() -> BrowseViewCan {
+        app.buttons["Go back"].tap()
+        return BrowseViewCan(app, testCase: testCase)
+    }
+
+    public func goBackToBrowseResults() -> BrowseResultsViewCan {
+        app.buttons["Go back"].tap()
+        return BrowseResultsViewCan(app, testCase: testCase)
+    }
+
     public func openShareSheet() -> DisplayHymnViewCan {
         return pressButton("Share lyrics")
     }

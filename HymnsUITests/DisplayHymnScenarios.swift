@@ -12,7 +12,7 @@ class DisplayHymnScenarios: BaseTestCase {
             .waitForButtons("classic1151", "classic40", "classic2", "classic3")
             .tapResult("classic1151")
             .openShareSheet()
-            .waitForButtons("Edit Actions…")
+            .waitForButtons("Edit Actions…", timeout: 2)
     }
 
     func test_tagSheet() {

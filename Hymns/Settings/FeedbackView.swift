@@ -29,7 +29,7 @@ extension Result: Identifiable {
 }
 
 #if DEBUG
-struct ContentView_Previews: PreviewProvider {
+struct FeedbackView_Previews: PreviewProvider {
     static var previews: some View {
         FeedbackView(result: .constant(nil)).toPreviews()
     }

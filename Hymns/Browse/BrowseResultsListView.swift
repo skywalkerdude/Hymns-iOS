@@ -15,7 +15,9 @@ struct BrowseResultsListView: View {
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
-                    Image(systemName: "chevron.left").accentColor(.primary).padding()
+                    Image(systemName: "chevron.left")
+                        .accessibility(label: Text("Go back"))
+                        .accentColor(.primary).padding()
                 })
                 Text(viewModel.title).font(.body).fontWeight(.bold)
                 Spacer()
@@ -28,7 +30,7 @@ struct BrowseResultsListView: View {
                 guard !songResults.isEmpty else {
                     return ErrorView().maxSize().eraseToAnyView()
                 }
-                return List(songResults) { songResult in
+                return List(songResults, id: \.title) { songResult in
                     NavigationLink(destination: songResult.destinationView) {
                         SongResultView(viewModel: songResult)
                     }
