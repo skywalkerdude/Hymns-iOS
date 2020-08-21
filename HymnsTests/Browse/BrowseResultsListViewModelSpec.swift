@@ -204,9 +204,11 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                     beforeEach {
                         given(dataStore.getAllSongs(hymnType: .classic)) ~> { _ in
                             Just([SongResultEntity(hymnType: .classic, hymnNumber: "123", queryParams: nil, title: "classic123"),
-                                  SongResultEntity(hymnType: .scripture, hymnNumber: "55", queryParams: nil, title: "scripture55")]).mapError({ _ -> ErrorType in
+                                  SongResultEntity(hymnType: .scripture, hymnNumber: "55", queryParams: nil, title: "scripture55"),
+                                  SongResultEntity(hymnType: .classic, hymnNumber: "11b", queryParams: nil, title: "non numeric number")])
+                                .mapError({ _ -> ErrorType in
                                     .data(description: "This will never get called")
-                                  }).eraseToAnyPublisher()
+                                }).eraseToAnyPublisher()
                         }
                         target = BrowseResultsListViewModel(hymnType: .classic, backgroundQueue: testQueue,
                                                             dataStore: dataStore, mainQueue: testQueue, tagStore: tagStore)

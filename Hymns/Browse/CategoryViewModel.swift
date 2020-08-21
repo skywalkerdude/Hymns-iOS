@@ -14,6 +14,9 @@ class CategoryViewModel: ObservableObject {
 }
 
 extension CategoryViewModel: Identifiable {
+    var id: String {
+        "\(category) \(hymnType?.abbreviatedValue ?? "nil") \(subcategories)"
+    }
 }
 
 extension CategoryViewModel: Hashable {

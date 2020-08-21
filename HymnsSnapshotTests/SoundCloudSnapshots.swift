@@ -28,7 +28,7 @@ class SoundCloudSnapshots: XCTestCase {
     func test_defaultState() {
         let viewModel = SoundCloudViewModel(url: URL(string: "http://www.example.com")!)
         assertSnapshot(matching: SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: viewModel),
-                       as: .swiftUiImage(precision: 0.99), timeout: 10)
+                       as: .swiftUiImage(precision: 0.99), timeout: 30)
     }
 
     // TODO not working right... for some reason the caret shows up fine in the preview in SoundCloudPlayer but doesn't work in the snapshot tests...
@@ -36,7 +36,7 @@ class SoundCloudSnapshots: XCTestCase {
         let viewModel = SoundCloudViewModel(url: URL(string: "https://www.example.com")!)
         viewModel.showMinimizeCaret = true
         assertSnapshot(matching: SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: viewModel),
-                       as: .swiftUiImage(precision: 0.99), timeout: 10)
+                       as: .swiftUiImage(precision: 0.99), timeout: 30)
     }
 
     // TODO not working right... for some reason the caret/tooltip show up fine in the preview in SoundCloudPlayer but doesn't work in the snapshot tests...
@@ -45,6 +45,6 @@ class SoundCloudSnapshots: XCTestCase {
         viewModel.showMinimizeCaret = true
         viewModel.showMinimizeToolTip = true
         assertSnapshot(matching: SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: viewModel),
-                       as: .swiftUiImage(precision: 0.99), timeout: 10)
+                       as: .swiftUiImage(precision: 0.99), timeout: 30)
     }
 }

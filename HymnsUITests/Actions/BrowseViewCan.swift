@@ -79,9 +79,9 @@ public class BrowseViewCan: BaseViewCan {
         return self
     }
 
-    public func tapReference(_ reference: String) -> BrowseResultsViewCan {
+    public func tapReference(_ reference: String) -> DisplayHymnViewCan {
         app.buttons["\(reference)"].tap()
-        return BrowseResultsViewCan(app, testCase: testCase)
+        return DisplayHymnViewCan(app, testCase: testCase)
     }
 
     public func goToAllSongs() -> BrowseViewCan {

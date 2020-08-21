@@ -6,6 +6,12 @@ struct SubcategoryViewModel: Equatable, Hashable {
     let count: Int
 }
 
+extension SubcategoryViewModel: Identifiable {
+    var id: String {
+        "\(subcategory ?? "nil") \(count)"
+    }
+}
+
 struct SubcategoryView: View {
 
     @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory

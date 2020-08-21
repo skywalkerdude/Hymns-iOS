@@ -7,6 +7,11 @@ public class BrowseResultsViewCan: BaseViewCan {
         super.init(app, testCase: testCase)
     }
 
+    public func goBackToBrowse() -> BrowseViewCan {
+        app.buttons["Go back"].tap()
+        return BrowseViewCan(app, testCase: testCase)
+    }
+
     public func tapResult(_ result: String) -> DisplayHymnViewCan {
         app.buttons[result].tap()
         return DisplayHymnViewCan(app, testCase: testCase)

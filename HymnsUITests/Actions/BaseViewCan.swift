@@ -14,9 +14,9 @@ public class BaseViewCan {
         self.testCase = testCase
     }
 
-    public func waitForButtons(_ strings: String...) -> Self {
+    public func waitForButtons(_ strings: String..., timeout: TimeInterval = 0.5) -> Self {
         for string in strings {
-            XCTAssertTrue(app.buttons[string].waitForExistence(timeout: 1))
+            XCTAssertTrue(app.buttons[string].waitForExistence(timeout: timeout))
         }
         return self
     }

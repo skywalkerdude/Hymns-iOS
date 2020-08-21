@@ -96,7 +96,6 @@ class BrowseResultsListViewModel: ObservableObject {
         case .allSongs(let hymnType):
             dataStore.getAllSongs(hymnType: hymnType)
                 .subscribe(on: backgroundQueue)
-                .receive(on: backgroundQueue)
                 .map({ songResults -> [SongResultViewModel] in
                     songResults
                         .compactMap({ songResult -> SongResultEntity? in
@@ -115,8 +114,8 @@ class BrowseResultsListViewModel: ObservableObject {
                             return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
                     }
                 })
-                .receive(on: mainQueue)
                 .replaceError(with: [SongResultViewModel]())
+                .receive(on: mainQueue)
                 .sink(receiveValue: { [weak self] viewModels in
                     guard let self = self else { return }
                     self.songResults = viewModels

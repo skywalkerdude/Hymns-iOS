@@ -17,7 +17,7 @@ struct CategoryView: View {
             }.foregroundColor(isExpanded ? .accentColor : .primary)
             if isExpanded {
                 List {
-                    ForEach(viewModel.subcategories, id: \.self) { subcategory in
+                    ForEach(viewModel.subcategories) { subcategory in
                         NavigationLink(destination: BrowseResultsListView(viewModel: BrowseResultsListViewModel(category: self.viewModel.category, subcategory: subcategory.subcategory, hymnType: self.viewModel.hymnType))) {
                             SubcategoryView(viewModel: subcategory)
                         }
