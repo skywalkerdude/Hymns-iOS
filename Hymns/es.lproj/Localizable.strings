@@ -16,6 +16,9 @@
 /* Browse tab title */
 "Browse" = "Navegue";
 
+/* Display name of 'Cebuano Hymns'. Usually appears just by itself (i.e. as a title) */
+"Cebuano hymns" = "TRANSLATE ME";
+
 /* Change the lyrics font size */
 "Change lyrics font size" = "Cambiar el tamaño de la letra";
 
@@ -31,10 +34,16 @@
 /* Browse children's songs */
 "Children's Songs" = "Canciones Para Niños";
 
+/* Display name of 'Chinese Hymns'. Usually appears just by itself (i.e. as a title) */
+"Chinese Hymns" = "TRANSLATE ME";
+
+/* Display name of 'Chinese supplemental Hymns'. Usually appears just by itself (i.e. as a title) */
+"Chinese supplemental Hymns" = "TRANSLATE ME";
+
 /* Hymn chords tab */
 "Chords" = "Acordes";
 
-/* Browse classic hymns */
+/* Display name of 'Classic hymns', usually appears just by itself (i.e. as a title) */
 "Classic Hymns" = "Himnos Clásicos";
 
 /* No comment provided by engineer. */
@@ -51,6 +60,9 @@
 
 /* No comment provided by engineer. */
 "Did not find any songs matching:\n\"%@\".\nPlease try a different request" = "No encontré ninguna canción que coincidiera:\n\"%@\".\nPor favor, intente una petición diferente";
+
+/* Display name of 'Dutch Hymns'. Usually appears just by itself (i.e. as a title) */
+"Dutch Hymns" = "TRANSLATE ME";
 
 /* Favorites tab title */
 "Favorites" = "Favoritos";
@@ -70,6 +82,12 @@
 /* No comment provided by engineer. */
 "For a free study Bible tap " = "Para un estudio gratis de la Biblia ";
 
+/* Display name of 'French Hymns'. Usually appears just by itself (i.e. as a title) */
+"French Hymns" = "TRANSLATE ME";
+
+/* Display name of 'German Hymns'. Usually appears just by itself (i.e. as a title) */
+"German Hymns" = "TRANSLATE ME";
+
 /* No comment provided by engineer. */
 "Go back" = "Regresa";
 
@@ -82,8 +100,17 @@
 /* The 'here' in 'tap here' that links to BFA to get a free Bible */
 "here." = "aquí.";
 
+/* Display name of 'Howard Higashi Songs'. Usually appears just by itself (i.e. as a title) */
+"Howard Higashi Songs" = "TRANSLATE ME";
+
 /* Latter part of the empty tag state text */
 "icon on any hymn" = "en cualquier himno";
+
+/* Display name of 'Japanese Hymns'. Usually appears just by itself (i.e. as a title) */
+"Japanese Hymns" = "TRANSLATE ME";
+
+/* Display name of 'Korean Hymns'. Usually appears just by itself (i.e. as a title) */
+"Korean Hymns" = "TRANSLATE ME";
 
 /* No comment provided by engineer. */
 "Label it however you like" = "Label it however you like";
@@ -118,10 +145,10 @@
 /* No comment provided by engineer. */
 "Name your tag" = "Nombra tu etiqueta";
 
-/* Browse new songs */
+/* Display name of 'New Songs'. Usually appears just by itself (i.e. as a title) */
 "New Songs" = "Nuevas canciones";
 
-/* Browse new tunes */
+/* Display name of 'New Tunes'. Usually appears just by itself (i.e. as a title) */
 "New Tunes" = "Nuevas melodías";
 
 /* Indicator that a song from SoundCloud is currently playing */
@@ -148,7 +175,7 @@
 /* Songs relevant to this song (alternate tunes, etc) */
 "Relevant songs" = "Canciones relevantes";
 
-/* Browse scripture songs */
+/* Display name of 'Scripture Songs'. Usually appears just by itself (i.e. as a title) */
 "Scripture Songs" = "Canciones de la Escritura";
 
 /* No comment provided by engineer. */
@@ -183,6 +210,12 @@
 
 /* No comment provided by engineer. */
 "Song progress slider" = "Deslizador de progreso de la canción";
+
+/* Display name of 'Spanish Hymns'. Usually appears just by itself (i.e. as a title) */
+"Spanish Hymns" = "TRANSLATE ME";
+
+/* Display name of 'Tagalog Hymns'. Usually appears just by itself (i.e. as a title) */
+"Tagalog Hymns" = "TRANSLATE ME";
 
 /* Browse tags */
 "Tags" = "Etiquetas";

@@ -1,4 +1,4 @@
 ## This should cause merges to happen instead of problems with this pbxproj file. (https://thoughtbot.com/blog/xcode-and-git-bridging-the-gap)
 *.pbxproj merge=union
 ## view .string files as text
-*.strings diff
+**.strings diff
