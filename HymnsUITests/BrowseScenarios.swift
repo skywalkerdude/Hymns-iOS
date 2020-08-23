@@ -74,7 +74,7 @@ class BrowseScenarios: BaseTestCase {
             .goToAllSongs()
             .waitForButtons("Classic hymns", "New songs", "Children's songs", "Howard Higashi songs")
             .tapHymnType("Classic hymns")
-            .waitForButtons("booyah boobooyah", timeout: 3)
+            .waitForButtons("1. Title of Hymn 1", timeout: 2)
 //            .tapResult("2. Title of Hymn 2")
 //            .waitForStaticTexts("classic hymn 2 lyrics")
 //            .goBackToBrowseResults()
