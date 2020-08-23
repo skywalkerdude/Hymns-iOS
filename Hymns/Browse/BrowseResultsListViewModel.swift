@@ -110,7 +110,7 @@ class BrowseResultsListViewModel: ObservableObject {
                             return hymnNumber1 < hymnNumber2
                         }).map { songResult -> SongResultViewModel in
                             let hymnIdentifier = HymnIdentifier(hymnType: songResult.hymnType, hymnNumber: songResult.hymnNumber, queryParams: songResult.queryParams)
-                            let title = "\(songResult.hymnNumber). \(songResult.title.replacingOccurrences(of: "Hymn: ", with: ""))"
+                            let title = "booyah boobooyah"
                             return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
                     }
                 })
