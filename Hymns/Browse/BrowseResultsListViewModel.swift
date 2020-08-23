@@ -102,14 +102,12 @@ class BrowseResultsListViewModel: ObservableObject {
                                 return nil
                             }
                             return songResult
-                        })
-//                        .sorted(by: { (result1, result2) -> Bool in
-//                            guard let hymnNumber1 = result1.hymnNumber.toInteger, let hymnNumber2 = result2.hymnNumber.toInteger else {
-//                                return false
-//                            }
-//                            return hymnNumber1 < hymnNumber2
-//                        })
-                        .map({ songResult -> SongResultViewModel in
+                        }).sorted(by: { (result1, result2) -> Bool in
+                            guard let hymnNumber1 = result1.hymnNumber.toInteger, let hymnNumber2 = result2.hymnNumber.toInteger else {
+                                return false
+                            }
+                            return hymnNumber1 < hymnNumber2
+                        }).map({ songResult -> SongResultViewModel in
                             let hymnIdentifier = HymnIdentifier(hymnType: songResult.hymnType, hymnNumber: songResult.hymnNumber, queryParams: songResult.queryParams)
                             let title = "\(songResult.hymnNumber). \(songResult.title.replacingOccurrences(of: "Hymn: ", with: ""))"
                             return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
