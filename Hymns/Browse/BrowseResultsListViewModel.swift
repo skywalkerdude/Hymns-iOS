@@ -79,7 +79,6 @@ class BrowseResultsListViewModel: ObservableObject {
         case .category(let category, let subcategory, let hymnType):
             dataStore.getResultsBy(category: category, hymnType: hymnType, subcategory: subcategory)
                 .subscribe(on: backgroundQueue)
-                .receive(on: backgroundQueue)
                 .map({ songResults -> [SongResultViewModel] in
                     songResults.map { songResult -> SongResultViewModel in
                         let hymnIdentifier = HymnIdentifier(hymnType: songResult.hymnType, hymnNumber: songResult.hymnNumber, queryParams: songResult.queryParams)
@@ -98,12 +97,13 @@ class BrowseResultsListViewModel: ObservableObject {
                 .subscribe(on: backgroundQueue)
                 .map({ songResults -> [SongResultViewModel] in
                     songResults
-//                        .compactMap({ songResult -> SongResultEntity? in
-//                            if !songResult.hymnNumber.isPositiveInteger {
-//                                return nil
-//                            }
-//                            return songResult
-//                        }).sorted(by: { (result1, result2) -> Bool in
+                        .compactMap({ songResult -> SongResultEntity? in
+                            if !songResult.hymnNumber.isPositiveInteger {
+                                return nil
+                            }
+                            return songResult
+                        })
+//                        .sorted(by: { (result1, result2) -> Bool in
 //                            guard let hymnNumber1 = result1.hymnNumber.toInteger, let hymnNumber2 = result2.hymnNumber.toInteger else {
 //                                return false
 //                            }
