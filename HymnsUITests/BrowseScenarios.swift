@@ -37,14 +37,14 @@ class BrowseScenarios: BaseTestCase {
             .waitForButtons("Click me!", "Don't click!", "Don't click either!")
             .tapResult("Click me!")
             .waitForStaticTexts("verse 1 line 1")
-//            .goBackToBrowseResults()
-//            .waitForButtons("Click me!", "Don't click!", "Don't click either!")
-//            .goBackToBrowse()
-//            .assertCategory("category 1", chevronUp: true)
-//            .assertCategory("category 2", chevronUp: false)
-//            .assertSubcategory(category: "category 1", subcategory: "All subcategories", count: 6)
-//            .assertSubcategory(category: "category 1", subcategory: "subcategory 1", count: 5)
-//            .assertSubcategory(category: "category 1", subcategory: "subcategory 2", count: 1)
+            .goBackToBrowseResults()
+            .waitForButtons("Click me!", "Don't click!", "Don't click either!")
+            .goBackToBrowse()
+            .assertCategory("category 1", chevronUp: true)
+            .assertCategory("category 2", chevronUp: false)
+            .assertSubcategory(category: "category 1", subcategory: "All subcategories", count: 6)
+            .assertSubcategory(category: "category 1", subcategory: "subcategory 1", count: 5)
+            .assertSubcategory(category: "category 1", subcategory: "subcategory 2", count: 1)
     }
 
     func test_browseScriptures() {
