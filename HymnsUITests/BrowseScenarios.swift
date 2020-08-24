@@ -61,11 +61,11 @@ class BrowseScenarios: BaseTestCase {
             .waitForButtons("General\nDon't click me!", "22\nClick me!")
             .tapReference("22\nClick me!")
             .waitForStaticTexts("verse 1 line 1")
-//            .goBackToBrowse()
-//            .assertCategory("Genesis", chevronUp: false)
-//            .assertCategory("Hosea", chevronUp: false)
-//            .assertCategory("Revelation", chevronUp: true)
-//            .waitForButtons("General\nDon't click me!", "22\nClick me!")
+            .goBackToBrowse()
+            .assertCategory("Genesis", chevronUp: false)
+            .assertCategory("Hosea", chevronUp: false)
+            .assertCategory("Revelation", chevronUp: true)
+            .waitForButtons("General\nDon't click me!", "22\nClick me!")
     }
 
     func test_browseAllSongs() {
