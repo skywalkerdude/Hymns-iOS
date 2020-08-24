@@ -16,10 +16,10 @@ class BrowseScenarios: BaseTestCase {
             .waitForButtons("Click me!", "Don't click me!", timeout: 3)
             .tapResult("Click me!")
             .waitForStaticTexts("verse 1 line 1")
-//            .goBackToBrowseResults()
-//            .waitForButtons("Click me!", "Don't click me!", timeout: 3)
-//            .goBackToBrowse()
-//            .waitForButtons("tag1", "tag2")
+            .goBackToBrowseResults()
+            .waitForButtons("Click me!", "Don't click me!", timeout: 3)
+            .goBackToBrowse()
+            .waitForButtons("tag1", "tag2")
     }
 
     func test_browseCategory() {
