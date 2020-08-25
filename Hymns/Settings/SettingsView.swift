@@ -81,9 +81,7 @@ struct SettingsView_Previews: PreviewProvider {
         let error = SettingsView(viewModel: errorViewModel)
 
         let settingsViewModel = SettingsViewModel()
-        settingsViewModel.settings = [PrivacyPolicySettingViewModel().eraseToAnySettingViewModel(),
-                                      FeedbackViewModel(result: .constant(nil)).eraseToAnySettingViewModel(),
-                                      AboutUsViewModel().eraseToAnySettingViewModel()]
+        settingsViewModel.settings = [.privacyPolicy, .feedback(.constant(nil)), .aboutUs]
         let settings = SettingsView(viewModel: settingsViewModel)
 
         return Group {

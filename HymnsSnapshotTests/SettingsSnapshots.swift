@@ -23,9 +23,7 @@ class SettingsSnapshots: XCTestCase {
     }
 
     func test_settings() {
-        viewModel.settings = [PrivacyPolicySettingViewModel().eraseToAnySettingViewModel(),
-                              FeedbackViewModel(result: .constant(nil)).eraseToAnySettingViewModel(),
-                              AboutUsViewModel().eraseToAnySettingViewModel()]
+        viewModel.settings = [.privacyPolicy, .feedback(.constant(nil)), .aboutUs]
         assertSnapshot(matching: SettingsView(viewModel: viewModel), as: .swiftUiImage())
     }
 

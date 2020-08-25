@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AbousUsButtonView: View {
+struct AboutUsButtonView: View {
     @State var isShowingInfo = false
 
     var body: some View {
@@ -15,8 +15,10 @@ struct AbousUsButtonView: View {
     }
 }
 
+#if DEBUG
 struct AbousUsView_Previews: PreviewProvider {
     static var previews: some View {
-        AbousUsButtonView()
+        AboutUsButtonView()
     }
 }
+#endif

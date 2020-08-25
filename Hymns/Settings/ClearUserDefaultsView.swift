@@ -6,16 +6,6 @@ import SwiftUI
 /**
  * Debug setting that allows us to clear the user defaults for debugging/testing purposes.
  */
-class ClearUserDefaultsViewModel: BaseSettingViewModel {
-
-    let id = UUID()
-    let view: AnyView
-
-    init() {
-        view = ClearUserDefaultsView().eraseToAnyView()
-    }
-}
-
 struct ClearUserDefaultsView: View {
 
     @State private var showPrivacyPolicy = false
