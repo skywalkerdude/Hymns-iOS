@@ -15,6 +15,8 @@ public class BaseViewCan {
     }
 
     public func waitForButtons(_ strings: String..., timeout: TimeInterval = 1) -> Self {
+        print("booyah \(app.buttons)")
+        NSLog("booyah \(app.buttons)")
         for string in strings {
             XCTAssertTrue(app.buttons[string].waitForExistence(timeout: timeout))
         }
