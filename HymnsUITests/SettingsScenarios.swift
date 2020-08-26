@@ -7,6 +7,22 @@ class SettingsScenarios: BaseTestCase {
         app.launch()
     }
 
+    func test_toggleRepeatChorus() {
+        _ = HomeViewCan(app, testCase: self)
+            .waitForButtons("classic2")
+            .tapResult("classic2")
+            .waitForStaticTexts("classic hymn 2 chorus")
+            .checkStaticTextCount("classic hymn 2 chorus", 1)
+            .goBackToHome()
+            .goToSettings()
+            .toggleRepeatChorus()
+            .returnToHome()
+            .tapHome()
+            .tapResult("classic2")
+            .waitForStaticTexts("classic hymn 2 chorus")
+            .checkStaticTextCount("classic hymn 2 chorus", 2)
+    }
+
     func test_clearHistory() {
         _ = HomeViewCan(app, testCase: self)
             .waitForButtons("classic1151")

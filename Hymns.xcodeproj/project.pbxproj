@@ -143,6 +143,8 @@
 		3BA91ED624EDF95700294830 /* AllSongsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA91ED524EDF95700294830 /* AllSongsViewModel.swift */; };
 		3BA91ED824EDF98600294830 /* AllSongsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA91ED724EDF98600294830 /* AllSongsView.swift */; };
 		3BA91EDA24EE106A00294830 /* BrowseAllSongsSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA91ED924EE106A00294830 /* BrowseAllSongsSnapshots.swift */; };
+		3BAC029224F608AD005A96E9 /* RepeatChorusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAC029124F608AD005A96E9 /* RepeatChorusView.swift */; };
+		3BAC029424F608DC005A96E9 /* RepeatChorusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAC029324F608DC005A96E9 /* RepeatChorusViewModel.swift */; };
 		3BADB42524822BDB008CEDAB /* BrowseTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BADB42424822BDB008CEDAB /* BrowseTab.swift */; };
 		3BADB429248461D1008CEDAB /* chineseSupplement216.json in Resources */ = {isa = PBXBuildFile; fileRef = 3BADB428248461D1008CEDAB /* chineseSupplement216.json */; };
 		3BB1928324A3EDB600E5F9FA /* SongInfoDialogSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB1928224A3EDB600E5F9FA /* SongInfoDialogSnapshots.swift */; };
@@ -433,6 +435,8 @@
 		3BA91ED524EDF95700294830 /* AllSongsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllSongsViewModel.swift; sourceTree = "<group>"; };
 		3BA91ED724EDF98600294830 /* AllSongsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllSongsView.swift; sourceTree = "<group>"; };
 		3BA91ED924EE106A00294830 /* BrowseAllSongsSnapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseAllSongsSnapshots.swift; sourceTree = "<group>"; };
+		3BAC029124F608AD005A96E9 /* RepeatChorusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatChorusView.swift; sourceTree = "<group>"; };
+		3BAC029324F608DC005A96E9 /* RepeatChorusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatChorusViewModel.swift; sourceTree = "<group>"; };
 		3BADB42424822BDB008CEDAB /* BrowseTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseTab.swift; sourceTree = "<group>"; };
 		3BADB428248461D1008CEDAB /* chineseSupplement216.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chineseSupplement216.json; sourceTree = "<group>"; };
 		3BB1928224A3EDB600E5F9FA /* SongInfoDialogSnapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongInfoDialogSnapshots.swift; sourceTree = "<group>"; };
@@ -998,6 +1002,8 @@
 				B5DC935D248EC5F800BF90A5 /* FeedbackView.swift */,
 				5CA7849B242D14BA00B57903 /* SettingsView.swift */,
 				3B87B8292449497A00AEC7E9 /* SettingsViewModel.swift */,
+				3BAC029124F608AD005A96E9 /* RepeatChorusView.swift */,
+				3BAC029324F608DC005A96E9 /* RepeatChorusViewModel.swift */,
 				B582E4442493266700329DA5 /* AboutUsDialogView.swift */,
 				B582E448249331A600329DA5 /* AboutUsButtonView.swift */,
 				3BB931A424E23DF200E0C873 /* ClearUserDefaultsView.swift */,
@@ -1804,6 +1810,7 @@
 				3BA4612F24773A040068F269 /* DisplayHymnBottomBarViewModel.swift in Sources */,
 				3B58D2102480D0EA00C66445 /* BrowseCategoriesView.swift in Sources */,
 				3B1B90132429CF55009FDCC5 /* AppDelegate.swift in Sources */,
+				3BAC029424F608DC005A96E9 /* RepeatChorusViewModel.swift in Sources */,
 				3BC5B15C247F7B0400F5D63A /* CategoryEntity.swift in Sources */,
 				B582E4432493235E00329DA5 /* TagSheetView.swift in Sources */,
 				3B1AF92B24C38B1D0082C27B /* Toast.swift in Sources */,
@@ -1816,6 +1823,7 @@
 				3B45B908243BF74700D38BEF /* PreviewHymnIdentifiers.swift in Sources */,
 				5C45E09924512E9000872369 /* VerseViewModel.swift in Sources */,
 				3B50B968243E44B100EABDE4 /* SongResultsPage.swift in Sources */,
+				3BAC029224F608AD005A96E9 /* RepeatChorusView.swift in Sources */,
 				3BB1DCAE244D03DE0011169D /* TabItem.swift in Sources */,
 				3BE44369248AC12C00763B3C /* ScriptureSongView.swift in Sources */,
 				B582E449249331A600329DA5 /* AboutUsButtonView.swift in Sources */,

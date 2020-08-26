@@ -16,6 +16,7 @@ class HymnLyricsViewModelTest: XCTestCase {
         super.setUp()
         hymnsRepository = mock(HymnsRepository.self)
         target = HymnLyricsViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, mainQueue: testQueue)
+        target.shouldRepeatChorus = false
     }
 
     func test_withNilRepositoryResult_resultCompleted() throws {

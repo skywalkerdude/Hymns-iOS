@@ -82,6 +82,6 @@ class DisplayHymnScenarios: BaseTestCase {
             .verifyStaticTextsNotExists("Relevant songs", "Change to a relevant hymn")
             .openRelevant()
             .pressButton("New Tune")
-            .waitForStaticTexts("Hymn 2", "classic hymn 2 lyrics")
+            .waitForStaticTexts("Hymn 2", "classic hymn 2 verse 1")
     }
 }

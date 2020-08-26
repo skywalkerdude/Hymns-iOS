@@ -7,6 +7,11 @@ public class SettingsHymnViewCan: BaseViewCan {
         super.init(app, testCase: testCase)
     }
 
+    public func toggleRepeatChorus() -> SettingsHymnViewCan {
+        app.switches["Repeat chorus\nFor songs with only one chorus, repeat the chorus after every verse"].tap()
+        return self
+    }
+
     public func tapClearHistory() -> SettingsHymnViewCan {
         app.buttons["Clear recent songs"].tap()
         return self

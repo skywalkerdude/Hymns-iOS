@@ -15,6 +15,7 @@ class HymnLyricsViewModelSpec: QuickSpec {
             beforeEach {
                 hymnsRepository = mock(HymnsRepository.self)
                 target = HymnLyricsViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository, mainQueue: testQueue)
+                target.shouldRepeatChorus = false
             }
             context("with nil repository result") {
                 context("result is completed") {
@@ -96,8 +97,7 @@ class HymnLyricsViewModelSpec: QuickSpec {
                     Verse(verseType: .verse, verseContent: ["line 1", "line 2"], transliteration: nil),
                     Verse(verseType: .chorus, verseContent: ["chorus 1", "chorus 2"], transliteration: nil),
                     Verse(verseType: .other, verseContent: ["other 1", "other 2"], transliteration: nil),
-                    Verse(verseType: .verse, verseContent: ["line 3", "line 4"], transliteration: nil)
-                ]
+                    Verse(verseType: .verse, verseContent: ["line 3", "line 4"], transliteration: nil)]
                 beforeEach {
                     let validHymn = UiHymn(hymnIdentifier: classic1151, title: "Filled Hymn", lyrics: lyricsWithoutTransliteration)
                     given(hymnsRepository.getHymn(classic1151)) ~> { _ in Just(validHymn).assertNoFailure().eraseToAnyPublisher()}
@@ -117,6 +117,78 @@ class HymnLyricsViewModelSpec: QuickSpec {
                     }
                     it("should call hymnsRepository.getHymn") {
                         verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
+                    }
+                }
+            }
+            context("repeat chorus") {
+                beforeEach {
+                    target.shouldRepeatChorus = true
+                }
+                context("no choruses") {
+                    let verses: [Verse] = [
+                        Verse(verseType: .verse, verseContent: ["line 1", "line 2"], transliteration: nil),
+                        Verse(verseType: .other, verseContent: ["other 1", "other 2"], transliteration: nil),
+                        Verse(verseType: .verse, verseContent: ["line 3", "line 4"], transliteration: nil)]
+                    beforeEach {
+                        let validHymn = UiHymn(hymnIdentifier: classic1151, title: "Filled Hymn", lyrics: verses)
+                        given(hymnsRepository.getHymn(classic1151)) ~> { _ in Just(validHymn).assertNoFailure().eraseToAnyPublisher()}
+                        target.fetchLyrics()
+                        testQueue.sync {}
+                    }
+                    it("should not repeat choruses") {
+                        expect(target.lyrics).to(equal([
+                            VerseViewModel(verseNumber: "1", verseLines: ["line 1", "line 2"]),
+                            VerseViewModel(verseLines: ["other 1", "other 2"]),
+                            VerseViewModel(verseNumber: "2", verseLines: ["line 3", "line 4"])
+                        ]))
+                    }
+                }
+                context("multiple choruses") {
+                    let verses: [Verse] = [
+                        Verse(verseType: .verse, verseContent: ["line 1", "line 2"], transliteration: nil),
+                        Verse(verseType: .chorus, verseContent: ["chorus 1", "chorus 2"], transliteration: nil),
+                        Verse(verseType: .chorus, verseContent: ["chorus 3", "chorus 4"], transliteration: nil),
+                        Verse(verseType: .other, verseContent: ["other 1", "other 2"], transliteration: nil),
+                        Verse(verseType: .verse, verseContent: ["line 3", "line 4"], transliteration: nil)]
+                    beforeEach {
+                        let validHymn = UiHymn(hymnIdentifier: classic1151, title: "Filled Hymn", lyrics: verses)
+                        given(hymnsRepository.getHymn(classic1151)) ~> { _ in Just(validHymn).assertNoFailure().eraseToAnyPublisher()}
+                        target.fetchLyrics()
+                        testQueue.sync {}
+                    }
+                    it("should not repeat choruses") {
+                        expect(target.lyrics).to(equal([
+                            VerseViewModel(verseNumber: "1", verseLines: ["line 1", "line 2"]),
+                            VerseViewModel(verseLines: ["chorus 1", "chorus 2"]),
+                            VerseViewModel(verseLines: ["chorus 3", "chorus 4"]),
+                            VerseViewModel(verseLines: ["other 1", "other 2"]),
+                            VerseViewModel(verseNumber: "2", verseLines: ["line 3", "line 4"])
+                        ]))
+                    }
+                }
+                context("one chorus") {
+                    let verses: [Verse] = [
+                        Verse(verseType: .verse, verseContent: ["line 1", "line 2"], transliteration: nil),
+                        Verse(verseType: .other, verseContent: ["other 1", "other 2"], transliteration: nil),
+                        Verse(verseType: .verse, verseContent: ["line 3", "line 4"], transliteration: nil),
+                        Verse(verseType: .verse, verseContent: ["line 5", "line 6"], transliteration: nil),
+                        Verse(verseType: .chorus, verseContent: ["chorus 1", "chorus 2"], transliteration: nil)]
+                    beforeEach {
+                        let validHymn = UiHymn(hymnIdentifier: classic1151, title: "Filled Hymn", lyrics: verses)
+                        given(hymnsRepository.getHymn(classic1151)) ~> { _ in Just(validHymn).assertNoFailure().eraseToAnyPublisher()}
+                        target.fetchLyrics()
+                        testQueue.sync {}
+                    }
+                    fit("should repeat the chorus") {
+                        expect(target.lyrics).to(equal([
+                            VerseViewModel(verseNumber: "1", verseLines: ["line 1", "line 2"]),
+                            VerseViewModel(verseLines: ["chorus 1", "chorus 2"]),
+                            VerseViewModel(verseLines: ["other 1", "other 2"]),
+                            VerseViewModel(verseNumber: "2", verseLines: ["line 3", "line 4"]),
+                            VerseViewModel(verseLines: ["chorus 1", "chorus 2"]),
+                            VerseViewModel(verseNumber: "3", verseLines: ["line 5", "line 6"]),
+                            VerseViewModel(verseLines: ["chorus 1", "chorus 2"])
+                        ]))
                     }
                 }
             }
