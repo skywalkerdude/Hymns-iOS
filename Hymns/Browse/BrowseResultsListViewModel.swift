@@ -79,7 +79,6 @@ class BrowseResultsListViewModel: ObservableObject {
         case .category(let category, let subcategory, let hymnType):
             dataStore.getResultsBy(category: category, hymnType: hymnType, subcategory: subcategory)
                 .subscribe(on: backgroundQueue)
-                .receive(on: backgroundQueue)
                 .map({ songResults -> [SongResultViewModel] in
                     songResults.map { songResult -> SongResultViewModel in
                         let hymnIdentifier = HymnIdentifier(hymnType: songResult.hymnType, hymnNumber: songResult.hymnNumber, queryParams: songResult.queryParams)
@@ -108,11 +107,11 @@ class BrowseResultsListViewModel: ObservableObject {
                                 return false
                             }
                             return hymnNumber1 < hymnNumber2
-                        }).map { songResult -> SongResultViewModel in
+                        }).map({ songResult -> SongResultViewModel in
                             let hymnIdentifier = HymnIdentifier(hymnType: songResult.hymnType, hymnNumber: songResult.hymnNumber, queryParams: songResult.queryParams)
                             let title = "\(songResult.hymnNumber). \(songResult.title.replacingOccurrences(of: "Hymn: ", with: ""))"
                             return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
-                    }
+                    })
                 })
                 .replaceError(with: [SongResultViewModel]())
                 .receive(on: mainQueue)
