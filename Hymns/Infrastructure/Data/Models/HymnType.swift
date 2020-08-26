@@ -138,8 +138,6 @@ extension HymnType {
             return NSLocalizedString("New Songs", comment: "Display name of 'New Songs'. Usually appears just by itself (i.e. as a title)")
         case .children:
             return NSLocalizedString("Children's Songs", comment: "Display name of 'Children's Songs'. Usually appears just by itself (i.e. as a title)")
-        case .scripture:
-            return NSLocalizedString("Scripture Songs", comment: "Display name of 'Scripture Songs'. Usually appears just by itself (i.e. as a title)")
         case .howardHigashi:
             return NSLocalizedString("Howard Higashi Songs", comment: "Display name of 'Howard Higashi Songs'. Usually appears just by itself (i.e. as a title)")
         case .dutch:

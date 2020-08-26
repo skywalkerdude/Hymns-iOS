@@ -16,6 +16,9 @@
 /* Browse tab title */
 "Browse" = "Navegue";
 
+/* Will appear in conjuction with something elsxe (e.g. Cebuano 7) */
+"Cebuano" = "TRANSLATE ME";
+
 /* Display name of 'Cebuano Hymns'. Usually appears just by itself (i.e. as a title) */
 "Cebuano hymns" = "TRANSLATE ME";
 
@@ -31,11 +34,20 @@
 /* Message for the languages action sheet */
 "Change to another language" = "Cambiar a otro idioma";
 
+/* Will appear in conjuction with something elsxe (e.g. Children 7) */
+"Children" = "TRANSLATE ME";
+
 /* Browse children's songs */
 "Children's Songs" = "Canciones Para Niños";
 
+/* Will appear in conjuction with something elsxe (e.g. Chinese 7) */
+"Chinese" = "TRANSLATE ME";
+
 /* Display name of 'Chinese Hymns'. Usually appears just by itself (i.e. as a title) */
 "Chinese Hymns" = "TRANSLATE ME";
+
+/* Will appear in conjuction with something elsxe (e.g. Chinese supplement 7) */
+"Chinese supplement" = "TRANSLATE ME";
 
 /* Display name of 'Chinese supplemental Hymns'. Usually appears just by itself (i.e. as a title) */
 "Chinese supplemental Hymns" = "TRANSLATE ME";
@@ -61,6 +73,9 @@
 /* No comment provided by engineer. */
 "Did not find any songs matching:\n\"%@\".\nPlease try a different request" = "No encontré ninguna canción que coincidiera:\n\"%@\".\nPor favor, intente una petición diferente";
 
+/* Will appear in conjuction with something elsxe (e.g. Dutch 7) */
+"Dutch" = "TRANSLATE ME";
+
 /* Display name of 'Dutch Hymns'. Usually appears just by itself (i.e. as a title) */
 "Dutch Hymns" = "TRANSLATE ME";
 
@@ -82,8 +97,17 @@
 /* No comment provided by engineer. */
 "For a free study Bible tap " = "Para un estudio gratis de la Biblia ";
 
+/* No comment provided by engineer. */
+"For songs with only one chorus, repeat the chorus after every verse" = "TRANSLATE ME";
+
+/* Will appear in conjuction with something elsxe (e.g. French 7) */
+"French" = "TRANSLATE ME";
+
 /* Display name of 'French Hymns'. Usually appears just by itself (i.e. as a title) */
 "French Hymns" = "TRANSLATE ME";
+
+/* Will appear in conjuction with something elsxe (e.g. German 7) */
+"German" = "TRANSLATE ME";
 
 /* Display name of 'German Hymns'. Usually appears just by itself (i.e. as a title) */
 "German Hymns" = "TRANSLATE ME";
@@ -100,14 +124,26 @@
 /* The 'here' in 'tap here' that links to BFA to get a free Bible */
 "here." = "aquí.";
 
+/* Will appear in conjuction with something elsxe (e.g. Howard Higashi (LB) 7) */
+"Howard Higashi (LB)" = "TRANSLATE ME";
+
 /* Display name of 'Howard Higashi Songs'. Usually appears just by itself (i.e. as a title) */
 "Howard Higashi Songs" = "TRANSLATE ME";
+
+/* Will appear in conjuction with something elsxe (e.g. Hymn 55) */
+"Hymn" = "TRANSLATE ME";
 
 /* Latter part of the empty tag state text */
 "icon on any hymn" = "en cualquier himno";
 
+/* Will appear in conjuction with something elsxe (e.g. Japanese 7) */
+"Japanese" = "TRANSLATE ME";
+
 /* Display name of 'Japanese Hymns'. Usually appears just by itself (i.e. as a title) */
 "Japanese Hymns" = "TRANSLATE ME";
+
+/* Will appear in conjuction with something elsxe (e.g. Korean 7) */
+"Korean" = "TRANSLATE ME";
 
 /* Display name of 'Korean Hymns'. Usually appears just by itself (i.e. as a title) */
 "Korean Hymns" = "TRANSLATE ME";
@@ -137,6 +173,9 @@
 "Mark as favorite" = "Marcar como favorito";
 
 /* No comment provided by engineer. */
+"Maximize music" = "TRANSLATE ME";
+
+/* No comment provided by engineer. */
 "Minimize SoundCloud" = "Minimizar SoundCloud";
 
 /* Bottom bar overflow button */
@@ -145,8 +184,14 @@
 /* No comment provided by engineer. */
 "Name your tag" = "Nombra tu etiqueta";
 
+/* Will appear in conjuction with something elsxe (e.g. New song 7) */
+"New song" = "TRANSLATE ME";
+
 /* Display name of 'New Songs'. Usually appears just by itself (i.e. as a title) */
 "New Songs" = "Nuevas canciones";
+
+/* Will appear in conjuction with something elsxe (e.g. New tune 7) */
+"New tune" = "TRANSLATE ME";
 
 /* Display name of 'New Tunes'. Usually appears just by itself (i.e. as a title) */
 "New Tunes" = "Nuevas melodías";
@@ -174,6 +219,9 @@
 
 /* Songs relevant to this song (alternate tunes, etc) */
 "Relevant songs" = "Canciones relevantes";
+
+/* No comment provided by engineer. */
+"Repeat chorus" = "TRANSLATE ME";
 
 /* Display name of 'Scripture Songs'. Usually appears just by itself (i.e. as a title) */
 "Scripture Songs" = "Canciones de la Escritura";
@@ -211,8 +259,14 @@
 /* No comment provided by engineer. */
 "Song progress slider" = "Deslizador de progreso de la canción";
 
+/* Will appear in conjuction with something elsxe (e.g. Spanish 7) */
+"Spanish" = "TRANSLATE ME";
+
 /* Display name of 'Spanish Hymns'. Usually appears just by itself (i.e. as a title) */
 "Spanish Hymns" = "TRANSLATE ME";
+
+/* Will appear in conjuction with something elsxe (e.g. Tagalog 7) */
+"Tagalog" = "TRANSLATE ME";
 
 /* Display name of 'Tagalog Hymns'. Usually appears just by itself (i.e. as a title) */
 "Tagalog Hymns" = "TRANSLATE ME";
@@ -225,6 +279,9 @@
 
 /* No comment provided by engineer. */
 "Tap to keep playing song in background" = "Toca para seguir tocando la canción de fondo";
+
+/* No comment provided by engineer. */
+"Try searching by hymn type (e.g. ns151, ch1, s3)" = "TRANSLATE ME";
 
 /* No comment provided by engineer. */
 "Unmark as favorite" = "Desmarcarse como favorito";
