@@ -20,7 +20,7 @@ struct MarqueeText: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     Text(self.text)
                         .offset(x: self.scrollTextNegativeOffset ?? geometry.size.width)
-                        .animation(Animation.linear(duration: 5).repeatForever(autoreverses: self.autoReverse))
+                        .animation(Animation.linear(duration: 10).repeatForever(autoreverses: self.autoReverse))
                         .anchorPreference(key: MarqueeWidthPreferenceKey.self, value: .bounds) { anchor in
                             return geometry[anchor].width
                     }
