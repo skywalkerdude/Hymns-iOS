@@ -17,6 +17,7 @@ class UserDefaultsManager {
     }
 
     @UserDefault("show_splash_animation", defaultValue: true) var showSplashAnimation: Bool
+    @UserDefault("repeat_chorus", defaultValue: false) var shouldRepeatChorus: Bool
 
     init() {
         let initialFontSize = FontSize(rawValue: UserDefaults.standard.string(forKey: "fontSize") ?? FontSize.normal.rawValue) ?? .normal

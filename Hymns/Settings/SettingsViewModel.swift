@@ -11,6 +11,7 @@ class SettingsViewModel: ObservableObject {
     @Published var settings: [SettingsModel]? = [SettingsModel]()
 
     func populateSettings(result: Binding<Result<SettingsToastItem, Error>?>) {
+        let repeatChorusViewModel = RepeatChorusViewModel()
         let clearHistoryViewModel = SimpleSettingViewModel(title: NSLocalizedString("Clear recent songs", comment: ""), action: {
             do {
                 try self.historyStore.clearHistory()
@@ -21,18 +22,19 @@ class SettingsViewModel: ObservableObject {
         })
 
         #if DEBUG
-        settings = [.privacyPolicy, .feedback(result), .aboutUs, .clearHistory(clearHistoryViewModel), .clearUserDefaults]
+        settings = [.repeatChorus(repeatChorusViewModel), .clearHistory(clearHistoryViewModel), .aboutUs, .feedback(result), .privacyPolicy, .clearUserDefaults]
         #else
-        settings = [.privacyPolicy, .feedback(result), .aboutUs, .clearHistory(clearHistoryViewModel)]
+        settings = [.repeatChorus(RepeatChorusViewModel()), .clearHistory(clearHistoryViewModel), .aboutUs, .feedback(result), .privacyPolicy]
         #endif
     }
 }
 
 enum SettingsModel {
-    case privacyPolicy
-    case feedback(Binding<Result<SettingsToastItem, Error>?>)
-    case aboutUs
+    case repeatChorus(RepeatChorusViewModel)
     case clearHistory(SimpleSettingViewModel)
+    case aboutUs
+    case feedback(Binding<Result<SettingsToastItem, Error>?>)
+    case privacyPolicy
     case clearUserDefaults
 }
 
@@ -40,14 +42,16 @@ extension SettingsModel {
 
     var view: some View {
         switch self {
-        case .privacyPolicy:
-            return PrivacyPolicySettingView().eraseToAnyView()
-        case .feedback(let result):
-            return FeedbackView(result: result).eraseToAnyView()
-        case .aboutUs:
-            return AboutUsButtonView().eraseToAnyView()
+        case .repeatChorus(let viewModel):
+            return RepeatChorusView(viewModel: viewModel).eraseToAnyView()
         case .clearHistory(let viewModel):
             return SimpleSettingView(viewModel: viewModel).eraseToAnyView()
+        case .aboutUs:
+            return AboutUsButtonView().eraseToAnyView()
+        case .feedback(let result):
+            return FeedbackView(result: result).eraseToAnyView()
+        case .privacyPolicy:
+            return PrivacyPolicySettingView().eraseToAnyView()
         case .clearUserDefaults:
             return ClearUserDefaultsView().eraseToAnyView()
         }
@@ -57,16 +61,18 @@ extension SettingsModel {
 extension SettingsModel: Identifiable {
     var id: Int {
         switch self {
-        case .privacyPolicy:
+        case .repeatChorus:
             return 0
-        case .feedback:
+        case .clearHistory:
             return 1
         case .aboutUs:
             return 2
-        case .clearHistory:
+        case .feedback:
             return 3
-        case .clearUserDefaults:
+        case .privacyPolicy:
             return 4
+        case .clearUserDefaults:
+            return 5
         }
     }
 }

@@ -40,6 +40,11 @@ public class BaseViewCan {
         return self
     }
 
+    public func checkStaticTextCount(_ string: String, _ count: Int) -> Self {
+        XCTAssertEqual(app.staticTexts.matching(identifier: "classic hymn 2 chorus").count, count)
+        return self
+    }
+
     public func verifyStaticTextsNotExists(_ strings: String...) -> Self {
         for string in strings {
             XCTAssertFalse(app.staticTexts[string].exists)

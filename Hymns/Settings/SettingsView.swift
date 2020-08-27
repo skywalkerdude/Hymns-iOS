@@ -81,7 +81,7 @@ struct SettingsView_Previews: PreviewProvider {
         let error = SettingsView(viewModel: errorViewModel)
 
         let settingsViewModel = SettingsViewModel()
-        settingsViewModel.settings = [.privacyPolicy, .feedback(.constant(nil)), .aboutUs]
+        settingsViewModel.settings = [.repeatChorus(RepeatChorusViewModel()), .aboutUs, .privacyPolicy, .clearUserDefaults]
         let settings = SettingsView(viewModel: settingsViewModel)
 
         return Group {

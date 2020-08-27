@@ -13,22 +13,8 @@ class SettingsSnapshots: XCTestCase {
         viewModel = SettingsViewModel()
     }
 
-    func test_error() {
-        viewModel.settings = nil
-        assertSnapshot(matching: SettingsView(viewModel: viewModel), as: .swiftUiImage())
-    }
-
-    func test_loading() {
-        assertSnapshot(matching: SettingsView(viewModel: viewModel), as: .swiftUiImage())
-    }
-
     func test_settings() {
         viewModel.settings = [.privacyPolicy, .feedback(.constant(nil)), .aboutUs]
         assertSnapshot(matching: SettingsView(viewModel: viewModel), as: .swiftUiImage())
-    }
-
-    func test_privacyPolicy() {
-        assertSnapshot(matching: PrivacyPolicyView(showPrivacyPolicy: .constant(true)), as: .swiftUiImage(),
-                       timeout: 60)
     }
 }

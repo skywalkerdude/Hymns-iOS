@@ -16,7 +16,7 @@ struct AboutUsButtonView: View {
 }
 
 #if DEBUG
-struct AbousUsView_Previews: PreviewProvider {
+struct AboutUsView_Previews: PreviewProvider {
     static var previews: some View {
         AboutUsButtonView()
     }
