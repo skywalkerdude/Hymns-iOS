@@ -12,7 +12,7 @@ struct AllSongsView: View {
     var body: some View {
         List(viewModel.hymnTypes, id: \.self) { hymnType in
             NavigationLink(destination: BrowseResultsListView(viewModel: BrowseResultsListViewModel(hymnType: hymnType))) {
-                Text(hymnType.displayValue)
+                Text(hymnType.displayTitle)
             }
         }.padding(.top).background(Color(.systemBackground))
     }

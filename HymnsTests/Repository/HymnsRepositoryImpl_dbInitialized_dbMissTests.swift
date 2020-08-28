@@ -89,6 +89,29 @@ class HymnsRepositoryImpl_dbInitialized_dbMissTests: XCTestCase {
         cancellable.cancel()
     }
 
+    func test_getHymn_networkAvailable_makeNetworkRequestFalse() {
+        given(systemUtil.isNetworkAvailable()) ~> true
+        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: nil)) ~> nil
+
+        let completion = expectation(description: "completion received")
+        let value = expectation(description: "value received")
+        let cancellable = target.getHymn(cebuano123, makeNetworkRequest: false)
+            .print(self.description)
+            .sink(receiveCompletion: { state in
+                completion.fulfill()
+                XCTAssertEqual(state, .finished)
+            }, receiveValue: { hymn in
+                value.fulfill()
+                XCTAssertNil(hymn)
+            })
+
+        verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
+        verify(service.getHymn(any())).wasNeverCalled()
+        verify(dataStore.saveHymn(any())).wasNeverCalled()
+        wait(for: [completion, value], timeout: testTimeout)
+        cancellable.cancel()
+    }
+
     func test_getHymn_networkAvailable_resultsSuccessful() {
         given(systemUtil.isNetworkAvailable()) ~> true
         given(service.getHymn(cebuano123)) ~> {  _ in

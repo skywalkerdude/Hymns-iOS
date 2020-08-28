@@ -194,7 +194,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                         testQueue.sync {}
                     }
                     it("should set the title to the hymn type") {
-                        expect(target.title).to(equal(HymnType.classic.displayValue))
+                        expect(target.title).to(equal(HymnType.classic.displayTitle))
                     }
                     it("should have no results") {
                         expect(target.songResults).to(beEmpty())
@@ -219,7 +219,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                         testQueue.sync {}
                     }
                     it("should set the title to the hymn type") {
-                        expect(target.title).to(equal(HymnType.classic.displayValue))
+                        expect(target.title).to(equal(HymnType.classic.displayTitle))
                     }
                     it("should set the correct results") {
                         expect(target.songResults).toNot(beNil())
@@ -247,7 +247,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                         testQueue.sync {}
                     }
                     it("should set the title to the hymn type") {
-                        expect(target.title).to(equal(HymnType.newTune.displayValue))
+                        expect(target.title).to(equal(HymnType.newTune.displayTitle))
                     }
                     it("should have no results") {
                         expect(target.songResults).to(beEmpty())

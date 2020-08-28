@@ -7,6 +7,11 @@ public class HomeViewCan: BaseViewCan {
         super.init(app, testCase: testCase)
     }
 
+    public func dismissToolTip() -> HomeViewCan {
+        app.buttons["Try searching by hymn type (e.g. ns151, ch1, s3)"].tap()
+        return self
+    }
+
     public func activateSearch() -> HomeViewCan {
         app.textFields.element.tap()
         return self

@@ -50,7 +50,7 @@ class BrowseResultsListViewModel: ObservableObject {
          dataStore: HymnDataStore = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
          tagStore: TagStore = Resolver.resolve()) {
-        self.title = hymnType.displayValue
+        self.title = hymnType.displayTitle
         self.resultsType = .allSongs(hymnType: hymnType)
         self.backgroundQueue = backgroundQueue
         self.dataStore = dataStore

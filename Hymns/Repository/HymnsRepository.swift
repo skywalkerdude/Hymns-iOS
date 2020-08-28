@@ -8,6 +8,7 @@ import Resolver
  */
 protocol HymnsRepository {
     func getHymn(_ hymnIdentifier: HymnIdentifier)  -> AnyPublisher<UiHymn?, Never>
+    func getHymn(_ hymnIdentifier: HymnIdentifier, makeNetworkRequest: Bool)  -> AnyPublisher<UiHymn?, Never>
 }
 
 class HymnsRepositoryImpl: HymnsRepository {
@@ -34,11 +35,16 @@ class HymnsRepositoryImpl: HymnsRepository {
     }
 
     func getHymn(_ hymnIdentifier: HymnIdentifier)  -> AnyPublisher<UiHymn?, Never> {
+        return getHymn(hymnIdentifier, makeNetworkRequest: true)
+    }
+
+    func getHymn(_ hymnIdentifier: HymnIdentifier, makeNetworkRequest: Bool)  -> AnyPublisher<UiHymn?, Never> {
         if let hymn = hymns[hymnIdentifier] {
             return Just(hymn).eraseToAnyPublisher()
         }
         return HymnPublisher(hymnIdentifier: hymnIdentifier, disposables: &disposables, converter: converter,
-                             dataStore: dataStore, service: service, systemUtil: systemUtil)
+                             dataStore: dataStore, makeNetworkRequest: makeNetworkRequest, service: service,
+                             systemUtil: systemUtil)
             .replaceError(with: nil)
             .map { hymn -> UiHymn? in
                 guard let hymn = hymn else {
@@ -61,22 +67,26 @@ private class HymnPublisher: NetworkBoundPublisher {
     private let converter: Converter
     private let dataStore: HymnDataStore
     private let hymnIdentifier: HymnIdentifier
+    private let makeNetworkRequest: Bool
     private let service: HymnalApiService
     private let systemUtil: SystemUtil
 
     init(hymnIdentifier: HymnIdentifier, disposables: inout Set<AnyCancellable>, converter: Converter,
-         dataStore: HymnDataStore, service: HymnalApiService, systemUtil: SystemUtil) {
+         dataStore: HymnDataStore, makeNetworkRequest: Bool, service: HymnalApiService,
+         systemUtil: SystemUtil) {
         self.disposables = disposables
         self.converter = converter
         self.dataStore = dataStore
         self.hymnIdentifier = hymnIdentifier
+        self.makeNetworkRequest = makeNetworkRequest
         self.service = service
         self.systemUtil = systemUtil
     }
 
     func createSubscription<S>(_ subscriber: S) -> Subscription where S: Subscriber, S.Failure == ErrorType, S.Input == UIResultType {
         HymnSubscription(hymnIdentifier: hymnIdentifier, converter: converter, dataStore: dataStore,
-                         disposables: &disposables, service: service, subscriber: subscriber, systemUtil: systemUtil)
+                         disposables: &disposables, makeNetworkRequest: makeNetworkRequest, service: service,
+                         subscriber: subscriber, systemUtil: systemUtil)
     }
 }
 
@@ -86,6 +96,7 @@ private class HymnSubscription<SubscriberType: Subscriber>: NetworkBoundSubscrip
     private let converter: Converter
     private let dataStore: HymnDataStore
     private let hymnIdentifier: HymnIdentifier
+    private let makeNetworkRequest: Bool
     private let service: HymnalApiService
     private let systemUtil: SystemUtil
 
@@ -94,13 +105,15 @@ private class HymnSubscription<SubscriberType: Subscriber>: NetworkBoundSubscrip
 
     fileprivate init(hymnIdentifier: HymnIdentifier, analytics: AnalyticsLogger = Resolver.resolve(),
                      converter: Converter, dataStore: HymnDataStore, disposables: inout Set<AnyCancellable>,
-                     service: HymnalApiService, subscriber: SubscriberType, systemUtil: SystemUtil) {
+                     makeNetworkRequest: Bool, service: HymnalApiService, subscriber: SubscriberType,
+                     systemUtil: SystemUtil) {
         // okay to inject analytics because we aren't mocking it in the unit tests
         self.analytics = analytics
         self.converter = converter
         self.dataStore = dataStore
         self.disposables = disposables
         self.hymnIdentifier = hymnIdentifier
+        self.makeNetworkRequest = makeNetworkRequest
         self.service = service
         self.subscriber = subscriber
         self.systemUtil = systemUtil
@@ -117,10 +130,10 @@ private class HymnSubscription<SubscriberType: Subscriber>: NetworkBoundSubscrip
     }
 
     func shouldFetch(convertedDatabaseResult: UiHymn??) -> Bool {
-        let flattened = convertedDatabaseResult?.flatMap({ uiHymn -> UiHymn? in
-            return uiHymn
-        })
-        return systemUtil.isNetworkAvailable() && flattened == nil
+        guard makeNetworkRequest, systemUtil.isNetworkAvailable() else {
+            return false
+        }
+        return convertedDatabaseResult?.flatMap({ uiHymn -> UiHymn? in return uiHymn }) == nil
     }
 
     /**

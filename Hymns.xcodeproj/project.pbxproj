@@ -167,7 +167,7 @@
 		3BBCC21124DFBDE100977961 /* SoundCloudWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBCC21024DFBDE100977961 /* SoundCloudWebView.swift */; };
 		3BBCC21324DFDF6400977961 /* SoundCloudSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBCC21224DFDF6400977961 /* SoundCloudSnapshots.swift */; };
 		3BBCC21724E0D3FD00977961 /* SoundCloudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBCC21624E0D3FD00977961 /* SoundCloudView.swift */; };
-		3BBCC21B24E1048400977961 /* ToolTipShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBCC21A24E1048300977961 /* ToolTipShape.swift */; };
+		3BBCC21B24E1048400977961 /* ToolTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBCC21A24E1048300977961 /* ToolTip.swift */; };
 		3BBCC21D24E1C51A00977961 /* SoundCloudViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBCC21C24E1C51900977961 /* SoundCloudViewModel.swift */; };
 		3BC1328D243826280082A274 /* PreviewHymns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC1328C243826270082A274 /* PreviewHymns.swift */; };
 		3BC1329724385A580082A274 /* HomeContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC1329624385A580082A274 /* HomeContainerView.swift */; };
@@ -459,7 +459,7 @@
 		3BBCC21024DFBDE100977961 /* SoundCloudWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundCloudWebView.swift; sourceTree = "<group>"; };
 		3BBCC21224DFDF6400977961 /* SoundCloudSnapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundCloudSnapshots.swift; sourceTree = "<group>"; };
 		3BBCC21624E0D3FD00977961 /* SoundCloudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundCloudView.swift; sourceTree = "<group>"; };
-		3BBCC21A24E1048300977961 /* ToolTipShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolTipShape.swift; sourceTree = "<group>"; };
+		3BBCC21A24E1048300977961 /* ToolTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolTip.swift; sourceTree = "<group>"; };
 		3BBCC21C24E1C51900977961 /* SoundCloudViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundCloudViewModel.swift; sourceTree = "<group>"; };
 		3BC1328C243826270082A274 /* PreviewHymns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewHymns.swift; sourceTree = "<group>"; };
 		3BC13291243850B90082A274 /* classic1151.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = classic1151.json; sourceTree = "<group>"; };
@@ -821,7 +821,7 @@
 				3B369CEB246D07580068A29C /* PDFViewer.swift */,
 				3BA91ECF24ECD65100294830 /* MarqueeView.swift */,
 				3B3DF63C24A280D100E60ED9 /* IconSizeConstants.swift */,
-				3BBCC21A24E1048300977961 /* ToolTipShape.swift */,
+				3BBCC21A24E1048300977961 /* ToolTip.swift */,
 				3BB1DCB4244D55770011169D /* SearchBar.swift */,
 				B5A00F5E245277E300F7E3E1 /* ActivityIndicator.swift */,
 				3BB931A624E37F3A00E0C873 /* LottieView.swift */,
@@ -1768,7 +1768,7 @@
 				3B2E84B5246FA88800EA4329 /* SongResultEntity.swift in Sources */,
 				3B25C0EA24503B7E00C435E1 /* HistoryStore.swift in Sources */,
 				3B5935A424357CA000E6993C /* HymnType.swift in Sources */,
-				3BBCC21B24E1048400977961 /* ToolTipShape.swift in Sources */,
+				3BBCC21B24E1048400977961 /* ToolTip.swift in Sources */,
 				3B203688248B864E00D90DF5 /* ScriptureResult.swift in Sources */,
 				3BBCC21724E0D3FD00977961 /* SoundCloudView.swift in Sources */,
 				3B9ED1C02486296000BD004E /* BrowseResultsListViewModel.swift in Sources */,

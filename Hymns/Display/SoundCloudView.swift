@@ -40,7 +40,12 @@ struct SoundCloudView: View {
                 }.overlay(Image("soundcloud_banner"))
                 SoundCloudWebView(viewModel: viewModel).maxSize()
             }
-            ToolTipView(tapAction: {})
+            ToolTipView(tapAction: {}, label: {
+                HStack(alignment: .center, spacing: CGFloat.zero) {
+                    Image(systemName: "xmark").padding()
+                    Text("Tap to keep playing song in background").font(.caption).padding(.trailing)
+                }
+            }, configuration: ToolTipConfiguration(cornerRadius: 10, arrowPosition: ToolTipConfiguration.ArrowPosition(midX: 0.5, alignmentType: .percentage), arrowHeight: 7))
                 .transformAnchorPreference(key: ToolTipPreferenceKey.self,
                                            value: .bounds,
                                            transform: { (value: inout ToolTipPreferenceData, anchor: Anchor<CGRect>) in
@@ -62,30 +67,18 @@ struct SoundCloudView: View {
 
         let toolTipSize = geometry[toolTipAnchor].size
         let indicatorPoint = geometry[indicatorAnchor]
+
         return
-            ToolTipView(tapAction: {
-                self.viewModel.dismissToolTip()
-            }).background(ToolTip(cornerRadius: 10,
-                                  toolTipMidX: toolTipSize.width - (indicatorPoint.maxX - indicatorPoint.minX)/2 + 7,
-                                  toolTipHeight: 7).fill(Color.blue))
-                .offset(x: indicatorPoint.maxX - toolTipSize.width - 7, y: indicatorPoint.maxY + 7)
-                .eraseToAnyView()
-    }
-}
-
-struct ToolTipView: View {
-
-    let tapAction: () -> Void
-
-    var body: some View {
-        Button(action: {
-            self.tapAction()
-        }, label: {
-            HStack(alignment: .center, spacing: CGFloat.zero) {
-                Image(systemName: "xmark").padding()
-                Text("Tap to keep playing song in background").font(.caption).padding(.trailing)
-            }.foregroundColor(.white)
-        })
+            ToolTipView(tapAction: {}, label: {
+                HStack(alignment: .center, spacing: CGFloat.zero) {
+                    Image(systemName: "xmark").padding()
+                    Text("Tap to keep playing song in background").font(.caption).padding(.trailing)
+                }
+            }, configuration: ToolTipConfiguration(
+                cornerRadius: 10,
+                arrowPosition: ToolTipConfiguration.ArrowPosition(midX: toolTipSize.width - (indicatorPoint.maxX - indicatorPoint.minX)/2 + 7, alignmentType: .offset),
+                arrowHeight: 7))
+                .offset(x: indicatorPoint.maxX - toolTipSize.width - 7, y: indicatorPoint.maxY + 7).eraseToAnyView()
     }
 }
 
