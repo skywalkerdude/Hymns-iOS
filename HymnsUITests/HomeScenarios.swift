@@ -16,6 +16,7 @@ class HomeScenarios: BaseTestCase {
 
     func test_goToSongFromNumber() {
         _ = HomeViewCan(app, testCase: self)
+            .dismissToolTip()
             .activateSearch()
             .waitForButtons("Cancel")
             .typeSearchText("1151")

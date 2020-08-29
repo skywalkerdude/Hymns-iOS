@@ -3,81 +3,96 @@ import Nimble
 import XCTest
 @testable import Hymns
 
+// swiftlint:disable identifier_name type_body_length function_body_length
 class RegexUtilSpec: QuickSpec {
 
     override func spec() {
-        describe("getting HymnType") {
+        describe("getting from search query") {
+            let mapping: [String: (hymnType: HymnType?, hymnNumber: String?)]
+                = ["ch1": (.chinese, "1"), "ch 1": (.chinese, "1"), "S1": (.spanish, "1"), "S 1": (.spanish, "1"),
+                   "new song1": (.newSong, "1"), "new tune 1": (.newTune, "1"), "spanish": (nil, nil),
+                   "334": (nil, nil), "Cup of Chirst": (nil, nil), "xx1": (nil, "1")]
 
+            describe("getting the hymn type") {
+                it("should get the correct hymn type") {
+                    for (searchQuery, pair) in mapping {
+                        let hymnType = RegexUtil.getHymnType(searchQuery: searchQuery)
+                        XCTAssertTrue(hymnType == pair.hymnType,
+                                      "\(searchQuery) maps to \(String(describing: hymnType)) while it should map to \(String(describing: pair.hymnType))")
+                    }
+                }
+            }
+            describe("getting the hymn number") {
+                it("should get the correct hymn number") {
+                    for (searchQuery, pair) in mapping {
+                        let hymnNumber = RegexUtil.getHymnNumber(searchQuery: searchQuery)
+                        XCTAssertTrue(hymnNumber == pair.hymnNumber,
+                                      "\(searchQuery) maps to \(String(describing: hymnNumber)) while it should map to \(String(describing: pair.hymnNumber))")
+                    }
+                }
+            }
+        }
+        describe("getting hymn type from path") {
             let classic = "/en/hymn/h/594"
             context("from \(classic)") {
                 it("should be classic") {
                     expect(RegexUtil.getHymnType(path: classic)).to(equal(HymnType.classic))
                 }
             }
-
             let newTune = "/en/hymn/nt/594"
             context("from \(newTune)") {
                 it("should be new tune") {
                     expect(RegexUtil.getHymnType(path: newTune)).to(equal(HymnType.newTune))
                 }
             }
-
             let newSong = "/en/hymn/ns/594"
             context("from \(newSong)") {
                 it("should be new song") {
                     expect(RegexUtil.getHymnType(path: newSong)).to(equal(HymnType.newSong))
                 }
             }
-
             let children = "/en/hymn/c/594"
             context("from \(children)") {
                 it("should be children") {
                     expect(RegexUtil.getHymnType(path: children)).to(equal(HymnType.children))
                 }
             }
-
             let longBeach = "/en/hymn/lb/594"
             context("from \(longBeach)") {
                 it("should be long beach") {
                     expect(RegexUtil.getHymnType(path: longBeach)).to(equal(HymnType.howardHigashi))
                 }
             }
-
             let letterBefore = "/en/hymn/h/c333"
             context("from \(letterBefore)") {
                 it("should be classic") {
                     expect(RegexUtil.getHymnType(path: letterBefore)).to(equal(HymnType.classic))
                 }
             }
-
             let letterBeforeAndAfter = "/en/hymn/h/c333f"
             context("from \(letterBeforeAndAfter)") {
                 it("should be classic") {
                     expect(RegexUtil.getHymnType(path: letterBeforeAndAfter)).to(equal(HymnType.classic))
                 }
             }
-
             let letterAfter = "/en/hymn/h/13f"
             context("from \(letterAfter)") {
                 it("should be classic") {
                     expect(RegexUtil.getHymnType(path: letterAfter)).to(equal(HymnType.classic))
                 }
             }
-
             let noMatch = ""
             context("from \(noMatch)") {
                 it("should be nil") {
                     expect(RegexUtil.getHymnType(path: noMatch)).to(beNil())
                 }
             }
-
             let manyLetters = "/en/hymn/h/13fasdf"
             context("from \(manyLetters)") {
                 it("should be classic") {
                     expect(RegexUtil.getHymnType(path: manyLetters)).to(equal(HymnType.classic))
                 }
             }
-
             let queryParams = "/en/hymn/h/594?gb=1&query=3"
             context("from \(queryParams)") {
                 it("should be classic") {
@@ -85,91 +100,141 @@ class RegexUtilSpec: QuickSpec {
                 }
             }
         }
-        describe("getting HymnNumber") {
+        describe("getting hymn number from search query") {
+            let ch1 = "ch1"
+            context("from \(ch1)") {
+                it("should be chinese") {
+                    expect(RegexUtil.getHymnType(searchQuery: ch1)).to(equal(HymnType.chinese))
+                }
+            }
+            let ch_1 = "ch 1"
+            context("from \(ch_1)") {
+                it("should be chinese") {
+                    expect(RegexUtil.getHymnType(searchQuery: ch_1)).to(equal(HymnType.chinese))
+                }
+            }
+            let S1 = "S1"
+            context("from \(S1)") {
+                it("should be chinese") {
+                    expect(RegexUtil.getHymnType(searchQuery: S1)).to(equal(HymnType.spanish))
+                }
+            }
+            let S_1 = "S 1"
+            context("from \(S_1)") {
+                it("should be chinese") {
+                    expect(RegexUtil.getHymnType(searchQuery: S_1)).to(equal(HymnType.spanish))
+                }
+            }
+            let new_song1 = "new song1"
+            context("from \(new_song1)") {
+                it("should be chinese") {
+                    expect(RegexUtil.getHymnType(searchQuery: new_song1)).to(equal(HymnType.newSong))
+                }
+            }
+            let new_tune_1 = "new tune 1"
+            context("from \(new_tune_1)") {
+                it("should be chinese") {
+                    expect(RegexUtil.getHymnType(searchQuery: new_tune_1)).to(equal(HymnType.newTune))
+                }
+            }
+            let spanish = "spanish"
+            context("from \(spanish)") {
+                it("should be chinese") {
+                    expect(RegexUtil.getHymnType(searchQuery: spanish)).to(beNil())
+                }
+            }
+            let numberOnly = "334"
+            context("from \(numberOnly)") {
+                it("should be chinese") {
+                    expect(RegexUtil.getHymnType(searchQuery: numberOnly)).to(beNil())
+                }
+            }
+            let searchQuery = "Cup of Christ"
+            context("from \(searchQuery)") {
+                it("should be chinese") {
+                    expect(RegexUtil.getHymnType(searchQuery: searchQuery)).to(beNil())
+                }
+            }
+            let xx1 = "xx1"
+            context("from \(xx1)") {
+                it("should be chinese") {
+                    expect(RegexUtil.getHymnType(searchQuery: xx1)).to(beNil())
+                }
+            }
+        }
+        describe("getting hymn number from path") {
             let classic = "/en/hymn/h/594"
             context("from \(classic)") {
                 it("should be '594'") {
                     expect(RegexUtil.getHymnNumber(path: classic)).to(equal("594"))
                 }
             }
-
             let letterBefore = "/en/hymn/h/c333"
             context("from \(letterBefore)") {
                 it("should be 'c333'") {
                     expect(RegexUtil.getHymnNumber(path: letterBefore)).to(equal("c333"))
                 }
             }
-
             let letterBeforeAndAfter = "/en/hymn/h/c333f"
             context("from \(letterBeforeAndAfter)") {
                 it("should be 'c333f'") {
                     expect(RegexUtil.getHymnNumber(path: letterBeforeAndAfter)).to(equal("c333f"))
                 }
             }
-
             let letterAfter = "/en/hymn/h/13f"
             context("from \(letterAfter)") {
                 it("should be '13f'") {
                     expect(RegexUtil.getHymnNumber(path: letterAfter)).to(equal("13f"))
                 }
             }
-
             let noMatch = ""
             context("from \(noMatch)") {
                 it("should be nil") {
                     expect(RegexUtil.getHymnNumber(path: noMatch)).to(beNil())
                 }
             }
-
             let manyLetters = "/en/hymn/h/13fasdf"
             context("from \(manyLetters)") {
                 it("should be '13fasdf'") {
                     expect(RegexUtil.getHymnNumber(path: manyLetters)).to(equal("13fasdf"))
                 }
             }
-
             let chordPdf = "/en/hymn/h/13f/f=pdf"
             context("from \(chordPdf)") {
                 it("should be '13f'") {
                     expect(RegexUtil.getHymnNumber(path: chordPdf)).to(equal("13f"))
                 }
             }
-
             let guitarPdf = "/en/hymn/h/13f/f=pdf"
             context("from \(guitarPdf)") {
                 it("should be '13f'") {
                     expect(RegexUtil.getHymnNumber(path: guitarPdf)).to(equal("13f"))
                 }
             }
-
             let mp3 = "/en/hymn/h/13f/f=mp3"
             context("from \(mp3)") {
                 it("should be '13f'") {
                     expect(RegexUtil.getHymnNumber(path: mp3)).to(equal("13f"))
                 }
             }
-
             let manyLettersPdf = "/en/hymn/h/13fasdf/f=pdf"
             context("from \(manyLettersPdf)") {
                 it("should be '13fasdf'") {
                     expect(RegexUtil.getHymnNumber(path: manyLettersPdf)).to(equal("13fasdf"))
                 }
             }
-
             let lettersAfter = "/en/hymn/h/13f/f=333/asdf"
             context("from \(lettersAfter)") {
                 it("should be nil") {
                     expect(RegexUtil.getHymnNumber(path: lettersAfter)).to(beNil())
                 }
             }
-
             let noNumber = "/en/hymn/h/a"
             context("from \(noNumber)") {
                 it("should be nil") {
                     expect(RegexUtil.getHymnNumber(path: noNumber)).to(beNil())
                 }
             }
-
             let queryParams = "/en/hymn/h/594?gb=1&query=3"
             context("from \(queryParams)") {
                 it("should be '594'") {

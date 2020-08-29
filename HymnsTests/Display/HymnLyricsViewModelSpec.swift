@@ -179,7 +179,7 @@ class HymnLyricsViewModelSpec: QuickSpec {
                         target.fetchLyrics()
                         testQueue.sync {}
                     }
-                    fit("should repeat the chorus") {
+                    it("should repeat the chorus") {
                         expect(target.lyrics).to(equal([
                             VerseViewModel(verseNumber: "1", verseLines: ["line 1", "line 2"]),
                             VerseViewModel(verseLines: ["chorus 1", "chorus 2"]),

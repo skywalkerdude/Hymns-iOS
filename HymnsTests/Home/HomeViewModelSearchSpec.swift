@@ -17,6 +17,7 @@ class HomeViewModelSearchSpec: QuickSpec {
             // https://www.vadimbulavin.com/unit-testing-async-code-in-swift/
             let testQueue = DispatchQueue(label: "test_queue")
             var historyStore: HistoryStoreMock!
+            var hymnsRepository: HymnsRepositoryMock!
             var songResultsRepository: SongResultsRepositoryMock!
             var target: HomeViewModel!
 
@@ -29,6 +30,7 @@ class HomeViewModelSearchSpec: QuickSpec {
                         .data(description: "forced data error")
                     }).eraseToAnyPublisher()
                 }
+                hymnsRepository = mock(HymnsRepository.self)
                 songResultsRepository = mock(SongResultsRepository.self)
                 target = HomeViewModel(backgroundQueue: testQueue, historyStore: historyStore,
                                        mainQueue: testQueue, repository: songResultsRepository)
@@ -38,6 +40,7 @@ class HomeViewModelSearchSpec: QuickSpec {
 
                 // clear the invocations made during the setup step
                 clearInvocations(on: historyStore)
+                clearInvocations(on: hymnsRepository)
                 clearInvocations(on: songResultsRepository)
             }
             context("with empty results") {

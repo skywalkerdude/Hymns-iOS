@@ -3,6 +3,16 @@ import Foundation
 public class RegexUtil {
 
     /**
+     * Regex format to extract the hymn type and hymn number from a search query to perform a specialized search query for that hymn type
+     *
+     * Examples: <br>
+     *     cebuano 555 --> cebuano, 555 <br>
+     *     new song 3 --> new song, 555 <br>
+     *     ns 3 --> ns, 3 <br>
+     */
+    static let searchTextPattern = "(\\D+)\\s*(\\d+)"
+
+    /**
      * Regex format to extract information out of a hymn path.<br>
      * (\w+) --> matches any word character (letter, number, or underscore)<br>
      * ([a-z]?\d+[a-z]?) --> maybe a single letter followed by more than 1 digit followed by 0 or more letters. eg: 13, 13f, c333, 54de<br>
@@ -47,6 +57,29 @@ public class RegexUtil {
      * Regex format to extract information out of the verse portion of a scripture reference<br>
      */
     static let scripturePatternVerse = "\\A(\\d+(?:-?\\d+)?)\\z"
+
+    static func getHymnType(searchQuery: String) -> HymnType? {
+        let regex = NSRegularExpression(searchTextPattern, options: .caseInsensitive)
+
+        if let match = regex.firstMatch(in: searchQuery, options: [], range: NSRange(location: 0, length: searchQuery.utf16.count)) {
+            if let hymnTypeRange = Range(match.range(at: 1), in: searchQuery) {
+                return HymnType.searchPrefixes[searchQuery[hymnTypeRange].lowercased().trim()]
+            }
+        }
+        return nil
+    }
+
+    static func getHymnNumber(searchQuery: String) -> String? {
+        let regex = NSRegularExpression(searchTextPattern, options: .caseInsensitive)
+
+        if let match = regex.firstMatch(in: searchQuery, options: [], range: NSRange(location: 0, length: searchQuery.utf16.count)) {
+            if let hymnNumberRange = Range(match.range(at: 2), in: searchQuery) {
+                let hymnNumber = String(searchQuery[hymnNumberRange]).trim()
+                return hymnNumber.isEmpty ? nil : hymnNumber
+            }
+        }
+        return nil
+    }
 
     /**
      * @param path path of the song

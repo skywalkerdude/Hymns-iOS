@@ -5,8 +5,15 @@ import Resolver
 
 class HomeViewModel: ObservableObject {
 
+    @UserDefault("has_seen_search_by_type_tooltip", defaultValue: false) var hasSeenSearchByTypeTooltip: Bool {
+        willSet {
+            self.showSearchByTypeToolTip = !newValue
+        }
+    }
+
     @Published var searchActive: Bool = false
     @Published var searchParameter = ""
+    @Published var showSearchByTypeToolTip: Bool = false
     @Published var songResults: [SongResultViewModel] = [SongResultViewModel]()
     @Published var label: String?
     @Published var state: HomeResultState = .loading
@@ -19,17 +26,20 @@ class HomeViewModel: ObservableObject {
     private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue
     private let historyStore: HistoryStore
+    private let hymnsRepository: HymnsRepository
     private let mainQueue: DispatchQueue
     private let repository: SongResultsRepository
 
     init(analytics: AnalyticsLogger = Resolver.resolve(),
          backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
          historyStore: HistoryStore = Resolver.resolve(),
+         hymnsRepository: HymnsRepository = Resolver.resolve(),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
          repository: SongResultsRepository = Resolver.resolve()) {
         self.analytics = analytics
         self.backgroundQueue = backgroundQueue
         self.historyStore = historyStore
+        self.hymnsRepository = hymnsRepository
         self.mainQueue = mainQueue
         self.repository = repository
 
@@ -58,6 +68,9 @@ class HomeViewModel: ObservableObject {
                 self.analytics.logQueryChanged(queryText: searchParameter)
                 self.refreshSearchResults()
         }.store(in: &disposables)
+
+        // Search is active
+        self.showSearchByTypeToolTip = !self.hasSeenSearchByTypeTooltip
     }
 
     private func resetState() {
@@ -81,9 +94,16 @@ class HomeViewModel: ObservableObject {
         }
 
         if searchParameter.trim().isPositiveInteger {
-            self.fetchByNumber(hymnNumber: searchParameter.trim())
+            self.fetchByNumber(hymnType: .classic, hymnNumber: searchParameter.trim(), searchParameter: searchParameter)
             return
         }
+
+        if let hymnType = RegexUtil.getHymnType(searchQuery: searchParameter.trim()),
+            let hymnNumber = RegexUtil.getHymnNumber(searchQuery: searchParameter.trim()) {
+            fetchByHymnType(hymnType: hymnType, hymnNumber: hymnNumber, searchParameter: searchParameter)
+            return
+        }
+
         self.performSearch(page: currentPage)
     }
 
@@ -94,9 +114,10 @@ class HomeViewModel: ObservableObject {
             .map({ recentSongs -> [SongResultViewModel] in
                 recentSongs.map { recentSong -> SongResultViewModel in
                     let identifier = HymnIdentifier(recentSong.hymnIdentifierEntity)
-                    return SongResultViewModel(title: recentSong.songTitle,
-                                               destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier,
-                                                                                                                storeInHistoryStore: true)).eraseToAnyView())
+                    return SongResultViewModel(
+                        title: recentSong.songTitle,
+                        destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier,
+                                                                                         storeInHistoryStore: true)).eraseToAnyView())
                 }
             })
             .replaceError(with: [SongResultViewModel]())
@@ -117,9 +138,9 @@ class HomeViewModel: ObservableObject {
             }).store(in: &disposables)
     }
 
-    private func fetchByNumber(hymnNumber: String) {
+    private func fetchByNumber(hymnType: HymnType, hymnNumber: String, searchParameter: String) {
         label = nil
-        Just((1...HymnType.classic.maxNumber))
+        Just((1...hymnType.maxNumber))
             .subscribe(on: backgroundQueue)
             .map({ range -> [SongResultViewModel] in
                 guard !hymnNumber.isEmpty else {
@@ -127,20 +148,51 @@ class HomeViewModel: ObservableObject {
                 }
                 let matchingNumbers = range.map({String($0)}).filter {$0.contains(hymnNumber)}
                 return matchingNumbers.map({ number -> SongResultViewModel in
-                    let title = "Hymn \(number)"
-                    let identifier = HymnIdentifier(hymnType: .classic, hymnNumber: number)
+                    let title = "\(hymnType.displayLabel) \(number)"
+                    let identifier = HymnIdentifier(hymnType: hymnType, hymnNumber: number)
                     let destination = DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier, storeInHistoryStore: true)).eraseToAnyView()
                     return SongResultViewModel(title: title, destinationView: destination)
                 })
             }).receive(on: mainQueue)
             .sink { songResults in
-                if hymnNumber != self.searchParameter.trim() {
+                if searchParameter.trim() != self.searchParameter.trim() {
                     // search parameter has changed by the time the call completed, so just drop this.
                     return
                 }
                 self.songResults = songResults
                 self.state = songResults.isEmpty ? .empty : .results
         }.store(in: &disposables)
+    }
+
+    private func fetchByHymnType(hymnType: HymnType, hymnNumber: String, searchParameter: String) {
+        label = nil
+        if hymnType.maxNumber > 0 {
+            // continuous hymn, so use typeahead
+            self.fetchByNumber(hymnType: hymnType, hymnNumber: hymnNumber, searchParameter: searchParameter)
+            return
+        }
+
+        let hymnIdentifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber)
+        hymnsRepository
+            .getHymn(hymnIdentifier, makeNetworkRequest: false)
+            .subscribe(on: backgroundQueue)
+            .receive(on: mainQueue)
+            .sink(receiveValue: { [weak self] uiHymn in
+                guard let self = self else { return }
+                guard let uiHymn = uiHymn else {
+                    self.songResults = [SongResultViewModel]()
+                    self.state = .empty
+                    return
+                }
+                if searchParameter.trim() != self.searchParameter.trim() {
+                    // search parameter has changed by the time the call completed, so just drop this.
+                    return
+                }
+                self.songResults = [SongResultViewModel(title: uiHymn.computedTitle,
+                                                        destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier,
+                                                                                                                         storeInHistoryStore: true)).eraseToAnyView())]
+                self.state = .results
+            }).store(in: &disposables)
     }
 
     func loadMore(at songResult: SongResultViewModel) {
