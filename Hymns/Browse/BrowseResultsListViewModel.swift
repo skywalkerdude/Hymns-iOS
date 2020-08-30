@@ -117,7 +117,13 @@ class BrowseResultsListViewModel: ObservableObject {
                             return hymnNumber1 < hymnNumber2
                         }).map({ songResult -> SongResultViewModel in
                             let hymnIdentifier = HymnIdentifier(hymnType: songResult.hymnType, hymnNumber: songResult.hymnNumber, queryParams: songResult.queryParams)
-                            let title = "\(songResult.hymnNumber). \(songResult.title.replacingOccurrences(of: "Hymn: ", with: ""))"
+
+                            var title = "\(songResult.hymnNumber). \(songResult.title.replacingOccurrences(of: "Hymn: ", with: ""))"
+                            if hymnType == .cebuano || hymnType == .german {
+                                // Don't show hymn number here since the numbers are not continuous and showing a list
+                                // of non-continous numbers is weird.
+                                title = "\(songResult.title.replacingOccurrences(of: "Hymn: ", with: ""))"
+                            }
                             return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
                     })
                 })
