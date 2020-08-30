@@ -82,8 +82,8 @@ class BrowseResultsListViewModel: ObservableObject {
                 .map({ songResults -> [SongResultViewModel] in
                     songResults.map { songResult -> SongResultViewModel in
                         let hymnIdentifier = HymnIdentifier(hymnType: songResult.hymnType, hymnNumber: songResult.hymnNumber, queryParams: songResult.queryParams)
-                        let title = songResult.title.replacingOccurrences(of: "Hymn: ", with: "")
-                        return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
+                        return SongResultViewModel(title: songResult.title,
+                                                   destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
                     }
                 })
                 .receive(on: mainQueue)
@@ -118,11 +118,11 @@ class BrowseResultsListViewModel: ObservableObject {
                         }).map({ songResult -> SongResultViewModel in
                             let hymnIdentifier = HymnIdentifier(hymnType: songResult.hymnType, hymnNumber: songResult.hymnNumber, queryParams: songResult.queryParams)
 
-                            var title = "\(songResult.hymnNumber). \(songResult.title.replacingOccurrences(of: "Hymn: ", with: ""))"
+                            var title = "\(songResult.hymnNumber). \(songResult.title)"
                             if hymnType == .cebuano || hymnType == .german {
                                 // Don't show hymn number here since the numbers are not continuous and showing a list
                                 // of non-continous numbers is weird.
-                                title = "\(songResult.title.replacingOccurrences(of: "Hymn: ", with: ""))"
+                                title = songResult.title
                             }
                             return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
                     })

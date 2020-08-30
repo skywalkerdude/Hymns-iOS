@@ -67,7 +67,7 @@ class DisplayHymnScenarios: BaseTestCase {
             .verifyStaticTextsNotExists("Languages", "Change to another language")
             .openLanguages()
             .pressButton("诗歌(简)")
-            .waitForStaticTexts("Minoru\'s song in Chinese", "chinese verse 1 chinese line 1")
+            .waitForStaticTexts("Chinese supplement 216", "chinese verse 1 chinese line 1")
     }
 
     func test_relevant() {

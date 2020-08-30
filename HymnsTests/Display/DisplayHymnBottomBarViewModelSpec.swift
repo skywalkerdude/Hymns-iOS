@@ -82,7 +82,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                                                                   Datum(value: "Cool other song", path: "/en/hymn/ns/216?gb=1")])
                     let music = MetaDatum(name: "music", data: [Datum(value: "mp3", path: "/en/hymn/h/1151/f=mp3")])
                     let hymn = UiHymn(hymnIdentifier: classic1151, title: "title", lyrics: lyricsWithoutTransliteration,
-                                      languages: languages, music: music, relevant: relevant)
+                                      category: "category", languages: languages, music: music, relevant: relevant)
                     given(hymnsRepository.getHymn(classic1151)) ~> { _ in
                         Just(hymn).assertNoFailure().eraseToAnyPublisher()
                     }
@@ -159,13 +159,12 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
                 }
                 it("should have all the buttons in the buttons list and nothing in the overflow") {
-                    expect(target.buttons).to(haveCount(6))
+                    expect(target.buttons).to(haveCount(5))
                     expect(target.buttons[0]).to(equal(.share("Drink! a river pure and clear that's flowing from the throne;\nEat! the tree of life with fruits abundant, richly grown\n\nDo come, oh, do come,\nSays Spirit and the Bride:\n\n")))
                     expect(target.buttons[1]).to(equal(.fontSize))
                     expect(target.buttons[2]).to(equal(.tags))
                     expect(target.buttons[3]).to(equal(.soundCloud(SoundCloudViewModel(url: URL(string: "https://m.soundcloud.com/search/sounds?q=title")!))))
                     expect(target.buttons[4]).to(equal(.youTube(URL(string: "https://www.youtube.com/results?search_query=title")!)))
-                    expect(target.buttons[5]).to(equal(.songInfo(SongInfoDialogViewModel(hymnToDisplay: classic1151))))
                     expect(target.overflowButtons).to(beNil())
                 }
             }

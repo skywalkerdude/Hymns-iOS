@@ -12,7 +12,7 @@ class SongRepositoryImplTest: XCTestCase {
 
     static let singleMatchInLyricsSearchResult = SearchResultEntity(hymnType: .classic, hymnNumber: "2", queryParams: nil,
                                                                     title: "Hymn: single match in lyrics", matchInfo: Data([0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0, 0x0]))
-    static let singleMatchInLyrics = SongResultEntity(hymnType: .classic, hymnNumber: "2", queryParams: nil, title: "single match in lyrics")
+    static let singleMatchInLyrics = SongResultEntity(hymnType: .classic, hymnNumber: "2", queryParams: nil, title: "Hymn: single match in lyrics")
 
     static let singleMatchInTitleSearchResult = SearchResultEntity(hymnType: .classic, hymnNumber: "3", queryParams: nil,
                                                                    title: "single match in title", matchInfo: Data([0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0]))
@@ -20,7 +20,7 @@ class SongRepositoryImplTest: XCTestCase {
 
     static let twoMatchesInLyricsSearchResult = SearchResultEntity(hymnType: .classic, hymnNumber: "4", queryParams: nil,
                                                                    title: "Hymn: two matches in lyrics", matchInfo: Data([0x0, 0x0, 0x0, 0x0, 0x2, 0x0, 0x0, 0x0]))
-    static let twoMatchesInLyrics = SongResultEntity(hymnType: .classic, hymnNumber: "4", queryParams: nil, title: "two matches in lyrics")
+    static let twoMatchesInLyrics = SongResultEntity(hymnType: .classic, hymnNumber: "4", queryParams: nil, title: "Hymn: two matches in lyrics")
 
     static let maxMatchesInLyricsSearchResult = SearchResultEntity(hymnType: .classic, hymnNumber: "5", queryParams: nil,
                                                                    title: "max matches in lyrics", matchInfo: Data([0x0, 0x0, 0x0, 0x0, 0xff, 0xff, 0xff, 0xff]))
@@ -28,7 +28,7 @@ class SongRepositoryImplTest: XCTestCase {
 
     static let maxMatchesInTitleSearchResult = SearchResultEntity(hymnType: .classic, hymnNumber: "6", queryParams: nil,
                                                                   title: "Hymn: max matches in title", matchInfo: Data([0xff, 0xff, 0xff, 0xff, 0x0, 0x0, 0x0, 0x0]))
-    static let maxMatchesInTitle = SongResultEntity(hymnType: .classic, hymnNumber: "6", queryParams: nil, title: "max matches in title")
+    static let maxMatchesInTitle = SongResultEntity(hymnType: .classic, hymnNumber: "6", queryParams: nil, title: "Hymn: max matches in title")
 
     static let maxMatchesInBothSearchResult = SearchResultEntity(hymnType: .classic, hymnNumber: "7", queryParams: nil,
                                                                  title: "max matches in both", matchInfo: Data([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]))

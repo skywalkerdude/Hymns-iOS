@@ -125,7 +125,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                     beforeEach {
                         given(tagStore.getSongsByTag(UiTag(title: "FanIntoFlames", color: .none))) ~> { _ in
                             Just([SongResultEntity(hymnType: .classic, hymnNumber: "123", queryParams: nil, title: "classic123"),
-                                  SongResultEntity(hymnType: .scripture, hymnNumber: "55", queryParams: nil, title: "scripture55")])
+                                  SongResultEntity(hymnType: .dutch, hymnNumber: "55", queryParams: nil, title: "dutch55")])
                                 .mapError({ _ -> ErrorType in
                                     .data(description: "This will never get called")
                                 }).eraseToAnyPublisher()
@@ -146,7 +146,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                         expect(target.songResults).toNot(beNil())
                         expect(target.songResults!).to(haveCount(2))
                         expect(target.songResults![0].title).to(equal("classic123"))
-                        expect(target.songResults![1].title).to(equal("scripture55"))
+                        expect(target.songResults![1].title).to(equal("dutch55"))
                     }
                 }
                 context("data store error") {
@@ -207,7 +207,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                             given(dataStore.getAllSongs(hymnType: .chinese)) ~> { _ in
                                 Just([SongResultEntity(hymnType: .classic, hymnNumber: "123", queryParams: nil, title: "classic123"),
                                       SongResultEntity(hymnType: .chinese, hymnNumber: "3", queryParams: [String: String](), title: "should be filtered out"),
-                                      SongResultEntity(hymnType: .scripture, hymnNumber: "55", queryParams: nil, title: "scripture55"),
+                                      SongResultEntity(hymnType: .dutch, hymnNumber: "55", queryParams: nil, title: "dutch55"),
                                       SongResultEntity(hymnType: .classic, hymnNumber: "11b", queryParams: nil, title: "non numeric number"),
                                       SongResultEntity(hymnType: .chineseSupplement, hymnNumber: "5", queryParams: [String: String](), title: "should be filtered out"),
                                       SongResultEntity(hymnType: .chineseSupplement, hymnNumber: "5", queryParams: nil, title: "should not be filtered out"),
@@ -232,7 +232,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                             expect(target.songResults!).to(haveCount(4))
                             expect(target.songResults![0].title).to(equal("3. should not be filtered out"))
                             expect(target.songResults![1].title).to(equal("5. should not be filtered out"))
-                            expect(target.songResults![2].title).to(equal("55. scripture55"))
+                            expect(target.songResults![2].title).to(equal("55. dutch55"))
                             expect(target.songResults![3].title).to(equal("123. classic123"))
                         }
                     }
@@ -241,7 +241,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                             given(dataStore.getAllSongs(hymnType: .cebuano)) ~> { _ in
                                 Just([SongResultEntity(hymnType: .classic, hymnNumber: "123", queryParams: nil, title: "classic123"),
                                       SongResultEntity(hymnType: .chinese, hymnNumber: "3", queryParams: [String: String](), title: "should be filtered out"),
-                                      SongResultEntity(hymnType: .scripture, hymnNumber: "55", queryParams: nil, title: "scripture55"),
+                                      SongResultEntity(hymnType: .dutch, hymnNumber: "55", queryParams: nil, title: "dutch55"),
                                       SongResultEntity(hymnType: .classic, hymnNumber: "11b", queryParams: nil, title: "non numeric number"),
                                       SongResultEntity(hymnType: .chineseSupplement, hymnNumber: "5", queryParams: [String: String](), title: "should be filtered out"),
                                       SongResultEntity(hymnType: .chineseSupplement, hymnNumber: "5", queryParams: nil, title: "should not be filtered out"),
@@ -263,7 +263,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                             expect(target.songResults!).to(haveCount(4))
                             expect(target.songResults![0].title).to(equal("should not be filtered out"))
                             expect(target.songResults![1].title).to(equal("should not be filtered out"))
-                            expect(target.songResults![2].title).to(equal("scripture55"))
+                            expect(target.songResults![2].title).to(equal("dutch55"))
                             expect(target.songResults![3].title).to(equal("classic123"))
                         }
                     }
@@ -272,7 +272,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                             given(dataStore.getAllSongs(hymnType: .german)) ~> { _ in
                                 Just([SongResultEntity(hymnType: .classic, hymnNumber: "123", queryParams: nil, title: "classic123"),
                                       SongResultEntity(hymnType: .chinese, hymnNumber: "3", queryParams: [String: String](), title: "should be filtered out"),
-                                      SongResultEntity(hymnType: .scripture, hymnNumber: "55", queryParams: nil, title: "scripture55"),
+                                      SongResultEntity(hymnType: .dutch, hymnNumber: "55", queryParams: nil, title: "dutch55"),
                                       SongResultEntity(hymnType: .classic, hymnNumber: "11b", queryParams: nil, title: "non numeric number"),
                                       SongResultEntity(hymnType: .chineseSupplement, hymnNumber: "5", queryParams: [String: String](), title: "should be filtered out"),
                                       SongResultEntity(hymnType: .chineseSupplement, hymnNumber: "5", queryParams: nil, title: "should not be filtered out"),
@@ -294,7 +294,7 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                             expect(target.songResults!).to(haveCount(4))
                             expect(target.songResults![0].title).to(equal("should not be filtered out"))
                             expect(target.songResults![1].title).to(equal("should not be filtered out"))
-                            expect(target.songResults![2].title).to(equal("scripture55"))
+                            expect(target.songResults![2].title).to(equal("dutch55"))
                             expect(target.songResults![3].title).to(equal("classic123"))
                         }
                     }

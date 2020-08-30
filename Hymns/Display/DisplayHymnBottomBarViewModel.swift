@@ -85,7 +85,10 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                         buttons.append(.youTube(url))
                     }
 
-                    buttons.append(.songInfo(SongInfoDialogViewModel(hymnToDisplay: self.identifier)))
+                    let songInfo = SongInfoDialogViewModel.createSongInfo(hymn: hymn)
+                    if !songInfo.isEmpty {
+                        buttons.append(.songInfo(SongInfoDialogViewModel(hymnToDisplay: self.identifier)))
+                    }
 
                     self.buttons = [BottomBarButton]()
                     if buttons.count > Self.overflowThreshold {

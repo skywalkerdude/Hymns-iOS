@@ -27,10 +27,9 @@ class DisplayHymnViewModel: ObservableObject {
     private let storeInHistoryStore: Bool
 
     /**
-     * Computed title for putting in recent songs and favorites. This is required because there is a special case where if the song is a classic song, then the title
-     * is "Hymn X", but when we store it in Favorites/Recents, we want to include the title too. So the computed title, in that case, will be "Hymn X: TITLE"
+     * Title of song for when the song is displayed as a song result in a list of results. Used to store into the Favorites/Recents store.
      */
-    private var computedTitle: String = ""
+    private var resultsTitle: String = ""
     private var disposables = Set<AnyCancellable>()
 
     init(analytics: AnalyticsLogger = Resolver.resolve(),
@@ -68,8 +67,8 @@ class DisplayHymnViewModel: ObservableObject {
                     self.isLoaded = true
                     guard let hymn = hymn else { return }
 
-                    self.title = self.identifier.hymnType == .classic ? "Hymn \(self.identifier.hymnNumber)" : hymn.title
-                    self.computedTitle = hymn.computedTitle
+                    self.title = hymn.displayTitle
+                    self.resultsTitle = hymn.resultTitle
 
                     self.tabItems = [.lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: self.identifier)).maxSize().eraseToAnyView())]
 
@@ -111,7 +110,7 @@ class DisplayHymnViewModel: ObservableObject {
                     self.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: self.identifier)
                     self.fetchFavoriteStatus()
                     if self.storeInHistoryStore {
-                        self.historyStore.storeRecentSong(hymnToStore: self.identifier, songTitle: self.computedTitle)
+                        self.historyStore.storeRecentSong(hymnToStore: self.identifier, songTitle: self.resultsTitle)
                     }
             }).store(in: &disposables)
     }
@@ -132,7 +131,7 @@ class DisplayHymnViewModel: ObservableObject {
             if isFavorited {
                 favoriteStore.deleteFavorite(primaryKey: FavoriteEntity.createPrimaryKey(hymnIdentifier: self.identifier))
             } else {
-                favoriteStore.storeFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.computedTitle))
+                favoriteStore.storeFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.resultsTitle))
             }
         }
     }

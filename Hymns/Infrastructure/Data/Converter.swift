@@ -85,6 +85,8 @@ class ConverterImpl: Converter {
             throw TypeConversionError(triggeringError: ErrorType.parsing(description: "lyrics json was empty"))
         }
 
+        // Many hymn titles prepend "Hymn: " to the title. It is unnecessary and takes up screen space, so  we
+        // strip it out whenever possible.
         guard let title = hymnEntity.title?.replacingOccurrences(of: "Hymn: ", with: ""), !title.isEmpty else {
             throw TypeConversionError(triggeringError: ErrorType.parsing(description: "title was empty"))
         }
