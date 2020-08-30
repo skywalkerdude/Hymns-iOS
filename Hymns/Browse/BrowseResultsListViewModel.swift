@@ -97,6 +97,14 @@ class BrowseResultsListViewModel: ObservableObject {
                 .subscribe(on: backgroundQueue)
                 .map({ songResults -> [SongResultViewModel] in
                     songResults
+                        .filter({ entity -> Bool in
+                            if (entity.hymnType == .chinese || entity.hymnType == .chineseSupplement) && entity.queryParams != nil {
+                                // Filter out the chinese songs where they have query params (essentially the gb=1) songs
+                                // so owe don't end up showing double.
+                                return false
+                            }
+                            return true
+                        })
                         .compactMap({ songResult -> SongResultEntity? in
                             if !songResult.hymnNumber.isPositiveInteger {
                                 return nil

@@ -6,7 +6,9 @@ import RealmSwift
 import SwiftUI
 @testable import Hymns
 
+// swiftlint:disable:next type_body_length
 class BrowseResultsListViewModelSpec: QuickSpec {
+    // swiftlint:disable:next function_body_length
     override func spec() {
         describe("BrowseResultsListViewModel") {
             let testQueue = DispatchQueue(label: "test_queue")
@@ -17,7 +19,6 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                 dataStore = mock(HymnDataStore.self)
                 tagStore = mock(TagStore.self)
             }
-
             describe("getting results by category") {
                 context("only category") {
                     beforeEach {
@@ -202,15 +203,19 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                 }
                 context("has results") {
                     beforeEach {
-                        given(dataStore.getAllSongs(hymnType: .classic)) ~> { _ in
+                        given(dataStore.getAllSongs(hymnType: .chinese)) ~> { _ in
                             Just([SongResultEntity(hymnType: .classic, hymnNumber: "123", queryParams: nil, title: "classic123"),
+                                  SongResultEntity(hymnType: .chinese, hymnNumber: "3", queryParams: [String: String](), title: "should be filtered out"),
                                   SongResultEntity(hymnType: .scripture, hymnNumber: "55", queryParams: nil, title: "scripture55"),
-                                  SongResultEntity(hymnType: .classic, hymnNumber: "11b", queryParams: nil, title: "non numeric number")])
+                                  SongResultEntity(hymnType: .classic, hymnNumber: "11b", queryParams: nil, title: "non numeric number"),
+                                  SongResultEntity(hymnType: .chineseSupplement, hymnNumber: "5", queryParams: [String: String](), title: "should be filtered out"),
+                                  SongResultEntity(hymnType: .chineseSupplement, hymnNumber: "5", queryParams: nil, title: "should not be filtered out"),
+                                  SongResultEntity(hymnType: .chinese, hymnNumber: "3", queryParams: nil, title: "should not be filtered out")])
                                 .mapError({ _ -> ErrorType in
                                     .data(description: "This will never get called")
                                 }).eraseToAnyPublisher()
                         }
-                        target = BrowseResultsListViewModel(hymnType: .classic, backgroundQueue: testQueue,
+                        target = BrowseResultsListViewModel(hymnType: .chinese, backgroundQueue: testQueue,
                                                             dataStore: dataStore, mainQueue: testQueue, tagStore: tagStore)
                         target.fetchResults()
                         testQueue.sync {}
@@ -219,13 +224,15 @@ class BrowseResultsListViewModelSpec: QuickSpec {
                         testQueue.sync {}
                     }
                     it("should set the title to the hymn type") {
-                        expect(target.title).to(equal(HymnType.classic.displayTitle))
+                        expect(target.title).to(equal(HymnType.chinese.displayTitle))
                     }
                     it("should set the correct results") {
                         expect(target.songResults).toNot(beNil())
-                        expect(target.songResults!).to(haveCount(2))
-                        expect(target.songResults![0].title).to(equal("55. scripture55"))
-                        expect(target.songResults![1].title).to(equal("123. classic123"))
+                        expect(target.songResults!).to(haveCount(4))
+                        expect(target.songResults![0].title).to(equal("3. should not be filtered out"))
+                        expect(target.songResults![1].title).to(equal("5. should not be filtered out"))
+                        expect(target.songResults![2].title).to(equal("55. scripture55"))
+                        expect(target.songResults![3].title).to(equal("123. classic123"))
                     }
                 }
                 context("data store error") {
