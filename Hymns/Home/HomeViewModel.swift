@@ -188,7 +188,7 @@ class HomeViewModel: ObservableObject {
                     // search parameter has changed by the time the call completed, so just drop this.
                     return
                 }
-                self.songResults = [SongResultViewModel(title: uiHymn.computedTitle,
+                self.songResults = [SongResultViewModel(title: uiHymn.resultTitle,
                                                         destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier,
                                                                                                                          storeInHistoryStore: true)).eraseToAnyView())]
                 self.state = .results

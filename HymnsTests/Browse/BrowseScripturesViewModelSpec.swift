@@ -82,7 +82,7 @@ class BrowseScripturesViewModelSpec: QuickSpec {
                     }
                     let expected =
                         [ScriptureViewModel(book: .genesis,
-                                            scriptureSongs: [ScriptureSongViewModel(reference: "1:26", title: "hymn2", hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "1151")),
+                                            scriptureSongs: [ScriptureSongViewModel(reference: "1:26", title: "Hymn: hymn2", hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "1151")),
                                                              ScriptureSongViewModel(reference: "1:26-30", title: "hymn1", hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "1152")),
                                                              ScriptureSongViewModel(reference: "1:27", title: "hymn3", hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "1153"))]),
                          ScriptureViewModel(book: .john,

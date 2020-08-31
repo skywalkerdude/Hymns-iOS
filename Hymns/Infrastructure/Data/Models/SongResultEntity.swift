@@ -21,6 +21,8 @@ extension SongResultEntity: FetchableRecord {
         hymnType = try container.decode(HymnType.self, forKey: .hymnType)
         hymnNumber = try container.decode(String.self, forKey: .hymnNumber)
         queryParams = try container.decode(String.self, forKey: .queryParams).deserializeFromQueryParamString
-        title = try container.decode(String.self, forKey: .title)
+        // Many hymn titles prepend "Hymn: " to the title. It is unnecessary and takes up screen space, so  we
+        // strip it out whenever possible.
+        title = try container.decode(String.self, forKey: .title).replacingOccurrences(of: "Hymn: ", with: "")
     }
 }

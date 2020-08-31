@@ -62,7 +62,7 @@ class BrowseScripturesViewModel: ObservableObject {
                 var songs = [ScriptureSongViewModel]()
                 return sorted.reduce(into: [ScriptureViewModel]()) { results, result in
                     let hymnIdentifier = result.hymnIdentifier
-                    let title = result.title.replacingOccurrences(of: "Hymn: ", with: "")
+                    let title = result.title
                     let book = result.book
 
                     if previousBook == nil {

@@ -8,7 +8,6 @@ import Foundation
     case newTune
     case newSong
     case children
-    case scripture
     case howardHigashi
     case dutch
     case german
@@ -23,9 +22,8 @@ import Foundation
     case japanese
 
     static var allCases: [HymnType] {
-        return [classic, newTune, newSong, children, scripture, howardHigashi,
-                dutch, german, chinese, chineseSupplement, cebuano, tagalog,
-                french, spanish, korean, japanese]
+        return [classic, newTune, newSong, children, howardHigashi, dutch, german, chinese, chineseSupplement, cebuano,
+                tagalog, french, spanish, korean, japanese]
     }
 }
 
@@ -38,7 +36,6 @@ extension HymnType {
            HymnType.newTune.abbreviatedValue.lowercased().lowercased(): .newTune,
            HymnType.newSong.abbreviatedValue.lowercased(): .newSong,
            HymnType.children.abbreviatedValue.lowercased(): children,
-           HymnType.scripture.abbreviatedValue.lowercased(): .scripture,
            HymnType.howardHigashi.abbreviatedValue.lowercased(): .howardHigashi,
            HymnType.dutch.abbreviatedValue.lowercased(): .dutch,
            HymnType.german.abbreviatedValue.lowercased(): .german,
@@ -51,10 +48,9 @@ extension HymnType {
            HymnType.korean.abbreviatedValue.lowercased(): .korean,
            HymnType.japanese.abbreviatedValue.lowercased(): .japanese,
            "classic": classic, "hymn": classic, "new tune": .newTune, "new song": .newSong, "chidren": .children,
-           "scripture": .scripture, "howard higashi": .howardHigashi, "long beach": .howardHigashi,
-           "longbeach": .howardHigashi, "dt": .dutch, "dutch": .dutch, "ge": .german, "german": .german,
-           "chinese": .chinese, "cs": .chineseSupplement, "chs": .chineseSupplement,
-           "chinese supplement": .chineseSupplement, "cebuano": .cebuano, "tg": .tagalog,
+           "howard higashi": .howardHigashi, "long beach": .howardHigashi, "longbeach": .howardHigashi, "dt": .dutch,
+           "dutch": .dutch, "ge": .german, "german": .german, "chinese": .chinese, "cs": .chineseSupplement,
+           "chs": .chineseSupplement, "chinese supplement": .chineseSupplement, "cebuano": .cebuano, "tg": .tagalog,
            "t": .tagalog, "tagalog": .tagalog, "fr": .french, "f": .french, "french": .french, "sp": .spanish,
            "spanish": .spanish, "kr": .korean, "korean": .korean, "jp": .japanese, "japanese": .japanese
     ]
@@ -69,8 +65,6 @@ extension HymnType {
             return "ns"
         case .children:
             return "c"
-        case .scripture:
-            return "sc"
         case .howardHigashi:
             return "lb"
         case .dutch:
@@ -144,8 +138,6 @@ extension HymnType {
             return NSLocalizedString("New songs", comment: "Display name of 'New songs'. Usually appears just by itself (i.e. as a title)")
         case .children:
             return NSLocalizedString("Children's songs", comment: "Display name of 'Children's songs'. Usually appears just by itself (i.e. as a title)")
-        case .scripture:
-            return NSLocalizedString("Scripture songs", comment: "Display name of 'Scripture songs'. Usually appears just by itself (i.e. as a title)")
         case .howardHigashi:
             return NSLocalizedString("Howard Higashi songs", comment: "Display name of 'Howard Higashi songs'. Usually appears just by itself (i.e. as a title)")
         case .dutch:
@@ -181,8 +173,6 @@ extension HymnType {
             return NSLocalizedString("New song", comment: "Will appear in conjuction with something elsxe (e.g. New song 7)")
         case .children:
             return NSLocalizedString("Children", comment: "Will appear in conjuction with something elsxe (e.g. Children 7)")
-        case .scripture:
-            return NSLocalizedString("Scripture", comment: "Will appear in conjuction with something elsxe (e.g. Scripture 7)")
         case .howardHigashi:
             return NSLocalizedString("Howard Higashi (LB)", comment: "Will appear in conjuction with something elsxe (e.g. Howard Higashi (LB) 7)")
         case .dutch:

@@ -26,7 +26,6 @@ class SongInfoDialogViewModel: ObservableObject {
         fetchSongInfo()
     }
 
-    // swiftlint:disable:next cyclomatic_complexity
     func fetchSongInfo() {
         repository
             .getHymn(identifier)
@@ -37,38 +36,44 @@ class SongInfoDialogViewModel: ObservableObject {
                     guard let self = self else { return }
                     guard let hymn = hymn else { return }
 
-                    self.songInfo = [SongInfoViewModel]()
-                    if let category = hymn.category, !category.isEmpty {
-                        self.songInfo.append(self.createSongInfoViewModel(label: "Category", compositeValue: category))
-                    }
-                    if let subcategory = hymn.subcategory, !subcategory.isEmpty {
-                        self.songInfo.append(self.createSongInfoViewModel(label: "Subcategory", compositeValue: subcategory))
-                    }
-                    if let author = hymn.author, !author.isEmpty {
-                        self.songInfo.append(self.createSongInfoViewModel(label: "Author", compositeValue: author))
-                    }
-                    if let composer = hymn.composer, !composer.isEmpty {
-                        self.songInfo.append(self.createSongInfoViewModel(label: "Composer", compositeValue: composer))
-                    }
-                    if let key = hymn.key, !key.isEmpty {
-                        self.songInfo.append(self.createSongInfoViewModel(label: "Key", compositeValue: key))
-                    }
-                    if let time = hymn.time, !time.isEmpty {
-                        self.songInfo.append(self.createSongInfoViewModel(label: "Time", compositeValue: time))
-                    }
-                    if let meter = hymn.meter, !meter.isEmpty {
-                        self.songInfo.append(self.createSongInfoViewModel(label: "Meter", compositeValue: meter))
-                    }
-                    if let scriptures = hymn.scriptures, !scriptures.isEmpty {
-                        self.songInfo.append(self.createSongInfoViewModel(label: "Scriptures", compositeValue: scriptures))
-                    }
-                    if let hymnCode = hymn.hymnCode, !hymnCode.isEmpty {
-                        self.songInfo.append(self.createSongInfoViewModel(label: "Hymn Code", compositeValue: hymnCode))
-                    }
+                    self.songInfo = Self.createSongInfo(hymn: hymn)
             }).store(in: &disposables)
     }
 
-    private func createSongInfoViewModel(label: String, compositeValue: String) -> SongInfoViewModel {
+    static func createSongInfo(hymn: UiHymn) -> [SongInfoViewModel] {
+        var songInfo = [SongInfoViewModel]()
+
+        if let category = hymn.category, !category.isEmpty {
+            songInfo.append(createSongInfoViewModel(label: "Category", compositeValue: category))
+        }
+        if let subcategory = hymn.subcategory, !subcategory.isEmpty {
+            songInfo.append(createSongInfoViewModel(label: "Subcategory", compositeValue: subcategory))
+        }
+        if let author = hymn.author, !author.isEmpty {
+            songInfo.append(createSongInfoViewModel(label: "Author", compositeValue: author))
+        }
+        if let composer = hymn.composer, !composer.isEmpty {
+            songInfo.append(createSongInfoViewModel(label: "Composer", compositeValue: composer))
+        }
+        if let key = hymn.key, !key.isEmpty {
+            songInfo.append(createSongInfoViewModel(label: "Key", compositeValue: key))
+        }
+        if let time = hymn.time, !time.isEmpty {
+            songInfo.append(createSongInfoViewModel(label: "Time", compositeValue: time))
+        }
+        if let meter = hymn.meter, !meter.isEmpty {
+            songInfo.append(createSongInfoViewModel(label: "Meter", compositeValue: meter))
+        }
+        if let scriptures = hymn.scriptures, !scriptures.isEmpty {
+            songInfo.append(createSongInfoViewModel(label: "Scriptures", compositeValue: scriptures))
+        }
+        if let hymnCode = hymn.hymnCode, !hymnCode.isEmpty {
+            songInfo.append(createSongInfoViewModel(label: "Hymn Code", compositeValue: hymnCode))
+        }
+        return songInfo
+    }
+
+    private static func createSongInfoViewModel(label: String, compositeValue: String) -> SongInfoViewModel {
         let values = compositeValue.components(separatedBy: ";").compactMap { value -> String? in
             guard !value.trim().isEmpty else {
                 return nil

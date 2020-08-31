@@ -182,10 +182,9 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                                           pdfPreloader: pdfLoader, systemUtil: systemUtil)
                              given(systemUtil.isNetworkAvailable()) ~> true
                         }
-                        let title = "In my spirit, I can see You as You are"
-                        context("title contains 'Hymn: '") {
+                        context("hymn contains sheet music") {
                             beforeEach {
-                                let hymnWithHymnColonTitle = UiHymn(hymnIdentifier: newSong145, title: title,
+                                let hymnWithHymnColonTitle = UiHymn(hymnIdentifier: newSong145, title: "In my spirit, I can see You as You are",
                                                                     lyrics: [Verse](),
                                                                     pdfSheet: Hymns.MetaDatum(name: "Lead Sheet",
                                                                                               data: [Hymns.Datum(value: "Piano", path: "/en/hymn/c/1151/f=ppdf"),
@@ -206,8 +205,8 @@ class DisplayHymnViewModelSpec: QuickSpec {
                                 testQueue.sync {}
                                 testQueue.sync {}
                             }
-                            it("title should be '\(title)'") {
-                                expect(target.title).to(equal(title))
+                            it("title should be 'In my spirit, I can see You as You are'") {
+                                expect(target.title).to(equal("In my spirit, I can see You as You are"))
                             }
                             it("should store the song into the history store") {
                                 verify(historyStore.storeRecentSong(hymnToStore: any(), songTitle: any())).wasNeverCalled()
@@ -270,27 +269,6 @@ class DisplayHymnViewModelSpec: QuickSpec {
                             }
                             it("tab should be lyrics") {
                                 expect(target.tabItems[0].id).to(equal("Lyrics"))
-                            }
-                        }
-                        context("title does not contains 'Hymn: '") {
-                            beforeEach {
-                                let hymnWithOutHymnColonTitle = UiHymn(hymnIdentifier: newSong145, title: "In my spirit, I can see You as You are", lyrics: [Verse]())
-                                given(hymnsRepository.getHymn(newSong145)) ~> { _ in
-                                    Just(hymnWithOutHymnColonTitle).assertNoFailure().eraseToAnyPublisher()
-                                }
-                                given(favoriteStore.isFavorite(hymnIdentifier: newSong145)) ~> { _ in
-                                    Just(true).mapError({ _ -> ErrorType in
-                                        .data(description: "This will never get called")
-                                    }).eraseToAnyPublisher()
-                                }
-                                target.fetchHymn()
-                                testQueue.sync {}
-                                testQueue.sync {}
-                                testQueue.sync {}
-                                testQueue.sync {}
-                            }
-                            it("title should be '\(title)'") {
-                                expect(target.title).to(equal(title))
                             }
                         }
                         context("network unavailable") {
