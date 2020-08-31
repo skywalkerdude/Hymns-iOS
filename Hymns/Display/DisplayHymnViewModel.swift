@@ -25,6 +25,7 @@ class DisplayHymnViewModel: ObservableObject {
     private let repository: HymnsRepository
     private let systemUtil: SystemUtil
     private let storeInHistoryStore: Bool
+    private let storedMP3Path: URL?
 
     /**
      * Title of song for when the song is displayed as a song result in a list of results. Used to store into the Favorites/Recents store.
@@ -41,7 +42,7 @@ class DisplayHymnViewModel: ObservableObject {
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
          pdfPreloader: PDFLoader = Resolver.resolve(),
          systemUtil: SystemUtil = Resolver.resolve(),
-         storeInHistoryStore: Bool = false) {
+         storeInHistoryStore: Bool = false, workingMP3: URL? = nil) {
         self.analytics = analytics
         self.backgroundQueue = backgroundQueue
         self.currentTab = .lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: identifier)).maxSize().eraseToAnyView())
@@ -53,6 +54,7 @@ class DisplayHymnViewModel: ObservableObject {
         self.repository = repository
         self.systemUtil = systemUtil
         self.storeInHistoryStore = storeInHistoryStore
+        self.storedMP3Path = workingMP3
     }
 
     func fetchHymn() {
@@ -107,7 +109,7 @@ class DisplayHymnViewModel: ObservableObject {
                         }
                     }
 
-                    self.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: self.identifier)
+                    self.bottomBar = DisplayHymnBottomBarViewModel(hymnToDisplay: self.identifier, workingURL: self.storedMP3Path)
                     self.fetchFavoriteStatus()
                     if self.storeInHistoryStore {
                         self.historyStore.storeRecentSong(hymnToStore: self.identifier, songTitle: self.resultsTitle)
