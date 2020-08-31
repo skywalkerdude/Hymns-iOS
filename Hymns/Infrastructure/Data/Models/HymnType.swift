@@ -131,35 +131,35 @@ extension HymnType {
     var displayTitle: String {
         switch self {
         case .classic:
-            return NSLocalizedString("Classic hymns", comment: "Display name of 'Classic hymns', usually appears just by itself (i.e. as a title)")
+            return NSLocalizedString("Classic Hymns", comment: "Display name of 'Classic hymns', usually appears just by itself (i.e. as a title)")
         case .newTune:
-            return NSLocalizedString("New tunes", comment: "Display name of 'New tunes'. Usually appears just by itself (i.e. as a title)")
+            return NSLocalizedString("New Tunes", comment: "Display name of 'New Tunes'. Usually appears just by itself (i.e. as a title)")
         case .newSong:
-            return NSLocalizedString("New songs", comment: "Display name of 'New songs'. Usually appears just by itself (i.e. as a title)")
+            return NSLocalizedString("New Songs", comment: "Display name of 'New Songs'. Usually appears just by itself (i.e. as a title)")
         case .children:
-            return NSLocalizedString("Children's songs", comment: "Display name of 'Children's songs'. Usually appears just by itself (i.e. as a title)")
+            return NSLocalizedString("Children's Songs", comment: "Display name of 'Children's Songs'. Usually appears just by itself (i.e. as a title)")
         case .howardHigashi:
-            return NSLocalizedString("Howard Higashi songs", comment: "Display name of 'Howard Higashi songs'. Usually appears just by itself (i.e. as a title)")
+            return NSLocalizedString("Howard Higashi Songs", comment: "Display name of 'Howard Higashi Songs'. Usually appears just by itself (i.e. as a title)")
         case .dutch:
-            return NSLocalizedString("Dutch hymns", comment: "Display name of 'Dutch hymns'. Usually appears just by itself (i.e. as a title)")
+            return NSLocalizedString("Dutch Hymns", comment: "Display name of 'Dutch Hymns'. Usually appears just by itself (i.e. as a title)")
         case .german:
-            return NSLocalizedString("German hymns", comment: "Display name of 'German hymns'. Usually appears just by itself (i.e. as a title)")
+            return NSLocalizedString("German Hymns", comment: "Display name of 'German Hymns'. Usually appears just by itself (i.e. as a title)")
         case .chinese:
-            return NSLocalizedString("Chinese hymns", comment: "Display name of 'Chinese hymns'. Usually appears just by itself (i.e. as a title)")
+            return NSLocalizedString("Chinese Hymns", comment: "Display name of 'Chinese Hymns'. Usually appears just by itself (i.e. as a title)")
         case .chineseSupplement:
-            return NSLocalizedString("Chinese supplemental hymns", comment: "Display name of 'Chinese supplemental hymns'. Usually appears just by itself (i.e. as a title)")
+            return NSLocalizedString("Chinese supplemental Hymns", comment: "Display name of 'Chinese supplemental Hymns'. Usually appears just by itself (i.e. as a title)")
         case .cebuano:
-            return NSLocalizedString("Cebuano hymns", comment: "Display name of 'Cebuano hymns'. Usually appears just by itself (i.e. as a title)")
+            return NSLocalizedString("Cebuano Hymns", comment: "Display name of 'Cebuano Hymns'. Usually appears just by itself (i.e. as a title)")
         case .tagalog:
-            return NSLocalizedString("Tagalog hymns", comment: "Display name of 'Tagalog hymns'. Usually appears just by itself (i.e. as a title)")
+            return NSLocalizedString("Tagalog Hymns", comment: "Display name of 'Tagalog Hymns'. Usually appears just by itself (i.e. as a title)")
         case .french:
-            return NSLocalizedString("French hymns", comment: "Display name of 'French hymns'. Usually appears just by itself (i.e. as a title)")
+            return NSLocalizedString("French Hymns", comment: "Display name of 'French Hymns'. Usually appears just by itself (i.e. as a title)")
         case .spanish:
-            return NSLocalizedString("Spanish hymns", comment: "Display name of 'Spanish hymns'. Usually appears just by itself (i.e. as a title)")
+            return NSLocalizedString("Spanish Hymns", comment: "Display name of 'Spanish Hymns'. Usually appears just by itself (i.e. as a title)")
         case .korean:
-            return NSLocalizedString("Korean hymns", comment: "Display name of 'Korean hymns'. Usually appears just by itself (i.e. as a title)")
+            return NSLocalizedString("Korean Hymns", comment: "Display name of 'Korean Hymns'. Usually appears just by itself (i.e. as a title)")
         case .japanese:
-            return NSLocalizedString("Japanese hymns", comment: "Display name of 'Japanese hymns'. Usually appears just by itself (i.e. as a title)")
+            return NSLocalizedString("Japanese Hymns", comment: "Display name of 'Japanese Hymns'. Usually appears just by itself (i.e. as a title)")
         }
     }
 

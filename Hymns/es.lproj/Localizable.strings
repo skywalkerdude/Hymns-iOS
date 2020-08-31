@@ -16,6 +16,12 @@
 /* Browse tab title */
 "Browse" = "Navegue";
 
+/* Will appear in conjuction with something elsxe (e.g. Cebuano 7) */
+"Cebuano" = "Cebuano";
+
+/* Display name of 'Cebuano Hymns'. Usually appears just by itself (i.e. as a title) */
+"Cebuano hymns" = "Himnos Cebuanos";
+
 /* Change the lyrics font size */
 "Change lyrics font size" = "Cambiar el tamaño de la letra";
 
@@ -28,13 +34,28 @@
 /* Message for the languages action sheet */
 "Change to another language" = "Cambiar a otro idioma";
 
+/* Will appear in conjuction with something elsxe (e.g. Children 7) */
+"Children" = "Niños";
+
 /* Browse children's songs */
 "Children's Songs" = "Canciones Para Niños";
+
+/* Will appear in conjuction with something elsxe (e.g. Chinese 7) */
+"Chinese" = "Chino";
+
+/* Display name of 'Chinese Hymns'. Usually appears just by itself (i.e. as a title) */
+"Chinese Hymns" = "Himnos Chinos";
+
+/* Will appear in conjuction with something elsxe (e.g. Chinese supplement 7) */
+"Chinese supplement" = "Suplemento Chino";
+
+/* Display name of 'Chinese supplemental Hymns'. Usually appears just by itself (i.e. as a title) */
+"Chinese supplemental Hymns" = "Himnos suplementarios chinos";
 
 /* Hymn chords tab */
 "Chords" = "Acordes";
 
-/* Browse classic hymns */
+/* Display name of 'Classic hymns', usually appears just by itself (i.e. as a title) */
 "Classic Hymns" = "Himnos Clásicos";
 
 /* No comment provided by engineer. */
@@ -51,6 +72,12 @@
 
 /* No comment provided by engineer. */
 "Did not find any songs matching:\n\"%@\".\nPlease try a different request" = "No encontré ninguna canción que coincidiera:\n\"%@\".\nPor favor, intente una petición diferente";
+
+/* Will appear in conjuction with something elsxe (e.g. Dutch 7) */
+"Dutch" = "Holandés";
+
+/* Display name of 'Dutch Hymns'. Usually appears just by itself (i.e. as a title) */
+"Dutch Hymns" = "Himnos Holandeses";
 
 /* Favorites tab title */
 "Favorites" = "Favoritos";
@@ -71,6 +98,21 @@
 "For a free study Bible tap " = "Para un estudio gratis de la Biblia ";
 
 /* No comment provided by engineer. */
+"For songs with only one chorus, repeat the chorus after every verse" = "Para las canciones con un solo coro, repita el coro después de cada verso";
+
+/* Will appear in conjuction with something elsxe (e.g. French 7) */
+"French" = "Francés";
+
+/* Display name of 'French Hymns'. Usually appears just by itself (i.e. as a title) */
+"French Hymns" = "Himnos Franceses";
+
+/* Will appear in conjuction with something elsxe (e.g. German 7) */
+"German" = "Alemán";
+
+/* Display name of 'German Hymns'. Usually appears just by itself (i.e. as a title) */
+"German Hymns" = "Himnos Alemanes";
+
+/* No comment provided by engineer. */
 "Go back" = "Regresa";
 
 /* Hymn guitar tab */
@@ -82,11 +124,32 @@
 /* The 'here' in 'tap here' that links to BFA to get a free Bible */
 "here." = "aquí.";
 
+/* Will appear in conjuction with something elsxe (e.g. Howard Higashi (LB) 7) */
+"Howard Higashi (LB)" = "Howard Higashi (LB)";
+
+/* Display name of 'Howard Higashi Songs'. Usually appears just by itself (i.e. as a title) */
+"Howard Higashi Songs" = "Canciones de Howard Higashi";
+
+/* Will appear in conjuction with something elsxe (e.g. Hymn 55) */
+"Hymn" = "Himno";
+
 /* Latter part of the empty tag state text */
 "icon on any hymn" = "en cualquier himno";
 
+/* Will appear in conjuction with something elsxe (e.g. Japanese 7) */
+"Japanese" = "Japonés";
+
+/* Display name of 'Japanese Hymns'. Usually appears just by itself (i.e. as a title) */
+"Japanese Hymns" = "Himnos Japoneses";
+
+/* Will appear in conjuction with something elsxe (e.g. Korean 7) */
+"Korean" = "Coreano";
+
+/* Display name of 'Korean Hymns'. Usually appears just by itself (i.e. as a title) */
+"Korean Hymns" = "Himnos Coreanos";
+
 /* No comment provided by engineer. */
-"Label it however you like" = "Label it however you like";
+"Label it however you like" = "Etiquételo como quiera";
 
 /* Title for the languages action sheet */
 "Languages" = "Etiquételo como quiera";
@@ -110,6 +173,9 @@
 "Mark as favorite" = "Marcar como favorito";
 
 /* No comment provided by engineer. */
+"Maximize music" = "Maximizar la música";
+
+/* No comment provided by engineer. */
 "Minimize SoundCloud" = "Minimizar SoundCloud";
 
 /* Bottom bar overflow button */
@@ -118,10 +184,16 @@
 /* No comment provided by engineer. */
 "Name your tag" = "Nombra tu etiqueta";
 
-/* Browse new songs */
-"New Songs" = "Nuevas canciones";
+/* Will appear in conjuction with something elsxe (e.g. New song 7) */
+"New song" = "Nueva canción";
 
-/* Browse new tunes */
+/* Display name of 'New Songs'. Usually appears just by itself (i.e. as a title) */
+"New Songs" = "Nuevas Canciones";
+
+/* Will appear in conjuction with something elsxe (e.g. New tune 7) */
+"New tune" = "Nueva melodía";
+
+/* Display name of 'New Tunes'. Usually appears just by itself (i.e. as a title) */
 "New Tunes" = "Nuevas melodías";
 
 /* Indicator that a song from SoundCloud is currently playing */
@@ -148,7 +220,10 @@
 /* Songs relevant to this song (alternate tunes, etc) */
 "Relevant songs" = "Canciones relevantes";
 
-/* Browse scripture songs */
+/* No comment provided by engineer. */
+"Repeat chorus" = "Repita el coro";
+
+/* Display name of 'Scripture Songs'. Usually appears just by itself (i.e. as a title) */
 "Scripture Songs" = "Canciones de la Escritura";
 
 /* No comment provided by engineer. */
@@ -184,6 +259,18 @@
 /* No comment provided by engineer. */
 "Song progress slider" = "Deslizador de progreso de la canción";
 
+/* Will appear in conjuction with something elsxe (e.g. Spanish 7) */
+"Spanish" = "Español";
+
+/* Display name of 'Spanish Hymns'. Usually appears just by itself (i.e. as a title) */
+"Spanish Hymns" = "Himnos en Español";
+
+/* Will appear in conjuction with something elsxe (e.g. Tagalog 7) */
+"Tagalog" = "Tagalog";
+
+/* Display name of 'Tagalog Hymns'. Usually appears just by itself (i.e. as a title) */
+"Tagalog Hymns" = "Himnos en Tagalo";
+
 /* Browse tags */
 "Tags" = "Etiquetas";
 
@@ -192,6 +279,9 @@
 
 /* No comment provided by engineer. */
 "Tap to keep playing song in background" = "Toca para seguir tocando la canción de fondo";
+
+/* No comment provided by engineer. */
+"Try searching by hymn type (e.g. ns151, ch1, s3)" = "Intenta buscar por tipo de himno (e.g. ns151, ch1, s3)";
 
 /* No comment provided by engineer. */
 "Unmark as favorite" = "Desmarcarse como favorito";

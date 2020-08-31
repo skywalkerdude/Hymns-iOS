@@ -18,15 +18,15 @@ extension BrowseTab {
         case .tags:
         return NSLocalizedString("Tags", comment: "Browse tags")
         case .classic:
-            return NSLocalizedString("Classic Hymns", comment: "Browse classic hymns")
+            return NSLocalizedString("Classic Hymns", comment: "Display name of 'Classic hymns', usually appears just by itself (i.e. as a title)")
         case .newTunes:
-            return NSLocalizedString("New Tunes", comment: "Browse new tunes")
+            return NSLocalizedString("New Tunes", comment: "Display name of 'New Tunes'. Usually appears just by itself (i.e. as a title)")
         case .newSongs:
-            return NSLocalizedString("New Songs", comment: "Browse new songs")
+            return NSLocalizedString("New Songs", comment: "Display name of 'New Songs'. Usually appears just by itself (i.e. as a title)")
         case .children:
-            return NSLocalizedString("Children's Songs", comment: "Browse children's songs")
+            return NSLocalizedString("Children's Songs", comment: "Display name of 'Children's Songs'. Usually appears just by itself (i.e. as a title)")
         case .scripture:
-            return NSLocalizedString("Scripture Songs", comment: "Browse scripture songs")
+            return NSLocalizedString("Scripture Songs", comment: "Display name of 'Scripture Songs'. Usually appears just by itself (i.e. as a title)")
         case .all:
             return NSLocalizedString("All Songs", comment: "Browse all songs")
         }
