@@ -63,7 +63,7 @@ public class HomeViewCan: BaseViewCan {
     }
 
     public func tapResult(_ result: String) -> DisplayHymnViewCan {
-        app.buttons[result].tap()
+        _ = pressButton(result)
         return DisplayHymnViewCan(app, testCase: testCase)
     }
 

@@ -22,6 +22,7 @@ public class BaseViewCan {
     }
 
     public func pressButton(_ buttonText: String) -> Self {
+        _ = waitForButtons(buttonText)
         app.buttons[buttonText].tap()
         return self
     }

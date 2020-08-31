@@ -48,6 +48,7 @@ extension Resolver: ResolverRegistering {
 
         #if DEBUG
         if CommandLine.arguments.contains(AppDelegate.uiTestingFlag) {
+            mock.register { PdfLoaderTestImpl() as PDFLoader }.scope(application)
             mock.register { FavoriteStoreTestImpl() as FavoriteStore }.scope(application)
             mock.register { HymnDataStoreTestImpl() as HymnDataStore }.scope(application)
             mock.register { HistoryStoreTestImpl() as HistoryStore }.scope(application)

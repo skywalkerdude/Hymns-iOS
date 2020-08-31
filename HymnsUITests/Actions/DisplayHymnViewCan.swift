@@ -22,6 +22,18 @@ public class DisplayHymnViewCan: BaseViewCan {
         return BrowseResultsViewCan(app, testCase: testCase)
     }
 
+    public func openPiano() -> DisplayHymnViewCan {
+        return pressButton("Piano")
+    }
+
+    public func maximizeSheetMusic() -> DisplayHymnViewCan {
+        return pressButton("Maximize music")
+    }
+
+    public func closeSheetMusic() -> DisplayHymnViewCan {
+        return pressButton("Close")
+    }
+
     public func openShareSheet() -> DisplayHymnViewCan {
         return pressButton("Share lyrics")
     }

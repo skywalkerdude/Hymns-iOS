@@ -153,6 +153,8 @@
 		3BB1DCB0244D03DE0011169D /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB1DCAD244D03DE0011169D /* TabView.swift */; };
 		3BB1DCB5244D55770011169D /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB1DCB4244D55770011169D /* SearchBar.swift */; };
 		3BB7877A24550686003CBEED /* StringExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB7877924550686003CBEED /* StringExtensionsSpec.swift */; };
+		3BB7DE4824FCA9D600D4E6FB /* DisplayHymnPdfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB7DE4724FCA9D600D4E6FB /* DisplayHymnPdfView.swift */; };
+		3BB7DE4A24FCC19500D4E6FB /* PdfLoaderTestImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB7DE4924FCC19500D4E6FB /* PdfLoaderTestImpl.swift */; };
 		3BB9319F24E1E65D00E0C873 /* ToolTipSnapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB9319E24E1E65D00E0C873 /* ToolTipSnapshots.swift */; };
 		3BB931A524E23DF200E0C873 /* ClearUserDefaultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB931A424E23DF200E0C873 /* ClearUserDefaultsView.swift */; };
 		3BB931A724E37F3B00E0C873 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB931A624E37F3A00E0C873 /* LottieView.swift */; };
@@ -445,6 +447,8 @@
 		3BB1DCAD244D03DE0011169D /* TabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TabView.swift; path = Hymns/Common/TabView/TabView.swift; sourceTree = SOURCE_ROOT; };
 		3BB1DCB4244D55770011169D /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		3BB7877924550686003CBEED /* StringExtensionsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensionsSpec.swift; sourceTree = "<group>"; };
+		3BB7DE4724FCA9D600D4E6FB /* DisplayHymnPdfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnPdfView.swift; sourceTree = "<group>"; };
+		3BB7DE4924FCC19500D4E6FB /* PdfLoaderTestImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfLoaderTestImpl.swift; sourceTree = "<group>"; };
 		3BB9319E24E1E65D00E0C873 /* ToolTipSnapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolTipSnapshots.swift; sourceTree = "<group>"; };
 		3BB931A424E23DF200E0C873 /* ClearUserDefaultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearUserDefaultsView.swift; sourceTree = "<group>"; };
 		3BB931A624E37F3A00E0C873 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
@@ -881,6 +885,7 @@
 				3BA46123247718FB0068F269 /* Song Info */,
 				5C45E09824512E9000872369 /* VerseViewModel.swift */,
 				B595A4A724438CC2005F7A14 /* DisplayHymnViewModel.swift */,
+				3BB7DE4724FCA9D600D4E6FB /* DisplayHymnPdfView.swift */,
 				B51BA5C82430075300CA52F7 /* DisplayHymnView.swift */,
 				3B43717E24764BEF000B42AC /* DisplayHymnBottomBar.swift */,
 				3BBA15ED24CCF88F0010EEC8 /* DisplayHymnBottomBarButton.swift */,
@@ -1123,6 +1128,7 @@
 				3BE31A4824A6D8AE00B1A038 /* FavoriteStoreTestImpl.swift */,
 				3B8DD372249F2AC2001C6A7F /* HistoryStoreTestImpl.swift */,
 				3BE210F1249B3E7C00D4E417 /* HymnDataStoreTestImpl.swift */,
+				3BB7DE4924FCC19500D4E6FB /* PdfLoaderTestImpl.swift */,
 				3B6DA64824A9287300A9277F /* TagStoreTestImpl.swift */,
 				3BE210F9249B592F00D4E417 /* TestHymns.swift */,
 			);
@@ -1744,6 +1750,7 @@
 				3BB1DCB0244D03DE0011169D /* TabView.swift in Sources */,
 				3B877E80245FE0FE004C10DD /* SystemUtil.swift in Sources */,
 				B595A4AA24438D8E005F7A14 /* HymnLyricsViewModel.swift in Sources */,
+				3BB7DE4A24FCC19500D4E6FB /* PdfLoaderTestImpl.swift in Sources */,
 				3B11E2A62465211200F27E73 /* DisplayHymnToolbar.swift in Sources */,
 				3BBCC20D24DE75F500977961 /* SoundCloudPlayer.swift in Sources */,
 				3B877E7C245FC122004C10DD /* Resource.swift in Sources */,
@@ -1858,6 +1865,7 @@
 				3B7A1816246A748E005540F7 /* HymnLyricsTab.swift in Sources */,
 				B5A77A57247DA0D900447008 /* AudioPlayerViewModel.swift in Sources */,
 				3B6DA64924A9287300A9277F /* TagStoreTestImpl.swift in Sources */,
+				3BB7DE4824FCA9D600D4E6FB /* DisplayHymnPdfView.swift in Sources */,
 				3B6DA64D24A9670300A9277F /* SongInfoSheetView.swift in Sources */,
 				3BB931AB24E3B46400E0C873 /* PrivacyPolicyView.swift in Sources */,
 				3B45B904243BEC8400D38BEF /* SongResultView.swift in Sources */,
