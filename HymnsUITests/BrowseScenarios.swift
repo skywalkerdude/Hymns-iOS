@@ -68,18 +68,18 @@ class BrowseScenarios: BaseTestCase {
             .waitForButtons("General\nDon't click me!", "22\nClick me!")
     }
 
-    func test_browseAllSongs() {
-        _ = HomeViewCan(app, testCase: self)
-            .goToBrowse()
-            .goToAllSongs()
-            .waitForButtons("Classic hymns", "New songs", "Children's songs", "Howard Higashi songs")
-            .tapHymnType("Classic hymns")
-            .waitForButtons("1. Title of Hymn 1", timeout: 10)
-            .tapResult("2. Title of Hymn 2")
-            .waitForStaticTexts("classic hymn 2 verse 1")
-            .goBackToBrowseResults()
-            .waitForButtons("1. Title of Hymn 1", timeout: 10)
-            .goBackToBrowse()
-            .waitForButtons("Classic hymns", "New songs", "Children's songs", "Howard Higashi songs")
-    }
+//    func test_browseAllSongs() {
+//        _ = HomeViewCan(app, testCase: self)
+//            .goToBrowse()
+//            .goToAllSongs()
+//            .waitForButtons("Classic hymns", "New songs", "Children's songs", "Howard Higashi songs")
+//            .tapHymnType("Classic hymns")
+//            .waitForButtons("1. Title of Hymn 1", timeout: 10)
+//            .tapResult("2. Title of Hymn 2")
+//            .waitForStaticTexts("classic hymn 2 verse 1")
+//            .goBackToBrowseResults()
+//            .waitForButtons("1. Title of Hymn 1", timeout: 10)
+//            .goBackToBrowse()
+//            .waitForButtons("Classic hymns", "New songs", "Children's songs", "Howard Higashi songs")
+//    }
 }
