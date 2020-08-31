@@ -81,7 +81,7 @@ class DisplayHymnViewModel: ObservableObject {
                         })
                         if let chordsUrl = chordsUrl {
                             self.pdfLoader.load(url: chordsUrl)
-                            self.tabItems.append(.chords(PDFViewer(url: chordsUrl).eraseToAnyView()))
+                            self.tabItems.append(.chords(DisplayHymnPdfView(url: chordsUrl).eraseToAnyView()))
                         }
 
                         let guitarPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
@@ -92,7 +92,7 @@ class DisplayHymnViewModel: ObservableObject {
                         })
                         if let guitarUrl = guitarUrl {
                             self.pdfLoader.load(url: guitarUrl)
-                            self.tabItems.append(.guitar(PDFViewer(url: guitarUrl).eraseToAnyView()))
+                            self.tabItems.append(.guitar(DisplayHymnPdfView(url: guitarUrl).eraseToAnyView()))
                         }
 
                         let pianoPath = hymn.pdfSheet?.data.first(where: { datum -> Bool in
@@ -103,7 +103,7 @@ class DisplayHymnViewModel: ObservableObject {
                         })
                         if let pianoUrl = pianoUrl {
                             self.pdfLoader.load(url: pianoUrl)
-                            self.tabItems.append(.piano(PDFViewer(url: pianoUrl).eraseToAnyView()))
+                            self.tabItems.append(.piano(DisplayHymnPdfView(url: pianoUrl).eraseToAnyView()))
                         }
                     }
 

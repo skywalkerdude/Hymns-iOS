@@ -7,6 +7,14 @@ class DisplayHymnScenarios: BaseTestCase {
         app.launch()
     }
 
+    func test_maximizePdf() {
+        _ = HomeViewCan(app, testCase: self)
+            .tapResult("classic1151")
+            .openPiano()
+            .maximizeSheetMusic()
+            .closeSheetMusic()
+    }
+
     func test_shareLyrics() {
         _ = HomeViewCan(app, testCase: self)
             .waitForButtons("classic1151", "classic40", "classic2", "classic3")
