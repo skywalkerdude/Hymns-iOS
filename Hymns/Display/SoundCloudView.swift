@@ -60,7 +60,7 @@ struct SoundCloudView: View {
         }
     }
 
-    func createToolTip(_ geometry: GeometryProxy, _ data: ToolTipPreferenceData) -> some View {
+    private func createToolTip(_ geometry: GeometryProxy, _ data: ToolTipPreferenceData) -> some View {
         guard let toolTipAnchor = data.toolTipAnchor, let indicatorAnchor = data.indicatorAnchor else {
             return EmptyView().eraseToAnyView()
         }
@@ -69,7 +69,9 @@ struct SoundCloudView: View {
         let indicatorPoint = geometry[indicatorAnchor]
 
         return
-            ToolTipView(tapAction: {}, label: {
+            ToolTipView(tapAction: {
+                self.viewModel.dismissToolTip()
+            }, label: {
                 HStack(alignment: .center, spacing: CGFloat.zero) {
                     Image(systemName: "xmark").padding()
                     Text("Tap to keep playing song in background").font(.caption).padding(.trailing)
