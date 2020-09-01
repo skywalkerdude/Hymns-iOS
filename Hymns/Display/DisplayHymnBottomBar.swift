@@ -32,8 +32,8 @@ struct DisplayHymnBottomBar: View {
                 AudioPlayer(viewModel: audioPlayer).padding()
             }
             HStack(spacing: 0) {
-                Spacer()
                 ForEach(viewModel.buttons) { button in
+                    Spacer()
                     Button<AnyView>(action: {
                         self.performAction(button: button)
                     }, label: {
@@ -214,10 +214,22 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
     static var previews: some View {
         var dialogModel: DialogViewModel<AnyView>?
 
-        let minimumViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
-        let minimum = DisplayHymnBottomBar(dialogModel: Binding<DialogViewModel<AnyView>?>(
+        let noButtonsViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+        let noButtons = DisplayHymnBottomBar(dialogModel: Binding<DialogViewModel<AnyView>?>(
             get: {dialogModel},
-            set: {dialogModel = $0}), viewModel: minimumViewModel)
+            set: {dialogModel = $0}), viewModel: noButtonsViewModel)
+
+        let oneButtonViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+        oneButtonViewModel.buttons = [.tags]
+        let oneButton = DisplayHymnBottomBar(dialogModel: Binding<DialogViewModel<AnyView>?>(
+            get: {dialogModel},
+            set: {dialogModel = $0}), viewModel: oneButtonViewModel)
+
+        let twoButtonsViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
+        twoButtonsViewModel.buttons = [.tags, .fontSize]
+        let twoButtons = DisplayHymnBottomBar(dialogModel: Binding<DialogViewModel<AnyView>?>(
+            get: {dialogModel},
+            set: {dialogModel = $0}), viewModel: twoButtonsViewModel)
 
         let maximumViewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
         maximumViewModel.buttons = [
@@ -226,7 +238,6 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
             .languages([SongResultViewModel(title: "language", destinationView: EmptyView().eraseToAnyView())]),
             .musicPlayback(AudioPlayerViewModel(url: URL(string: "https://www.hymnal.net/Hymns/NewSongs/mp3/ns0767.mp3")!)),
             .relevant([SongResultViewModel(title: "relevant", destinationView: EmptyView().eraseToAnyView())]),
-            .tags,
             .songInfo(SongInfoDialogViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
         ]
         let maximum = DisplayHymnBottomBar(dialogModel: Binding<DialogViewModel<AnyView>?>(
@@ -252,9 +263,11 @@ struct DisplayHymnBottomBar_Previews: PreviewProvider {
             set: {dialogModel = $0}), viewModel: overflowViewModel)
 
         return Group {
-            minimum.previewDisplayName("minimum number of buttons")
-            maximum.previewDisplayName("maximum number of buttons")
-            overflow.previewDisplayName("overflow menu")
+            noButtons.previewDisplayName("0 buttons").previewLayout(.sizeThatFits)
+            oneButton.previewDisplayName("one button").previewLayout(.sizeThatFits)
+            twoButtons.previewDisplayName("two buttons").previewLayout(.sizeThatFits)
+            maximum.previewDisplayName("maximum number of buttons").previewLayout(.sizeThatFits)
+            overflow.previewDisplayName("overflow menu").previewLayout(.sizeThatFits)
         }
     }
 }

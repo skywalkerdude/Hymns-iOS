@@ -41,7 +41,7 @@ extension BottomBarButton {
     var selectedLabel: some View {
         switch self {
         case .share:
-            return BottomBarLabel(image: Image(systemName: "paperplane.fill"), a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image(systemName: "square.and.arrow.up"), a11yLabel: label).foregroundColor(.primary)
         case .fontSize:
             return BottomBarLabel(image: Image(systemName: "textformat.size"), a11yLabel: label).foregroundColor(.primary)
         case .languages:
@@ -64,7 +64,7 @@ extension BottomBarButton {
     var unselectedLabel: some View {
         switch self {
         case .share:
-            return BottomBarLabel(image: Image(systemName: "paperplane"), a11yLabel: label).foregroundColor(.primary)
+            return BottomBarLabel(image: Image(systemName: "square.and.arrow.up"), a11yLabel: label).foregroundColor(.primary)
         case .fontSize:
             return BottomBarLabel(image: Image(systemName: "textformat.size"), a11yLabel: label).foregroundColor(.primary)
         case .languages:

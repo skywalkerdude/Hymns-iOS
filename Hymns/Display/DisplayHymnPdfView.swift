@@ -18,7 +18,7 @@ struct DisplayHymnPdfView: View {
             Button(action: {
                 self.showPdfSheet = true
             }, label: {
-                Image(systemName: "square.and.arrow.up").accessibility(label: Text("Maximize music")).padding()
+                Image(systemName: "arrow.up.left.and.arrow.down.right").rotationEffect(.degrees(90)).accessibility(label: Text("Maximize music")).padding().padding(.top, 15)
             }).zIndex(1)
             PDFViewer(preloader: pdfPreloader, url: url)
         }.sheet(isPresented: $showPdfSheet) {
@@ -34,8 +34,18 @@ struct DisplayHymnPdfView: View {
     }
 }
 
+#if DEBUG
 struct DisplayHymnPdfView_Previews: PreviewProvider {
     static var previews: some View {
-        DisplayHymnPdfView(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=gtpdf")!).previewLayout(.sizeThatFits)
+        let pdfView = DisplayHymnPdfView(url: URL(string: "http://www.hymnal.net/en/hymn/h/40/f=gtpdf")!)
+
+        return Group {
+            pdfView
+            pdfView.background(Color(.systemBackground)).environment(\.colorScheme, .dark).previewDisplayName("Dark Mode")
+            pdfView
+                .environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
+                .previewDisplayName("a11y extra extra large")
+        }
     }
 }
+#endif
