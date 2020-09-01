@@ -15,7 +15,25 @@ class BottomBarSnapshots: XCTestCase {
         viewModel = DisplayHymnBottomBarViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151)
     }
 
-    func test_minimumButtons() {
+    func test_noButtons() {
+        let bottomBar = DisplayHymnBottomBar(dialogModel: Binding<DialogViewModel<AnyView>?>(
+            get: {self.dialog},
+            set: {self.dialog = $0}), viewModel: viewModel).padding()
+        assertSnapshot(matching: bottomBar, as: .swiftUiImage())
+    }
+
+    func test_oneButton() {
+        viewModel.buttons = [.tags]
+
+        let bottomBar = DisplayHymnBottomBar(dialogModel: Binding<DialogViewModel<AnyView>?>(
+            get: {self.dialog},
+            set: {self.dialog = $0}), viewModel: viewModel).padding()
+        assertSnapshot(matching: bottomBar, as: .image())
+    }
+
+    func test_twoButtons() {
+        viewModel.buttons = [.tags, .fontSize]
+
         let bottomBar = DisplayHymnBottomBar(dialogModel: Binding<DialogViewModel<AnyView>?>(
             get: {self.dialog},
             set: {self.dialog = $0}), viewModel: viewModel).padding()
