@@ -1,9 +1,11 @@
+import MobileCoreServices
 import SwiftUI
 
 public struct HymnLyricsView: View {
 
     @ObservedObject private var viewModel: HymnLyricsViewModel
     @State var transliterate = false
+    @State private var toast: HymnLyricsToast?
 
     init(viewModel: HymnLyricsViewModel) {
         self.viewModel = viewModel
@@ -35,13 +37,36 @@ public struct HymnLyricsView: View {
                         }
                         ForEach(lyrics, id: \.self) { verseViewModel in
                             VerseView(viewModel: verseViewModel, transliterate: self.$transliterate)
+                                .onTapGesture {
+                                    // needed so onLongPressGesture doesn't hijack the tap and make the view unscrollabe
+                                    // https://stackoverflow.com/a/60015111/1907538
+                            }.onLongPressGesture {
+                                UIPasteboard.general.setValue(
+                                    verseViewModel.createFormattedString(includeTransliteration: self.transliterate),
+                                    forPasteboardType: kUTTypePlainText as String)
+                                self.toast = .verseCopied
+                            }
                         }
                     }.frame(minWidth: 0, maxWidth: .infinity, alignment: .center).padding()
                 }.maxSize().eraseToAnyView()
         }.onAppear {
             self.viewModel.fetchLyrics()
+        }.toast(item: $toast, options: ToastOptions(alignment: .bottom, disappearAfter: 2)) { toastType -> AnyView in
+            switch toastType {
+            case .verseCopied:
+                return HStack {
+                    Image(systemName: "checkmark").foregroundColor(.green).padding()
+                    Text("Verse copied to clipboard").padding(.trailing)
+                }.eraseToAnyView()
+            }
         }.background(Color(.systemBackground))
     }
+}
+
+enum HymnLyricsToast: Identifiable {
+    var id: HymnLyricsToast { self }
+
+    case verseCopied
 }
 
 #if DEBUG

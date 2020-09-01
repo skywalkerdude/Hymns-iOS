@@ -80,6 +80,25 @@ class VerseViewModel {
     }
 }
 
+extension VerseViewModel {
+
+    /**
+     * Makes the verse into a formatted string. Used to send to the clipboard if a user long presses the verse.
+     */
+    public func createFormattedString(includeTransliteration: Bool) -> String {
+        var string = ""
+        for verseLine in verseLines {
+            if let transliteration = verseLine.transliteration, includeTransliteration {
+                string.append(transliteration)
+                string.append("\n")
+            }
+            string.append(verseLine.verseText)
+            string.append("\n")
+        }
+        return string
+    }
+}
+
 extension VerseViewModel: Hashable {
     static func == (lhs: VerseViewModel, rhs: VerseViewModel) -> Bool {
         lhs.verseLines == rhs.verseLines
