@@ -17,8 +17,8 @@ struct RepeatChorusView: View {
                 Text("Repeat chorus")
                 Text("For songs with only one chorus, repeat the chorus after every verse")
                     .font(.caption)
-            }.padding()
-        }
+            }
+        }.padding()
     }
 }
 
