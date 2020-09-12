@@ -13,10 +13,14 @@ class HymnDataStoreTestImpl: HymnDataStore {
         [CategoryEntity(category: "category 1", subcategory: "subcategory 1", count: 5),
          CategoryEntity(category: "category 1", subcategory: "subcategory 2", count: 1),
          CategoryEntity(category: "category 2", subcategory: "subcategory 1", count: 9)]
-    private let songResultsBy =
+    private let songResultsByCategory =
         [("category 1 h subcategory 2"):
             [SongResultEntity(hymnType: .classic, hymnNumber: "1151", queryParams: nil, title: "Click me!"),
              SongResultEntity(hymnType: .newTune, hymnNumber: "37", queryParams: nil, title: "Don't click!"),
+             SongResultEntity(hymnType: .classic, hymnNumber: "883", queryParams: nil, title: "Don't click either!")]]
+    private let songResultsByHymnCode =
+        [("171214436716555"):
+            [SongResultEntity(hymnType: .classic, hymnNumber: "1151", queryParams: nil, title: "Click me!"),
              SongResultEntity(hymnType: .classic, hymnNumber: "883", queryParams: nil, title: "Don't click either!")]]
     private let scriptureSongs =
         [ScriptureEntity(title: "chinese1151", hymnType: .chinese, hymnNumber: "155", queryParams: nil, scriptures: "Hosea 14:8"),
@@ -63,7 +67,14 @@ class HymnDataStoreTestImpl: HymnDataStore {
     }
 
     func getResultsBy(category: String, hymnType: HymnType?, subcategory: String?) -> AnyPublisher<[SongResultEntity], ErrorType> {
-        Just(songResultsBy["\(category) \(hymnType?.abbreviatedValue ?? "") \(subcategory ?? "")"] ?? [SongResultEntity]())
+        Just(songResultsByCategory["\(category) \(hymnType?.abbreviatedValue ?? "") \(subcategory ?? "")"] ?? [SongResultEntity]())
+            .mapError({ _ -> ErrorType in
+                .data(description: "This will never get called")
+            }).eraseToAnyPublisher()
+    }
+
+    func getResultsBy(hymnCode: String) -> AnyPublisher<[SongResultEntity], ErrorType> {
+        Just(songResultsByHymnCode[hymnCode] ?? [SongResultEntity]())
             .mapError({ _ -> ErrorType in
                 .data(description: "This will never get called")
             }).eraseToAnyPublisher()

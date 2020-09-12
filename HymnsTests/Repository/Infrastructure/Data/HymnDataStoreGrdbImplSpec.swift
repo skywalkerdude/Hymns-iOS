@@ -3,8 +3,10 @@ import Quick
 import Nimble
 @testable import Hymns
 
+// swiftlint:disable:next type_body_length
 class HymnDataStoreGrdbImplSpec: QuickSpec {
 
+    // swiftlint:disable:next function_body_length
     override func spec() {
         describe("using an in-memory database queue") {
             let testQueue = DispatchQueue(label: "test_queue")
@@ -23,12 +25,12 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
             describe("save a few songs") {
                 beforeEach {
                     target.saveHymn(classic_1151_hymn_entity)
-                    target.saveHymn(HymnEntity(hymnIdentifier: newSong145, title: "new song 145"))
+                    target.saveHymn(HymnEntity(hymnIdentifier: newSong145, title: "new song 145", hymnCode: "171214436716555"))
                     target.saveHymn(HymnEntity(hymnIdentifier: cebuano123, title: "cebuano 123"))
                     // saving another cebuano123 should replace the old one.
                     target.saveHymn(HymnEntity(hymnIdentifier: cebuano123, title: "new cebuano title"))
                     // this one should be a whole new song in the db
-                    target.saveHymn(HymnEntity(hymnIdentifier: cebuano123QueryParams, title: "cebuano 123 with query params"))
+                    target.saveHymn(HymnEntity(hymnIdentifier: cebuano123QueryParams, title: "cebuano 123 with query params", hymnCode: "171214436716555"))
                 }
                 context("getting a stored song") {
                     it("should return the stored song") {
@@ -64,7 +66,9 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                                 expect(state).to(equal(.finished))
                             }, receiveValue: { entity in
                                 value.fulfill()
-                                expect(entity).to(equal(HymnEntity(hymnIdentifier: cebuano123QueryParams, title: "cebuano 123 with query params")))
+                                expect(entity).to(equal(HymnEntity(hymnIdentifier: cebuano123QueryParams,
+                                                                   title: "cebuano 123 with query params",
+                                                                   hymnCode: "171214436716555")))
                             })
                         testQueue.sync {}
                         testQueue.sync {}
@@ -237,6 +241,50 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                         expect(byteArray).to(haveCount(8))
                         expect(byteArray).to(equal([3, 0, 0, 0, 0, 0, 0, 0])) // Match of length-3 in title.
                     }
+                }
+            }
+            describe("hymn code not found") {
+                it("should return empty results") {
+                    let completion = XCTestExpectation(description: "completion received")
+                    let value = XCTestExpectation(description: "value received")
+                    let publisher = target.getResultsBy(hymnCode: "Obama")
+                        .print(self.description)
+                        .receive(on: testQueue)
+                        .sink(receiveCompletion: { state in
+                            completion.fulfill()
+                            expect(state).to(equal(.finished))
+                        }, receiveValue: { entities in
+                            value.fulfill()
+                            expect(entities).to(beEmpty())
+                        })
+                    testQueue.sync {}
+                    testQueue.sync {}
+                    testQueue.sync {}
+                    testQueue.sync {}
+                    self.wait(for: [completion, value], timeout: testTimeout)
+                    publisher.cancel()
+                }
+            }
+            describe("hymn code found") {
+                it("should return results") {
+                    let completion = XCTestExpectation(description: "completion received")
+                    let value = XCTestExpectation(description: "value received")
+                    let publisher = target.getResultsBy(hymnCode: "436716")
+                        .print(self.description)
+                        .receive(on: testQueue)
+                        .sink(receiveCompletion: { state in
+                            completion.fulfill()
+                            expect(state).to(equal(.finished))
+                        }, receiveValue: { entities in
+                            value.fulfill()
+                            expect(entities).to(beEmpty())
+                        })
+                    testQueue.sync {}
+                    testQueue.sync {}
+                    testQueue.sync {}
+                    testQueue.sync {}
+                    self.wait(for: [completion, value], timeout: testTimeout)
+                    publisher.cancel()
                 }
             }
         }
