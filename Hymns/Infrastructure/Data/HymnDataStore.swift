@@ -21,6 +21,7 @@ protocol HymnDataStore {
     func getAllCategories() -> AnyPublisher<[CategoryEntity], ErrorType>
     func getCategories(by hymnType: HymnType) -> AnyPublisher<[CategoryEntity], ErrorType>
     func getResultsBy(category: String, hymnType: HymnType?, subcategory: String?) -> AnyPublisher<[SongResultEntity], ErrorType>
+    func getResultsBy(hymnCode: String) -> AnyPublisher<[SongResultEntity], ErrorType>
     func getScriptureSongs() -> AnyPublisher<[ScriptureEntity], ErrorType>
     func getAllSongs(hymnType: HymnType) -> AnyPublisher<[SongResultEntity], ErrorType>
 }
@@ -220,6 +221,16 @@ class HymnDataStoreGrdbImpl: HymnDataStore {
             }
         }
         return publisher.mapError({error -> ErrorType in
+            .data(description: error.localizedDescription)
+        }).eraseToAnyPublisher()
+    }
+
+    func getResultsBy(hymnCode: String) -> AnyPublisher<[SongResultEntity], ErrorType> {
+        databaseQueue.readPublisher { database in
+            try SongResultEntity.fetchAll(database,
+                                          sql: "SELECT SONG_TITLE, HYMN_TYPE, HYMN_NUMBER, QUERY_PARAMS FROM SONG_DATA WHERE SONG_META_DATA_HYMN_CODE LIKE '%' || ? || '%'",
+                                          arguments: [hymnCode])
+        }.mapError({error -> ErrorType in
             .data(description: error.localizedDescription)
         }).eraseToAnyPublisher()
     }

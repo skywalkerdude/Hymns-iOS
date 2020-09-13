@@ -7,6 +7,7 @@ import Resolver
  */
 protocol SongResultsRepository {
     func search(searchParameter: String, pageNumber: Int)  -> AnyPublisher<UiSongResultsPage, ErrorType>
+    func search(hymnCode: String)  -> AnyPublisher<[SongResultEntity], ErrorType>
 }
 
 class SongResultsRepositoryImpl: SongResultsRepository {
@@ -35,6 +36,10 @@ class SongResultsRepositoryImpl: SongResultsRepository {
         SearchPublisher(pageNumber: pageNumber, searchParameter: searchParameter, converter: converter,
                         dataStore: dataStore, disposables: &disposables, service: service, systemUtil: systemUtil)
         .eraseToAnyPublisher()
+    }
+
+    func search(hymnCode: String)  -> AnyPublisher<[SongResultEntity], ErrorType> {
+        dataStore.getResultsBy(hymnCode: hymnCode)
     }
 }
 

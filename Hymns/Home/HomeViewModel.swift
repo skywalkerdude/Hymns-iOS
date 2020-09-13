@@ -3,6 +3,7 @@ import FirebaseCrashlytics
 import Foundation
 import Resolver
 
+// swiftlint:disable:next type_body_length
 class HomeViewModel: ObservableObject {
 
     @UserDefault("has_seen_search_by_type_tooltip", defaultValue: false) var hasSeenSearchByTypeTooltip: Bool {
@@ -94,6 +95,10 @@ class HomeViewModel: ObservableObject {
         }
 
         if searchParameter.trim().isPositiveInteger {
+            if searchParameter.trim().count > 6 {
+                self.fetchByHymnCode(searchParameter.trim(), searchParameter: searchParameter)
+                return
+            }
             self.fetchByNumber(hymnType: .classic, hymnNumber: searchParameter.trim(), searchParameter: searchParameter)
             return
         }
@@ -193,6 +198,29 @@ class HomeViewModel: ObservableObject {
                                                                                                                          storeInHistoryStore: true)).eraseToAnyView())]
                 self.state = .results
             }).store(in: &disposables)
+    }
+
+    private func fetchByHymnCode(_ hymnCode: String, searchParameter: String) {
+        label = nil
+        repository.search(hymnCode: hymnCode)
+            .replaceError(with: [SongResultEntity]())
+            .subscribe(on: backgroundQueue)
+            .map({ songResults -> [SongResultViewModel] in
+                songResults.map { songResult -> SongResultViewModel in
+                    let hymnIdentifier = HymnIdentifier(hymnType: songResult.hymnType, hymnNumber: songResult.hymnNumber, queryParams: songResult.queryParams)
+                    return SongResultViewModel(title: songResult.title,
+                                               destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier,
+                                                                                                                storeInHistoryStore: true)).eraseToAnyView())
+                }
+            }).receive(on: mainQueue)
+            .sink { songResults in
+                if searchParameter.trim() != self.searchParameter.trim() {
+                    // search parameter has changed by the time the call completed, so just drop this.
+                    return
+                }
+                self.songResults = songResults
+                self.state = songResults.isEmpty ? .empty : .results
+        }.store(in: &disposables)
     }
 
     func loadMore(at songResult: SongResultViewModel) {
