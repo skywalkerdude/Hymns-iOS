@@ -22,15 +22,6 @@ struct UiHymn: Equatable {
     let relevant: MetaDatum?
     // add more fields as needed
 
-    var displayTitle: String {
-        switch hymnIdentifier.hymnType {
-        case .newTune, .newSong, .children, .howardHigashi:
-            return title
-        default:
-            return "\(hymnIdentifier.hymnType.displayLabel) \(hymnIdentifier.hymnNumber)"
-        }
-    }
-
     /**
      * Title of song for when it is displayed as a song result in a list of results.
      */

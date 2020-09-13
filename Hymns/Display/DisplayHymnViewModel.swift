@@ -67,7 +67,13 @@ class DisplayHymnViewModel: ObservableObject {
                     self.isLoaded = true
                     guard let hymn = hymn else { return }
 
-                    self.title = hymn.displayTitle
+                    switch self.identifier.hymnType {
+                    case .newTune, .newSong, .children, .howardHigashi:
+                        self.title = hymn.title
+                    default:
+                        self.title = "\(self.identifier.hymnType.displayLabel) \(self.identifier.hymnNumber)"
+                    }
+
                     self.resultsTitle = hymn.resultTitle
 
                     self.tabItems = [.lyrics(HymnLyricsView(viewModel: HymnLyricsViewModel(hymnToDisplay: self.identifier)).maxSize().eraseToAnyView())]
