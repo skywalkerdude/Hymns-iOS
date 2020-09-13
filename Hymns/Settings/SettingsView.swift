@@ -23,9 +23,9 @@ struct SettingsView: View {
                 return ActivityIndicator().maxSize().eraseToAnyView()
             }
             return
-                VStack(alignment: .leading) {
-                    CustomTitle(title: NSLocalizedString("Settings", comment: "Settings tab title"))
-                    List {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        CustomTitle(title: NSLocalizedString("Settings", comment: "Settings tab title"))
                         ForEach(settings) { setting in
                             setting.view
                         }
