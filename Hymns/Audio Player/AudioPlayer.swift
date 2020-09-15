@@ -7,6 +7,7 @@ import Combine
 struct AudioPlayer: View {
 
     @ObservedObject private var viewModel: AudioPlayerViewModel
+    @State private var showSpeedPicker: Bool = false
 
     init(viewModel: AudioPlayerViewModel) {
         self.viewModel = viewModel
@@ -16,6 +17,13 @@ struct AudioPlayer: View {
         VStack {
             AudioSlider(viewModel: viewModel)
             HStack(spacing: 40) {
+                // Toggle speed selection
+                Button(action: {
+                    self.showSpeedPicker.toggle()
+                }, label: {
+                    Image(systemName: "timer").font(.system(size: smallButtonSize)).foregroundColor(self.showSpeedPicker ? .accentColor : .primary)
+                })
+
                 // Reset button
                 Button(action: {
                     self.viewModel.reset()
@@ -64,6 +72,21 @@ struct AudioPlayer: View {
                 }, label: {
                     Image(systemName: "repeat").font(.system(size: smallButtonSize)).foregroundColor(viewModel.shouldRepeat ? .accentColor : .primary)
                 })
+            }
+            if showSpeedPicker {
+                HStack(spacing: 30) {
+                    Button(action: {
+                        self.viewModel.decreaseSpeed()
+                    }, label: {
+                        Image(systemName: "minus").font(.system(size: smallButtonSize)).foregroundColor(.accentColor)
+                    })
+                    Text("Speed: \(self.viewModel.currentSpeed, specifier: "%.1f")x")
+                    Button(action: {
+                        self.viewModel.increaseSpeed()
+                    }, label: {
+                        Image(systemName: "plus").font(.system(size: smallButtonSize)).foregroundColor(.accentColor)
+                    })
+                }.padding()
             }
         }.onAppear {
             self.viewModel.load()

@@ -50,6 +50,10 @@ public class DisplayHymnViewCan: BaseViewCan {
         return pressButton("Play music")
     }
 
+    public func openSpeedPicker() -> DisplayHymnViewCan {
+        return pressButton("timer")
+    }
+
     public func openRelevant() -> DisplayHymnViewCan {
         return pressButton("Relevant songs")
     }
