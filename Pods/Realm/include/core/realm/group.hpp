@@ -810,8 +810,11 @@ private:
     ///
     ///   9 Replication instruction values shuffled, instr_MoveRow added.
     ///
-    ///  10 Memory mapping changes which require special treatment of large files
-    ///     of preceeding versions.
+    ///  10 Cluster based table layout. Memory mapping changes which require
+    ///     special treatment of large files of preceeding versions.
+    ///
+    ///  11 Same as 10, but version 10 files will have search index added on
+    ///     string primary key columns.
     ///
     /// IMPORTANT: When introducing a new file format version, be sure to review
     /// the file validity checks in Group::open() and SharedGroup::do_open, the file
@@ -991,7 +994,7 @@ inline ConstTableRef Group::get_table(TableKey key) const
     return ConstTableRef(table, table ? table->m_alloc.get_instance_version() : 0);
 }
 
-REALM_NOINLINE inline TableRef Group::get_table(StringData name)
+inline TableRef Group::get_table(StringData name)
 {
     if (!is_attached())
         throw LogicError(LogicError::detached_accessor);
