@@ -10,7 +10,28 @@ class DisplayHymnViewModel: ObservableObject {
 
     @Published var isLoaded = false
     @Published var title: String = ""
-    @Published var currentTab: HymnLyricsTab
+    @Published var currentTab: HymnLyricsTab {
+        didSet {
+            if self.currentTab.label == "Chords" && !self.loadedChords {
+                if let chordsURL = chordsURL {
+                    self.pdfLoader.load(url: chordsURL)
+                }
+                self.loadedChords = true
+            }
+            if self.currentTab.label == "Guitar" && !self.loadedGuitar {
+                if let guitarURL = guitarURL {
+                    self.pdfLoader.load(url: guitarURL)
+                }
+                self.loadedGuitar = true
+            }
+            if self.currentTab.label == "Piano" && !self.loadedPiano {
+                if let pianoURL = pianoURL {
+                    self.pdfLoader.load(url: pianoURL)
+                }
+                self.loadedPiano = true
+            }
+        }
+    }
     @Published var tabItems: [HymnLyricsTab] = [HymnLyricsTab]()
     @Published var isFavorited: Bool?
     @Published var bottomBar: DisplayHymnBottomBarViewModel?
@@ -25,6 +46,12 @@ class DisplayHymnViewModel: ObservableObject {
     private let repository: HymnsRepository
     private let systemUtil: SystemUtil
     private let storeInHistoryStore: Bool
+    private var chordsURL: URL?
+    private var guitarURL: URL?
+    private var pianoURL: URL?
+    private var loadedChords = false
+    private var loadedGuitar = false
+    private var loadedPiano = false
 
     /**
      * Title of song for when the song is displayed as a song result in a list of results. Used to store into the Favorites/Recents store.
@@ -86,7 +113,8 @@ class DisplayHymnViewModel: ObservableObject {
                             HymnalNet.url(path: path)
                         })
                         if let chordsUrl = chordsUrl {
-                            self.pdfLoader.load(url: chordsUrl)
+                            self.chordsURL = chordsUrl
+                            //self.pdfLoader.load(url: chordsUrl)
                             self.tabItems.append(.chords(DisplayHymnPdfView(url: chordsUrl).eraseToAnyView()))
                         }
 
@@ -97,7 +125,8 @@ class DisplayHymnViewModel: ObservableObject {
                             HymnalNet.url(path: path)
                         })
                         if let guitarUrl = guitarUrl {
-                            self.pdfLoader.load(url: guitarUrl)
+                            self.guitarURL = guitarUrl
+                         //   self.pdfLoader.load(url: guitarUrl)
                             self.tabItems.append(.guitar(DisplayHymnPdfView(url: guitarUrl).eraseToAnyView()))
                         }
 
@@ -108,7 +137,8 @@ class DisplayHymnViewModel: ObservableObject {
                             HymnalNet.url(path: path)
                         })
                         if let pianoUrl = pianoUrl {
-                            self.pdfLoader.load(url: pianoUrl)
+                            self.pianoURL = pianoUrl
+                          //  self.pdfLoader.load(url: pianoUrl)
                             self.tabItems.append(.piano(DisplayHymnPdfView(url: pianoUrl).eraseToAnyView()))
                         }
                     }
