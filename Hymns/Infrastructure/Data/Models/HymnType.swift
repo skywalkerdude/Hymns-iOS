@@ -49,7 +49,7 @@ extension HymnType {
            HymnType.japanese.abbreviatedValue.lowercased(): .japanese,
            "classic": classic, "hymn": classic, "new tune": .newTune, "new song": .newSong, "chidren": .children,
            "howard higashi": .howardHigashi, "long beach": .howardHigashi, "longbeach": .howardHigashi, "dt": .dutch,
-           "dutch": .dutch, "ge": .german, "german": .german, "chinese": .chinese, "cs": .chineseSupplement,
+           "dutch": .dutch, "g": german, "ge": .german, "german": .german, "chinese": .chinese, "cs": .chineseSupplement,
            "chs": .chineseSupplement, "chinese supplement": .chineseSupplement, "cebuano": .cebuano, "tg": .tagalog,
            "t": .tagalog, "tagalog": .tagalog, "fr": .french, "f": .french, "french": .french, "sp": .spanish,
            "spanish": .spanish, "kr": .korean, "korean": .korean, "jp": .japanese, "japanese": .japanese
