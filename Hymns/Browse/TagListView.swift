@@ -26,7 +26,7 @@ struct TagListView: View {
                                 Text(NSLocalizedString("icon on any hymn", comment: "Latter part of the empty tag state text"))
                             }
                             Spacer()
-                        }.frame(minHeight: geometry.size.height)
+                        }.frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
                     }
                 }.eraseToAnyView()
             }
