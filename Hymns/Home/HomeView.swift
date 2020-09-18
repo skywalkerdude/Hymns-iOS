@@ -74,7 +74,9 @@ struct HomeView: View {
                 }
             }
         }.onAppear {
-            Analytics.setScreenName("HomeView", screenClass: "HomeViewModel")
+            let params: [String: Any] = [
+                AnalyticsParameterScreenName: "HomeView"]
+            Analytics.logEvent(AnalyticsEventScreenView, parameters: params)
         }
     }
 }

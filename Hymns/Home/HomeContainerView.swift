@@ -3,27 +3,32 @@ import Resolver
 
 struct HomeContainerView: View {
 
+    private let homeView = HomeView()
+    private let browseView = BrowseView()
+    private let favoritesView = FavoritesView()
+    private let settingsView = SettingsView()
+
     @State var selectedTab: HomeTab = .none
 
     var body: some View {
         NavigationView {
             TabView(selection: $selectedTab) {
-                HomeView()
+                homeView
                     .tabItem {HomeTab.home.getImage(selectedTab == HomeTab.home).font(.system(size: buttonSize))}
                     .tag(HomeTab.home)
                     .hideNavigationBar()
 
-                BrowseView()
+                browseView
                     .tabItem { HomeTab.browse.getImage(selectedTab == HomeTab.browse).font(.system(size: buttonSize))}
                     .tag(HomeTab.browse)
                     .hideNavigationBar()
 
-                FavoritesView()
+                favoritesView
                     .tabItem {HomeTab.favorites.getImage(selectedTab == HomeTab.favorites).font(.system(size: buttonSize))}
                     .tag(HomeTab.favorites)
                     .hideNavigationBar()
 
-                SettingsView()
+                settingsView
                     .tabItem {HomeTab.settings.getImage(selectedTab == HomeTab.settings).font(.system(size: buttonSize))}
                     .tag(HomeTab.settings)
                     .hideNavigationBar()

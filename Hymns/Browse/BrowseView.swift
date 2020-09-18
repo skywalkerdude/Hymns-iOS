@@ -1,3 +1,4 @@
+import FirebaseAnalytics
 import Resolver
 import SwiftUI
 
@@ -17,6 +18,10 @@ struct BrowseView: View {
                                  currentTab: self.$viewModel.currentTab,
                                  tabItems: self.viewModel.tabItems)
             }
+        }.onAppear {
+            let params: [String: Any] = [
+                AnalyticsParameterScreenName: "BrowseView"]
+            Analytics.logEvent(AnalyticsEventScreenView, parameters: params)
         }
     }
 }

@@ -33,7 +33,9 @@ struct SettingsView: View {
                 }.eraseToAnyView()
         }.onAppear {
             self.viewModel.populateSettings(result: self.$result)
-            Analytics.setScreenName("SettingsView", screenClass: "SettingsViewModel")
+            let params: [String: Any] = [
+                AnalyticsParameterScreenName: "SettingsView"]
+            Analytics.logEvent(AnalyticsEventScreenView, parameters: params)
         }.toast(item: $result, options: ToastOptions(alignment: .bottom, disappearAfter: 5)) { result -> AnyView in
             switch result {
             case .success(let success):

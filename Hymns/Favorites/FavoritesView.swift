@@ -30,7 +30,9 @@ struct FavoritesView: View {
                 }.resignKeyboardOnDragGesture().eraseToAnyView()
             }
         }.onAppear {
-            Analytics.setScreenName("FavoritesView", screenClass: "FavoritesViewModel")
+            let params: [String: Any] = [
+                AnalyticsParameterScreenName: "FavoritesView"]
+            Analytics.logEvent(AnalyticsEventScreenView, parameters: params)
             self.viewModel.fetchFavorites()
         }
     }
