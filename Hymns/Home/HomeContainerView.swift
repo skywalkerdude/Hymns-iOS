@@ -3,7 +3,6 @@ import Resolver
 
 struct HomeContainerView: View {
 
-    private let homeView = HomeView()
     private let browseView = BrowseView()
     private let favoritesView = FavoritesView()
     private let settingsView = SettingsView()
@@ -13,7 +12,7 @@ struct HomeContainerView: View {
     var body: some View {
         NavigationView {
             TabView(selection: $selectedTab) {
-                homeView
+                HomeView()
                     .tabItem {HomeTab.home.getImage(selectedTab == HomeTab.home).font(.system(size: buttonSize))}
                     .tag(HomeTab.home)
                     .hideNavigationBar()
