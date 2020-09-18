@@ -6,8 +6,9 @@ import SwiftUI
 struct SettingsView: View {
 
     @ObservedObject private var viewModel: SettingsViewModel
-
     @State var result: Result<SettingsToastItem, Error>?
+    //TODO: Once IOS 14 stops sucking move var setting back to being a Published var instead of State var in view
+    @State var settings: [SettingsModel]? = [SettingsModel]()
 
     init(viewModel: SettingsViewModel = Resolver.resolve()) {
         self.viewModel = viewModel
@@ -15,7 +16,7 @@ struct SettingsView: View {
 
     var body: some View {
         Group { () -> AnyView in
-            guard let settings = viewModel.settings else {
+            guard let settings = self.settings else {
                 return ErrorView().maxSize().eraseToAnyView()
             }
 
@@ -32,7 +33,8 @@ struct SettingsView: View {
                     }
                 }.eraseToAnyView()
         }.onAppear {
-            self.viewModel.populateSettings(result: self.$result)
+//            self.viewModel.populateSettings(result: self.$result)
+            self.settings = self.viewModel.populateSettings(result: self.$result)
             Analytics.setScreenName("SettingsView", screenClass: "SettingsViewModel")
         }.toast(item: $result, options: ToastOptions(alignment: .bottom, disappearAfter: 5)) { result -> AnyView in
             switch result {
@@ -77,11 +79,11 @@ struct SettingsView_Previews: PreviewProvider {
         let loading = SettingsView(viewModel: loadingViewModel)
 
         let errorViewModel = SettingsViewModel()
-        errorViewModel.settings = nil
+      //  errorViewModel.settings = nil
         let error = SettingsView(viewModel: errorViewModel)
 
         let settingsViewModel = SettingsViewModel()
-        settingsViewModel.settings = [.repeatChorus(RepeatChorusViewModel()), .aboutUs, .privacyPolicy, .clearUserDefaults]
+    //    settingsViewModel.settings = [.repeatChorus(RepeatChorusViewModel()), .aboutUs, .privacyPolicy, .clearUserDefaults]
         let settings = SettingsView(viewModel: settingsViewModel)
 
         return Group {

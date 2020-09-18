@@ -8,9 +8,10 @@ class SettingsViewModel: ObservableObject {
 
     let historyStore: HistoryStore = Resolver.resolve()
 
-    @Published var settings: [SettingsModel]? = [SettingsModel]()
+    //TODO: Once IOS 14 stops sucking move var setting back to being a Published var instead of State var in view
+//    @Published var settings: [SettingsModel]? = [SettingsModel]()
 
-    func populateSettings(result: Binding<Result<SettingsToastItem, Error>?>) {
+    func populateSettings(result: Binding<Result<SettingsToastItem, Error>?>) -> [SettingsModel]{
         let repeatChorusViewModel = RepeatChorusViewModel()
         let clearHistoryViewModel = SimpleSettingViewModel(title: NSLocalizedString("Clear recent songs", comment: ""), action: {
             do {
@@ -22,9 +23,12 @@ class SettingsViewModel: ObservableObject {
         })
 
         #if DEBUG
-        settings = [.repeatChorus(repeatChorusViewModel), .clearHistory(clearHistoryViewModel), .aboutUs, .feedback(result), .privacyPolicy, .clearUserDefaults]
+//        settings = [.repeatChorus(repeatChorusViewModel), .clearHistory(clearHistoryViewModel), .aboutUs, .feedback(result), .privacyPolicy, .clearUserDefaults]
+        return [.repeatChorus(repeatChorusViewModel), .clearHistory(clearHistoryViewModel), .aboutUs, .feedback(result), .privacyPolicy, .clearUserDefaults]
         #else
-        settings = [.repeatChorus(RepeatChorusViewModel()), .clearHistory(clearHistoryViewModel), .aboutUs, .feedback(result), .privacyPolicy]
+//        settings = [.repeatChorus(RepeatChorusViewModel()), .clearHistory(clearHistoryViewModel), .aboutUs, .feedback(result), .privacyPolicy]
+        return [.repeatChorus(RepeatChorusViewModel()), .clearHistory(clearHistoryViewModel), .aboutUs, .feedback(result), .privacyPolicy]
+
         #endif
     }
 }
