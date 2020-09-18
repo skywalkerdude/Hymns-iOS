@@ -11,6 +11,7 @@ struct SettingsView: View {
 
     init(viewModel: SettingsViewModel = Resolver.resolve()) {
         self.viewModel = viewModel
+        self.viewModel.populateSettings(result: self.$result)
     }
 
     var body: some View {
@@ -32,7 +33,6 @@ struct SettingsView: View {
                     }
                 }.eraseToAnyView()
         }.onAppear {
-            self.viewModel.populateSettings(result: self.$result)
             Analytics.setScreenName("SettingsView", screenClass: "SettingsViewModel")
         }.toast(item: $result, options: ToastOptions(alignment: .bottom, disappearAfter: 5)) { result -> AnyView in
             switch result {

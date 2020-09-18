@@ -8,6 +8,7 @@ struct FavoritesView: View {
 
     init(viewModel: FavoritesViewModel = Resolver.resolve()) {
         self.viewModel = viewModel
+        self.viewModel.fetchFavorites()
     }
 
     var body: some View {
@@ -31,7 +32,6 @@ struct FavoritesView: View {
             }
         }.onAppear {
             Analytics.setScreenName("FavoritesView", screenClass: "FavoritesViewModel")
-            self.viewModel.fetchFavorites()
         }
     }
 }
