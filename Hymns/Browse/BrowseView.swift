@@ -13,10 +13,12 @@ struct BrowseView: View {
     var body: some View {
         VStack {
             CustomTitle(title: NSLocalizedString("Browse", comment: "Browse tab title"))
-            GeometryReader { geometry in
-                IndicatorTabView(geometry: geometry,
-                                 currentTab: self.$viewModel.currentTab,
-                                 tabItems: self.viewModel.tabItems)
+            VStack {
+                GeometryReader { geometry in
+                    IndicatorTabView(geometry: geometry,
+                                     currentTab: self.$viewModel.currentTab,
+                                     tabItems: self.viewModel.tabItems)
+                }
             }
         }.onAppear {
             let params: [String: Any] = [
