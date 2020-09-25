@@ -88,6 +88,7 @@ PODS:
   - Resolver (1.1.4)
   - SnapshotTesting (1.8.2)
   - SwiftLint (0.40.2)
+  - SwiftUIPager (1.11.0)
 
 DEPENDENCIES:
   - Firebase/Analytics
@@ -102,6 +103,7 @@ DEPENDENCIES:
   - Resolver
   - SnapshotTesting
   - SwiftLint
+  - SwiftUIPager
 
 SPEC REPOS:
   trunk:
@@ -127,6 +129,7 @@ SPEC REPOS:
     - Resolver
     - SnapshotTesting
     - SwiftLint
+    - SwiftUIPager
 
 SPEC CHECKSUMS:
   Firebase: 47176280bfba198e531f909cfb1612dad216cb96
@@ -151,7 +154,8 @@ SPEC CHECKSUMS:
   Resolver: 1f4c046255cbadfa97094692e16e940d4329779f
   SnapshotTesting: 38947050d13960d57a4a9c166fcf51bca7d56970
   SwiftLint: 1216c910d27c2633ade33b4f071bb6b930982e62
+  SwiftUIPager: c4a891a61efc2b3bba53ec359d1470e85f064a1d
 
-PODFILE CHECKSUM: 970b22027515de204b1065367e7dfbb359d3f468
+PODFILE CHECKSUM: f587e3a6d875c0b48fcc99ba2b3a4536f60dac5a
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0.rc.1
