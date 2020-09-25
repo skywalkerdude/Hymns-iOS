@@ -15,11 +15,12 @@ class DisplayHymnViewModel: ObservableObject {
     @Published var isFavorited: Bool?
     @Published var bottomBar: DisplayHymnBottomBarViewModel?
 
+    let identifier: HymnIdentifier
+
     private let analytics: AnalyticsLogger
     private let backgroundQueue: DispatchQueue
     private let favoriteStore: FavoriteStore
     private let historyStore: HistoryStore
-    private let identifier: HymnIdentifier
     private let mainQueue: DispatchQueue
     private let pdfLoader: PDFLoader
     private let repository: HymnsRepository
@@ -140,5 +141,11 @@ class DisplayHymnViewModel: ObservableObject {
                 favoriteStore.storeFavorite(FavoriteEntity(hymnIdentifier: self.identifier, songTitle: self.resultsTitle))
             }
         }
+    }
+}
+
+extension DisplayHymnViewModel: Equatable {
+    static func == (lhs: DisplayHymnViewModel, rhs: DisplayHymnViewModel) -> Bool {
+        lhs.identifier == rhs.identifier && lhs.storeInHistoryStore && rhs.storeInHistoryStore
     }
 }

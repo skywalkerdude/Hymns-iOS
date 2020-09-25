@@ -24,7 +24,7 @@ class FavoritesViewModel: ObservableObject {
                     let identifier = HymnIdentifier(entity.hymnIdentifierEntity)
                     return SongResultViewModel(
                         title: entity.songTitle,
-                        destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
+                        destinationView: DisplayHymnContainerView(viewModel: DisplayHymnContainerViewModel(hymnToDisplay: identifier)).eraseToAnyView())
                 }
             })
             .replaceError(with: [SongResultViewModel]())

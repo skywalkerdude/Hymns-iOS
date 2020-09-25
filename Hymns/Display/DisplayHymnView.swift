@@ -46,7 +46,7 @@ struct DisplayHymnView: View {
 struct DisplayHymnView_Previews: PreviewProvider {
     static var previews: some View {
 
-        let loading = DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
+        let loading = DisplayHymnContainerView(viewModel: DisplayHymnContainerViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn1151))
 
         let classic40ViewModel = DisplayHymnViewModel(hymnToDisplay: PreviewHymnIdentifiers.hymn40)
         classic40ViewModel.isLoaded = true
