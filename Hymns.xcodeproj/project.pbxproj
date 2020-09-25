@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B020E7F251DCD0C007B7EBB /* DisplayHymnContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B020E7E251DCD0C007B7EBB /* DisplayHymnContainerView.swift */; };
+		3B020E85251DCD32007B7EBB /* DisplayHymnContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B020E84251DCD32007B7EBB /* DisplayHymnContainerViewModel.swift */; };
 		3B02725A24777BF9007348B0 /* Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B02725924777BF9007348B0 /* Dialog.swift */; };
 		3B04D2FC24898137008C7E5E /* TagEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B04D2FB24898137008C7E5E /* TagEntity.swift */; };
 		3B04D2FE2489819A008C7E5E /* TagStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B04D2FD2489819A008C7E5E /* TagStore.swift */; };
@@ -293,6 +295,8 @@
 		16EE66669E95B1BD3F754D6A /* Pods-HymnsTests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HymnsTests.beta.xcconfig"; path = "Target Support Files/Pods-HymnsTests/Pods-HymnsTests.beta.xcconfig"; sourceTree = "<group>"; };
 		270515A1B47536A6A7DED2B6 /* Pods_Hymns_HymnsSnapshotTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hymns_HymnsSnapshotTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E45FE0020A326C934AEC79A /* Pods-Hymns.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hymns.beta.xcconfig"; path = "Target Support Files/Pods-Hymns/Pods-Hymns.beta.xcconfig"; sourceTree = "<group>"; };
+		3B020E7E251DCD0C007B7EBB /* DisplayHymnContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnContainerView.swift; sourceTree = "<group>"; };
+		3B020E84251DCD32007B7EBB /* DisplayHymnContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayHymnContainerViewModel.swift; sourceTree = "<group>"; };
 		3B02725924777BF9007348B0 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
 		3B04D2FB24898137008C7E5E /* TagEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEntity.swift; sourceTree = "<group>"; };
 		3B04D2FD2489819A008C7E5E /* TagStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagStore.swift; sourceTree = "<group>"; };
@@ -887,6 +891,8 @@
 				B595A4A724438CC2005F7A14 /* DisplayHymnViewModel.swift */,
 				3BB7DE4724FCA9D600D4E6FB /* DisplayHymnPdfView.swift */,
 				B51BA5C82430075300CA52F7 /* DisplayHymnView.swift */,
+				3B020E7E251DCD0C007B7EBB /* DisplayHymnContainerView.swift */,
+				3B020E84251DCD32007B7EBB /* DisplayHymnContainerViewModel.swift */,
 				3B43717E24764BEF000B42AC /* DisplayHymnBottomBar.swift */,
 				3BBA15ED24CCF88F0010EEC8 /* DisplayHymnBottomBarButton.swift */,
 				3BA4612E24773A040068F269 /* DisplayHymnBottomBarViewModel.swift */,
@@ -1757,6 +1763,7 @@
 				B5838BC4247AEFE9003B85E9 /* AudioSlider.swift in Sources */,
 				3BC1329724385A580082A274 /* HomeContainerView.swift in Sources */,
 				3BA4612524771C460068F269 /* SongInfoViewModel.swift in Sources */,
+				3B020E7F251DCD0C007B7EBB /* DisplayHymnContainerView.swift in Sources */,
 				3BBCC21124DFBDE100977961 /* SoundCloudWebView.swift in Sources */,
 				3B877E7E245FCE68004C10DD /* Converter.swift in Sources */,
 				B5F8C50C249288E900F22ED0 /* TagSheetViewModel.swift in Sources */,
@@ -1855,6 +1862,7 @@
 				3B58D20C2480A00100C66445 /* CategoryViewModel.swift in Sources */,
 				3BB931A524E23DF200E0C873 /* ClearUserDefaultsView.swift in Sources */,
 				B5A00F5F245277E300F7E3E1 /* ActivityIndicator.swift in Sources */,
+				3B020E85251DCD32007B7EBB /* DisplayHymnContainerViewModel.swift in Sources */,
 				3B5935BB2435B7A400E6993C /* AppDelegate+Injection.swift in Sources */,
 				3B0B39AF243931B3003C5161 /* ErrorType.swift in Sources */,
 				3BB931A724E37F3B00E0C873 /* LottieView.swift in Sources */,
@@ -2312,7 +2320,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VBX3S26MR4;
 				INFOPLIST_FILE = HymnsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2335,7 +2342,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VBX3S26MR4;
 				INFOPLIST_FILE = HymnsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2526,7 +2532,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VBX3S26MR4;
 				INFOPLIST_FILE = HymnsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2570,7 +2575,6 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = VBX3S26MR4;
 				INFOPLIST_FILE = HymnsSnapshotTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2593,7 +2597,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VBX3S26MR4;
 				INFOPLIST_FILE = HymnsSnapshotTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2616,7 +2619,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VBX3S26MR4;
 				INFOPLIST_FILE = HymnsSnapshotTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

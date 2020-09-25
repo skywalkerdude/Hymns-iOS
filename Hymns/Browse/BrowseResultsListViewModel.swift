@@ -67,7 +67,9 @@ class BrowseResultsListViewModel: ObservableObject {
                     songResults.map { songResult -> SongResultViewModel in
                         let hymnIdentifier = HymnIdentifier(hymnType: songResult.hymnType, hymnNumber: songResult.hymnNumber, queryParams: songResult.queryParams)
                         let title = songResult.title
-                        return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
+                        return SongResultViewModel(title: title,
+                                                   destinationView:
+                                                    DisplayHymnContainerView(viewModel: DisplayHymnContainerViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
                     }
                 })
                 .receive(on: mainQueue)
@@ -83,7 +85,8 @@ class BrowseResultsListViewModel: ObservableObject {
                     songResults.map { songResult -> SongResultViewModel in
                         let hymnIdentifier = HymnIdentifier(hymnType: songResult.hymnType, hymnNumber: songResult.hymnNumber, queryParams: songResult.queryParams)
                         return SongResultViewModel(title: songResult.title,
-                                                   destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
+                                                   destinationView:
+                                                    DisplayHymnContainerView(viewModel: DisplayHymnContainerViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
                     }
                 })
                 .receive(on: mainQueue)
@@ -124,8 +127,10 @@ class BrowseResultsListViewModel: ObservableObject {
                                 // of non-continous numbers is weird.
                                 title = songResult.title
                             }
-                            return SongResultViewModel(title: title, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
-                    })
+                            return SongResultViewModel(title: title,
+                                                       destinationView:
+                                                        DisplayHymnContainerView(viewModel: DisplayHymnContainerViewModel(hymnToDisplay: hymnIdentifier)).eraseToAnyView())
+                        })
                 })
                 .replaceError(with: [SongResultViewModel]())
                 .receive(on: mainQueue)
