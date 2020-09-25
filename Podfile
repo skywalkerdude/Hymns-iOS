@@ -32,6 +32,8 @@ target 'Hymns' do
   pod 'GRDB.swift'
   pod 'GRDBCombine'
 
+  pod 'SwiftUIPager'
+
   target 'HymnsTests' do
     inherit! :search_paths
     
