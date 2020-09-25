@@ -49,6 +49,9 @@ class DisplayHymnScenarios: BaseTestCase {
             .tapResult("classic1151")
             .openAudioPlayer()
             .waitForButtons("play.circle")
+            .openSpeedPicker()
+            .waitForButtons("minus", "plus")
+            .waitForStaticTexts("Speed: 1.0x")
     }
 
     func test_changeFontSize() {

@@ -14,6 +14,7 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
 
     @Published var playbackState: PlaybackState = .stopped
     @Published var shouldRepeat = false
+    @Published var currentSpeed: Float = 1.0
     @Published var currentTime: TimeInterval
     @Published var songDuration: TimeInterval?
 
@@ -72,6 +73,7 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
                     return
                 }
                 player.delegate = self
+                player.enableRate = true
                 self.songDuration = player.duration
                 self.interruptedObserver
                     = NotificationCenter.default.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: nil, using: { _ in
@@ -109,6 +111,16 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
         playbackState = .stopped
         stopTimer()
         player?.pause()
+    }
+
+    func increaseSpeed() {
+        player?.rate += 0.1
+        currentSpeed = player?.rate ?? 1.0
+    }
+
+    func decreaseSpeed() {
+        player?.rate -= 0.1
+        currentSpeed = player?.rate ?? 1.0
     }
 
     func rewind() {

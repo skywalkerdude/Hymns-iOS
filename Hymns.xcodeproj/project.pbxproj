@@ -2313,6 +2313,7 @@
 				DEVELOPMENT_TEAM = VBX3S26MR4;
 				INFOPLIST_FILE = HymnsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2335,6 +2336,7 @@
 				DEVELOPMENT_TEAM = VBX3S26MR4;
 				INFOPLIST_FILE = HymnsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2525,6 +2527,7 @@
 				DEVELOPMENT_TEAM = VBX3S26MR4;
 				INFOPLIST_FILE = HymnsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2568,6 +2571,7 @@
 				DEVELOPMENT_TEAM = VBX3S26MR4;
 				INFOPLIST_FILE = HymnsSnapshotTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2590,6 +2594,7 @@
 				DEVELOPMENT_TEAM = VBX3S26MR4;
 				INFOPLIST_FILE = HymnsSnapshotTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2612,6 +2617,7 @@
 				DEVELOPMENT_TEAM = VBX3S26MR4;
 				INFOPLIST_FILE = HymnsSnapshotTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

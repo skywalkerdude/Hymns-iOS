@@ -82,6 +82,24 @@ class AudioPlayerViewModelSpec: QuickSpec {
                             }
                         }
                     }
+                    describe("increase audio speed") {
+                        beforeEach {
+                            target.increaseSpeed()
+                        }
+                        it("should increase the speed by 0.1") {
+                            expect(target.player!.rate).to(equal(1.1))
+                            expect(target.currentSpeed).to(equal(1.1))
+                        }
+                    }
+                    describe("decrease audio speed") {
+                        beforeEach {
+                            target.decreaseSpeed()
+                        }
+                        it("should decrease the speed by 0.1") {
+                            expect(target.player!.rate).to(equal(0.9))
+                            expect(target.currentSpeed).to(equal(0.9))
+                        }
+                    }
                     describe("reset") {
                         beforeEach {
                             target.seek(to: 5)
