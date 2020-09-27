@@ -1,3 +1,4 @@
+import SwiftEventBus
 import SwiftUI
 
 struct SoundCloudView: View {
@@ -57,6 +58,12 @@ struct SoundCloudView: View {
                     self.createToolTip(geometry, toolTipPreferenceData)
                 }
             }
+        }.onAppear {
+            // Modal is up, so disable song swiping
+            SwiftEventBus.post(DisplayHymnContainerViewModel.songSwipableEvent, sender: false)
+        }.onDisappear {
+            // Modal is up, so enable song swiping
+            SwiftEventBus.post(DisplayHymnContainerViewModel.songSwipableEvent, sender: true)
         }
     }
 

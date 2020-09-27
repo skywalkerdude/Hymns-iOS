@@ -22,7 +22,7 @@ struct DisplayHymnContainerView: View {
                          id: \.self,
                          content: { index in
                             DisplayHymnView(viewModel: hymns[index])
-                         }).eraseToAnyView()
+                         }).allowsDragging(viewModel.swipeEnabled).eraseToAnyView()
         }.onAppear {
             self.viewModel.populateHymns()
         }
