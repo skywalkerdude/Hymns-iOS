@@ -1,9 +1,13 @@
 import Foundation
+import SwiftEventBus
 
 class DisplayHymnContainerViewModel: ObservableObject {
 
+    static let songSwipableEvent = "songSwipableEvent"
+
     @Published var hymns: [DisplayHymnViewModel]?
     @Published var currentHymn: Int = 0
+    @Published var swipeEnabled = true
 
     private let identifier: HymnIdentifier
     private let storeInHistoryStore: Bool
@@ -11,6 +15,15 @@ class DisplayHymnContainerViewModel: ObservableObject {
     init(hymnToDisplay identifier: HymnIdentifier, storeInHistoryStore: Bool = false) {
         self.identifier = identifier
         self.storeInHistoryStore = storeInHistoryStore
+        SwiftEventBus.onMainThread(self, name: Self.songSwipableEvent, handler: { result in
+            if let enableSwiping = result?.object as? Bool {
+                self.swipeEnabled = enableSwiping
+            }
+        })
+    }
+
+    deinit {
+        SwiftEventBus.unregister(self)
     }
 
     func populateHymns() {

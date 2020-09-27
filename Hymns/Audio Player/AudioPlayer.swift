@@ -1,6 +1,7 @@
-import SwiftUI
 import AVFoundation
 import Combine
+import SwiftEventBus
+import SwiftUI
 
 // https://github.com/ChrisMash/AVPlayer-SwiftUI
 // https://medium.com/flawless-app-stories/avplayer-swiftui-part-2-player-controls-c28b721e7e27
@@ -89,8 +90,12 @@ struct AudioPlayer: View {
                 }.padding()
             }
         }.onAppear {
+            // Player is up, so disable song swiping
+            SwiftEventBus.post(DisplayHymnContainerViewModel.songSwipableEvent, sender: false)
             self.viewModel.load()
         }.onDisappear {
+            // Player is gone, so disable song swiping
+            SwiftEventBus.post(DisplayHymnContainerViewModel.songSwipableEvent, sender: true)
             // when this view isn't being shown anymore stop the player
             self.viewModel.pause()
         }
