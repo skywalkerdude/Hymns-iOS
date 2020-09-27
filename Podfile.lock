@@ -1,4 +1,12 @@
 PODS:
+  - FacebookCore (0.9.0):
+    - FBSDKCoreKit (~> 5.0)
+  - FBSDKCoreKit (5.15.1):
+    - FBSDKCoreKit/Basics (= 5.15.1)
+    - FBSDKCoreKit/Core (= 5.15.1)
+  - FBSDKCoreKit/Basics (5.15.1)
+  - FBSDKCoreKit/Core (5.15.1):
+    - FBSDKCoreKit/Basics
   - Firebase/Analytics (6.32.2):
     - Firebase/Core
   - Firebase/Core (6.32.2):
@@ -91,6 +99,7 @@ PODS:
   - SwiftUIPager (1.11.0)
 
 DEPENDENCIES:
+  - FacebookCore
   - Firebase/Analytics
   - Firebase/Crashlytics
   - GRDB.swift
@@ -107,6 +116,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - FacebookCore
+    - FBSDKCoreKit
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -132,6 +143,8 @@ SPEC REPOS:
     - SwiftUIPager
 
 SPEC CHECKSUMS:
+  FacebookCore: ba86524b66cfa86d0f8e65d08faa8504a9f732dd
+  FBSDKCoreKit: 1d5acf7c9d7a2f92bb1a242dc60cae5b7adb91df
   Firebase: 47176280bfba198e531f909cfb1612dad216cb96
   FirebaseAnalytics: 3c2fee6a922023ccfda7af87e4e641bad1fc11ba
   FirebaseCore: 1d697bb944bf2af5fc248f1a66e165c9dd88bf97
@@ -156,6 +169,6 @@ SPEC CHECKSUMS:
   SwiftLint: 1216c910d27c2633ade33b4f071bb6b930982e62
   SwiftUIPager: c4a891a61efc2b3bba53ec359d1470e85f064a1d
 
-PODFILE CHECKSUM: f587e3a6d875c0b48fcc99ba2b3a4536f60dac5a
+PODFILE CHECKSUM: f63e2d53e315c80ec3b53cb54f14a08257e678e5
 
-COCOAPODS: 1.10.0.rc.1
+COCOAPODS: 1.9.1

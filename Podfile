@@ -26,6 +26,9 @@ target 'Hymns' do
   # Crash reporting
   pod 'Firebase/Crashlytics'
 
+  # Facebook SDK
+  pod 'FacebookCore'
+
   pod 'lottie-ios'
 
   # SQLite wrapper
