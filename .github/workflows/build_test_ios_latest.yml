@@ -1,4 +1,4 @@
-name: Swift
+name: Build and Test - iOS Latest
 
 on:
   push:
