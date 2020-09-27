@@ -87,6 +87,7 @@ PODS:
     - Realm (= 5.4.1)
   - Resolver (1.1.4)
   - SnapshotTesting (1.8.2)
+  - SwiftEventBus (5.0.0)
   - SwiftLint (0.40.2)
   - SwiftUIPager (1.11.0)
 
@@ -102,6 +103,7 @@ DEPENDENCIES:
   - RealmSwift
   - Resolver
   - SnapshotTesting
+  - SwiftEventBus
   - SwiftLint
   - SwiftUIPager
 
@@ -128,6 +130,7 @@ SPEC REPOS:
     - RealmSwift
     - Resolver
     - SnapshotTesting
+    - SwiftEventBus
     - SwiftLint
     - SwiftUIPager
 
@@ -153,9 +156,10 @@ SPEC CHECKSUMS:
   RealmSwift: ef998d9b678fd74e047c56ef4d99d9b77e87c1eb
   Resolver: 1f4c046255cbadfa97094692e16e940d4329779f
   SnapshotTesting: 38947050d13960d57a4a9c166fcf51bca7d56970
+  SwiftEventBus: b30f617a6aca5a9336464b4d3f5931034762f2d5
   SwiftLint: 1216c910d27c2633ade33b4f071bb6b930982e62
   SwiftUIPager: c4a891a61efc2b3bba53ec359d1470e85f064a1d
 
-PODFILE CHECKSUM: f587e3a6d875c0b48fcc99ba2b3a4536f60dac5a
+PODFILE CHECKSUM: 2eedece86e74d5de480af1150eea3d399b347ba8
 
 COCOAPODS: 1.10.0.rc.1
