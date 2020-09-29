@@ -39,13 +39,13 @@ class DisplayHymnContainerViewModel: ObservableObject {
         }
 
         if isIos14 && hymnType.maxNumber > 0 && hymnNumber.isPositiveInteger, let hymnNumberInt = hymnNumber.toInteger {
-            hymns = Range(1...HymnType.classic.maxNumber).map({ num -> DisplayHymnViewModel in
+            hymns = (1...HymnType.classic.maxNumber).map({ num -> DisplayHymnViewModel in
                 let numString = String(num)
                 let shouldStore = storeInHistoryStore && hymnNumber == numString
                 return DisplayHymnViewModel(hymnToDisplay: HymnIdentifier(hymnType: hymnType, hymnNumber: numString, queryParams: queryParams),
                                             storeInHistoryStore: shouldStore)
             })
-            currentHymn = hymnNumberInt
+            currentHymn = hymnNumberInt - 1
         } else {
             hymns = [DisplayHymnViewModel(hymnToDisplay: identifier, storeInHistoryStore: storeInHistoryStore)]
             currentHymn = 0
