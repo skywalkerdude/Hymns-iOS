@@ -7,6 +7,7 @@ struct TagSheetView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var tagName = ""
     @State private var tagColor = TagColor.none
+    @State private var showCreateFields = false
     var sheet: Binding<DisplayHymnSheet?>
 
     init(viewModel: TagSheetViewModel, sheet: Binding<DisplayHymnSheet?>) {
@@ -16,26 +17,44 @@ struct TagSheetView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Name your tag").font(.body).fontWeight(.bold)
-            TextField("Label it however you like", text: self.$tagName)
-            Divider()
-            ColorSelectorView(tagColor: self.$tagColor).padding(.vertical)
-            if !self.viewModel.tags.isEmpty {
-                Text("Tags").font(.body).fontWeight(.bold)
+            if !self.viewModel.allTags.isEmpty {
+                Text("Add your tags").font(.body).fontWeight(.bold)
             }
             GeometryReader { geometry in
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading) {
-                        WrappedHStack(items: self.$viewModel.tags, geometry: geometry) { tag in
-                            Button(action: {
-                                self.viewModel.deleteTag(tagTitle: tag.title, tagColor: tag.color)
-                            }, label: {
-                                HStack {
-                                    Text(tag.title).font(.body).fontWeight(.bold)
-                                    Image(systemName: "xmark.circle")
+                        WrappedHStack(items: self.$viewModel.allTags, geometry: geometry) { tag in
+                            Group {
+                                if self.viewModel.tags.contains(tag) {
+
+                                    Button(action: {
+                                        self.viewModel.deleteTag(tagTitle: tag.title, tagColor: tag.color)
+                                    }, label: {
+                                        HStack {
+                                            Text(tag.title).font(.body).fontWeight(.bold)
+                                            Image(systemName: "checkmark.circle.fill")
+                                        }
+                                        .tagPill(backgroundColor: tag.color.background, foregroundColor: tag.color.foreground)
+                                    }).padding(2)
+                                } else {
+                                    Button(action: {
+                                        self.viewModel.addTag(tagTitle: tag.title, tagColor: tag.color)
+                                    }, label: {
+                                        HStack {
+                                            Text(tag.title).font(.body)
+                                        }
+                                        .tagPill(backgroundColor: tag.color.background, foregroundColor: tag.color.foreground, showBorder: false)
+                                    }).padding(2)
                                 }
-                                .tagPill(backgroundColor: tag.color.background, foregroundColor: tag.color.foreground)
-                            }).padding(2)
+                            }
+                        }
+                        Text("Create a new tag").font(.body).fontWeight(.bold)
+                        TextField("Label it however you like", text: self.$tagName).onTapGesture {
+                            self.showCreateFields = true
+                        }
+                        Divider()
+                        if self.showCreateFields {
+                            ColorSelectorView(tagColor: self.$tagColor).padding(.vertical)
                         }
                         HStack {
                             Spacer()
@@ -44,11 +63,13 @@ struct TagSheetView: View {
                             }, label: {
                                 Text("Close").foregroundColor(.primary).fontWeight(.light)
                             })
-                            Button("Add") {
-                                self.viewModel.addTag(tagTitle: self.tagName, tagColor: self.tagColor)
-                            }.padding(.horizontal).disabled(self.tagName.isEmpty)
+                            if self.showCreateFields {
+                                Button("Add") {
+                                    self.viewModel.addTag(tagTitle: self.tagName, tagColor: self.tagColor)
+                                    self.viewModel.fetchUniqueTags()
+                                }.padding(.horizontal).disabled(self.tagName.isEmpty)
+                            }
                         }.padding(.top)
-                        Spacer()
                     }
                 }
             }
@@ -56,6 +77,7 @@ struct TagSheetView: View {
         }.onAppear {
             self.viewModel.fetchHymn()
             self.viewModel.fetchTags()
+            self.viewModel.fetchUniqueTags()
         }.padding()
     }
 }

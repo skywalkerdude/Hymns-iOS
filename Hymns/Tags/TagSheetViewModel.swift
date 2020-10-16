@@ -7,6 +7,7 @@ class TagSheetViewModel: ObservableObject {
 
     typealias Title = String
     @Published var tags = [UiTag]()
+    @Published var allTags = [UiTag]()
     @Published var title: String = ""
 
     let tagStore: TagStore
@@ -35,6 +36,15 @@ class TagSheetViewModel: ObservableObject {
                         return
                     }
                     self.title = hymn.resultTitle
+            }).store(in: &disposables)
+    }
+
+    func fetchUniqueTags() {
+        tagStore.getUniqueTags()
+            .replaceError(with: [UiTag]())
+            .receive(on: mainQueue)
+            .sink(receiveValue: { tags in
+                self.allTags = tags
             }).store(in: &disposables)
     }
 
