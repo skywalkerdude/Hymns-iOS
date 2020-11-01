@@ -17,19 +17,19 @@ class AudioPlayerSnapshots: XCTestCase {
         viewModel.playbackState = .playing
         viewModel.songDuration = 100
         viewModel.currentTime = 50
-        assertSnapshot(matching: AudioPlayer(viewModel: viewModel), as: .swiftUiImage())
+        assertVersionedSnapshot(matching: AudioPlayer(viewModel: viewModel), as: .swiftUiImage())
     }
 
     func test_stopped() {
         viewModel.playbackState = .stopped
         viewModel.songDuration = 500
         viewModel.shouldRepeat = true
-        assertSnapshot(matching: AudioPlayer(viewModel: viewModel), as: .swiftUiImage())
+        assertVersionedSnapshot(matching: AudioPlayer(viewModel: viewModel), as: .swiftUiImage())
     }
 
     func test_buffering() {
         viewModel.playbackState = .buffering
         viewModel.songDuration = 20
-        assertSnapshot(matching: AudioPlayer(viewModel: viewModel), as: .swiftUiImage())
+        assertVersionedSnapshot(matching: AudioPlayer(viewModel: viewModel), as: .swiftUiImage())
     }
 }

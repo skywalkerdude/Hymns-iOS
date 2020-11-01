@@ -11,11 +11,11 @@ class ToolTipSnapshots: XCTestCase {
     }
 
     func test_toolTipShape_filled() {
-        assertSnapshot(matching: ToolTipShape(cornerRadius: 15, toolTipMidX: 300).fill(), as: .image())
+        assertVersionedSnapshot(matching: ToolTipShape(cornerRadius: 15, toolTipMidX: 300).fill(), as: .image())
     }
 
     func test_toolTipShape_oulined() {
-        assertSnapshot(matching: ToolTipShape(cornerRadius: 15, toolTipMidX: 300).stroke(), as: .image())
+        assertVersionedSnapshot(matching: ToolTipShape(cornerRadius: 15, toolTipMidX: 300).stroke(), as: .image())
     }
 
     func test_toolTipView_offset() {
@@ -25,7 +25,7 @@ class ToolTipSnapshots: XCTestCase {
             ToolTipConfiguration(cornerRadius: 10,
                                  arrowPosition: ToolTipConfiguration.ArrowPosition(midX: 30, alignmentType: .offset),
                                  arrowHeight: 7))
-        assertSnapshot(matching: toolTip, as: .image(layout:.fixed(width: 250, height: 100)))
+        assertVersionedSnapshot(matching: toolTip, as: .image(layout:.fixed(width: 250, height: 100)))
     }
 
     func test_toolTipView_percentage() {
@@ -35,6 +35,6 @@ class ToolTipSnapshots: XCTestCase {
             ToolTipConfiguration(cornerRadius: 10,
                                  arrowPosition: ToolTipConfiguration.ArrowPosition(midX: 0.7, alignmentType: .percentage),
                                  arrowHeight: 7))
-        assertSnapshot(matching: toolTip, as: .image(layout:.fixed(width: 250, height: 100)))
+        assertVersionedSnapshot(matching: toolTip, as: .image(layout:.fixed(width: 250, height: 100)))
     }
 }

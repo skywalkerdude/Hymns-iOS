@@ -19,7 +19,7 @@ class BottomBarSnapshots: XCTestCase {
         let bottomBar = DisplayHymnBottomBar(dialogModel: Binding<DialogViewModel<AnyView>?>(
             get: {self.dialog},
             set: {self.dialog = $0}), viewModel: viewModel).padding()
-        assertSnapshot(matching: bottomBar, as: .swiftUiImage())
+        assertVersionedSnapshot(matching: bottomBar, as: .swiftUiImage())
     }
 
     func test_oneButton() {
@@ -28,7 +28,7 @@ class BottomBarSnapshots: XCTestCase {
         let bottomBar = DisplayHymnBottomBar(dialogModel: Binding<DialogViewModel<AnyView>?>(
             get: {self.dialog},
             set: {self.dialog = $0}), viewModel: viewModel).padding()
-        assertSnapshot(matching: bottomBar, as: .image())
+        assertVersionedSnapshot(matching: bottomBar, as: .image())
     }
 
     func test_twoButtons() {
@@ -37,7 +37,7 @@ class BottomBarSnapshots: XCTestCase {
         let bottomBar = DisplayHymnBottomBar(dialogModel: Binding<DialogViewModel<AnyView>?>(
             get: {self.dialog},
             set: {self.dialog = $0}), viewModel: viewModel).padding()
-        assertSnapshot(matching: bottomBar, as: .image())
+        assertVersionedSnapshot(matching: bottomBar, as: .image())
     }
 
     func test_maximumButtons() {
@@ -54,7 +54,7 @@ class BottomBarSnapshots: XCTestCase {
         let bottomBar = DisplayHymnBottomBar(dialogModel: Binding<DialogViewModel<AnyView>?>(
             get: {self.dialog},
             set: {self.dialog = $0}), viewModel: viewModel).padding()
-        assertSnapshot(matching: bottomBar, as: .image())
+        assertVersionedSnapshot(matching: bottomBar, as: .image())
     }
 
     func test_overflowMenu() {
@@ -75,6 +75,6 @@ class BottomBarSnapshots: XCTestCase {
         let bottomBar = DisplayHymnBottomBar(dialogModel: Binding<DialogViewModel<AnyView>?>(
             get: {self.dialog},
             set: {self.dialog = $0}), viewModel: viewModel).padding()
-        assertSnapshot(matching: bottomBar, as: .image())
+        assertVersionedSnapshot(matching: bottomBar, as: .image())
     }
 }
