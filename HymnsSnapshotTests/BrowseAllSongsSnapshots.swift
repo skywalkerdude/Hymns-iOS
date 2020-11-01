@@ -12,6 +12,6 @@ class BrowseAllSongsSnapshots: XCTestCase {
 
     func test_allSongsView() {
         let viewModel = AllSongsViewModel()
-        assertSnapshot(matching: AllSongsView(viewModel: viewModel), as: .swiftUiImage())
+        assertVersionedSnapshot(matching: AllSongsView(viewModel: viewModel), as: .swiftUiImage())
     }
 }

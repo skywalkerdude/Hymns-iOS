@@ -14,7 +14,7 @@ class SoundCloudSnapshots: XCTestCase {
         var published = Published<String?>(initialValue: nil)
         let viewModel = SoundCloudPlayerViewModel(dialogModel: .constant(nil), title: published.projectedValue)
         viewModel.showPlayer = true
-        assertSnapshot(matching: SoundCloudPlayer(viewModel: viewModel), as: .image(layout: .fixed(width: 400, height: 200)))
+        assertVersionedSnapshot(matching: SoundCloudPlayer(viewModel: viewModel), as: .image(layout: .fixed(width: 400, height: 200)))
     }
 
     func test_soundCloudPlayer_a11ySize() {
@@ -22,12 +22,12 @@ class SoundCloudSnapshots: XCTestCase {
         let viewModel = SoundCloudPlayerViewModel(dialogModel: .constant(nil), title: published.projectedValue)
         viewModel.showPlayer = true
         let player = SoundCloudPlayer(viewModel: viewModel).environment(\.sizeCategory, .accessibilityExtraExtraExtraLarge)
-        assertSnapshot(matching: player, as: .image(layout: .fixed(width: 600, height: 200)))
+        assertVersionedSnapshot(matching: player, as: .image(layout: .fixed(width: 600, height: 200)))
     }
 
     func test_defaultState() {
         let viewModel = SoundCloudViewModel(url: URL(string: "http://www.example.com")!)
-        assertSnapshot(matching: SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: viewModel),
+        assertVersionedSnapshot(matching: SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: viewModel),
                        as: .swiftUiImage(precision: 0.99), timeout: 30)
     }
 
@@ -35,7 +35,7 @@ class SoundCloudSnapshots: XCTestCase {
     func test_minimizeCaret() {
         let viewModel = SoundCloudViewModel(url: URL(string: "https://www.example.com")!)
         viewModel.showMinimizeCaret = true
-        assertSnapshot(matching: SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: viewModel),
+        assertVersionedSnapshot(matching: SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: viewModel),
                        as: .swiftUiImage(precision: 0.99), timeout: 30)
     }
 
@@ -44,7 +44,7 @@ class SoundCloudSnapshots: XCTestCase {
         let viewModel = SoundCloudViewModel(url: URL(string: "https://www.example.com")!)
         viewModel.showMinimizeCaret = true
         viewModel.showMinimizeToolTip = true
-        assertSnapshot(matching: SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: viewModel),
+        assertVersionedSnapshot(matching: SoundCloudView(dialogModel: .constant(nil), soundCloudPlayer: .constant(nil), viewModel: viewModel),
                        as: .swiftUiImage(precision: 0.99), timeout: 30)
     }
 }
