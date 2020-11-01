@@ -8,17 +8,17 @@ public class DisplayHymnViewCan: BaseViewCan {
     }
 
     public func goBackToHome() -> HomeViewCan {
-        app.buttons["Go back"].tap()
+        _ = pressButton("Go back")
         return HomeViewCan(app, testCase: testCase)
     }
 
     public func goBackToBrowse() -> BrowseViewCan {
-        app.buttons["Go back"].tap()
+        _ = pressButton("Go back")
         return BrowseViewCan(app, testCase: testCase)
     }
 
     public func goBackToBrowseResults() -> BrowseResultsViewCan {
-        app.buttons["Go back"].tap()
+        _ = pressButton("Go back")
         return BrowseResultsViewCan(app, testCase: testCase)
     }
 
@@ -72,5 +72,15 @@ public class DisplayHymnViewCan: BaseViewCan {
 
     public func pressCancel() -> DisplayHymnViewCan {
         return pressButton("Cancel")
+    }
+
+    public override func pressButton(_ buttonText: String) -> Self {
+        _ = waitForButtons(buttonText)
+        for index in 0..<app.buttons.matching(identifier: buttonText).count {
+            if app.buttons.matching(identifier: buttonText).element(boundBy: index).isHittable {
+                app.buttons.matching(identifier: buttonText).element(boundBy: index).tap()
+            }
+        }
+        return self
     }
 }
