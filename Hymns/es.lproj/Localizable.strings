@@ -265,6 +265,9 @@
 /* Display name of 'Spanish Hymns'. Usually appears just by itself (i.e. as a title) */
 "Spanish Hymns" = "Himnos en Español";
 
+/* No comment provided by engineer. */
+"Speed: %.1fx" = "Velocidad: %.1fx";
+
 /* Will appear in conjuction with something elsxe (e.g. Tagalog 7) */
 "Tagalog" = "Tagalog";
 
@@ -285,6 +288,9 @@
 
 /* No comment provided by engineer. */
 "Unmark as favorite" = "Desmarcarse como favorito";
+
+/* No comment provided by engineer. */
+"Verse copied to clipboard" = "Verso copiado al portapapeles";
 
 /* No comment provided by engineer. */
 "We're the team behind this hymnal app. We love Jesus, and we created this app as a free resource to help other believers access the thousands of hymns available on the internet. We also built in support for the hymns indexed by the Living Stream Ministry hymnal." = "Somos el equipo detrás de esta aplicación de himnos. Amamos a Jesús, y creamos esta aplicación como un recurso gratuito para ayudar a otros creyentes a acceder a los miles de himnos disponibles en Internet. También construimos en apoyo de los himnos indexados por el himnario de Living Stream Ministry.";
