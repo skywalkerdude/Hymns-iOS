@@ -49,7 +49,7 @@ class FavoriteStoreRealmImpl: FavoriteStore {
     func favorites() -> AnyPublisher<[FavoriteEntity], ErrorType> {
         realm.objects(FavoriteEntity.self).collectionPublisher
             .map({ results -> [FavoriteEntity] in
-                results.map { entity -> FavoriteEntity in
+                results.sorted(byKeyPath: "songTitle", ascending: true).map { entity -> FavoriteEntity in
                     entity
                 }
             }).mapError({ error -> ErrorType in
