@@ -1,3 +1,4 @@
+import FirebaseCrashlytics
 import Foundation
 import MessageUI
 import Resolver
@@ -20,11 +21,23 @@ class SettingsViewModel: ObservableObject {
                 result.wrappedValue = .failure(error)
             }
         })
+        let buyCoffeeViewModel = SimpleSettingViewModel(title: NSLocalizedString("Buy us a coffee!", comment: ""),
+                                                        action: {
+                                                            guard let url = URL(string: "https://www.buymeacoffee.com/hymnsmobile") else {
+                                                                Crashlytics.crashlytics().log("Buy coffee url: 'https://www.buymeacoffee.com/hymnsmobile'")
+                                                                Crashlytics.crashlytics().record(error: NonFatal(localizedDescription: "Buy coffee url malformed"))
+                                                                result.wrappedValue = .failure(NonFatal(localizedDescription: "Unable to open buy coffee url"))
+                                                                return
+                                                            }
+                                                            UIApplication.shared.open(url)
+                                                        })
 
         #if DEBUG
-        settings = [.repeatChorus(repeatChorusViewModel), .clearHistory(clearHistoryViewModel), .aboutUs, .feedback(result), .privacyPolicy, .clearUserDefaults]
+        settings = [.repeatChorus(repeatChorusViewModel), .clearHistory(clearHistoryViewModel), .aboutUs, .feedback(result), .privacyPolicy,
+                    .buyCoffee(buyCoffeeViewModel), .clearUserDefaults]
         #else
-        settings = [.repeatChorus(RepeatChorusViewModel()), .clearHistory(clearHistoryViewModel), .aboutUs, .feedback(result), .privacyPolicy]
+        settings = [.repeatChorus(RepeatChorusViewModel()), .clearHistory(clearHistoryViewModel), .aboutUs, .feedback(result), .privacyPolicy,
+                    .buyCoffee(buyCoffeeViewModel)]
         #endif
     }
 }
@@ -36,6 +49,7 @@ enum SettingsModel {
     case feedback(Binding<Result<SettingsToastItem, Error>?>)
     case privacyPolicy
     case clearUserDefaults
+    case buyCoffee(SimpleSettingViewModel)
 }
 
 extension SettingsModel {
@@ -54,6 +68,8 @@ extension SettingsModel {
             return PrivacyPolicySettingView().eraseToAnyView()
         case .clearUserDefaults:
             return ClearUserDefaultsView().eraseToAnyView()
+        case .buyCoffee(let viewModel):
+            return SimpleSettingView(viewModel: viewModel).eraseToAnyView()
         }
     }
 }
@@ -73,6 +89,8 @@ extension SettingsModel: Identifiable {
             return 4
         case .clearUserDefaults:
             return 5
+        case .buyCoffee:
+            return 6
         }
     }
 }
