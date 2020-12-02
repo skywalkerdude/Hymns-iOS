@@ -30,7 +30,7 @@ public class BrowseViewCan: BaseViewCan {
                 return self
             }
         }
-        testCase.recordFailure(withDescription: "unable to find category \(category) with chevron \(chevronUp ? "up" : "down")", inFile: #file, atLine: #line, expected: false)
+        testCase.record(XCTIssue(type: .assertionFailure, compactDescription: "unable to find category \(category) with chevron \(chevronUp ? "up" : "down")"))
         return self
     }
 
@@ -50,7 +50,7 @@ public class BrowseViewCan: BaseViewCan {
                 }
             }
         }
-        testCase.recordFailure(withDescription: "unable to find subcategory \(subcategory) with count \(count)", inFile: #file, atLine: #line, expected: false)
+        testCase.record(XCTIssue(type: .assertionFailure, compactDescription: "unable to find subcategory \(subcategory) with count \(count)"))
         return self
     }
 
@@ -75,7 +75,7 @@ public class BrowseViewCan: BaseViewCan {
                 return self
             }
         }
-        testCase.recordFailure(withDescription: "unable to find book \(book) with chevron \(chevronUp ? "up" : "down")", inFile: #file, atLine: #line, expected: false)
+        testCase.record(XCTIssue(type: .assertionFailure, compactDescription: "unable to find book \(book) with chevron \(chevronUp ? "up" : "down")"))
         return self
     }
 
