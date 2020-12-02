@@ -22,7 +22,7 @@ $(eval MOCKINGBIRD_RPATH = $(shell [[ $(USE_RELATIVE_RPATH) -eq 1 ]] && echo '@e
 
 SIMULATOR_NAME=iphone11-mockingbird
 SIMULATOR_DEVICE_TYPE=com.apple.CoreSimulator.SimDeviceType.iPhone-11
-SIMULATOR_RUNTIME=com.apple.CoreSimulator.SimRuntime.iOS-13-6
+SIMULATOR_RUNTIME=$(shell xcrun simctl list runtimes | pcregrep -o1 '(com\.apple\.CoreSimulator\.SimRuntime\.iOS\-.*)')
 
 SWIFT_BUILD_FLAGS=--configuration release -Xlinker -weak-l_InternalSwiftSyntaxParser $(RELATIVE_RPATH_FLAG)
 XCODEBUILD_FLAGS=-project 'Mockingbird.xcodeproj' DSTROOT=$(TEMPORARY_FOLDER)
@@ -80,7 +80,7 @@ INSTALLABLE_FILENAMES="$(CLI_FILENAME)" \
 	"$(APPLETVSIMULATOR_FRAMEWORK_FILENAME)" \
 	"$(LICENSE_FILENAME)"
 
-STARTER_PACK_FOLDER=Sources/MockingbirdSupport
+STARTER_PACK_FOLDER=MockingbirdSupport
 
 OUTPUT_PACKAGE=Mockingbird.pkg
 OUTPUT_ZIP=Mockingbird.zip
@@ -129,9 +129,7 @@ clean: clean-mocks clean-xcode clean-swift clean-installables clean-dylibs
 
 .PHONY: setup-project
 setup-project:
-	(cd Sources && swift package resolve)
 	cp -rf .xcode/xcschemes/*.xcscheme Mockingbird.xcodeproj/xcshareddata/xcschemes
-	rsync -vhr .xcode/GeneratedModuleMap/** Mockingbird.xcodeproj/GeneratedModuleMap
 
 .PHONY: bootstrap
 bootstrap: setup-project
@@ -157,6 +155,7 @@ print-debug-info:
 	$(eval XCODEBUILD_VERSION = $(shell xcodebuild -version))
 	@echo "Xcodebuild version: $(XCODEBUILD_VERSION)"
 	@echo "Swift build flags: $(SWIFT_BUILD_FLAGS)"
+	@echo "Simulator runtime: $(SIMULATOR_RUNTIME)"
 
 .PHONY: generate-embedded-dylibs
 generate-embedded-dylibs:
@@ -179,7 +178,7 @@ build-framework-macos:
 
 .PHONY: build-framework-iphonesimulator
 build-framework-iphonesimulator:
-	$(BUILD_TOOL) -scheme 'MockingbirdFramework' -configuration 'Release' -sdk iphonesimulator -arch x86_64 -arch i386 $(XCODEBUILD_FRAMEWORK_FLAGS)
+	$(BUILD_TOOL) -scheme 'MockingbirdFramework' -configuration 'Release' -sdk iphonesimulator -arch x86_64 $(XCODEBUILD_FRAMEWORK_FLAGS)
 
 .PHONY: build-framework-appletvsimulator
 build-framework-appletvsimulator:
@@ -212,6 +211,8 @@ test-cocoapods: setup-cocoapods
 	$(eval DEVICE_UUID = $(shell xcrun simctl create "$(SIMULATOR_NAME)" "$(SIMULATOR_DEVICE_TYPE)" "$(SIMULATOR_RUNTIME)"))
 	$(BUILD_TOOL) -destination "platform=iOS Simulator,id=$(DEVICE_UUID)" $(EXAMPLE_COCOAPODS_XCODEBUILD_FLAGS) test
 	xcrun simctl delete "$(DEVICE_UUID)"
+	# Ensure the pinned prebuilt binary for CocoaPods exists.
+	[[ -f Examples/iOSMockingbirdExample-CocoaPods/Pods/MockingbirdFramework/mockingbird ]]
 
 .PHONY: test-carthage
 test-carthage: setup-carthage
@@ -304,7 +305,8 @@ docs: clean-docs setup-swiftdoc docs/index.html docs/latest/index.html
 
 .PHONY: download
 download:
-	curl -Lo "$(ZIP_FILENAME)" "$(ZIP_RELEASE_URL)"
+	$(eval CURL_AUTH_HEADER = $(shell [[ -z "${GH_ACCESS_TOKEN}" ]] || echo '-H "Authorization: token' ${GH_ACCESS_TOKEN}'"'))
+	curl $(CURL_AUTH_HEADER) -Lo "$(ZIP_FILENAME)" "$(ZIP_RELEASE_URL)"
 	unzip -o "$(ZIP_FILENAME)" "$(CLI_FILENAME)"
 	@codesign -v -R "$(CLI_DESIGNATED_REQUIREMENT)" "$(CLI_FILENAME)" \
 		&& echo "$(SUCCESS_MSG)" \
@@ -413,7 +415,7 @@ signed-zip: signed-installables prepare-zip archive
 
 .PHONY: starter-pack-zip
 starter-pack-zip:
-	zip -yr - $(STARTER_PACK_FOLDER) > "$(OUTPUT_STARTER_PACK_ZIP)"
+	(cd Sources; zip -yr - $(STARTER_PACK_FOLDER)) > "$(OUTPUT_STARTER_PACK_ZIP)"
 
 .PHONY: release
 release: package zip starter-pack-zip
