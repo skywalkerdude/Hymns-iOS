@@ -11,11 +11,11 @@ struct SoundCloudWebView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> WKWebView {
         // Enable javascript in WKWebView to interact with the web app
-        let preferences = WKPreferences()
-        preferences.javaScriptEnabled = true
+        let preferences = WKWebpagePreferences()
+        preferences.allowsContentJavaScript = true
 
         let configuration = WKWebViewConfiguration()
-        configuration.preferences = preferences
+        configuration.defaultWebpagePreferences = preferences
 
         let webView = WKWebView(frame: CGRect.zero, configuration: configuration)
         webView.scrollView.isScrollEnabled = true
