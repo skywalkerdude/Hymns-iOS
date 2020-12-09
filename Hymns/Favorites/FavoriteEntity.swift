@@ -6,7 +6,7 @@ class FavoriteEntity: Object, Identifiable {
     @objc dynamic var hymnIdentifierEntity: HymnIdentifierEntity!
     @objc dynamic var songTitle: String!
 
-    required init() {
+    required override init() {
         super.init()
     }
 

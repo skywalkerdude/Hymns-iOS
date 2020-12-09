@@ -6,7 +6,7 @@ class RecentSong: Object {
     @objc dynamic var hymnIdentifierEntity: HymnIdentifierEntity!
     @objc dynamic var songTitle: String!
 
-    required init() {
+    required override init() {
         super.init()
     }
 
@@ -35,7 +35,7 @@ class RecentSongEntity: Object {
     @objc dynamic var recentSong: RecentSong!
     @objc dynamic var created: Date!
 
-    required init() {
+    required override init() {
         super.init()
     }
 

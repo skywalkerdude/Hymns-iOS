@@ -96,7 +96,7 @@ class HymnIdentifierEntity: Object {
     @objc dynamic var hymnNumber: String = ""
     @objc dynamic var queryParams: String?
 
-    required init() {
+    required override init() {
         super.init()
     }
 
