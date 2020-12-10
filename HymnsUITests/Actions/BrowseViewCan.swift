@@ -30,27 +30,25 @@ public class BrowseViewCan: BaseViewCan {
                 return self
             }
         }
-        testCase.recordFailure(withDescription: "unable to find category \(category) with chevron \(chevronUp ? "up" : "down")", inFile: #file, atLine: #line, expected: false)
+        testCase.record(XCTIssue(type: .assertionFailure, compactDescription: "unable to find category \(category) with chevron \(chevronUp ? "up" : "down")"))
         return self
     }
 
     public func tapSubcategory(_ subcategory: String, count: Int) -> BrowseResultsViewCan {
-        app.buttons["\(subcategory)\n\(count)"].tap()
+        app.buttons.element(matching: NSPredicate(format: "label CONTAINS[c] '\(subcategory)' && label CONTAINS[c] '\(count)'")).tap()
         return BrowseResultsViewCan(app, testCase: testCase)
     }
 
     public func assertSubcategory(category: String, subcategory: String, count: Int) -> BrowseViewCan {
         for index in 0..<app.cells.count {
             let cell = app.cells.element(boundBy: index)
-            for index2 in 0..<cell.descendants(matching: .button).count {
-                let button  = cell.descendants(matching: .button).element(boundBy: index2)
-                if button.label == "\(subcategory)\n\(count)" {
-                    // Found the subcategory
-                    return self
-                }
+            let matchingButton = cell.descendants(matching: .button).element(matching: NSPredicate(format: "label CONTAINS[c] '\(subcategory)' && label CONTAINS[c] '\(count)'"))
+            if matchingButton.exists {
+                // Found the subcategory
+                return self
             }
         }
-        testCase.recordFailure(withDescription: "unable to find subcategory \(subcategory) with count \(count)", inFile: #file, atLine: #line, expected: false)
+        testCase.record(XCTIssue(type: .assertionFailure, compactDescription: "unable to find subcategory \(subcategory) with count \(count)"))
         return self
     }
 
@@ -75,12 +73,12 @@ public class BrowseViewCan: BaseViewCan {
                 return self
             }
         }
-        testCase.recordFailure(withDescription: "unable to find book \(book) with chevron \(chevronUp ? "up" : "down")", inFile: #file, atLine: #line, expected: false)
+        testCase.record(XCTIssue(type: .assertionFailure, compactDescription: "unable to find book \(book) with chevron \(chevronUp ? "up" : "down")"))
         return self
     }
 
-    public func tapReference(_ reference: String) -> DisplayHymnViewCan {
-        app.buttons["\(reference)"].tap()
+    public func tapReference(_ predicate: NSPredicate) -> DisplayHymnViewCan {
+        _ = pressButton(predicate)
         return DisplayHymnViewCan(app, testCase: testCase)
     }
 
