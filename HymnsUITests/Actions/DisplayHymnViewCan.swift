@@ -76,11 +76,20 @@ public class DisplayHymnViewCan: BaseViewCan {
 
     public override func pressButton(_ buttonText: String) -> Self {
         _ = waitForButtons(buttonText)
+        
+        // Pick the middle one when it's in a view pager with 5 elements when possible.
+        if app.buttons.matching(identifier: buttonText).count == 5 && app.buttons.matching(identifier: buttonText).element(boundBy: 2).isHittable {
+            app.buttons.matching(identifier: buttonText).element(boundBy: 2).tap()
+            return self
+        }
+        
         for index in 0..<app.buttons.matching(identifier: buttonText).count {
             if app.buttons.matching(identifier: buttonText).element(boundBy: index).isHittable {
                 app.buttons.matching(identifier: buttonText).element(boundBy: index).tap()
+                return self
             }
         }
+        XCTFail("Couldn't find hittable button with \(buttonText)")
         return self
     }
 }
