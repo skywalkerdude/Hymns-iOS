@@ -14,10 +14,23 @@ public class BaseViewCan {
         self.testCase = testCase
     }
 
+    public func waitForButtons(_ predicates: NSPredicate..., timeout: TimeInterval = 1) -> Self {
+        for predicate in predicates {
+            XCTAssertTrue(app.buttons.element(matching: predicate).waitForExistence(timeout: timeout))
+        }
+        return self
+    }
+
     public func waitForButtons(_ strings: String..., timeout: TimeInterval = 1) -> Self {
         for string in strings {
             XCTAssertTrue(app.buttons[string].waitForExistence(timeout: timeout))
         }
+        return self
+    }
+
+    public func pressButton(_ predicate: NSPredicate) -> Self {
+        _ = waitForButtons(predicate)
+        app.buttons.element(matching: predicate).tap()
         return self
     }
 

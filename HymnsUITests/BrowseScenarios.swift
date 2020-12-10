@@ -58,14 +58,16 @@ class BrowseScenarios: BaseTestCase {
             .assertCategory("Genesis", chevronUp: false)
             .assertCategory("Hosea", chevronUp: false)
             .assertCategory("Revelation", chevronUp: true)
-            .waitForButtons("General\nDon't click me!", "22\nClick me!")
-            .tapReference("22\nClick me!")
+            .waitForButtons(NSPredicate(format: "label CONTAINS[c] 'General' && label CONTAINS[c] 'Don\\'t click me!'"),
+                            NSPredicate(format: "label CONTAINS[c] '22' && label CONTAINS[c] 'Click me!'"))
+            .tapReference(NSPredicate(format: "label CONTAINS[c] '22' && label CONTAINS[c] 'Click me!'"))
             .waitForStaticTexts("verse 1 line 1")
             .goBackToBrowse()
             .assertCategory("Genesis", chevronUp: false)
             .assertCategory("Hosea", chevronUp: false)
             .assertCategory("Revelation", chevronUp: true)
-            .waitForButtons("General\nDon't click me!", "22\nClick me!")
+            .waitForButtons(NSPredicate(format: "label CONTAINS[c] 'General' && label CONTAINS[c] 'Don\\'t click me!'"),
+                            NSPredicate(format: "label CONTAINS[c] '22' && label CONTAINS[c] 'Click me!'"))
     }
 
 //    func test_browseAllSongs() {
