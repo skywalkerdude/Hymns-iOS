@@ -29,7 +29,7 @@ import SwiftUI
 /// - 30 px of vertical insets
 /// - 0.6 shrink ratio for items that aren't focused.
 ///
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
 public struct Pager<Element, ID, PageView>: View  where PageView: View, Element: Equatable, ID: Hashable {
 
     /// `Direction` determines the direction of the swipe gesture
@@ -64,17 +64,8 @@ public struct Pager<Element, ID, PageView>: View  where PageView: View, Element:
 
     /*** ViewModified properties ***/
 
-    /// Whether `Pager` should bounce or not
-    var bounces: Bool = true
-
-    /// Max relative item size that `Pager` will scroll before determining whether to move to the next page
-    var pageRatio: CGFloat = 1
-
     /// Animation to be applied when the user stops dragging
-    var pagingAnimation: ((DragResult) -> PagingAnimation)?
-
-    /// Sensitivity used to determine whether or not to swipe the page
-    var sensitivity: PaginationSensitivity = .default
+    var pagingAnimation: ((DraggingResult) -> PagingAnimation)?
 
     /// Policy to be applied when loading content
     var contentLoadingPolicy: ContentLoadingPolicy = .default
@@ -142,12 +133,6 @@ public struct Pager<Element, ID, PageView>: View  where PageView: View, Element:
 	/// Callback for when dragging begins
 	var onDraggingBegan: (() -> Void)?
 
-    /// Callback for when dragging changes
-    var onDraggingChanged: ((Double) -> Void)?
-
-    /// Callback for when dragging ends
-    var onDraggingEnded: ((Double) -> Void)?
-
     /*** State and Binding properties ***/
 
     /// Size of the view
@@ -174,18 +159,15 @@ public struct Pager<Element, ID, PageView>: View  where PageView: View, Element:
         }
     }
 
-    @ObservedObject var pagerModel: PagerModel
-
     /// Initializes a new `Pager`.
     ///
     /// - Parameter page: Binding to the page index
-    /// - Parameter data: Collection of items to populate the content
+    /// - Parameter data: Array of items to populate the content
     /// - Parameter id: KeyPath to identifiable property
     /// - Parameter content: Factory method to build new pages
-    public init<Data: RandomAccessCollection>(page: Binding<Int>, data: Data, id: KeyPath<Element, ID>, @ViewBuilder content: @escaping (Element) -> PageView) where Data.Index == Int, Data.Element == Element {
+    public init(page: Binding<Int>, data: [Element], id: KeyPath<Element, ID>, @ViewBuilder content: @escaping (Element) -> PageView) {
         self._page = page
-        self.pagerModel = PagerModel(page: page.wrappedValue)
-        self.data = Array(data)
+        self.data = data
         self.id = id
         self.content = content
     }
@@ -193,10 +175,6 @@ public struct Pager<Element, ID, PageView>: View  where PageView: View, Element:
     public var body: some View {
         GeometryReader { proxy in
             self.content(for: proxy.size)
-                .environmentObject(pagerModel)
-                .onReceive(pagerModel.$page) { (page) in
-                    self.page = page
-                }
         }
         .clipped()
     }
@@ -204,7 +182,7 @@ public struct Pager<Element, ID, PageView>: View  where PageView: View, Element:
     func content(for size: CGSize) -> PagerContent {
         var pagerContent =
             PagerContent(size: size,
-                         pagerModel: pagerModel,
+                         page: $page,
                          data: data,
                          id: id,
                          content: content)
@@ -216,9 +194,9 @@ public struct Pager<Element, ID, PageView>: View  where PageView: View, Element:
                 .itemSpacing(itemSpacing)
                 .itemAspectRatio(itemAspectRatio, alignment: itemAlignment)
                 .onPageChanged(onPageChanged)
+				.onDraggingBegan(onDraggingBegan)
                 .padding(sideInsets)
                 .pagingAnimation(pagingAnimation)
-                .partialPagination(pageRatio)
 
         #if !os(tvOS)
           pagerContent = pagerContent
@@ -226,11 +204,6 @@ public struct Pager<Element, ID, PageView>: View  where PageView: View, Element:
             .allowsDragging(allowsDragging)
             .pagingPriority(gesturePriority)
             .delaysTouches(delaysTouches)
-            .sensitivity(sensitivity)
-            .onDraggingBegan(onDraggingBegan)
-            .onDraggingChanged(onDraggingChanged)
-            .onDraggingEnded(onDraggingEnded)
-            .bounces(bounces)
           #endif
 
         pagerContent = allowsMultiplePagination ? pagerContent.multiplePagination() : pagerContent
@@ -246,15 +219,15 @@ public struct Pager<Element, ID, PageView>: View  where PageView: View, Element:
 
 }
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Pager where ID == Element.ID, Element : Identifiable {
 
     /// Initializes a new Pager.
     ///
-    /// - Parameter data: Collection of items to populate the content
+    /// - Parameter data: Array of items to populate the content
     /// - Parameter content: Factory method to build new pages
-    public init<Data: RandomAccessCollection>(page: Binding<Int>, data: Data, @ViewBuilder content: @escaping (Element) -> PageView) where Data.Index == Int, Data.Element == Element {
-        self.init(page: page, data: Array(data), id: \Element.id, content: content)
+    public init(page: Binding<Int>, data: [Element], @ViewBuilder content: @escaping (Element) -> PageView) {
+        self.init(page: page, data: data, id: \Element.id, content: content)
     }
 
 }

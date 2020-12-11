@@ -97,7 +97,7 @@ PODS:
   - SnapshotTesting (1.8.2)
   - SwiftEventBus (5.0.0)
   - SwiftLint (0.41.0)
-  - SwiftUIPager (1.14.0)
+  - SwiftUIPager (1.11.0)
 
 DEPENDENCIES:
   - FacebookCore
@@ -171,7 +171,7 @@ SPEC CHECKSUMS:
   SnapshotTesting: 38947050d13960d57a4a9c166fcf51bca7d56970
   SwiftEventBus: b30f617a6aca5a9336464b4d3f5931034762f2d5
   SwiftLint: c585ebd615d9520d7fbdbe151f527977b0534f1e
-  SwiftUIPager: 3a524f166aecc695e5c724799c4b1ad5507ae55f
+  SwiftUIPager: c4a891a61efc2b3bba53ec359d1470e85f064a1d
 
 PODFILE CHECKSUM: eff2f19d14ce8a321ddb01d8331871cb382370f5
 
