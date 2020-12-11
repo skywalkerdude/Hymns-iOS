@@ -13,7 +13,7 @@ class Tag: Object, Identifiable {
         set { privateTagColor = newValue.rawValue }
     }
 
-    required init() {
+    override required init() {
         super.init()
     }
 
@@ -48,7 +48,7 @@ class TagEntity: Object {
     @objc dynamic var tagObject: Tag!
     @objc dynamic var created: Date!
 
-    required init() {
+    override required init() {
         super.init()
     }
 
