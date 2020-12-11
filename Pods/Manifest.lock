@@ -7,97 +7,97 @@ PODS:
   - FBSDKCoreKit/Basics (5.15.1)
   - FBSDKCoreKit/Core (5.15.1):
     - FBSDKCoreKit/Basics
-  - Firebase/Analytics (6.32.2):
+  - Firebase/Analytics (7.3.0):
     - Firebase/Core
-  - Firebase/Core (6.32.2):
+  - Firebase/Core (7.3.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 6.8.2)
-  - Firebase/CoreOnly (6.32.2):
-    - FirebaseCore (= 6.10.2)
-  - Firebase/Crashlytics (6.32.2):
+    - FirebaseAnalytics (= 7.3.0)
+  - Firebase/CoreOnly (7.3.0):
+    - FirebaseCore (= 7.3.0)
+  - Firebase/Crashlytics (7.3.0):
     - Firebase/CoreOnly
-    - FirebaseCrashlytics (~> 4.6.0)
-  - FirebaseAnalytics (6.8.2):
-    - FirebaseCore (~> 6.10)
-    - FirebaseInstallations (~> 1.6)
-    - GoogleAppMeasurement (= 6.8.2)
-    - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
-    - GoogleUtilities/MethodSwizzler (~> 6.7)
-    - GoogleUtilities/Network (~> 6.7)
-    - "GoogleUtilities/NSData+zlib (~> 6.7)"
-    - nanopb (~> 1.30906.0)
-  - FirebaseCore (6.10.2):
-    - FirebaseCoreDiagnostics (~> 1.6)
-    - GoogleUtilities/Environment (~> 6.7)
-    - GoogleUtilities/Logger (~> 6.7)
-  - FirebaseCoreDiagnostics (1.6.0):
-    - GoogleDataTransport (~> 7.2)
-    - GoogleUtilities/Environment (~> 6.7)
-    - GoogleUtilities/Logger (~> 6.7)
-    - nanopb (~> 1.30906.0)
-  - FirebaseCrashlytics (4.6.0):
-    - FirebaseCore (~> 6.10)
-    - FirebaseInstallations (~> 1.6)
-    - GoogleDataTransport (~> 7.2)
-    - nanopb (~> 1.30906.0)
+    - FirebaseCrashlytics (~> 7.3.0)
+  - FirebaseAnalytics (7.3.0):
+    - FirebaseCore (~> 7.0)
+    - FirebaseInstallations (~> 7.0)
+    - GoogleAppMeasurement (= 7.3.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
+    - GoogleUtilities/MethodSwizzler (~> 7.0)
+    - GoogleUtilities/Network (~> 7.0)
+    - "GoogleUtilities/NSData+zlib (~> 7.0)"
+    - nanopb (~> 2.30906.0)
+  - FirebaseCore (7.3.0):
+    - FirebaseCoreDiagnostics (~> 7.0)
+    - GoogleUtilities/Environment (~> 7.0)
+    - GoogleUtilities/Logger (~> 7.0)
+  - FirebaseCoreDiagnostics (7.3.0):
+    - GoogleDataTransport (~> 8.0)
+    - GoogleUtilities/Environment (~> 7.0)
+    - GoogleUtilities/Logger (~> 7.0)
+    - nanopb (~> 2.30906.0)
+  - FirebaseCrashlytics (7.3.0):
+    - FirebaseCore (~> 7.0)
+    - FirebaseInstallations (~> 7.0)
+    - GoogleDataTransport (~> 8.0)
+    - nanopb (~> 2.30906.0)
     - PromisesObjC (~> 1.2)
-  - FirebaseInstallations (1.7.0):
-    - FirebaseCore (~> 6.10)
-    - GoogleUtilities/Environment (~> 6.7)
-    - GoogleUtilities/UserDefaults (~> 6.7)
+  - FirebaseInstallations (7.3.0):
+    - FirebaseCore (~> 7.0)
+    - GoogleUtilities/Environment (~> 7.0)
+    - GoogleUtilities/UserDefaults (~> 7.0)
     - PromisesObjC (~> 1.2)
-  - GoogleAppMeasurement (6.8.2):
-    - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
-    - GoogleUtilities/MethodSwizzler (~> 6.7)
-    - GoogleUtilities/Network (~> 6.7)
-    - "GoogleUtilities/NSData+zlib (~> 6.7)"
-    - nanopb (~> 1.30906.0)
-  - GoogleDataTransport (7.3.0):
-    - nanopb (~> 1.30906.0)
-  - GoogleUtilities/AppDelegateSwizzler (6.7.2):
+  - GoogleAppMeasurement (7.3.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
+    - GoogleUtilities/MethodSwizzler (~> 7.0)
+    - GoogleUtilities/Network (~> 7.0)
+    - "GoogleUtilities/NSData+zlib (~> 7.0)"
+    - nanopb (~> 2.30906.0)
+  - GoogleDataTransport (8.1.0):
+    - nanopb (~> 2.30906.0)
+  - GoogleUtilities/AppDelegateSwizzler (7.1.1):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (6.7.2):
+  - GoogleUtilities/Environment (7.1.1):
     - PromisesObjC (~> 1.2)
-  - GoogleUtilities/Logger (6.7.2):
+  - GoogleUtilities/Logger (7.1.1):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (6.7.2):
+  - GoogleUtilities/MethodSwizzler (7.1.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (6.7.2):
+  - GoogleUtilities/Network (7.1.1):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (6.7.2)"
-  - GoogleUtilities/Reachability (6.7.2):
+  - "GoogleUtilities/NSData+zlib (7.1.1)"
+  - GoogleUtilities/Reachability (7.1.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (6.7.2):
+  - GoogleUtilities/UserDefaults (7.1.1):
     - GoogleUtilities/Logger
   - GRDB.swift (4.14.0):
     - GRDB.swift/standard (= 4.14.0)
   - GRDB.swift/standard (4.14.0)
   - GRDBCombine (0.8.1):
     - GRDB.swift (~> 4.1)
-  - lottie-ios (3.1.8)
-  - MockingbirdFramework (0.15.0)
-  - nanopb (1.30906.0):
-    - nanopb/decode (= 1.30906.0)
-    - nanopb/encode (= 1.30906.0)
-  - nanopb/decode (1.30906.0)
-  - nanopb/encode (1.30906.0)
-  - Nimble (8.1.2)
-  - PromisesObjC (1.2.10)
+  - lottie-ios (3.1.9)
+  - MockingbirdFramework (0.16.0)
+  - nanopb (2.30906.0):
+    - nanopb/decode (= 2.30906.0)
+    - nanopb/encode (= 2.30906.0)
+  - nanopb/decode (2.30906.0)
+  - nanopb/encode (2.30906.0)
+  - Nimble (9.0.0)
+  - PromisesObjC (1.2.11)
   - Quick (3.0.0)
-  - Realm (5.4.1):
-    - Realm/Headers (= 5.4.1)
-  - Realm/Headers (5.4.1)
-  - RealmSwift (5.4.1):
-    - Realm (= 5.4.1)
-  - Resolver (1.1.4)
+  - Realm (10.4.0):
+    - Realm/Headers (= 10.4.0)
+  - Realm/Headers (10.4.0)
+  - RealmSwift (10.4.0):
+    - Realm (= 10.4.0)
+  - Resolver (1.2.1)
   - SnapshotTesting (1.8.2)
   - SwiftEventBus (5.0.0)
-  - SwiftLint (0.40.2)
-  - SwiftUIPager (1.11.0)
+  - SwiftLint (0.41.0)
+  - SwiftUIPager (1.14.0)
 
 DEPENDENCIES:
   - FacebookCore
@@ -148,31 +148,31 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   FacebookCore: ba86524b66cfa86d0f8e65d08faa8504a9f732dd
   FBSDKCoreKit: 1d5acf7c9d7a2f92bb1a242dc60cae5b7adb91df
-  Firebase: 47176280bfba198e531f909cfb1612dad216cb96
-  FirebaseAnalytics: 3c2fee6a922023ccfda7af87e4e641bad1fc11ba
-  FirebaseCore: 1d697bb944bf2af5fc248f1a66e165c9dd88bf97
-  FirebaseCoreDiagnostics: 7415bfb3883b3500c5a95c42b6ba66baae78f600
-  FirebaseCrashlytics: eea40d2a33f01b927b9f6f00ef305baa22a6a58e
-  FirebaseInstallations: 466c7b4d1f58fe16707693091da253726a731ed2
-  GoogleAppMeasurement: 1a66f478c68ecd6c16ee63ee60c7c3a648e6b337
-  GoogleDataTransport: e85fb700c9b027079ce182c3d08e12e0f9618bb4
-  GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
+  Firebase: 26223c695fe322633274198cb19dca8cb7e54416
+  FirebaseAnalytics: 2580c2d62535ae7b644143d48941fcc239ea897a
+  FirebaseCore: 4d3c72622ce0e2106aaa07bb4b2935ba2c370972
+  FirebaseCoreDiagnostics: d50e11039e5984d92c8a512be2395f13df747350
+  FirebaseCrashlytics: d31325312c92e2cb2f0386d589b9aa44e303d99b
+  FirebaseInstallations: 971df89b48ae5ee4cc2bf6935f3857a525d28550
+  GoogleAppMeasurement: 8d3c0aeede16ab7764144b5a4ca8e1d4323841b7
+  GoogleDataTransport: 116c84c4bdeb76be2a7a46de51244368f9794eab
+  GoogleUtilities: 3dc4ff0d5e4840e2fa8eef0889620e8c33d4218c
   GRDB.swift: 8cc3ab7c8b8b4ac1761deb8dca4b51c1c9d429f8
   GRDBCombine: 1f01bb894c0e00afc5c12fd8a173c50de59ed02b
-  lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
-  MockingbirdFramework: 65e4d85d12e486f72c0a78766e3b4eb04d73c002
-  nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
-  Nimble: 3864815b4703c7ebffba875973c70e854489fbae
-  PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
+  lottie-ios: 3a3758ef5a008e762faec9c9d50a39842f26d124
+  MockingbirdFramework: d1c649854c0a4ae5b115f860d75513b6438489a2
+  nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
+  Nimble: 3b4ec3fd40f1dc178058e0981107721c615643d8
+  PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   Quick: 6d9559f40647bc4d510103842ef2fdd882d753e2
-  Realm: 7e887608ef1de2d0c3a33dd9b1449e08fc9d9807
-  RealmSwift: ef998d9b678fd74e047c56ef4d99d9b77e87c1eb
-  Resolver: 1f4c046255cbadfa97094692e16e940d4329779f
+  Realm: d8466b2238f034a5ff7a031aed63b7dacdf0dd10
+  RealmSwift: 37a93ae742667948cc094a3c6ae3d006db32b66f
+  Resolver: 764e380b2ddb26bba48c6e45ab393c968894a156
   SnapshotTesting: 38947050d13960d57a4a9c166fcf51bca7d56970
   SwiftEventBus: b30f617a6aca5a9336464b4d3f5931034762f2d5
-  SwiftLint: 1216c910d27c2633ade33b4f071bb6b930982e62
-  SwiftUIPager: c4a891a61efc2b3bba53ec359d1470e85f064a1d
+  SwiftLint: c585ebd615d9520d7fbdbe151f527977b0534f1e
+  SwiftUIPager: 3a524f166aecc695e5c724799c4b1ad5507ae55f
 
 PODFILE CHECKSUM: eff2f19d14ce8a321ddb01d8331871cb382370f5
 
-COCOAPODS: 1.10.0.rc.1
+COCOAPODS: 1.10.0
