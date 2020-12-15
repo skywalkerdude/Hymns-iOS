@@ -16,6 +16,15 @@ struct TagSheetView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
+            HStack {
+                Spacer()
+                Button(action: {
+                    self.sheet.wrappedValue = nil
+                }, label: {
+                    Image(systemName: "xmark").foregroundColor(.primary).padding([.horizontal, .bottom])
+                })
+            }
+            Image("empty tag illustration").maxWidth()
             Text("Name your tag").font(.body).fontWeight(.bold)
             TextField("Label it however you like", text: self.$tagName)
             Divider()
