@@ -30,7 +30,9 @@ class FavoritesViewModel: ObservableObject {
             .replaceError(with: [SongResultViewModel]())
             .receive(on: mainQueue)
             .sink(receiveValue: { results in
-                self.favorites = results
+                if self.favorites != results {
+                    self.favorites = results
+                }
             }).store(in: &disposables)
     }
 }
