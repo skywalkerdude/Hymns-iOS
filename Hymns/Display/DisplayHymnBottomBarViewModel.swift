@@ -75,7 +75,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
 
                     buttons.append(.tags)
 
-                    if let url = "https://m.soundcloud.com/search/sounds?q=\(hymn.title)".toEncodedUrl,
+                    if let url = "https://soundcloud.com/search/results?q=\(hymn.title)".toEncodedUrl,
                         self.systemUtil.isNetworkAvailable() {
                         buttons.append(.soundCloud(SoundCloudViewModel(url: url)))
                     }
