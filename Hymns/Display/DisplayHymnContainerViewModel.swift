@@ -31,7 +31,7 @@ class DisplayHymnContainerViewModel: ObservableObject {
         let hymnNumber = identifier.hymnNumber
         let queryParams = identifier.queryParams
 
-        if hymnType.maxNumber > 0 && hymnNumber.isPositiveInteger, let hymnNumberInt = hymnNumber.toInteger {
+        if hymnType.maxNumber > 0 && hymnNumber.isPositiveInteger, let hymnNumberInt = hymnNumber.toInteger, hymnNumberInt <= hymnType.maxNumber {
             hymns = (1...HymnType.classic.maxNumber).map({ num -> DisplayHymnViewModel in
                 let numString = String(num)
                 let shouldStore = storeInHistoryStore && hymnNumber == numString
