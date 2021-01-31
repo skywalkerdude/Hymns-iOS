@@ -13,6 +13,7 @@ enum PlaybackState: Int {
 class AudioPlayerViewModel: NSObject, ObservableObject {
 
     @Published var playbackState: PlaybackState = .stopped
+    @Published var showSpeedAdjuster = true
     @Published var shouldRepeat = false
     @Published var currentSpeed: Float = 1.0
     @Published var currentTime: TimeInterval
@@ -36,12 +37,18 @@ class AudioPlayerViewModel: NSObject, ObservableObject {
     init(url: URL,
          backgroundQueue: DispatchQueue = Resolver.resolve(name: "background"),
          mainQueue: DispatchQueue = Resolver.resolve(name: "main"),
-         service: HymnalNetService = Resolver.resolve()) {
+         service: HymnalNetService = Resolver.resolve(),
+         systemUtil: SystemUtil = Resolver.resolve()) {
         self.url = url
         self.mainQueue = mainQueue
         self.backgroundQueue = backgroundQueue
         self.service = service
         self.currentTime = TimeInterval.zero
+
+        // For small screens, don't show the speed adjuster button.
+        if systemUtil.isSmallScreen() {
+            self.showSpeedAdjuster = false
+        }
 
         // https://stackoverflow.com/questions/30832352/swift-keep-playing-sounds-when-the-device-is-locked
         do {

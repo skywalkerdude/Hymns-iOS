@@ -18,12 +18,14 @@ struct AudioPlayer: View {
         VStack {
             AudioSlider(viewModel: viewModel)
             HStack(spacing: 40) {
-                // Toggle speed selection
-                Button(action: {
-                    self.showSpeedPicker.toggle()
-                }, label: {
-                    Image(systemName: "timer").font(.system(size: smallButtonSize)).foregroundColor(self.showSpeedPicker ? .accentColor : .primary)
-                })
+                if viewModel.showSpeedAdjuster {
+                    // Toggle speed selection
+                    Button(action: {
+                        self.showSpeedPicker.toggle()
+                    }, label: {
+                        Image(systemName: "timer").font(.system(size: smallButtonSize)).foregroundColor(self.showSpeedPicker ? .accentColor : .primary)
+                    })
+                }
 
                 // Reset button
                 Button(action: {
