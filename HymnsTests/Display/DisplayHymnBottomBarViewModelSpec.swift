@@ -18,6 +18,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
             beforeEach {
                 hymnsRepository = mock(HymnsRepository.self)
                 systemUtil = mock(SystemUtil.self)
+                given(systemUtil.isSmallScreen()) ~> false
                 target = DisplayHymnBottomBarViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository,
                                                        mainQueue: testQueue, backgroundQueue: testQueue, systemUtil: systemUtil)
             }
@@ -25,6 +26,19 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                 it("should only contain font size and tags") {
                     expect(target.buttons).to(beEmpty())
                     expect(target.overflowButtons).to(beNil())
+                }
+                it("should contain 6 tabs") {
+                    expect(target.overflowThreshold).to(be(6))
+                }
+                context("small screen") {
+                    beforeEach {
+                        given(systemUtil.isSmallScreen()) ~> true
+                        target = DisplayHymnBottomBarViewModel(hymnToDisplay: classic1151, hymnsRepository: hymnsRepository,
+                                                               mainQueue: testQueue, backgroundQueue: testQueue, systemUtil: systemUtil)
+                    }
+                    it("should contain 5 tabs") {
+                        expect(target.overflowThreshold).to(be(5))
+                    }
                 }
             }
             context("with nil repository result") {
@@ -97,7 +111,7 @@ class DisplayHymnBottomBarViewModelSpec: QuickSpec {
                     verify(hymnsRepository.getHymn(classic1151)).wasCalled(exactly(1))
                 }
                 let mp3Url = URL(string: "http://www.hymnal.net/en/hymn/h/1151/f=mp3")!
-                it("should have \(DisplayHymnBottomBarViewModel.overflowThreshold - 1) buttons in the buttons list and the rest in the overflow") {
+                it("should have 5 buttons in the buttons list and the rest in the overflow") {
                     expect(target.buttons).to(haveCount(5))
                     expect(target.buttons[0]).to(equal(.share("Drink! a river pure and clear that's flowing from the throne;\nEat! the tree of life with fruits abundant, richly grown\n\nDo come, oh, do come,\nSays Spirit and the Bride:\n\n")))
                     expect(target.buttons[1]).to(equal(.fontSize))

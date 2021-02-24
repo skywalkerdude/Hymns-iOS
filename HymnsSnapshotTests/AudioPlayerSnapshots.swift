@@ -32,4 +32,9 @@ class AudioPlayerSnapshots: XCTestCase {
         viewModel.songDuration = 20
         assertVersionedSnapshot(matching: AudioPlayer(viewModel: viewModel), as: .swiftUiImage())
     }
+
+    func test_no_speed_adjuster() {
+        viewModel.showSpeedAdjuster = false
+        assertVersionedSnapshot(matching: AudioPlayer(viewModel: viewModel), as: .swiftUiImage())
+    }
 }

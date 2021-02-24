@@ -7,7 +7,7 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
     /**
      * Threshold for determining if there should be an overflow menu or not
      */
-    public static let overflowThreshold = 6
+    public var overflowThreshold = 6
 
     @Published var buttons: [BottomBarButton]
     @Published var overflowButtons: [BottomBarButton]?
@@ -35,6 +35,11 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
         self.backgroundQueue = backgroundQueue
         self.systemUtil = systemUtil
         self.buttons = [BottomBarButton]()
+
+        // For small screen, lower the number of tabs to 5.
+        if systemUtil.isSmallScreen() {
+            overflowThreshold = 5
+        }
     }
 
     func fetchHymn() {
@@ -91,10 +96,10 @@ class DisplayHymnBottomBarViewModel: ObservableObject {
                     }
 
                     self.buttons = [BottomBarButton]()
-                    if buttons.count > Self.overflowThreshold {
-                        self.buttons.append(contentsOf: buttons[0..<(Self.overflowThreshold - 1)])
+                    if buttons.count > self.overflowThreshold {
+                        self.buttons.append(contentsOf: buttons[0..<(self.overflowThreshold - 1)])
                         var overflowButtons = [BottomBarButton]()
-                        overflowButtons.append(contentsOf: buttons[(Self.overflowThreshold - 1)..<buttons.count])
+                        overflowButtons.append(contentsOf: buttons[(self.overflowThreshold - 1)..<buttons.count])
                         self.overflowButtons = overflowButtons
                     } else {
                         self.buttons.append(contentsOf: buttons)

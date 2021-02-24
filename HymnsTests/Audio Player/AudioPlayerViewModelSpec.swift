@@ -4,18 +4,35 @@ import Nimble
 import Quick
 @testable import Hymns
 
+// swiftlint:disable:next type_body_length
 class AudioPlayerViewModelSpec: QuickSpec {
 
+    // swiftlint:disable:next function_body_length
     override func spec() {
         describe("AudioPlayerViewModel") {
             // https://www.vadimbulavin.com/unit-testing-async-code-in-swift/
             let testQueue = DispatchQueue(label: "test_queue")
             let url = URL(string: "https://www.hymnal.net/en/hymn/h/767/f=mp3")!
             var service: HymnalNetServiceMock!
+            var systemUtil: SystemUtilMock!
             var target: AudioPlayerViewModel!
             beforeEach {
                 service = mock(HymnalNetService.self)
-                target = AudioPlayerViewModel(url: url, backgroundQueue: testQueue, mainQueue: testQueue, service: service)
+                systemUtil = mock(SystemUtil.self)
+                given(systemUtil.isSmallScreen()) ~> false
+                target = AudioPlayerViewModel(url: url, backgroundQueue: testQueue, mainQueue: testQueue, service: service, systemUtil: systemUtil)
+            }
+            context("regular screen size") {
+                it("should show the speed adjuster") {
+                    expect(target.showSpeedAdjuster).to(beTrue())
+                }
+            }
+            context("small screen size") {
+                it("should not show the speed adjuster") {
+                    given(systemUtil.isSmallScreen()) ~> true
+                    target = AudioPlayerViewModel(url: url, backgroundQueue: testQueue, mainQueue: testQueue, service: service, systemUtil: systemUtil)
+                    expect(target.showSpeedAdjuster).to(beFalse())
+                }
             }
             describe("toggle repeat") {
                 it("should toggle the shouldRepeat variable") {
