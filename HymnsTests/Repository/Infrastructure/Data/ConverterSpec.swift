@@ -24,7 +24,7 @@ class ConverterSpec: QuickSpec {
                     }
                 }
                 context("nil lyrics") {
-                    let nilLyrics = HymnEntity(hymnIdentifier: classic1151)
+                    let nilLyrics = HymnEntityBuilder(hymnIdentifier: classic1151).build()
                     it("should throw type conversion error") {
                         expect {
                             try target.toUiHymn(hymnIdentifier: classic1151, hymnEntity: nilLyrics)
@@ -34,7 +34,7 @@ class ConverterSpec: QuickSpec {
                     }
                 }
                 context("empty lyrics") {
-                    let nilLyrics = HymnEntity(hymnIdentifier: classic1151, lyricsJson: "")
+                    let nilLyrics = HymnEntityBuilder(hymnIdentifier: classic1151).lyricsJson("").build()
                     it("should throw type conversion error") {
                         expect {
                             try target.toUiHymn(hymnIdentifier: classic1151, hymnEntity: nilLyrics)
@@ -44,7 +44,7 @@ class ConverterSpec: QuickSpec {
                     }
                 }
                 context("nil title") {
-                    let nilTitle = HymnEntity(hymnIdentifier: classic1151, lyricsJson: "[{\"verse_type\":\"verse\",\"verse_content\":[\"line 1\",\"line 2\"]}]")
+                    let nilTitle = HymnEntityBuilder(hymnIdentifier: classic1151).lyricsJson("[{\"verse_type\":\"verse\",\"verse_content\":[\"line 1\",\"line 2\"]}]").build()
                     it("should throw type conversion error") {
                         expect {
                             try target.toUiHymn(hymnIdentifier: classic1151, hymnEntity: nilTitle)
@@ -54,7 +54,7 @@ class ConverterSpec: QuickSpec {
                     }
                 }
                 context("empty title") {
-                    let nilTitle = HymnEntity(hymnIdentifier: classic1151, title: "", lyricsJson: "[{\"verse_type\":\"verse\",\"verse_content\":[\"line 1\",\"line 2\"]}]")
+                    let nilTitle = HymnEntityBuilder(hymnIdentifier: classic1151).title("").lyricsJson("[{\"verse_type\":\"verse\",\"verse_content\":[\"line 1\",\"line 2\"]}]").build()
                     it("should throw type conversion error") {
                         expect {
                             try target.toUiHymn(hymnIdentifier: classic1151, hymnEntity: nilTitle)
@@ -64,7 +64,7 @@ class ConverterSpec: QuickSpec {
                     }
                 }
                 context("invalid json") {
-                    let invalidJson = HymnEntity(hymnIdentifier: classic1151, title: "Hymn: title", lyricsJson: "invalid json")
+                    let invalidJson = HymnEntityBuilder(hymnIdentifier: classic1151).title("Hymn: title").lyricsJson("invalid json").build()
                     // <TypeConversionError(triggeringError: Swift.DecodingError.dataCorrupted(Swift.DecodingError.Context(codingPath: [], debugDescription: "The given data was not valid JSON.", underlyingError: Optional(Error Domain=NSCocoaErrorDomain Code=3840 "Invalid value around character 0." UserInfo={NSDebugDescription=Invalid value around character 0.}))))>
                     it("should throw type conversion error") {
                         expect {
@@ -76,21 +76,22 @@ class ConverterSpec: QuickSpec {
                 }
                 context("filled hymn") {
                     let filledHymn
-                        = HymnEntity(hymnIdentifier: classic1151,
-                                     title: "Hymn: title",
-                                     lyricsJson: "[{\"verse_type\":\"verse\",\"verse_content\":[\"line 1\",\"line 2\"]}]",
-                                     category: "This is my category",
-                                     subcategory: "This is my subcategory",
-                                     author: "This is the author",
-                                     composer: "This is the composer",
-                                     key: "This is the key",
-                                     time: "This is the time",
-                                     meter: "This is the meter",
-                                     scriptures: "This is the scriptures",
-                                     hymnCode: "This is the hymnCode",
-                                     pdfSheetJson: "{\"data\": [{\"path\": \"/en/hymn/h/1151/f=ppdf\", \"value\": \"Piano\"}, {\"path\": \"/en/hymn/h/1151/f=pdf\", \"value\": \"Guitar\"}, {\"path\": \"/en/hymn/h/1151/f=gtpdf\", \"value\": \"Text\"}], \"name\": \"Lead Sheet\"}",
-                                     languagesJson: "{\"data\": [{\"path\": \"/en/hymn/cb/1151\", \"value\": \"Cebuano\"}, {\"path\": \"/en/hymn/ts/216?gb=1\", \"value\": \"诗歌(简)\"}, {\"path\": \"/en/hymn/ht/1151\", \"value\": \"Tagalog\"}], \"name\": \"Languages\"}",
-                                     relevantJson: "{\"data\": [{\"path\": \"/en/hymn/h/152\", \"value\": \"Original Tune\"}, {\"path\": \"/en/hymn/nt/152\", \"value\": \"New Tune\"}, {\"path\": \"/en/hymn/h/152b\", \"value\": \"Alternate Tune\"}], \"name\": \"Relevant\"}")
+                        = HymnEntityBuilder(hymnIdentifier: classic1151)
+                        .title("Hymn: title")
+                        .lyricsJson("[{\"verse_type\":\"verse\",\"verse_content\":[\"line 1\",\"line 2\"]}]")
+                        .category("This is my category")
+                        .subcategory("This is my subcategory")
+                        .author("This is the author")
+                        .composer("This is the composer")
+                        .key("This is the key")
+                        .time("This is the time")
+                        .meter("This is the meter")
+                        .scriptures("This is the scriptures")
+                        .hymnCode("This is the hymnCode")
+                        .pdfSheetJson("{\"data\": [{\"path\": \"/en/hymn/h/1151/f=ppdf\", \"value\": \"Piano\"}, {\"path\": \"/en/hymn/h/1151/f=pdf\", \"value\": \"Guitar\"}, {\"path\": \"/en/hymn/h/1151/f=gtpdf\", \"value\": \"Text\"}], \"name\": \"Lead Sheet\"}")
+                        .languagesJson("{\"data\": [{\"path\": \"/en/hymn/cb/1151\", \"value\": \"Cebuano\"}, {\"path\": \"/en/hymn/ts/216?gb=1\", \"value\": \"诗歌(简)\"}, {\"path\": \"/en/hymn/ht/1151\", \"value\": \"Tagalog\"}], \"name\": \"Languages\"}")
+                        .relevantJson("{\"data\": [{\"path\": \"/en/hymn/h/152\", \"value\": \"Original Tune\"}, {\"path\": \"/en/hymn/nt/152\", \"value\": \"New Tune\"}, {\"path\": \"/en/hymn/h/152b\", \"value\": \"Alternate Tune\"}], \"name\": \"Relevant\"}")
+                        .build()
 
                     let expected
                         = UiHymn(hymnIdentifier: classic1151,

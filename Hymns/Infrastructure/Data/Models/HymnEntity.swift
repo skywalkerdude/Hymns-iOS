@@ -104,48 +104,141 @@ extension HymnEntity: Codable, FetchableRecord, PersistableRecord, MutablePersis
     }
 }
 
-extension HymnEntity {
+class HymnEntityBuilder {
 
-    /**
-     * A convenient initializer that uses a `HymnIdentifier` and allows the caller to  set as many or as few fields as they want.
-     */
-    init(hymnIdentifier: HymnIdentifier,
-         id: Int64? = nil,
-         title: String? = nil,
-         lyricsJson: String? = nil,
-         category: String? = nil,
-         subcategory: String? = nil,
-         author: String? = nil,
-         composer: String? = nil,
-         key: String? = nil,
-         time: String? = nil,
-         meter: String? = nil,
-         scriptures: String? = nil,
-         hymnCode: String? = nil,
-         musicJson: String? = nil,
-         svgSheetJson: String? = nil,
-         pdfSheetJson: String? = nil,
-         languagesJson: String? = nil,
-         relevantJson: String? = nil) {
+    private (set) var hymnIdentifier: HymnIdentifier
+    private (set) var id: Int64?
+    private (set) var title: String?
+    private (set) var lyricsJson: String?
+    private (set) var category: String?
+    private (set) var subcategory: String?
+    private (set) var author: String?
+    private (set) var composer: String?
+    private (set) var key: String?
+    private (set) var time: String?
+    private (set) var meter: String?
+    private (set) var scriptures: String?
+    private (set) var hymnCode: String?
+    private (set) var musicJson: String?
+    private (set) var svgSheetJson: String?
+    private (set) var pdfSheetJson: String?
+    private (set) var languagesJson: String?
+    private (set) var relevantJson: String?
+
+    init(hymnIdentifier: HymnIdentifier) {
+        self.hymnIdentifier = hymnIdentifier
+    }
+
+    public func hymnIdentifier(_ hymnIdentifier: HymnIdentifier) -> HymnEntityBuilder {
+        self.hymnIdentifier = hymnIdentifier
+        return self
+    }
+
+    public func id(_ id: Int64?) -> HymnEntityBuilder {
         self.id = id
-        self.hymnType = hymnIdentifier.hymnType.abbreviatedValue
-        self.hymnNumber = hymnIdentifier.hymnNumber
-        self.queryParams = hymnIdentifier.queryParamString
+        return self
+    }
+
+    public func title(_ title: String?) -> HymnEntityBuilder {
         self.title = title
+        return self
+    }
+
+    public func lyricsJson(_ lyricsJson: String?) -> HymnEntityBuilder {
         self.lyricsJson = lyricsJson
+        return self
+    }
+
+    public func category(_ category: String?) -> HymnEntityBuilder {
         self.category = category
+        return self
+    }
+
+    public func subcategory(_ subcategory: String?) -> HymnEntityBuilder {
         self.subcategory = subcategory
+        return self
+    }
+
+    public func author(_ author: String?) -> HymnEntityBuilder {
         self.author = author
+        return self
+    }
+
+    public func composer(_ composer: String?) -> HymnEntityBuilder {
         self.composer = composer
+        return self
+    }
+
+    public func key(_ key: String?) -> HymnEntityBuilder {
         self.key = key
+        return self
+    }
+
+    public func time(_ time: String?) -> HymnEntityBuilder {
         self.time = time
+        return self
+    }
+
+    public func meter(_ meter: String?) -> HymnEntityBuilder {
         self.meter = meter
+        return self
+    }
+
+    public func scriptures(_ scriptures: String?) -> HymnEntityBuilder {
         self.scriptures = scriptures
+        return self
+    }
+
+    public func hymnCode(_ hymnCode: String?) -> HymnEntityBuilder {
         self.hymnCode = hymnCode
+        return self
+    }
+
+    public func musicJson(_ musicJson: String?) -> HymnEntityBuilder {
         self.musicJson = musicJson
+        return self
+    }
+
+    public func svgSheetJson(_ svgSheetJson: String?) -> HymnEntityBuilder {
         self.svgSheetJson = svgSheetJson
+        return self
+    }
+
+    public func pdfSheetJson(_ pdfSheetJson: String?) -> HymnEntityBuilder {
         self.pdfSheetJson = pdfSheetJson
+        return self
+    }
+
+    public func languagesJson(_ languagesJson: String?) -> HymnEntityBuilder {
         self.languagesJson = languagesJson
+        return self
+    }
+
+    public func relevantJson(_ relevantJson: String?) -> HymnEntityBuilder {
         self.relevantJson = relevantJson
+        return self
+    }
+
+    public func build() -> HymnEntity {
+        HymnEntity(id: id,
+                   hymnType: hymnIdentifier.hymnType.abbreviatedValue,
+                   hymnNumber: hymnIdentifier.hymnNumber,
+                   queryParams: hymnIdentifier.queryParamString,
+                   title: title,
+                   lyricsJson: lyricsJson,
+                   category: category,
+                   subcategory: subcategory,
+                   author: author,
+                   composer: composer,
+                   key: key,
+                   time: time,
+                   meter: meter,
+                   scriptures: scriptures,
+                   hymnCode: hymnCode,
+                   musicJson: musicJson,
+                   svgSheetJson: svgSheetJson,
+                   pdfSheetJson: pdfSheetJson,
+                   languagesJson: languagesJson,
+                   relevantJson: relevantJson)
     }
 }

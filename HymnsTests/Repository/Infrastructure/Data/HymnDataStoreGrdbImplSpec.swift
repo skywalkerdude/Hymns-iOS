@@ -25,12 +25,12 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
             describe("save a few songs") {
                 beforeEach {
                     target.saveHymn(classic_1151_hymn_entity)
-                    target.saveHymn(HymnEntity(hymnIdentifier: newSong145, title: "new song 145", hymnCode: "171214436716555"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: cebuano123, title: "cebuano 123"))
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: newSong145).title("new song 145").hymnCode("171214436716555").build())
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: cebuano123).title("cebuano 123").build())
                     // saving another cebuano123 should replace the old one.
-                    target.saveHymn(HymnEntity(hymnIdentifier: cebuano123, title: "new cebuano title"))
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: cebuano123).title("new cebuano title").build())
                     // this one should be a whole new song in the db
-                    target.saveHymn(HymnEntity(hymnIdentifier: cebuano123QueryParams, title: "cebuano 123 with query params", hymnCode: "171214436716555"))
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: cebuano123QueryParams).title("cebuano 123 with query params").hymnCode("171214436716555").build())
                 }
                 context("getting a stored song") {
                     it("should return the stored song") {
@@ -44,7 +44,7 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                                 expect(state).to(equal(.finished))
                             }, receiveValue: { entity in
                                 value.fulfill()
-                                expect(entity).to(equal(HymnEntity(hymnIdentifier: cebuano123, title: "new cebuano title")))
+                                expect(entity).to(equal(HymnEntityBuilder(hymnIdentifier: cebuano123).title("new cebuano title").build()))
                             })
                         testQueue.sync {}
                         testQueue.sync {}
@@ -66,9 +66,10 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                                 expect(state).to(equal(.finished))
                             }, receiveValue: { entity in
                                 value.fulfill()
-                                expect(entity).to(equal(HymnEntity(hymnIdentifier: cebuano123QueryParams,
-                                                                   title: "cebuano 123 with query params",
-                                                                   hymnCode: "171214436716555")))
+                                expect(entity).to(equal(HymnEntityBuilder(hymnIdentifier: cebuano123QueryParams)
+                                                            .title("cebuano 123 with query params")
+                                                            .hymnCode("171214436716555")
+                                                            .build()))
                             })
                         testQueue.sync {}
                         testQueue.sync {}
@@ -153,12 +154,12 @@ class HymnDataStoreGrdbImplSpec: QuickSpec {
                 }
             }
             context("search parameter is found") {
-                let jennysSong = HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .chineseSupplement, hymnNumber: "321"), title: "Jenny's Song", lyricsJson: "winter is coming")
-                let rainsOfCastamere = HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .chinese, hymnNumber: "123"), title: "The Rains of Castamere", lyricsJson: "summer is coming")
-                let matchInTitle = HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .howardHigashi, hymnNumber: "matchInTitle"), title: "summer is coming")
-                let matchInTitleReplacement = HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .howardHigashi, hymnNumber: "matchInTitle"), title: "summer is coming!!")
-                let noMatch = HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .chineseSupplement, hymnNumber: "noMatch"), title: "no match", lyricsJson: "at all")
-                let matchInBoth = HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .korean, hymnNumber: "matchInBoth", queryParams: ["key1": "value1", "key2": "value2"]), title: "summer coming", lyricsJson: "no, really. summer is!")
+                let jennysSong = HymnEntityBuilder(hymnIdentifier: HymnIdentifier(hymnType: .chineseSupplement, hymnNumber: "321")).title("Jenny's Song").lyricsJson("winter is coming").build()
+                let rainsOfCastamere = HymnEntityBuilder(hymnIdentifier: HymnIdentifier(hymnType: .chinese, hymnNumber: "123")).title("The Rains of Castamere").lyricsJson("summer is coming").build()
+                let matchInTitle = HymnEntityBuilder(hymnIdentifier: HymnIdentifier(hymnType: .howardHigashi, hymnNumber: "matchInTitle")).title("summer is coming").build()
+                let matchInTitleReplacement = HymnEntityBuilder(hymnIdentifier: HymnIdentifier(hymnType: .howardHigashi, hymnNumber: "matchInTitle")).title("summer is coming!!").build()
+                let noMatch = HymnEntityBuilder(hymnIdentifier: HymnIdentifier(hymnType: .chineseSupplement, hymnNumber: "noMatch")).title("no match").lyricsJson("at all").build()
+                let matchInBoth = HymnEntityBuilder(hymnIdentifier: HymnIdentifier(hymnType: .korean, hymnNumber: "matchInBoth", queryParams: ["key1": "value1", "key2": "value2"])).title("summer coming").lyricsJson("no, really. summer is!").build()
                 var searchResults = [SearchResultEntity]()
                 beforeEach {
                     target.saveHymn(jennysSong)

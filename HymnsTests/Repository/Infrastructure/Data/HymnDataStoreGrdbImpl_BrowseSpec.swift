@@ -16,14 +16,14 @@ class HymnDataStoreGrdbImpl_BrowseSpec: QuickSpec {
             }
             describe("save songs with categories") {
                 beforeEach {
-                    target.saveHymn(HymnEntity(hymnIdentifier: classic1151, title: "classic 1151", category: "category 1", subcategory: "subcategory 1"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: newSong145, title: "new song 145", category: "category 1", subcategory: "subcategory 2"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: classic500, title: "classic 500", category: "category 1", subcategory: "subcategory 1"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: classic1109, title: "classic 1109", category: "category 2", subcategory: "subcategory 2"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "2", queryParams: ["q1": "v1", "q2": "v2"]), title: "classic 2", category: "category 1", subcategory: "subcategory 5"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .spanish, hymnNumber: "1"), title: "spanish 1", category: "category 1"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .spanish, hymnNumber: "2"), title: "spanish 2"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .spanish, hymnNumber: "3"), title: "spanish 3", category: "category 1", subcategory: "subcategory 1"))
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: classic1151).title("classic 1151").category("category 1").subcategory("subcategory 1").build())
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: newSong145).title("new song 145").category("category 1").subcategory("subcategory 2").build())
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: classic500).title("classic 500").category("category 1").subcategory("subcategory 1").build())
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: classic1109).title("classic 1109").category("category 2").subcategory("subcategory 2").build())
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "2", queryParams: ["q1": "v1", "q2": "v2"])).title("classic 2").category("category 1").subcategory("subcategory 5").build())
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: HymnIdentifier(hymnType: .spanish, hymnNumber: "1")).title("spanish 1").category("category 1").build())
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: HymnIdentifier(hymnType: .spanish, hymnNumber: "2")).title("spanish 2").build())
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: HymnIdentifier(hymnType: .spanish, hymnNumber: "3")).title("spanish 3").category("category 1").subcategory("subcategory 1").build())
                 }
                 describe("getting all categories") {
                     it("should contain categories with their counts") {
@@ -189,13 +189,13 @@ class HymnDataStoreGrdbImpl_BrowseSpec: QuickSpec {
             }
             describe("save some scripture songs") {
                 beforeEach {
-                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "1"), title: "classic 1", scriptures: "scripture"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "2"), title: "classic 2", scriptures: "scripture"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "3"), title: "classic 3", scriptures: "scripture"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "no title"), scriptures: "scripture"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .children, hymnNumber: "1"), title: "children 1", scriptures: "scripture"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .children, hymnNumber: "no scripture"), title: "classic 1"))
-                    target.saveHymn(HymnEntity(hymnIdentifier: HymnIdentifier(hymnType: .children, hymnNumber: "1"), title: "children 1", scriptures: "scripture 2")) // replaces the previous children1 song
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "1")).title("classic 1").scriptures("scripture").build())
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "2")).title("classic 2").scriptures("scripture").build())
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "3")).title("classic 3").scriptures("scripture").build())
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: HymnIdentifier(hymnType: .classic, hymnNumber: "no title")).scriptures("scripture").build())
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: HymnIdentifier(hymnType: .children, hymnNumber: "1")).title("children 1").scriptures("scripture").build())
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: HymnIdentifier(hymnType: .children, hymnNumber: "no scripture")).title("classic 1").build())
+                    target.saveHymn(HymnEntityBuilder(hymnIdentifier: HymnIdentifier(hymnType: .children, hymnNumber: "1")).title("children 1").scriptures("scripture 2").build()) // replaces the previous children1 song
                 }
                 let expected = [ScriptureEntity(title: "classic 1", hymnType: .classic, hymnNumber: "1", queryParams: nil, scriptures: "scripture"),
                                 ScriptureEntity(title: "classic 2", hymnType: .classic, hymnNumber: "2", queryParams: nil, scriptures: "scripture"),

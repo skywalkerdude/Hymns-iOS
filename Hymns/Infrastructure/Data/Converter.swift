@@ -23,39 +23,24 @@ class ConverterImpl: Converter {
     }
 
     func toHymnEntity(hymnIdentifier: HymnIdentifier, hymn: Hymn) throws -> HymnEntity {
-        let title = hymn.title
-        let lyricsJson = try jsonEncoder.encode(hymn.lyrics).toString
-        let category = getMetadata(hymn: hymn, metaDatumName: .category)
-        let subCategory = getMetadata(hymn: hymn, metaDatumName: .subcategory)
-        let author = getMetadata(hymn: hymn, metaDatumName: .author)
-        let composer = getMetadata(hymn: hymn, metaDatumName: .composer)
-        let key = getMetadata(hymn: hymn, metaDatumName: .key)
-        let time = getMetadata(hymn: hymn, metaDatumName: .time)
-        let meter = getMetadata(hymn: hymn, metaDatumName: .meter)
-        let hymnCode = getMetadata(hymn: hymn, metaDatumName: .hymnCode)
-        let scriptures = getMetadata(hymn: hymn, metaDatumName: .scriptures)
-        let musicJson = hymn.getMetaDatum(name: .music) != nil ? try? jsonEncoder.encode(hymn.getMetaDatum(name: .music)).toString : nil
-        let svgSheetJson = hymn.getMetaDatum(name: .svgSheet) != nil ? try? jsonEncoder.encode(hymn.getMetaDatum(name: .svgSheet)).toString : nil
-        let pdfSheetJson = hymn.getMetaDatum(name: .pdfSheet) != nil ? try? jsonEncoder.encode(hymn.getMetaDatum(name: .pdfSheet)).toString : nil
-        let languagesJson = hymn.getMetaDatum(name: .languages) != nil ? try? jsonEncoder.encode(hymn.getMetaDatum(name: .languages)).toString : nil
-        let relevantJson = hymn.getMetaDatum(name: .relevant) != nil ? try? jsonEncoder.encode(hymn.getMetaDatum(name: .relevant)).toString : nil
-        return HymnEntity(hymnIdentifier: hymnIdentifier,
-                          title: title,
-                          lyricsJson: lyricsJson,
-                          category: category,
-                          subcategory: subCategory,
-                          author: author,
-                          composer: composer,
-                          key: key,
-                          time: time,
-                          meter: meter,
-                          scriptures: scriptures,
-                          hymnCode: hymnCode,
-                          musicJson: musicJson,
-                          svgSheetJson: svgSheetJson,
-                          pdfSheetJson: pdfSheetJson,
-                          languagesJson: languagesJson,
-                          relevantJson: relevantJson)
+        HymnEntityBuilder(hymnIdentifier: hymnIdentifier)
+            .title(hymn.title)
+            .lyricsJson(try jsonEncoder.encode(hymn.lyrics).toString)
+            .category(getMetadata(hymn: hymn, metaDatumName: .category))
+            .subcategory(getMetadata(hymn: hymn, metaDatumName: .subcategory))
+            .author(getMetadata(hymn: hymn, metaDatumName: .author))
+            .composer(getMetadata(hymn: hymn, metaDatumName: .composer))
+            .key(getMetadata(hymn: hymn, metaDatumName: .key))
+            .time(getMetadata(hymn: hymn, metaDatumName: .time))
+            .meter(getMetadata(hymn: hymn, metaDatumName: .meter))
+            .hymnCode(getMetadata(hymn: hymn, metaDatumName: .hymnCode))
+            .scriptures(getMetadata(hymn: hymn, metaDatumName: .scriptures))
+            .musicJson(hymn.getMetaDatum(name: .music) != nil ? try? jsonEncoder.encode(hymn.getMetaDatum(name: .music)).toString : nil)
+            .svgSheetJson(hymn.getMetaDatum(name: .svgSheet) != nil ? try? jsonEncoder.encode(hymn.getMetaDatum(name: .svgSheet)).toString : nil)
+            .pdfSheetJson(hymn.getMetaDatum(name: .pdfSheet) != nil ? try? jsonEncoder.encode(hymn.getMetaDatum(name: .pdfSheet)).toString : nil)
+            .languagesJson(hymn.getMetaDatum(name: .languages) != nil ? try? jsonEncoder.encode(hymn.getMetaDatum(name: .languages)).toString : nil)
+            .relevantJson(hymn.getMetaDatum(name: .relevant) != nil ? try? jsonEncoder.encode(hymn.getMetaDatum(name: .relevant)).toString : nil)
+            .build()
     }
 
     private func getMetadata(hymn: Hymn, metaDatumName: MetaDatumName) -> String? {
