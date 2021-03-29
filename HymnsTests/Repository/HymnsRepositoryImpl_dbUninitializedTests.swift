@@ -5,10 +5,10 @@ import XCTest
 
 class HymnsRepositoryImpl_dbUninitializedTests: XCTestCase {
 
-    let databaseResult = HymnEntity(hymnIdentifier: cebuano123,
-                                    id: 0,
-                                    title: "song title",
-                                    lyricsJson: "[{\"verse_type\":\"verse\",\"verse_content\":[\"line 1\",\"line 2\"]}]")
+    let databaseResult = HymnEntityBuilder(hymnIdentifier: cebuano123)
+        .id(0).title("song title")
+        .lyricsJson("[{\"verse_type\":\"verse\",\"verse_content\":[\"line 1\",\"line 2\"]}]")
+        .build()
     let networkResult = Hymn(title: "song title", metaData: [MetaDatum](), lyrics: [Verse(verseType: .verse, verseContent: ["line 1", "line 2"])])
     let expected = UiHymn(hymnIdentifier: cebuano123, title: "song title", lyrics: [Verse(verseType: .verse, verseContent: ["line 1", "line 2"])])
 
