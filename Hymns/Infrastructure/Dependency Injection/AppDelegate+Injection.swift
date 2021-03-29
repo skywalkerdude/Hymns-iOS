@@ -51,6 +51,7 @@ extension Resolver: ResolverRegistering {
             mock.register { PdfLoaderTestImpl() as PDFLoader }.scope(application)
             mock.register { FavoriteStoreTestImpl() as FavoriteStore }.scope(application)
             mock.register { HymnDataStoreTestImpl() as HymnDataStore }.scope(application)
+            mock.register { HymnalApiServiceTestImpl() as HymnalApiService }.scope(application)
             mock.register { HistoryStoreTestImpl() as HistoryStore }.scope(application)
             mock.register { TagStoreTestImpl() as TagStore }.scope(application)
             root = mock
