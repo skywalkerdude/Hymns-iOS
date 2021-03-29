@@ -187,9 +187,7 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
         cancellable.cancel()
     }
 
-    // Cannot do until https://github.com/birdrides/mockingbird/issues/111 is resolved, since we are try to
-    // make converter.toUiHymn throw an error the first time and execute sucessfully the second time.
-    func ignored_test_getHymn_databaseConversionError_networkAvailable_resultsSuccessful() {
+    func test_getHymn_databaseConversionError_networkAvailable_resultsSuccessful() {
         given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> { _, _ in
             throw TypeConversionError.init(triggeringError: ErrorType.parsing(description: "failed to convert!"))
         }
@@ -200,7 +198,12 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
             }).eraseToAnyPublisher()
         }
         given(converter.toHymnEntity(hymnIdentifier: cebuano123, hymn: self.networkResult)) ~> self.databaseResult
-        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
+
+        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> sequence(of: { _, _ in
+            throw TypeConversionError.init(triggeringError: ErrorType.parsing(description: "failed to convert!"))
+        }, { _, _ in
+            return self.expected
+        })
 
         let completion = expectation(description: "completion received")
         let value = expectation(description: "value received")
