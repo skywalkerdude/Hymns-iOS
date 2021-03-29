@@ -119,21 +119,36 @@ private class HymnSubscription<SubscriberType: Subscriber>: NetworkBoundSubscrip
         self.systemUtil = systemUtil
     }
 
-    func saveToDatabase(convertedNetworkResult: HymnEntity?) {
+    func saveToDatabase(databaseResult: HymnEntity??, convertedNetworkResult: HymnEntity?) {
         if !dataStore.databaseInitializedProperly {
             return
         }
         guard let hymnEntity = convertedNetworkResult else {
             return
         }
-        dataStore.saveHymn(hymnEntity)
+
+        let flattenedDatabaseResult = databaseResult?.flatMap({databaseResult -> HymnEntity? in return databaseResult})
+
+        // Combine the result from the database and the network and update the database entry.
+        let combinedHymn = combineHymns(databaseResult: flattenedDatabaseResult, convertedNetworkResult: hymnEntity)
+        if combinedHymn != databaseResult {
+            dataStore.saveHymn(combinedHymn)
+        }
+    }
+
+    /**
+     * Takes two HymnEntities, one from the database and one from the network, and combines them into one as an update to write to the database entry for that hymn.
+     */
+    private func combineHymns(databaseResult: HymnEntity?, convertedNetworkResult: HymnEntity) -> HymnEntity {
+        guard let databaseResult = databaseResult, let builder = HymnEntityBuilder(databaseResult) else {
+            return convertedNetworkResult
+        }
+
+        return builder.build()
     }
 
     func shouldFetch(convertedDatabaseResult: UiHymn??) -> Bool {
-        guard makeNetworkRequest, systemUtil.isNetworkAvailable() else {
-            return false
-        }
-        return convertedDatabaseResult?.flatMap({ uiHymn -> UiHymn? in return uiHymn }) == nil
+        makeNetworkRequest && systemUtil.isNetworkAvailable()
     }
 
     /**

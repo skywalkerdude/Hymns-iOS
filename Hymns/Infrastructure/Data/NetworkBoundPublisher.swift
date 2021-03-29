@@ -27,7 +27,7 @@ protocol NetworkBoundSubscription: class, Subscription {
 
     var disposables: Set<AnyCancellable> {get set}
 
-    func saveToDatabase(convertedNetworkResult: DatabaseResultType)
+    func saveToDatabase(databaseResult: DatabaseResultType?, convertedNetworkResult: DatabaseResultType)
 
     func shouldFetch(convertedDatabaseResult: UIResultType?) -> Bool
 
@@ -71,8 +71,8 @@ extension NetworkBoundSubscription {
         prework()
 
         loadFromDatabase()
-            .tryMap({ dbResult -> UIResultType in
-                try self.convertType(databaseResult: dbResult)
+            .tryMap({ dbResult -> (databaseResult: DatabaseResultType, converetedDatabaseResult: UIResultType) in
+                try (dbResult, self.convertType(databaseResult: dbResult))
             }).mapError({ error -> ErrorType in
                 switch error {
                 case let error as TypeConversionError:
@@ -85,17 +85,17 @@ extension NetworkBoundSubscription {
                     switch state {
                     case .failure:
                         if self.shouldFetch(convertedDatabaseResult: nil) {
-                            self.fetchFromNetwork(disposables: &self.disposables)
+                            self.fetchFromNetwork(databaseResult: nil, disposables: &self.disposables)
                         } else {
                             subscriber.receive(completion: state)
                         }
                     case .finished:
                         break
                     }
-            }, receiveValue: { uiResult in
+            }, receiveValue: { databaseResult, uiResult in
                 if self.shouldFetch(convertedDatabaseResult: uiResult) {
                     _ = subscriber.receive(uiResult)
-                    self.fetchFromNetwork(disposables: &self.disposables)
+                    self.fetchFromNetwork(databaseResult: databaseResult, disposables: &self.disposables)
                 } else {
                     _ = subscriber.receive(uiResult)
                     subscriber.receive(completion: .finished)
@@ -103,12 +103,12 @@ extension NetworkBoundSubscription {
             }).store(in: &disposables)
     }
 
-    private func fetchFromNetwork(disposables: inout Set<AnyCancellable>) {
+    private func fetchFromNetwork(databaseResult: DatabaseResultType?, disposables: inout Set<AnyCancellable>) {
         guard let subscriber = subscriber else { return }
         createNetworkCall()
             .tryMap({ networkResult -> UIResultType in
                 let convertedNetworkResponse = try self.convertType(networkResult: networkResult)
-                self.saveToDatabase(convertedNetworkResult: convertedNetworkResponse)
+                self.saveToDatabase(databaseResult: databaseResult, convertedNetworkResult: convertedNetworkResponse)
                 return try self.convertType(databaseResult: convertedNetworkResponse)
             }).mapError({ error -> ErrorType in
                 switch error {

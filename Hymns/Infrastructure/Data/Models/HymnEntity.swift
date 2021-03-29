@@ -129,6 +129,29 @@ class HymnEntityBuilder {
         self.hymnIdentifier = hymnIdentifier
     }
 
+    init?(_ hymnEntity: HymnEntity) {
+        guard let hymnType = HymnType.fromAbbreviatedValue(hymnEntity.hymnType) else {
+            return nil
+        }
+        self.hymnIdentifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnEntity.hymnNumber, queryParams: hymnEntity.queryParams.deserializeFromQueryParamString)
+        self.title = hymnEntity.title
+        self.lyricsJson = hymnEntity.lyricsJson
+        self.category = hymnEntity.category
+        self.subcategory = hymnEntity.subcategory
+        self.author = hymnEntity.author
+        self.composer = hymnEntity.composer
+        self.key = hymnEntity.key
+        self.time = hymnEntity.time
+        self.meter = hymnEntity.meter
+        self.scriptures = hymnEntity.scriptures
+        self.hymnCode = hymnEntity.hymnCode
+        self.musicJson = hymnEntity.musicJson
+        self.svgSheetJson = hymnEntity.svgSheetJson
+        self.pdfSheetJson = hymnEntity.pdfSheetJson
+        self.languagesJson = hymnEntity.languagesJson
+        self.relevantJson = hymnEntity.relevantJson
+    }
+
     public func hymnIdentifier(_ hymnIdentifier: HymnIdentifier) -> HymnEntityBuilder {
         self.hymnIdentifier = hymnIdentifier
         return self
