@@ -85,6 +85,7 @@ class HymnDataStoreTestImpl: HymnDataStore {
             .data(description: "This will never get called")
         }).eraseToAnyPublisher()
     }
+
     func getAllSongs(hymnType: HymnType) -> AnyPublisher<[SongResultEntity], ErrorType> {
         if hymnType == .classic {
             return Just(classicSongs).mapError({ _ -> ErrorType in

@@ -102,10 +102,17 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
 
     func test_getHymn_networkAvailable_resultsSuccessful() {
         given(systemUtil.isNetworkAvailable()) ~> true
+        given(service.getHymn(cebuano123)) ~> {  _ in
+            Just(self.networkResult).mapError({ _ -> ErrorType in
+                .data(description: "This will never get called")
+            }).eraseToAnyPublisher()
+        }
         given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
+        given(converter.toHymnEntity(hymnIdentifier: cebuano123, hymn: self.networkResult)) ~> self.databaseResult
 
         let completion = expectation(description: "completion received")
         let value = expectation(description: "value received")
+        value.expectedFulfillmentCount = 2
         let cancellable = target.getHymn(cebuano123)
             .print(self.description)
             .sink(receiveCompletion: { state in
@@ -117,8 +124,8 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
             })
 
         verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
-        verify(service.getHymn(any())).wasNeverCalled()
-        verify(dataStore.saveHymn(any())).wasNeverCalled()
+        verify(service.getHymn(cebuano123)).wasCalled(exactly(1))
+        verify(dataStore.saveHymn(any())).wasNeverCalled() // Database result unchanged after network update, so don't write to database.
         wait(for: [completion, value], timeout: testTimeout)
         cancellable.cancel()
     }
@@ -173,14 +180,14 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
 
         verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
         verify(service.getHymn(cebuano123)).wasCalled(exactly(1))
-        verify(dataStore.saveHymn(self.databaseResult)).wasCalled(exactly(1))
+        // Database conversion was mocked to return nil, but the database value returned by the mock data store is still the same as the value returned by the
+        // mock network. Therefore, the actual data didn't change so we do not perform any kind of update to the data store.
+        verify(dataStore.saveHymn(self.databaseResult)).wasNeverCalled()
         wait(for: [completion, value], timeout: testTimeout)
         cancellable.cancel()
     }
 
-    // Cannot do until https://github.com/birdrides/mockingbird/issues/111 is resolved, since we are try to
-    // make converter.toUiHymn throw an error the first time and execute sucessfully the second time.
-    func ignored_test_getHymn_databaseConversionError_networkAvailable_resultsSuccessful() {
+    func test_getHymn_databaseConversionError_networkAvailable_resultsSuccessful() {
         given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> { _, _ in
             throw TypeConversionError.init(triggeringError: ErrorType.parsing(description: "failed to convert!"))
         }
@@ -191,7 +198,12 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
             }).eraseToAnyPublisher()
         }
         given(converter.toHymnEntity(hymnIdentifier: cebuano123, hymn: self.networkResult)) ~> self.databaseResult
-        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> self.expected
+
+        given(converter.toUiHymn(hymnIdentifier: cebuano123, hymnEntity: self.databaseResult)) ~> sequence(of: { _, _ in
+            throw TypeConversionError.init(triggeringError: ErrorType.parsing(description: "failed to convert!"))
+        }, { _, _ in
+            return self.expected
+        })
 
         let completion = expectation(description: "completion received")
         let value = expectation(description: "value received")

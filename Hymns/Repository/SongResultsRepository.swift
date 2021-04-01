@@ -101,7 +101,7 @@ private class SearchSubscription<SubscriberType: Subscriber>: NetworkBoundSubscr
         self.systemUtil = systemUtil
     }
 
-    func saveToDatabase(convertedNetworkResult: ([SongResultEntity], Bool)) {
+    func saveToDatabase(databaseResult: ([SongResultEntity], Bool)?, convertedNetworkResult: ([SongResultEntity], Bool)) {
         // do nothing
     }
 
