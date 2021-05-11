@@ -17,7 +17,7 @@ struct DisplayHymnContainerView: View {
             if hymns.count == 1, let onlyHymn = hymns.first {
                 return DisplayHymnView(viewModel: onlyHymn).eraseToAnyView()
             }
-            return Pager(page: $viewModel.currentHymn,
+            return Pager(page: Page.withIndex(viewModel.currentHymn),
                          data: Array(0..<hymns.count),
                          id: \.self,
                          content: { index in
