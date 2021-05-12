@@ -17,13 +17,14 @@ struct DisplayHymnContainerView: View {
             if hymns.count == 1, let onlyHymn = hymns.first {
                 return DisplayHymnView(viewModel: onlyHymn).eraseToAnyView()
             }
-            return Pager(page: Page.withIndex(viewModel.currentHymn),
-                         data: Array(0..<hymns.count),
-                         id: \.self,
-                         content: { index in
-                            DisplayHymnView(viewModel: hymns[index])
-                         }).allowsDragging(viewModel.swipeEnabled).eraseToAnyView()
-        }.onAppear {
+
+            return Pager(page: .withIndex(viewModel.currentHymn),
+                         data: hymns,
+                         id: \.id) { index in
+                            DisplayHymnView(viewModel: index)
+                         }.allowsDragging(viewModel.swipeEnabled).eraseToAnyView()
+        }
+        .onAppear {
             self.viewModel.populateHymns()
         }
     }

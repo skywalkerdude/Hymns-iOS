@@ -3,7 +3,7 @@ import RealmSwift
 import Resolver
 import SwiftUI
 
-class DisplayHymnViewModel: ObservableObject {
+class DisplayHymnViewModel: ObservableObject, Identifiable {
 
     typealias Title = String
     typealias Lyrics = [Verse]
@@ -14,6 +14,8 @@ class DisplayHymnViewModel: ObservableObject {
     @Published var tabItems: [HymnLyricsTab] = [HymnLyricsTab]()
     @Published var isFavorited: Bool?
     @Published var bottomBar: DisplayHymnBottomBarViewModel?
+    let id = UUID()
+
 
     let identifier: HymnIdentifier
 

@@ -12,6 +12,6 @@ class AllSongsViewModel: ObservableObject {
 
 extension Resolver {
     public static func registerAllSongsViewModel() {
-        register {AllSongsViewModel()}.scope(graph)
+        register {AllSongsViewModel()}.scope(.graph)
     }
 }
