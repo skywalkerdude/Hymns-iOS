@@ -71,7 +71,7 @@ struct VerseLineView_Previews: PreviewProvider {
             regularVerse.previewLayout(.fixed(width: 425, height: 50)).previewDisplayName("regular verse")
             transliteration.previewLayout(.fixed(width: 425, height: 100)).previewDisplayName("verse with transliteration")
             largeText.previewLayout(.fixed(width: 425, height: 100)).previewDisplayName("large text")
-            extraLargeText.previewLayout(.fixed(width: 425, height:175)).previewDisplayName("extra large text")
+            extraLargeText.previewLayout(.fixed(width: 425, height: 175)).previewDisplayName("extra large text")
         }
     }
 }
