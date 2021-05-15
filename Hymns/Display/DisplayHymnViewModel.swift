@@ -146,6 +146,6 @@ class DisplayHymnViewModel: ObservableObject {
 
 extension DisplayHymnViewModel: Equatable {
     static func == (lhs: DisplayHymnViewModel, rhs: DisplayHymnViewModel) -> Bool {
-        lhs.identifier == rhs.identifier && lhs.storeInHistoryStore && rhs.storeInHistoryStore
+        lhs.identifier == rhs.identifier && lhs.storeInHistoryStore == rhs.storeInHistoryStore
     }
 }
