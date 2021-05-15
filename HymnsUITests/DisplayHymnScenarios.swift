@@ -53,9 +53,9 @@ class DisplayHymnScenarios: BaseTestCase {
             .tapResult("classic1151")
             .waitForStaticTexts("verse 1 line 1")
             .openAudioPlayer()
-            .waitForButtons("play.circle")
+            .waitForPlayButton()
             .openSpeedPicker()
-            .waitForButtons("minus", "plus")
+            .waitForSpeedPickerButtons()
             .waitForStaticTexts("Speed: 1.0x")
     }
 

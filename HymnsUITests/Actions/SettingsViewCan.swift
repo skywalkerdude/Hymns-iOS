@@ -28,7 +28,11 @@ public class SettingsHymnViewCan: BaseViewCan {
     }
 
     public func cancelAboutUs() -> SettingsHymnViewCan {
-        app.buttons["xmark"].tap()
+        if #available(iOS 14.5, *) {
+            app.buttons["Close"].tap()
+        } else {
+            app.buttons["xmark"].tap()
+        }
         return self
     }
 
