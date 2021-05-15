@@ -26,7 +26,11 @@ public class BrowseViewCan: BaseViewCan {
         for index in 0..<app.cells.count {
             let cell = app.cells.element(boundBy: index)
             if cell.descendants(matching: .staticText).element.label == category {
-                XCTAssertEqual(cell.descendants(matching: .image).element.label, chevronUp ? "chevron.up" : "chevron.down")
+                if #available(iOS 14.5, *) {
+                    XCTAssertEqual(cell.descendants(matching: .image).element.label, chevronUp ? "go up" : "go down")
+                } else {
+                    XCTAssertEqual(cell.descendants(matching: .image).element.label, chevronUp ? "chevron.up" : "chevron.down")
+                }
                 return self
             }
         }

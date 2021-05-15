@@ -50,8 +50,24 @@ public class DisplayHymnViewCan: BaseViewCan {
         return pressButton("Play music")
     }
 
+    public func waitForPlayButton() -> DisplayHymnViewCan {
+        if #available(iOS 14.5, *) {
+            return waitForButtons("play")
+        } else {
+            return waitForButtons("play.circle")
+        }
+    }
+
     public func openSpeedPicker() -> DisplayHymnViewCan {
         return pressButton("timer")
+    }
+
+    public func waitForSpeedPickerButtons() -> DisplayHymnViewCan {
+        if #available(iOS 14.5, *) {
+            return waitForButtons("remove", "add")
+        } else {
+            return waitForButtons("minus", "plus")
+        }
     }
 
     public func openRelevant() -> DisplayHymnViewCan {
