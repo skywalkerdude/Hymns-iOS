@@ -62,38 +62,40 @@ public final class Resolver {
     /// Default registry used by the static Resolution functions and by the Resolving protocol.
     public static var root: Resolver = main
     /// Default scope applied when registering new objects.
-    public static var defaultScope: ResolverScope = Resolver.graph
+    public static var defaultScope: ResolverScope = .graph
 
     // MARK: - Lifecycle
 
     public init(parent: Resolver? = nil) {
         self.parent = parent
     }
-
-    /// Called by the Resolution functions to perform one-time initialization of the Resolver registries.
+    /// Call function to force one-time initialization of the Resolver registries. Usually not needed as functionality
+    /// occurs automatically the first time a resolution function is called.
     public final func registerServices() {
-        Resolver.registerServices?()
+        lock.lock()
+        defer { lock.unlock() }
+        registrationCheck()
     }
 
-    /// Called by the Resolution functions to perform one-time initialization of the Resolver registries.
-    public static var registerServices: (() -> Void)? = registerServicesBlock
-
-    private static var registerServicesBlock: (() -> Void) = { () in
-        pthread_mutex_lock(&Resolver.registrationMutex)
-        defer { pthread_mutex_unlock(&Resolver.registrationMutex) }
-        if Resolver.registerServices != nil, let registering = (Resolver.root as Any) as? ResolverRegistering {
-            type(of: registering).registerAllServices()
-        }
-        Resolver.registerServices = nil
+    /// Call function to force one-time initialization of the Resolver registries. Usually not needed as functionality
+    /// occurs automatically the first time a resolution function is called.
+    public static var registerServices: (() -> Void)? = {
+        lock.lock()
+        defer { lock.unlock() }
+        registrationCheck()
     }
 
-    /// Called to effectively reset Resolver to its initial state, including recalling registerAllServices if it was provided
+    /// Called to effectively reset Resolver to its initial state, including recalling registerAllServices if it was provided. This will
+    /// also reset the three known caches: application, cached, shared.
     public static func reset() {
-        pthread_mutex_lock(&Resolver.registrationMutex)
-        defer { pthread_mutex_unlock(&Resolver.registrationMutex) }
+        lock.lock()
+        defer { lock.unlock() }
         main = Resolver()
         root = main
-        registerServices = registerServicesBlock
+        ResolverScope.application.reset()
+        ResolverScope.cached.reset()
+        ResolverScope.shared.reset()
+        registrationNeeded = true
     }
 
     // MARK: - Service Registration
@@ -107,7 +109,7 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public static func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+    public static func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil,
                                          factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
         return main.register(type, name: name, factory: factory)
     }
@@ -121,7 +123,7 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public static func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+    public static func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil,
                                          factory: @escaping ResolverFactoryResolver<Service>) -> ResolverOptions<Service> {
         return main.register(type, name: name, factory: factory)
     }
@@ -135,7 +137,7 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public static func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+    public static func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil,
                                          factory: @escaping ResolverFactoryArgumentsN<Service>) -> ResolverOptions<Service> {
         return main.register(type, name: name, factory: factory)
     }
@@ -149,8 +151,10 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+    public final func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil,
                                         factory: @escaping ResolverFactory<Service>) -> ResolverOptions<Service> {
+        lock.lock()
+        defer { lock.unlock() }
         let key = ObjectIdentifier(Service.self).hashValue
         let registration = ResolverRegistrationOnly(resolver: self, key: key, name: name, factory: factory)
         add(registration: registration, with: key, name: name)
@@ -166,8 +170,10 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+    public final func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil,
                                         factory: @escaping ResolverFactoryResolver<Service>) -> ResolverOptions<Service> {
+        lock.lock()
+        defer { lock.unlock() }
         let key = ObjectIdentifier(Service.self).hashValue
         let registration = ResolverRegistrationResolver(resolver: self, key: key, name: name, factory: factory)
         add(registration: registration, with: key, name: name)
@@ -183,8 +189,10 @@ public final class Resolver {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public final func register<Service>(_ type: Service.Type = Service.self, name: String? = nil,
+    public final func register<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil,
                                         factory: @escaping ResolverFactoryArgumentsN<Service>) -> ResolverOptions<Service> {
+        lock.lock()
+        defer { lock.unlock() }
         let key = ObjectIdentifier(Service.self).hashValue
         let registration = ResolverRegistrationArgumentsN(resolver: self, key: key, name: name, factory: factory)
         add(registration: registration, with: key, name: name)
@@ -200,9 +208,15 @@ public final class Resolver {
     /// - parameter args: Optional arguments that may be passed to registration factory.
     ///
     /// - returns: Instance of specified Service.
-    public static func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
-        Resolver.registerServices?() // always check initial registrations first in case registerAllServices swaps root
-        return root.resolve(type, name: name, args: args)
+    public static func resolve<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> Service {
+        lock.lock()
+        defer { lock.unlock() }
+        registrationCheck()
+        if let registration = root.lookup(type, name: name),
+            let service = registration.scope.resolve(resolver: root, registration: registration, args: args) {
+            return service
+        }
+        fatalError("RESOLVER: '\(Service.self):\(name?.rawValue ?? "NONAME")' not resolved. To disambiguate optionals use resolver.optional().")
     }
 
     /// Resolves and returns an instance of the given Service type from the current registry or from its
@@ -214,12 +228,15 @@ public final class Resolver {
     ///
     /// - returns: Instance of specified Service.
     ///
-    public final func resolve<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service {
-        if let registration = lookup(type, name: name ?? NONAME),
+    public final func resolve<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> Service {
+        lock.lock()
+        defer { lock.unlock() }
+        registrationCheck()
+        if let registration = lookup(type, name: name),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
         }
-        fatalError("RESOLVER: '\(Service.self):\(name ?? "")' not resolved. To disambiguate optionals use resolver.optional().")
+        fatalError("RESOLVER: '\(Service.self):\(name?.rawValue ?? "NONAME")' not resolved. To disambiguate optionals use resolver.optional().")
     }
 
     /// Static function calls the root registry to resolve an optional Service type.
@@ -230,9 +247,15 @@ public final class Resolver {
     ///
     /// - returns: Instance of specified Service.
     ///
-    public static func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service? {
-        Resolver.registerServices?() // always check initial registrations first in case registerAllServices swaps root
-        return root.optional(type, name: name, args: args)
+    public static func optional<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> Service? {
+        lock.lock()
+        defer { lock.unlock() }
+        registrationCheck()
+        if let registration = root.lookup(type, name: name),
+            let service = registration.scope.resolve(resolver: root, registration: registration, args: args) {
+            return service
+        }
+        return nil
     }
 
     /// Resolves and returns an optional instance of the given Service type from the current registry or
@@ -244,8 +267,11 @@ public final class Resolver {
     ///
     /// - returns: Instance of specified Service.
     ///
-    public final func optional<Service>(_ type: Service.Type = Service.self, name: String? = nil, args: Any? = nil) -> Service? {
-        if let registration = lookup(type, name: name ?? NONAME),
+    public final func optional<Service>(_ type: Service.Type = Service.self, name: Resolver.Name? = nil, args: Any? = nil) -> Service? {
+        lock.lock()
+        defer { lock.unlock() }
+        registrationCheck()
+        if let registration = lookup(type, name: name),
             let service = registration.scope.resolve(resolver: self, registration: registration, args: args) {
             return service
         }
@@ -256,9 +282,10 @@ public final class Resolver {
 
     /// Internal function searches the current and parent registries for a ResolverRegistration<Service> that matches
     /// the supplied type and name.
-    private final func lookup<Service>(_ type: Service.Type, name: String) -> ResolverRegistration<Service>? {
-        Resolver.registerServices?()
-        if let container = registrations[ObjectIdentifier(Service.self).hashValue], let registration = container[name] {
+    private final func lookup<Service>(_ type: Service.Type, name: Resolver.Name?) -> ResolverRegistration<Service>? {
+        let key = ObjectIdentifier(Service.self).hashValue
+        let containerName = name?.rawValue ?? NONAME
+        if let container = registrations[key], let registration = container[containerName] {
             return registration as? ResolverRegistration<Service>
         }
         if let parent = parent, let registration = parent.lookup(type, name: name) {
@@ -268,39 +295,80 @@ public final class Resolver {
     }
 
     /// Internal function adds a new registration to the proper container.
-    private final func add<Service>(registration: ResolverRegistration<Service>, with key: Int, name: String?) {
+    private final func add<Service>(registration: ResolverRegistration<Service>, with key: Int, name: Resolver.Name?) {
         if var container = registrations[key] {
-            container[name ?? NONAME] = registration
+            container[name?.rawValue ?? NONAME] = registration
             registrations[key] = container
         } else {
-            registrations[key] = [name ?? NONAME : registration]
+            registrations[key] = [name?.rawValue ?? NONAME : registration]
         }
     }
 
     private let NONAME = "*"
     private let parent: Resolver?
+    private let lock = Resolver.lock
     private var registrations = [Int : [String : Any]]()
-    private static var registrationMutex: pthread_mutex_t = {
-        var mutex = pthread_mutex_t()
-        pthread_mutex_init(&mutex, nil)
-        return mutex
-    }()
 }
 
-// Resolver Multiple Argument Support
+/// Resolving an instance of a service is a recursive process (service A needs a B which needs a C).
+private class ResolverRecursiveLock {
+    init() {
+        pthread_mutexattr_init(&recursiveMutexAttr)
+        pthread_mutexattr_settype(&recursiveMutexAttr, PTHREAD_MUTEX_RECURSIVE)
+        pthread_mutex_init(&recursiveMutex, &recursiveMutexAttr)
+    }
+    @inline(__always)
+    func lock() {
+        pthread_mutex_lock(&recursiveMutex)
+    }
+    @inline(__always)
+    func unlock() {
+        pthread_mutex_unlock(&recursiveMutex)
+    }
+    private var recursiveMutex = pthread_mutex_t()
+    private var recursiveMutexAttr = pthread_mutexattr_t()
+}
 
 extension Resolver {
+    private static let lock = ResolverRecursiveLock()
+}
 
+/// Resolver Service Name Space Support
+extension Resolver {
+
+    /// Internal class used by Resolver for typed name space support.
+    public struct Name: ExpressibleByStringLiteral {
+        let rawValue: String
+        public init(_ rawValue: String) {
+            self.rawValue = rawValue
+        }
+        public init(stringLiteral: String) {
+            self.rawValue = stringLiteral
+        }
+        public static func name(fromString string: String?) -> Name? {
+            if let string = string { return Name(string) }
+            return nil
+        }
+    }
+
+}
+
+/// Resolver Multiple Argument Support
+extension Resolver {
+
+    /// Internal class used by Resolver for multiple argument support.
     public struct Args {
 
         private var args: [String:Any?]
 
         public init(_ args: Any?) {
-            if let args = args as? [String:Any?] {
+            if let args = args as? Args {
+                self.args = args.args
+            } else if let args = args as? [String:Any?] {
                 self.args = args
             } else {
                 self.args = ["" : args]
-             }
+            }
         }
 
         #if swift(>=5.2)
@@ -330,12 +398,25 @@ extension Resolver {
         public func get<T>(_ key: String) -> T {
             return (args[key] as? T)!
         }
-        
+
     }
 
 }
 
 // Registration Internals
+
+private var registrationNeeded: Bool = true
+
+@inline(__always)
+private func registrationCheck() {
+    guard registrationNeeded else {
+        return
+    }
+    if let registering = (Resolver.root as Any) as? ResolverRegistering {
+        type(of: registering).registerAllServices()
+    }
+    registrationNeeded = false
+}
 
 public typealias ResolverFactory<Service> = () -> Service?
 public typealias ResolverFactoryResolver<Service> = (_ resolver: Resolver) -> Service?
@@ -372,7 +453,7 @@ public class ResolverOptions<Service> {
     /// - returns: ResolverOptions instance that allows further customization of registered Service.
     ///
     @discardableResult
-    public final func implements<Protocol>(_ type: Protocol.Type, name: String? = nil) -> ResolverOptions<Service> {
+    public final func implements<Protocol>(_ type: Protocol.Type, name: Resolver.Name? = nil) -> ResolverOptions<Service> {
         resolver?.register(type.self, name: name) { r, _ in r.resolve(Service.self) as? Protocol }
         return self
     }
@@ -428,10 +509,10 @@ public class ResolverRegistration<Service>: ResolverOptions<Service> {
     public var key: Int
     public var cacheKey: String
 
-    public init(resolver: Resolver, key: Int, name: String?) {
+    public init(resolver: Resolver, key: Int, name: Resolver.Name?) {
         self.key = key
         if let namedService = name {
-            self.cacheKey = String(key) + ":" + namedService
+            self.cacheKey = String(key) + ":" + namedService.rawValue
         } else {
             self.cacheKey = String(key)
         }
@@ -449,7 +530,7 @@ public final class ResolverRegistrationOnly<Service>: ResolverRegistration<Servi
 
     public var factory: ResolverFactory<Service>
 
-    public init(resolver: Resolver, key: Int, name: String?, factory: @escaping ResolverFactory<Service>) {
+    public init(resolver: Resolver, key: Int, name: Resolver.Name?, factory: @escaping ResolverFactory<Service>) {
         self.factory = factory
         super.init(resolver: resolver, key: key, name: name)
     }
@@ -468,7 +549,7 @@ public final class ResolverRegistrationResolver<Service>: ResolverRegistration<S
 
     public var factory: ResolverFactoryResolver<Service>
 
-    public init(resolver: Resolver, key: Int, name: String?, factory: @escaping ResolverFactoryResolver<Service>) {
+    public init(resolver: Resolver, key: Int, name: Resolver.Name?, factory: @escaping ResolverFactoryResolver<Service>) {
         self.factory = factory
         super.init(resolver: resolver, key: key, name: name)
     }
@@ -487,7 +568,7 @@ public final class ResolverRegistrationArgumentsN<Service>: ResolverRegistration
 
     public var factory: ResolverFactoryArgumentsN<Service>
 
-    public init(resolver: Resolver, key: Int, name: String?, factory: @escaping ResolverFactoryArgumentsN<Service>) {
+    public init(resolver: Resolver, key: Int, name: Resolver.Name?, factory: @escaping ResolverFactoryArgumentsN<Service>) {
         self.factory = factory
         super.init(resolver: resolver, key: key, name: name)
     }
@@ -503,12 +584,17 @@ public final class ResolverRegistrationArgumentsN<Service>: ResolverRegistration
 
 // Scopes
 
-extension Resolver {
+/// Resolver scopes exist to control when resolution occurs and how resolved instances are cached. (If at all.)
+public protocol ResolverScopeType: class {
+    func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service?
+}
 
-    // MARK: - Scopes
+public class ResolverScope: ResolverScopeType {
+
+    // Moved definitions to ResolverScope to allow for dot notation access
 
     /// All application scoped services exist for lifetime of the app. (e.g Singletons)
-    public static let application = ResolverScopeApplication()
+    public static let application = ResolverScopeCache()
     /// Cached services exist for lifetime of the app or until their cache is reset.
     public static let cached = ResolverScopeCache()
     /// Graph services are initialized once and only once during a given resolution cycle. This is the default scope.
@@ -518,133 +604,93 @@ extension Resolver {
     /// Unique services are created and initialized each and every time they're resolved.
     public static let unique = ResolverScopeUnique()
 
+    // abstract base for class never called
+    public func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
+        fatalError("abstract")
+    }
 }
 
-/// Resolver scopes exist to control when resolution occurs and how resolved instances are cached. (If at all.)
-public protocol ResolverScope: class {
-    func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service?
-}
+extension Resolver {
 
-/// All application scoped services exist for lifetime of the app. (e.g Singletons)
-public class ResolverScopeApplication: ResolverScope {
+    // Resolver scope definitions maintained for compatibility with previous usage.
+    @available(swift, deprecated: 4.1, message: "Please use .application to access scope.")
+    public static let application = ResolverScope.application
+    @available(swift, deprecated: 4.1, message: "Please use .cached to access scope.")
+    public static let cached = ResolverScope.cached
+    @available(swift, deprecated: 4.1, message: "Please use .graph to access scope.")
+    public static let graph = ResolverScope.graph
+    @available(swift, deprecated: 4.1, message: "Please use .shared to access scope.")
+    public static let shared = ResolverScope.shared
+    @available(swift, deprecated: 4.1, message: "Please use .unique to access scope.")
+    public static let unique = ResolverScope.unique
 
-    public init() {
-        pthread_mutex_init(&mutex, nil)
-    }
-
-    public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
-        pthread_mutex_lock(&mutex)
-        let existingService = cachedServices[registration.cacheKey] as? Service
-        pthread_mutex_unlock(&mutex)
-
-        if let service = existingService {
-            return service
-        }
-
-        let service = registration.resolve(resolver: resolver, args: args)
-
-        if let service = service {
-            pthread_mutex_lock(&mutex)
-            cachedServices[registration.cacheKey] = service
-            pthread_mutex_unlock(&mutex)
-        }
-
-        return service
-    }
-
-    fileprivate var cachedServices = [String : Any](minimumCapacity: 32)
-    fileprivate var mutex = pthread_mutex_t()
 }
 
 /// Cached services exist for lifetime of the app or until their cache is reset.
-public final class ResolverScopeCache: ResolverScopeApplication {
+public class ResolverScopeCache: ResolverScope {
 
-    override public init() {
-        super.init()
+    public override init() {}
+
+    public final override func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
+        if let service = cachedServices[registration.cacheKey] as? Service {
+            return service
+        }
+        let service = registration.resolve(resolver: resolver, args: args)
+        if let service = service {
+            cachedServices[registration.cacheKey] = service
+        }
+        return service
     }
 
     public final func reset() {
-        pthread_mutex_lock(&mutex)
         cachedServices.removeAll()
-        pthread_mutex_unlock(&mutex)
     }
+
+    fileprivate var cachedServices = [String : Any](minimumCapacity: 32)
 }
 
 /// Graph services are initialized once and only once during a given resolution cycle. This is the default scope.
 public final class ResolverScopeGraph: ResolverScope {
 
-    public init() {
-        pthread_mutex_init(&mutex, nil)
-    }
+    public override init() {}
 
-    public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
-
-        pthread_mutex_lock(&mutex)
-
-        let existingService = graph[registration.cacheKey] as? Service
-
-        if let service = existingService {
-            pthread_mutex_unlock(&mutex)
+    public final override func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
+        if let service = graph[registration.cacheKey] as? Service {
             return service
         }
-
         resolutionDepth = resolutionDepth + 1
-
-        pthread_mutex_unlock(&mutex)
-
         let service = registration.resolve(resolver: resolver, args: args)
-
-        pthread_mutex_lock(&mutex)
-
         resolutionDepth = resolutionDepth - 1
-
         if resolutionDepth == 0 {
             graph.removeAll()
         } else if let service = service, type(of: service as Any) is AnyClass {
             graph[registration.cacheKey] = service
         }
-
-        pthread_mutex_unlock(&mutex)
-
         return service
     }
 
     private var graph = [String : Any?](minimumCapacity: 32)
     private var resolutionDepth: Int = 0
-    private var mutex = pthread_mutex_t()
 }
 
 /// Shared services persist while strong references to them exist. They're then deallocated until the next resolve.
 public final class ResolverScopeShare: ResolverScope {
 
-    public init() {
-        pthread_mutex_init(&mutex, nil)
-    }
+    public override init() {}
 
-    public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
-        pthread_mutex_lock(&mutex)
-        let existingService = cachedServices[registration.cacheKey]?.service as? Service
-        pthread_mutex_unlock(&mutex)
-
-        if let service = existingService {
+    public final override func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
+        if let service = cachedServices[registration.cacheKey]?.service as? Service {
             return service
         }
-
         let service = registration.resolve(resolver: resolver, args: args)
-
         if let service = service, type(of: service as Any) is AnyClass {
-            pthread_mutex_lock(&mutex)
             cachedServices[registration.cacheKey] = BoxWeak(service: service as AnyObject)
-            pthread_mutex_unlock(&mutex)
         }
-
         return service
     }
 
     public final func reset() {
-        pthread_mutex_lock(&mutex)
         cachedServices.removeAll()
-        pthread_mutex_unlock(&mutex)
     }
 
     private struct BoxWeak {
@@ -652,14 +698,13 @@ public final class ResolverScopeShare: ResolverScope {
     }
 
     private var cachedServices = [String : BoxWeak](minimumCapacity: 32)
-    private var mutex = pthread_mutex_t()
 }
 
 /// Unique services are created and initialized each and every time they're resolved.
 public final class ResolverScopeUnique: ResolverScope {
 
-    public init() {}
-    public final func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
+    public override init() {}
+    public final override func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service? {
         return registration.resolve(resolver: resolver, args: args)
     }
 
@@ -695,13 +740,12 @@ public extension UIViewController {
 ///
 /// Wrapped dependent service is resolved immediately using Resolver.root upon struct initialization.
 ///
-@propertyWrapper
-public struct Injected<Service> {
+@propertyWrapper public struct Injected<Service> {
     private var service: Service
     public init() {
         self.service = Resolver.resolve(Service.self)
     }
-    public init(name: String? = nil, container: Resolver? = nil) {
+    public init(name: Resolver.Name? = nil, container: Resolver? = nil) {
         self.service = container?.resolve(Service.self, name: name) ?? Resolver.resolve(Service.self, name: name)
     }
     public var wrappedValue: Service {
@@ -714,19 +758,40 @@ public struct Injected<Service> {
     }
 }
 
+/// OptionalInjected property wrapper.
+///
+/// If available, wrapped dependent service is resolved immediately using Resolver.root upon struct initialization.
+///
+@propertyWrapper public struct OptionalInjected<Service> {
+    private var service: Service?
+    public init() {
+        self.service = Resolver.optional(Service.self)
+    }
+    public init(name: Resolver.Name? = nil, container: Resolver? = nil) {
+        self.service = container?.optional(Service.self, name: name) ?? Resolver.optional(Service.self, name: name)
+    }
+    public var wrappedValue: Service? {
+        get { return service }
+        mutating set { service = newValue }
+    }
+    public var projectedValue: OptionalInjected<Service> {
+        get { return self }
+        mutating set { self = newValue }
+    }
+}
+
 /// Lazy injection property wrapper. Note that embedded container and name properties will be used if set prior to service instantiation.
 ///
 /// Wrapped dependent service is not resolved until service is accessed.
 ///
-@propertyWrapper
-public struct LazyInjected<Service> {
+@propertyWrapper public struct LazyInjected<Service> {
     private var initialize: Bool = true
     private var service: Service!
     public var container: Resolver?
-    public var name: String?
+    public var name: Resolver.Name?
     public var args: Any?
     public init() {}
-    public init(name: String? = nil, container: Resolver? = nil) {
+    public init(name: Resolver.Name? = nil, container: Resolver? = nil) {
         self.name = name
         self.container = container
     }
@@ -756,15 +821,14 @@ public struct LazyInjected<Service> {
 ///
 /// Wrapped dependent service is not resolved until service is accessed.
 ///
-@propertyWrapper
-public struct WeakLazyInjected<Service:AnyObject> {
+@propertyWrapper public struct WeakLazyInjected<Service> {
     private var initialize: Bool = true
-    private weak var service: Service?
+    private weak var service: AnyObject?
     public var container: Resolver?
-    public var name: String?
+    public var name: Resolver.Name?
     public var args: Any?
     public init() {}
-    public init(name: String? = nil, container: Resolver? = nil) {
+    public init(name: Resolver.Name? = nil, container: Resolver? = nil) {
         self.name = name
         self.container = container
     }
@@ -776,12 +840,12 @@ public struct WeakLazyInjected<Service:AnyObject> {
             if initialize {
                 self.initialize = false
                 let service = container?.resolve(Service.self, name: name, args: args) ?? Resolver.resolve(Service.self, name: name, args: args)
-                self.service = service
+                self.service = service as AnyObject
                 return service
             }
-            return service
+            return service as? Service
         }
-        mutating set { service = newValue  }
+        mutating set { service = newValue as AnyObject }
     }
     public var projectedValue: WeakLazyInjected<Service> {
         get { return self }
@@ -789,25 +853,7 @@ public struct WeakLazyInjected<Service:AnyObject> {
     }
 }
 
-@propertyWrapper
-public struct OptionalInjected<Service> {
-    private var service: Service?
-    public init() {
-        self.service = Resolver.optional(Service.self)
-    }
-    public init(name: String? = nil, container: Resolver? = nil) {
-        self.service = container?.optional(Service.self, name: name) ?? Resolver.optional(Service.self, name: name)
-    }
-    public var wrappedValue: Service? {
-        get { return service }
-        mutating set { service = newValue }
-    }
-    public var projectedValue: OptionalInjected<Service> {
-        get { return self }
-        mutating set { self = newValue }
-    }
-}
-
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 /// Immediate injection property wrapper for SwiftUI ObservableObjects. This wrapper is meant for use in SwiftUI Views and exposes
 /// bindable objects similar to that of SwiftUI @observedObject and @environmentObject.
 ///
@@ -815,15 +861,13 @@ public struct OptionalInjected<Service> {
 ///
 /// Wrapped dependent service is resolved immediately using Resolver.root upon struct initialization.
 ///
-#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-@propertyWrapper
-public struct InjectedObject<Service>: DynamicProperty where Service: ObservableObject {
+@propertyWrapper public struct InjectedObject<Service>: DynamicProperty where Service: ObservableObject {
     @ObservedObject private var service: Service
     public init() {
         self.service = Resolver.resolve(Service.self)
     }
-    public init(name: String? = nil, container: Resolver? = nil) {
+    public init(name: Resolver.Name? = nil, container: Resolver? = nil) {
         self.service = container?.resolve(Service.self, name: name) ?? Resolver.resolve(Service.self, name: name)
     }
     public var wrappedValue: Service {

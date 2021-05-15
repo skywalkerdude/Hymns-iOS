@@ -8,8 +8,32 @@
 
 import SwiftUI
 
-@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Pager.PagerContent {
+    
+    #if !os(tvOS)
+    
+    /// `swipeGesture` translation on the X-Axis
+    var draggingOffset: CGFloat {
+        pagerModel.draggingOffset
+    }
+
+    /// `swipeGesture` last translation on the X-Axis
+    var lastDraggingValue: DragGesture.Value? {
+        pagerModel.lastDraggingValue
+    }
+
+    /// `swipeGesture` velocity on the X-Axis
+    var draggingVelocity: Double {
+        pagerModel.draggingVelocity
+    }
+    
+    #endif
+
+    /// Increment resulting from the last swipe
+    var pageIncrement: Int {
+        pagerModel.pageIncrement
+    }
 
     /// Manages the number of items that should be displayed in the screen.
     var recyclingRatio: Int {
@@ -21,9 +45,9 @@ extension Pager.PagerContent {
         }
     }
 
-    /// Work around to avoid @State keeps wrong value
+    /// Current page index
     var page: Int {
-        return min(pageIndex, numberOfPages - 1)
+        pagerModel.index
     }
 
     /// `true` if `Pager` is vertical
@@ -53,10 +77,18 @@ extension Pager.PagerContent {
         return totalOffset < 0 ? .forward : .backward
     }
 
-    /// The current page index. Will equal `page` if not dragging
+    /// Current page index, sensitivity 50%. Will equal `page` if not dragging
     var currentPage: Int {
+        currentPage(sensitivity: 0.5)
+    }
+
+    /// Current page index, based on sensitivity. Will equal `page` if not dragging
+    func currentPage(sensitivity: CGFloat) -> Int {
         guard isDragging else { return page }
-        let newPage = -Int((totalOffset / pageDistance).rounded()) + page
+        let dOffset = totalOffset / pageDistance
+        let remaining = dOffset - dOffset.rounded(.towardZero)
+        let dPage = Int(dOffset.rounded(.towardZero)) + (abs(remaining) < sensitivity ? 0 : Int(remaining.rounded(.awayFromZero)))
+        let newPage = page - dPage
 
         guard isInifinitePager else { return max(min(newPage, numberOfPages - 1), 0) }
         guard numberOfPages > 0 else { return 0 }
@@ -66,20 +98,25 @@ extension Pager.PagerContent {
     /// Minimum offset allowed. This allows a bounce offset
     var offsetLowerbound: CGFloat {
         guard currentPage == 0, !isInifinitePager else { return CGFloat(numberOfPages) * self.size.width }
-        return CGFloat(numberOfPagesDisplayed) / 2 * pageDistance - pageDistance / 4 + alignmentOffset
+        let bounceOffset = bounces ? -pageDistance / 4 : -pageDistance / 2
+        return CGFloat(numberOfPagesDisplayed) / 2 * pageDistance + bounceOffset + alignmentOffset
     }
 
     /// Maximum offset allowed. This allows a bounce offset
     var offsetUpperbound: CGFloat {
         guard currentPage == numberOfPages - 1, !isInifinitePager else { return -CGFloat(numberOfPages) * self.size.width }
         let a = -CGFloat(numberOfPagesDisplayed) / 2
-        let b = pageDistance / 4
-        return a * pageDistance + b + alignmentOffset
+        let bounceOffset = bounces ? pageDistance / 4 : pageDistance / 2
+        return a * pageDistance + bounceOffset + alignmentOffset
     }
 
     /// Addition of `draggingOffset` and `contentOffset`
     var totalOffset: CGFloat {
-        draggingOffset + contentOffset
+        #if !os(tvOS)
+        return draggingOffset + contentOffset
+        #else
+        return contentOffset
+        #endif
     }
 
     /// Size of each item. Takes into account `itemAspectRatio` and `verticalInsets` to fit the page into its container
@@ -201,6 +238,17 @@ extension Pager.PagerContent {
 
         let multiplier: CGFloat = isVertical ? -1 : 1
         return (itemAlignment.equalsIgnoreValues(.start) ? -availableSpace : availableSpace) * multiplier
+    }
+
+    /// Oppacity for each item when `faded` animation is chosen
+    func opacity(for item: PageWrapper<Element, ID>) -> Double {
+        guard let opacityIncrement = opacityIncrement else { return 1 }
+        guard let index = data.firstIndex(of: item) else { return 1 }
+        let totalIncrement = abs(totalOffset / pageDistance)
+        let currentPage = direction == .forward ? CGFloat(page) + totalIncrement : CGFloat(page) - totalIncrement
+
+        let distance = abs(CGFloat(index) - currentPage)
+        return Double(max(0, min(1, 1 - distance * CGFloat(opacityIncrement))))
     }
 
     /// Offset applied to `HStack` along the X-Axis. It's limitted by `offsetUpperbound` and `offsetUpperbound`

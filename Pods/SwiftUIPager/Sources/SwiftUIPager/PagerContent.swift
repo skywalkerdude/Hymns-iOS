@@ -11,7 +11,7 @@ import SwiftUI
 ///
 /// `PagerContent` is the content of `Pager`. This view is needed so that `Pager` wrapps it around a `GeometryReader ` and passes the size in its initializer.
 ///
-@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Pager {
     struct PagerContent: View {
 
@@ -27,9 +27,6 @@ extension Pager {
 
         /// Angle of rotation when should rotate
         let rotationDegrees: Double = 20
-
-        /// Angle of rotation when should rotate
-        let rotationInteractiveScale: CGFloat = 0.7
 
         /// Axis of rotation when should rotate
         let rotationAxis: (x: CGFloat, y: CGFloat, z: CGFloat) = (0, 1, 0)
@@ -50,8 +47,20 @@ extension Pager {
 
         /*** ViewModified properties ***/
 
+        /// Whether `Pager` should bounce or not
+        var bounces: Bool = true
+
+        /// Max relative item size that `Pager` will scroll before determining whether to move to the next page
+        var pageRatio: CGFloat = 1
+
         /// Animation to be applied when the user stops dragging
-        var pagingAnimation: ((DraggingResult) -> PagingAnimation)?
+        var pagingAnimation: ((DragResult) -> PagingAnimation)?
+
+        /// Animation used for dragging
+        var draggingAnimation: DraggingAnimation = .standard
+
+        /// Sensitivity used to determine whether or not to swipe the page
+        var sensitivity: PaginationSensitivity = .default
 
         /// Policy to be applied when loading content
         var contentLoadingPolicy: ContentLoadingPolicy = .default
@@ -73,6 +82,9 @@ extension Pager {
 
         /// Shrink ratio that affects the items that aren't focused
         var interactiveScale: CGFloat = 1
+
+        /// Opacity increment applied to unfocused pages
+        var opacityIncrement: Double? 
 
         /// `true` if  `Pager` can be dragged
         var allowsDragging: Bool = true
@@ -107,46 +119,36 @@ extension Pager {
         /// Will try to have the items fit this size
         var preferredItemSize: CGSize?
 
-        /// Callback for every new page
+        /// Callback invoked when a new page will be set
+        var onPageWillChange: ((Int) -> Void)?
+
+        /// Callback invoked when a new page is set
         var onPageChanged: ((Int) -> Void)?
 		
-		/// Callback for when dragging begins
-		var onDraggingBegan: (() -> Void)?
+        /// Callback for when dragging begins
+        var onDraggingBegan: (() -> Void)?
+
+        /// Callback for when dragging changes
+        var onDraggingChanged: ((Double) -> Void)?
+
+        /// Callback for when dragging ends
+        var onDraggingEnded: (() -> Void)?
 
         /*** State and Binding properties ***/
 
-        /// Size of the view
-
-        /// `swipeGesture` translation on the X-Axis
-        @State var draggingOffset: CGFloat = 0
-
-        /// `swipeGesture` last translation on the X-Axis
-        #if !os(tvOS)
-        @State var lastDraggingValue: DragGesture.Value?
-        #endif
-
-        /// `swipeGesture` velocity on the X-Axis
-        @State var draggingVelocity: Double = 0
-
-        /// Increment resulting from the last swipe
-        @State var pageIncrement = 1
-
         /// Page index
-        @Binding var pageIndex: Int {
-            didSet {
-                onPageChanged?(page)
-            }
-        }
+        @ObservedObject var pagerModel: Page
 
         /// Initializes a new `Pager`.
         ///
-        /// - Parameter page: Binding to the page index
+        /// - Parameter size: Available size
+        /// - Parameter pagerModel: Wrapper for the current page
         /// - Parameter data: Array of items to populate the content
         /// - Parameter id: KeyPath to identifiable property
         /// - Parameter content: Factory method to build new pages
-        init(size: CGSize, page: Binding<Int>, data: [Element], id: KeyPath<Element, ID>, @ViewBuilder content: @escaping (Element) -> PageView) {
+        init(size: CGSize, pagerModel: Page, data: [Element], id: KeyPath<Element, ID>, @ViewBuilder content: @escaping (Element) -> PageView) {
             self.size = size
-            self._pageIndex = page
+            self.pagerModel = pagerModel
             self.data = data.map { PageWrapper(batchId: 1, keyPath: id, element: $0) }
             self.id = \PageWrapper<Element, ID>.id
             self.content = content
@@ -155,15 +157,20 @@ extension Pager {
         var body: some View {
             let stack = HStack(spacing: interactiveItemSpacing) {
                 ForEach(dataDisplayed, id: id) { item in
-                    self.content(item.element)
-                        .opacity(self.isInifinitePager && self.isEdgePage(item) ? 0 : 1)
-                        .animation(nil) // disable animation for opacity
-                        .frame(size: self.pageSize)
-                        .scaleEffect(self.scale(for: item))
-                        .rotation3DEffect((self.isHorizontal ? .zero : Angle(degrees: -90)) - self.scrollDirectionAngle,
-                                          axis: (0, 0, 1))
-                        .rotation3DEffect(self.angle(for: item),
+                    Group {
+                        if self.isInifinitePager && self.isEdgePage(item) {
+                            EmptyView()
+                        } else {
+                            self.content(item.element)
+                        }
+                    }
+                    .frame(size: self.pageSize)
+                    .scaleEffect(self.scale(for: item))
+                    .rotation3DEffect((self.isHorizontal ? .zero : Angle(degrees: -90)) - self.scrollDirectionAngle,
+                                      axis: (0, 0, 1))
+                    .rotation3DEffect(self.angle(for: item),
                                           axis:  self.axis)
+                    .opacity(opacity(for: item))
                 }
                 .offset(x: self.xOffset, y : self.yOffset)
             }
@@ -179,9 +186,6 @@ extension Pager {
             return wrappedView
                 .rotation3DEffect((isHorizontal ? .zero : Angle(degrees: 90)) + scrollDirectionAngle,
                                   axis: (0, 0, 1))
-                .onAppear(perform: {
-                    self.onPageChanged?(self.page)
-                })
                 .onDeactivate(perform: {
                     if self.isDragging {
                         #if !os(tvOS)
@@ -189,13 +193,23 @@ extension Pager {
                         #endif
                     }
                 })
+                .onAnimationCompleted(for: CGFloat(pagerModel.index), completion: {
+                    // #194 AnimatableModifier symbol not found in iOS 13.0 and iOS 13.1
+                    if #available(iOS 13.2, macOS 10.15, tvOS 13.0, watchOS 6.0, *) {
+                        if pagerModel.pageIncrement != 0 {
+                            pagerModel.pageIncrement = 0
+                            onPageChanged?(pagerModel.index)
+                        }
+                    }
+                })
+                .contentShape(Rectangle())
         }
     }
 }
 
 // MARK: Gestures
 
-@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Pager.PagerContent {
 
     /// `DragGesture` customized to work with `Pager`
@@ -211,7 +225,8 @@ extension Pager.PagerContent {
     }
 
     func onDragChanged(with value: DragGesture.Value) {
-        withAnimation {
+        let animation = draggingAnimation.animation
+        withAnimation(animation) {
             if self.lastDraggingValue == nil {
                 onDraggingBegan?()
             }
@@ -220,7 +235,7 @@ extension Pager.PagerContent {
             let swipeAngle = (value.location - lastLocation).angle ?? .zero
             // Ignore swipes that aren't on the X-Axis
             guard swipeAngle.isAlongXAxis else {
-                self.lastDraggingValue = value
+                self.pagerModel.lastDraggingValue = value
                 return
             }
 
@@ -236,18 +251,27 @@ extension Pager.PagerContent {
 
             let timeIncrement = value.time.timeIntervalSince(self.lastDraggingValue?.time ?? value.time)
             if timeIncrement != 0 {
-                self.draggingVelocity = Double(offsetIncrement) / timeIncrement
+                self.pagerModel.draggingVelocity = Double(offsetIncrement) / timeIncrement
             }
 
-            self.draggingOffset += offsetIncrement
-            self.lastDraggingValue = value
+            var newOffset = self.draggingOffset + offsetIncrement
+            if !allowsMultiplePagination {
+                newOffset = self.direction == .forward ? max(newOffset, self.pageRatio * -self.pageDistance) : min(newOffset, self.pageRatio * self.pageDistance)
+            }
+
+            self.pagerModel.draggingOffset = newOffset
+            self.pagerModel.lastDraggingValue = value
+            self.onDraggingChanged?(Double(-self.draggingOffset / self.pageDistance))
+            self.pagerModel.objectWillChange.send()
         }
     }
 
     func onDragGestureEnded() {
-        let draggingResult = self.draggingResult
+        let draggingResult = self.dragResult
         let newPage = draggingResult.page
         let pageIncrement = draggingResult.increment
+
+        self.onDraggingEnded?()
 
         var defaultPagingAnimation: PagingAnimation = .standard
         var speed: Double = 1
@@ -256,20 +280,34 @@ extension Pager.PagerContent {
             speed = 1 / min(4, Double(pageIncrement))
         }
 
-        let pagingAnimation = self.pagingAnimation?((pageIndex, newPage, draggingOffset, draggingVelocity)) ?? defaultPagingAnimation
+        let pagingAnimation = self.pagingAnimation?((page, newPage, draggingOffset, draggingVelocity)) ?? defaultPagingAnimation
 
-        let animation = pagingAnimation.animation.speed(speed)
+        let animation = pagingAnimation.animation?.speed(speed)
+        if page != newPage {
+            onPageWillChange?(newPage)
+        }
         withAnimation(animation) {
-            self.draggingOffset = 0
-            self.pageIncrement = pageIncrement
-            self.pageIndex = newPage
-            self.draggingVelocity = 0
-            self.lastDraggingValue = nil
+            self.pagerModel.draggingOffset = 0
+            let sign = page > newPage ? -1 : +1
+            self.pagerModel.pageIncrement += sign * pageIncrement
+            self.pagerModel.draggingVelocity = 0
+            self.pagerModel.lastDraggingValue = nil
+            self.pagerModel.index = newPage
+            self.pagerModel.objectWillChange.send()
+
+        }
+
+        // #194 AnimatableModifier symbol not found in iOS 13.0 and iOS 13.1
+        if #available(iOS 13.2, macOS 10.15, tvOS 13.0, watchOS 6.0, *) {
+            // Do nothing
+        } else if page != newPage {
+            self.pagerModel.pageIncrement = 0
+            onPageChanged?(newPage)
         }
     }
 
-    private var draggingResult: (page: Int, increment: Int) {
-        let currentPage = self.currentPage
+    var dragResult: (page: Int, increment: Int) {
+        let currentPage = self.currentPage(sensitivity: sensitivity.value)
         let velocity = -self.draggingVelocity
 
         guard allowsMultiplePagination else {
@@ -283,7 +321,7 @@ extension Pager.PagerContent {
             }
 
             newPage = max(0, min(self.numberOfPages - 1, newPage))
-            return (newPage, 1)
+            return (newPage, newPage != page ? 1 : 0)
         }
 
         let side = self.isHorizontal ? self.size.width : self.size.height

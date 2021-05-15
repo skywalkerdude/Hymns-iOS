@@ -210,6 +210,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (RLMRealm *)freeze NS_RETURNS_RETAINED;
 
+/**
+ Returns a live reference of this Realm.
+
+ All objects and collections read from the returned Realm will no longer be frozen.
+ This method will return `self` if it is not already frozen.
+ */
+- (RLMRealm *)thaw;
+
 #pragma mark - File Management
 
 /**
@@ -555,8 +563,7 @@ typedef void (^RLMNotificationBlock)(RLMNotification notification, RLMRealm *rea
  and a new read transaction is implicitly begun the next time data is read from the Realm.
 
  Calling this method multiple times in a row without reading any data from the
- Realm, or before ever reading any data from the Realm, is a no-op. This method
- may not be called on a read-only Realm.
+ Realm, or before ever reading any data from the Realm, is a no-op.
  */
 - (void)invalidate;
 
