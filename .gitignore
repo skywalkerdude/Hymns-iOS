@@ -98,3 +98,8 @@ iOSInjectionProject/
 
 # So I have a place to put my commands without having to check them in
 commands.txt
+
+# Don't need to include watchOS/macOS/tvOS stuff into GitHub since we only care about iOS frameworks.
+Pods/Realm/core/realm-monorepo.xcframework/watchos*
+Pods/Realm/core/realm-monorepo.xcframework/tvos*
+Pods/Realm/core/realm-monorepo.xcframework/macos*

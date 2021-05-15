@@ -15,11 +15,13 @@ import SwiftUI
 ///
 /// # Example #
 ///
-///     Pager(page: $page
-///           data: data,
-///           content: { index in
-///               self.pageView(index)
-///     }).interactive(0.8)
+///     Pager(
+///         page: $page
+///         data: data,
+///         content: { index in
+///             self.pageView(index)
+///         })
+///         .interactive(scale: 0.8)
 ///         .itemSpacing(10)
 ///         .padding(30)
 ///         .itemAspectRatio(0.6)
@@ -29,7 +31,7 @@ import SwiftUI
 /// - 30 px of vertical insets
 /// - 0.6 shrink ratio for items that aren't focused.
 ///
-@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 public struct Pager<Element, ID, PageView>: View  where PageView: View, Element: Equatable, ID: Hashable {
 
     /// `Direction` determines the direction of the swipe gesture
@@ -44,9 +46,6 @@ public struct Pager<Element, ID, PageView>: View  where PageView: View, Element:
 
     /// Angle of rotation when should rotate
     let rotationDegrees: Double = 20
-
-    /// Angle of rotation when should rotate
-    let rotationInteractiveScale: CGFloat = 0.7
 
     /// Axis of rotation when should rotate
     let rotationAxis: (x: CGFloat, y: CGFloat, z: CGFloat) = (0, 1, 0)
@@ -64,8 +63,20 @@ public struct Pager<Element, ID, PageView>: View  where PageView: View, Element:
 
     /*** ViewModified properties ***/
 
+    /// Whether `Pager` should bounce or not
+    var bounces: Bool = true
+
+    /// Max relative item size that `Pager` will scroll before determining whether to move to the next page
+    var pageRatio: CGFloat = 1
+
     /// Animation to be applied when the user stops dragging
-    var pagingAnimation: ((DraggingResult) -> PagingAnimation)?
+    var pagingAnimation: ((DragResult) -> PagingAnimation)?
+
+    /// Animation used for dragging
+    var draggingAnimation: DraggingAnimation = .standard
+
+    /// Sensitivity used to determine whether or not to swipe the page
+    var sensitivity: PaginationSensitivity = .default
 
     /// Policy to be applied when loading content
     var contentLoadingPolicy: ContentLoadingPolicy = .default
@@ -90,6 +101,9 @@ public struct Pager<Element, ID, PageView>: View  where PageView: View, Element:
 
     /// Shrink ratio that affects the items that aren't focused
     var interactiveScale: CGFloat = 1
+
+    /// Opacity increment applied to unfocused pages
+    var opacityIncrement: Double?
 
     /// `true` if  `Pager` can be dragged
     var allowsDragging: Bool = true
@@ -127,49 +141,37 @@ public struct Pager<Element, ID, PageView>: View  where PageView: View, Element:
     /// Will try to have the items fit this size
     var preferredItemSize: CGSize?
 
-    /// Callback for every new page
+    /// Callback invoked when a new page will be set
+    var onPageWillChange: ((Int) -> Void)?
+
+    /// Callback invoked when a new page is set
     var onPageChanged: ((Int) -> Void)?
 	
 	/// Callback for when dragging begins
 	var onDraggingBegan: (() -> Void)?
 
+    /// Callback for when dragging changes
+    var onDraggingChanged: ((Double) -> Void)?
+
+    /// Callback for when dragging ends
+    var onDraggingEnded: (() -> Void)?
+
     /*** State and Binding properties ***/
 
-    /// Size of the view
-    @State var size: CGSize = .zero
-
-    /// `swipeGesture` translation on the X-Axis
-    @State var draggingOffset: CGFloat = 0
-
-    /// `swipeGesture` last translation on the X-Axis
-    #if !os(tvOS)
-    @State var lastDraggingValue: DragGesture.Value?
-    #endif
-
-    /// `swipeGesture` velocity on the X-Axis
-    @State var draggingVelocity: Double = 0
-
-    /// Increment resulting from the last swipe
-    @State var pageIncrement = 1
-
-    /// Page index
-    @Binding var page: Int {
-        didSet {
-            onPageChanged?(page)
-        }
-    }
-
+    let pagerModel: Page
+    
     /// Initializes a new `Pager`.
     ///
-    /// - Parameter page: Binding to the page index
-    /// - Parameter data: Array of items to populate the content
+    /// - Parameter page: Current page index
+    /// - Parameter data: Collection of items to populate the content
     /// - Parameter id: KeyPath to identifiable property
     /// - Parameter content: Factory method to build new pages
-    public init(page: Binding<Int>, data: [Element], id: KeyPath<Element, ID>, @ViewBuilder content: @escaping (Element) -> PageView) {
-        self._page = page
-        self.data = data
+    public init<Data: RandomAccessCollection>(page: Page, data: Data, id: KeyPath<Element, ID>, @ViewBuilder content: @escaping (Element) -> PageView) where Data.Index == Int, Data.Element == Element {
+        self.pagerModel = page
+        self.data = Array(data)
         self.id = id
         self.content = content
+        self.pagerModel.totalPages = data.count
     }
 
     public var body: some View {
@@ -182,21 +184,24 @@ public struct Pager<Element, ID, PageView>: View  where PageView: View, Element:
     func content(for size: CGSize) -> PagerContent {
         var pagerContent =
             PagerContent(size: size,
-                         page: $page,
+                         pagerModel: pagerModel,
                          data: data,
                          id: id,
                          content: content)
                 .contentLoadingPolicy(contentLoadingPolicy)
                 .loopPages(isInifinitePager, repeating: loopingCount)
                 .alignment(alignment)
-                .interactive(interactiveScale)
+                .interactive(scale: interactiveScale)
+                .interactive(opacity: opacityIncrement)
+                .interactive(rotation: shouldRotate)
                 .pageOffset(pageOffset)
                 .itemSpacing(itemSpacing)
                 .itemAspectRatio(itemAspectRatio, alignment: itemAlignment)
                 .onPageChanged(onPageChanged)
-				.onDraggingBegan(onDraggingBegan)
+                .onPageWillChange(onPageWillChange)
                 .padding(sideInsets)
                 .pagingAnimation(pagingAnimation)
+                .partialPagination(pageRatio)
 
         #if !os(tvOS)
           pagerContent = pagerContent
@@ -204,11 +209,16 @@ public struct Pager<Element, ID, PageView>: View  where PageView: View, Element:
             .allowsDragging(allowsDragging)
             .pagingPriority(gesturePriority)
             .delaysTouches(delaysTouches)
+            .sensitivity(sensitivity)
+            .onDraggingBegan(onDraggingBegan)
+            .onDraggingChanged(onDraggingChanged)
+            .onDraggingEnded(onDraggingEnded)
+            .bounces(bounces)
+            .draggingAnimation(draggingAnimation)
           #endif
 
         pagerContent = allowsMultiplePagination ? pagerContent.multiplePagination() : pagerContent
         pagerContent = isHorizontal ? pagerContent.horizontal(horizontalSwipeDirection) : pagerContent.vertical(verticalSwipeDirection)
-        pagerContent = shouldRotate ? pagerContent.rotation3D() : pagerContent
 
         if let preferredItemSize = preferredItemSize {
             pagerContent = pagerContent.preferredItemSize(preferredItemSize)
@@ -219,15 +229,16 @@ public struct Pager<Element, ID, PageView>: View  where PageView: View, Element:
 
 }
 
-@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Pager where ID == Element.ID, Element : Identifiable {
-
+    
     /// Initializes a new Pager.
     ///
-    /// - Parameter data: Array of items to populate the content
+    /// - Parameter page: Current page index
+    /// - Parameter data: Collection of items to populate the content
     /// - Parameter content: Factory method to build new pages
-    public init(page: Binding<Int>, data: [Element], @ViewBuilder content: @escaping (Element) -> PageView) {
-        self.init(page: page, data: data, id: \Element.id, content: content)
+    public init<Data: RandomAccessCollection>(page: Page, data: Data, @ViewBuilder content: @escaping (Element) -> PageView) where Data.Index == Int, Data.Element == Element {
+        self.init(page: page, data: Array(data), id: \Element.id, content: content)
     }
 
 }

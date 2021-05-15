@@ -91,6 +91,7 @@ final public class AnimationView: LottieView {
    */
   public var imageProvider: AnimationImageProvider {
     didSet {
+      animationLayer?.imageProvider = imageProvider
       reloadImages()
     }
   }
@@ -388,7 +389,6 @@ final public class AnimationView: LottieView {
   public func stop() {
     removeCurrentAnimation()
     currentFrame = 0
-    CATransaction.flush()
   }
   
   /**

@@ -72,10 +72,6 @@
 #import "RLMVersion.h"
 #endif
 
-#if REALM_ENABLE_SYNC
-#import <realm/sync/version.hpp>
-#endif
-
 // Declared for RealmSwiftObjectUtil
 @interface NSObject (SwiftVersion)
 + (NSString *)swiftVersion;
@@ -179,9 +175,8 @@ static NSDictionary *RLMAnalyticsPayload() {
     }
 
     NSString *osVersionString = [[NSProcessInfo processInfo] operatingSystemVersionString];
-    Class swiftObjectUtilClass = NSClassFromString(@"RealmSwiftObjectUtil");
-    BOOL isSwift = swiftObjectUtilClass != nil;
-    NSString *swiftVersion = isSwift ? [swiftObjectUtilClass swiftVersion] : @"N/A";
+    Class swiftDecimal128 = NSClassFromString(@"RealmSwiftDecimal128");
+    BOOL isSwift = swiftDecimal128 != nil;
 
     static NSString *kUnknownString = @"unknown";
     NSString *hashedMACAddress = RLMMACAddress() ?: kUnknownString;
@@ -201,9 +196,6 @@ static NSDictionary *RLMAnalyticsPayload() {
                      @"Binding": @"cocoa",
                      @"Language": isSwift ? @"swift" : @"objc",
                      @"Realm Version": REALM_COCOA_VERSION,
-#if REALM_ENABLE_SYNC
-                     @"Sync Version": @(REALM_SYNC_VER_STRING),
-#endif
 #if TARGET_OS_WATCH
                      @"Target OS Type": @"watchos",
 #elif TARGET_OS_TV
@@ -213,7 +205,8 @@ static NSDictionary *RLMAnalyticsPayload() {
 #else
                      @"Target OS Type": @"osx",
 #endif
-                     @"Swift Version": swiftVersion,
+                     @"Clang Version": @__clang_version__,
+                     @"Clang Major Version": @__clang_major__,
                      // Current OS version the app is targetting
                      @"Target OS Version": osVersionString,
                      // Minimum OS version the app is targetting

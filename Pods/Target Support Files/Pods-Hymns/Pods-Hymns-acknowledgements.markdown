@@ -236,7 +236,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright 2020 Firebase, Inc.
+   Copyright [yyyy] [name of copyright owner]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -253,7 +253,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## FirebaseAnalytics
 
-Copyright 2020 Google
+Copyright 2021 Google
 
 ## FirebaseCore
 
@@ -446,7 +446,7 @@ Copyright 2020 Google
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright 2020 Firebase, Inc.
+   Copyright [yyyy] [name of copyright owner]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -652,7 +652,7 @@ Copyright 2020 Google
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright 2020 Firebase, Inc.
+   Copyright [yyyy] [name of copyright owner]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -1092,7 +1092,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright 2020 Firebase, Inc.
+   Copyright [yyyy] [name of copyright owner]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -1144,7 +1144,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## GoogleAppMeasurement
 
-Copyright 2020 Google
+Copyright 2021 Google
 
 ## GoogleDataTransport
 
@@ -1337,7 +1337,7 @@ Copyright 2020 Google
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright 2020 Firebase, Inc.
+   Copyright [yyyy] [name of copyright owner]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -1814,8 +1814,7 @@ Fuller's blog</a>
 TABLE OF CONTENTS
 
 1. Apache License version 2.0
-2. Realm Components
-3. Export Compliance
+2. Export Compliance
 
 1. -------------------------------------------------------------------------------
 
@@ -1995,49 +1994,6 @@ TABLE OF CONTENTS
       of your accepting any such warranty or additional liability.
 
 2. -------------------------------------------------------------------------------
-
-REALM COMPONENTS
-
-This software contains components with separate copyright and license terms.
-Your use of these components is subject to the terms and conditions of the
-following licenses.
-
-For the Realm Platform Extensions component
-
-  Realm Platform Extensions License
-
-  Copyright (c) 2011-2017 Realm Inc All rights reserved
-
-  Redistribution and use in binary form, with or without modification, is
-  permitted provided that the following conditions are met:
-
-  1. You agree not to attempt to decompile, disassemble, reverse engineer or
-  otherwise discover the source code from which the binary code was derived.
-  You may, however, access and obtain a separate license for most of the
-  source code from which this Software was created, at
-  http://realm.io/pricing/.
-
-  2. Redistributions in binary form must reproduce the above copyright notice,
-  this list of conditions and the following disclaimer in the documentation
-  and/or other materials provided with the distribution.
-
-  3. Neither the name of the copyright holder nor the names of its
-  contributors may be used to endorse or promote products derived from this
-  software without specific prior written permission.
-
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-  POSSIBILITY OF SUCH DAMAGE.
-
-3. -------------------------------------------------------------------------------
 
 EXPORT COMPLIANCE
 
@@ -2066,8 +2022,7 @@ regulations.
 TABLE OF CONTENTS
 
 1. Apache License version 2.0
-2. Realm Components
-3. Export Compliance
+2. Export Compliance
 
 1. -------------------------------------------------------------------------------
 
@@ -2247,49 +2202,6 @@ TABLE OF CONTENTS
       of your accepting any such warranty or additional liability.
 
 2. -------------------------------------------------------------------------------
-
-REALM COMPONENTS
-
-This software contains components with separate copyright and license terms.
-Your use of these components is subject to the terms and conditions of the
-following licenses.
-
-For the Realm Platform Extensions component
-
-  Realm Platform Extensions License
-
-  Copyright (c) 2011-2017 Realm Inc All rights reserved
-
-  Redistribution and use in binary form, with or without modification, is
-  permitted provided that the following conditions are met:
-
-  1. You agree not to attempt to decompile, disassemble, reverse engineer or
-  otherwise discover the source code from which the binary code was derived.
-  You may, however, access and obtain a separate license for most of the
-  source code from which this Software was created, at
-  http://realm.io/pricing/.
-
-  2. Redistributions in binary form must reproduce the above copyright notice,
-  this list of conditions and the following disclaimer in the documentation
-  and/or other materials provided with the distribution.
-
-  3. Neither the name of the copyright holder nor the names of its
-  contributors may be used to endorse or promote products derived from this
-  software without specific prior written permission.
-
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-  POSSIBILITY OF SUCH DAMAGE.
-
-3. -------------------------------------------------------------------------------
 
 EXPORT COMPLIANCE
 

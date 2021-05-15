@@ -18,16 +18,16 @@
 
 #import "RLMApp_Private.hpp"
 
-#import "RLMCredentials_Private.hpp"
 #import "RLMBSON_Private.hpp"
-#import "RLMPushClient_Private.hpp"
-#import "RLMUser_Private.hpp"
-#import "RLMSyncManager_Private.hpp"
-#import "RLMUtil.hpp"
+#import "RLMCredentials_Private.hpp"
 #import "RLMEmailPasswordAuth.h"
+#import "RLMPushClient_Private.hpp"
+#import "RLMSyncManager_Private.hpp"
+#import "RLMUser_Private.hpp"
+#import "RLMUtil.hpp"
 
-#include "sync/sync_config.hpp"
-#include "sync/sync_manager.hpp"
+#import <realm/object-store/sync/sync_manager.hpp>
+#import <realm/sync/config.hpp>
 
 #if !defined(REALM_COCOA_VERSION)
 #import "RLMVersion.h"
@@ -57,7 +57,7 @@ namespace {
             rlmRequest.timeout = request.timeout_ms / 1000;
 
             // Send the request through to the Cocoa level transport
-            [m_transport sendRequestToServer:rlmRequest completion:^(RLMResponse * response) {
+            [m_transport sendRequestToServer:rlmRequest completion:^(RLMResponse *response) {
                 __block std::map<std::string, std::string> bridgingHeaders;
                 [response.headers enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *) {
                     bridgingHeaders[key.UTF8String] = value.UTF8String;

@@ -2,6 +2,8 @@
 
 An ultralight Dependency Injection / Service Locator framework for Swift 5.2 on iOS.
 
+**Note that several recent updates to Resolver may break earlier code that used [argument passing](./Documentation/Arguments.md#multiple) and/or [named services](./Documentation/Names.md). For more see the [Updates](#updates) section below.**
+
 ## Introduction
 
 Dependency Injection frameworks support the [Inversion of Control](https://en.wikipedia.org/wiki/Inversion_of_control) design pattern. Technical definitions aside, dependency injection pretty much boils down to:
@@ -11,14 +13,6 @@ Dependency Injection frameworks support the [Inversion of Control](https://en.wi
 That's it. Dependency injection allows us to write code that's loosely coupled, and as such, easier to reuse, to mock, and  to test.
 
 For more, see: [A Gentle Introduction to Dependency Injection.](./Documentation/Introduction.md)
-
-## Resolver 1.2 Changes
-
-Note that Resolver 1.2 changed how arguments are passed to the registration factory order to provide better support for passing and handling both single and multiple arguments. 
-
-This is, unfortunately, a breaking change from Resolver 1.1.X, but as the end result is much cleaner code I think it's worth it. If you're *not* using arguments then you should see no issues whatsoever.
-
-See: [Passing and Handling Multiple Arguments](./Documentation/Arguments.md#multiple)
 
 ## Dependency Injection Strategies
 
@@ -35,7 +29,7 @@ Resolver supports them all. Follow the links for a brief description, examples, 
 
 ## Property Wrappers
 
-Resolver now supports resolving services using the new property wrapper syntax in Swift 5.1.
+Speaking of Annotations, Resolver now supports resolving services using the new property wrapper syntax in Swift 5.1.
 
 ```swift
 class BasicInjectedViewController: UIViewController {
@@ -54,7 +48,7 @@ Resolver is implemented in just over 700 lines of actual code in a single file, 
 * [Scopes: Application, Cached, Graph, Shared, and Unique](./Documentation/Scopes.md)
 * [Protocols](./Documentation/Protocols.md)
 * [Optionals](./Documentation/Optionals.md)
-* [Named Instances](./Documentation/Names.md)
+* [Named Instances](./Documentation/Names.md) (Resolver 1.3 now supports safe name spaces!)
 * [Argument Passing](./Documentation/Arguments.md) (Resolver 1.2 now has built in support for multiple arguments!)
 * [Custom Containers & Nested Containers](./Documentation/Containers.md)
 * [Cyclic Dependency Support](./Documentation/CyclicDependencies.md)
@@ -70,21 +64,9 @@ Using Resolver is a simple, three-step process:
 2. [Register the classes and services your app requires.](./Documentation/Registration.md)
 3. [Use Resolver to resolve those instances when needed.](./Documentation/Resolving.md)
 
-## Installation
-
-Resolver supports CocoaPods and the Swift Package Manager.
-```swift
-pod "Resolver"
-```
-Resolver itself is just a single source file (Resolver.swift), so it's also easy to simply download the file and add it to your project.
-
-Note that the current version of Resolver (1.1) supports Swift 5.1 and that the minimum version of iOS currently supported with this release is iOS 11.
-
-Read the [installation guide](./Documentation/Installation.md) for information on supporting earlier versions.
-
 ## Why Resolver?
 
-As mentioned, Resolver is an ultralight Dependency Injection system, implemented in just over 300 lines of code and contained in a single file.
+As mentioned, Resolver is an ultralight Dependency Injection system, implemented in just over 700 lines of code and contained in a single file.
 
 Resolver is also designed for performance. [SwinjectStoryboard](https://github.com/Swinject/SwinjectStoryboard), for example, is a great dependency injection system, but Resolver clocks out to be about 800% faster at resolving dependency chains than Swinject.
 
@@ -93,15 +75,48 @@ And unlike some other systems, Resolver is written in 100% Swift 5, with no Obje
 Further, Resolver:
 
 * Is tested in production code.
-* [Is thread safe (assuming your objects are thread safe).](./Documentation/Threads.md)
+* [Is thread safe (assuming your objects are thread safe).](./Documentation/Threads.md) (Updated in 1.4.)
 * Has a complete set of unit tests.
 * Is well-documented.
 
 Finally, with  [Automatic Type Inference](./Documentation/Types.md) you also tend to write about 40-60% less dependency injection code using Resolver.
 
+## Installation
+
+Resolver supports CocoaPods and the Swift Package Manager.
+```swift
+pod "Resolver"
+```
+Resolver itself is just a single source file (Resolver.swift), so it's also easy to simply download the file and add it to your project.
+
+Note that the current version of Resolver (1.4) supports Swift 5.3 and that the minimum version of iOS currently supported with this release is iOS 11.
+
+Read the [installation guide](./Documentation/Installation.md) for information on supporting earlier versions.
+
+## Demo Application
+
+I've made my [Builder](https://github.com/hmlongco/Builder) repositiory public. It's a simple master/detail-style iOS application that contains examples of...
+
+1. Using the Resolver dependency injection system to construct MVVM architectures.
+2. Using Resolver to mock user data for application development.
+3. Using Resolver to mock user data for unit tests.
+
+I also use it to play with some new code that uses SwiftUI-style builder patterns to constructing the user interface construction and to construct network requests. Check it out.
+
+## Resolver Update Notes<a name=updates></a>
+
+It's possible that recent updates to Resolver could cause breaking changes in your code base.
+
+* Resolver 1.4 improved thread safety and performance. No breaking changes, though accessing Resolver's scopes directly is now deprecated. See: [Scopes](./Documentation/Scopes.md).
+
+* Resolver 1.3 adds Name spaces to Resolver. Registering names allows for better autocompletion and makes your code safer by reducing potential runtime evaluation errors. This is a possible breaking change.  See: [Named Instances](./Documentation/Names.md)
+
+
+* Resolver 1.2 changed how arguments are passed to the registration factory in order to provide better support for passing and handling both single and multiple arguments. This is a breaking change. See: [Passing and Handling Multiple Arguments](./Documentation/Arguments.md#multiple)
+
 ## Author
 
-Resolver was designed, implemented, and documented by [Michael Long](https://www.linkedin.com/in/hmlong/), a Senior Lead iOS engineer at [CRi Solutions](https://www.clientresourcesinc.com/solutions/). CRi is a leader in developing cutting edge iOS, Android, and mobile web applications and solutions for our corporate and financial clients.
+Resolver was designed, implemented, documented, and maintained by [Michael Long](https://www.linkedin.com/in/hmlong/), a Senior Lead iOS engineer at [CRi Solutions](https://www.clientresourcesinc.com/solutions/). CRi is a leader in developing cutting edge iOS, Android, and mobile web applications and solutions for our corporate and financial clients.
 
 * Email: [mlong@clientresourcesinc.com](mailto:mlong@clientresourcesinc.com)
 * Twitter: @hmlco
@@ -119,3 +134,4 @@ Resolver is available under the MIT license. See the LICENSE file for more info.
 * [Dependency Injection in Swift](https://cocoacasts.com/dependency-injection-in-swift)
 * [SwinjectStoryboard](https://github.com/Swinject/SwinjectStoryboard)
 * [Swift 5.1 Takes Dependency Injection to the Next Level](https://medium.com/better-programming/taking-swift-dependency-injection-to-the-next-level-b71114c6a9c6)
+* [Builder Demo Application](https://github.com/hmlongco/Builder)
