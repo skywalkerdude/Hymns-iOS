@@ -25,7 +25,7 @@ class ToolTipSnapshots: XCTestCase {
             ToolTipConfiguration(cornerRadius: 10,
                                  arrowPosition: ToolTipConfiguration.ArrowPosition(midX: 30, alignmentType: .offset),
                                  arrowHeight: 7))
-        assertVersionedSnapshot(matching: toolTip, as: .image(layout:.fixed(width: 250, height: 100)))
+        assertVersionedSnapshot(matching: toolTip, as: .image(layout: .fixed(width: 250, height: 100)))
     }
 
     func test_toolTipView_percentage() {
@@ -35,6 +35,6 @@ class ToolTipSnapshots: XCTestCase {
             ToolTipConfiguration(cornerRadius: 10,
                                  arrowPosition: ToolTipConfiguration.ArrowPosition(midX: 0.7, alignmentType: .percentage),
                                  arrowHeight: 7))
-        assertVersionedSnapshot(matching: toolTip, as: .image(layout:.fixed(width: 250, height: 100)))
+        assertVersionedSnapshot(matching: toolTip, as: .image(layout: .fixed(width: 250, height: 100)))
     }
 }
