@@ -332,6 +332,6 @@ enum HomeResultState {
 
 extension Resolver {
     public static func registerHomeViewModel() {
-        register {HomeViewModel()}.scope(graph)
+        register {HomeViewModel()}.scope(.graph)
     }
 }

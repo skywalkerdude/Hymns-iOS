@@ -25,7 +25,7 @@ class HymnalNetServiceImpl: HymnalNetService {
 
 extension Resolver {
     static func registerHymnalNetService() {
-        register {HymnalNetServiceImpl() as HymnalNetService}.scope(application)
+        register {HymnalNetServiceImpl() as HymnalNetService}.scope(.application)
     }
 }
 

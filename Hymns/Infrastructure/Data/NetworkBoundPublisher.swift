@@ -4,7 +4,7 @@ import Foundation
 /**
  * A generic publisher that publishes data  backed by both a database and the network.
  */
-protocol NetworkBoundSubscription: class, Subscription {
+protocol NetworkBoundSubscription: AnyObject, Subscription {
 
     /**
      * The type of the database response.

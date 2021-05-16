@@ -29,6 +29,6 @@ class ApplicationImpl: Application {
 
 extension Resolver {
     static func registerApplication() {
-        register {ApplicationImpl() as Application}.scope(application)
+        register {ApplicationImpl() as Application}.scope(.application)
     }
 }

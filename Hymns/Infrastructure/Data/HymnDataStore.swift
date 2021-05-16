@@ -314,6 +314,6 @@ extension Resolver {
                 needToCreateTables = true
             }
             return HymnDataStoreGrdbImpl(databaseQueue: databaseQueue, initializeTables: needToCreateTables) as HymnDataStore
-        }.scope(application)
+        }.scope(.application)
     }
 }

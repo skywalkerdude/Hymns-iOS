@@ -79,6 +79,6 @@ extension SettingsModel: Identifiable {
 
 extension Resolver {
     public static func registerSettingsViewModel() {
-        register {SettingsViewModel()}.scope(graph)
+        register {SettingsViewModel()}.scope(.graph)
     }
 }
