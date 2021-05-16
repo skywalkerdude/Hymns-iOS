@@ -91,6 +91,6 @@ extension Resolver {
             // swiftlint:disable:next force_try
             let realm = try! Realm(configuration: config)
             return FavoriteStoreRealmImpl(realm: realm) as FavoriteStore
-        }.scope(application)
+        }.scope(.application)
     }
 }

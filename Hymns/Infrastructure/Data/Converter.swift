@@ -153,6 +153,6 @@ class ConverterImpl: Converter {
 
 extension Resolver {
     static func registerConverters() {
-        register {ConverterImpl() as Converter}.scope(application)
+        register {ConverterImpl() as Converter}.scope(.application)
     }
 }

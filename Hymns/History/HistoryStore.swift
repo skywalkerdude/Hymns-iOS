@@ -97,6 +97,6 @@ extension Resolver {
             // swiftlint:disable:next force_try
             let realm = try! Realm(configuration: config)
             return HistoryStoreRealmImpl(realm: realm) as HistoryStore
-        }.scope(application)
+        }.scope(.application)
     }
 }

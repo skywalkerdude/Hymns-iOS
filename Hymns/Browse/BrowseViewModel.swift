@@ -22,6 +22,6 @@ class BrowseViewModel: ObservableObject {
 
 extension Resolver {
     public static func registerBrowseViewModel() {
-        register {BrowseViewModel()}.scope(graph)
+        register {BrowseViewModel()}.scope(.graph)
     }
 }

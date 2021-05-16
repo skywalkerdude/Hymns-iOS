@@ -29,6 +29,6 @@ class TagListViewModel: ObservableObject {
 
 extension Resolver {
     public static func registerTagListViewModel() {
-        register {TagListViewModel()}.scope(graph)
+        register {TagListViewModel()}.scope(.graph)
     }
 }

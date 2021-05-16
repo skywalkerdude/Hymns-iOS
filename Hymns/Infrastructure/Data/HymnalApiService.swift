@@ -68,7 +68,7 @@ class HymnalApiServiceImpl: HymnalApiService {
 
 extension Resolver {
     static func registerHymnalApiService() {
-        register {HymnalApiServiceImpl() as HymnalApiService}.scope(application)
+        register {HymnalApiServiceImpl() as HymnalApiService}.scope(.application)
     }
 }
 

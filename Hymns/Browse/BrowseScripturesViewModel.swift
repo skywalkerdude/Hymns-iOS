@@ -118,6 +118,6 @@ class BrowseScripturesViewModel: ObservableObject {
 
 extension Resolver {
     public static func registerBrowseScripturesViewModel() {
-        register {BrowseScripturesViewModel()}.scope(graph)
+        register {BrowseScripturesViewModel()}.scope(.graph)
     }
 }

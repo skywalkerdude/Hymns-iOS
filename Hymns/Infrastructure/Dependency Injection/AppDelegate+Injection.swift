@@ -25,8 +25,8 @@ extension Resolver: ResolverRegistering {
             encoder.nonConformingFloatEncodingStrategy = .throw
             return encoder
         })
-        register {URLSession.shared}.scope(application)
-        register {UserDefaultsManager()}.scope(application)
+        register {URLSession.shared}.scope(.application)
+        register {UserDefaultsManager()}.scope(.application)
         register {AnalyticsLogger()}
         register {SystemUtilImpl() as SystemUtil}
         registerPDFLoader()
@@ -48,12 +48,12 @@ extension Resolver: ResolverRegistering {
 
         #if DEBUG
         if CommandLine.arguments.contains(AppDelegate.uiTestingFlag) {
-            mock.register { PdfLoaderTestImpl() as PDFLoader }.scope(application)
-            mock.register { FavoriteStoreTestImpl() as FavoriteStore }.scope(application)
-            mock.register { HymnDataStoreTestImpl() as HymnDataStore }.scope(application)
-            mock.register { HymnalApiServiceTestImpl() as HymnalApiService }.scope(application)
-            mock.register { HistoryStoreTestImpl() as HistoryStore }.scope(application)
-            mock.register { TagStoreTestImpl() as TagStore }.scope(application)
+            mock.register { PdfLoaderTestImpl() as PDFLoader }.scope(.application)
+            mock.register { FavoriteStoreTestImpl() as FavoriteStore }.scope(.application)
+            mock.register { HymnDataStoreTestImpl() as HymnDataStore }.scope(.application)
+            mock.register { HymnalApiServiceTestImpl() as HymnalApiService }.scope(.application)
+            mock.register { HistoryStoreTestImpl() as HistoryStore }.scope(.application)
+            mock.register { TagStoreTestImpl() as TagStore }.scope(.application)
             root = mock
         }
         #endif

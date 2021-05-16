@@ -109,6 +109,6 @@ extension Resolver {
             // swiftlint:disable:next force_try
             let realm = try! Realm(configuration: config)
             return TagStoreRealmImpl(realm: realm) as TagStore
-        }.scope(application)
+        }.scope(.application)
     }
 }

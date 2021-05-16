@@ -39,6 +39,6 @@ class FavoritesViewModel: ObservableObject {
 
 extension Resolver {
     public static func registerFavoritesViewModel() {
-        register {FavoritesViewModel()}.scope(graph)
+        register {FavoritesViewModel()}.scope(.graph)
     }
 }
