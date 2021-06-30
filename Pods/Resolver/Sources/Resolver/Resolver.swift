@@ -67,8 +67,19 @@ public final class Resolver {
     // MARK: - Lifecycle
 
     public init(parent: Resolver? = nil) {
-        self.parent = parent
+        if let parent = parent {
+            self.childContainers.append(parent)
+        }
     }
+
+    /// Adds a child container to this container. Children will be searched if this container fails to find a registration factory
+    /// that matches the desired type.
+    public func add(child: Resolver) {
+        lock.lock()
+        defer { lock.unlock() }
+        self.childContainers.append(child)
+    }
+
     /// Call function to force one-time initialization of the Resolver registries. Usually not needed as functionality
     /// occurs automatically the first time a resolution function is called.
     public final func registerServices() {
@@ -288,8 +299,10 @@ public final class Resolver {
         if let container = registrations[key], let registration = container[containerName] {
             return registration as? ResolverRegistration<Service>
         }
-        if let parent = parent, let registration = parent.lookup(type, name: name) {
-            return registration
+        for child in childContainers {
+            if let registration = child.lookup(type, name: name) {
+                return registration
+            }
         }
         return nil
     }
@@ -305,13 +318,13 @@ public final class Resolver {
     }
 
     private let NONAME = "*"
-    private let parent: Resolver?
     private let lock = Resolver.lock
+    private var childContainers: [Resolver] = []
     private var registrations = [Int : [String : Any]]()
 }
 
 /// Resolving an instance of a service is a recursive process (service A needs a B which needs a C).
-private class ResolverRecursiveLock {
+private final class ResolverRecursiveLock {
     init() {
         pthread_mutexattr_init(&recursiveMutexAttr)
         pthread_mutexattr_settype(&recursiveMutexAttr, PTHREAD_MUTEX_RECURSIVE)
@@ -330,7 +343,7 @@ private class ResolverRecursiveLock {
 }
 
 extension Resolver {
-    private static let lock = ResolverRecursiveLock()
+    fileprivate static let lock = ResolverRecursiveLock()
 }
 
 /// Resolver Service Name Space Support
@@ -454,7 +467,7 @@ public class ResolverOptions<Service> {
     ///
     @discardableResult
     public final func implements<Protocol>(_ type: Protocol.Type, name: Resolver.Name? = nil) -> ResolverOptions<Service> {
-        resolver?.register(type.self, name: name) { r, _ in r.resolve(Service.self) as? Protocol }
+        resolver?.register(type.self, name: name) { r, args in r.resolve(Service.self, args: args) as? Protocol }
         return self
     }
 
@@ -585,7 +598,7 @@ public final class ResolverRegistrationArgumentsN<Service>: ResolverRegistration
 // Scopes
 
 /// Resolver scopes exist to control when resolution occurs and how resolved instances are cached. (If at all.)
-public protocol ResolverScopeType: class {
+public protocol ResolverScopeType: AnyObject {
     func resolve<Service>(resolver: Resolver, registration: ResolverRegistration<Service>, args: Any?) -> Service?
 }
 
@@ -785,6 +798,7 @@ public extension UIViewController {
 /// Wrapped dependent service is not resolved until service is accessed.
 ///
 @propertyWrapper public struct LazyInjected<Service> {
+    private var lock = Resolver.lock
     private var initialize: Bool = true
     private var service: Service!
     public var container: Resolver?
@@ -796,23 +810,34 @@ public extension UIViewController {
         self.container = container
     }
     public var isEmpty: Bool {
+        lock.lock()
+        defer { lock.unlock() }
         return service == nil
     }
     public var wrappedValue: Service {
         mutating get {
+            lock.lock()
+            defer { lock.unlock() }
             if initialize {
                 self.initialize = false
                 self.service = container?.resolve(Service.self, name: name, args: args) ?? Resolver.resolve(Service.self, name: name, args: args)
             }
             return service
         }
-        mutating set { service = newValue  }
+        mutating set {
+            lock.lock()
+            defer { lock.unlock() }
+            initialize = false
+            service = newValue
+        }
     }
     public var projectedValue: LazyInjected<Service> {
         get { return self }
         mutating set { self = newValue }
     }
     public mutating func release() {
+        lock.lock()
+        defer { lock.unlock() }
         self.service = nil
     }
 }
@@ -822,6 +847,7 @@ public extension UIViewController {
 /// Wrapped dependent service is not resolved until service is accessed.
 ///
 @propertyWrapper public struct WeakLazyInjected<Service> {
+    private var lock = Resolver.lock
     private var initialize: Bool = true
     private weak var service: AnyObject?
     public var container: Resolver?
@@ -833,19 +859,26 @@ public extension UIViewController {
         self.container = container
     }
     public var isEmpty: Bool {
+        lock.lock()
+        defer { lock.unlock() }
         return service == nil
     }
     public var wrappedValue: Service? {
         mutating get {
+            lock.lock()
+            defer { lock.unlock() }
             if initialize {
                 self.initialize = false
-                let service = container?.resolve(Service.self, name: name, args: args) ?? Resolver.resolve(Service.self, name: name, args: args)
-                self.service = service as AnyObject
-                return service
+                self.service = (container?.resolve(Service.self, name: name, args: args) ?? Resolver.resolve(Service.self, name: name, args: args)) as AnyObject
             }
             return service as? Service
         }
-        mutating set { service = newValue as AnyObject }
+        mutating set {
+            lock.lock()
+            defer { lock.unlock() }
+            initialize = false
+            service = newValue as AnyObject
+        }
     }
     public var projectedValue: WeakLazyInjected<Service> {
         get { return self }
