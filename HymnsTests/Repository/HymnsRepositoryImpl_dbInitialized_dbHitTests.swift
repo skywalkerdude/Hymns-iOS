@@ -112,7 +112,7 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
 
         let completion = expectation(description: "completion received")
         let value = expectation(description: "value received")
-        value.expectedFulfillmentCount = 2
+//        value.expectedFulfillmentCount = 2
         let cancellable = target.getHymn(cebuano123)
             .print(self.description)
             .sink(receiveCompletion: { state in
@@ -124,8 +124,10 @@ class HymnsRepositoryImpl_dbInitialized_dbHitTests: XCTestCase {
             })
 
         verify(dataStore.getHymn(cebuano123)).wasCalled(exactly(1))
-        verify(service.getHymn(cebuano123)).wasCalled(exactly(1))
-        verify(dataStore.saveHymn(any())).wasNeverCalled() // Database result unchanged after network update, so don't write to database.
+        verify(service.getHymn(any())).wasNeverCalled()
+//        TODO: uncomment when we start hitting the network to reconcile/combine hymn results
+//        verify(service.getHymn(cebuano123)).wasCalled(exactly(1))
+//        verify(dataStore.saveHymn(any())).wasNeverCalled() // Database result unchanged after network update, so don't write to database.
         wait(for: [completion, value], timeout: testTimeout)
         cancellable.cancel()
     }

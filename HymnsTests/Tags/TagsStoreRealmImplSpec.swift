@@ -171,9 +171,9 @@ class TagStoreRealmImplSpec: QuickSpec {
                                 return
                             }, receiveValue: { songResults in
                                 value.fulfill()
-                                expect(songResults).to(equal([SongResultEntity(hymnType: .classic, hymnNumber: "1109", queryParams: nil, title: "Hymn 1109"),
-                                                              SongResultEntity(hymnType: .classic, hymnNumber: "500", queryParams: nil, title: "Hymn 500"),
-                                                              SongResultEntity(hymnType: .classic, hymnNumber: "1151", queryParams: nil, title: "Hymn 1151")]))
+                                expect(songResults).to(contain([SongResultEntity(hymnType: .classic, hymnNumber: "1109", queryParams: nil, title: "Hymn 1109"),
+                                                                SongResultEntity(hymnType: .classic, hymnNumber: "500", queryParams: nil, title: "Hymn 500"),
+                                                                SongResultEntity(hymnType: .classic, hymnNumber: "1151", queryParams: nil, title: "Hymn 1151")]))
                             })
                         self.wait(for: [failure, finished, value], timeout: testTimeout)
                         cancellable.cancel()
@@ -199,13 +199,13 @@ class TagStoreRealmImplSpec: QuickSpec {
                                 return
                             }, receiveValue: { tags in
                                 value.fulfill()
-                                expect(tags).to(equal([UiTag(title: "Peace", color: .yellow),
-                                                       UiTag(title: "Peace", color: .blue),
-                                                       UiTag(title: "Life", color: .red),
-                                                       UiTag(title: "Table", color: .blue),
-                                                       UiTag(title: "Christ", color: .blue),
-                                                       UiTag(title: "Bread and wine", color: .yellow),
-                                                       UiTag(title: "Is", color: .red)]))
+                                expect(tags).to(contain([UiTag(title: "Peace", color: .yellow),
+                                                         UiTag(title: "Peace", color: .blue),
+                                                         UiTag(title: "Life", color: .red),
+                                                         UiTag(title: "Table", color: .blue),
+                                                         UiTag(title: "Christ", color: .blue),
+                                                         UiTag(title: "Bread and wine", color: .yellow),
+                                                         UiTag(title: "Is", color: .red)]))
                             })
                         self.wait(for: [failure, finished, value], timeout: testTimeout)
                         cancellable.cancel()
@@ -235,20 +235,20 @@ class TagStoreRealmImplSpec: QuickSpec {
                                 value.fulfill()
                                 count += 1
                                 if count == 1 {
-                                    expect(tags).to(equal([UiTag(title: "Peace", color: .yellow),
-                                                           UiTag(title: "Peace", color: .blue),
-                                                           UiTag(title: "Life", color: .red),
-                                                           UiTag(title: "Table", color: .blue),
-                                                           UiTag(title: "Christ", color: .blue),
-                                                           UiTag(title: "Bread and wine", color: .yellow),
-                                                           UiTag(title: "Is", color: .red)]))
+                                    expect(tags).to(contain([UiTag(title: "Peace", color: .yellow),
+                                                             UiTag(title: "Peace", color: .blue),
+                                                             UiTag(title: "Life", color: .red),
+                                                             UiTag(title: "Table", color: .blue),
+                                                             UiTag(title: "Christ", color: .blue),
+                                                             UiTag(title: "Bread and wine", color: .yellow),
+                                                             UiTag(title: "Is", color: .red)]))
                                 } else if count == 2 {
-                                    expect(tags).to(equal([UiTag(title: "Peace", color: .yellow),
-                                                           UiTag(title: "Peace", color: .blue),
-                                                           UiTag(title: "Life", color: .red),
-                                                           UiTag(title: "Table", color: .blue),
-                                                           UiTag(title: "Christ", color: .blue),
-                                                           UiTag(title: "Bread and wine", color: .yellow)]))
+                                    expect(tags).to(contain([UiTag(title: "Peace", color: .yellow),
+                                                             UiTag(title: "Peace", color: .blue),
+                                                             UiTag(title: "Life", color: .red),
+                                                             UiTag(title: "Table", color: .blue),
+                                                             UiTag(title: "Christ", color: .blue),
+                                                             UiTag(title: "Bread and wine", color: .yellow)]))
                                 } else {
                                     fail("count should only be either 1 or 2")
                                 }
