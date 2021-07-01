@@ -148,7 +148,10 @@ private class HymnSubscription<SubscriberType: Subscriber>: NetworkBoundSubscrip
     }
 
     func shouldFetch(convertedDatabaseResult: UiHymn??) -> Bool {
-        makeNetworkRequest && systemUtil.isNetworkAvailable()
+        guard makeNetworkRequest, systemUtil.isNetworkAvailable() else {
+            return false
+        }
+        return convertedDatabaseResult?.flatMap({ uiHymn -> UiHymn? in return uiHymn }) == nil
     }
 
     /**
